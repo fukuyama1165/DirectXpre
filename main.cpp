@@ -673,13 +673,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//ビューポート設定
 		D3D12_VIEWPORT viewport{};
 
-		viewport.Width = window_width;
-		viewport.Height = window_height;
-		viewport.TopLeftX = 0;
-		viewport.TopLeftY = 0;
-		viewport.MinDepth = 0.1f;
-		viewport.MaxDepth = 1.0f;
+		viewport.Width = window_width;//横幅
+		viewport.Height = window_height;//縦幅
+		viewport.TopLeftX = 0;//左上X
+		viewport.TopLeftY = 0;//左上Y
+		viewport.MinDepth = 0.1f;//最少深度(0でよい)
+		viewport.MaxDepth = 1.0f;//最大深度(１でよい)
 
+		//コマンドリストに追加
 		cmdList->RSSetViewports(1, &viewport);
 
 		//シザー矩形設定
