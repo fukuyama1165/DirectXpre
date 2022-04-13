@@ -574,7 +574,45 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0～255指定のRGBA
 	gpipeline.SampleDesc.Count = 1;//１ピクセルにつき１回サンプリング
 
-#pragma endregion
+#pragma endregion 通常描画ポリゴン内を塗りつぶし(三角形)
+
+#pragma region グラフィックスパイプライン２の設定
+
+	//グラフィックスパイプライン辺
+
+	//グラフィックスパイプラインの各ステージの設定をする構造体を用意
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline2{};
+
+	//頂点シェーダ、ピクセルシェーダをパイプラインに設定
+	gpipeline2.VS.pShaderBytecode = vsBlob->GetBufferPointer();
+	gpipeline2.VS.BytecodeLength = vsBlob->GetBufferSize();
+	gpipeline2.PS.pShaderBytecode = psBlob->GetBufferPointer();
+	gpipeline2.PS.BytecodeLength = psBlob->GetBufferSize();
+
+	//サンプルマスクとラスタライザステートの設定
+	gpipeline2.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
+	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
+	gpipeline2.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;//ワイヤーフレーム描画
+	gpipeline2.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
+
+	//ブレンドステートの設定
+	gpipeline2.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
+
+	//頂点レイアウトの設定
+	gpipeline2.InputLayout.pInputElementDescs = inputLayout;
+	gpipeline2.InputLayout.NumElements = _countof(inputLayout);
+
+	//図形の形状を三角形に設定
+	gpipeline2.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+	//その他の設定
+	gpipeline2.NumRenderTargets = 1;//描画対象は１つ
+	gpipeline2.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0～255指定のRGBA
+	gpipeline2.SampleDesc.Count = 1;//１ピクセルにつき１回サンプリング
+
+#pragma endregion 通常描画ワイヤーフレーム描画(三角形)
+
+
 
 #pragma region ルートシグネチャ設定
 
@@ -592,6 +630,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//パイプラインにルートシグネチャをセット
 	gpipeline.pRootSignature = rootsignature;
 
+	//パイプライン2にもルートシグネチャをセット
+	gpipeline2.pRootSignature = rootsignature;
+
 #pragma endregion
 
 #pragma region パイプラインステートの生成
@@ -599,6 +640,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//パイプラインステートの生成
 	ID3D12PipelineState* pipelinestate = nullptr;
 	result = dev->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate));
+
+	//パイプラインステート２の生成
+	ID3D12PipelineState* pipelinestate2 = nullptr;
+	result = dev->CreateGraphicsPipelineState(&gpipeline2, IID_PPV_ARGS(&pipelinestate2));
 
 #pragma endregion
 
@@ -608,6 +653,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//背景色変更するために外に配置
 	float clearColor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色(画面クリアするときの色)
+
+	//パイプラインステート切り替え用フラグ
+	bool PipeLineRuleFlag = true;
+
+	//全キーの入力情報を取得する為の変数
+	BYTE key[256] = {};
+	BYTE oldKey[256] = {};
 
 	//ゲームループ
 	while (true)
@@ -634,8 +686,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//キーボード情報の取得開始
 		keyboard->Acquire();
 
+		//前フレームのキーボード入力を保存
+		for (int i = 0; i < 256; i++)
+		{
+			oldKey[i] = key[i];
+		}
+
 		//全キーの入力情報を取得する
-		BYTE key[256] = {};
 		keyboard->GetDeviceState(sizeof(key), key);
 
 #pragma endregion
@@ -699,7 +756,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//パイプラインステートとルートシグネチャの設定
 		//作ったパイプラインステートとルートシグネチャをセットする
 		//決めたルールで描画をお願いするところ
-		cmdList->SetPipelineState(pipelinestate);
+		
+
+		if (PipeLineRuleFlag)
+		{
+			cmdList->SetPipelineState(pipelinestate);
+		}
+		else
+		{
+			cmdList->SetPipelineState(pipelinestate2);
+		}
+
 		cmdList->SetGraphicsRootSignature(rootsignature);
 
 		//頂点バッファビューの設定
@@ -749,7 +816,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		if (key[DIK_D])
 		{
-			OutputDebugStringA("Hit 0\n");
+			OutputDebugStringA("Hit D\n");
+		}
+
+		if (key[DIK_W] and oldKey[DIK_W] == 0)
+		{
+			PipeLineRuleFlag = !PipeLineRuleFlag;
+			OutputDebugStringA("Hit W\n");
+		}
+
+		if (key[DIK_W] == 0 and oldKey[DIK_W])
+		{
+			OutputDebugStringA("NotHit W\n");
+		}
+
+		if (key[DIK_SPACE])
+		{
+			clearColor[0] = 0.9f;
+			clearColor[1] = 0.2f;
+			clearColor[2] = 0.5f;
+		}
+		else
+		{
+			clearColor[0] = 0.1f;
+			clearColor[1] = 0.25f;
+			clearColor[2] = 0.5f;
 		}
 
 #pragma endregion
