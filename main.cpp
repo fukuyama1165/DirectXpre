@@ -50,6 +50,12 @@ BOOL CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE ipddi, LPVOID pvRef)
 	return DIENUM_CONTINUE;
 }
 
+//背景色変更するために外に配置
+float clearColor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色(画面クリアするときの色)
+
+//画面のクリアカラー変更関数
+void clearColorChange(float R, float G, float B, float A);
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 
@@ -651,8 +657,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
-	//背景色変更するために外に配置
-	float clearColor[] = { 0.1f,0.25f,0.5f,0.0f };//青っぽい色(画面クリアするときの色)
+	
 
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
@@ -660,6 +665,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//全キーの入力情報を取得する為の変数
 	BYTE key[256] = {};
 	BYTE oldKey[256] = {};
+
+	
+
 
 	//ゲームループ
 	while (true)
@@ -832,15 +840,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		if (key[DIK_SPACE])
 		{
-			clearColor[0] = 0.9f;
-			clearColor[1] = 0.2f;
-			clearColor[2] = 0.5f;
+			clearColorChange(0.9f, 0.2f, 0.5f, 0.0f);
 		}
 		else
 		{
-			clearColor[0] = 0.1f;
-			clearColor[1] = 0.25f;
-			clearColor[2] = 0.5f;
+			clearColorChange(0.1f, 0.25f, 0.5f, 0.0f);
 		}
 
 #pragma endregion
@@ -857,4 +861,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	UnregisterClass(w.lpszClassName, w.hInstance);
 
 	return 0;
+
+	
+}
+
+void clearColorChange(float R, float G, float B, float A)
+{
+	clearColor[0] = R;
+	clearColor[1] = G;
+	clearColor[2] = B;
+	clearColor[3] = A;
 }
