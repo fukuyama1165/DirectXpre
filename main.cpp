@@ -736,17 +736,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 4.描画コマンドここから
 		
 		//ビューポート設定
-		D3D12_VIEWPORT viewport{};
+		//分割分のビューポートを用意
+		D3D12_VIEWPORT viewport[4]{};
 
-		viewport.Width = window_width;//横幅
-		viewport.Height = window_height;//縦幅
-		viewport.TopLeftX = 0;//左上X
-		viewport.TopLeftY = 0;//左上Y
-		viewport.MinDepth = 0.1f;//最少深度(0でよい)
-		viewport.MaxDepth = 1.0f;//最大深度(１でよい)
+		viewport[0].Width = window_width / 2;//横幅
+		viewport[0].Height = window_height/2;//縦幅
+		viewport[0].TopLeftX = 0;//左上X
+		viewport[0].TopLeftY = 0;//左上Y
+		viewport[0].MinDepth = 0.1f;//最少深度(0でよい)
+		viewport[0].MaxDepth = 1.0f;//最大深度(１でよい)
+
+		viewport[1].Width = window_width / 2;//横幅
+		viewport[1].Height = window_height/2;//縦幅
+		viewport[1].TopLeftX = window_width / 2;//左上X
+		viewport[1].TopLeftY = 0;//左上Y
+		viewport[1].MinDepth = 0.1f;//最少深度(0でよい)
+		viewport[1].MaxDepth = 1.0f;//最大深度(１でよい)
+
+		viewport[2].Width = window_width / 3*2;//横幅
+		viewport[2].Height = window_height / 2;//縦幅
+		viewport[2].TopLeftX = 0;//左上X
+		viewport[2].TopLeftY = window_height / 2;//左上Y
+		viewport[2].MinDepth = 0.1f;//最少深度(0でよい)
+		viewport[2].MaxDepth = 1.0f;//最大深度(１でよい)
+
+		viewport[3].Width = window_width / 5;//横幅
+		viewport[3].Height = window_height / 2;//縦幅
+		viewport[3].TopLeftX = window_width / 3*2;//左上X
+		viewport[3].TopLeftY = window_height / 2;//左上Y
+		viewport[3].MinDepth = 0.1f;//最少深度(0でよい)
+		viewport[3].MaxDepth = 1.0f;//最大深度(１でよい)
 
 		//コマンドリストに追加
-		cmdList->RSSetViewports(1, &viewport);
+		cmdList->RSSetViewports(1, &viewport[0]);
+		
 
 		//シザー矩形設定
 		D3D12_RECT scissorrect{};
@@ -781,6 +804,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		cmdList->IASetVertexBuffers(0, 1, &vbView);
 
 		//描画コマンド
+		cmdList->DrawInstanced(3, 1, 0, 0);
+
+		//一個前のビューポートに描画したらビューポートを変更(分割回数分繰り返し)
+		cmdList->RSSetViewports(1, &viewport[1]);
+		
+		cmdList->DrawInstanced(3, 1, 0, 0);
+
+		cmdList->RSSetViewports(1, &viewport[2]);
+		
+		cmdList->DrawInstanced(3, 1, 0, 0);
+
+		cmdList->RSSetViewports(1, &viewport[3]);
+
 		cmdList->DrawInstanced(3, 1, 0, 0);
 
 		// 4.描画コマンドここまで
