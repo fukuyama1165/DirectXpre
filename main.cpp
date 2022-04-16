@@ -376,6 +376,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{-0.5f,-0.5f,0.0f},//左下
 		{-0.5f,+0.5f,0.0f},//左上
 		{+0.5f,-0.5f,0.0f},//右下
+		{-0.5f,+0.5f,0.0f},//左上
+		{+0.5f,+0.5f,0.0f},//右下
+		{+0.5f,-0.5f,0.0f},//右下
 	};
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -662,6 +665,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
 
+	//四角形に変更するときのフラグ
+	bool ChangeSquareFlag = false;
+
 	//全キーの入力情報を取得する為の変数
 	BYTE key[256] = {};
 	BYTE oldKey[256] = {};
@@ -804,20 +810,52 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		cmdList->IASetVertexBuffers(0, 1, &vbView);
 
 		//描画コマンド
-		cmdList->DrawInstanced(3, 1, 0, 0);
+		if (ChangeSquareFlag)
+		{
+			//四角形に描画
+			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		}
+		else
+		{
+			cmdList->DrawInstanced(3, 1, 0, 0);
+		}
 
 		//一個前のビューポートに描画したらビューポートを変更(分割回数分繰り返し)
 		cmdList->RSSetViewports(1, &viewport[1]);
 		
-		cmdList->DrawInstanced(3, 1, 0, 0);
+		if (ChangeSquareFlag)
+		{
+			//四角形に描画
+			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		}
+		else
+		{
+			cmdList->DrawInstanced(3, 1, 0, 0);
+		}
 
 		cmdList->RSSetViewports(1, &viewport[2]);
 		
-		cmdList->DrawInstanced(3, 1, 0, 0);
+		if (ChangeSquareFlag)
+		{
+			//四角形に描画
+			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		}
+		else
+		{
+			cmdList->DrawInstanced(3, 1, 0, 0);
+		}
 
 		cmdList->RSSetViewports(1, &viewport[3]);
 
-		cmdList->DrawInstanced(3, 1, 0, 0);
+		if (ChangeSquareFlag)
+		{
+			//四角形に描画
+			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		}
+		else
+		{
+			cmdList->DrawInstanced(3, 1, 0, 0);
+		}
 
 		// 4.描画コマンドここまで
 
@@ -863,7 +901,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			OutputDebugStringA("Hit D\n");
 		}
 
-		if (key[DIK_W] and oldKey[DIK_W] == 0)
+		if (key[DIK_2] and oldKey[DIK_2] == 0)
 		{
 			PipeLineRuleFlag = !PipeLineRuleFlag;
 			OutputDebugStringA("Hit W\n");
@@ -881,6 +919,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		else
 		{
 			clearColorChange(0.1f, 0.25f, 0.5f, 0.0f);
+		}
+
+		if (key[DIK_1] and oldKey[DIK_1] == 0)
+		{
+			ChangeSquareFlag = !ChangeSquareFlag;
 		}
 
 #pragma endregion
