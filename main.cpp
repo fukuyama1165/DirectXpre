@@ -747,7 +747,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region XVˆ—
 
-		if (key[DIK_D])
+		if (key[DIK_0])
 		{
 			OutputDebugStringA("Hit 0\n");
 		}
