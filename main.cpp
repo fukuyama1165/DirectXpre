@@ -569,7 +569,53 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	gpipeline.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 
 	//ブレンドステートの設定
-	gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
+	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
+	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = gpipeline.BlendState.RenderTarget[0];
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+#pragma region 共通設定(アルファ値)
+
+	blenddesc.BlendEnable = true;//ブレンドを有効にする
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
+
+#pragma endregion
+
+
+#pragma region 加算合成
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
+
+#pragma endregion コメントアウト中
+
+#pragma region 減算合成
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
+
+#pragma endregion コメントアウト中
+
+#pragma region 色反転
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
+	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
+
+#pragma endregion コメントアウト中
+
+#pragma region 半透明合成
+
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
+
+#pragma endregion
+
+
 
 	//頂点レイアウトの設定
 	gpipeline.InputLayout.pInputElementDescs = inputLayout;
@@ -605,7 +651,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	gpipeline2.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 
 	//ブレンドステートの設定
-	gpipeline2.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
+	//gpipeline2.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
+	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc2 = gpipeline2.BlendState.RenderTarget[0];
+	blenddesc2.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+#pragma region 共通設定(アルファ値)
+
+	blenddesc2.BlendEnable = true;//ブレンドを有効にする
+	blenddesc2.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
+	blenddesc2.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc2.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
+
+#pragma endregion
 
 	//頂点レイアウトの設定
 	gpipeline2.InputLayout.pInputElementDescs = inputLayout;
