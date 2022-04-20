@@ -858,21 +858,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region çXêVèàóù
 
-		if (key[DIK_D])
-		{
-			OutputDebugStringA("Hit D\n");
-		}
-
-		if (key[DIK_W] and oldKey[DIK_W] == 0)
-		{
-			PipeLineRuleFlag = !PipeLineRuleFlag;
-			OutputDebugStringA("Hit W\n");
-		}
-
-		if (key[DIK_W] == 0 and oldKey[DIK_W])
-		{
-			OutputDebugStringA("NotHit W\n");
-		}
+		
 
 		if (key[DIK_SPACE])
 		{
