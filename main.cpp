@@ -573,7 +573,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = gpipeline.BlendState.RenderTarget[0];
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-#pragma region 共通設定(アルファ値)
+#pragma region ブレンドステートの共通設定(アルファ値)
 
 	blenddesc.BlendEnable = true;//ブレンドを有効にする
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
@@ -664,6 +664,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
+#pragma region 半透明合成
+
+	blenddesc2.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	blenddesc2.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
+	blenddesc2.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
+
+#pragma endregion
+
 	//頂点レイアウトの設定
 	gpipeline2.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline2.InputLayout.NumElements = _countof(inputLayout);
@@ -679,14 +687,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion 通常描画ワイヤーフレーム描画(三角形)
 
 
+#pragma region ルートパラメータ
+
+	//ルートパラメータの設定
+	D3D12_ROOT_PARAMETER rootParam = {};
+	rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
+	rootParam.Descriptor.ShaderRegister = 0;//定数バッファ番号
+	rootParam.Descriptor.RegisterSpace = 0;//デフォルト値
+	rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
+
+#pragma endregion
+
+
 
 #pragma region ルートシグネチャ設定
 
 	//ルートシグネチャの生成
 	ID3D12RootSignature* rootsignature;
 
+	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	rootSignatureDesc.pParameters = &rootParam;//ルートパラメータの先頭アドレス
+	rootSignatureDesc.NumParameters = 1;//ルートパラメータ数
 
 	ID3DBlob* rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
@@ -713,6 +736,57 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
+#pragma region 定数バッファ
+
+	//定数バッファ用データ構造体(マテリアル)
+	struct ConstBufferDataMaterial
+	{
+		XMFLOAT4 color;//色(RGBA)
+	};
+
+	//定数バッファの生成用の設定
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+	//リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff;//256バイトアラインメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	ID3D12Resource* constBuffMaterial = nullptr;
+	//定数バッファの生成
+	result = dev->CreateCommittedResource(
+		&cbHeapProp,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffMaterial)
+	);
+	assert(SUCCEEDED(result));
+
+
+	//定数バッファのマッピング
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
+	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
+	assert(SUCCEEDED(result));
+
+	//マッピングをするとGPUのVRSMがCPUと連動する
+	//Unmapをするとつながりが解除されるが定数バッファは書き換えることが多いので
+	//しなくても大丈夫
+
+	//値を書き込むと自動的に転送される
+	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);
+
+#pragma endregion
+
+
+
 	//描画初期化処理ここまで
 
 #pragma endregion
@@ -730,7 +804,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	BYTE oldKey[256] = {};
 
 	
-
+	float Red = 1.0f;
+	float Green = 0;
+	float Blue = 0;
 
 	//ゲームループ
 	while (true)
@@ -866,6 +942,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//頂点バッファビューの設定
 		cmdList->IASetVertexBuffers(0, 1, &vbView);
 
+		//定数バッファビュー(CBV)の設定コマンド
+		cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+
 		//描画コマンド
 		if (ChangeSquareFlag)
 		{
@@ -983,9 +1062,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			ChangeSquareFlag = !ChangeSquareFlag;
 		}
 
+		if (Red > 0 and Blue <= 0)
+		{
+			Red -= 0.05f;
+			Green += 0.05f;
+		}
+		if (Green > 0 and Red <= 0)
+		{
+			Green -= 0.05f;
+			Blue += 0.05f;
+		}
+		if (Blue > 0 and Green <= 0)
+		{
+			Blue -= 0.05f;
+			Red += 0.05f;
+		}
+
 #pragma endregion
 
 #pragma region 描画処理
+
+		constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
 
 #pragma endregion
 
