@@ -896,10 +896,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region çXêVèàóù
 
-		if (key[DIK_D])
-		{
-			OutputDebugStringA("Hit D\n");
-		}
+		
 
 		if (key[DIK_2] and oldKey[DIK_2] == 0)
 		{
@@ -907,10 +904,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			OutputDebugStringA("Hit W\n");
 		}
 
-		if (key[DIK_W] == 0 and oldKey[DIK_W])
-		{
-			OutputDebugStringA("NotHit W\n");
-		}
+		
 
 		if (key[DIK_SPACE])
 		{
