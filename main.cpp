@@ -374,11 +374,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//頂点データ(三点分の座標)
 	XMFLOAT3 vertices[] = {
 		{-0.5f,-0.5f,0.0f},//左下
-		{-0.5f,+0.5f,0.0f},//左上
-		{+0.5f,-0.5f,0.0f},//右下
-		{-0.5f,+0.5f,0.0f},//左上
+		{+0.5f,-0.5f,0.0f},//左上
+		{-0.5f,0.0f,0.0f},//右下
+		{+0.5f,0.0f,0.0f},//左上
+		{-0.5f,+0.5f,0.0f},//右上
 		{+0.5f,+0.5f,0.0f},//右下
-		{+0.5f,-0.5f,0.0f},//右下
 	};
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -805,8 +805,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	
 	float Red = 1.0f;
-	float Green = 0;
-	float Blue = 0;
+	float Green = 1.0f;
+	float Blue = 1.0f;
 
 	//ゲームループ
 	while (true)
@@ -875,39 +875,39 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 4.描画コマンドここから
 		
 		//ビューポート設定
-		//分割分のビューポートを用意
-		D3D12_VIEWPORT viewport[4]{};
+		//分割分のビューポートを用意(見にくいので減らした)
+		D3D12_VIEWPORT viewport{};
 
-		viewport[0].Width = window_width / 2;//横幅
-		viewport[0].Height = window_height/2;//縦幅
-		viewport[0].TopLeftX = 0;//左上X
-		viewport[0].TopLeftY = 0;//左上Y
-		viewport[0].MinDepth = 0.1f;//最少深度(0でよい)
-		viewport[0].MaxDepth = 1.0f;//最大深度(１でよい)
+		viewport.Width = window_width;//横幅
+		viewport.Height = window_height;//縦幅
+		viewport.TopLeftX = 0;//左上X
+		viewport.TopLeftY = 0;//左上Y
+		viewport.MinDepth = 0.1f;//最少深度(0でよい)
+		viewport.MaxDepth = 1.0f;//最大深度(１でよい)
 
-		viewport[1].Width = window_width / 2;//横幅
-		viewport[1].Height = window_height/2;//縦幅
-		viewport[1].TopLeftX = window_width / 2;//左上X
-		viewport[1].TopLeftY = 0;//左上Y
-		viewport[1].MinDepth = 0.1f;//最少深度(0でよい)
-		viewport[1].MaxDepth = 1.0f;//最大深度(１でよい)
+		//viewport[1].Width = window_width / 2;//横幅
+		//viewport[1].Height = window_height/2;//縦幅
+		//viewport[1].TopLeftX = window_width / 2;//左上X
+		//viewport[1].TopLeftY = 0;//左上Y
+		//viewport[1].MinDepth = 0.1f;//最少深度(0でよい)
+		//viewport[1].MaxDepth = 1.0f;//最大深度(１でよい)
 
-		viewport[2].Width = window_width / 3*2;//横幅
-		viewport[2].Height = window_height / 2;//縦幅
-		viewport[2].TopLeftX = 0;//左上X
-		viewport[2].TopLeftY = window_height / 2;//左上Y
-		viewport[2].MinDepth = 0.1f;//最少深度(0でよい)
-		viewport[2].MaxDepth = 1.0f;//最大深度(１でよい)
+		//viewport[2].Width = window_width / 3*2;//横幅
+		//viewport[2].Height = window_height / 2;//縦幅
+		//viewport[2].TopLeftX = 0;//左上X
+		//viewport[2].TopLeftY = window_height / 2;//左上Y
+		//viewport[2].MinDepth = 0.1f;//最少深度(0でよい)
+		//viewport[2].MaxDepth = 1.0f;//最大深度(１でよい)
 
-		viewport[3].Width = window_width / 5;//横幅
-		viewport[3].Height = window_height / 2;//縦幅
-		viewport[3].TopLeftX = window_width / 3*2;//左上X
-		viewport[3].TopLeftY = window_height / 2;//左上Y
-		viewport[3].MinDepth = 0.1f;//最少深度(0でよい)
-		viewport[3].MaxDepth = 1.0f;//最大深度(１でよい)
+		//viewport[3].Width = window_width / 5;//横幅
+		//viewport[3].Height = window_height / 2;//縦幅
+		//viewport[3].TopLeftX = window_width / 3*2;//左上X
+		//viewport[3].TopLeftY = window_height / 2;//左上Y
+		//viewport[3].MinDepth = 0.1f;//最少深度(0でよい)
+		//viewport[3].MaxDepth = 1.0f;//最大深度(１でよい)
 
 		//コマンドリストに追加
-		cmdList->RSSetViewports(1, &viewport[0]);
+		cmdList->RSSetViewports(1, &viewport);
 		
 
 		//シザー矩形設定
@@ -921,7 +921,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		cmdList->RSSetScissorRects(1, &scissorrect);
 
 		//プリミティブ形状(三角形リスト)
-		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 		//パイプラインステートとルートシグネチャの設定
 		//作ったパイプラインステートとルートシグネチャをセットする
@@ -957,41 +957,41 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		//一個前のビューポートに描画したらビューポートを変更(分割回数分繰り返し)
-		cmdList->RSSetViewports(1, &viewport[1]);
-		
-		if (ChangeSquareFlag)
-		{
-			//四角形に描画
-			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		}
-		else
-		{
-			cmdList->DrawInstanced(3, 1, 0, 0);
-		}
+		//cmdList->RSSetViewports(1, &viewport[1]);
+		//
+		//if (ChangeSquareFlag)
+		//{
+		//	//四角形に描画
+		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		//}
+		//else
+		//{
+		//	cmdList->DrawInstanced(3, 1, 0, 0);
+		//}
 
-		cmdList->RSSetViewports(1, &viewport[2]);
-		
-		if (ChangeSquareFlag)
-		{
-			//四角形に描画
-			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		}
-		else
-		{
-			cmdList->DrawInstanced(3, 1, 0, 0);
-		}
+		//cmdList->RSSetViewports(1, &viewport[2]);
+		//
+		//if (ChangeSquareFlag)
+		//{
+		//	//四角形に描画
+		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		//}
+		//else
+		//{
+		//	cmdList->DrawInstanced(3, 1, 0, 0);
+		//}
 
-		cmdList->RSSetViewports(1, &viewport[3]);
+		//cmdList->RSSetViewports(1, &viewport[3]);
 
-		if (ChangeSquareFlag)
-		{
-			//四角形に描画
-			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		}
-		else
-		{
-			cmdList->DrawInstanced(3, 1, 0, 0);
-		}
+		//if (ChangeSquareFlag)
+		//{
+		//	//四角形に描画
+		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		//}
+		//else
+		//{
+		//	cmdList->DrawInstanced(3, 1, 0, 0);
+		//}
 
 		// 4.描画コマンドここまで
 
@@ -1062,7 +1062,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			ChangeSquareFlag = !ChangeSquareFlag;
 		}
 
-		if (Red > 0 and Blue <= 0)
+
+		//色変更
+		/*if (Red > 0 and Blue <= 0)
 		{
 			Red -= 0.05f;
 			Green += 0.05f;
@@ -1076,7 +1078,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			Blue -= 0.05f;
 			Red += 0.05f;
-		}
+		}*/
 
 #pragma endregion
 
