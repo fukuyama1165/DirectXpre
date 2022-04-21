@@ -373,12 +373,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//頂点データ(三点分の座標)
 	XMFLOAT3 vertices[] = {
-		{-0.5f,-0.5f,0.0f},//左下
-		{+0.5f,-0.5f,0.0f},//左上
-		{-0.5f,0.0f,0.0f},//右下
-		{+0.5f,0.0f,0.0f},//左上
-		{-0.5f,+0.5f,0.0f},//右上
-		{+0.5f,+0.5f,0.0f},//右下
+		{-0.5f,-0.5f,0.0f},//左上
+		{-0.5f,+0.5f,0.0f},//左下
+		{+0.5f,-0.5f,0.0f},//右下
+		{+0.5f,+0.5f,0.0f},//右上
 	};
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -785,6 +783,61 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
+#pragma region インデックスバッファ
+
+	//インデックスデータ
+	uint16_t indices[] =
+	{
+		0,1,2,//三角形1つ目
+		1,2,3,//三角形2つ目
+	};
+
+	//インデックスデータ全体のサイズ
+	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+
+	//リソース設定
+	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resdesc.Width = sizeIB;//インデックス情報が入る分のサイズ
+	resdesc.Height = 1;
+	resdesc.DepthOrArraySize = 1;
+	resdesc.MipLevels = 1;
+	resdesc.SampleDesc.Count = 1;
+	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//インデックスバッファの生成
+	ID3D12Resource* indexBuff = nullptr;
+	result = dev->CreateCommittedResource(
+		&heapprop,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&resdesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuff)
+	);
+
+	//インデックスバッファをマッピング
+	uint16_t* indexMap = nullptr;
+	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	//全インデックスに対して
+	for (int i = 0; i < _countof(indices); i++)
+	{
+		indexMap[i] = indices[i];//インデックスをコピー
+	}
+
+	//マッピング解除
+	indexBuff->Unmap(0, nullptr);
+
+#pragma endregion
+
+#pragma region インデックスバッファビュー
+
+	//インデックスバッファビューの生成
+	D3D12_INDEX_BUFFER_VIEW ibView{};
+	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R16_UINT;
+	ibView.SizeInBytes = sizeIB;
+
+#pragma endregion
 
 
 	//描画初期化処理ここまで
@@ -921,7 +974,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		cmdList->RSSetScissorRects(1, &scissorrect);
 
 		//プリミティブ形状(三角形リスト)
-		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		//パイプラインステートとルートシグネチャの設定
 		//作ったパイプラインステートとルートシグネチャをセットする
@@ -945,11 +998,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//定数バッファビュー(CBV)の設定コマンド
 		cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 
+		cmdList->IASetIndexBuffer(&ibView);
+
 		//描画コマンド
 		if (ChangeSquareFlag)
 		{
 			//四角形に描画
-			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+			cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 		}
 		else
 		{
@@ -993,6 +1048,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//	cmdList->DrawInstanced(3, 1, 0, 0);
 		//}
 
+
+		
 		// 4.描画コマンドここまで
 
 #pragma endregion
