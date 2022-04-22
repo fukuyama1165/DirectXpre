@@ -1,4 +1,4 @@
-cbuffer ConstBuffDAtaMaterial:register(b0)
+cbuffer ConstBufferDataMaterial:register(b0)
 {
 	float4 color;//F(RGBA)
 }
