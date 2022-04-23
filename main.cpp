@@ -698,7 +698,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	rootParam[1].Descriptor.RegisterSpace = 0;//デフォルト値
 	rootParam[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
-#pragma endregion
+#pragma endregion 定数バッファを増やしたら増やすところがある
 
 
 
@@ -724,7 +724,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//パイプライン2にもルートシグネチャをセット
 	gpipeline2.pRootSignature = rootsignature;
 
-#pragma endregion
+#pragma endregion　定数バッファを増やしたらルートパラメータを書き換えパラメータ数を書き換える
 
 #pragma region パイプラインステートの生成
 
