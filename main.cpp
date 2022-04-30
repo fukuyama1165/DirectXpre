@@ -371,18 +371,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 #pragma region 頂点データ変数の宣言
 
+	//頂点データ構造体
+	struct Vertex
+	{
+		XMFLOAT3 pos;//xyz座標
+		XMFLOAT2 uv;//uv座標
+	};
+
+
+
 	//頂点データ(三点分の座標)
-	XMFLOAT3 vertices[] = {
-		{-0.5f,-0.5f,0.0f},//左下
-		{-0.5f,+0.5f,0.0f},//左上
-		{+0.5f,-0.5f,0.0f},//右下
-		{-0.5f,+0.5f,0.0f},//左上
-		{+0.5f,+0.5f,0.0f},//右下
-		{+0.5f,-0.5f,0.0f},//右下
+	Vertex vertices[] =
+	{
+		//  x     y    z      u    v
+		{{-0.4f,-0.7f,0.0f},{0.0f,1.0f}},//左下
+		{{-0.4f,+0.7f,0.0f},{0.0f,0.0f}},//左上
+		{{+0.4f,-0.7f,0.0f},{1.0f,1.0f}},//右下
+		{{+0.4f,+0.7f,0.0f},{1.0f,0.0f}},//右上
 	};
 
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
-	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
+	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 
 #pragma endregion
 
@@ -423,7 +432,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//頂点バッファへのデータ転送
 
 	//GPU上のバッファに対応した仮想メモリを取得
-	XMFLOAT3* vertMap = nullptr;
+	Vertex* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	
 	//全頂点に対して
@@ -446,7 +455,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(XMFLOAT3);
+	vbView.StrideInBytes = sizeof(vertices[0]);
 
 #pragma endregion
 
@@ -545,6 +554,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			0,//一度に描画するインスタンス数
 		},
 		//座標以外に　色、テクスチャUVなどを渡す場合はさらに続ける
+		{
+			"TEXCOORD",
+			0,
+			DXGI_FORMAT_R32G32_FLOAT,
+			0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+			0
+		},
 	};
 
 #pragma endregion
@@ -690,13 +708,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma region ルートパラメータ
 
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER rootParam = {};
-	rootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
-	rootParam.Descriptor.ShaderRegister = 0;//定数バッファ番号
-	rootParam.Descriptor.RegisterSpace = 0;//デフォルト値
-	rootParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
+	D3D12_ROOT_PARAMETER rootParam[2] = {};
+	rootParam[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
+	rootParam[0].Descriptor.ShaderRegister = 0;//定数バッファ番号
+	rootParam[0].Descriptor.RegisterSpace = 0;//デフォルト値
+	rootParam[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
+	rootParam[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
+	rootParam[1].Descriptor.ShaderRegister = 1;//定数バッファ番号
+	rootParam[1].Descriptor.RegisterSpace = 0;//デフォルト値
+	rootParam[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
-#pragma endregion
+#pragma endregion 定数バッファを増やしたら増やすところがある
 
 
 
@@ -708,8 +730,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	rootSignatureDesc.pParameters = &rootParam;//ルートパラメータの先頭アドレス
-	rootSignatureDesc.NumParameters = 1;//ルートパラメータ数
+	rootSignatureDesc.pParameters = rootParam;//ルートパラメータの先頭アドレス
+	rootSignatureDesc.NumParameters = 2;//ルートパラメータ数
 
 	ID3DBlob* rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
@@ -722,7 +744,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//パイプライン2にもルートシグネチャをセット
 	gpipeline2.pRootSignature = rootsignature;
 
-#pragma endregion
+#pragma endregion 定数バッファを増やしたらルートパラメータを書き換えパラメータ数を書き換える
 
 #pragma region パイプラインステートの生成
 
@@ -744,10 +766,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		XMFLOAT4 color;//色(RGBA)
 	};
 
+	struct ConstBufferDataMaterial2
+	{
+		XMFLOAT4 posM;//位置(XYZ);
+	};
+
 	//定数バッファの生成用の設定
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+
 	//リソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -758,6 +786,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
+	//リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc2{};
+	cbResourceDesc2.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc2.Width = (sizeof(ConstBufferDataMaterial2) + 0xff) & ~0xff;//256バイトアラインメント
+	cbResourceDesc2.Height = 1;
+	cbResourceDesc2.DepthOrArraySize = 1;
+	cbResourceDesc2.MipLevels = 1;
+	cbResourceDesc2.SampleDesc.Count = 1;
+	cbResourceDesc2.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
 	ID3D12Resource* constBuffMaterial = nullptr;
 	//定数バッファの生成
 	result = dev->CreateCommittedResource(
@@ -767,6 +805,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffMaterial)
+	);
+	assert(SUCCEEDED(result));
+
+	ID3D12Resource* constBuffMaterial2 = nullptr;
+	//定数バッファの生成
+	result = dev->CreateCommittedResource(
+		&cbHeapProp,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc2,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffMaterial2)
 	);
 	assert(SUCCEEDED(result));
 
@@ -781,10 +831,74 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//しなくても大丈夫
 
 	//値を書き込むと自動的に転送される
+	
+	
+
 	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);
+
+	ConstBufferDataMaterial2* constMapMaterial2 = nullptr;
+	result = constBuffMaterial2->Map(0, nullptr, (void**)&constMapMaterial2);//マッピング
+	assert(SUCCEEDED(result));
+	
+	constMapMaterial2->posM = XMFLOAT4(10,10, 10,1);
 
 #pragma endregion
 
+#pragma region インデックスバッファ
+
+	//インデックスデータ
+	unsigned short indices[]=
+	{
+		0,1,2,//三角形一つ目
+		1,2,3,//三角形二つ目
+	}
+	;
+	//インデックスデータ全体のサイズ
+	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+
+	//リソース設定
+	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resdesc.Width = sizeIB;//インデックス情報が入る分のサイズ
+	resdesc.Height = 1;
+	resdesc.DepthOrArraySize = 1;
+	resdesc.MipLevels = 1;
+	resdesc.SampleDesc.Count = 1;
+	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//インデックスバッファの生成
+	ID3D12Resource* indexBuff = nullptr;
+	result = dev->CreateCommittedResource(
+		&heapprop,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&resdesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuff)
+	);
+
+	//インデックスバッファをマッピング
+	uint16_t* indexMap = nullptr;
+	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	//全インデックスに対して
+	for (int i = 0; i < _countof(indices); i++)
+	{
+		indexMap[i] = indices[i];//インデックスをコピー
+	}
+
+	//マッピング解除
+	indexBuff->Unmap(0, nullptr);
+
+#pragma endregion
+
+#pragma region インデックスバッファビュー
+
+	//インデックスバッファビューの生成
+	D3D12_INDEX_BUFFER_VIEW ibView{};
+	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R16_UINT;
+	ibView.SizeInBytes = sizeIB;
+
+#pragma endregion
 
 
 	//描画初期化処理ここまで
@@ -805,8 +919,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	
 	float Red = 1.0f;
-	float Green = 0;
-	float Blue = 0;
+	float Green = 1.0f;
+	float Blue = 1.0f;
+
+	float X1 = 0.0f;
+	float Y1 = 0.0f;
 
 	//ゲームループ
 	while (true)
@@ -875,39 +992,39 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 4.描画コマンドここから
 		
 		//ビューポート設定
-		//分割分のビューポートを用意
-		D3D12_VIEWPORT viewport[4]{};
+		//分割分のビューポートを用意(見にくいので減らした)
+		D3D12_VIEWPORT viewport{};
 
-		viewport[0].Width = window_width / 2;//横幅
-		viewport[0].Height = window_height/2;//縦幅
-		viewport[0].TopLeftX = 0;//左上X
-		viewport[0].TopLeftY = 0;//左上Y
-		viewport[0].MinDepth = 0.1f;//最少深度(0でよい)
-		viewport[0].MaxDepth = 1.0f;//最大深度(１でよい)
+		viewport.Width = window_width;//横幅
+		viewport.Height = window_height;//縦幅
+		viewport.TopLeftX = 0;//左上X
+		viewport.TopLeftY = 0;//左上Y
+		viewport.MinDepth = 0.1f;//最少深度(0でよい)
+		viewport.MaxDepth = 1.0f;//最大深度(１でよい)
 
-		viewport[1].Width = window_width / 2;//横幅
-		viewport[1].Height = window_height/2;//縦幅
-		viewport[1].TopLeftX = window_width / 2;//左上X
-		viewport[1].TopLeftY = 0;//左上Y
-		viewport[1].MinDepth = 0.1f;//最少深度(0でよい)
-		viewport[1].MaxDepth = 1.0f;//最大深度(１でよい)
+		//viewport[1].Width = window_width / 2;//横幅
+		//viewport[1].Height = window_height/2;//縦幅
+		//viewport[1].TopLeftX = window_width / 2;//左上X
+		//viewport[1].TopLeftY = 0;//左上Y
+		//viewport[1].MinDepth = 0.1f;//最少深度(0でよい)
+		//viewport[1].MaxDepth = 1.0f;//最大深度(１でよい)
 
-		viewport[2].Width = window_width / 3*2;//横幅
-		viewport[2].Height = window_height / 2;//縦幅
-		viewport[2].TopLeftX = 0;//左上X
-		viewport[2].TopLeftY = window_height / 2;//左上Y
-		viewport[2].MinDepth = 0.1f;//最少深度(0でよい)
-		viewport[2].MaxDepth = 1.0f;//最大深度(１でよい)
+		//viewport[2].Width = window_width / 3*2;//横幅
+		//viewport[2].Height = window_height / 2;//縦幅
+		//viewport[2].TopLeftX = 0;//左上X
+		//viewport[2].TopLeftY = window_height / 2;//左上Y
+		//viewport[2].MinDepth = 0.1f;//最少深度(0でよい)
+		//viewport[2].MaxDepth = 1.0f;//最大深度(１でよい)
 
-		viewport[3].Width = window_width / 5;//横幅
-		viewport[3].Height = window_height / 2;//縦幅
-		viewport[3].TopLeftX = window_width / 3*2;//左上X
-		viewport[3].TopLeftY = window_height / 2;//左上Y
-		viewport[3].MinDepth = 0.1f;//最少深度(0でよい)
-		viewport[3].MaxDepth = 1.0f;//最大深度(１でよい)
+		//viewport[3].Width = window_width / 5;//横幅
+		//viewport[3].Height = window_height / 2;//縦幅
+		//viewport[3].TopLeftX = window_width / 3*2;//左上X
+		//viewport[3].TopLeftY = window_height / 2;//左上Y
+		//viewport[3].MinDepth = 0.1f;//最少深度(0でよい)
+		//viewport[3].MaxDepth = 1.0f;//最大深度(１でよい)
 
 		//コマンドリストに追加
-		cmdList->RSSetViewports(1, &viewport[0]);
+		cmdList->RSSetViewports(1, &viewport);
 		
 
 		//シザー矩形設定
@@ -942,14 +1059,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//頂点バッファビューの設定
 		cmdList->IASetVertexBuffers(0, 1, &vbView);
 
+		
 		//定数バッファビュー(CBV)の設定コマンド
 		cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+		cmdList->SetGraphicsRootConstantBufferView(1, constBuffMaterial2->GetGPUVirtualAddress());
+
+		cmdList->IASetIndexBuffer(&ibView);
 
 		//描画コマンド
 		if (ChangeSquareFlag)
 		{
 			//四角形に描画
-			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+			cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 		}
 		else
 		{
@@ -957,42 +1078,44 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		//一個前のビューポートに描画したらビューポートを変更(分割回数分繰り返し)
-		cmdList->RSSetViewports(1, &viewport[1]);
+		//cmdList->RSSetViewports(1, &viewport[1]);
+		//
+		//if (ChangeSquareFlag)
+		//{
+		//	//四角形に描画
+		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		//}
+		//else
+		//{
+		//	cmdList->DrawInstanced(3, 1, 0, 0);
+		//}
+
+		//cmdList->RSSetViewports(1, &viewport[2]);
+		//
+		//if (ChangeSquareFlag)
+		//{
+		//	//四角形に描画
+		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		//}
+		//else
+		//{
+		//	cmdList->DrawInstanced(3, 1, 0, 0);
+		//}
+
+		//cmdList->RSSetViewports(1, &viewport[3]);
+
+		//if (ChangeSquareFlag)
+		//{
+		//	//四角形に描画
+		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+		//}
+		//else
+		//{
+		//	cmdList->DrawInstanced(3, 1, 0, 0);
+		//}
+
+
 		
-		if (ChangeSquareFlag)
-		{
-			//四角形に描画
-			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		}
-		else
-		{
-			cmdList->DrawInstanced(3, 1, 0, 0);
-		}
-
-		cmdList->RSSetViewports(1, &viewport[2]);
-		
-		if (ChangeSquareFlag)
-		{
-			//四角形に描画
-			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		}
-		else
-		{
-			cmdList->DrawInstanced(3, 1, 0, 0);
-		}
-
-		cmdList->RSSetViewports(1, &viewport[3]);
-
-		if (ChangeSquareFlag)
-		{
-			//四角形に描画
-			cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		}
-		else
-		{
-			cmdList->DrawInstanced(3, 1, 0, 0);
-		}
-
 		// 4.描画コマンドここまで
 
 #pragma endregion
@@ -1062,7 +1185,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			ChangeSquareFlag = !ChangeSquareFlag;
 		}
 
-		if (Red > 0 and Blue <= 0)
+
+		//色変更
+		/*if (Red > 0 and Blue <= 0)
 		{
 			Red -= 0.05f;
 			Green += 0.05f;
@@ -1076,13 +1201,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			Blue -= 0.05f;
 			Red += 0.05f;
-		}
+		}*/
 
 #pragma endregion
 
 #pragma region 描画処理
 
 		constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
+		constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 1.0f);
 
 #pragma endregion
 
