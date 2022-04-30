@@ -1,9 +1,9 @@
-cbuffer ConstBufferDataMaterial2:register(b1)//定数バッファの番号をbの後ろにつける
-{
-	float4 posm;//位置(XYZ)
-}
+#include "Basic.hlsli"
 
-float4 main( float4 pos : POSITION ) : SV_POSITION
+VSOutput main( float4 pos : POSITION, float2 uv:TEXCOORD)
 {
-	return pos+posm;
+	VSOutput output;//ピクセルシェーダーに渡す値
+	output.svpos = pos + posm;
+	output.uv = uv;
+	return output;
 }
