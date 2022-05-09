@@ -27,6 +27,8 @@ using namespace DirectX;
 #pragma comment(lib,"dxguid.lib")
 
 
+#include <DirectXTex.h>
+
 #pragma region ウィンドウプロシージャ
 
 
