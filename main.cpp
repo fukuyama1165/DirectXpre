@@ -403,14 +403,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	D3D12_HEAP_PROPERTIES heapprop{};//ヒープ設定
 	heapprop.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
 
-	D3D12_RESOURCE_DESC resdesc{};//リソース設定
-	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resdesc.Width = sizeVB;//頂点データ全体のサイズ
-	resdesc.Height = 1;
-	resdesc.DepthOrArraySize = 1;
-	resdesc.MipLevels = 1;
-	resdesc.SampleDesc.Count = 1;
-	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	D3D12_RESOURCE_DESC resDesc{};//リソース設定
+	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc.Width = sizeVB;//頂点データ全体のサイズ
+	resDesc.Height = 1;
+	resDesc.DepthOrArraySize = 1;
+	resDesc.MipLevels = 1;
+	resDesc.SampleDesc.Count = 1;
+	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 #pragma endregion
 
@@ -421,7 +421,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	result = dev->CreateCommittedResource(
 		&heapprop,//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
-		&resdesc,//リソース設定
+		&resDesc,//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff)
@@ -895,20 +895,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 
 	//リソース設定
-	resdesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resdesc.Width = sizeIB;//インデックス情報が入る分のサイズ
-	resdesc.Height = 1;
-	resdesc.DepthOrArraySize = 1;
-	resdesc.MipLevels = 1;
-	resdesc.SampleDesc.Count = 1;
-	resdesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc.Width = sizeIB;//インデックス情報が入る分のサイズ
+	resDesc.Height = 1;
+	resDesc.DepthOrArraySize = 1;
+	resDesc.MipLevels = 1;
+	resDesc.SampleDesc.Count = 1;
+	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//インデックスバッファの生成
 	ID3D12Resource* indexBuff = nullptr;
 	result = dev->CreateCommittedResource(
 		&heapprop,//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
-		&resdesc,//リソース設定
+		&resDesc,//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff)
@@ -940,23 +940,56 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 画像イメージデータの作成
 
-	//横方向ピクセル数
-	const size_t textureWidth = 256;
-	//縦方向ピクセル数
-	const size_t textureHeight = 256;
-	//配列の要素数
-	const size_t imageDataCount = textureWidth * textureHeight;
-	//画像イメージデータ配列
-	XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];//必ず後で解放する
+	//自作したイメージデータ
+	////横方向ピクセル数
+	//const size_t textureWidth = 256;
+	////縦方向ピクセル数
+	//const size_t textureHeight = 256;
+	////配列の要素数
+	//const size_t imageDataCount = textureWidth * textureHeight;
+	////画像イメージデータ配列
+	//XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];//必ず後で解放する
 
-	for (size_t i = 0; i < imageDataCount; i++)
+	//for (size_t i = 0; i < imageDataCount; i++)
+	//{
+	//	imageData[i].x = 0.0f;//R
+	//	imageData[i].y = 1.0f;//G
+	//	imageData[i].z = 0.0f;//B
+	//	imageData[i].w = 1.0f;//A
+
+	//}
+
+	//画像読み込みして画像イメージデータを生成
+	TexMetadata metadata{};
+	ScratchImage scratchImg{};
+
+	//WICテクスチャのロード
+	result = LoadFromWICFile(
+		L"Resources/basketballman2.png",
+		WIC_FLAGS_NONE,
+		&metadata,
+		scratchImg
+	);
+
+	ScratchImage mipChain{};
+	//ミップマップの生成
+	result = GenerateMipMaps(
+		scratchImg.GetImages(),
+		scratchImg.GetImageCount(),
+		scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT,
+		0,
+		mipChain
+	);
+
+	if (SUCCEEDED(result))
 	{
-		imageData[i].x = 1.0f;//R
-		imageData[i].y = 0.0f;//G
-		imageData[i].z = 0.0f;//B
-		imageData[i].w = 1.0f;//A
-
+		scratchImg = std::move(mipChain);
+		metadata = scratchImg.GetMetadata();
 	}
+
+	//読み込んだディフューズテクスチャをSRGBとして扱う
+	metadata.format = MakeSRGB(metadata.format);
 
 #pragma endregion
 
@@ -971,11 +1004,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//リソース設定
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	textureResourceDesc.Width = textureWidth;//幅
-	textureResourceDesc.Height = textureHeight;//高さ
-	textureResourceDesc.DepthOrArraySize = 1;
-	textureResourceDesc.MipLevels = 1;
+	textureResourceDesc.Format = metadata.format;
+	textureResourceDesc.Width = metadata.width;//幅
+	textureResourceDesc.Height = (UINT)metadata.height;//高さ
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
 #pragma endregion
@@ -993,15 +1026,32 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		IID_PPV_ARGS(&texBuff)
 	);
 
-	result = texBuff->WriteToSubresource(
-		0,
-		nullptr,//全領域へコピー
-		imageData,//元データアドレス
-		sizeof(XMFLOAT4) * textureWidth,//1ラインサイズ
-		sizeof(XMFLOAT4) * imageDataCount//全サイズ
-	);
+	//ミップマップで置き換える
+	//全ミップマップについて
+	for (size_t i = 0; i < metadata.mipLevels; i++)
+	{
+		//ミップマップレベルを指定してイメージを取得
+		const Image* img = scratchImg.GetImage(i, 0, 0);
+		//テクスチャバッファにデータ転送
+		result = texBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,//全領域へコピー
+			img->pixels,//元データアドレス
+			(UINT)img->rowPitch,//1ラインアドレス
+			(UINT)img->slicePitch//1枚サイズ
+		);
+		assert(SUCCEEDED(result));
+	}
 
-	delete[] imageData;
+	//result = texBuff->WriteToSubresource(
+	//	0,
+	//	nullptr,//全領域へコピー
+	//	imageData,//元データアドレス
+	//	sizeof(XMFLOAT4) * textureWidth,//1ラインサイズ
+	//	sizeof(XMFLOAT4) * imageDataCount//全サイズ
+	//);
+
+	//delete[] imageData;
 
 #pragma endregion ここで画像イメージデータをdeleteしている
 
@@ -1032,10 +1082,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//シェーダリソースビュー
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
-	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;//RGBA float
+	srvDesc.Format = resDesc.Format;//RGBA float
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダリソースビュー作成
 	dev->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
@@ -1060,8 +1110,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	BYTE oldKey[256] = {};
 
 	
-	float Red = 1.0f;
-	float Green = 1.0f;
+	float Red = 0.5f;
+	float Green = 0.2f;
 	float Blue = 1.0f;
 
 	float X1 = 0.0f;
