@@ -26,6 +26,7 @@ using namespace DirectX;
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
+const float PI = 3.141592653589;
 
 #include <DirectXTex.h>
 
@@ -57,6 +58,17 @@ float clearColor[] = { 0.1f,0.25f,0.5f,0.0f };//Â‚Á‚Û‚¢F(‰æ–ÊƒNƒŠƒA‚·‚é‚Æ‚«‚Ì
 
 //‰æ–Ê‚ÌƒNƒŠƒAƒJƒ‰[•ÏXŠÖ”
 void clearColorChange(float R, float G, float B, float A);
+
+/// <summary>
+/// “ñŸŒ³‚ÌƒAƒtƒBƒ“•ÏŠ·‚ğ‚·‚éŠÖ”
+/// </summary>
+/// <param name="box">’¸“_ƒf[ƒ^(X,Y)</param>
+/// <param name="moveX">x•ûŒü‚ÌˆÚ“®—Ê</param>
+/// <param name="moveY">y•ûŒü‚ÌˆÚ“®—Ê</param>
+/// <param name="rotate">‰ñ“]Šp“x(“x”–@)</param>
+/// <param name="scaleX">x•ûŒü‚ÌŠg‘å—¦</param>
+/// <param name="scaleY">y•ûŒü‚ÌŠg‘å—¦</param>
+void Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY);
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -872,13 +884,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	
 
-	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);
+	//constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);
 
 	ConstBufferDataMaterial2* constMapMaterial2 = nullptr;
 	result = constBuffMaterial2->Map(0, nullptr, (void**)&constMapMaterial2);//ƒ}ƒbƒsƒ“ƒO
 	assert(SUCCEEDED(result));
 	
-	constMapMaterial2->posM = XMFLOAT4(10,10, 10,1);
+	//constMapMaterial2->posM = XMFLOAT4(1,1, 10,1);
 
 #pragma endregion
 
@@ -1103,18 +1115,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	bool PipeLineRuleFlag = true;
 
 	//lŠpŒ`‚É•ÏX‚·‚é‚Æ‚«‚Ìƒtƒ‰ƒO
-	bool ChangeSquareFlag = false;
+	bool ChangeSquareFlag = true;
 
 	//‘SƒL[‚Ì“ü—Íî•ñ‚ğæ“¾‚·‚éˆ×‚Ì•Ï”
 	BYTE key[256] = {};
 	BYTE oldKey[256] = {};
 
 	
-	float Red = 0.5f;
-	float Green = 0.2f;
+	float Red = 1.0f;
+	float Green = 1.0f;
 	float Blue = 1.0f;
 
-	float X1 = 0.0f;
+	float X1 = 1.0f;
 	float Y1 = 0.0f;
 
 	//ƒQ[ƒ€ƒ‹[ƒv
@@ -1153,7 +1165,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
-		
+#pragma region ƒAƒtƒBƒ“•ÏŠ·
+
+		for (int i = 0; i < _countof(vertices); i++)
+		{
+			Afin(vertices[i].pos, X1, Y1, 45, 1, 1);
+		}
+
+#pragma endregion
+
 
 
 
@@ -1408,7 +1428,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma region •`‰æˆ—
 
 		constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
-		constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 1.0f);
+		//constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 1.0f);
 
 #pragma endregion
 
@@ -1432,4 +1452,55 @@ void clearColorChange(float R, float G, float B, float A)
 	clearColor[1] = G;
 	clearColor[2] = B;
 	clearColor[3] = A;
+}
+
+void Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY)
+{
+	float ansBuff[3] = {};
+	float ansBuff2[3] = {};
+	float ansBuff3[3] = {};
+	float ansBuff4[3] = {};
+	float ans[3] = {};
+
+	float moveA[3][3] = {
+		{1.0f,0.0f, moveX},
+		{0.0f,1.0f, moveY},
+		{0.0f,0.0f, 1.0f}
+	};
+	float rotateA[3][3] = {
+		{cos(rotate * (PI / 180)),-sin(rotate * (PI / 180)), 0.0f},
+		{sin(rotate * (PI / 180)),cos(rotate * (PI / 180)), 0.0f},
+		{0.0f,0.0f, 1.0f}
+	};
+
+	float scaleA[3][3] = {
+		{scaleX,0.0f, 0.0f},
+		{0.0f,scaleY, 0.0f},
+		{0.0f,0.0f, 1.0f}
+	};
+
+	ans[0] = box.x;
+	ans[1] = box.y;
+	ans[2] = 1.0f;
+
+	ansBuff[0] = moveA[0][0] * box.x + moveA[0][1] * box.y + -ans[0] * 1.0f;
+	ansBuff[1] = moveA[1][0] * box.x + moveA[1][1] * box.y + -ans[1] * 1.0f;
+	ansBuff[2] = moveA[2][0] * box.x + moveA[2][1] * box.y + ans[2] * 1.0f;
+
+
+	ansBuff2[0] = rotateA[0][0] * ansBuff[0] + rotateA[0][1] * ansBuff[1] + rotateA[0][2] * ansBuff[2];
+	ansBuff2[1] = rotateA[1][0] * ansBuff[0] + rotateA[1][1] * ansBuff[1] + rotateA[1][2] * ansBuff[2];
+	ansBuff2[2] = rotateA[2][0] * ansBuff[0] + rotateA[2][1] * ansBuff[1] + rotateA[2][2] * ansBuff[2];
+
+	ansBuff3[0] = scaleA[0][0] * ansBuff2[0] + scaleA[0][1] * ansBuff2[1] + scaleA[0][2] * ansBuff2[2];
+	ansBuff3[1] = scaleA[1][0] * ansBuff2[0] + scaleA[1][1] * ansBuff2[1] + scaleA[1][2] * ansBuff2[2];
+	ansBuff3[2] = scaleA[2][0] * ansBuff2[0] + scaleA[2][1] * ansBuff2[1] + scaleA[2][2] * ansBuff2[2];
+
+	ansBuff4[0] = moveA[0][0] * ansBuff3[0] + moveA[0][1] * ansBuff3[1] + ans[0] * ansBuff3[2];
+	ansBuff4[1] = moveA[1][0] * ansBuff3[0] + moveA[1][1] * ansBuff3[1] + ans[1] * ansBuff3[2];
+	ansBuff4[2] = moveA[2][0] * ansBuff3[0] + moveA[2][1] * ansBuff3[1] + ans[2] * ansBuff3[2];
+
+	box.x = moveA[0][0] * ansBuff4[0] + moveA[0][1] * ansBuff4[1] + moveA[0][2] * ansBuff4[2];
+	box.y = moveA[1][0] * ansBuff4[0] + moveA[1][1] * ansBuff4[1] + moveA[1][2] * ansBuff4[2];
+
 }
