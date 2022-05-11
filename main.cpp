@@ -1127,7 +1127,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float Blue = 1.0f;
 
 	float X1 = 1.0f;
-	float Y1 = 0.0f;
+	float Y1 = 1.0f;
+	float rotate = 0;
+	float scale = 1;
+
+	float atfin[3][3] = {
+		{1.0f,0.0f,0.0f},
+		{0.0f,1.0f,0.0f},
+		{0.0f,0.0f,1.0f}
+	};
+
 
 	//ゲームループ
 	while (true)
@@ -1169,12 +1178,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		for (int i = 0; i < _countof(vertices); i++)
 		{
-			Afin(vertices[i].pos, X1, Y1, 45, 1, 1);
+			//Afin(vertices[i].pos, X1, Y1, 0, 5, 1);
 		}
 
 #pragma endregion
 
-
+		
 
 
 		//リソースバリア辺
@@ -1405,6 +1414,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			ChangeSquareFlag = !ChangeSquareFlag;
 		}
 
+		if (key[DIK_Z] )
+		{
+			
+		}
+
 
 		//色変更
 		/*if (Red > 0 and Blue <= 0)
@@ -1428,7 +1442,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma region 描画処理
 
 		constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
-		//constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 1.0f);
+		constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 1.0f);
 
 #pragma endregion
 
