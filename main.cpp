@@ -63,12 +63,13 @@ void clearColorChange(float R, float G, float B, float A);
 /// 二次元のアフィン変換をする関数
 /// </summary>
 /// <param name="box">頂点データ(X,Y)</param>
+/// <param name="box">図形の中の原点(X,Y)</param>
 /// <param name="moveX">x方向の移動量</param>
 /// <param name="moveY">y方向の移動量</param>
 /// <param name="rotate">回転角度(度数法)</param>
 /// <param name="scaleX">x方向の拡大率</param>
 /// <param name="scaleY">y方向の拡大率</param>
-void Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY);
+XMFLOAT3 Afin(XMFLOAT3 box, XMFLOAT3 box2, float moveX, float moveY, float rotate, float scaleX, float scaleY);
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -404,6 +405,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{{+0.4f,+0.7f,0.0f},{1.0f,0.0f}},//右上
 	};
 
+
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 
@@ -568,7 +570,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			0,//一度に描画するインスタンス数
 		},
 		//座標以外に　色、テクスチャUVなどを渡す場合はさらに続ける
-		{
+
+		{//UV座標
 			"TEXCOORD",
 			0,
 			DXGI_FORMAT_R32G32_FLOAT,
@@ -818,7 +821,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	struct ConstBufferDataMaterial2
 	{
-		XMFLOAT4 posM;//位置(XYZ);
+		XMFLOAT4 posM;//位置移動に使う(XYZ);
+		Vertex vertexData[4];
+
 	};
 
 	//定数バッファの生成用の設定
@@ -1126,16 +1131,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float Green = 1.0f;
 	float Blue = 1.0f;
 
-	float X1 = 1.0f;
-	float Y1 = 1.0f;
+	float X1 = 0.0f;
+	float Y1 = 0.0f;
 	float rotate = 0;
-	float scale = 1;
+	float scaleX = 1;
+	float scaleY = 1;
 
-	float atfin[3][3] = {
-		{1.0f,0.0f,0.0f},
-		{0.0f,1.0f,0.0f},
-		{0.0f,0.0f,1.0f}
-	};
+	
 
 
 	//ゲームループ
@@ -1176,15 +1178,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region アフィン変換
 
+		//原点は最後に変換する(元座標が変わってしまうため)
+		vertices[1].pos = Afin(vertices[1].pos, vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		vertices[2].pos = Afin(vertices[2].pos, vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		vertices[3].pos = Afin(vertices[3].pos, vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		vertices[0].pos = Afin(vertices[0].pos, vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+
+#pragma endregion
+
+#pragma region アフィン変換後の頂点データをシェーダに転送
+
+		vertBuff->Map(0, nullptr, (void**)&vertMap);
+		//全頂点に対して
 		for (int i = 0; i < _countof(vertices); i++)
 		{
-			//Afin(vertices[i].pos, X1, Y1, 0, 5, 1);
+			vertMap[i] = vertices[i];//座標をコピー
 		}
+
+		//つながりを解除
+		vertBuff->Unmap(0, nullptr);
 
 #pragma endregion
 
 		
-
 
 		//リソースバリア辺
 
@@ -1384,6 +1400,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 更新処理
 
+		X1 = 0.0f;
+		Y1 = 0.0f;
+		rotate = 0.0f;
+		scaleX = 1.0f;
+		scaleY = 1.0f;
+
 		if (key[DIK_D])
 		{
 			OutputDebugStringA("Hit D\n");
@@ -1395,9 +1417,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			OutputDebugStringA("Hit W\n");
 		}
 
-		if (key[DIK_W] == 0 and oldKey[DIK_W])
+		if (key[DIK_W] )
 		{
-			OutputDebugStringA("NotHit W\n");
+			rotate = 1.0f;
+		}
+
+		if (key[DIK_S] )
+		{
+			rotate = -1.0f;
 		}
 
 		if (key[DIK_SPACE])
@@ -1442,7 +1469,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma region 描画処理
 
 		constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
-		constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 1.0f);
+		//constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 0.0f);
 
 #pragma endregion
 
@@ -1468,7 +1495,7 @@ void clearColorChange(float R, float G, float B, float A)
 	clearColor[3] = A;
 }
 
-void Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY)
+XMFLOAT3 Afin(XMFLOAT3 box, XMFLOAT3 box2, float moveX, float moveY, float rotate, float scaleX, float scaleY)
 {
 	float ansBuff[3] = {};
 	float ansBuff2[3] = {};
@@ -1493,8 +1520,8 @@ void Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, fl
 		{0.0f,0.0f, 1.0f}
 	};
 
-	ans[0] = box.x;
-	ans[1] = box.y;
+	ans[0] = box2.x;
+	ans[1] = box2.y;
 	ans[2] = 1.0f;
 
 	ansBuff[0] = moveA[0][0] * box.x + moveA[0][1] * box.y + -ans[0] * 1.0f;
@@ -1516,5 +1543,7 @@ void Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, fl
 
 	box.x = moveA[0][0] * ansBuff4[0] + moveA[0][1] * ansBuff4[1] + moveA[0][2] * ansBuff4[2];
 	box.y = moveA[1][0] * ansBuff4[0] + moveA[1][1] * ansBuff4[1] + moveA[1][2] * ansBuff4[2];
+
+	return box;
 
 }
