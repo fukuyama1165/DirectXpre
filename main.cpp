@@ -1070,7 +1070,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//delete[] imageData;
 
-#pragma endregion ここで画像イメージデータをdeleteしている
+#pragma endregion ここで画像イメージデータをdeleteしている(コメントアウト中)
 
 
 #pragma region シェーダーリソースビューの為のデスクリプタヒープ生成
