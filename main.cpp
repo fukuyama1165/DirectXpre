@@ -1113,13 +1113,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 //
 //	//描画初期化処理ここまで
 //
-#pragma endregion
+#pragma endregion クラス化したのでコメントアウト中
 
-DrawingInit obj1;
-DrawingInit obj2;
+DrawingInit obj[10];
 
-obj1.DrawingMyInit(dev);
-obj2.DrawingMyInit(dev);
+for (int i = 0; i < _countof(obj); i++)
+{
+	obj[i].vertices[0].pos = { -0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
+	obj[i].vertices[1].pos = { -0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
+	obj[i].vertices[2].pos = { +0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
+	obj[i].vertices[3].pos = { +0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
+
+	obj[i].DrawingMyInit(dev);
+}
+
 
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
@@ -1184,26 +1191,26 @@ obj2.DrawingMyInit(dev);
 #pragma region アフィン変換
 
 		//原点は最後に変換する(元座標が変わってしまうため)
-		obj1.vertices[1].pos = Afin(obj1.vertices[1].pos, obj1.vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		obj1.vertices[2].pos = Afin(obj1.vertices[2].pos, obj1.vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		obj1.vertices[3].pos = Afin(obj1.vertices[3].pos, obj1.vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		obj1.vertices[0].pos = Afin(obj1.vertices[0].pos, obj1.vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		obj[0].vertices[1].pos = Afin(obj[0].vertices[1].pos, obj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		obj[0].vertices[2].pos = Afin(obj[0].vertices[2].pos, obj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		obj[0].vertices[3].pos = Afin(obj[0].vertices[3].pos, obj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		obj[0].vertices[0].pos = Afin(obj[0].vertices[0].pos, obj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
 
 #pragma endregion
 
 #pragma region アフィン変換後の頂点データをシェーダに転送
 
-		//obj1.vertBuff->Map(0, nullptr, (void**)&obj1.vertMap);
+		//obj.vertBuff->Map(0, nullptr, (void**)&obj.vertMap);
 		////全頂点に対して
-		//for (int i = 0; i < _countof(obj1.vertices); i++)
+		//for (int i = 0; i < _countof(obj.vertices); i++)
 		//{
-		//	obj1.vertMap[i] = obj1.vertices[i];//座標をコピー
+		//	obj.vertMap[i] = obj.vertices[i];//座標をコピー
 		//}
 
 		////つながりを解除
-		//obj1.vertBuff->Unmap(0, nullptr);
+		//obj.vertBuff->Unmap(0, nullptr);
 
-		obj1.vertexMap();
+		obj[0].vertexMap();
 
 #pragma endregion
 
@@ -1290,86 +1297,51 @@ obj2.DrawingMyInit(dev);
 		
 		D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
-		if (PipeLineRuleFlag)
+		for (int i = 0; i < _countof(obj); i++)
 		{
-			cmdList->SetPipelineState(obj1.pipelinestate);
+			if (PipeLineRuleFlag)
+			{
+				cmdList->SetPipelineState(obj[i].pipelinestate);
+			}
+			else
+			{
+				cmdList->SetPipelineState(obj[i].pipelinestate2);
+			}
+
+			cmdList->SetGraphicsRootSignature(obj[i].rootsignature);
+
+			//頂点バッファビューの設定
+			cmdList->IASetVertexBuffers(0, 1, &obj[i].vbView);
+
+
+
+			//定数バッファビュー(CBV)の設定コマンド
+			cmdList->SetGraphicsRootConstantBufferView(0, obj[i].constBuffMaterial->GetGPUVirtualAddress());
+			cmdList->SetGraphicsRootConstantBufferView(1, obj[i].constBuffMaterial2->GetGPUVirtualAddress());
+
+			//SRVヒープの設定コマンド
+			cmdList->SetDescriptorHeaps(1, &obj[i].srvHeap);
+			//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
+			srvGpuHandle = obj[0].srvHeap->GetGPUDescriptorHandleForHeapStart();
+			//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
+			cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+
+			cmdList->IASetIndexBuffer(&obj[i].ibView);
+
+			//描画コマンド
+			if (ChangeSquareFlag)
+			{
+				//四角形に描画
+				cmdList->DrawIndexedInstanced(_countof(obj[i].indices), 1, 0, 0, 0);
+			}
+			else
+			{
+				cmdList->DrawInstanced(3, 1, 0, 0);
+			}
+
 		}
-		else
-		{
-			cmdList->SetPipelineState(obj1.pipelinestate2);
-		}
-
-		cmdList->SetGraphicsRootSignature(obj1.rootsignature);
-
-		//頂点バッファビューの設定
-		cmdList->IASetVertexBuffers(0, 1, &obj1.vbView);
-
 
 		
-		//定数バッファビュー(CBV)の設定コマンド
-		cmdList->SetGraphicsRootConstantBufferView(0, obj1.constBuffMaterial->GetGPUVirtualAddress());
-		cmdList->SetGraphicsRootConstantBufferView(1, obj1.constBuffMaterial2->GetGPUVirtualAddress());
-
-		//SRVヒープの設定コマンド
-		cmdList->SetDescriptorHeaps(1, &obj1.srvHeap);
-		//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
-		srvGpuHandle = obj1.srvHeap->GetGPUDescriptorHandleForHeapStart();
-		//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
-		cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
-
-		cmdList->IASetIndexBuffer(&obj1.ibView);
-
-		//描画コマンド
-		if (ChangeSquareFlag)
-		{
-			//四角形に描画
-			cmdList->DrawIndexedInstanced(_countof(obj1.indices), 1, 0, 0, 0);
-		}
-		else
-		{
-			cmdList->DrawInstanced(3, 1, 0, 0);
-		}
-
-
-		if (PipeLineRuleFlag)
-		{
-			cmdList->SetPipelineState(obj2.pipelinestate);
-		}
-		else
-		{
-			cmdList->SetPipelineState(obj2.pipelinestate2);
-		}
-
-		cmdList->SetGraphicsRootSignature(obj2.rootsignature);
-
-		//頂点バッファビューの設定
-		cmdList->IASetVertexBuffers(0, 1, &obj2.vbView);
-
-
-
-		//定数バッファビュー(CBV)の設定コマンド
-		cmdList->SetGraphicsRootConstantBufferView(0, obj2.constBuffMaterial->GetGPUVirtualAddress());
-		cmdList->SetGraphicsRootConstantBufferView(1, obj2.constBuffMaterial2->GetGPUVirtualAddress());
-
-		//SRVヒープの設定コマンド
-		cmdList->SetDescriptorHeaps(1, &obj2.srvHeap);
-		//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
-		srvGpuHandle = obj2.srvHeap->GetGPUDescriptorHandleForHeapStart();
-		//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
-		cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
-
-		cmdList->IASetIndexBuffer(&obj2.ibView);
-
-		//描画コマンド
-		if (ChangeSquareFlag)
-		{
-			//四角形に描画
-			cmdList->DrawIndexedInstanced(_countof(obj2.indices), 1, 0, 0, 0);
-		}
-		else
-		{
-			cmdList->DrawInstanced(3, 1, 0, 0);
-		}
 		//一個前のビューポートに描画したらビューポートを変更(分割回数分繰り返し)
 		//cmdList->RSSetViewports(1, &viewport[1]);
 		//
@@ -1516,8 +1488,8 @@ obj2.DrawingMyInit(dev);
 
 #pragma region 描画処理
 
-		obj1.constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
-		obj2.constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
+		//obj[0].constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
+		
 		//constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 0.0f);
 
 #pragma endregion

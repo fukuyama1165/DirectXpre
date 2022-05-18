@@ -564,7 +564,7 @@ void DrawingInit::constantBuffGeneration(ID3D12Device* dev)
 
 
 
-	//constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);
+	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	
 	result = constBuffMaterial2->Map(0, nullptr, (void**)&constMapMaterial2);//マッピング
