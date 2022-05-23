@@ -55,13 +55,45 @@ DrawingObj::~DrawingObj()
 {
 }
 
-void DrawingObj::Init(ID3D12Device* dev)
+void DrawingObj::basicInit(ID3D12Device* dev)
 {
 	vertexBuffGeneration(dev);
 
 	vertexShaderGeneration();
 
 	pixelShaderGeneration();
+
+	vertexLayout();
+
+	graphicPipelineGeneration();
+
+	descriptorRangeGeneration();
+
+	rootParamGeneration();
+
+	textureSamplerGeneration();
+
+	rootsignatureGeneration(dev);
+
+	constantBuffGeneration(dev);
+
+	indicesBuffGeneration(dev);
+
+	imageDataGeneration();
+
+	textureBuffGeneraion(dev);
+
+	SRVGeneraion(dev);
+
+}
+
+void DrawingObj::colorChangeInit(ID3D12Device* dev)
+{
+	vertexBuffGeneration(dev);
+
+	vertexShaderGeneration();
+
+	pixelShaderGeneration2();
 
 	vertexLayout();
 
@@ -201,6 +233,46 @@ void DrawingObj::pixelShaderGeneration()
 	//ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"BasicPS.hlsl",//シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
+		"main",//エントリーポイント名
+		"ps_5_0",//シェーダモデル指定
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバック用設定
+		0,
+		&psBlob,
+		&errorBlob
+	);
+
+#pragma endregion
+
+#pragma region ピクセルシェーダの読み込み時のエラーを表示する場所
+
+	//ピクセルシェーダの読み込み時のエラーを表示する場所
+	if (FAILED(result))
+	{
+		//errorBlobからエラー内容をstring型にコピー
+		std::string errstr;
+		errstr.resize(errorBlob->GetBufferSize());
+
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
+			errorBlob->GetBufferSize(),
+			errstr.begin());
+		errstr += "\n";
+		//エラー内容をウィンドウに表示
+		OutputDebugStringA(errstr.c_str());
+		exit(1);
+	}
+
+#pragma endregion
+}
+
+void DrawingObj::pixelShaderGeneration2()
+{
+#pragma region ピクセルシェーダの読み込みとコンパイル
+
+	//ピクセルシェーダの読み込みとコンパイル
+	result = D3DCompileFromFile(
+		L"colorChangePS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名

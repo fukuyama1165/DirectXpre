@@ -39,7 +39,9 @@ public:
 
 	~DrawingObj();
 
-	void Init(ID3D12Device* dev);
+	//描画初期化処理関数
+	void basicInit(ID3D12Device* dev);//basicPS読み込み
+	void colorChangeInit(ID3D12Device* dev);//colorChangePS読み込み
 
 	//頂点データ構造体
 	struct Vertex
@@ -69,7 +71,9 @@ public:
 	//頂点シェーダの読み込みとコンパイル
 	void vertexShaderGeneration();
 	//ピクセルシェーダの読み込みとコンパイル
-	void pixelShaderGeneration();
+	void pixelShaderGeneration();//basicPS読み込み
+	void pixelShaderGeneration2();//colorChangePS読み込み
+
 	ID3DBlob* vsBlob = nullptr;//頂点シェーダオブジェクト
 	ID3DBlob* psBlob = nullptr;//ピクセルシェーダオブジェクト
 	ID3DBlob* errorBlob = nullptr;//エラーオブジェクト
@@ -155,6 +159,7 @@ public:
 	//シェーダリソースビュー
 	void SRVGeneraion(ID3D12Device* dev);
 
+	//GPUに頂点データを転送する関数
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 
 	void vertexMap();
