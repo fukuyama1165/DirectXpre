@@ -28,18 +28,18 @@ using namespace DirectX;
 
 #include <DirectXTex.h>
 
-class DrawingInit
+class DrawingObj
 {
 public:
 	//初期化をここで適当にエラーをはかないと思う値を入れている基本的に書き換えても問題ないはず(設定が破綻してなければ)
-	DrawingInit();
+	DrawingObj();
 
 	//座標を指定できるが引数大杉
-	DrawingInit(XMFLOAT3 vertexPos1, XMFLOAT2 vertexUv1, XMFLOAT3 vertexPos2, XMFLOAT2 vertexUv2, XMFLOAT3 vertexPos3, XMFLOAT2 vertexUv3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv4 );
+	DrawingObj(XMFLOAT3 vertexPos1, XMFLOAT2 vertexUv1, XMFLOAT3 vertexPos2, XMFLOAT2 vertexUv2, XMFLOAT3 vertexPos3, XMFLOAT2 vertexUv3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv4 );
 
-	~DrawingInit();
+	~DrawingObj();
 
-	void DrawingMyInit(ID3D12Device* dev);
+	void Init(ID3D12Device* dev);
 
 	//頂点データ構造体
 	struct Vertex

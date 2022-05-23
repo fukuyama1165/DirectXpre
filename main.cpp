@@ -1115,7 +1115,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 //
 #pragma endregion クラス化したのでコメントアウト中
 
-DrawingInit obj[10];
+DrawingObj obj[10];
 
 for (int i = 0; i < _countof(obj); i++)
 {
@@ -1124,7 +1124,7 @@ for (int i = 0; i < _countof(obj); i++)
 	obj[i].vertices[2].pos = { +0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
 	obj[i].vertices[3].pos = { +0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
 
-	obj[i].DrawingMyInit(dev);
+	obj[i].Init(dev);
 }
 
 

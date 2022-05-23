@@ -1,6 +1,6 @@
 #include "DrawingInitialization.h"
 
-DrawingInit::DrawingInit()
+DrawingObj::DrawingObj()
 {
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
@@ -25,7 +25,7 @@ DrawingInit::DrawingInit()
 	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 }
 
-DrawingInit::DrawingInit(XMFLOAT3 vertexPos1, XMFLOAT2 vertexUv1, XMFLOAT3 vertexPos2, XMFLOAT2 vertexUv2, XMFLOAT3 vertexPos3, XMFLOAT2 vertexUv3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv4)
+DrawingObj::DrawingObj(XMFLOAT3 vertexPos1, XMFLOAT2 vertexUv1, XMFLOAT3 vertexPos2, XMFLOAT2 vertexUv2, XMFLOAT3 vertexPos3, XMFLOAT2 vertexUv3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv4)
 {
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
@@ -51,11 +51,11 @@ DrawingInit::DrawingInit(XMFLOAT3 vertexPos1, XMFLOAT2 vertexUv1, XMFLOAT3 verte
 }
 
 
-DrawingInit::~DrawingInit()
+DrawingObj::~DrawingObj()
 {
 }
 
-void DrawingInit::DrawingMyInit(ID3D12Device* dev)
+void DrawingObj::Init(ID3D12Device* dev)
 {
 	vertexBuffGeneration(dev);
 
@@ -87,7 +87,7 @@ void DrawingInit::DrawingMyInit(ID3D12Device* dev)
 
 }
 
-void DrawingInit::vertexBuffGeneration(ID3D12Device* dev)
+void DrawingObj::vertexBuffGeneration(ID3D12Device* dev)
 {
 #pragma region 頂点バッファの確保
 
@@ -153,7 +153,7 @@ void DrawingInit::vertexBuffGeneration(ID3D12Device* dev)
 
 }
 
-void DrawingInit::vertexShaderGeneration()
+void DrawingObj::vertexShaderGeneration()
 {
 #pragma region 頂点シェーダファイルの読み込みとコンパイル
 
@@ -194,7 +194,7 @@ void DrawingInit::vertexShaderGeneration()
 #pragma endregion
 }
 
-void DrawingInit::pixelShaderGeneration()
+void DrawingObj::pixelShaderGeneration()
 {
 #pragma region ピクセルシェーダの読み込みとコンパイル
 
@@ -234,7 +234,7 @@ void DrawingInit::pixelShaderGeneration()
 #pragma endregion
 }
 
-void DrawingInit::vertexLayout()
+void DrawingObj::vertexLayout()
 {
 #pragma region 頂点レイアウトの設定
 
@@ -266,7 +266,7 @@ void DrawingInit::vertexLayout()
 #pragma endregion
 }
 
-void DrawingInit::graphicPipelineGeneration()
+void DrawingObj::graphicPipelineGeneration()
 {
 #pragma region グラフィックスパイプライン設定
 
@@ -402,7 +402,7 @@ void DrawingInit::graphicPipelineGeneration()
 
 }
 
-void DrawingInit::descriptorRangeGeneration()
+void DrawingObj::descriptorRangeGeneration()
 {
 #pragma region デスクリプタレンジの設定
 	descriptorRange.NumDescriptors = 1;//一度の描画に使うテクスチャが１枚なので1
@@ -413,7 +413,7 @@ void DrawingInit::descriptorRangeGeneration()
 #pragma endregion
 }
 
-void DrawingInit::rootParamGeneration()
+void DrawingObj::rootParamGeneration()
 {
 #pragma region ルートパラメータ
 
@@ -437,7 +437,7 @@ void DrawingInit::rootParamGeneration()
 #pragma endregion 定数バッファを増やしたら増やすところがある
 }
 
-void DrawingInit::textureSamplerGeneration()
+void DrawingObj::textureSamplerGeneration()
 {
 #pragma region テクスチャサンプラーの設定
 
@@ -455,7 +455,7 @@ void DrawingInit::textureSamplerGeneration()
 #pragma endregion
 }
 
-void DrawingInit::rootsignatureGeneration(ID3D12Device* dev)
+void DrawingObj::rootsignatureGeneration(ID3D12Device* dev)
 {
 #pragma region ルートシグネチャ設定
 
@@ -497,7 +497,7 @@ void DrawingInit::rootsignatureGeneration(ID3D12Device* dev)
 
 }
 
-void DrawingInit::constantBuffGeneration(ID3D12Device* dev)
+void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 {
 #pragma region 定数バッファ
 
@@ -575,7 +575,7 @@ void DrawingInit::constantBuffGeneration(ID3D12Device* dev)
 #pragma endregion
 }
 
-void DrawingInit::indicesBuffGeneration(ID3D12Device* dev)
+void DrawingObj::indicesBuffGeneration(ID3D12Device* dev)
 {
 #pragma region インデックスバッファ
 
@@ -625,7 +625,7 @@ void DrawingInit::indicesBuffGeneration(ID3D12Device* dev)
 
 }
 
-void DrawingInit::imageDataGeneration()
+void DrawingObj::imageDataGeneration()
 {
 #pragma region 画像イメージデータの作成
 
@@ -682,7 +682,7 @@ void DrawingInit::imageDataGeneration()
 #pragma endregion
 }
 
-void DrawingInit::textureBuffGeneraion(ID3D12Device* dev)
+void DrawingObj::textureBuffGeneraion(ID3D12Device* dev)
 {
 #pragma region テクスチャバッファ設定
 
@@ -747,7 +747,7 @@ void DrawingInit::textureBuffGeneraion(ID3D12Device* dev)
 #pragma endregion ここで画像イメージデータをdeleteしている(コメントアウト中)
 }
 
-void DrawingInit::SRVGeneraion(ID3D12Device* dev)
+void DrawingObj::SRVGeneraion(ID3D12Device* dev)
 {
 #pragma region シェーダーリソースビューの為のデスクリプタヒープ生成
 
@@ -786,7 +786,7 @@ void DrawingInit::SRVGeneraion(ID3D12Device* dev)
 #pragma endregion
 }
 
-void DrawingInit::vertexMap()
+void DrawingObj::vertexMap()
 {
 
 	vertBuff->Map(0, nullptr, (void**)&vertMap);
