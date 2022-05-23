@@ -30,7 +30,7 @@ const float PI = 3.141592653589;
 
 #include <DirectXTex.h>
 
-#include "DrawingInitialization.h"
+#include "DrawingObj.h"
 
 
 #pragma region ウィンドウプロシージャ
