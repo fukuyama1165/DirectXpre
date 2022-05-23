@@ -1,4 +1,4 @@
-#include "DrawingInitialization.h"
+#include "DrawingObj.h"
 
 DrawingObj::DrawingObj()
 {

@@ -18,7 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="DrawingInitialization.cpp">
+    <ClCompile Include="DrawingObj.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -30,7 +30,7 @@
     <None Include="Basic.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawingInitialization.h">
+    <ClInclude Include="DrawingObj.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
