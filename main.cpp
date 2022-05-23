@@ -1115,16 +1115,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 //
 #pragma endregion クラス化したのでコメントアウト中
 
-DrawingObj obj[10];
+DrawingObj charactorObj[10];
 
-for (int i = 0; i < _countof(obj); i++)
+for (int i = 0; i < _countof(charactorObj); i++)
 {
-	obj[i].vertices[0].pos = { -0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
-	obj[i].vertices[1].pos = { -0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
-	obj[i].vertices[2].pos = { +0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
-	obj[i].vertices[3].pos = { +0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
+	charactorObj[i].vertices[0].pos = { -0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
+	charactorObj[i].vertices[1].pos = { -0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
+	charactorObj[i].vertices[2].pos = { +0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
+	charactorObj[i].vertices[3].pos = { +0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
 
-	obj[i].Init(dev);
+	charactorObj[i].Init(dev);
 }
 
 
@@ -1191,26 +1191,26 @@ for (int i = 0; i < _countof(obj); i++)
 #pragma region アフィン変換
 
 		//原点は最後に変換する(元座標が変わってしまうため)
-		obj[0].vertices[1].pos = Afin(obj[0].vertices[1].pos, obj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		obj[0].vertices[2].pos = Afin(obj[0].vertices[2].pos, obj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		obj[0].vertices[3].pos = Afin(obj[0].vertices[3].pos, obj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		obj[0].vertices[0].pos = Afin(obj[0].vertices[0].pos, obj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		charactorObj[0].vertices[1].pos = Afin(charactorObj[0].vertices[1].pos, charactorObj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		charactorObj[0].vertices[2].pos = Afin(charactorObj[0].vertices[2].pos, charactorObj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		charactorObj[0].vertices[3].pos = Afin(charactorObj[0].vertices[3].pos, charactorObj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
+		charactorObj[0].vertices[0].pos = Afin(charactorObj[0].vertices[0].pos, charactorObj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
 
 #pragma endregion
 
 #pragma region アフィン変換後の頂点データをシェーダに転送
 
-		//obj.vertBuff->Map(0, nullptr, (void**)&obj.vertMap);
+		//charactorObj.vertBuff->Map(0, nullptr, (void**)&charactorObj.vertMap);
 		////全頂点に対して
-		//for (int i = 0; i < _countof(obj.vertices); i++)
+		//for (int i = 0; i < _countof(charactorObj.vertices); i++)
 		//{
-		//	obj.vertMap[i] = obj.vertices[i];//座標をコピー
+		//	charactorObj.vertMap[i] = charactorObj.vertices[i];//座標をコピー
 		//}
 
 		////つながりを解除
-		//obj.vertBuff->Unmap(0, nullptr);
+		//charactorObj.vertBuff->Unmap(0, nullptr);
 
-		obj[0].vertexMap();
+		charactorObj[0].vertexMap();
 
 #pragma endregion
 
@@ -1297,42 +1297,42 @@ for (int i = 0; i < _countof(obj); i++)
 		
 		D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
-		for (int i = 0; i < _countof(obj); i++)
+		for (int i = 0; i < _countof(charactorObj); i++)
 		{
 			if (PipeLineRuleFlag)
 			{
-				cmdList->SetPipelineState(obj[i].pipelinestate);
+				cmdList->SetPipelineState(charactorObj[i].pipelinestate);
 			}
 			else
 			{
-				cmdList->SetPipelineState(obj[i].pipelinestate2);
+				cmdList->SetPipelineState(charactorObj[i].pipelinestate2);
 			}
 
-			cmdList->SetGraphicsRootSignature(obj[i].rootsignature);
+			cmdList->SetGraphicsRootSignature(charactorObj[i].rootsignature);
 
 			//頂点バッファビューの設定
-			cmdList->IASetVertexBuffers(0, 1, &obj[i].vbView);
+			cmdList->IASetVertexBuffers(0, 1, &charactorObj[i].vbView);
 
 
 
 			//定数バッファビュー(CBV)の設定コマンド
-			cmdList->SetGraphicsRootConstantBufferView(0, obj[i].constBuffMaterial->GetGPUVirtualAddress());
-			cmdList->SetGraphicsRootConstantBufferView(1, obj[i].constBuffMaterial2->GetGPUVirtualAddress());
+			cmdList->SetGraphicsRootConstantBufferView(0, charactorObj[i].constBuffMaterial->GetGPUVirtualAddress());
+			cmdList->SetGraphicsRootConstantBufferView(1, charactorObj[i].constBuffMaterial2->GetGPUVirtualAddress());
 
 			//SRVヒープの設定コマンド
-			cmdList->SetDescriptorHeaps(1, &obj[i].srvHeap);
+			cmdList->SetDescriptorHeaps(1, &charactorObj[i].srvHeap);
 			//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
-			srvGpuHandle = obj[0].srvHeap->GetGPUDescriptorHandleForHeapStart();
+			srvGpuHandle = charactorObj[0].srvHeap->GetGPUDescriptorHandleForHeapStart();
 			//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
 			cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
-			cmdList->IASetIndexBuffer(&obj[i].ibView);
+			cmdList->IASetIndexBuffer(&charactorObj[i].ibView);
 
 			//描画コマンド
 			if (ChangeSquareFlag)
 			{
 				//四角形に描画
-				cmdList->DrawIndexedInstanced(_countof(obj[i].indices), 1, 0, 0, 0);
+				cmdList->DrawIndexedInstanced(_countof(charactorObj[i].indices), 1, 0, 0, 0);
 			}
 			else
 			{
@@ -1488,7 +1488,7 @@ for (int i = 0; i < _countof(obj); i++)
 
 #pragma region 描画処理
 
-		//obj[0].constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
+		//charactorObj[0].constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
 		
 		//constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 0.0f);
 
