@@ -394,7 +394,14 @@ for (int i = 0; i < _countof(charactorObj); i++)
 	charactorObj[i].vertices[2].pos = { +0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
 	charactorObj[i].vertices[3].pos = { +0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
 
-	charactorObj[i].Init(dev);
+	if (i % 2 == 0)
+	{
+		charactorObj[i].colorChangeInit(dev);
+	}
+	else
+	{
+		charactorObj[i].basicInit(dev);
+	}
 }
 
 

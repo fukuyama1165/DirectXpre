@@ -25,6 +25,7 @@
   <ItemGroup>
     <FxCompile Include="BasicVS.hlsl" />
     <FxCompile Include="BasicPS.hlsl" />
+    <FxCompile Include="colorChangePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.hlsli" />
