@@ -32,10 +32,10 @@ class DrawingObj
 {
 public:
 	//初期化をここで適当にエラーをはかないと思う値を入れている基本的に書き換えても問題ないはず(設定が破綻してなければ)
-	DrawingObj();
+	DrawingObj(const int windowWidth, const int windowHeight);
 
 	//座標を指定できるが引数大杉
-	DrawingObj(XMFLOAT3 vertexPos1, XMFLOAT2 vertexUv1, XMFLOAT3 vertexPos2, XMFLOAT2 vertexUv2, XMFLOAT3 vertexPos3, XMFLOAT2 vertexUv3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv4 );
+	DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1 = { 0.0f,1.0f }, XMFLOAT2 vertexUv2 = { 0.0f,0.0f }, XMFLOAT2 vertexUv3 = { 1.0f,1.0f }, XMFLOAT2 vertexUv4 = { 1.0f,0.0f });
 
 	~DrawingObj();
 
@@ -50,6 +50,78 @@ public:
 		XMFLOAT2 uv;//uv座標
 	};
 
+	//頂点バッファ生成
+	void vertexBuffGeneration(ID3D12Device* dev);
+
+	//頂点シェーダの読み込みとコンパイル
+	void vertexShaderGeneration();//basicVS読み込み
+	void vertexShaderGeneration2();//vertexMoveVS読み込み
+
+	//ピクセルシェーダの読み込みとコンパイル
+	void pixelShaderGeneration();//basicPS読み込み
+	void pixelShaderGeneration2();//colorChangePS読み込み
+
+	//頂点レイアウトの設定
+	void vertexLayout();
+
+	//グラフィックスパイプラインの設定
+	void graphicPipelineGeneration();
+
+	//デスクリプタレンジの設定
+	void descriptorRangeGeneration();
+
+	//ルートパラメータの設定(定数バッファとシェーダについて)
+	void rootParamGeneration();
+	
+	//テクスチャサンプラーの設定
+	void textureSamplerGeneration();
+
+	//ルートシグネチャ
+	void rootsignatureGeneration(ID3D12Device* dev);
+
+	//定数バッファ
+	void constantBuffGeneration(ID3D12Device* dev);
+
+	//インデックスデータ関連(インデックスビューもここ)
+	void indicesBuffGeneration(ID3D12Device* devconst);
+
+	//画像イメージデータ
+	void imageDataGeneration();
+
+	//テクスチャバッファ
+	void textureBuffGeneraion(ID3D12Device* dev);
+
+	//シェーダリソースビュー
+	void SRVGeneraion(ID3D12Device* dev);
+
+	//GPUに頂点データを転送する関数
+	void vertexMap();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="cmdList">コマンドリスト</param>
+	/// <param name="PipeLineRuleFlag">描画方法を変更するかどうか(現在はワイヤーフレームか塗りつぶし)trueは塗りつぶし</param>
+	/// <param name="ChangeSquareFlag">三角形で描画するか四角形に描画する(trueは四角形)</param>
+	void Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bool ChangeSquareFlag);
+
+
+	//アフィン変換そのものの関数(2D)
+	XMFLOAT3 Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY);
+
+	//Objに対してアフィン変換をかける関数
+	void ObjAfin(float moveX, float moveY, float rotate, float scaleX, float scaleY);
+
+	//定数バッファを変更する関数
+	void constBuffColorUpdata(float Red,float Green,float Blue);
+	void constBuffPosMUpdata(float X,float Y,float Z);
+
+private:
+
+	//画面サイズ
+	int Win_width;
+	int Win_height;
+
 	//頂点データ(増やしたいならここも増やしておく)
 	Vertex vertices[4];
 
@@ -58,8 +130,6 @@ public:
 
 	HRESULT result;
 
-	//頂点バッファ生成
-	void vertexBuffGeneration(ID3D12Device* dev);
 	//頂点バッファ用変数
 	D3D12_HEAP_PROPERTIES heapprop{};//ヒープ設定
 	D3D12_RESOURCE_DESC resDesc{};//リソース設定
@@ -68,43 +138,30 @@ public:
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 
-	//頂点シェーダの読み込みとコンパイル
-	void vertexShaderGeneration();
-	//ピクセルシェーダの読み込みとコンパイル
-	void pixelShaderGeneration();//basicPS読み込み
-	void pixelShaderGeneration2();//colorChangePS読み込み
+	//頂点シェーダオブジェクト
+	ID3DBlob* vsBlob = nullptr;
 
-	ID3DBlob* vsBlob = nullptr;//頂点シェーダオブジェクト
-	ID3DBlob* psBlob = nullptr;//ピクセルシェーダオブジェクト
-	ID3DBlob* errorBlob = nullptr;//エラーオブジェクト
+	//ピクセルシェーダオブジェクト
+	ID3DBlob* psBlob = nullptr;
 
-	//頂点レイアウトの設定
-	void vertexLayout();
+	//エラーオブジェクト
+	ID3DBlob* errorBlob = nullptr;
+
 	//頂点レイアウト(要素を増やすなら配列数を増やす)
 	D3D12_INPUT_ELEMENT_DESC inputLayout[2];
 
-	//グラフィックスパイプラインの設定
-	void graphicPipelineGeneration();
 	//グラフィックスパイプラインの各ステージの設定をする構造体を用意
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline2{};
 
-	//デスクリプタレンジの設定
-	void descriptorRangeGeneration();
 	//デスクリプタレンジ
 	D3D12_DESCRIPTOR_RANGE descriptorRange{};
 
-	//ルートパラメータの設定(定数バッファとシェーダについて)
-	void rootParamGeneration();
 	//ルートパラメータ(定数バッファの数が増えたら配列の要素数を増やして設定をしている関数の中身にも追加すること)
-	D3D12_ROOT_PARAMETER rootParam[3] = {};
-	
-	//テクスチャサンプラーの設定
-	void textureSamplerGeneration();
-	D3D12_STATIC_SAMPLER_DESC sampleDesc{};
+	D3D12_ROOT_PARAMETER rootParam[4] = {};
 
-	//ルートシグネチャ
-	void rootsignatureGeneration(ID3D12Device* dev);
+	//テクスチャサンプラー
+	D3D12_STATIC_SAMPLER_DESC sampleDesc{};
 
 	//ルートシグネチャ
 	ID3D12RootSignature* rootsignature;
@@ -113,8 +170,8 @@ public:
 	ID3D12PipelineState* pipelinestate = nullptr;
 	ID3D12PipelineState* pipelinestate2 = nullptr;
 
-	//定数バッファ
-	void constantBuffGeneration(ID3D12Device* dev);
+	//定数バッファ用のリソース設定関数
+	D3D12_RESOURCE_DESC constBuffResourceGeneration(int size);
 
 	//定数バッファ用データ構造体(マテリアル)
 	struct ConstBufferDataMaterial
@@ -127,16 +184,22 @@ public:
 		XMFLOAT4 posM;//位置移動に使う(XYZ);
 	};
 
+	//定数バッファ用データ構造体(3D変換行列)
+	struct ConstBufferDataTransform
+	{
+		XMMATRIX mat;//3D変換行列
+	};
+
 	//定数バッファそのもの
 	ID3D12Resource* constBuffMaterial = nullptr;
 	ID3D12Resource* constBuffMaterial2 = nullptr;
+	ID3D12Resource* constBuffTransform = nullptr;
 
 	//マッピングするときのポインタ
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	ConstBufferDataMaterial2* constMapMaterial2 = nullptr;
+	ConstBufferDataTransform* constMapTransform = nullptr;
 
-	//インデックスデータ関連(インデックスビューもここ)
-	void indicesBuffGeneration(ID3D12Device* dev);
 	//インデックスデータ
 	unsigned short indices[6];
 	//インデックスデータ全体のサイズ
@@ -144,27 +207,12 @@ public:
 	//インデックスビュー
 	D3D12_INDEX_BUFFER_VIEW ibView{};
 
-	//画像イメージデータ
-	void imageDataGeneration();
-	
 	//画像データ等
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
-	//テクスチャバッファ
-	void textureBuffGeneraion(ID3D12Device* dev);
-
 	ID3D12Resource* texBuff = nullptr;
 
-	//シェーダリソースビュー
-	void SRVGeneraion(ID3D12Device* dev);
-
-	//GPUに頂点データを転送する関数
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 
-	void vertexMap();
-
-private:
-
 };
-
