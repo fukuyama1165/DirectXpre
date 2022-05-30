@@ -385,24 +385,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 
 
-DrawingObj charactorObj[10];
+	DrawingObj charactorObj(window_width, window_height, { 0.0f,100.0f,0.0f }, { 0.0f,0.0f,0.0f }, { 100.0f,100.0f,0.0f }, { 100.0f,0.0f,0.0f });
 
-for (int i = 0; i < _countof(charactorObj); i++)
-{
-	charactorObj[i].vertices[0].pos = { -0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
-	charactorObj[i].vertices[1].pos = { -0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
-	charactorObj[i].vertices[2].pos = { +0.4f+0.1f*i,-0.7f + 0.1f * i,0.0f };
-	charactorObj[i].vertices[3].pos = { +0.4f+0.1f*i,+0.7f + 0.1f * i,0.0f };
 
-	if (i % 2 == 0)
-	{
-		charactorObj[i].colorChangeInit(dev);
-	}
-	else
-	{
-		charactorObj[i].basicInit(dev);
-	}
-}
+	charactorObj.basicInit(dev);
+
 
 
 	//パイプラインステート切り替え用フラグ
@@ -421,7 +408,9 @@ for (int i = 0; i < _countof(charactorObj); i++)
 	float Blue = 1.0f;
 
 	float X1 = 0.0f;
+	float X2 = 0.0f;
 	float Y1 = 0.0f;
+	float Y2 = 0.0f;
 	float rotate = 0;
 	float scaleX = 1;
 	float scaleY = 1;
@@ -465,32 +454,6 @@ for (int i = 0; i < _countof(charactorObj); i++)
 
 #pragma endregion
 
-#pragma region アフィン変換
-
-		//原点は最後に変換する(元座標が変わってしまうため)
-		charactorObj[0].vertices[1].pos = Afin(charactorObj[0].vertices[1].pos, charactorObj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		charactorObj[0].vertices[2].pos = Afin(charactorObj[0].vertices[2].pos, charactorObj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		charactorObj[0].vertices[3].pos = Afin(charactorObj[0].vertices[3].pos, charactorObj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-		charactorObj[0].vertices[0].pos = Afin(charactorObj[0].vertices[0].pos, charactorObj[0].vertices[0].pos, X1, Y1, rotate, scaleX, scaleY);
-
-#pragma endregion
-
-#pragma region アフィン変換後の頂点データをシェーダに転送
-
-		//charactorObj.vertBuff->Map(0, nullptr, (void**)&charactorObj.vertMap);
-		////全頂点に対して
-		//for (int i = 0; i < _countof(charactorObj.vertices); i++)
-		//{
-		//	charactorObj.vertMap[i] = charactorObj.vertices[i];//座標をコピー
-		//}
-
-		////つながりを解除
-		//charactorObj.vertBuff->Unmap(0, nullptr);
-
-		charactorObj[0].vertexMap();
-
-#pragma endregion
-
 		
 
 		//リソースバリア辺
@@ -530,27 +493,6 @@ for (int i = 0; i < _countof(charactorObj); i++)
 		viewport.MinDepth = 0.1f;//最少深度(0でよい)
 		viewport.MaxDepth = 1.0f;//最大深度(１でよい)
 
-		//viewport[1].Width = window_width / 2;//横幅
-		//viewport[1].Height = window_height/2;//縦幅
-		//viewport[1].TopLeftX = window_width / 2;//左上X
-		//viewport[1].TopLeftY = 0;//左上Y
-		//viewport[1].MinDepth = 0.1f;//最少深度(0でよい)
-		//viewport[1].MaxDepth = 1.0f;//最大深度(１でよい)
-
-		//viewport[2].Width = window_width / 3*2;//横幅
-		//viewport[2].Height = window_height / 2;//縦幅
-		//viewport[2].TopLeftX = 0;//左上X
-		//viewport[2].TopLeftY = window_height / 2;//左上Y
-		//viewport[2].MinDepth = 0.1f;//最少深度(0でよい)
-		//viewport[2].MaxDepth = 1.0f;//最大深度(１でよい)
-
-		//viewport[3].Width = window_width / 5;//横幅
-		//viewport[3].Height = window_height / 2;//縦幅
-		//viewport[3].TopLeftX = window_width / 3*2;//左上X
-		//viewport[3].TopLeftY = window_height / 2;//左上Y
-		//viewport[3].MinDepth = 0.1f;//最少深度(0でよい)
-		//viewport[3].MaxDepth = 1.0f;//最大深度(１でよい)
-
 		//コマンドリストに追加
 		cmdList->RSSetViewports(1, &viewport);
 		
@@ -567,96 +509,9 @@ for (int i = 0; i < _countof(charactorObj); i++)
 
 		//プリミティブ形状(三角形リスト)
 		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		//パイプラインステートとルートシグネチャの設定
-		//作ったパイプラインステートとルートシグネチャをセットする
-		//決めたルールで描画をお願いするところ
 		
-		D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
-
-		for (int i = 0; i < _countof(charactorObj); i++)
-		{
-			if (PipeLineRuleFlag)
-			{
-				cmdList->SetPipelineState(charactorObj[i].pipelinestate);
-			}
-			else
-			{
-				cmdList->SetPipelineState(charactorObj[i].pipelinestate2);
-			}
-
-			cmdList->SetGraphicsRootSignature(charactorObj[i].rootsignature);
-
-			//頂点バッファビューの設定
-			cmdList->IASetVertexBuffers(0, 1, &charactorObj[i].vbView);
-
-
-
-			//定数バッファビュー(CBV)の設定コマンド
-			cmdList->SetGraphicsRootConstantBufferView(0, charactorObj[i].constBuffMaterial->GetGPUVirtualAddress());
-			cmdList->SetGraphicsRootConstantBufferView(1, charactorObj[i].constBuffMaterial2->GetGPUVirtualAddress());
-
-			//SRVヒープの設定コマンド
-			cmdList->SetDescriptorHeaps(1, &charactorObj[i].srvHeap);
-			//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
-			srvGpuHandle = charactorObj[0].srvHeap->GetGPUDescriptorHandleForHeapStart();
-			//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
-			cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
-
-			cmdList->IASetIndexBuffer(&charactorObj[i].ibView);
-
-			//描画コマンド
-			if (ChangeSquareFlag)
-			{
-				//四角形に描画
-				cmdList->DrawIndexedInstanced(_countof(charactorObj[i].indices), 1, 0, 0, 0);
-			}
-			else
-			{
-				cmdList->DrawInstanced(3, 1, 0, 0);
-			}
-
-		}
-
 		
-		//一個前のビューポートに描画したらビューポートを変更(分割回数分繰り返し)
-		//cmdList->RSSetViewports(1, &viewport[1]);
-		//
-		//if (ChangeSquareFlag)
-		//{
-		//	//四角形に描画
-		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		//}
-		//else
-		//{
-		//	cmdList->DrawInstanced(3, 1, 0, 0);
-		//}
-
-		//cmdList->RSSetViewports(1, &viewport[2]);
-		//
-		//if (ChangeSquareFlag)
-		//{
-		//	//四角形に描画
-		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		//}
-		//else
-		//{
-		//	cmdList->DrawInstanced(3, 1, 0, 0);
-		//}
-
-		//cmdList->RSSetViewports(1, &viewport[3]);
-
-		//if (ChangeSquareFlag)
-		//{
-		//	//四角形に描画
-		//	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-		//}
-		//else
-		//{
-		//	cmdList->DrawInstanced(3, 1, 0, 0);
-		//}
-
-
+		charactorObj.Draw(cmdList, PipeLineRuleFlag, ChangeSquareFlag);
 		
 		// 4.描画コマンドここまで
 
@@ -716,12 +571,12 @@ for (int i = 0; i < _countof(charactorObj); i++)
 
 		if (key[DIK_W] )
 		{
-			X1 = 0.001f;
+			X2 += 0.001f;
 		}
 
 		if (key[DIK_S] )
 		{
-			X1 = -0.001f;
+			X2 -= 0.001f;
 		}
 
 		if (key[DIK_SPACE])
@@ -765,9 +620,7 @@ for (int i = 0; i < _countof(charactorObj); i++)
 
 #pragma region 描画処理
 
-		//charactorObj[0].constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
 		
-		//constMapMaterial2->posM = XMFLOAT4(X1, Y1, 0, 0.0f);
 
 #pragma endregion
 
@@ -793,55 +646,3 @@ void clearColorChange(float R, float G, float B, float A)
 	clearColor[3] = A;
 }
 
-XMFLOAT3 Afin(XMFLOAT3 box, XMFLOAT3 box2, float moveX, float moveY, float rotate, float scaleX, float scaleY)
-{
-	float ansBuff[3] = {};
-	float ansBuff2[3] = {};
-	float ansBuff3[3] = {};
-	float ansBuff4[3] = {};
-	float ans[3] = {};
-
-	float moveA[3][3] = {
-		{1.0f,0.0f, moveX},
-		{0.0f,1.0f, moveY},
-		{0.0f,0.0f, 1.0f}
-	};
-	float rotateA[3][3] = {
-		{cos(rotate * (PI / 180)),-sin(rotate * (PI / 180)), 0.0f},
-		{sin(rotate * (PI / 180)),cos(rotate * (PI / 180)), 0.0f},
-		{0.0f,0.0f, 1.0f}
-	};
-
-	float scaleA[3][3] = {
-		{scaleX,0.0f, 0.0f},
-		{0.0f,scaleY, 0.0f},
-		{0.0f,0.0f, 1.0f}
-	};
-
-	ans[0] = box2.x;
-	ans[1] = box2.y;
-	ans[2] = 1.0f;
-
-	ansBuff[0] = moveA[0][0] * box.x + moveA[0][1] * box.y + -ans[0] * 1.0f;
-	ansBuff[1] = moveA[1][0] * box.x + moveA[1][1] * box.y + -ans[1] * 1.0f;
-	ansBuff[2] = moveA[2][0] * box.x + moveA[2][1] * box.y + ans[2] * 1.0f;
-
-
-	ansBuff2[0] = rotateA[0][0] * ansBuff[0] + rotateA[0][1] * ansBuff[1] + rotateA[0][2] * ansBuff[2];
-	ansBuff2[1] = rotateA[1][0] * ansBuff[0] + rotateA[1][1] * ansBuff[1] + rotateA[1][2] * ansBuff[2];
-	ansBuff2[2] = rotateA[2][0] * ansBuff[0] + rotateA[2][1] * ansBuff[1] + rotateA[2][2] * ansBuff[2];
-
-	ansBuff3[0] = scaleA[0][0] * ansBuff2[0] + scaleA[0][1] * ansBuff2[1] + scaleA[0][2] * ansBuff2[2];
-	ansBuff3[1] = scaleA[1][0] * ansBuff2[0] + scaleA[1][1] * ansBuff2[1] + scaleA[1][2] * ansBuff2[2];
-	ansBuff3[2] = scaleA[2][0] * ansBuff2[0] + scaleA[2][1] * ansBuff2[1] + scaleA[2][2] * ansBuff2[2];
-
-	ansBuff4[0] = moveA[0][0] * ansBuff3[0] + moveA[0][1] * ansBuff3[1] + ans[0] * ansBuff3[2];
-	ansBuff4[1] = moveA[1][0] * ansBuff3[0] + moveA[1][1] * ansBuff3[1] + ans[1] * ansBuff3[2];
-	ansBuff4[2] = moveA[2][0] * ansBuff3[0] + moveA[2][1] * ansBuff3[1] + ans[2] * ansBuff3[2];
-
-	box.x = moveA[0][0] * ansBuff4[0] + moveA[0][1] * ansBuff4[1] + moveA[0][2] * ansBuff4[2];
-	box.y = moveA[1][0] * ansBuff4[0] + moveA[1][1] * ansBuff4[1] + moveA[1][2] * ansBuff4[2];
-
-	return box;
-
-}

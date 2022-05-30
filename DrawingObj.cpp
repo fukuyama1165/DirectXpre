@@ -1,7 +1,12 @@
 #include "DrawingObj.h"
 
-DrawingObj::DrawingObj()
+const float PI = 3.141592653589;
+
+DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 {
+	Win_width = windowWidth;
+	Win_height = windowHeight;
+
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
 	vertices[0] = { {-0.4f,-0.7f,0.0f},{0.0f,1.0f} };//左下
@@ -25,8 +30,11 @@ DrawingObj::DrawingObj()
 	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 }
 
-DrawingObj::DrawingObj(XMFLOAT3 vertexPos1, XMFLOAT2 vertexUv1, XMFLOAT3 vertexPos2, XMFLOAT2 vertexUv2, XMFLOAT3 vertexPos3, XMFLOAT2 vertexUv3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv4)
+DrawingObj::DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1, XMFLOAT2 vertexUv2, XMFLOAT2 vertexUv3, XMFLOAT2 vertexUv4)
 {
+	Win_width = windowWidth;
+	Win_height = windowHeight;
+
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
 	vertices[0] = { vertexPos1,vertexUv1 };//左下
@@ -91,7 +99,7 @@ void DrawingObj::colorChangeInit(ID3D12Device* dev)
 {
 	vertexBuffGeneration(dev);
 
-	vertexShaderGeneration();
+	vertexShaderGeneration2();
 
 	pixelShaderGeneration2();
 
@@ -193,6 +201,47 @@ void DrawingObj::vertexShaderGeneration()
 	//頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"BasicVS.hlsl",//シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
+		"main",//エントリーポイント名
+		"vs_5_0",//シェーダモデル指定
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバック用設定
+		0,
+		&vsBlob,
+		&errorBlob
+	);
+
+#pragma endregion 
+
+#pragma region 頂点シェーダの読み込み時のエラーを表示する場所
+
+	//頂点シェーダの読み込み時のエラーを表示する場所
+	if (FAILED(result))
+	{
+		//errorBlobからエラー内容をstring型にコピー
+		std::string errstr;
+		errstr.resize(errorBlob->GetBufferSize());
+
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
+			errorBlob->GetBufferSize(),
+			errstr.begin());
+		errstr += "\n";
+		//エラー内容をウィンドウに表示
+		OutputDebugStringA(errstr.c_str());
+		exit(1);
+	}
+
+#pragma endregion
+}
+
+void DrawingObj::vertexShaderGeneration2()
+{
+#pragma region 頂点シェーダファイルの読み込みとコンパイル
+
+	//頂点シェーダファイルの読み込み辺
+	//頂点シェーダの読み込みとコンパイル
+	result = D3DCompileFromFile(
+		L"vertexMoveVS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名
@@ -491,20 +540,28 @@ void DrawingObj::rootParamGeneration()
 
 	//ルートパラメータの設定
 	
+	//色
 	rootParam[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
 	rootParam[0].Descriptor.ShaderRegister = 0;//定数バッファ番号
 	rootParam[0].Descriptor.RegisterSpace = 0;//デフォルト値
 	rootParam[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
+	//位置
 	rootParam[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
 	rootParam[1].Descriptor.ShaderRegister = 1;//定数バッファ番号
 	rootParam[1].Descriptor.RegisterSpace = 0;//デフォルト値
 	rootParam[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
+	//画像データ用
 	rootParam[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//種類
 	rootParam[2].DescriptorTable.pDescriptorRanges = &descriptorRange;//デスクリプタレンジ
 	rootParam[2].DescriptorTable.NumDescriptorRanges = 1;//デスクリプタレンジ数
 	rootParam[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダから見える
+
+	rootParam[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
+	rootParam[3].Descriptor.ShaderRegister = 2;//定数バッファ番号
+	rootParam[3].Descriptor.RegisterSpace = 0;//デフォルト値
+	rootParam[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
 #pragma endregion 定数バッファを増やしたら増やすところがある
 }
@@ -578,26 +635,11 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
 
+
 	//リソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc{};
-	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff;//256バイトアラインメント
-	cbResourceDesc.Height = 1;
-	cbResourceDesc.DepthOrArraySize = 1;
-	cbResourceDesc.MipLevels = 1;
-	cbResourceDesc.SampleDesc.Count = 1;
-	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//リソース設定
-	D3D12_RESOURCE_DESC cbResourceDesc2{};
-	cbResourceDesc2.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc2.Width = (sizeof(ConstBufferDataMaterial2) + 0xff) & ~0xff;//256バイトアラインメント
-	cbResourceDesc2.Height = 1;
-	cbResourceDesc2.DepthOrArraySize = 1;
-	cbResourceDesc2.MipLevels = 1;
-	cbResourceDesc2.SampleDesc.Count = 1;
-	cbResourceDesc2.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
+	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataMaterial));
 	
 	//定数バッファの生成
 	result = dev->CreateCommittedResource(
@@ -610,15 +652,29 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	);
 	assert(SUCCEEDED(result));
 
+	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataMaterial2));
 	
 	//定数バッファの生成
 	result = dev->CreateCommittedResource(
 		&cbHeapProp,//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc2,//リソース設定
+		&cbResourceDesc,//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffMaterial2)
+	);
+	assert(SUCCEEDED(result));
+
+	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
+
+	//定数バッファの生成
+	result = dev->CreateCommittedResource(
+		&cbHeapProp,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffTransform)
 	);
 	assert(SUCCEEDED(result));
 
@@ -642,9 +698,33 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	result = constBuffMaterial2->Map(0, nullptr, (void**)&constMapMaterial2);//マッピング
 	assert(SUCCEEDED(result));
 
-	//constMapMaterial2->posM = XMFLOAT4(1,1, 10,1);
+	constMapMaterial2->posM = XMFLOAT4(0,0,0,1);
+
+	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);//マッピング
+	assert(SUCCEEDED(result));
+
+	constMapTransform->mat = XMMatrixIdentity();
+
+	constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
+	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
+	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
+	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
 
 #pragma endregion
+}
+
+D3D12_RESOURCE_DESC DrawingObj::constBuffResourceGeneration(int size)
+{
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDesc.Width = (size + 0xff) & ~0xff;//256バイトアラインメント
+	cbResourceDesc.Height = 1;
+	cbResourceDesc.DepthOrArraySize = 1;
+	cbResourceDesc.MipLevels = 1;
+	cbResourceDesc.SampleDesc.Count = 1;
+	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	return cbResourceDesc;
 }
 
 void DrawingObj::indicesBuffGeneration(ID3D12Device* dev)
@@ -870,4 +950,141 @@ void DrawingObj::vertexMap()
 
 	//つながりを解除
 	vertBuff->Unmap(0, nullptr);
+}
+
+void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bool ChangeSquareFlag)
+{
+
+	//パイプラインステートとルートシグネチャの設定
+	//作ったパイプラインステートとルートシグネチャをセットする
+	//決めたルールで描画をお願いするところ
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
+
+	if (PipeLineRuleFlag)
+	{
+		cmdList->SetPipelineState(pipelinestate);
+	}
+	else
+	{
+		cmdList->SetPipelineState(pipelinestate2);
+	}
+
+	cmdList->SetGraphicsRootSignature(rootsignature);
+
+	//頂点バッファビューの設定
+	cmdList->IASetVertexBuffers(0, 1, &vbView);
+
+
+
+	//定数バッファビュー(CBV)の設定コマンド
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(1, constBuffMaterial2->GetGPUVirtualAddress());
+
+
+	//SRVヒープの設定コマンド
+	cmdList->SetDescriptorHeaps(1, &srvHeap);
+	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
+	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
+	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+
+	//定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
+	cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform->GetGPUVirtualAddress());
+
+	cmdList->IASetIndexBuffer(&ibView);
+
+	//描画コマンド
+	if (ChangeSquareFlag)
+	{
+		//四角形に描画
+		cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
+	}
+	else
+	{
+		cmdList->DrawInstanced(3, 1, 0, 0);
+	}
+}
+
+XMFLOAT3 DrawingObj::Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY)
+{
+	float ansBuff[3] = {};
+	float ansBuff2[3] = {};
+	float ansBuff3[3] = {};
+	float ansBuff4[3] = {};
+	float ans[3] = {};
+
+	float moveA[3][3] = {
+		{1.0f,0.0f, moveX},
+		{0.0f,1.0f, moveY},
+		{0.0f,0.0f, 1.0f}
+	};
+	float rotateA[3][3] = {
+		{cos(rotate * (PI / 180)),-sin(rotate * (PI / 180)), 0.0f},
+		{sin(rotate * (PI / 180)),cos(rotate * (PI / 180)), 0.0f},
+		{0.0f,0.0f, 1.0f}
+	};
+
+	float scaleA[3][3] = {
+		{scaleX,0.0f, 0.0f},
+		{0.0f,scaleY, 0.0f},
+		{0.0f,0.0f, 1.0f}
+	};
+
+	ans[0] = box.x;
+	ans[1] = box.y;
+	ans[2] = 1.0f;
+
+	ansBuff[0] = moveA[0][0] * vertices[0].pos.x + moveA[0][1] * vertices[0].pos.y + -ans[0] * 1.0f;
+	ansBuff[1] = moveA[1][0] * vertices[0].pos.x + moveA[1][1] * vertices[0].pos.y + -ans[1] * 1.0f;
+	ansBuff[2] = moveA[2][0] * vertices[0].pos.x + moveA[2][1] * vertices[0].pos.y + ans[2] * 1.0f;
+
+
+	ansBuff2[0] = rotateA[0][0] * ansBuff[0] + rotateA[0][1] * ansBuff[1] + rotateA[0][2] * ansBuff[2];
+	ansBuff2[1] = rotateA[1][0] * ansBuff[0] + rotateA[1][1] * ansBuff[1] + rotateA[1][2] * ansBuff[2];
+	ansBuff2[2] = rotateA[2][0] * ansBuff[0] + rotateA[2][1] * ansBuff[1] + rotateA[2][2] * ansBuff[2];
+
+	ansBuff3[0] = scaleA[0][0] * ansBuff2[0] + scaleA[0][1] * ansBuff2[1] + scaleA[0][2] * ansBuff2[2];
+	ansBuff3[1] = scaleA[1][0] * ansBuff2[0] + scaleA[1][1] * ansBuff2[1] + scaleA[1][2] * ansBuff2[2];
+	ansBuff3[2] = scaleA[2][0] * ansBuff2[0] + scaleA[2][1] * ansBuff2[1] + scaleA[2][2] * ansBuff2[2];
+
+	ansBuff4[0] = moveA[0][0] * ansBuff3[0] + moveA[0][1] * ansBuff3[1] + ans[0] * ansBuff3[2];
+	ansBuff4[1] = moveA[1][0] * ansBuff3[0] + moveA[1][1] * ansBuff3[1] + ans[1] * ansBuff3[2];
+	ansBuff4[2] = moveA[2][0] * ansBuff3[0] + moveA[2][1] * ansBuff3[1] + ans[2] * ansBuff3[2];
+
+	box.x = moveA[0][0] * ansBuff4[0] + moveA[0][1] * ansBuff4[1] + moveA[0][2] * ansBuff4[2];
+	box.y = moveA[1][0] * ansBuff4[0] + moveA[1][1] * ansBuff4[1] + moveA[1][2] * ansBuff4[2];
+
+	return box;
+
+}
+
+//Objに対してアフィン変換をかける関数
+void DrawingObj::ObjAfin(float moveX, float moveY, float rotate, float scaleX, float scaleY)
+{
+#pragma region アフィン変換
+
+	//原点は最後に変換する(元座標が変わってしまうため)
+	vertices[1].pos = Afin(vertices[1].pos, moveX, moveY, rotate, scaleX, scaleY);
+	vertices[2].pos = Afin(vertices[2].pos, moveX, moveY, rotate, scaleX, scaleY);
+	vertices[3].pos = Afin(vertices[3].pos, moveX, moveY, rotate, scaleX, scaleY);
+	vertices[0].pos = Afin(vertices[0].pos, moveX, moveY, rotate, scaleX, scaleY);
+
+#pragma endregion
+
+#pragma region アフィン変換後の頂点データをシェーダに転送
+
+	vertexMap();
+
+#pragma endregion
+}
+
+//定数バッファを変更する関数
+void DrawingObj::constBuffColorUpdata(float Red, float Green, float Blue)
+{
+	constMapMaterial->color = XMFLOAT4(Red, Green, Blue, 1.0f);
+}
+
+void DrawingObj::constBuffPosMUpdata(float X, float Y, float Z)
+{
+	constMapMaterial2->posM = XMFLOAT4(X, Y, Z, 0.0f);
 }
