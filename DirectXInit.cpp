@@ -1,9 +1,21 @@
 #include "DirectXInit.h"
 
+//DirectXInit* DirectXInit::instance = nullptr;
 
-
-DirectXInit::DirectXInit()
+DirectXInit::~DirectXInit()
 {
+}
+
+DirectXInit* DirectXInit::GetInstance()
+{
+	static DirectXInit instance;
+	return &instance;
+}
+
+
+void DirectXInit::Init(WNDCLASSEX w, HWND hwnd)
+{
+
 #pragma region デバックレイヤーの有効化
 
 
@@ -21,18 +33,9 @@ DirectXInit::DirectXInit()
 
 #pragma endregion
 
-	clearColor[0] = 0.1f;
-	clearColor[1] = 0.25f;
-	clearColor[2] = 0.5f;
-	clearColor[3] = 0.0f;
+	
 
-}
 
-DirectXInit::~DirectXInit()
-{
-}
-void DirectXInit::Init(WNDCLASSEX w, HWND hwnd)
-{
 	//グラフィックアダプター
 	GraphicAdapterGeneration();
 

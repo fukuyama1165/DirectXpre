@@ -34,9 +34,14 @@ using namespace DirectX;
 class DirectXInit
 {
 public:
-	DirectXInit();
-	~DirectXInit();
 
+	static DirectXInit* GetInstance();
+
+	/*static void Create();
+
+	static void Destroy()*/;
+	
+	//初期化
 	void Init(WNDCLASSEX w, HWND hwnd);
 
 	//グラフィックアダプター
@@ -89,6 +94,16 @@ public:
 
 private:
 
+	DirectXInit()=default;
+	~DirectXInit();
+
+	DirectXInit(const DirectXInit&) = delete;
+	DirectXInit& operator=(const DirectXInit&) = delete;
+
+	//static DirectXInit* instance;
+
+private:
+
 	HRESULT result;
 	ID3D12Device* dev = nullptr;
 	IDXGIFactory6* dxgiFactory = nullptr;
@@ -116,7 +131,7 @@ private:
 	BYTE oldKey[256] = {};
 
 	//背景色変更するために外に配置
-	float clearColor[4];//青っぽい色(画面クリアするときの色)
+	float clearColor[4]={0.1f,0.25f,0.5f,0.0f};//青っぽい色(画面クリアするときの色)
 
 	//リソースバリア
 	D3D12_RESOURCE_BARRIER barrierDesc{};
