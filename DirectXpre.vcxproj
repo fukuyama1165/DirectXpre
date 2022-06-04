@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXInit.cpp" />
     <ClCompile Include="DrawingObj.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -179,6 +180,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DirectXInit.h" />
     <ClInclude Include="DrawingObj.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
