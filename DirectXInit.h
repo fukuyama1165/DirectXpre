@@ -66,10 +66,13 @@ public:
 	//keyboardを返す関数
 	IDirectInputDevice8* GetKeyBoard();
 
+	//cmdListを返す関数
 	ID3D12GraphicsCommandList* GetcmdList();
 
+	//描画の初めの部分
 	void DrawStart();
 
+	//描画終わりの部分
 	void DrawEnd();
 
 
@@ -78,8 +81,10 @@ public:
 
 	//inputでの入力反応関数(inputClassを作ったらこれも移動する)
 
+	//キーボードのキーを押したら反応する関数(長押しも反応)
 	bool PushKey(BYTE CheckKey);
 
+	//キーボードのキーを押した瞬間に反応する関数(長押し反応しない)
 	bool TriggerKey(BYTE CheckKey);
 
 private:
@@ -93,13 +98,16 @@ private:
 	ID3D12CommandQueue* cmdQueue = nullptr;
 	ID3D12DescriptorHeap* rtvHeaps = nullptr;
 
-	
+	//バックバッファ
+	std::vector<ID3D12Resource*>backBuffers{2};
 
+	//デスクリプタヒープ
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
 
+	//キーボードデバイス
 	IDirectInputDevice8* keyboard = nullptr;
 
-	
+	//フェンス
 	ID3D12Fence* fence = nullptr;
 	UINT64 fenceVel = 0;
 
@@ -110,6 +118,7 @@ private:
 	//背景色変更するために外に配置
 	float clearColor[4];//青っぽい色(画面クリアするときの色)
 
+	//リソースバリア
 	D3D12_RESOURCE_BARRIER barrierDesc{};
 
 };

@@ -1,6 +1,6 @@
 #include "DirectXInit.h"
 
-std::vector<ID3D12Resource*>backBuffers(2);
+
 
 DirectXInit::DirectXInit()
 {

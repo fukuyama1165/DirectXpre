@@ -542,7 +542,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			clearColorChange(0.1f, 0.25f, 0.5f, 0.0f);
 		}
 
-		if (directXinit.PushKey(DIK_1))
+		if (directXinit.TriggerKey(DIK_1))
 		{
 			ChangeSquareFlag = !ChangeSquareFlag;
 		}
