@@ -120,7 +120,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	directXinit->Init(w, hwnd);
 
-	DrawingObj charactorObj(window_width, window_height, { 0.0f,100.0f,0.0f }, { 0.0f,0.0f,0.0f }, { 100.0f,100.0f,0.0f }, { 100.0f,0.0f,0.0f });
+	DrawingObj charactorObj(window_width, window_height, { -50.0f,-50.0f,500.0f }, { -50.0f,50.0f,500.0f }, { 50.0f,-50.0f,100.0f }, { 50.0f,50.0f,100.0f });
 
 
 	charactorObj.basicInit(directXinit->Getdev());
