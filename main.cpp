@@ -120,7 +120,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	directXinit->Init(w, hwnd);
 
-	DrawingObj charactorObj(window_width, window_height, { -50.0f,-50.0f,500.0f }, { -50.0f,50.0f,500.0f }, { 50.0f,-50.0f,100.0f }, { 50.0f,50.0f,100.0f });
+	DrawingObj charactorObj(window_width, window_height, { -50.0f,-50.0f,0.0f }, { -50.0f,50.0f,0.0f }, { 50.0f,-50.0f,0.0f }, { 50.0f,50.0f,0.0f });
 
 
 	charactorObj.basicInit(directXinit->Getdev());
@@ -150,7 +150,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float scaleX = 1;
 	float scaleY = 1;
 
-	
+	float angle = 0.0f;//ƒJƒƒ‰‚Ì‰ñ“]Šp
 
 
 	//ƒQ[ƒ€ƒ‹[ƒv
@@ -277,6 +277,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (directXinit->TriggerKey(DIK_1))
 		{
 			ChangeSquareFlag = !ChangeSquareFlag;
+		}
+
+
+		if (directXinit->PushKey(DIK_D) or directXinit->PushKey(DIK_A))
+		{
+			if (directXinit->PushKey(DIK_D))
+			{
+				angle += XMConvertToRadians(1.0f);
+			}
+			else if (directXinit->PushKey(DIK_A))
+			{
+				angle -= XMConvertToRadians(1.0f);
+			}
+
+			charactorObj.matViewUpdata({ -100 * sinf(angle),0,-100 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
+
 		}
 
 
