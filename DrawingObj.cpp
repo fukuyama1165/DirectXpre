@@ -705,10 +705,18 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	constMapTransform->mat = XMMatrixIdentity();
 
-	constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
+	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
 	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
 	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
+	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;*/
+
+	//•½s“ŠŽËs—ñ‚ÌŒvŽZ
+	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
+
+	//“§Ž‹“Š‰es—ñ‚ÌŒvŽZ
+	 XMMATRIX matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
+
+	 constMapTransform->mat = matProjection;
 
 #pragma endregion
 }
