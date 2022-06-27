@@ -120,7 +120,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	directXinit->Init(w, hwnd);
 
-	DrawingObj charactorObj(window_width, window_height, { -50.0f,-50.0f,0.0f }, { -50.0f,50.0f,0.0f }, { 50.0f,-50.0f,0.0f }, { 50.0f,50.0f,0.0f });
+	DrawingObj charactorObj(window_width, window_height, { -50.0f,-50.0f,100.0f }, { -50.0f,50.0f,100.0f }, { 50.0f,-50.0f,100.0f }, { 50.0f,50.0f,100.0f });
 
 
 	charactorObj.basicInit(directXinit->Getdev());
@@ -151,6 +151,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float scaleY = 1;
 
 	float angle = 0.0f;//ƒJƒƒ‰‚Ì‰ñ“]Šp
+
+	//À•W
+	XMFLOAT3 pos={};
 
 
 	//ƒQ[ƒ€ƒ‹[ƒv
@@ -292,6 +295,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			}
 
 			charactorObj.matViewUpdata({ -100 * sinf(angle),0,-100 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
+
+		}
+
+		if (directXinit->PushKey(DIK_UP) or directXinit->PushKey(DIK_DOWN) or directXinit->PushKey(DIK_RIGHT) or directXinit->PushKey(DIK_LEFT))
+		{
+			if (directXinit->PushKey(DIK_UP))
+			{
+				pos.z += 1.0f;
+			}
+			else if (directXinit->PushKey(DIK_DOWN))
+			{
+				pos.z -= 1.0f;
+			}
+			else if (directXinit->PushKey(DIK_RIGHT))
+			{
+				pos.x += 1.0f;
+			}
+			else if (directXinit->PushKey(DIK_LEFT))
+			{
+				pos.x -= 1.0f;
+			}
+
+			charactorObj.SetTrans(pos);
+
+			charactorObj.matWorldUpdata();
 
 		}
 

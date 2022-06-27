@@ -713,6 +713,15 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);//マッピング
 	assert(SUCCEEDED(result));
 
+	//行列に単位行列を代入
+	matWorld = XMMatrixIdentity();
+
+	matScale = XMMatrixIdentity();
+
+	matRotate = XMMatrixIdentity();
+
+	matTrans = XMMatrixIdentity();
+
 	constMapTransform->mat = XMMatrixIdentity();
 
 	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
@@ -730,9 +739,11 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	 matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 	 
+	 Scale_ = { 1.0f,1.0f,1.0f };
+	 Rotate_ = { 0.0f,0.0f,0.0f };
+	 Trans_ = { 0.0f,0.0f,0.0f };
 
-
-	 constMapTransform->mat = matView * matProjection;
+	 constTransformMatUpdata();
 
 #pragma endregion
 }
@@ -1121,5 +1132,51 @@ void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
 
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 
-	constMapTransform->mat = matView * matProjection;
+	constTransformMatUpdata();
+}
+
+void DrawingObj::constTransformMatUpdata()
+{
+	constMapTransform->mat = matWorld * matView * matProjection;
+}
+
+void DrawingObj::matWorldUpdata()
+{
+
+	//スケール行列更新
+	matScale = XMMatrixScaling(Scale_.x, Scale_.y, Scale_.z);
+
+	//回転行列更新
+	matRotate = XMMatrixIdentity();
+
+	matRotate *= XMMatrixRotationZ(Rotate_.z);
+	matRotate *= XMMatrixRotationX(Rotate_.x);
+	matRotate *= XMMatrixRotationY(Rotate_.y);
+
+	//平行移動行列更新
+	matTrans = XMMatrixTranslation(Trans_.x, Trans_.y, Trans_.z);
+
+	//ワールド行列更新
+	matWorld = XMMatrixIdentity();
+	matWorld *= matScale;
+	matWorld *= matRotate;
+	matWorld *= matTrans;
+
+	constTransformMatUpdata();
+}
+
+
+void DrawingObj::SetScale(XMFLOAT3 scale)
+{
+	Scale_ = scale;
+}
+
+void DrawingObj::SetRotate(XMFLOAT3 rotate)
+{
+	Rotate_ = rotate;
+}
+
+void DrawingObj::SetTrans(XMFLOAT3 TransForm)
+{
+	Trans_ = TransForm;
 }
