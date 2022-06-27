@@ -34,7 +34,7 @@ void DirectXInit::Init(WNDCLASSEX w, HWND hwnd)
 #pragma endregion
 
 	
-
+	
 
 	//グラフィックアダプター
 	GraphicAdapterGeneration();
@@ -320,7 +320,6 @@ bool DirectXInit::TriggerKey(BYTE CheckKey)
 	return key[CheckKey] and oldKey[CheckKey] == 0;
 }
 
-//get関数群
 
 void DirectXInit::FenceGeneration()
 {
@@ -394,6 +393,7 @@ void DirectXInit::DirectInputGeneration(WNDCLASSEX w, HWND hwnd)
 #pragma endregion
 }
 
+//get関数群
 ID3D12Device* DirectXInit::Getdev()
 {
 	return dev;
