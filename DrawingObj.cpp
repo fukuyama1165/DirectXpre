@@ -28,6 +28,11 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 	sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 	//インデックスデータ全体のサイズ
 	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+
+	//ビュー変換行列
+	eye_ = { 0, 0, -100 };//視点座標
+	target_ = { 0, 0, 0 };//注視点座標
+	up_ = { 0, 1, 0 };//上方向ベクトル
 }
 
 DrawingObj::DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1, XMFLOAT2 vertexUv2, XMFLOAT2 vertexUv3, XMFLOAT2 vertexUv4)
@@ -56,6 +61,11 @@ DrawingObj::DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 ve
 	sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 	//インデックスデータ全体のサイズ
 	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+
+	//ビュー変換行列
+	eye_ = { 0, 0, -100 };//視点座標
+	target_ = { 0, 0, 0 };//注視点座標
+	up_ = { 0, 1, 0 };//上方向ベクトル
 }
 
 
@@ -714,9 +724,15 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
 
 	//透視投影行列の計算
-	 XMMATRIX matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
+	 matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
 
-	 constMapTransform->mat = matProjection;
+	
+
+	 matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	 
+
+
+	 constMapTransform->mat = matView * matProjection;
 
 #pragma endregion
 }
@@ -1095,4 +1111,15 @@ void DrawingObj::constBuffColorUpdata(float Red, float Green, float Blue)
 void DrawingObj::constBuffPosMUpdata(float X, float Y, float Z)
 {
 	constMapMaterial2->posM = XMFLOAT4(X, Y, Z, 0.0f);
+}
+
+void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
+{
+	eye_ = eye;
+	target_ = target;
+	up_ = up;
+
+	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+
+	constMapTransform->mat = matView * matProjection;
 }

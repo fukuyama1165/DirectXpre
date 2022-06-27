@@ -116,6 +116,8 @@ public:
 	void constBuffColorUpdata(float Red,float Green,float Blue);
 	void constBuffPosMUpdata(float X,float Y,float Z);
 
+	void matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up);
+
 private:
 
 	//画面サイズ
@@ -214,5 +216,14 @@ private:
 	ID3D12Resource* texBuff = nullptr;
 
 	ID3D12DescriptorHeap* srvHeap = nullptr;
+
+	//透視投影行列
+	XMMATRIX matProjection;
+
+	//ビュー変換行列
+	XMMATRIX matView;
+	XMFLOAT3 eye_;//視点座標
+	XMFLOAT3 target_;//注視点座標
+	XMFLOAT3 up_;//上方向ベクトル
 
 };
