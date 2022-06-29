@@ -116,7 +116,21 @@ public:
 	void constBuffColorUpdata(float Red,float Green,float Blue);
 	void constBuffPosMUpdata(float X,float Y,float Z);
 
+	//ビュー変換行列更新
 	void matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up);
+
+	//定数バッファの行列を更新する関数
+	void constTransformMatUpdata();
+
+	//ワールド座標更新
+	void matWorldUpdata();
+
+	//スケール変更行列
+	void SetScale(XMFLOAT3 scale);
+	//角度変更行列
+	void SetRotate(XMFLOAT3 rotate);
+	//平行移動行列
+	void SetTrans(XMFLOAT3 TransForm);
 
 private:
 
@@ -125,7 +139,7 @@ private:
 	int Win_height;
 
 	//頂点データ(増やしたいならここも増やしておく)
-	Vertex vertices[4];
+	Vertex vertices[24];
 
 	//頂点データサイズ
 	UINT sizeVB;
@@ -203,7 +217,7 @@ private:
 	ConstBufferDataTransform* constMapTransform = nullptr;
 
 	//インデックスデータ
-	unsigned short indices[6];
+	unsigned short indices[36];
 	//インデックスデータ全体のサイズ
 	UINT sizeIB;
 	//インデックスビュー
@@ -225,5 +239,16 @@ private:
 	XMFLOAT3 eye_;//視点座標
 	XMFLOAT3 target_;//注視点座標
 	XMFLOAT3 up_;//上方向ベクトル
+
+	XMMATRIX matWorld;
+
+	XMMATRIX matScale;
+	XMMATRIX matRotate;
+	XMMATRIX matTrans;
+
+	XMFLOAT3 Scale_;
+	XMFLOAT3 Rotate_;
+	XMFLOAT3 Trans_;
+
 
 };

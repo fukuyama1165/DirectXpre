@@ -9,19 +9,90 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
-	vertices[0] = { {-0.4f,-0.7f,0.0f},{0.0f,1.0f} };//左下
-	vertices[1] = { {-0.4f,+0.7f,0.0f},{0.0f,0.0f} };//左上
-	vertices[2] = { {+0.4f,-0.7f,0.0f},{1.0f,1.0f} };//右下
-	vertices[3] = { {+0.4f,+0.7f,0.0f},{1.0f,0.0f} };//右上
+	//前
+	vertices[0] = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
+	vertices[1] = { { -50.0f,50.0f,-50.0f },{0.0f,0.0f} };//左上
+	vertices[2] = { { 50.0f,-50.0f,-50.0f },{1.0f,1.0f} };//右下
+	vertices[3] = { { 50.0f,50.0f,-50.0f },{1.0f,0.0f} };//右上
+
+	//後
+	vertices[4] = { { -50.0f,-50.0f,50.0f },{0.0f,1.0f} };//左下
+	vertices[5] = { { -50.0f,50.0f,50.0f },{0.0f,0.0f} };//左上
+	vertices[6] = { { 50.0f,-50.0f,50.0f },{1.0f,1.0f} };//右下
+	vertices[7] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+
+	//左
+	vertices[8]  = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
+	vertices[9]  = { { -50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
+	vertices[10] = { { -50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
+	vertices[11] = { { -50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+
+	//右
+	vertices[12] = { { 50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
+	vertices[13] = { { 50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
+	vertices[14] = { { 50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
+	vertices[15] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+
+	//上
+	vertices[16] = { { -50.0f,50.0f,-50.0f },{0.0f,1.0f} };//左下
+	vertices[17] = { { -50.0f,50.0f,50.0f },{0.0f,0.0f} };//左上
+	vertices[18] = { { 50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
+	vertices[19] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+
+	//下
+	vertices[20] = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
+	vertices[21] = { { -50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
+	vertices[22] = { { 50.0f,-50.0f,-50.0f },{1.0f,1.0f} };//右下
+	vertices[23] = { { 50.0f,-50.0f,50.0f },{1.0f,0.0f} };//右上
 
 	//インデックスデータ
+	//前
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
 	indices[3] = 1;
 	indices[4] = 2;
 	indices[5] = 3;
-	
+
+	//後
+	indices[6] = 4;
+	indices[7] = 5;
+	indices[8] = 6;
+	indices[9] = 5;
+	indices[10] = 6;
+	indices[11] = 7;
+
+	//左
+	indices[12] = 8;
+	indices[13] = 9;
+	indices[14] = 10;
+	indices[15] = 9;
+	indices[16] = 10;
+	indices[17] = 11;
+
+	//右
+	indices[18] = 12;
+	indices[19] = 13;
+	indices[20] = 14;
+	indices[21] = 13;
+	indices[22] = 14;
+	indices[23] = 15;
+
+	//下
+	indices[24] = 16;
+	indices[25] = 17;
+	indices[26] = 18;
+	indices[27] = 17;
+	indices[28] = 18;
+	indices[29] = 19;
+
+	//上
+	indices[30] = 20;
+	indices[31] = 21;
+	indices[32] = 22;
+	indices[33] = 21;
+	indices[34] = 22;
+	indices[35] = 23;
 	
 	
 	//頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -622,6 +693,17 @@ void DrawingObj::rootsignatureGeneration(ID3D12Device* dev)
 
 #pragma endregion 定数バッファを増やしたらルートパラメータを書き換えパラメータ数を書き換える
 
+#pragma region デプスステンシルステート
+
+	//デプスステンシルステートの設定
+	gpipeline.DepthStencilState.DepthEnable = true;//深度テストを行う
+	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
+	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+
+#pragma endregion
+
+
 #pragma region パイプラインステートの生成
 
 	//パイプラインステートの生成
@@ -713,6 +795,15 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);//マッピング
 	assert(SUCCEEDED(result));
 
+	//行列に単位行列を代入
+	matWorld = XMMatrixIdentity();
+
+	matScale = XMMatrixIdentity();
+
+	matRotate = XMMatrixIdentity();
+
+	matTrans = XMMatrixIdentity();
+
 	constMapTransform->mat = XMMatrixIdentity();
 
 	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
@@ -730,9 +821,11 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	 matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 	 
+	 Scale_ = { 1.0f,1.0f,1.0f };
+	 Rotate_ = { 0.0f,0.0f,0.0f };
+	 Trans_ = { 0.0f,0.0f,0.0f };
 
-
-	 constMapTransform->mat = matView * matProjection;
+	 constTransformMatUpdata();
 
 #pragma endregion
 }
@@ -829,7 +922,7 @@ void DrawingObj::imageDataGeneration()
 
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
-		L"Resources/basketballman2.png",
+		L"Resources/hokehoke.png",
 		WIC_FLAGS_NONE,
 		&metadata,
 		scratchImg
@@ -1121,5 +1214,51 @@ void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
 
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 
-	constMapTransform->mat = matView * matProjection;
+	constTransformMatUpdata();
+}
+
+void DrawingObj::constTransformMatUpdata()
+{
+	constMapTransform->mat = matWorld * matView * matProjection;
+}
+
+void DrawingObj::matWorldUpdata()
+{
+
+	//スケール行列更新
+	matScale = XMMatrixScaling(Scale_.x, Scale_.y, Scale_.z);
+
+	//回転行列更新
+	matRotate = XMMatrixIdentity();
+
+	matRotate *= XMMatrixRotationZ(Rotate_.z);
+	matRotate *= XMMatrixRotationX(Rotate_.x);
+	matRotate *= XMMatrixRotationY(Rotate_.y);
+
+	//平行移動行列更新
+	matTrans = XMMatrixTranslation(Trans_.x, Trans_.y, Trans_.z);
+
+	//ワールド行列更新
+	matWorld = XMMatrixIdentity();
+	matWorld *= matScale;
+	matWorld *= matRotate;
+	matWorld *= matTrans;
+
+	constTransformMatUpdata();
+}
+
+
+void DrawingObj::SetScale(XMFLOAT3 scale)
+{
+	Scale_ = scale;
+}
+
+void DrawingObj::SetRotate(XMFLOAT3 rotate)
+{
+	Rotate_ = rotate;
+}
+
+void DrawingObj::SetTrans(XMFLOAT3 TransForm)
+{
+	Trans_ = TransForm;
 }

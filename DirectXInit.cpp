@@ -13,7 +13,7 @@ DirectXInit* DirectXInit::GetInstance()
 }
 
 
-void DirectXInit::Init(WNDCLASSEX w, HWND hwnd)
+void DirectXInit::Init(WNDCLASSEX w, HWND hwnd, const int win_width, const int win_height)
 {
 
 #pragma region デバックレイヤーの有効化
@@ -46,7 +46,9 @@ void DirectXInit::Init(WNDCLASSEX w, HWND hwnd)
 	CommandQueueGeneration();
 
 	//スワップチェーン
-	SwapChainGeneration(hwnd);
+	SwapChainGeneration(hwnd,win_width,win_height);
+
+	DepthBuffGeneration(win_width, win_height);
 
 	//レンダーターゲットビュー
 	RTVGeneration();
@@ -163,14 +165,14 @@ void DirectXInit::CommandQueueGeneration()
 #pragma endregion
 }
 
-void DirectXInit::SwapChainGeneration(HWND hwnd)
+void DirectXInit::SwapChainGeneration(HWND hwnd, const int win_width, const int win_height)
 {
 #pragma region スワップチェーン辺
 
 	//各種設定をしてスワップチェーンを生成
 	DXGI_SWAP_CHAIN_DESC1 swapchainDesc{};
-	swapchainDesc.Width = 1280;
-	swapchainDesc.Height = 720;
+	swapchainDesc.Width = win_width;
+	swapchainDesc.Height = win_height;
 	swapchainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;//色情報の書式
 	swapchainDesc.SampleDesc.Count = 1;//マルチサンプルしない
 	swapchainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;//バックバッファ用
@@ -188,6 +190,57 @@ void DirectXInit::SwapChainGeneration(HWND hwnd)
 	);
 
 #pragma endregion
+}
+
+void DirectXInit::DepthBuffGeneration(const int win_width, const int win_height)
+{
+
+	//リソース設定
+	D3D12_RESOURCE_DESC depthResourceDesc{};
+
+	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthResourceDesc.Width = win_width;//レンダーターゲットに合わせる
+	depthResourceDesc.Height = win_height;//レンダーターゲットに合わせる
+	depthResourceDesc.DepthOrArraySize = 1;
+	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+	depthResourceDesc.SampleDesc.Count = 1;
+	depthResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;//デプステンシル
+
+	//深度値用ヒーププロパティ
+	D3D12_HEAP_PROPERTIES depthHeapProp{};
+	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+	//深度値のクリア設定
+	D3D12_CLEAR_VALUE depthClearValue{};
+	depthClearValue.DepthStencil.Depth = 1.0f;//深度値1.0f(最大値)でクリア
+	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+
+	//リソース生成
+	ID3D12Resource* depthBuff = nullptr;
+	result = dev->CreateCommittedResource(
+		&depthHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&depthResourceDesc,
+		D3D12_RESOURCE_STATE_DEPTH_WRITE,//深度値書き込みに使用
+		&depthClearValue,
+		IID_PPV_ARGS(&depthBuff)
+	);
+
+	//深度ビュー用デスクリプタヒープ作成
+	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
+	dsvHeapDesc.NumDescriptors = 1;//深度ビューは1つ
+	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;//デプスステンシルビュー
+	result = dev->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
+
+	//深度ビュー生成
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dev->CreateDepthStencilView(
+		depthBuff,
+		&dsvDesc,
+		dsvHeap->GetCPUDescriptorHandleForHeapStart()
+	);
+
 }
 
 void DirectXInit::RTVGeneration()
@@ -263,11 +316,14 @@ void DirectXInit::DrawStart()
 	//レンダーターゲットビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvH = rtvHeaps->GetCPUDescriptorHandleForHeapStart();
 	rtvH.ptr += bbIndex * dev->GetDescriptorHandleIncrementSize(heapDesc.Type);
-	cmdList->OMSetRenderTargets(1, &rtvH, false, nullptr);
+	//cmdList->OMSetRenderTargets(1, &rtvH, false, nullptr);
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
+	cmdList->OMSetRenderTargets(1, &rtvH, false, &dsvHandle);
 
 	// 3.画面クリア
 
 	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 
