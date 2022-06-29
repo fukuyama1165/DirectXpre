@@ -139,7 +139,7 @@ private:
 	int Win_height;
 
 	//頂点データ(増やしたいならここも増やしておく)
-	Vertex vertices[4];
+	Vertex vertices[24];
 
 	//頂点データサイズ
 	UINT sizeVB;
@@ -217,7 +217,7 @@ private:
 	ConstBufferDataTransform* constMapTransform = nullptr;
 
 	//インデックスデータ
-	unsigned short indices[6];
+	unsigned short indices[36];
 	//インデックスデータ全体のサイズ
 	UINT sizeIB;
 	//インデックスビュー

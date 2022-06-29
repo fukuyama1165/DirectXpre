@@ -42,7 +42,8 @@ public:
 	static void Destroy()*/;
 	
 	//初期化
-	void Init(WNDCLASSEX w, HWND hwnd);
+	
+	void Init(WNDCLASSEX w, HWND hwnd,const int win_width, const int win_height);
 
 	//グラフィックアダプター
 	void GraphicAdapterGeneration();
@@ -54,7 +55,10 @@ public:
 	void CommandQueueGeneration();
 
 	//スワップチェーン
-	void SwapChainGeneration(HWND hwnd);
+	void SwapChainGeneration(HWND hwnd, const int win_width, const int win_height);
+
+	//深度バッファ
+	void DepthBuffGeneration(const int win_width, const int win_height);
 
 	//レンダーターゲットビュー
 	void RTVGeneration();
@@ -135,6 +139,9 @@ private:
 
 	//リソースバリア
 	D3D12_RESOURCE_BARRIER barrierDesc{};
+
+	ID3D12DescriptorHeap* dsvHeap = nullptr;
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 
 };
 

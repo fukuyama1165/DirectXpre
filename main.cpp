@@ -118,9 +118,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	directXinit = DirectXInit::GetInstance();
 
-	directXinit->Init(w, hwnd);
+	directXinit->Init(w, hwnd,window_width,window_height);
 
-	DrawingObj charactorObj(window_width, window_height, { -50.0f,-50.0f,100.0f }, { -50.0f,50.0f,100.0f }, { 50.0f,-50.0f,100.0f }, { 50.0f,50.0f,100.0f });
+	DrawingObj charactorObj(window_width, window_height);
 
 
 	charactorObj.basicInit(directXinit->Getdev());
