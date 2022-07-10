@@ -31,6 +31,9 @@ using namespace DirectX;
 #include "matrix4x4.h"
 #include "Float3.h"
 
+//ComPtr用インクルード
+#include <wrl.h>
+
 class DrawingObj
 {
 public:
@@ -166,19 +169,19 @@ private:
 	//頂点バッファ用変数
 	D3D12_HEAP_PROPERTIES heapprop{};//ヒープ設定
 	D3D12_RESOURCE_DESC resDesc{};//リソース設定
-	ID3D12Resource* vertBuff = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff = nullptr;
 	Vertex* vertMap = nullptr;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 
 	//頂点シェーダオブジェクト
-	ID3DBlob* vsBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> vsBlob = nullptr;
 
 	//ピクセルシェーダオブジェクト
-	ID3DBlob* psBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> psBlob = nullptr;
 
 	//エラーオブジェクト
-	ID3DBlob* errorBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
 
 	//頂点レイアウト(要素を増やすなら配列数を増やす)
 	D3D12_INPUT_ELEMENT_DESC inputLayout[2];
@@ -197,11 +200,11 @@ private:
 	D3D12_STATIC_SAMPLER_DESC sampleDesc{};
 
 	//ルートシグネチャ
-	ID3D12RootSignature* rootsignature;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature;
 
 	//パイプラインステート
-	ID3D12PipelineState* pipelinestate = nullptr;
-	ID3D12PipelineState* pipelinestate2 = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate2 = nullptr;
 
 	//定数バッファ用のリソース設定関数
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(int size);
@@ -224,9 +227,9 @@ private:
 	};
 
 	//定数バッファそのもの
-	ID3D12Resource* constBuffMaterial = nullptr;
-	ID3D12Resource* constBuffMaterial2 = nullptr;
-	ID3D12Resource* constBuffTransform = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial2 = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform = nullptr;
 
 	//マッピングするときのポインタ
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
@@ -244,7 +247,7 @@ private:
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
-	ID3D12Resource* texBuff = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff = nullptr;
 
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 

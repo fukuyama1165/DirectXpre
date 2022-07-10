@@ -1,5 +1,9 @@
 #include "DrawingObj.h"
 
+
+
+using namespace Microsoft::WRL;
+
 const float PI = 3.141592653589;
 
 DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
@@ -669,9 +673,6 @@ void DrawingObj::rootsignatureGeneration(ID3D12Device* dev)
 {
 #pragma region ルートシグネチャ設定
 
-	//ルートシグネチャの生成
-	
-
 	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -680,16 +681,17 @@ void DrawingObj::rootsignatureGeneration(ID3D12Device* dev)
 	rootSignatureDesc.pStaticSamplers = &sampleDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
 
-	ID3DBlob* rootSigBlob = nullptr;
+	//ルートシグネチャの生成
+	ComPtr<ID3DBlob> rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	result = dev->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
-	rootSigBlob->Release();
+	
 
 	//パイプラインにルートシグネチャをセット
-	gpipeline.pRootSignature = rootsignature;
+	gpipeline.pRootSignature = rootsignature.Get();
 
 	//パイプライン2にもルートシグネチャをセット
-	gpipeline2.pRootSignature = rootsignature;
+	gpipeline2.pRootSignature = rootsignature.Get();
 
 #pragma endregion 定数バッファを増やしたらルートパラメータを書き換えパラメータ数を書き換える
 
@@ -1052,7 +1054,7 @@ void DrawingObj::SRVGeneraion(ID3D12Device* dev)
 	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダリソースビュー作成
-	dev->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
+	dev->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
 
 #pragma endregion
 }
@@ -1081,14 +1083,14 @@ void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, 
 
 	if (PipeLineRuleFlag)
 	{
-		cmdList->SetPipelineState(pipelinestate);
+		cmdList->SetPipelineState(pipelinestate.Get());
 	}
 	else
 	{
-		cmdList->SetPipelineState(pipelinestate2);
+		cmdList->SetPipelineState(pipelinestate2.Get());
 	}
 
-	cmdList->SetGraphicsRootSignature(rootsignature);
+	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 
 	//頂点バッファビューの設定
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
