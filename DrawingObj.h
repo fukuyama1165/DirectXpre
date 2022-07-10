@@ -28,6 +28,9 @@ using namespace DirectX;
 
 #include <DirectXTex.h>
 
+#include "matrix4x4.h"
+#include "Float3.h"
+
 class DrawingObj
 {
 public:
@@ -117,7 +120,7 @@ public:
 	void constBuffPosMUpdata(float X,float Y,float Z);
 
 	//ビュー変換行列更新
-	void matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up);
+	void matViewUpdata(Float3 eye, Float3 target, Float3 up);
 
 	//定数バッファの行列を更新する関数
 	void constTransformMatUpdata();
@@ -125,12 +128,26 @@ public:
 	//ワールド座標更新
 	void matWorldUpdata();
 
+	Matrix4x4 matScaleGeneration(Float3 scale);
+
+	Matrix4x4 matRotateXGeneration(float rotateX);
+	Matrix4x4 matRotateYGeneration(float rotateY);
+	Matrix4x4 matRotateZGeneration(float rotateZ);
+
+	Matrix4x4 matRotateGeneration(Float3 rotate);
+
+	Matrix4x4 matMoveGeneration(Float3 translation);
+
+	Matrix4x4 matViewGeneration(Float3 eye, Float3 target, Float3 up);
+
+	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY, float aspect, float NearZ, float FarZ);
+
 	//スケール変更行列
-	void SetScale(XMFLOAT3 scale);
+	void SetScale(Float3 scale);
 	//角度変更行列
-	void SetRotate(XMFLOAT3 rotate);
+	void SetRotate(Float3 rotate);
 	//平行移動行列
-	void SetTrans(XMFLOAT3 TransForm);
+	void SetTrans(Float3 TransForm);
 
 private:
 
@@ -203,7 +220,7 @@ private:
 	//定数バッファ用データ構造体(3D変換行列)
 	struct ConstBufferDataTransform
 	{
-		XMMATRIX mat;//3D変換行列
+		Matrix4x4 mat;//3D変換行列
 	};
 
 	//定数バッファそのもの
@@ -232,23 +249,23 @@ private:
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 
 	//透視投影行列
-	XMMATRIX matProjection;
+	Matrix4x4 matProjection;
 
 	//ビュー変換行列
-	XMMATRIX matView;
-	XMFLOAT3 eye_;//視点座標
-	XMFLOAT3 target_;//注視点座標
-	XMFLOAT3 up_;//上方向ベクトル
+	Matrix4x4 matView;
+	Float3 eye_;//視点座標
+	Float3 target_;//注視点座標
+	Float3 up_;//上方向ベクトル
 
-	XMMATRIX matWorld;
+	Matrix4x4 matWorld;
 
-	XMMATRIX matScale;
-	XMMATRIX matRotate;
-	XMMATRIX matTrans;
+	Matrix4x4 matScale;
+	Matrix4x4 matRotate;
+	Matrix4x4 matTrans;
 
-	XMFLOAT3 Scale_;
-	XMFLOAT3 Rotate_;
-	XMFLOAT3 Trans_;
+	Float3 Scale_;
+	Float3 Rotate_;
+	Float3 Trans_;
 
 
 };

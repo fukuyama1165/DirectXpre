@@ -796,15 +796,15 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	assert(SUCCEEDED(result));
 
 	//行列に単位行列を代入
-	matWorld = XMMatrixIdentity();
+	matWorld.IdentityMatrix();
 
-	matScale = XMMatrixIdentity();
+	matScale.IdentityMatrix();
 
-	matRotate = XMMatrixIdentity();
+	matRotate.IdentityMatrix();
 
-	matTrans = XMMatrixIdentity();
+	matTrans.IdentityMatrix();
 
-	constMapTransform->mat = XMMatrixIdentity();
+	constMapTransform->mat.IdentityMatrix();
 
 	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
 	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
@@ -815,11 +815,13 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
 
 	//透視投影行列の計算
-	 matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
+	//matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
 
-	
+	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), Win_width / Win_height, 0.1f, 1000.0f);
 
-	 matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	matView = matViewGeneration(eye_, target_, up_);
+
+	 //matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 	 
 	 Scale_ = { 1.0f,1.0f,1.0f };
 	 Rotate_ = { 0.0f,0.0f,0.0f };
@@ -1206,13 +1208,14 @@ void DrawingObj::constBuffPosMUpdata(float X, float Y, float Z)
 	constMapMaterial2->posM = XMFLOAT4(X, Y, Z, 0.0f);
 }
 
-void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
+void DrawingObj::matViewUpdata(Float3 eye, Float3 target, Float3 up)
 {
 	eye_ = eye;
 	target_ = target;
 	up_ = up;
 
-	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	//matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	matView = matViewGeneration(eye_, target_, up_);
 
 	constTransformMatUpdata();
 }
@@ -1226,39 +1229,223 @@ void DrawingObj::matWorldUpdata()
 {
 
 	//スケール行列更新
-	matScale = XMMatrixScaling(Scale_.x, Scale_.y, Scale_.z);
+	matScale = matScaleGeneration(Scale_);
 
 	//回転行列更新
-	matRotate = XMMatrixIdentity();
-
-	matRotate *= XMMatrixRotationZ(Rotate_.z);
-	matRotate *= XMMatrixRotationX(Rotate_.x);
-	matRotate *= XMMatrixRotationY(Rotate_.y);
+	matRotate = matRotateGeneration(Rotate_);
 
 	//平行移動行列更新
-	matTrans = XMMatrixTranslation(Trans_.x, Trans_.y, Trans_.z);
+	matTrans = matMoveGeneration(Trans_);
 
 	//ワールド行列更新
-	matWorld = XMMatrixIdentity();
-	matWorld *= matScale;
-	matWorld *= matRotate;
-	matWorld *= matTrans;
+	matWorld.IdentityMatrix();
+	matWorld *= matScale*matRotate*matTrans;
+	
 
 	constTransformMatUpdata();
 }
 
 
-void DrawingObj::SetScale(XMFLOAT3 scale)
+void DrawingObj::SetScale(Float3 scale)
 {
 	Scale_ = scale;
 }
 
-void DrawingObj::SetRotate(XMFLOAT3 rotate)
+void DrawingObj::SetRotate(Float3 rotate)
 {
 	Rotate_ = rotate;
 }
 
-void DrawingObj::SetTrans(XMFLOAT3 TransForm)
+void DrawingObj::SetTrans(Float3 TransForm)
 {
 	Trans_ = TransForm;
+}
+
+Matrix4x4 DrawingObj::matScaleGeneration(Float3 scale)
+{
+	//スケーリング行列を宣言
+	Matrix4x4 matScale;
+	matScale.IdentityMatrix();
+
+	//スケーリング倍率を行列に設定
+	matScale.m[0][0] = scale.x;
+	matScale.m[1][1] = scale.y;
+	matScale.m[2][2] = scale.z;
+	matScale.m[3][3] = 1;
+
+	return matScale;
+}
+
+Matrix4x4 DrawingObj::matRotateXGeneration(float rotateX)
+{
+	//X軸回転行列を宣言
+	Matrix4x4 matRotateX;
+	matRotateX.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateX.m[0][0] = 1;
+	matRotateX.m[1][1] = cos(rotateX);
+	matRotateX.m[1][2] = sin(rotateX);
+	matRotateX.m[2][1] = -sin(rotateX);
+	matRotateX.m[2][2] = cos(rotateX);
+	matRotateX.m[3][3] = 1;
+
+	return matRotateX;
+}
+
+Matrix4x4 DrawingObj::matRotateYGeneration(float rotateY)
+{
+	//Y軸回転行列を宣言
+	Matrix4x4 matRotateY;
+	matRotateY.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateY.m[0][0] = cos(rotateY);
+	matRotateY.m[0][2] = -sin(rotateY);
+	matRotateY.m[1][1] = 1;
+	matRotateY.m[2][0] = sin(rotateY);
+	matRotateY.m[2][2] = cos(rotateY);
+	matRotateY.m[3][3] = 1;
+
+	return matRotateY;
+}
+
+Matrix4x4 DrawingObj::matRotateZGeneration(float rotateZ)
+{
+	//Z軸回転行列を宣言
+	Matrix4x4 matRotateZ;
+	matRotateZ.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateZ.m[0][0] = cos(rotateZ);
+	matRotateZ.m[0][1] = sin(rotateZ);
+	matRotateZ.m[1][0] = -sin(rotateZ);
+	matRotateZ.m[1][1] = cos(rotateZ);
+	matRotateZ.m[2][2] = 1;
+	matRotateZ.m[3][3] = 1;
+
+	return matRotateZ;
+}
+
+Matrix4x4 DrawingObj::matRotateGeneration(Float3 rotate)
+{
+	//X軸回転行列を宣言
+	Matrix4x4 matRotateX = matRotateXGeneration(rotate.x);
+
+	//Y軸回転行列を宣言
+	Matrix4x4 matRotateY = matRotateYGeneration(rotate.y);
+
+	//Z軸回転行列を宣言
+	Matrix4x4 matRotateZ = matRotateZGeneration(rotate.z);
+
+	//回転軸合成行列を宣言
+	Matrix4x4 matRotate;
+	matRotate.IdentityMatrix();
+
+	//計算した角度を計算(順番は回転させるモデルによって変える)
+
+	matRotateX *= matRotateY;
+
+	matRotateZ *= matRotateX;
+
+	matRotate = matRotateZ;
+
+	return matRotate;
+}
+
+Matrix4x4 DrawingObj::matMoveGeneration(Float3 translation)
+{
+	//移動するための行列を用意
+	Matrix4x4 matMove;
+	matMove.IdentityMatrix();
+
+	//行列に移動量を代入
+	matMove.m[3][0] = translation.x;
+	matMove.m[3][1] = translation.y;
+	matMove.m[3][2] = translation.z;
+
+	return matMove;
+}
+
+Matrix4x4 DrawingObj::matViewGeneration(Float3 eye, Float3 target, Float3 up)
+{
+
+	Float3 zVer = target - eye;
+
+	zVer.normalize();
+
+	Float3 xVer = up.cross(zVer);
+
+	xVer.normalize();
+
+	Float3 yVer = zVer.cross(xVer);
+
+
+	Matrix4x4 cameraRotateMat;
+
+	cameraRotateMat.IdentityMatrix();
+
+	cameraRotateMat.m[0][0] = xVer.x;
+	cameraRotateMat.m[0][1] = xVer.y;
+	cameraRotateMat.m[0][2] = xVer.z;
+
+	cameraRotateMat.m[1][0] = yVer.x;
+	cameraRotateMat.m[1][1] = yVer.y;
+	cameraRotateMat.m[1][2] = yVer.z;
+
+	cameraRotateMat.m[2][0] = zVer.x;
+	cameraRotateMat.m[2][1] = zVer.y;
+	cameraRotateMat.m[2][2] = zVer.z;
+
+	Float3 cameraPos;
+	Float3 Eye = eye;
+	Eye = -Eye;
+
+	cameraPos.x = Eye.dot(xVer);
+	cameraPos.y = Eye.dot(yVer);
+	cameraPos.z = Eye.dot(zVer);
+
+
+	Matrix4x4 cameraMat;
+
+	cameraMat.IdentityMatrix();
+
+	Matrix4x4 cameRotMat = {};
+	cameRotMat.IdentityMatrix();
+	cameRotMat.m[0][0] = cameraRotateMat.m[0][0];
+	cameRotMat.m[1][0] = cameraRotateMat.m[0][1];
+	cameRotMat.m[2][0] = cameraRotateMat.m[0][2];
+	cameRotMat.m[3][0] = cameraRotateMat.m[0][3];
+
+	cameRotMat.m[0][1] = cameraRotateMat.m[1][0];
+	cameRotMat.m[1][1] = cameraRotateMat.m[1][1];
+	cameRotMat.m[2][1] = cameraRotateMat.m[1][2];
+	cameRotMat.m[3][1] = cameraRotateMat.m[1][3];
+
+	cameRotMat.m[0][2] = cameraRotateMat.m[2][0];
+	cameRotMat.m[1][2] = cameraRotateMat.m[2][1];
+	cameRotMat.m[2][2] = cameraRotateMat.m[2][2];
+	cameRotMat.m[3][2] = cameraRotateMat.m[2][3];
+
+	cameraMat = cameraRotateMat.InverseMatrix();
+
+	cameraMat.m[3][0] = cameraPos.x;
+	cameraMat.m[3][1] = cameraPos.y;
+	cameraMat.m[3][2] = cameraPos.z;
+
+	return cameraMat;
+}
+
+Matrix4x4 DrawingObj::perspectiveProjectionGeneration(float FovAngleY, float aspect, float NearZ, float FarZ)
+{
+	Matrix4x4 ans = {};
+
+	ans.m[0][0] = 1 / tanf(2);
+	ans.m[1][1] = 1 / tanf(2) * aspect;
+	ans.m[2][2] = (FarZ + NearZ) / (FarZ - NearZ);
+	ans.m[2][3] = 1.0f;
+	ans.m[3][2] = -((2 * (FarZ * NearZ)) / (FarZ - NearZ));
+
+	return ans;
+
 }

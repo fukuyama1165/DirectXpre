@@ -153,7 +153,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float angle = 0.0f;//カメラの回転角
 
 	//座標
-	XMFLOAT3 pos={};
+	Float3 pos={};
 
 
 	//ゲームループ

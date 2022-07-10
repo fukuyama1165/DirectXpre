@@ -143,7 +143,9 @@
   <ItemGroup>
     <ClCompile Include="DirectXInit.cpp" />
     <ClCompile Include="DrawingObj.cpp" />
+    <ClCompile Include="Float3.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="matrix4x4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -182,6 +184,8 @@
   <ItemGroup>
     <ClInclude Include="DirectXInit.h" />
     <ClInclude Include="DrawingObj.h" />
+    <ClInclude Include="Float3.h" />
+    <ClInclude Include="matrix4x4.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
