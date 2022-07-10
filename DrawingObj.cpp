@@ -862,7 +862,7 @@ void DrawingObj::indicesBuffGeneration(ID3D12Device* dev)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//インデックスバッファの生成
-	ID3D12Resource* indexBuff = nullptr;
+	
 	result = dev->CreateCommittedResource(
 		&heapprop,//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,

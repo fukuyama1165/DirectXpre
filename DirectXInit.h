@@ -32,7 +32,6 @@ using namespace DirectX;
 //ComPtr用インクルード
 #include <wrl.h>
 
-using namespace Microsoft::WRL;
 
 class DirectXInit
 {
@@ -73,13 +72,13 @@ public:
 	void DirectInputGeneration(WNDCLASSEX w, HWND hwnd);
 
 	//devを返す関数
-	ComPtr<ID3D12Device> Getdev();
+	Microsoft::WRL::ComPtr<ID3D12Device> Getdev();
 
 	//keyboardを返す関数
 	IDirectInputDevice8* GetKeyBoard();
 
 	//cmdListを返す関数
-	ComPtr<ID3D12GraphicsCommandList> GetcmdList();
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetcmdList();
 
 	//描画の初めの部分
 	void DrawStart();
@@ -112,16 +111,18 @@ private:
 private:
 
 	HRESULT result;
-	ComPtr<ID3D12Device> dev = nullptr;
-	ComPtr<IDXGIFactory6> dxgiFactory = nullptr;
-	ComPtr<IDXGISwapChain4> swapchain = nullptr;
-	ComPtr<ID3D12CommandAllocator> cmdAllocator = nullptr;
-	ComPtr<ID3D12GraphicsCommandList> cmdList = nullptr;
-	ComPtr<ID3D12CommandQueue> cmdQueue = nullptr;
-	ComPtr<ID3D12DescriptorHeap> rtvHeaps = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Device> dev = nullptr;
+	Microsoft::WRL::ComPtr<IDXGIFactory6> dxgiFactory = nullptr;
+	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapchain = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> cmdAllocator = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> cmdList = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12CommandQueue> cmdQueue = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeaps = nullptr;
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff = nullptr;
 
 	//バックバッファ
-	std::vector<ComPtr<ID3D12Resource>>backBuffers{2};
+	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>>backBuffers{2};
 
 	//デスクリプタヒープ
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
@@ -130,7 +131,7 @@ private:
 	IDirectInputDevice8* keyboard = nullptr;
 
 	//フェンス
-	ComPtr<ID3D12Fence> fence = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Fence> fence = nullptr;
 	UINT64 fenceVel = 0;
 
 	//全キーの入力情報を取得する為の変数
@@ -143,7 +144,7 @@ private:
 	//リソースバリア
 	D3D12_RESOURCE_BARRIER barrierDesc{};
 
-	ID3D12DescriptorHeap* dsvHeap = nullptr;
+	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> dsvHeap = nullptr;
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 
 };

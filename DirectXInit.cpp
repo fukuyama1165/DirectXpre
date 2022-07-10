@@ -1,6 +1,8 @@
 #include "DirectXInit.h"
 
 //DirectXInit* DirectXInit::instance = nullptr;
+using namespace Microsoft::WRL;
+
 
 DirectXInit::~DirectXInit()
 {
@@ -222,7 +224,7 @@ void DirectXInit::DepthBuffGeneration(const int win_width, const int win_height)
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
 
 	//リソース生成
-	ID3D12Resource* depthBuff = nullptr;
+	
 	result = dev->CreateCommittedResource(
 		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -242,7 +244,7 @@ void DirectXInit::DepthBuffGeneration(const int win_width, const int win_height)
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	dev->CreateDepthStencilView(
-		depthBuff,
+		depthBuff.Get(),
 		&dsvDesc,
 		dsvHeap->GetCPUDescriptorHandleForHeapStart()
 	);
