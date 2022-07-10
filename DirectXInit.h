@@ -29,7 +29,10 @@ using namespace DirectX;
 
 #include "DrawingObj.h"
 
+//ComPtr用インクルード
+#include <wrl.h>
 
+using namespace Microsoft::WRL;
 
 class DirectXInit
 {
@@ -70,13 +73,13 @@ public:
 	void DirectInputGeneration(WNDCLASSEX w, HWND hwnd);
 
 	//devを返す関数
-	ID3D12Device* Getdev();
+	ComPtr<ID3D12Device> Getdev();
 
 	//keyboardを返す関数
 	IDirectInputDevice8* GetKeyBoard();
 
 	//cmdListを返す関数
-	ID3D12GraphicsCommandList* GetcmdList();
+	ComPtr<ID3D12GraphicsCommandList> GetcmdList();
 
 	//描画の初めの部分
 	void DrawStart();
@@ -109,16 +112,16 @@ private:
 private:
 
 	HRESULT result;
-	ID3D12Device* dev = nullptr;
-	IDXGIFactory6* dxgiFactory = nullptr;
-	IDXGISwapChain4* swapchain = nullptr;
-	ID3D12CommandAllocator* cmdAllocator = nullptr;
-	ID3D12GraphicsCommandList* cmdList = nullptr;
-	ID3D12CommandQueue* cmdQueue = nullptr;
-	ID3D12DescriptorHeap* rtvHeaps = nullptr;
+	ComPtr<ID3D12Device> dev = nullptr;
+	ComPtr<IDXGIFactory6> dxgiFactory = nullptr;
+	ComPtr<IDXGISwapChain4> swapchain = nullptr;
+	ComPtr<ID3D12CommandAllocator> cmdAllocator = nullptr;
+	ComPtr<ID3D12GraphicsCommandList> cmdList = nullptr;
+	ComPtr<ID3D12CommandQueue> cmdQueue = nullptr;
+	ComPtr<ID3D12DescriptorHeap> rtvHeaps = nullptr;
 
 	//バックバッファ
-	std::vector<ID3D12Resource*>backBuffers{2};
+	std::vector<ComPtr<ID3D12Resource>>backBuffers{2};
 
 	//デスクリプタヒープ
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
@@ -127,7 +130,7 @@ private:
 	IDirectInputDevice8* keyboard = nullptr;
 
 	//フェンス
-	ID3D12Fence* fence = nullptr;
+	ComPtr<ID3D12Fence> fence = nullptr;
 	UINT64 fenceVel = 0;
 
 	//全キーの入力情報を取得する為の変数

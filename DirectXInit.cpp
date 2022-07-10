@@ -23,7 +23,7 @@ void DirectXInit::Init(WNDCLASSEX w, HWND hwnd, const int win_width, const int w
 #ifdef _DEBUG
 
 	//デバックレイヤーをオンに
-	ID3D12Debug* debugController;
+	ComPtr<ID3D12Debug> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 	{
 		debugController->EnableDebugLayer();
@@ -68,10 +68,10 @@ void DirectXInit::GraphicAdapterGeneration()
 	result = CreateDXGIFactory1(IID_PPV_ARGS(&dxgiFactory));
 
 	//アダプターの列挙用
-	std::vector<IDXGIAdapter1*> adapters;
+	std::vector<ComPtr<IDXGIAdapter1>> adapters;
 
 	//ここに特定の名前を持つアダプターオブジェクトが入る
-	IDXGIAdapter1* tmpAdapter = nullptr;
+	ComPtr<IDXGIAdapter1> tmpAdapter = nullptr;
 	for (int i = 0; dxgiFactory->EnumAdapters1(i, &tmpAdapter) != DXGI_ERROR_NOT_FOUND; i++)
 	{
 		adapters.push_back(tmpAdapter);//動的配列に追加する
@@ -93,7 +93,7 @@ void DirectXInit::GraphicAdapterGeneration()
 		//Intel UHD Graphice(オンボードグラフィック)を回避
 		if (strDesc.find(L"Intel") == std::wstring::npos)
 		{
-			tmpAdapter = adapters[i];//採用
+			tmpAdapter = adapters[i].Get();//採用
 			break;
 		}
 
@@ -116,7 +116,7 @@ void DirectXInit::GraphicAdapterGeneration()
 	for (int i = 0; i < _countof(levels); i++)
 	{
 		//採用したアダプターでデバイスを生成
-		result = D3D12CreateDevice(tmpAdapter, levels[i], IID_PPV_ARGS(&dev));
+		result = D3D12CreateDevice(tmpAdapter.Get(), levels[i], IID_PPV_ARGS(&dev));
 		if (result == S_OK)//ちょくちょくresultの中身がS_OKであることを確認すること
 		{
 			//デバイスを生成できた時点でループを抜ける
@@ -145,7 +145,7 @@ void DirectXInit::CommandListGeneration()
 	result = dev->CreateCommandList(
 		0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		cmdAllocator,
+		cmdAllocator.Get(),
 		nullptr,
 		IID_PPV_ARGS(&cmdList)
 	);
@@ -180,14 +180,20 @@ void DirectXInit::SwapChainGeneration(HWND hwnd, const int win_width, const int 
 	swapchainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;//フリップ後は破棄
 	swapchainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
+	//comptrの変換用変数を定義
+	ComPtr<IDXGISwapChain1> swapChain1;
+
 	dxgiFactory->CreateSwapChainForHwnd(
-		cmdQueue,
+		cmdQueue.Get(),
 		hwnd,
 		&swapchainDesc,
 		nullptr,
 		nullptr,
-		(IDXGISwapChain1**)&swapchain
+		&swapChain1
 	);
+
+	//生成したIDXGISwapChain1のオブジェクトをIDXGISwapChain4に変換
+	swapChain1.As(&swapchain);
 
 #pragma endregion
 }
@@ -270,7 +276,7 @@ void DirectXInit::RTVGeneration()
 		handle.ptr += i * dev->GetDescriptorHandleIncrementSize(heapDesc.Type);
 		//レンダーターゲットビューの生成
 		dev->CreateRenderTargetView(
-			backBuffers[i],
+			backBuffers[i].Get(),
 			nullptr,
 			handle
 		);
@@ -307,7 +313,7 @@ void DirectXInit::DrawStart()
 	UINT bbIndex = swapchain->GetCurrentBackBufferIndex();
 
 	// 1.リソースバリアで書き込み可能に変更
-	barrierDesc.Transition.pResource = backBuffers[bbIndex];//バックバッファを指定
+	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get();//バックバッファを指定
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;//表示から
 	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;//描画
 	cmdList->ResourceBarrier(1, &barrierDesc);
@@ -337,7 +343,7 @@ void DirectXInit::DrawEnd()
 	//命令のクローズ(ここで描画の命令はそろったので実行にうつす)
 	cmdList->Close();
 	//コマンドリストの実行
-	ID3D12CommandList* cmdLists[] = { cmdList };
+	ID3D12CommandList* cmdLists[] = { cmdList.Get()};
 	cmdQueue->ExecuteCommandLists(1, cmdLists);
 
 	//画面に表示するバッファをフリップ(裏表の入れ替え)
@@ -345,7 +351,7 @@ void DirectXInit::DrawEnd()
 
 	//コマンド完了待ち(これを書かないとすぐ処理に移行してしまうため)
 	//コマンドの実行完了を待つ
-	cmdQueue->Signal(fence, ++fenceVel);
+	cmdQueue->Signal(fence.Get(), ++fenceVel);
 	if (fence->GetCompletedValue() != fenceVel)
 	{
 		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
@@ -355,7 +361,7 @@ void DirectXInit::DrawEnd()
 	}
 
 	cmdAllocator->Reset();
-	cmdList->Reset(cmdAllocator, nullptr);
+	cmdList->Reset(cmdAllocator.Get(), nullptr);
 }
 
 void DirectXInit::clearColorChange(float R, float G, float B, float A)
@@ -450,7 +456,7 @@ void DirectXInit::DirectInputGeneration(WNDCLASSEX w, HWND hwnd)
 }
 
 //get関数群
-ID3D12Device* DirectXInit::Getdev()
+ComPtr<ID3D12Device> DirectXInit::Getdev()
 {
 	return dev;
 }
@@ -460,7 +466,7 @@ IDirectInputDevice8* DirectXInit::GetKeyBoard()
 	return keyboard;
 }
 
-ID3D12GraphicsCommandList* DirectXInit::GetcmdList()
+ComPtr<ID3D12GraphicsCommandList> DirectXInit::GetcmdList()
 {
 	return cmdList;
 }

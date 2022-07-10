@@ -123,7 +123,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DrawingObj charactorObj(window_width, window_height);
 
 
-	charactorObj.basicInit(directXinit->Getdev());
+	charactorObj.basicInit(directXinit->Getdev().Get());
 
 
 
@@ -227,7 +227,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
 		
-		charactorObj.Draw(directXinit->GetcmdList(), PipeLineRuleFlag, ChangeSquareFlag);
+		charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag);
 		
 		// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚Ü‚Å
 
