@@ -151,9 +151,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float scaleY = 1;
 
 	float angle = 0.0f;//ƒJƒƒ‰‚Ì‰ñ“]Šp
+	float angleY = 0.0f;//ƒJƒƒ‰‚Ì‰ñ“]Šp
 
 	//À•W
-	Float3 pos={};
+	XMFLOAT3 pos={};
 
 
 	//ƒQ[ƒ€ƒ‹[ƒv
@@ -283,7 +284,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 
-		if (directXinit->PushKey(DIK_D) or directXinit->PushKey(DIK_A))
+		if (directXinit->PushKey(DIK_D) or directXinit->PushKey(DIK_A)or directXinit->PushKey(DIK_W)or directXinit->PushKey(DIK_S))
 		{
 			if (directXinit->PushKey(DIK_D))
 			{
@@ -293,8 +294,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			{
 				angle -= XMConvertToRadians(1.0f);
 			}
+			else if (directXinit->PushKey(DIK_W))
+			{
+				angleY += XMConvertToRadians(500.0f);
+			}
+			else if (directXinit->PushKey(DIK_S))
+			{
+				angleY -= XMConvertToRadians(500.0f);
+			}
 
-			charactorObj.matViewUpdata({ -100 * sinf(angle),0,-100 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
+			charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,-400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
 
 		}
 

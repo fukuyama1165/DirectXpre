@@ -14,88 +14,88 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
 	//前
-	vertices[0] = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[1] = { { -50.0f,50.0f,-50.0f },{0.0f,0.0f} };//左上
-	vertices[2] = { { 50.0f,-50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[3] = { { 50.0f,50.0f,-50.0f },{1.0f,0.0f} };//右上
+	vertices[0] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f}};//左下
+	vertices[1] = { { -50.0f,50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[2] = { { 50.0f,-50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[3] = { { 50.0f,50.0f,-50.0f },{},{1.0f,0.0f} };//右上
 
 	//後
-	vertices[4] = { { -50.0f,-50.0f,50.0f },{0.0f,1.0f} };//左下
-	vertices[5] = { { -50.0f,50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[6] = { { 50.0f,-50.0f,50.0f },{1.0f,1.0f} };//右下
-	vertices[7] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[4] = { { -50.0f,-50.0f,50.0f },{},{0.0f,1.0f} };//左下
+	vertices[5] = { { -50.0f,50.0f,50.0f },{},{0.0f,0.0f} };//左上
+	vertices[6] = { { 50.0f,-50.0f,50.0f },{},{1.0f,1.0f} };//右下
+	vertices[7] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//左
-	vertices[8]  = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[9]  = { { -50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[10] = { { -50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[11] = { { -50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[8]  = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[9]  = { { -50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
+	vertices[10] = { { -50.0f,50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[11] = { { -50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//右
-	vertices[12] = { { 50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[13] = { { 50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[14] = { { 50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[15] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[12] = { { 50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[13] = { { 50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
+	vertices[14] = { { 50.0f,50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[15] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//上
-	vertices[16] = { { -50.0f,50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[17] = { { -50.0f,50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[18] = { { 50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[19] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[16] = { { -50.0f,50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[17] = { { -50.0f,50.0f,50.0f },{},{0.0f,0.0f} };//左上
+	vertices[18] = { { 50.0f,50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[19] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//下
-	vertices[20] = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[21] = { { -50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[22] = { { 50.0f,-50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[23] = { { 50.0f,-50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[20] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[21] = { { -50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
+	vertices[22] = { { 50.0f,-50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[23] = { { 50.0f,-50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//インデックスデータ
 	//前
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
-	indices[3] = 1;
-	indices[4] = 2;
+	indices[3] = 2;
+	indices[4] = 1;
 	indices[5] = 3;
 
 	//後
 	indices[6] = 4;
 	indices[7] = 5;
 	indices[8] = 6;
-	indices[9] = 5;
-	indices[10] = 6;
+	indices[9] = 6;
+	indices[10] = 5;
 	indices[11] = 7;
 
 	//左
 	indices[12] = 8;
 	indices[13] = 9;
 	indices[14] = 10;
-	indices[15] = 9;
-	indices[16] = 10;
+	indices[15] = 10;
+	indices[16] = 9;
 	indices[17] = 11;
 
 	//右
 	indices[18] = 12;
 	indices[19] = 13;
 	indices[20] = 14;
-	indices[21] = 13;
-	indices[22] = 14;
+	indices[21] = 14;
+	indices[22] = 13;
 	indices[23] = 15;
 
 	//下
 	indices[24] = 16;
 	indices[25] = 17;
 	indices[26] = 18;
-	indices[27] = 17;
-	indices[28] = 18;
+	indices[27] = 18;
+	indices[28] = 17;
 	indices[29] = 19;
 
 	//上
 	indices[30] = 20;
 	indices[31] = 21;
 	indices[32] = 22;
-	indices[33] = 21;
-	indices[34] = 22;
+	indices[33] = 22;
+	indices[34] = 21;
 	indices[35] = 23;
 	
 	
@@ -105,7 +105,7 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 
 	//ビュー変換行列
-	eye_ = { 0, 0, -100 };//視点座標
+	eye_ = { 0, 0, -400 };//視点座標
 	target_ = { 0, 0, 0 };//注視点座標
 	up_ = { 0, 1, 0 };//上方向ベクトル
 }
@@ -117,10 +117,10 @@ DrawingObj::DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 ve
 
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
-	vertices[0] = { vertexPos1,vertexUv1 };//左下
-	vertices[1] = { vertexPos2,vertexUv2 };//左上
-	vertices[2] = { vertexPos3,vertexUv3 };//右下
-	vertices[3] = { vertexPos4,vertexUv4 };//右上
+	vertices[0] = { vertexPos1,{},vertexUv1 };//左下
+	vertices[1] = { vertexPos2,{},vertexUv2 };//左上
+	vertices[2] = { vertexPos3,{},vertexUv3 };//右下
+	vertices[3] = { vertexPos4,{},vertexUv4 };//右上
 
 	//インデックスデータ
 	indices[0] = 0;
@@ -459,6 +459,13 @@ void DrawingObj::vertexLayout()
 	};
 		//座標以外に　色、テクスチャUVなどを渡す場合はさらに続ける
 	inputLayout[1] =
+	{//法線ベクトル
+		"NORMAL",0,DXGI_FORMAT_R32G32B32_FLOAT,0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+	};
+
+	inputLayout[2] =
 	{//UV座標
 		"TEXCOORD",
 		0,
@@ -566,7 +573,7 @@ void DrawingObj::graphicPipelineGeneration()
 
 	//サンプルマスクとラスタライザステートの設定
 	gpipeline2.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
-	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
+	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;//カリングしない
 	gpipeline2.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;//ワイヤーフレーム描画
 	gpipeline2.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 
@@ -798,7 +805,7 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	assert(SUCCEEDED(result));
 
 	//行列に単位行列を代入
-	matWorld.IdentityMatrix();
+	/*matWorld.IdentityMatrix();
 
 	matScale.IdentityMatrix();
 
@@ -806,7 +813,7 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	matTrans.IdentityMatrix();
 
-	constMapTransform->mat.IdentityMatrix();
+	constMapTransform->mat.IdentityMatrix();*/
 
 	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
 	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
@@ -817,17 +824,19 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
 
 	//透視投影行列の計算
-	//matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
+	matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
 
-	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), Win_width / Win_height, 0.1f, 1000.0f);
+	/*matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), Win_width / Win_height, 0.1f, 1000.0f);
 
-	matView = matViewGeneration(eye_, target_, up_);
+	matView = matViewGeneration(eye_, target_, up_);*/
 
-	 //matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	 matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 	 
 	 Scale_ = { 1.0f,1.0f,1.0f };
 	 Rotate_ = { 0.0f,0.0f,0.0f };
 	 Trans_ = { 0.0f,0.0f,0.0f };
+
+	 matWorldUpdata();
 
 	 constTransformMatUpdata();
 
@@ -1210,14 +1219,14 @@ void DrawingObj::constBuffPosMUpdata(float X, float Y, float Z)
 	constMapMaterial2->posM = XMFLOAT4(X, Y, Z, 0.0f);
 }
 
-void DrawingObj::matViewUpdata(Float3 eye, Float3 target, Float3 up)
+void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
 {
 	eye_ = eye;
 	target_ = target;
 	up_ = up;
 
-	//matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
-	matView = matViewGeneration(eye_, target_, up_);
+	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	//matView = matViewGeneration(eye_, target_, up_);
 
 	constTransformMatUpdata();
 }
@@ -1230,35 +1239,54 @@ void DrawingObj::constTransformMatUpdata()
 void DrawingObj::matWorldUpdata()
 {
 
-	//スケール行列更新
-	matScale = matScaleGeneration(Scale_);
+	////スケール行列更新
+	//matScale = matScaleGeneration(Scale_);
+
+	////回転行列更新
+	//matRotate = matRotateGeneration(Rotate_);
+
+	////平行移動行列更新
+	//matTrans = matMoveGeneration(Trans_);
+
+	////ワールド行列更新
+	//matWorld.IdentityMatrix();
+	//matWorld *= matScale*matRotate*matTrans;
+
+	// スケール行列更新
+	matScale = XMMatrixScaling(Scale_.x, Scale_.y, Scale_.z);
 
 	//回転行列更新
-	matRotate = matRotateGeneration(Rotate_);
+	matRotate = XMMatrixIdentity();
+
+	matRotate *= XMMatrixRotationZ(Rotate_.z);
+	matRotate *= XMMatrixRotationX(Rotate_.x);
+	matRotate *= XMMatrixRotationY(Rotate_.y);
 
 	//平行移動行列更新
-	matTrans = matMoveGeneration(Trans_);
+	matTrans = XMMatrixTranslation(Trans_.x, Trans_.y, Trans_.z);
 
 	//ワールド行列更新
-	matWorld.IdentityMatrix();
-	matWorld *= matScale*matRotate*matTrans;
-	
+	matWorld = XMMatrixIdentity();
+	matWorld *= matScale;
+	matWorld *= matRotate;
+	matWorld *= matTrans;
 
 	constTransformMatUpdata();
+	
 }
 
 
-void DrawingObj::SetScale(Float3 scale)
+void DrawingObj::SetScale(XMFLOAT3 scale)
 {
 	Scale_ = scale;
 }
 
-void DrawingObj::SetRotate(Float3 rotate)
+void DrawingObj::SetRotate(XMFLOAT3 rotate)
 {
 	Rotate_ = rotate;
 }
 
-void DrawingObj::SetTrans(Float3 TransForm)
+void DrawingObj::SetTrans(XMFLOAT3 TransForm)
 {
 	Trans_ = TransForm;
 }
@@ -1353,6 +1381,9 @@ Matrix4x4 DrawingObj::matRotateGeneration(Float3 rotate)
 	matRotate = matRotateZ;
 
 	return matRotate;
+
+	
+
 }
 
 Matrix4x4 DrawingObj::matMoveGeneration(Float3 translation)

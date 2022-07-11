@@ -10,7 +10,7 @@ cbuffer ConstBufferDataMaterial2 : register(b1)//定数バッファの番号をbの後ろにつ
 
 cbuffer ConstBufferDataTransform : register(b2)
 {
-	matrix<float,4,4> mat;//3D変換行列
+	matrix mat;//3D変換行列
 }
 
 //頂点シェーダーの出力構造体
@@ -19,6 +19,8 @@ struct VSOutput
 {
 	//システム用頂点座標
 	float4 svpos:SV_POSITION;
+	//法線ベクトル
+	float3 normal:NORMAL;
 	//uv値
 	float2 uv:TEXCOORD;
 };

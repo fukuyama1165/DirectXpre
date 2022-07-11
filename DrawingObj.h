@@ -53,6 +53,7 @@ public:
 	struct Vertex
 	{
 		XMFLOAT3 pos;//xyz座標
+		XMFLOAT3 normal;//法線ベクトル
 		XMFLOAT2 uv;//uv座標
 	};
 
@@ -123,7 +124,8 @@ public:
 	void constBuffPosMUpdata(float X,float Y,float Z);
 
 	//ビュー変換行列更新
-	void matViewUpdata(Float3 eye, Float3 target, Float3 up);
+	//void matViewUpdata(Float3 eye, Float3 target, Float3 up);
+	void matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up);
 
 	//定数バッファの行列を更新する関数
 	void constTransformMatUpdata();
@@ -146,11 +148,11 @@ public:
 	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY, float aspect, float NearZ, float FarZ);
 
 	//スケール変更行列
-	void SetScale(Float3 scale);
+	void SetScale(XMFLOAT3 scale);
 	//角度変更行列
-	void SetRotate(Float3 rotate);
+	void SetRotate(XMFLOAT3 rotate);
 	//平行移動行列
-	void SetTrans(Float3 TransForm);
+	void SetTrans(XMFLOAT3 TransForm);
 
 private:
 
@@ -184,7 +186,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
 
 	//頂点レイアウト(要素を増やすなら配列数を増やす)
-	D3D12_INPUT_ELEMENT_DESC inputLayout[2];
+	D3D12_INPUT_ELEMENT_DESC inputLayout[3];
 
 	//グラフィックスパイプラインの各ステージの設定をする構造体を用意
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};
@@ -223,7 +225,7 @@ private:
 	//定数バッファ用データ構造体(3D変換行列)
 	struct ConstBufferDataTransform
 	{
-		Matrix4x4 mat;//3D変換行列
+		XMMATRIX mat;//3D変換行列
 	};
 
 	//定数バッファそのもの
@@ -253,24 +255,43 @@ private:
 
 	ID3D12DescriptorHeap* srvHeap = nullptr;
 
+	////透視投影行列
+	//Matrix4x4 matProjection;
+
+	////ビュー変換行列
+	//Matrix4x4 matView;
+	//Float3 eye_;//視点座標
+	//Float3 target_;//注視点座標
+	//Float3 up_;//上方向ベクトル
+
+	//Matrix4x4 matWorld;
+
+	//Matrix4x4 matScale;
+	//Matrix4x4 matRotate;
+	//Matrix4x4 matTrans;
+
+	//Float3 Scale_;
+	//Float3 Rotate_;
+	//Float3 Trans_;
+
 	//透視投影行列
-	Matrix4x4 matProjection;
+	XMMATRIX matProjection;
 
 	//ビュー変換行列
-	Matrix4x4 matView;
-	Float3 eye_;//視点座標
-	Float3 target_;//注視点座標
-	Float3 up_;//上方向ベクトル
+	XMMATRIX matView;
+	XMFLOAT3 eye_;//視点座標
+	XMFLOAT3 target_;//注視点座標
+	XMFLOAT3 up_;//上方向ベクトル
 
-	Matrix4x4 matWorld;
+	XMMATRIX matWorld;
 
-	Matrix4x4 matScale;
-	Matrix4x4 matRotate;
-	Matrix4x4 matTrans;
+	XMMATRIX matScale;
+	XMMATRIX matRotate;
+	XMMATRIX matTrans;
 
-	Float3 Scale_;
-	Float3 Rotate_;
-	Float3 Trans_;
+	XMFLOAT3 Scale_;
+	XMFLOAT3 Rotate_;
+	XMFLOAT3 Trans_;
 
 
 };
