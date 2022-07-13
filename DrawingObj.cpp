@@ -169,6 +169,7 @@ void DrawingObj::basicInit(ID3D12Device* dev)
 	rootsignatureGeneration(dev);
 
 	constantBuffGeneration(dev);
+	constantBuffGeneration1(dev);
 
 	indicesBuffGeneration(dev);
 
@@ -814,7 +815,7 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 		&cbResourceDesc,//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuffTransform)
+		IID_PPV_ARGS(&constBuffTransform0)
 	);
 	assert(SUCCEEDED(result));
 
@@ -840,7 +841,7 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	constMapMaterial2->posM = XMFLOAT4(0,0,0,1);
 
-	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);//マッピング
+	result = constBuffTransform0->Map(0, nullptr, (void**)&constMapTransform0);//マッピング
 	assert(SUCCEEDED(result));
 
 	//行列に単位行列を代入
@@ -878,6 +879,64 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	 matWorldUpdata();
 
 	 constTransformMatUpdata();
+
+#pragma endregion
+}
+
+void DrawingObj::constantBuffGeneration1(ID3D12Device* dev)
+{
+#pragma region 定数バッファ
+
+	//定数バッファの生成用の設定
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+
+
+	//リソース設定
+	D3D12_RESOURCE_DESC cbResourceDesc{};
+
+	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
+
+	//定数バッファの生成
+	result = dev->CreateCommittedResource(
+		&cbHeapProp,//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffTransform1)
+	);
+	assert(SUCCEEDED(result));
+
+
+	//定数バッファのマッピング
+
+	result = constBuffTransform1->Map(0, nullptr, (void**)&constMapTransform1);//マッピング
+	assert(SUCCEEDED(result));
+
+	//行列に単位行列を代入
+	/*matWorld.IdentityMatrix();
+
+	matScale.IdentityMatrix();
+
+	matRotate.IdentityMatrix();
+
+	matTrans.IdentityMatrix();
+
+	constMapTransform->mat.IdentityMatrix();*/
+
+	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
+	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
+	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
+	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;*/
+
+	//平行投射行列の計算
+	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
+
+	matWorldUpdata1();
+
+	constTransformMatUpdata1();
 
 #pragma endregion
 }
@@ -1157,10 +1216,24 @@ void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, 
 	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
 	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
-	//定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
-	cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform->GetGPUVirtualAddress());
-
 	cmdList->IASetIndexBuffer(&ibView);
+
+	//定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
+	cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform0->GetGPUVirtualAddress());
+
+	//描画コマンド
+	if (ChangeSquareFlag)
+	{
+		//四角形に描画
+		cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
+	}
+	else
+	{
+		cmdList->DrawInstanced(3, 1, 0, 0);
+	}
+
+	//定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
+	cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform1->GetGPUVirtualAddress());
 
 	//描画コマンド
 	if (ChangeSquareFlag)
@@ -1272,7 +1345,12 @@ void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
 
 void DrawingObj::constTransformMatUpdata()
 {
-	constMapTransform->mat = matWorld * matView * matProjection;
+	constMapTransform0->mat = matWorld * matView * matProjection;
+}
+
+void DrawingObj::constTransformMatUpdata1()
+{
+	constMapTransform1->mat = matWorld1 * matView * matProjection;
 }
 
 void DrawingObj::matWorldUpdata()
@@ -1312,6 +1390,48 @@ void DrawingObj::matWorldUpdata()
 
 	constTransformMatUpdata();
 	
+}
+
+void DrawingObj::matWorldUpdata1()
+{
+
+	////スケール行列更新
+	//matScale = matScaleGeneration(Scale_);
+
+	////回転行列更新
+	//matRotate = matRotateGeneration(Rotate_);
+
+	////平行移動行列更新
+	//matTrans = matMoveGeneration(Trans_);
+
+	////ワールド行列更新
+	//matWorld.IdentityMatrix();
+	//matWorld *= matScale*matRotate*matTrans;
+
+	
+
+	XMMATRIX matScale1;
+	XMMATRIX matRotate1;
+	XMMATRIX matTrans1;
+	// スケール行列更新
+	matScale1 = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+
+	//回転行列更新
+	matRotate1 = XMMatrixIdentity();
+
+	matRotate1 *= XMMatrixRotationY(XM_PI/4.0f);
+
+	//平行移動行列更新
+	matTrans1 = XMMatrixTranslation(-20.0f, 0, 0);
+
+	//ワールド行列更新
+	matWorld1 = XMMatrixIdentity();
+	matWorld1 *= matScale1;
+	matWorld1 *= matRotate1;
+	matWorld1 *= matTrans1;
+
+	constTransformMatUpdata1();
+
 }
 
 

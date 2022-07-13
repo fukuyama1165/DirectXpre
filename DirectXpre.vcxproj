@@ -146,6 +146,7 @@
     <ClCompile Include="Float3.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4x4.cpp" />
+    <ClCompile Include="Object3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="BasicPS.hlsl">
@@ -186,6 +187,7 @@
     <ClInclude Include="DrawingObj.h" />
     <ClInclude Include="Float3.h" />
     <ClInclude Include="matrix4x4.h" />
+    <ClInclude Include="Object3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

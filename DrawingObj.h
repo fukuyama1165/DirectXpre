@@ -88,6 +88,7 @@ public:
 
 	//定数バッファ
 	void constantBuffGeneration(ID3D12Device* dev);
+	void constantBuffGeneration1(ID3D12Device* dev);
 
 	//インデックスデータ関連(インデックスビューもここ)
 	void indicesBuffGeneration(ID3D12Device* devconst);
@@ -129,9 +130,11 @@ public:
 
 	//定数バッファの行列を更新する関数
 	void constTransformMatUpdata();
+	void constTransformMatUpdata1();
 
 	//ワールド座標更新
 	void matWorldUpdata();
+	void matWorldUpdata1();
 
 	Matrix4x4 matScaleGeneration(Float3 scale);
 
@@ -231,12 +234,14 @@ private:
 	//定数バッファそのもの
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial2 = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform0 = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform1 = nullptr;
 
 	//マッピングするときのポインタ
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	ConstBufferDataMaterial2* constMapMaterial2 = nullptr;
-	ConstBufferDataTransform* constMapTransform = nullptr;
+	ConstBufferDataTransform* constMapTransform0 = nullptr;
+	ConstBufferDataTransform* constMapTransform1 = nullptr;
 
 	//インデックスデータ
 	unsigned short indices[36];
@@ -284,6 +289,7 @@ private:
 	XMFLOAT3 up_;//上方向ベクトル
 
 	XMMATRIX matWorld;
+	XMMATRIX matWorld1;
 
 	XMMATRIX matScale;
 	XMMATRIX matRotate;
