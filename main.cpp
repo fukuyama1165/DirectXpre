@@ -242,40 +242,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 更新処理
 
-		X1 = 0.0f;
-		Y1 = 0.0f;
-		rotate = 0.0f;
-		scaleX = 1.0f;
-		scaleY = 1.0f;
-
-		if (directXinit->PushKey(DIK_D))
-		{
-			OutputDebugStringA("Hit D\n");
-		}
-
 		if (directXinit->TriggerKey(DIK_2))
 		{
 			PipeLineRuleFlag = !PipeLineRuleFlag;
-			OutputDebugStringA("Hit W\n");
-		}
-
-		if (directXinit->PushKey(DIK_W))
-		{
-			X2 += 0.001f;
-		}
-
-		if (directXinit->PushKey(DIK_S) )
-		{
-			X2 -= 0.001f;
-		}
-
-		if (directXinit->PushKey(DIK_SPACE))
-		{
-			directXinit->clearColorChange(0.9f, 0.2f, 0.5f, 0.0f);
-		}
-		else
-		{
-			directXinit->clearColorChange(0.1f, 0.25f, 0.5f, 0.0f);
 		}
 
 		if (directXinit->TriggerKey(DIK_1))
@@ -358,12 +327,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
-
+		//ウィンドウクラスを登録解除
+		UnregisterClass(w.lpszClassName, w.hInstance);
 
 	}
 
-	//ウィンドウクラスを登録解除
-	UnregisterClass(w.lpszClassName, w.hInstance);
+	
 
 
 	return 0;

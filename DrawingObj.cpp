@@ -12,18 +12,18 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 	Win_height = windowHeight;
 
 	//頂点データ(四点分の座標)
-					//  x     y    z      u    v
+					//  x     y    z   法線  u    v
 	//前
-	vertices[0] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f}};//左下
-	vertices[1] = { { -50.0f,50.0f,-50.0f },{},{0.0f,0.0f} };//左上
-	vertices[2] = { { 50.0f,-50.0f,-50.0f },{},{1.0f,1.0f} };//右下
-	vertices[3] = { { 50.0f,50.0f,-50.0f },{},{1.0f,0.0f} };//右上
+	vertices[0] = { { -50.0f,-50.0f,50.0f },{},{0.0f,1.0f}};//左下
+	vertices[1] = { { 50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
+	vertices[2] = { { -50.0f,50.0f,50.0f },{},{1.0f,1.0f} };//右下
+	vertices[3] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//後
-	vertices[4] = { { -50.0f,-50.0f,50.0f },{},{0.0f,1.0f} };//左下
-	vertices[5] = { { -50.0f,50.0f,50.0f },{},{0.0f,0.0f} };//左上
-	vertices[6] = { { 50.0f,-50.0f,50.0f },{},{1.0f,1.0f} };//右下
-	vertices[7] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
+	vertices[4] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[5] = { { -50.0f,50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[6] = { { 50.0f,-50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[7] = { { 50.0f,50.0f,-50.0f },{},{1.0f,0.0f} };//右上
 
 	//左
 	vertices[8]  = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
@@ -33,8 +33,8 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 
 	//右
 	vertices[12] = { { 50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
-	vertices[13] = { { 50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
-	vertices[14] = { { 50.0f,50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[13] = { { 50.0f,50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[14] = { { 50.0f,-50.0f,50.0f },{},{1.0f,1.0f} };//右下
 	vertices[15] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//上
@@ -45,8 +45,8 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 
 	//下
 	vertices[20] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
-	vertices[21] = { { -50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
-	vertices[22] = { { 50.0f,-50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[21] = { { 50.0f,-50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[22] = { { -50.0f,-50.0f,50.0f },{},{1.0f,1.0f} };//右下
 	vertices[23] = { { 50.0f,-50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//インデックスデータ
@@ -245,6 +245,41 @@ void DrawingObj::vertexBuffGeneration(ID3D12Device* dev)
 	);
 
 #pragma endregion
+
+#pragma region 法線ベクトル計算
+
+	for (int i = 0; i < _countof(indices) / 3; i++)
+	{//三角形1つごとに計算していく
+
+		//三角形のインデックスを取り出して,一時的な変数に入れる
+		unsigned short indices0 = indices[i * 3 + 0];
+		unsigned short indices1 = indices[i * 3 + 1];
+		unsigned short indices2 = indices[i * 3 + 2];
+
+		//三角形を構成する頂点座標をベクトルに代入
+		XMVECTOR p0 = XMLoadFloat3(&vertices[indices0].pos);
+		XMVECTOR p1 = XMLoadFloat3(&vertices[indices1].pos);
+		XMVECTOR p2 = XMLoadFloat3(&vertices[indices2].pos);
+
+		//p0→p1ベクトル、p0→p2ベクトルを計算(ベクトルの減算)
+		XMVECTOR v1 = XMVectorSubtract(p1, p0);
+		XMVECTOR v2 = XMVectorSubtract(p2, p0);
+
+		//外積は両方から垂直なベクトル
+		XMVECTOR normal = XMVector3Cross(v1, v2);
+
+		//正規化(長さを1にする)
+		normal = XMVector3Normalize(normal);
+
+		//求めた法線を頂点データに代入
+		XMStoreFloat3(&vertices[indices0].normal, normal);
+		XMStoreFloat3(&vertices[indices1].normal, normal);
+		XMStoreFloat3(&vertices[indices2].normal, normal);
+
+	}
+
+#pragma endregion
+
 
 #pragma region 頂点バッファへのデータ転送
 
@@ -460,9 +495,13 @@ void DrawingObj::vertexLayout()
 		//座標以外に　色、テクスチャUVなどを渡す場合はさらに続ける
 	inputLayout[1] =
 	{//法線ベクトル
-		"NORMAL",0,DXGI_FORMAT_R32G32B32_FLOAT,0,
+		"NORMAL",
+		0,
+		DXGI_FORMAT_R32G32B32_FLOAT,
+		0,
 		D3D12_APPEND_ALIGNED_ELEMENT,
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+		0
 	};
 
 	inputLayout[2] =
