@@ -28,6 +28,14 @@ using namespace DirectX;
 
 #include <DirectXTex.h>
 
+#include "matrix4x4.h"
+#include "Float3.h"
+#include "Object3D.h"
+#include "Texture.h"
+
+//ComPtr用インクルード
+#include <wrl.h>
+
 class DrawingObj
 {
 public:
@@ -47,6 +55,7 @@ public:
 	struct Vertex
 	{
 		XMFLOAT3 pos;//xyz座標
+		XMFLOAT3 normal;//法線ベクトル
 		XMFLOAT2 uv;//uv座標
 	};
 
@@ -81,6 +90,7 @@ public:
 
 	//定数バッファ
 	void constantBuffGeneration(ID3D12Device* dev);
+	void constantBuffGeneration1(ID3D12Device* dev);
 
 	//インデックスデータ関連(インデックスビューもここ)
 	void indicesBuffGeneration(ID3D12Device* devconst);
@@ -117,13 +127,30 @@ public:
 	void constBuffPosMUpdata(float X,float Y,float Z);
 
 	//ビュー変換行列更新
+	//void matViewUpdata(Float3 eye, Float3 target, Float3 up);
 	void matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up);
 
 	//定数バッファの行列を更新する関数
 	void constTransformMatUpdata();
+	void constTransformMatUpdata1();
 
 	//ワールド座標更新
 	void matWorldUpdata();
+	void matWorldUpdata1();
+
+	Matrix4x4 matScaleGeneration(Float3 scale);
+
+	Matrix4x4 matRotateXGeneration(float rotateX);
+	Matrix4x4 matRotateYGeneration(float rotateY);
+	Matrix4x4 matRotateZGeneration(float rotateZ);
+
+	Matrix4x4 matRotateGeneration(Float3 rotate);
+
+	Matrix4x4 matMoveGeneration(Float3 translation);
+
+	Matrix4x4 matViewGeneration(Float3 eye, Float3 target, Float3 up);
+
+	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY, float aspect, float NearZ, float FarZ);
 
 	//スケール変更行列
 	void SetScale(XMFLOAT3 scale);
@@ -149,22 +176,22 @@ private:
 	//頂点バッファ用変数
 	D3D12_HEAP_PROPERTIES heapprop{};//ヒープ設定
 	D3D12_RESOURCE_DESC resDesc{};//リソース設定
-	ID3D12Resource* vertBuff = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff = nullptr;
 	Vertex* vertMap = nullptr;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 
 	//頂点シェーダオブジェクト
-	ID3DBlob* vsBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> vsBlob = nullptr;
 
 	//ピクセルシェーダオブジェクト
-	ID3DBlob* psBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> psBlob = nullptr;
 
 	//エラーオブジェクト
-	ID3DBlob* errorBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
 
 	//頂点レイアウト(要素を増やすなら配列数を増やす)
-	D3D12_INPUT_ELEMENT_DESC inputLayout[2];
+	D3D12_INPUT_ELEMENT_DESC inputLayout[3];
 
 	//グラフィックスパイプラインの各ステージの設定をする構造体を用意
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};
@@ -180,11 +207,11 @@ private:
 	D3D12_STATIC_SAMPLER_DESC sampleDesc{};
 
 	//ルートシグネチャ
-	ID3D12RootSignature* rootsignature;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature;
 
 	//パイプラインステート
-	ID3D12PipelineState* pipelinestate = nullptr;
-	ID3D12PipelineState* pipelinestate2 = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate2 = nullptr;
 
 	//定数バッファ用のリソース設定関数
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(int size);
@@ -207,19 +234,23 @@ private:
 	};
 
 	//定数バッファそのもの
-	ID3D12Resource* constBuffMaterial = nullptr;
-	ID3D12Resource* constBuffMaterial2 = nullptr;
-	ID3D12Resource* constBuffTransform = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial2 = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform0 = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform1 = nullptr;
 
 	//マッピングするときのポインタ
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	ConstBufferDataMaterial2* constMapMaterial2 = nullptr;
-	ConstBufferDataTransform* constMapTransform = nullptr;
+	ConstBufferDataTransform* constMapTransform0 = nullptr;
+	ConstBufferDataTransform* constMapTransform1 = nullptr;
 
 	//インデックスデータ
 	unsigned short indices[36];
 	//インデックスデータ全体のサイズ
 	UINT sizeIB;
+	//インデックスバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff = nullptr;
 	//インデックスビュー
 	D3D12_INDEX_BUFFER_VIEW ibView{};
 
@@ -227,9 +258,28 @@ private:
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
-	ID3D12Resource* texBuff = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff = nullptr;
 
-	ID3D12DescriptorHeap* srvHeap = nullptr;
+	//ID3D12DescriptorHeap* srvHeap = nullptr;
+
+	////透視投影行列
+	//Matrix4x4 matProjection;
+
+	////ビュー変換行列
+	//Matrix4x4 matView;
+	//Float3 eye_;//視点座標
+	//Float3 target_;//注視点座標
+	//Float3 up_;//上方向ベクトル
+
+	//Matrix4x4 matWorld;
+
+	//Matrix4x4 matScale;
+	//Matrix4x4 matRotate;
+	//Matrix4x4 matTrans;
+
+	//Float3 Scale_;
+	//Float3 Rotate_;
+	//Float3 Trans_;
 
 	//透視投影行列
 	XMMATRIX matProjection;
@@ -241,6 +291,7 @@ private:
 	XMFLOAT3 up_;//上方向ベクトル
 
 	XMMATRIX matWorld;
+	XMMATRIX matWorld1;
 
 	XMMATRIX matScale;
 	XMMATRIX matRotate;
@@ -250,5 +301,14 @@ private:
 	XMFLOAT3 Rotate_;
 	XMFLOAT3 Trans_;
 
+	//3Dオブジェクトの数
+	const static size_t kObjectConst = 50;
+	
+	
+
+	//3Dオブジェクトの配列
+	Object3D object3Ds[kObjectConst];
+
+	Texture texture;
 
 };

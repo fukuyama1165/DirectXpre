@@ -1,5 +1,9 @@
 #include "DrawingObj.h"
 
+
+
+using namespace Microsoft::WRL;
+
 const float PI = 3.141592653589;
 
 DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
@@ -8,90 +12,90 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 	Win_height = windowHeight;
 
 	//頂点データ(四点分の座標)
-					//  x     y    z      u    v
+					//  x     y    z   法線  u    v
 	//前
-	vertices[0] = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[1] = { { -50.0f,50.0f,-50.0f },{0.0f,0.0f} };//左上
-	vertices[2] = { { 50.0f,-50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[3] = { { 50.0f,50.0f,-50.0f },{1.0f,0.0f} };//右上
+	vertices[0] = { { -50.0f,-50.0f,50.0f },{},{0.0f,1.0f}};//左下
+	vertices[1] = { {  50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
+	vertices[2] = { { -50.0f, 50.0f,50.0f },{},{1.0f,1.0f} };//右下
+	vertices[3] = { {  50.0f, 50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//後
-	vertices[4] = { { -50.0f,-50.0f,50.0f },{0.0f,1.0f} };//左下
-	vertices[5] = { { -50.0f,50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[6] = { { 50.0f,-50.0f,50.0f },{1.0f,1.0f} };//右下
-	vertices[7] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[4] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[5] = { { -50.0f, 50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[6] = { {  50.0f,-50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[7] = { {  50.0f, 50.0f,-50.0f },{},{1.0f,0.0f} };//右上
 
 	//左
-	vertices[8]  = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[9]  = { { -50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[10] = { { -50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[11] = { { -50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[8]  = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[9]  = { { -50.0f,-50.0f, 50.0f },{},{0.0f,0.0f} };//左上
+	vertices[10] = { { -50.0f, 50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[11] = { { -50.0f, 50.0f, 50.0f },{},{1.0f,0.0f} };//右上
 
 	//右
-	vertices[12] = { { 50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[13] = { { 50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[14] = { { 50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[15] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[12] = { { 50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[13] = { { 50.0f, 50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[14] = { { 50.0f,-50.0f, 50.0f },{},{1.0f,1.0f} };//右下
+	vertices[15] = { { 50.0f, 50.0f, 50.0f },{},{1.0f,0.0f} };//右上
 
 	//上
-	vertices[16] = { { -50.0f,50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[17] = { { -50.0f,50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[18] = { { 50.0f,50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[19] = { { 50.0f,50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[16] = { { -50.0f,50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[17] = { { -50.0f,50.0f, 50.0f },{},{0.0f,0.0f} };//左上
+	vertices[18] = { {  50.0f,50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[19] = { {  50.0f,50.0f, 50.0f },{},{1.0f,0.0f} };//右上
 
 	//下
-	vertices[20] = { { -50.0f,-50.0f,-50.0f },{0.0f,1.0f} };//左下
-	vertices[21] = { { -50.0f,-50.0f,50.0f },{0.0f,0.0f} };//左上
-	vertices[22] = { { 50.0f,-50.0f,-50.0f },{1.0f,1.0f} };//右下
-	vertices[23] = { { 50.0f,-50.0f,50.0f },{1.0f,0.0f} };//右上
+	vertices[20] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
+	vertices[21] = { {  50.0f,-50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[22] = { { -50.0f,-50.0f, 50.0f },{},{1.0f,1.0f} };//右下
+	vertices[23] = { {  50.0f,-50.0f, 50.0f },{},{1.0f,0.0f} };//右上
 
 	//インデックスデータ
 	//前
 	indices[0] = 0;
 	indices[1] = 1;
 	indices[2] = 2;
-	indices[3] = 1;
-	indices[4] = 2;
+	indices[3] = 2;
+	indices[4] = 1;
 	indices[5] = 3;
 
 	//後
 	indices[6] = 4;
 	indices[7] = 5;
 	indices[8] = 6;
-	indices[9] = 5;
-	indices[10] = 6;
+	indices[9] = 6;
+	indices[10] = 5;
 	indices[11] = 7;
 
 	//左
 	indices[12] = 8;
 	indices[13] = 9;
 	indices[14] = 10;
-	indices[15] = 9;
-	indices[16] = 10;
+	indices[15] = 10;
+	indices[16] = 9;
 	indices[17] = 11;
 
 	//右
 	indices[18] = 12;
 	indices[19] = 13;
 	indices[20] = 14;
-	indices[21] = 13;
-	indices[22] = 14;
+	indices[21] = 14;
+	indices[22] = 13;
 	indices[23] = 15;
 
 	//下
 	indices[24] = 16;
 	indices[25] = 17;
 	indices[26] = 18;
-	indices[27] = 17;
-	indices[28] = 18;
+	indices[27] = 18;
+	indices[28] = 17;
 	indices[29] = 19;
 
 	//上
 	indices[30] = 20;
 	indices[31] = 21;
 	indices[32] = 22;
-	indices[33] = 21;
-	indices[34] = 22;
+	indices[33] = 22;
+	indices[34] = 21;
 	indices[35] = 23;
 	
 	
@@ -101,7 +105,7 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 
 	//ビュー変換行列
-	eye_ = { 0, 0, -100 };//視点座標
+	eye_ = { 0, 0, -400 };//視点座標
 	target_ = { 0, 0, 0 };//注視点座標
 	up_ = { 0, 1, 0 };//上方向ベクトル
 }
@@ -113,10 +117,10 @@ DrawingObj::DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 ve
 
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
-	vertices[0] = { vertexPos1,vertexUv1 };//左下
-	vertices[1] = { vertexPos2,vertexUv2 };//左上
-	vertices[2] = { vertexPos3,vertexUv3 };//右下
-	vertices[3] = { vertexPos4,vertexUv4 };//右上
+	vertices[0] = { vertexPos1,{},vertexUv1 };//左下
+	vertices[1] = { vertexPos2,{},vertexUv2 };//左上
+	vertices[2] = { vertexPos3,{},vertexUv3 };//右下
+	vertices[3] = { vertexPos4,{},vertexUv4 };//右上
 
 	//インデックスデータ
 	indices[0] = 0;
@@ -165,14 +169,17 @@ void DrawingObj::basicInit(ID3D12Device* dev)
 	rootsignatureGeneration(dev);
 
 	constantBuffGeneration(dev);
+	
 
 	indicesBuffGeneration(dev);
 
-	imageDataGeneration();
+	/*imageDataGeneration();
 
-	textureBuffGeneraion(dev);
+	textureBuffGeneraion(dev);*/
 
-	SRVGeneraion(dev);
+	texture.Init(dev);
+
+	//SRVGeneraion(dev);
 
 }
 
@@ -241,6 +248,41 @@ void DrawingObj::vertexBuffGeneration(ID3D12Device* dev)
 	);
 
 #pragma endregion
+
+#pragma region 法線ベクトル計算
+
+	for (int i = 0; i < _countof(indices) / 3; i++)
+	{//三角形1つごとに計算していく
+
+		//三角形のインデックスを取り出して,一時的な変数に入れる
+		unsigned short indices0 = indices[i * 3 + 0];
+		unsigned short indices1 = indices[i * 3 + 1];
+		unsigned short indices2 = indices[i * 3 + 2];
+
+		//三角形を構成する頂点座標をベクトルに代入
+		XMVECTOR p0 = XMLoadFloat3(&vertices[indices0].pos);
+		XMVECTOR p1 = XMLoadFloat3(&vertices[indices1].pos);
+		XMVECTOR p2 = XMLoadFloat3(&vertices[indices2].pos);
+
+		//p0→p1ベクトル、p0→p2ベクトルを計算(ベクトルの減算)
+		XMVECTOR v1 = XMVectorSubtract(p1, p0);
+		XMVECTOR v2 = XMVectorSubtract(p2, p0);
+
+		//外積は両方から垂直なベクトル
+		XMVECTOR normal = XMVector3Cross(v1, v2);
+
+		//正規化(長さを1にする)
+		normal = XMVector3Normalize(normal);
+
+		//求めた法線を頂点データに代入
+		XMStoreFloat3(&vertices[indices0].normal, normal);
+		XMStoreFloat3(&vertices[indices1].normal, normal);
+		XMStoreFloat3(&vertices[indices2].normal, normal);
+
+	}
+
+#pragma endregion
+
 
 #pragma region 頂点バッファへのデータ転送
 
@@ -455,6 +497,17 @@ void DrawingObj::vertexLayout()
 	};
 		//座標以外に　色、テクスチャUVなどを渡す場合はさらに続ける
 	inputLayout[1] =
+	{//法線ベクトル
+		"NORMAL",
+		0,
+		DXGI_FORMAT_R32G32B32_FLOAT,
+		0,
+		D3D12_APPEND_ALIGNED_ELEMENT,
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+		0
+	};
+
+	inputLayout[2] =
 	{//UV座標
 		"TEXCOORD",
 		0,
@@ -562,7 +615,7 @@ void DrawingObj::graphicPipelineGeneration()
 
 	//サンプルマスクとラスタライザステートの設定
 	gpipeline2.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
-	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
+	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;//カリングしない
 	gpipeline2.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;//ワイヤーフレーム描画
 	gpipeline2.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 
@@ -669,9 +722,6 @@ void DrawingObj::rootsignatureGeneration(ID3D12Device* dev)
 {
 #pragma region ルートシグネチャ設定
 
-	//ルートシグネチャの生成
-	
-
 	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -680,16 +730,17 @@ void DrawingObj::rootsignatureGeneration(ID3D12Device* dev)
 	rootSignatureDesc.pStaticSamplers = &sampleDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;
 
-	ID3DBlob* rootSigBlob = nullptr;
+	//ルートシグネチャの生成
+	ComPtr<ID3DBlob> rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	result = dev->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
-	rootSigBlob->Release();
+	
 
 	//パイプラインにルートシグネチャをセット
-	gpipeline.pRootSignature = rootsignature;
+	gpipeline.pRootSignature = rootsignature.Get();
 
 	//パイプライン2にもルートシグネチャをセット
-	gpipeline2.pRootSignature = rootsignature;
+	gpipeline2.pRootSignature = rootsignature.Get();
 
 #pragma endregion 定数バッファを増やしたらルートパラメータを書き換えパラメータ数を書き換える
 
@@ -757,22 +808,22 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	);
 	assert(SUCCEEDED(result));
 
-	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
+	//cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
 
-	//定数バッファの生成
-	result = dev->CreateCommittedResource(
-		&cbHeapProp,//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffTransform)
-	);
-	assert(SUCCEEDED(result));
+	////定数バッファの生成
+	//result = dev->CreateCommittedResource(
+	//	&cbHeapProp,//ヒープ設定
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&cbResourceDesc,//リソース設定
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&constBuffTransform0)
+	//);
+	//assert(SUCCEEDED(result));
 
 
-	//定数バッファのマッピング
-	
+	////定数バッファのマッピング
+	//
 	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
 	assert(SUCCEEDED(result));
 
@@ -792,19 +843,19 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	constMapMaterial2->posM = XMFLOAT4(0,0,0,1);
 
-	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);//マッピング
-	assert(SUCCEEDED(result));
+	//result = constBuffTransform0->Map(0, nullptr, (void**)&constMapTransform0);//マッピング
+	//assert(SUCCEEDED(result));
 
 	//行列に単位行列を代入
-	matWorld = XMMatrixIdentity();
+	/*matWorld.IdentityMatrix();
 
-	matScale = XMMatrixIdentity();
+	matScale.IdentityMatrix();
 
-	matRotate = XMMatrixIdentity();
+	matRotate.IdentityMatrix();
 
-	matTrans = XMMatrixIdentity();
+	matTrans.IdentityMatrix();
 
-	constMapTransform->mat = XMMatrixIdentity();
+	constMapTransform->mat.IdentityMatrix();*/
 
 	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
 	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
@@ -815,17 +866,109 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
 
 	//透視投影行列の計算
-	 matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
+	matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
 
-	
+	/*matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), Win_width / Win_height, 0.1f, 1000.0f);
+
+	matView = matViewGeneration(eye_, target_, up_);*/
 
 	 matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 	 
-	 Scale_ = { 1.0f,1.0f,1.0f };
+	 /*Scale_ = { 1.0f,1.0f,1.0f };
 	 Rotate_ = { 0.0f,0.0f,0.0f };
 	 Trans_ = { 0.0f,0.0f,0.0f };
 
-	 constTransformMatUpdata();
+	 matWorldUpdata();
+
+	 constTransformMatUpdata();*/
+
+	 for (int i = 0; i < _countof(object3Ds); i++)
+	 {
+		 //初期化
+		 object3Ds[i].Init(dev);
+
+		 if (i > 0)
+		 {
+			 //ひとつ前のオブジェクトを親オブジェクトとする
+			 object3Ds[i].SetParent(&object3Ds[i - 1]);
+
+			 //親オブジェクトの9割の大きさ
+			 object3Ds[i].SetScale({ 0.9f,0.9f,0.9f });
+
+			 //親オブジェクトに対してz軸周りに30度回転
+			 object3Ds[i].SetRotate({ 0.0f,0.0f,XMConvertToRadians(30.0f) });
+
+			 //親オブジェクトに対してz方向-8.0ずらす
+			 object3Ds[i].SetPos({ 0.0f,0.0f,-8.0f });
+
+			 object3Ds[i].Update(matView, matProjection);
+
+		 }
+
+	 }
+
+	 for (size_t i = 0; i < _countof(object3Ds); i++)
+	 {
+		 object3Ds[i].Update(matView, matProjection);
+	 }
+
+#pragma endregion
+}
+
+void DrawingObj::constantBuffGeneration1(ID3D12Device* dev)
+{
+#pragma region 定数バッファ
+
+	//定数バッファの生成用の設定
+	//ヒープ設定
+	//D3D12_HEAP_PROPERTIES cbHeapProp{};
+	//cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+
+
+	////リソース設定
+	//D3D12_RESOURCE_DESC cbResourceDesc{};
+
+	//cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
+
+	////定数バッファの生成
+	//result = dev->CreateCommittedResource(
+	//	&cbHeapProp,//ヒープ設定
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&cbResourceDesc,//リソース設定
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&constBuffTransform1)
+	//);
+	//assert(SUCCEEDED(result));
+
+
+	////定数バッファのマッピング
+
+	//result = constBuffTransform1->Map(0, nullptr, (void**)&constMapTransform1);//マッピング
+	//assert(SUCCEEDED(result));
+
+	////行列に単位行列を代入
+	///*matWorld.IdentityMatrix();
+
+	//matScale.IdentityMatrix();
+
+	//matRotate.IdentityMatrix();
+
+	//matTrans.IdentityMatrix();
+
+	//constMapTransform->mat.IdentityMatrix();*/
+
+	///*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
+	//constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
+	//constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
+	//constMapTransform->mat.r[3].m128_f32[1] = 1.0f;*/
+
+	////平行投射行列の計算
+	////constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
+
+	//matWorldUpdata1();
+
+	//constTransformMatUpdata1();
 
 #pragma endregion
 }
@@ -858,7 +1001,7 @@ void DrawingObj::indicesBuffGeneration(ID3D12Device* dev)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//インデックスバッファの生成
-	ID3D12Resource* indexBuff = nullptr;
+	
 	result = dev->CreateCommittedResource(
 		&heapprop,//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
@@ -1031,12 +1174,12 @@ void DrawingObj::SRVGeneraion(ID3D12Device* dev)
 
 	//設定をもとにSRV用デスクリプタヒープを生成
 	
-	result = dev->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
-	assert(SUCCEEDED(result));
+	//result = dev->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	//assert(SUCCEEDED(result));
 
-	//デスクリプタハンドル(ヒープ内の操作する場所指定に使う)
-	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+	////デスクリプタハンドル(ヒープ内の操作する場所指定に使う)
+	////SRVヒープの先頭ハンドルを取得
+	//D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 
 #pragma endregion
 
@@ -1050,7 +1193,7 @@ void DrawingObj::SRVGeneraion(ID3D12Device* dev)
 	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダリソースビュー作成
-	dev->CreateShaderResourceView(texBuff, &srvDesc, srvHandle);
+	//dev->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
 
 #pragma endregion
 }
@@ -1079,14 +1222,14 @@ void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, 
 
 	if (PipeLineRuleFlag)
 	{
-		cmdList->SetPipelineState(pipelinestate);
+		cmdList->SetPipelineState(pipelinestate.Get());
 	}
 	else
 	{
-		cmdList->SetPipelineState(pipelinestate2);
+		cmdList->SetPipelineState(pipelinestate2.Get());
 	}
 
-	cmdList->SetGraphicsRootSignature(rootsignature);
+	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 
 	//頂点バッファビューの設定
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
@@ -1099,27 +1242,48 @@ void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, 
 
 
 	//SRVヒープの設定コマンド
-	cmdList->SetDescriptorHeaps(1, &srvHeap);
-	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
-	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
-	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
-	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+	//cmdList->SetDescriptorHeaps(1, &texture.srvHeap);
+	////SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
+	//srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+	////SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
+	//cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
-	//定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
-	cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform->GetGPUVirtualAddress());
+	texture.Draw(cmdList);
 
 	cmdList->IASetIndexBuffer(&ibView);
 
-	//描画コマンド
-	if (ChangeSquareFlag)
+	for (int i = 0; i < _countof(object3Ds); i++)
 	{
-		//四角形に描画
-		cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
+		object3Ds[i].Draw(cmdList, vbView, ibView, _countof(indices),ChangeSquareFlag);
 	}
-	else
-	{
-		cmdList->DrawInstanced(3, 1, 0, 0);
-	}
+
+	////定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
+	//cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform0->GetGPUVirtualAddress());
+
+	////描画コマンド
+	//if (ChangeSquareFlag)
+	//{
+	//	//四角形に描画
+	//	cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
+	//}
+	//else
+	//{
+	//	cmdList->DrawInstanced(3, 1, 0, 0);
+	//}
+
+	////定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
+	//cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform1->GetGPUVirtualAddress());
+
+	////描画コマンド
+	//if (ChangeSquareFlag)
+	//{
+	//	//四角形に描画
+	//	cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
+	//}
+	//else
+	//{
+	//	cmdList->DrawInstanced(3, 1, 0, 0);
+	//}
 }
 
 XMFLOAT3 DrawingObj::Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY)
@@ -1213,38 +1377,88 @@ void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
 	up_ = up;
 
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	//matView = matViewGeneration(eye_, target_, up_);
 
-	constTransformMatUpdata();
+	for (size_t i = 0; i < _countof(object3Ds); i++)
+	{
+		object3Ds[i].Update(matView, matProjection);
+	}
+	
 }
 
 void DrawingObj::constTransformMatUpdata()
 {
-	constMapTransform->mat = matWorld * matView * matProjection;
+	constMapTransform0->mat = matWorld * matView * matProjection;
+}
+
+void DrawingObj::constTransformMatUpdata1()
+{
+	constMapTransform1->mat = matWorld1 * matView * matProjection;
 }
 
 void DrawingObj::matWorldUpdata()
 {
 
-	//スケール行列更新
-	matScale = XMMatrixScaling(Scale_.x, Scale_.y, Scale_.z);
+	////スケール行列更新
+	//matScale = matScaleGeneration(Scale_);
+
+	////回転行列更新
+	//matRotate = matRotateGeneration(Rotate_);
+
+	////平行移動行列更新
+	//matTrans = matMoveGeneration(Trans_);
+
+	////ワールド行列更新
+	//matWorld.IdentityMatrix();
+	//matWorld *= matScale*matRotate*matTrans;
+
+	for (size_t i = 0; i < _countof(object3Ds); i++)
+	{
+		object3Ds[i].Update(matView, matProjection);
+	}
+	
+}
+
+void DrawingObj::matWorldUpdata1()
+{
+
+	////スケール行列更新
+	//matScale = matScaleGeneration(Scale_);
+
+	////回転行列更新
+	//matRotate = matRotateGeneration(Rotate_);
+
+	////平行移動行列更新
+	//matTrans = matMoveGeneration(Trans_);
+
+	////ワールド行列更新
+	//matWorld.IdentityMatrix();
+	//matWorld *= matScale*matRotate*matTrans;
+
+	
+
+	XMMATRIX matScale1;
+	XMMATRIX matRotate1;
+	XMMATRIX matTrans1;
+	// スケール行列更新
+	matScale1 = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 
 	//回転行列更新
-	matRotate = XMMatrixIdentity();
+	matRotate1 = XMMatrixIdentity();
 
-	matRotate *= XMMatrixRotationZ(Rotate_.z);
-	matRotate *= XMMatrixRotationX(Rotate_.x);
-	matRotate *= XMMatrixRotationY(Rotate_.y);
+	matRotate1 *= XMMatrixRotationY(XM_PI/4.0f);
 
 	//平行移動行列更新
-	matTrans = XMMatrixTranslation(Trans_.x, Trans_.y, Trans_.z);
+	matTrans1 = XMMatrixTranslation(-20.0f, 0, 0);
 
 	//ワールド行列更新
-	matWorld = XMMatrixIdentity();
-	matWorld *= matScale;
-	matWorld *= matRotate;
-	matWorld *= matTrans;
+	matWorld1 = XMMatrixIdentity();
+	matWorld1 *= matScale1;
+	matWorld1 *= matRotate1;
+	matWorld1 *= matTrans1;
 
-	constTransformMatUpdata();
+	constTransformMatUpdata1();
+
 }
 
 
@@ -1261,4 +1475,196 @@ void DrawingObj::SetRotate(XMFLOAT3 rotate)
 void DrawingObj::SetTrans(XMFLOAT3 TransForm)
 {
 	Trans_ = TransForm;
+}
+
+Matrix4x4 DrawingObj::matScaleGeneration(Float3 scale)
+{
+	//スケーリング行列を宣言
+	Matrix4x4 matScale;
+	matScale.IdentityMatrix();
+
+	//スケーリング倍率を行列に設定
+	matScale.m[0][0] = scale.x;
+	matScale.m[1][1] = scale.y;
+	matScale.m[2][2] = scale.z;
+	matScale.m[3][3] = 1;
+
+	return matScale;
+}
+
+Matrix4x4 DrawingObj::matRotateXGeneration(float rotateX)
+{
+	//X軸回転行列を宣言
+	Matrix4x4 matRotateX;
+	matRotateX.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateX.m[0][0] = 1;
+	matRotateX.m[1][1] = cos(rotateX);
+	matRotateX.m[1][2] = sin(rotateX);
+	matRotateX.m[2][1] = -sin(rotateX);
+	matRotateX.m[2][2] = cos(rotateX);
+	matRotateX.m[3][3] = 1;
+
+	return matRotateX;
+}
+
+Matrix4x4 DrawingObj::matRotateYGeneration(float rotateY)
+{
+	//Y軸回転行列を宣言
+	Matrix4x4 matRotateY;
+	matRotateY.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateY.m[0][0] = cos(rotateY);
+	matRotateY.m[0][2] = -sin(rotateY);
+	matRotateY.m[1][1] = 1;
+	matRotateY.m[2][0] = sin(rotateY);
+	matRotateY.m[2][2] = cos(rotateY);
+	matRotateY.m[3][3] = 1;
+
+	return matRotateY;
+}
+
+Matrix4x4 DrawingObj::matRotateZGeneration(float rotateZ)
+{
+	//Z軸回転行列を宣言
+	Matrix4x4 matRotateZ;
+	matRotateZ.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateZ.m[0][0] = cos(rotateZ);
+	matRotateZ.m[0][1] = sin(rotateZ);
+	matRotateZ.m[1][0] = -sin(rotateZ);
+	matRotateZ.m[1][1] = cos(rotateZ);
+	matRotateZ.m[2][2] = 1;
+	matRotateZ.m[3][3] = 1;
+
+	return matRotateZ;
+}
+
+Matrix4x4 DrawingObj::matRotateGeneration(Float3 rotate)
+{
+	//X軸回転行列を宣言
+	Matrix4x4 matRotateX = matRotateXGeneration(rotate.x);
+
+	//Y軸回転行列を宣言
+	Matrix4x4 matRotateY = matRotateYGeneration(rotate.y);
+
+	//Z軸回転行列を宣言
+	Matrix4x4 matRotateZ = matRotateZGeneration(rotate.z);
+
+	//回転軸合成行列を宣言
+	Matrix4x4 matRotate;
+	matRotate.IdentityMatrix();
+
+	//計算した角度を計算(順番は回転させるモデルによって変える)
+
+	matRotateX *= matRotateY;
+
+	matRotateZ *= matRotateX;
+
+	matRotate = matRotateZ;
+
+	return matRotate;
+
+	
+
+}
+
+Matrix4x4 DrawingObj::matMoveGeneration(Float3 translation)
+{
+	//移動するための行列を用意
+	Matrix4x4 matMove;
+	matMove.IdentityMatrix();
+
+	//行列に移動量を代入
+	matMove.m[3][0] = translation.x;
+	matMove.m[3][1] = translation.y;
+	matMove.m[3][2] = translation.z;
+
+	return matMove;
+}
+
+Matrix4x4 DrawingObj::matViewGeneration(Float3 eye, Float3 target, Float3 up)
+{
+
+	Float3 zVer = target - eye;
+
+	zVer.normalize();
+
+	Float3 xVer = up.cross(zVer);
+
+	xVer.normalize();
+
+	Float3 yVer = zVer.cross(xVer);
+
+
+	Matrix4x4 cameraRotateMat;
+
+	cameraRotateMat.IdentityMatrix();
+
+	cameraRotateMat.m[0][0] = xVer.x;
+	cameraRotateMat.m[0][1] = xVer.y;
+	cameraRotateMat.m[0][2] = xVer.z;
+
+	cameraRotateMat.m[1][0] = yVer.x;
+	cameraRotateMat.m[1][1] = yVer.y;
+	cameraRotateMat.m[1][2] = yVer.z;
+
+	cameraRotateMat.m[2][0] = zVer.x;
+	cameraRotateMat.m[2][1] = zVer.y;
+	cameraRotateMat.m[2][2] = zVer.z;
+
+	Float3 cameraPos;
+	Float3 Eye = eye;
+	Eye = -Eye;
+
+	cameraPos.x = Eye.dot(xVer);
+	cameraPos.y = Eye.dot(yVer);
+	cameraPos.z = Eye.dot(zVer);
+
+
+	Matrix4x4 cameraMat;
+
+	cameraMat.IdentityMatrix();
+
+	Matrix4x4 cameRotMat = {};
+	cameRotMat.IdentityMatrix();
+	cameRotMat.m[0][0] = cameraRotateMat.m[0][0];
+	cameRotMat.m[1][0] = cameraRotateMat.m[0][1];
+	cameRotMat.m[2][0] = cameraRotateMat.m[0][2];
+	cameRotMat.m[3][0] = cameraRotateMat.m[0][3];
+
+	cameRotMat.m[0][1] = cameraRotateMat.m[1][0];
+	cameRotMat.m[1][1] = cameraRotateMat.m[1][1];
+	cameRotMat.m[2][1] = cameraRotateMat.m[1][2];
+	cameRotMat.m[3][1] = cameraRotateMat.m[1][3];
+
+	cameRotMat.m[0][2] = cameraRotateMat.m[2][0];
+	cameRotMat.m[1][2] = cameraRotateMat.m[2][1];
+	cameRotMat.m[2][2] = cameraRotateMat.m[2][2];
+	cameRotMat.m[3][2] = cameraRotateMat.m[2][3];
+
+	cameraMat = cameraRotateMat.InverseMatrix();
+
+	cameraMat.m[3][0] = cameraPos.x;
+	cameraMat.m[3][1] = cameraPos.y;
+	cameraMat.m[3][2] = cameraPos.z;
+
+	return cameraMat;
+}
+
+Matrix4x4 DrawingObj::perspectiveProjectionGeneration(float FovAngleY, float aspect, float NearZ, float FarZ)
+{
+	Matrix4x4 ans = {};
+
+	ans.m[0][0] = 1 / tanf(2);
+	ans.m[1][1] = 1 / tanf(2) * aspect;
+	ans.m[2][2] = (FarZ + NearZ) / (FarZ - NearZ);
+	ans.m[2][3] = 1.0f;
+	ans.m[3][2] = -((2 * (FarZ * NearZ)) / (FarZ - NearZ));
+
+	return ans;
+
 }

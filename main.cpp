@@ -123,7 +123,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DrawingObj charactorObj(window_width, window_height);
 
 
-	charactorObj.basicInit(directXinit->Getdev());
+	charactorObj.basicInit(directXinit->Getdev().Get());
 
 
 
@@ -151,6 +151,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float scaleY = 1;
 
 	float angle = 0.0f;//カメラの回転角
+	float angleY = 0.0f;//カメラの回転角
 
 	//座標
 	XMFLOAT3 pos={};
@@ -227,7 +228,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
 		
-		charactorObj.Draw(directXinit->GetcmdList(), PipeLineRuleFlag, ChangeSquareFlag);
+		charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag);
 		
 		// 4.描画コマンドここまで
 
@@ -241,40 +242,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 更新処理
 
-		X1 = 0.0f;
-		Y1 = 0.0f;
-		rotate = 0.0f;
-		scaleX = 1.0f;
-		scaleY = 1.0f;
-
-		if (directXinit->PushKey(DIK_D))
-		{
-			OutputDebugStringA("Hit D\n");
-		}
-
 		if (directXinit->TriggerKey(DIK_2))
 		{
 			PipeLineRuleFlag = !PipeLineRuleFlag;
-			OutputDebugStringA("Hit W\n");
-		}
-
-		if (directXinit->PushKey(DIK_W))
-		{
-			X2 += 0.001f;
-		}
-
-		if (directXinit->PushKey(DIK_S) )
-		{
-			X2 -= 0.001f;
-		}
-
-		if (directXinit->PushKey(DIK_SPACE))
-		{
-			directXinit->clearColorChange(0.9f, 0.2f, 0.5f, 0.0f);
-		}
-		else
-		{
-			directXinit->clearColorChange(0.1f, 0.25f, 0.5f, 0.0f);
 		}
 
 		if (directXinit->TriggerKey(DIK_1))
@@ -283,7 +253,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 
-		if (directXinit->PushKey(DIK_D) or directXinit->PushKey(DIK_A))
+		if (directXinit->PushKey(DIK_D) or directXinit->PushKey(DIK_A)or directXinit->PushKey(DIK_W)or directXinit->PushKey(DIK_S))
 		{
 			if (directXinit->PushKey(DIK_D))
 			{
@@ -293,8 +263,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			{
 				angle -= XMConvertToRadians(1.0f);
 			}
+			else if (directXinit->PushKey(DIK_W))
+			{
+				angleY += XMConvertToRadians(500.0f);
+			}
+			else if (directXinit->PushKey(DIK_S))
+			{
+				angleY -= XMConvertToRadians(500.0f);
+			}
 
-			charactorObj.matViewUpdata({ -100 * sinf(angle),0,-100 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
+			charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,-400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
+			
 
 		}
 
@@ -349,12 +328,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
-
+		//ウィンドウクラスを登録解除
+		UnregisterClass(w.lpszClassName, w.hInstance);
 
 	}
 
-	//ウィンドウクラスを登録解除
-	UnregisterClass(w.lpszClassName, w.hInstance);
+	
 
 
 	return 0;
