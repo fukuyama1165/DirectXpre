@@ -273,7 +273,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			}
 
 			charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,-400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
-			charactorObj.matWorldUpdata1();
+			
 
 		}
 
@@ -299,7 +299,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			charactorObj.SetTrans(pos);
 
 			charactorObj.matWorldUpdata();
-			charactorObj.matWorldUpdata1();
 
 		}
 

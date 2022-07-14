@@ -169,7 +169,7 @@ void DrawingObj::basicInit(ID3D12Device* dev)
 	rootsignatureGeneration(dev);
 
 	constantBuffGeneration(dev);
-	constantBuffGeneration1(dev);
+	
 
 	indicesBuffGeneration(dev);
 
@@ -806,22 +806,22 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	);
 	assert(SUCCEEDED(result));
 
-	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
+	//cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
 
-	//定数バッファの生成
-	result = dev->CreateCommittedResource(
-		&cbHeapProp,//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffTransform0)
-	);
-	assert(SUCCEEDED(result));
+	////定数バッファの生成
+	//result = dev->CreateCommittedResource(
+	//	&cbHeapProp,//ヒープ設定
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&cbResourceDesc,//リソース設定
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&constBuffTransform0)
+	//);
+	//assert(SUCCEEDED(result));
 
 
-	//定数バッファのマッピング
-	
+	////定数バッファのマッピング
+	//
 	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
 	assert(SUCCEEDED(result));
 
@@ -841,8 +841,8 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	constMapMaterial2->posM = XMFLOAT4(0,0,0,1);
 
-	result = constBuffTransform0->Map(0, nullptr, (void**)&constMapTransform0);//マッピング
-	assert(SUCCEEDED(result));
+	//result = constBuffTransform0->Map(0, nullptr, (void**)&constMapTransform0);//マッピング
+	//assert(SUCCEEDED(result));
 
 	//行列に単位行列を代入
 	/*matWorld.IdentityMatrix();
@@ -872,13 +872,41 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	 matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 	 
-	 Scale_ = { 1.0f,1.0f,1.0f };
+	 /*Scale_ = { 1.0f,1.0f,1.0f };
 	 Rotate_ = { 0.0f,0.0f,0.0f };
 	 Trans_ = { 0.0f,0.0f,0.0f };
 
 	 matWorldUpdata();
 
-	 constTransformMatUpdata();
+	 constTransformMatUpdata();*/
+
+	 for (int i = 0; i < _countof(object3Ds); i++)
+	 {
+		 //初期化
+		 object3Ds[i].Init(dev);
+
+		 if (i > 0)
+		 {
+			 //ひとつ前のオブジェクトを親オブジェクトとする
+			 object3Ds[i].SetParent(&object3Ds[i - 1]);
+
+			 //親オブジェクトの9割の大きさ
+			 object3Ds[i].SetScale({ 0.9f,0.9f,0.9f });
+
+			 //親オブジェクトに対してz軸周りに30度回転
+			 object3Ds[i].SetRotate({ 0.0f,0.0f,XMConvertToRadians(30.0f) });
+
+			 //親オブジェクトに対してz方向-8.0ずらす
+			 object3Ds[i].SetPos({ 0.0f,0.0f,-8.0f });
+
+		 }
+
+	 }
+
+	 for (size_t i = 0; i < _countof(object3Ds); i++)
+	 {
+		 object3Ds[i].Update(matView, matProjection);
+	 }
 
 #pragma endregion
 }
@@ -889,54 +917,54 @@ void DrawingObj::constantBuffGeneration1(ID3D12Device* dev)
 
 	//定数バッファの生成用の設定
 	//ヒープ設定
-	D3D12_HEAP_PROPERTIES cbHeapProp{};
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+	//D3D12_HEAP_PROPERTIES cbHeapProp{};
+	//cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
 
 
-	//リソース設定
-	D3D12_RESOURCE_DESC cbResourceDesc{};
+	////リソース設定
+	//D3D12_RESOURCE_DESC cbResourceDesc{};
 
-	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
+	//cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
 
-	//定数バッファの生成
-	result = dev->CreateCommittedResource(
-		&cbHeapProp,//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffTransform1)
-	);
-	assert(SUCCEEDED(result));
+	////定数バッファの生成
+	//result = dev->CreateCommittedResource(
+	//	&cbHeapProp,//ヒープ設定
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&cbResourceDesc,//リソース設定
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&constBuffTransform1)
+	//);
+	//assert(SUCCEEDED(result));
 
 
-	//定数バッファのマッピング
+	////定数バッファのマッピング
 
-	result = constBuffTransform1->Map(0, nullptr, (void**)&constMapTransform1);//マッピング
-	assert(SUCCEEDED(result));
+	//result = constBuffTransform1->Map(0, nullptr, (void**)&constMapTransform1);//マッピング
+	//assert(SUCCEEDED(result));
 
-	//行列に単位行列を代入
-	/*matWorld.IdentityMatrix();
+	////行列に単位行列を代入
+	///*matWorld.IdentityMatrix();
 
-	matScale.IdentityMatrix();
+	//matScale.IdentityMatrix();
 
-	matRotate.IdentityMatrix();
+	//matRotate.IdentityMatrix();
 
-	matTrans.IdentityMatrix();
+	//matTrans.IdentityMatrix();
 
-	constMapTransform->mat.IdentityMatrix();*/
+	//constMapTransform->mat.IdentityMatrix();*/
 
-	/*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
-	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
-	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;*/
+	///*constMapTransform->mat.r[0].m128_f32[0] = 2.0f / Win_width;
+	//constMapTransform->mat.r[1].m128_f32[1] = -2.0f / Win_height;
+	//constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
+	//constMapTransform->mat.r[3].m128_f32[1] = 1.0f;*/
 
-	//平行投射行列の計算
-	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
+	////平行投射行列の計算
+	////constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
 
-	matWorldUpdata1();
+	//matWorldUpdata1();
 
-	constTransformMatUpdata1();
+	//constTransformMatUpdata1();
 
 #pragma endregion
 }
@@ -1218,33 +1246,38 @@ void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, 
 
 	cmdList->IASetIndexBuffer(&ibView);
 
-	//定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
-	cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform0->GetGPUVirtualAddress());
-
-	//描画コマンド
-	if (ChangeSquareFlag)
+	for (int i = 0; i < _countof(object3Ds); i++)
 	{
-		//四角形に描画
-		cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
-	}
-	else
-	{
-		cmdList->DrawInstanced(3, 1, 0, 0);
+		object3Ds[i].Draw(cmdList, vbView, ibView, _countof(indices),ChangeSquareFlag);
 	}
 
-	//定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
-	cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform1->GetGPUVirtualAddress());
+	////定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
+	//cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform0->GetGPUVirtualAddress());
 
-	//描画コマンド
-	if (ChangeSquareFlag)
-	{
-		//四角形に描画
-		cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
-	}
-	else
-	{
-		cmdList->DrawInstanced(3, 1, 0, 0);
-	}
+	////描画コマンド
+	//if (ChangeSquareFlag)
+	//{
+	//	//四角形に描画
+	//	cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
+	//}
+	//else
+	//{
+	//	cmdList->DrawInstanced(3, 1, 0, 0);
+	//}
+
+	////定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
+	//cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform1->GetGPUVirtualAddress());
+
+	////描画コマンド
+	//if (ChangeSquareFlag)
+	//{
+	//	//四角形に描画
+	//	cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
+	//}
+	//else
+	//{
+	//	cmdList->DrawInstanced(3, 1, 0, 0);
+	//}
 }
 
 XMFLOAT3 DrawingObj::Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY)
@@ -1340,7 +1373,11 @@ void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
 	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 	//matView = matViewGeneration(eye_, target_, up_);
 
-	constTransformMatUpdata();
+	for (size_t i = 0; i < _countof(object3Ds); i++)
+	{
+		object3Ds[i].Update(matView, matProjection);
+	}
+	
 }
 
 void DrawingObj::constTransformMatUpdata()
@@ -1369,26 +1406,10 @@ void DrawingObj::matWorldUpdata()
 	//matWorld.IdentityMatrix();
 	//matWorld *= matScale*matRotate*matTrans;
 
-	// スケール行列更新
-	matScale = XMMatrixScaling(Scale_.x, Scale_.y, Scale_.z);
-
-	//回転行列更新
-	matRotate = XMMatrixIdentity();
-
-	matRotate *= XMMatrixRotationZ(Rotate_.z);
-	matRotate *= XMMatrixRotationX(Rotate_.x);
-	matRotate *= XMMatrixRotationY(Rotate_.y);
-
-	//平行移動行列更新
-	matTrans = XMMatrixTranslation(Trans_.x, Trans_.y, Trans_.z);
-
-	//ワールド行列更新
-	matWorld = XMMatrixIdentity();
-	matWorld *= matScale;
-	matWorld *= matRotate;
-	matWorld *= matTrans;
-
-	constTransformMatUpdata();
+	for (size_t i = 0; i < _countof(object3Ds); i++)
+	{
+		object3Ds[i].Update(matView, matProjection);
+	}
 	
 }
 

@@ -30,6 +30,7 @@ using namespace DirectX;
 
 #include "matrix4x4.h"
 #include "Float3.h"
+#include "Object3D.h"
 
 //ComPtr用インクルード
 #include <wrl.h>
@@ -298,6 +299,15 @@ private:
 	XMFLOAT3 Scale_;
 	XMFLOAT3 Rotate_;
 	XMFLOAT3 Trans_;
+
+	//3Dオブジェクトの数
+	const static size_t kObjectConst = 50;
+	
+	
+
+	//3Dオブジェクトの配列
+	Object3D object3Ds[kObjectConst];
+
 
 
 };
