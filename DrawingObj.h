@@ -31,6 +31,7 @@ using namespace DirectX;
 #include "matrix4x4.h"
 #include "Float3.h"
 #include "Object3D.h"
+#include "Texture.h"
 
 //ComPtr用インクルード
 #include <wrl.h>
@@ -259,7 +260,7 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff = nullptr;
 
-	ID3D12DescriptorHeap* srvHeap = nullptr;
+	//ID3D12DescriptorHeap* srvHeap = nullptr;
 
 	////透視投影行列
 	//Matrix4x4 matProjection;
@@ -308,6 +309,6 @@ private:
 	//3Dオブジェクトの配列
 	Object3D object3Ds[kObjectConst];
 
-
+	Texture texture;
 
 };

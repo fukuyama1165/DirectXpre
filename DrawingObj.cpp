@@ -15,39 +15,39 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 					//  x     y    z   法線  u    v
 	//前
 	vertices[0] = { { -50.0f,-50.0f,50.0f },{},{0.0f,1.0f}};//左下
-	vertices[1] = { { 50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
-	vertices[2] = { { -50.0f,50.0f,50.0f },{},{1.0f,1.0f} };//右下
-	vertices[3] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
+	vertices[1] = { {  50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
+	vertices[2] = { { -50.0f, 50.0f,50.0f },{},{1.0f,1.0f} };//右下
+	vertices[3] = { {  50.0f, 50.0f,50.0f },{},{1.0f,0.0f} };//右上
 
 	//後
 	vertices[4] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
-	vertices[5] = { { -50.0f,50.0f,-50.0f },{},{0.0f,0.0f} };//左上
-	vertices[6] = { { 50.0f,-50.0f,-50.0f },{},{1.0f,1.0f} };//右下
-	vertices[7] = { { 50.0f,50.0f,-50.0f },{},{1.0f,0.0f} };//右上
+	vertices[5] = { { -50.0f, 50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[6] = { {  50.0f,-50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[7] = { {  50.0f, 50.0f,-50.0f },{},{1.0f,0.0f} };//右上
 
 	//左
 	vertices[8]  = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
-	vertices[9]  = { { -50.0f,-50.0f,50.0f },{},{0.0f,0.0f} };//左上
-	vertices[10] = { { -50.0f,50.0f,-50.0f },{},{1.0f,1.0f} };//右下
-	vertices[11] = { { -50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
+	vertices[9]  = { { -50.0f,-50.0f, 50.0f },{},{0.0f,0.0f} };//左上
+	vertices[10] = { { -50.0f, 50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[11] = { { -50.0f, 50.0f, 50.0f },{},{1.0f,0.0f} };//右上
 
 	//右
 	vertices[12] = { { 50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
-	vertices[13] = { { 50.0f,50.0f,-50.0f },{},{0.0f,0.0f} };//左上
-	vertices[14] = { { 50.0f,-50.0f,50.0f },{},{1.0f,1.0f} };//右下
-	vertices[15] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
+	vertices[13] = { { 50.0f, 50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[14] = { { 50.0f,-50.0f, 50.0f },{},{1.0f,1.0f} };//右下
+	vertices[15] = { { 50.0f, 50.0f, 50.0f },{},{1.0f,0.0f} };//右上
 
 	//上
 	vertices[16] = { { -50.0f,50.0f,-50.0f },{},{0.0f,1.0f} };//左下
-	vertices[17] = { { -50.0f,50.0f,50.0f },{},{0.0f,0.0f} };//左上
-	vertices[18] = { { 50.0f,50.0f,-50.0f },{},{1.0f,1.0f} };//右下
-	vertices[19] = { { 50.0f,50.0f,50.0f },{},{1.0f,0.0f} };//右上
+	vertices[17] = { { -50.0f,50.0f, 50.0f },{},{0.0f,0.0f} };//左上
+	vertices[18] = { {  50.0f,50.0f,-50.0f },{},{1.0f,1.0f} };//右下
+	vertices[19] = { {  50.0f,50.0f, 50.0f },{},{1.0f,0.0f} };//右上
 
 	//下
 	vertices[20] = { { -50.0f,-50.0f,-50.0f },{},{0.0f,1.0f} };//左下
-	vertices[21] = { { 50.0f,-50.0f,-50.0f },{},{0.0f,0.0f} };//左上
-	vertices[22] = { { -50.0f,-50.0f,50.0f },{},{1.0f,1.0f} };//右下
-	vertices[23] = { { 50.0f,-50.0f,50.0f },{},{1.0f,0.0f} };//右上
+	vertices[21] = { {  50.0f,-50.0f,-50.0f },{},{0.0f,0.0f} };//左上
+	vertices[22] = { { -50.0f,-50.0f, 50.0f },{},{1.0f,1.0f} };//右下
+	vertices[23] = { {  50.0f,-50.0f, 50.0f },{},{1.0f,0.0f} };//右上
 
 	//インデックスデータ
 	//前
@@ -173,11 +173,13 @@ void DrawingObj::basicInit(ID3D12Device* dev)
 
 	indicesBuffGeneration(dev);
 
-	imageDataGeneration();
+	/*imageDataGeneration();
 
-	textureBuffGeneraion(dev);
+	textureBuffGeneraion(dev);*/
 
-	SRVGeneraion(dev);
+	texture.Init(dev);
+
+	//SRVGeneraion(dev);
 
 }
 
@@ -899,6 +901,8 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 			 //親オブジェクトに対してz方向-8.0ずらす
 			 object3Ds[i].SetPos({ 0.0f,0.0f,-8.0f });
 
+			 object3Ds[i].Update(matView, matProjection);
+
 		 }
 
 	 }
@@ -1170,12 +1174,12 @@ void DrawingObj::SRVGeneraion(ID3D12Device* dev)
 
 	//設定をもとにSRV用デスクリプタヒープを生成
 	
-	result = dev->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
-	assert(SUCCEEDED(result));
+	//result = dev->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	//assert(SUCCEEDED(result));
 
-	//デスクリプタハンドル(ヒープ内の操作する場所指定に使う)
-	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+	////デスクリプタハンドル(ヒープ内の操作する場所指定に使う)
+	////SRVヒープの先頭ハンドルを取得
+	//D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 
 #pragma endregion
 
@@ -1189,7 +1193,7 @@ void DrawingObj::SRVGeneraion(ID3D12Device* dev)
 	srvDesc.Texture2D.MipLevels = resDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダリソースビュー作成
-	dev->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
+	//dev->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
 
 #pragma endregion
 }
@@ -1238,11 +1242,13 @@ void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, 
 
 
 	//SRVヒープの設定コマンド
-	cmdList->SetDescriptorHeaps(1, &srvHeap);
-	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
-	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
-	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
-	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+	//cmdList->SetDescriptorHeaps(1, &texture.srvHeap);
+	////SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
+	//srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+	////SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
+	//cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+
+	texture.Draw(cmdList);
 
 	cmdList->IASetIndexBuffer(&ibView);
 
