@@ -100,7 +100,7 @@ public:
 	//キーボードのキーを押した瞬間に反応する関数(長押し反応しない)
 	bool TriggerKey(BYTE CheckKey);
 
-	void hoge();
+	void instanceDelete();
 
 private:
 

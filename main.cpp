@@ -337,7 +337,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ウィンドウクラスを登録解除
 	UnregisterClass(w.lpszClassName, w.hInstance);
 
-	directXinit->hoge();
+	directXinit->instanceDelete();
 
 	return 0;
 

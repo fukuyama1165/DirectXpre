@@ -17,7 +17,7 @@ DirectXInit* DirectXInit::GetInstance()
 	return instance;
 }
 
-void DirectXInit::hoge()
+void DirectXInit::instanceDelete()
 {
 	delete(instance);
 }
