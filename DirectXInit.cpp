@@ -1,6 +1,6 @@
 #include "DirectXInit.h"
 
-//DirectXInit* DirectXInit::instance = nullptr;
+DirectXInit* DirectXInit::instance = nullptr;
 using namespace Microsoft::WRL;
 
 
@@ -10,10 +10,17 @@ DirectXInit::~DirectXInit()
 
 DirectXInit* DirectXInit::GetInstance()
 {
-	static DirectXInit instance;
-	return &instance;
+	if (instance == nullptr)
+	{
+		instance = new DirectXInit();
+	}
+	return instance;
 }
 
+void DirectXInit::instanceDelete()
+{
+	delete(instance);
+}
 
 void DirectXInit::Init(WNDCLASSEX w, HWND hwnd, const int win_width, const int win_height)
 {

@@ -27,7 +27,7 @@ void Texture::Draw(ID3D12GraphicsCommandList* cmdList)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
 	//SRVヒープの設定コマンド
-	cmdList->SetDescriptorHeaps(1, &srvHeap);
+	cmdList->SetDescriptorHeaps(1, srvHeap.GetAddressOf());
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定

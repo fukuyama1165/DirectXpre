@@ -65,6 +65,6 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff2 = nullptr;
 
 	
-	ID3D12DescriptorHeap* srvHeap = nullptr;
+	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> srvHeap = nullptr;
 };
 

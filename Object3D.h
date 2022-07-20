@@ -30,23 +30,33 @@ public:
 
 	void Init(ID3D12Device* dev);
 
-	void Update(XMMATRIX& matView, XMMATRIX& matprojection);
+	void Update(Matrix4x4& matView, Matrix4x4& matprojection);
 
 	void Draw(ID3D12GraphicsCommandList* cmdList, D3D12_VERTEX_BUFFER_VIEW& vbView, D3D12_INDEX_BUFFER_VIEW& idView, UINT numIndices, bool ChangeSquareFlag);
 
-	void constTransformMatUpdata(XMMATRIX& matView, XMMATRIX& matProjection);
+	void constTransformMatUpdata(Matrix4x4& matView, Matrix4x4& matProjection);
 
-	void SetScale(XMFLOAT3 scale);
-	void SetRotate(XMFLOAT3 rotate);
-	void SetPos(XMFLOAT3 pos);
+	void SetScale(Float3 scale);
+	void SetRotate(Float3 rotate);
+	void SetPos(Float3 pos);
 	void SetParent(Object3D* parent);
 
 
-	XMFLOAT3 GetScale();
-	XMFLOAT3 GetRotate();
-	XMFLOAT3 GetPos();
+	Matrix4x4 matScaleGeneration(Float3 scale);
 
-	XMMATRIX GetWorldMat();
+	Matrix4x4 matRotateXGeneration(float rotateX);
+	Matrix4x4 matRotateYGeneration(float rotateY);
+	Matrix4x4 matRotateZGeneration(float rotateZ);
+
+	Matrix4x4 matRotateGeneration(Float3 rotate);
+
+	Matrix4x4 matMoveGeneration(Float3 translation);
+
+	Float3 GetScale();
+	Float3 GetRotate();
+	Float3 GetPos();
+
+	Matrix4x4 GetWorldMat();
 
 	Object3D* GetParent();
 
@@ -55,22 +65,22 @@ private:
 	//定数バッファ用データ構造体(3D変換行列)
 	struct ConstBufferDataTransform
 	{
-		XMMATRIX mat;//3D変換行列
+		Matrix4x4 mat;//3D変換行列
 	};
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform = nullptr;
 
 	ConstBufferDataTransform* constMapTransform = nullptr;
 
-	XMFLOAT3 Scale_;
-	XMFLOAT3 Rotate_;
-	XMFLOAT3 Trans_;
+	Float3 Scale_;
+	Float3 Rotate_;
+	Float3 Trans_;
 
-	XMMATRIX matScale;
-	XMMATRIX matRotate;
-	XMMATRIX matTrans;
+	Matrix4x4 matScale;
+	Matrix4x4 matRotate;
+	Matrix4x4 matTrans;
 
-	XMMATRIX matWorld;
+	Matrix4x4 matWorld;
 
 	Object3D* parent_ = nullptr;
 

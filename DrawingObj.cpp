@@ -146,6 +146,7 @@ DrawingObj::DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 ve
 
 DrawingObj::~DrawingObj()
 {
+	
 }
 
 void DrawingObj::basicInit(ID3D12Device* dev)
@@ -866,13 +867,13 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
 
 	//透視投影行列の計算
-	matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
+	//matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
 
-	/*matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), Win_width / Win_height, 0.1f, 1000.0f);
+	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000.0f);
 
-	matView = matViewGeneration(eye_, target_, up_);*/
+	matView = matViewGeneration(eye_, target_, up_);
 
-	 matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	 //matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 	 
 	 /*Scale_ = { 1.0f,1.0f,1.0f };
 	 Rotate_ = { 0.0f,0.0f,0.0f };
@@ -964,7 +965,7 @@ void DrawingObj::constantBuffGeneration1(ID3D12Device* dev)
 	//constMapTransform->mat.r[3].m128_f32[1] = 1.0f;*/
 
 	////平行投射行列の計算
-	////constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
+	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
 
 	//matWorldUpdata1();
 
@@ -1370,14 +1371,14 @@ void DrawingObj::constBuffPosMUpdata(float X, float Y, float Z)
 	constMapMaterial2->posM = XMFLOAT4(X, Y, Z, 0.0f);
 }
 
-void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
+void DrawingObj::matViewUpdata(Float3 eye, Float3 target, Float3 up)
 {
 	eye_ = eye;
 	target_ = target;
 	up_ = up;
 
-	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
-	//matView = matViewGeneration(eye_, target_, up_);
+	/*matView = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));*/
+	matView = matViewGeneration(eye_, target_, up_);
 
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
@@ -1388,12 +1389,12 @@ void DrawingObj::matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up)
 
 void DrawingObj::constTransformMatUpdata()
 {
-	constMapTransform0->mat = matWorld * matView * matProjection;
+	//constMapTransform0->mat = matWorld * matView * matProjection;
 }
 
 void DrawingObj::constTransformMatUpdata1()
 {
-	constMapTransform1->mat = matWorld1 * matView * matProjection;
+	//constMapTransform1->mat = matWorld1 * matView * matProjection;
 }
 
 void DrawingObj::matWorldUpdata()
@@ -1422,59 +1423,32 @@ void DrawingObj::matWorldUpdata()
 void DrawingObj::matWorldUpdata1()
 {
 
-	////スケール行列更新
-	//matScale = matScaleGeneration(Scale_);
-
-	////回転行列更新
-	//matRotate = matRotateGeneration(Rotate_);
-
-	////平行移動行列更新
-	//matTrans = matMoveGeneration(Trans_);
-
-	////ワールド行列更新
-	//matWorld.IdentityMatrix();
-	//matWorld *= matScale*matRotate*matTrans;
-
 	
 
-	XMMATRIX matScale1;
-	XMMATRIX matRotate1;
-	XMMATRIX matTrans1;
-	// スケール行列更新
-	matScale1 = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-
-	//回転行列更新
-	matRotate1 = XMMatrixIdentity();
-
-	matRotate1 *= XMMatrixRotationY(XM_PI/4.0f);
-
-	//平行移動行列更新
-	matTrans1 = XMMatrixTranslation(-20.0f, 0, 0);
-
-	//ワールド行列更新
-	matWorld1 = XMMatrixIdentity();
-	matWorld1 *= matScale1;
-	matWorld1 *= matRotate1;
-	matWorld1 *= matTrans1;
-
-	constTransformMatUpdata1();
-
 }
 
 
-void DrawingObj::SetScale(XMFLOAT3 scale)
+void DrawingObj::SetScale(Float3 scale)
 {
-	Scale_ = scale;
+	object3Ds[0].SetScale(scale);
 }
 
-void DrawingObj::SetRotate(XMFLOAT3 rotate)
+void DrawingObj::SetRotate(Float3 rotate)
 {
-	Rotate_ = rotate;
+	object3Ds[0].SetRotate(rotate);
 }
 
-void DrawingObj::SetTrans(XMFLOAT3 TransForm)
+void DrawingObj::SetTrans(Float3 TransForm)
 {
-	Trans_ = TransForm;
+	object3Ds[0].SetPos(TransForm);
+}
+
+void DrawingObj::obj3DUpdate()
+{
+	for (size_t i = 0; i < _countof(object3Ds); i++)
+	{
+		object3Ds[i].Update(matView, matProjection);
+	}
 }
 
 Matrix4x4 DrawingObj::matScaleGeneration(Float3 scale)
@@ -1600,7 +1574,7 @@ Matrix4x4 DrawingObj::matViewGeneration(Float3 eye, Float3 target, Float3 up)
 	Float3 yVer = zVer.cross(xVer);
 
 
-	Matrix4x4 cameraRotateMat;
+	Matrix4x4 cameraRotateMat={};
 
 	cameraRotateMat.IdentityMatrix();
 
@@ -1616,55 +1590,84 @@ Matrix4x4 DrawingObj::matViewGeneration(Float3 eye, Float3 target, Float3 up)
 	cameraRotateMat.m[2][1] = zVer.y;
 	cameraRotateMat.m[2][2] = zVer.z;
 
-	Float3 cameraPos;
-	Float3 Eye = eye;
-	Eye = -Eye;
+	cameraRotateMat.m[3][0] = eye.x;
+	cameraRotateMat.m[3][1] = eye.y;
+	cameraRotateMat.m[3][2] = eye.z;
 
-	cameraPos.x = Eye.dot(xVer);
-	cameraPos.y = Eye.dot(yVer);
-	cameraPos.z = Eye.dot(zVer);
+	Matrix4x4 ans = {};
 
+	ans = cameraRotateMat.InverseMatrix();
 
-	Matrix4x4 cameraMat;
+	/*Float3 R2 = eye.normalize();
 
-	cameraMat.IdentityMatrix();
+	Float3 R0 = up.cross(R2);
+	R0 = R0.normalize();
 
-	Matrix4x4 cameRotMat = {};
-	cameRotMat.IdentityMatrix();
-	cameRotMat.m[0][0] = cameraRotateMat.m[0][0];
-	cameRotMat.m[1][0] = cameraRotateMat.m[0][1];
-	cameRotMat.m[2][0] = cameraRotateMat.m[0][2];
-	cameRotMat.m[3][0] = cameraRotateMat.m[0][3];
+	Float3 R1 = R2.cross(R0);
 
-	cameRotMat.m[0][1] = cameraRotateMat.m[1][0];
-	cameRotMat.m[1][1] = cameraRotateMat.m[1][1];
-	cameRotMat.m[2][1] = cameraRotateMat.m[1][2];
-	cameRotMat.m[3][1] = cameraRotateMat.m[1][3];
+	Float3 NegEyePosition = {-eye.x,-eye.y,-eye.z};
 
-	cameRotMat.m[0][2] = cameraRotateMat.m[2][0];
-	cameRotMat.m[1][2] = cameraRotateMat.m[2][1];
-	cameRotMat.m[2][2] = cameraRotateMat.m[2][2];
-	cameRotMat.m[3][2] = cameraRotateMat.m[2][3];
+	Float3 D0 = R0.dot(NegEyePosition);
+	Float3 D1 = XMVector3Dot(R1, NegEyePosition);
+	Float3 D2 = XMVector3Dot(R2, NegEyePosition);
 
-	cameraMat = cameraRotateMat.InverseMatrix();
+	XMMATRIX M;
+	M.r[0] = XMVectorSelect(D0, R0, g_XMSelect1110.v);
+	M.r[1] = XMVectorSelect(D1, R1, g_XMSelect1110.v);
+	M.r[2] = XMVectorSelect(D2, R2, g_XMSelect1110.v);
+	M.r[3] = g_XMIdentityR3.v;
 
-	cameraMat.m[3][0] = cameraPos.x;
-	cameraMat.m[3][1] = cameraPos.y;
-	cameraMat.m[3][2] = cameraPos.z;
+	M = XMMatrixTranspose(M);*/
 
-	return cameraMat;
+	return ans;
 }
 
-Matrix4x4 DrawingObj::perspectiveProjectionGeneration(float FovAngleY, float aspect, float NearZ, float FarZ)
+Matrix4x4 DrawingObj::perspectiveProjectionGeneration(float FovAngleY, float NearZ, float FarZ)
 {
 	Matrix4x4 ans = {};
 
-	ans.m[0][0] = 1 / tanf(2);
-	ans.m[1][1] = 1 / tanf(2) * aspect;
-	ans.m[2][2] = (FarZ + NearZ) / (FarZ - NearZ);
+	/*ans.IdentityMatrix();
+
+	float fReciprocalWidth = 1.0f / (ViewRight - 0);
+	float fReciprocalHeight = 1.0f / (0 - ViewBottom);
+	
+	float fRange = 1.0f / (FarZ - NearZ);
+	
+	ans.m[0][0] = {fReciprocalWidth * 2};
+	
+	ans.m[1][1] = { fReciprocalHeight * 2 };
+	
+	ans.m[2][2] = { fRange };
+
+	ans.m[3][0] = { -(0 + ViewRight) * fReciprocalWidth };
+	ans.m[3][1] = { -(0 + ViewBottom) * fReciprocalHeight };
+	ans.m[3][2] = { fRange * -NearZ };*/
+
+	float SinFov;
+	float CosFov;
+	float AspectRatio = Win_width / Win_height;
+	sinCos(SinFov, CosFov, 0.5f * FovAngleY);
+
+	float fRange = FarZ / (FarZ - NearZ);
+	
+	float Height = CosFov / SinFov;
+	
+
+	ans.m[0][0] = Height / AspectRatio;
+	
+	ans.m[1][1] = Height;
+	
+	ans.m[2][2] = fRange;
 	ans.m[2][3] = 1.0f;
-	ans.m[3][2] = -((2 * (FarZ * NearZ)) / (FarZ - NearZ));
+	
+	ans.m[3][2] = -fRange * NearZ;
 
 	return ans;
 
+}
+
+void DrawingObj::sinCos(float& Sin, float& Cos, float angle)
+{
+	Sin = sinf(angle);
+	Cos = cosf(angle);
 }

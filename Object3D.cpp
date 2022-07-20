@@ -6,7 +6,7 @@ Object3D::Object3D()
 	Rotate_ = {};
 	Trans_ = {};
 
-	matWorld = XMMatrixIdentity();
+	matWorld.IdentityMatrix();
 }
 
 Object3D::~Object3D()
@@ -45,39 +45,22 @@ void Object3D::Init(ID3D12Device* dev)
 
 }
 
-void Object3D::Update(XMMATRIX& matView, XMMATRIX& matProjection)
+void Object3D::Update(Matrix4x4& matView, Matrix4x4& matProjection)
 {
-	////スケール行列更新
-	//matScale = matScaleGeneration(Scale_);
-
-	////回転行列更新
-	//matRotate = matRotateGeneration(Rotate_);
-
-	////平行移動行列更新
-	//matTrans = matMoveGeneration(Trans_);
-
-	////ワールド行列更新
-	//matWorld.IdentityMatrix();
-	//matWorld *= matScale*matRotate*matTrans;
-
-	// スケール行列更新
-	matScale = XMMatrixScaling(Scale_.x, Scale_.y, Scale_.z);
+	//スケール行列更新
+	matScale = matScaleGeneration(Scale_);
 
 	//回転行列更新
-	matRotate = XMMatrixIdentity();
-
-	matRotate *= XMMatrixRotationZ(Rotate_.z);
-	matRotate *= XMMatrixRotationX(Rotate_.x);
-	matRotate *= XMMatrixRotationY(Rotate_.y);
+	matRotate = matRotateGeneration(Rotate_);
 
 	//平行移動行列更新
-	matTrans = XMMatrixTranslation(Trans_.x, Trans_.y, Trans_.z);
+	matTrans = matMoveGeneration(Trans_);
 
 	//ワールド行列更新
-	matWorld = XMMatrixIdentity();
-	matWorld *= matScale;
-	matWorld *= matRotate;
-	matWorld *= matTrans;
+	matWorld.IdentityMatrix();
+	matWorld *= matScale*matRotate*matTrans;
+
+	
 
 	if (parent_ != nullptr)
 	{
@@ -112,20 +95,20 @@ void Object3D::Draw(ID3D12GraphicsCommandList* cmdList, D3D12_VERTEX_BUFFER_VIEW
 
 }
 
-void Object3D::constTransformMatUpdata(XMMATRIX& matView, XMMATRIX& matProjection)
+void Object3D::constTransformMatUpdata(Matrix4x4& matView, Matrix4x4& matProjection)
 {
 	constMapTransform->mat = matWorld * matView * matProjection;
 }
 
-void Object3D::SetScale(XMFLOAT3 scale)
+void Object3D::SetScale(Float3 scale)
 {
 	Scale_ = scale;
 }
-void Object3D::SetRotate(XMFLOAT3 rotate)
+void Object3D::SetRotate(Float3 rotate)
 {
 	Rotate_ = rotate;
 }
-void Object3D::SetPos(XMFLOAT3 pos)
+void Object3D::SetPos(Float3 pos)
 {
 	Trans_ = pos;
 }
@@ -138,20 +121,20 @@ void Object3D::SetParent(Object3D* parent)
 	}
 }
 
-XMFLOAT3 Object3D::GetScale()
+Float3 Object3D::GetScale()
 {
 	return Scale_;
 }
-XMFLOAT3 Object3D::GetRotate()
+Float3 Object3D::GetRotate()
 {
 	return Rotate_;
 }
-XMFLOAT3 Object3D::GetPos()
+Float3 Object3D::GetPos()
 {
 	return Trans_;
 }
 
-XMMATRIX Object3D::GetWorldMat()
+Matrix4x4 Object3D::GetWorldMat()
 {
 	return matWorld;
 }
@@ -159,4 +142,113 @@ XMMATRIX Object3D::GetWorldMat()
 Object3D* Object3D::GetParent()
 {
 	return parent_;
+}
+
+Matrix4x4 Object3D::matScaleGeneration(Float3 scale)
+{
+	//スケーリング行列を宣言
+	Matrix4x4 matScale;
+	matScale.IdentityMatrix();
+
+	//スケーリング倍率を行列に設定
+	matScale.m[0][0] = scale.x;
+	matScale.m[1][1] = scale.y;
+	matScale.m[2][2] = scale.z;
+	matScale.m[3][3] = 1;
+
+	return matScale;
+}
+
+Matrix4x4 Object3D::matRotateXGeneration(float rotateX)
+{
+	//X軸回転行列を宣言
+	Matrix4x4 matRotateX;
+	matRotateX.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateX.m[0][0] = 1;
+	matRotateX.m[1][1] = cosf(rotateX);
+	matRotateX.m[1][2] = sinf(rotateX);
+	matRotateX.m[2][1] = -sinf(rotateX);
+	matRotateX.m[2][2] = cosf(rotateX);
+	matRotateX.m[3][3] = 1;
+
+	return matRotateX;
+}
+
+Matrix4x4 Object3D::matRotateYGeneration(float rotateY)
+{
+	//Y軸回転行列を宣言
+	Matrix4x4 matRotateY;
+	matRotateY.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateY.m[0][0] = cosf(rotateY);
+	matRotateY.m[0][2] = -sinf(rotateY);
+	matRotateY.m[1][1] = 1;
+	matRotateY.m[2][0] = sinf(rotateY);
+	matRotateY.m[2][2] = cosf(rotateY);
+	matRotateY.m[3][3] = 1;
+
+	return matRotateY;
+}
+
+Matrix4x4 Object3D::matRotateZGeneration(float rotateZ)
+{
+	//Z軸回転行列を宣言
+	Matrix4x4 matRotateZ;
+	matRotateZ.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateZ.m[0][0] = cosf(rotateZ);
+	matRotateZ.m[0][1] = sinf(rotateZ);
+	matRotateZ.m[1][0] = -sinf(rotateZ);
+	matRotateZ.m[1][1] = cosf(rotateZ);
+	matRotateZ.m[2][2] = 1;
+	matRotateZ.m[3][3] = 1;
+
+	return matRotateZ;
+}
+
+Matrix4x4 Object3D::matRotateGeneration(Float3 rotate)
+{
+	//X軸回転行列を宣言
+	Matrix4x4 matRotateX = matRotateXGeneration(rotate.x);
+
+	//Y軸回転行列を宣言
+	Matrix4x4 matRotateY = matRotateYGeneration(rotate.y);
+
+	//Z軸回転行列を宣言
+	Matrix4x4 matRotateZ = matRotateZGeneration(rotate.z);
+
+	//回転軸合成行列を宣言
+	Matrix4x4 matRotate;
+	matRotate.IdentityMatrix();
+
+	//計算した角度を計算(順番は回転させるモデルによって変える)
+
+	matRotateX *= matRotateY;
+
+	matRotateZ *= matRotateX;
+
+	matRotate = matRotateZ;
+
+	return matRotate;
+
+
+
+}
+
+Matrix4x4 Object3D::matMoveGeneration(Float3 translation)
+{
+	//移動するための行列を用意
+	Matrix4x4 matMove;
+	matMove.IdentityMatrix();
+
+	//行列に移動量を代入
+	matMove.m[3][0] = translation.x;
+	matMove.m[3][1] = translation.y;
+	matMove.m[3][2] = translation.z;
+
+	return matMove;
 }

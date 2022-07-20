@@ -32,6 +32,7 @@ using namespace DirectX;
 #include "Float3.h"
 #include "Object3D.h"
 #include "Texture.h"
+#include "Float4.h"
 
 //ComPtr用インクルード
 #include <wrl.h>
@@ -128,7 +129,7 @@ public:
 
 	//ビュー変換行列更新
 	//void matViewUpdata(Float3 eye, Float3 target, Float3 up);
-	void matViewUpdata(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up);
+	void matViewUpdata(Float3 eye, Float3 target, Float3 up);
 
 	//定数バッファの行列を更新する関数
 	void constTransformMatUpdata();
@@ -150,14 +151,24 @@ public:
 
 	Matrix4x4 matViewGeneration(Float3 eye, Float3 target, Float3 up);
 
-	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY, float aspect, float NearZ, float FarZ);
+	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY, float NearZ, float FarZ);
 
 	//スケール変更行列
-	void SetScale(XMFLOAT3 scale);
+	void SetScale(Float3 scale);
 	//角度変更行列
-	void SetRotate(XMFLOAT3 rotate);
+	void SetRotate(Float3 rotate);
 	//平行移動行列
-	void SetTrans(XMFLOAT3 TransForm);
+	void SetTrans(Float3 TransForm);
+
+	void obj3DUpdate();
+
+	/// <summary>
+	/// sinとcosを返す関数
+	/// </summary>
+	/// <param name="Sin">sinの値が入る引数</param>
+	/// <param name="Cos">cosの値が入る引数</param>
+	/// <param name="angle">Θの値</param>
+	void sinCos(float& Sin, float& Cos, float angle);
 
 private:
 
@@ -262,44 +273,44 @@ private:
 
 	//ID3D12DescriptorHeap* srvHeap = nullptr;
 
-	////透視投影行列
-	//Matrix4x4 matProjection;
-
-	////ビュー変換行列
-	//Matrix4x4 matView;
-	//Float3 eye_;//視点座標
-	//Float3 target_;//注視点座標
-	//Float3 up_;//上方向ベクトル
-
-	//Matrix4x4 matWorld;
-
-	//Matrix4x4 matScale;
-	//Matrix4x4 matRotate;
-	//Matrix4x4 matTrans;
-
-	//Float3 Scale_;
-	//Float3 Rotate_;
-	//Float3 Trans_;
-
 	//透視投影行列
-	XMMATRIX matProjection;
+	Matrix4x4 matProjection;
 
 	//ビュー変換行列
-	XMMATRIX matView;
-	XMFLOAT3 eye_;//視点座標
-	XMFLOAT3 target_;//注視点座標
-	XMFLOAT3 up_;//上方向ベクトル
+	Matrix4x4 matView;
+	Float3 eye_;//視点座標
+	Float3 target_;//注視点座標
+	Float3 up_;//上方向ベクトル
 
-	XMMATRIX matWorld;
-	XMMATRIX matWorld1;
+	Matrix4x4 matWorld;
 
-	XMMATRIX matScale;
-	XMMATRIX matRotate;
-	XMMATRIX matTrans;
+	Matrix4x4 matScale;
+	Matrix4x4 matRotate;
+	Matrix4x4 matTrans;
 
-	XMFLOAT3 Scale_;
-	XMFLOAT3 Rotate_;
-	XMFLOAT3 Trans_;
+	Float3 Scale_;
+	Float3 Rotate_;
+	Float3 Trans_;
+
+	////透視投影行列
+	//XMMATRIX matProjection;
+
+	////ビュー変換行列
+	//XMMATRIX matView;
+	//XMFLOAT3 eye_;//視点座標
+	//XMFLOAT3 target_;//注視点座標
+	//XMFLOAT3 up_;//上方向ベクトル
+
+	//XMMATRIX matWorld;
+	//XMMATRIX matWorld1;
+
+	//XMMATRIX matScale;
+	//XMMATRIX matRotate;
+	//XMMATRIX matTrans;
+
+	//XMFLOAT3 Scale_;
+	//XMFLOAT3 Rotate_;
+	//XMFLOAT3 Trans_;
 
 	//3Dオブジェクトの数
 	const static size_t kObjectConst = 50;

@@ -26,13 +26,15 @@ using namespace DirectX;
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
-const float PI = 3.141592653589;
+const float PI = 3.141592653589f;
 
 #include <DirectXTex.h>
 
 #include "DrawingObj.h"
 
 #include "DirectXInit.h"
+
+#include <dxgidebug.h>
 
 #pragma region ウィンドウプロシージャ
 
@@ -112,6 +114,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//これを書かないとウィンドウが一瞬で消えるため記述
 	MSG msg{};
 
+	
+
 #pragma endregion
 	
 	DirectXInit* directXinit;
@@ -124,8 +128,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 	charactorObj.basicInit(directXinit->Getdev().Get());
-
-
 
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
@@ -154,7 +156,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float angleY = 0.0f;//カメラの回転角
 
 	//座標
-	XMFLOAT3 pos={};
+	Float3 pos={};
 
 
 	//ゲームループ
@@ -328,13 +330,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
-		//ウィンドウクラスを登録解除
-		UnregisterClass(w.lpszClassName, w.hInstance);
+		
 
 	}
-
 	
+	// ウィンドウクラスを登録解除
+	UnregisterClass(w.lpszClassName, w.hInstance);
 
+	directXinit->instanceDelete();
 
 	return 0;
 
