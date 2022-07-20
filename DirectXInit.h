@@ -32,6 +32,8 @@ using namespace DirectX;
 //ComPtr用インクルード
 #include <wrl.h>
 
+#include <dxgidebug.h>
+
 
 class DirectXInit
 {
@@ -98,6 +100,8 @@ public:
 	//キーボードのキーを押した瞬間に反応する関数(長押し反応しない)
 	bool TriggerKey(BYTE CheckKey);
 
+	void hoge();
+
 private:
 
 	DirectXInit()=default;
@@ -106,7 +110,7 @@ private:
 	DirectXInit(const DirectXInit&) = delete;
 	DirectXInit& operator=(const DirectXInit&) = delete;
 
-	//static DirectXInit* instance;
+	static DirectXInit* instance;
 
 private:
 
@@ -146,6 +150,10 @@ private:
 
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> dsvHeap = nullptr;
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+
+	IDXGIDebug* pDxgiDebug;
+
+	Microsoft::WRL::ComPtr<ID3D12Debug> pD3dDebug;
 
 };
 
