@@ -267,15 +267,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			}
 			else if (directXinit->PushKey(DIK_W))
 			{
-				angleY += XMConvertToRadians(500.0f);
+				angleY -= XMConvertToRadians(500.0f);
 			}
 			else if (directXinit->PushKey(DIK_S))
 			{
-				angleY -= XMConvertToRadians(500.0f);
+				angleY += XMConvertToRadians(500.0f);
 			}
 
-			charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,-400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
-			
+			//charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,-400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
+			charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,  -400 * cosf(angle)}, {0,0,0}, {0,1,0});
+			charactorObj.matvi = XMMatrixLookAtLH({ -400 * sinf(angle),angleY,  -400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
 
 		}
 
@@ -300,7 +301,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 			charactorObj.SetTrans(pos);
 
-			charactorObj.matWorldUpdata();
+			charactorObj.obj3DUpdate();
 
 		}
 

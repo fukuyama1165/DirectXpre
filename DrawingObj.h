@@ -170,11 +170,21 @@ public:
 	/// <param name="angle">Θの値</param>
 	void sinCos(float& Sin, float& Cos, float angle);
 
+	Float3 float3Dat(Float3 A, Float3 B);
+
+	XMMATRIX matvi;
+
+	XMFLOAT3 eye2;
+	XMFLOAT3 target2;
+	XMFLOAT3 up2;
+
+	XMMATRIX matPro;
+
 private:
 
 	//画面サイズ
-	int Win_width;
-	int Win_height;
+	float Win_width;
+	float Win_height;
 
 	//頂点データ(増やしたいならここも増やしておく)
 	Vertex vertices[24];
@@ -321,5 +331,7 @@ private:
 	Object3D object3Ds[kObjectConst];
 
 	Texture texture;
+
+	
 
 };
