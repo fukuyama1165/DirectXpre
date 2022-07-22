@@ -45,7 +45,7 @@ void Object3D::Init(ID3D12Device* dev)
 
 }
 
-void Object3D::Update(Matrix4x4& matView, Matrix4x4& matProjection)
+void Object3D::Update(Matrix4x4 matView, Matrix4x4 matProjection, XMMATRIX a, XMMATRIX b)
 {
 	//スケール行列更新
 	matScale = matScaleGeneration(Scale_);
@@ -58,7 +58,7 @@ void Object3D::Update(Matrix4x4& matView, Matrix4x4& matProjection)
 
 	//ワールド行列更新
 	matWorld.IdentityMatrix();
-	matWorld *= matScale*matRotate*matTrans;
+	matWorld = matScale * matRotate * matTrans;
 
 	
 
@@ -67,7 +67,7 @@ void Object3D::Update(Matrix4x4& matView, Matrix4x4& matProjection)
 		matWorld *= parent_->GetWorldMat();
 	}
 
-	constTransformMatUpdata(matView,matProjection);
+	constTransformMatUpdata(matView,matProjection,a ,b);
 }
 
 void Object3D::Draw(ID3D12GraphicsCommandList* cmdList, D3D12_VERTEX_BUFFER_VIEW& vbView, D3D12_INDEX_BUFFER_VIEW& idView, UINT numIndices,bool ChangeSquareFlag)
@@ -95,8 +95,34 @@ void Object3D::Draw(ID3D12GraphicsCommandList* cmdList, D3D12_VERTEX_BUFFER_VIEW
 
 }
 
-void Object3D::constTransformMatUpdata(Matrix4x4& matView, Matrix4x4& matProjection)
+void Object3D::constTransformMatUpdata(Matrix4x4 matView, Matrix4x4 matProjection, XMMATRIX a, XMMATRIX b)
 {
+	XMMATRIX matWorld2;
+	XMMATRIX matScale2;
+	XMMATRIX matRotate2;
+	XMMATRIX matTrans2;
+
+	//スケール行列更新
+	matScale2 = XMMatrixScaling(Scale_.x, Scale_.y, Scale_.z);
+
+	//回転行列更新
+	matRotate2 = XMMatrixIdentity();
+
+	matRotate2 *= XMMatrixRotationZ(Rotate_.z);
+	matRotate2 *= XMMatrixRotationX(Rotate_.x);
+	matRotate2 *= XMMatrixRotationY(Rotate_.y);
+
+	//平行移動行列更新
+	matTrans2 = XMMatrixTranslation(Trans_.x, Trans_.y, Trans_.z);
+
+	//ワールド行列更新
+	matWorld2 = XMMatrixIdentity();
+	matWorld2 *= matScale2;
+	matWorld2 *= matRotate2;
+	matWorld2 *= matTrans2;
+
+	XMMATRIX hoge = matWorld2 * a * b;
+
 	constMapTransform->mat = matWorld * matView * matProjection;
 }
 
@@ -227,11 +253,8 @@ Matrix4x4 Object3D::matRotateGeneration(Float3 rotate)
 
 	//計算した角度を計算(順番は回転させるモデルによって変える)
 
-	matRotateX *= matRotateY;
 
-	matRotateZ *= matRotateX;
-
-	matRotate = matRotateZ;
+	matRotate = matRotateZ * matRotateX * matRotateY;
 
 	return matRotate;
 

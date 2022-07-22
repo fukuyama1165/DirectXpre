@@ -43,7 +43,7 @@ Float3 Float3::cross(const Float3& v) const
 
 	a.x = y * v.z - z * v.y;
 	a.y = z * v.x - x * v.z;
-	a.z = y * v.z - z * v.y;
+	a.z = x * v.y - y * v.x;
 
 	return a;
 }

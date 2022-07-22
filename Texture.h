@@ -31,7 +31,7 @@ public:
 
 	void Init(ID3D12Device* dev);
 
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(ID3D12GraphicsCommandList* cmdList,bool chang);
 
 	//画像イメージデータ
 	void imageDataGeneration();

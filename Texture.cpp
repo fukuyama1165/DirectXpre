@@ -22,7 +22,7 @@ void Texture::Init(ID3D12Device* dev)
 	SRVGeneraion(dev);
 }
 
-void Texture::Draw(ID3D12GraphicsCommandList* cmdList)
+void Texture::Draw(ID3D12GraphicsCommandList* cmdList,bool chang)
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
@@ -30,6 +30,7 @@ void Texture::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetDescriptorHeaps(1, srvHeap.GetAddressOf());
 	//SRVヒープの先頭ハンドルを取得(SRVを指しているはず)
 	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+
 	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
 	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
