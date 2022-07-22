@@ -114,7 +114,7 @@ public:
 	/// <param name="cmdList">コマンドリスト</param>
 	/// <param name="PipeLineRuleFlag">描画方法を変更するかどうか(現在はワイヤーフレームか塗りつぶし)trueは塗りつぶし</param>
 	/// <param name="ChangeSquareFlag">三角形で描画するか四角形に描画する(trueは四角形)</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bool ChangeSquareFlag);
+	void Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bool ChangeSquareFlag, bool ChangeTexure);
 
 
 	//アフィン変換そのものの関数(2D)
@@ -172,13 +172,7 @@ public:
 
 	Float3 float3Dat(Float3 A, Float3 B);
 
-	XMMATRIX matvi;
-
-	XMFLOAT3 eye2;
-	XMFLOAT3 target2;
-	XMFLOAT3 up2;
-
-	XMMATRIX matPro;
+	void colorMap(float R,float G,float B);
 
 private:
 

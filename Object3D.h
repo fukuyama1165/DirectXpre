@@ -30,11 +30,11 @@ public:
 
 	void Init(ID3D12Device* dev);
 
-	void Update(Matrix4x4 matView, Matrix4x4 matprojection, XMMATRIX a , XMMATRIX b);
+	void Update(Matrix4x4 matView, Matrix4x4 matprojection);
 
 	void Draw(ID3D12GraphicsCommandList* cmdList, D3D12_VERTEX_BUFFER_VIEW& vbView, D3D12_INDEX_BUFFER_VIEW& idView, UINT numIndices, bool ChangeSquareFlag);
 
-	void constTransformMatUpdata(Matrix4x4 matView, Matrix4x4 matProjection, XMMATRIX a, XMMATRIX b);
+	void constTransformMatUpdata(Matrix4x4 matView, Matrix4x4 matProjection);
 
 	void SetScale(Float3 scale);
 	void SetRotate(Float3 rotate);

@@ -32,10 +32,16 @@ void Texture::Draw(ID3D12GraphicsCommandList* cmdList,bool chang)
 	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
 	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
-	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+	if (chang)
+	{
 
-	srvGpuHandle.ptr += incremantSize;
-	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+		cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+	}
+	else
+	{
+		srvGpuHandle.ptr += incremantSize;
+		cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+	}
 
 }
 

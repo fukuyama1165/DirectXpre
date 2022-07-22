@@ -4,7 +4,7 @@
 
 using namespace Microsoft::WRL;
 
-const float PI = 3.141592653589;
+const float PI = 3.141592653589f;
 
 DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 {
@@ -105,7 +105,7 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 	sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 
 	//ビュー変換行列
-	eye_ = { -399.451843f, 0, -20.93396f };//視点座標
+	eye_ = { 0, 0, -400.0f };//視点座標
 	target_ = { 0, 0, 0 };//注視点座標
 	up_ = { 0, 1, 0 };//上方向ベクトル
 }
@@ -208,11 +208,13 @@ void DrawingObj::colorChangeInit(ID3D12Device* dev)
 
 	indicesBuffGeneration(dev);
 
-	imageDataGeneration();
+	/*imageDataGeneration();
 
-	textureBuffGeneraion(dev);
+	textureBuffGeneraion(dev);*/
 
-	SRVGeneraion(dev);
+	texture.Init(dev);
+
+	//SRVGeneraion(dev);
 
 }
 
@@ -540,6 +542,7 @@ void DrawingObj::graphicPipelineGeneration()
 	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
 	gpipeline.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 
+
 	//ブレンドステートの設定
 	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = gpipeline.BlendState.RenderTarget[0];
@@ -616,7 +619,7 @@ void DrawingObj::graphicPipelineGeneration()
 
 	//サンプルマスクとラスタライザステートの設定
 	gpipeline2.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
-	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_BACK;//カリングしない
+	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
 	gpipeline2.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;//ワイヤーフレーム描画
 	gpipeline2.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
 
@@ -753,6 +756,13 @@ void DrawingObj::rootsignatureGeneration(ID3D12Device* dev)
 	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
 	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
 
+	gpipeline2.DepthStencilState.DepthEnable = true;//深度テストを行う
+	gpipeline2.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	gpipeline2.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
+	gpipeline2.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
+
+	
+
 #pragma endregion
 
 
@@ -842,7 +852,7 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	result = constBuffMaterial2->Map(0, nullptr, (void**)&constMapMaterial2);//マッピング
 	assert(SUCCEEDED(result));
 
-	constMapMaterial2->posM = XMFLOAT4(0,0,0,1);
+	constMapMaterial2->posM = XMFLOAT4(0.0f,0.0f,0.0f,1.0f);
 
 	//result = constBuffTransform0->Map(0, nullptr, (void**)&constMapTransform0);//マッピング
 	//assert(SUCCEEDED(result));
@@ -867,8 +877,6 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	//constMapTransform->mat = XMMatrixOrthographicOffCenterLH(0.0f,Win_width,Win_height, 0.0f, 0.0f, 1.0f);
 
 	//透視投影行列の計算
-	
-	matPro = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)Win_width / Win_height, 0.1f, 1000.0f);
 
 	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000.0f);
 
@@ -877,11 +885,7 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 	
 
 	//ビュー変換行列
-	eye2 = { -399.451843f, 0, -20.9339600f };//視点座標
-	target2 = { 0, 0, 0 };//注視点座標
-	up2 = { 0, 1, 0 };//上方向ベクトル
-
-	 matvi = XMMatrixLookAtLH(XMLoadFloat3(&eye2), XMLoadFloat3(&target2), XMLoadFloat3(&up2));
+	
 	 
 	 /*Scale_ = { 1.0f,1.0f,1.0f };
 	 Rotate_ = { 0.0f,0.0f,0.0f };
@@ -910,7 +914,7 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 			 //親オブジェクトに対してz方向-8.0ずらす
 			 object3Ds[i].SetPos({ 0.0f,0.0f,-8.0f });
 
-			 object3Ds[i].Update(matView, matProjection,matvi,matPro);
+			 object3Ds[i].Update(matView, matProjection);
 
 		 }
 
@@ -918,7 +922,7 @@ void DrawingObj::constantBuffGeneration(ID3D12Device* dev)
 
 	 for (size_t i = 0; i < _countof(object3Ds); i++)
 	 {
-		 object3Ds[i].Update(matView, matProjection, matvi, matPro);
+		 object3Ds[i].Update(matView, matProjection);
 	 }
 
 #pragma endregion
@@ -1221,13 +1225,13 @@ void DrawingObj::vertexMap()
 	vertBuff->Unmap(0, nullptr);
 }
 
-void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bool ChangeSquareFlag)
+void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bool ChangeSquareFlag,bool ChangeTexure)
 {
 
 	//パイプラインステートとルートシグネチャの設定
 	//作ったパイプラインステートとルートシグネチャをセットする
 	//決めたルールで描画をお願いするところ
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
+	//D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
 	if (PipeLineRuleFlag)
 	{
@@ -1257,13 +1261,13 @@ void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, 
 	////SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
 	//cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
-	texture.Draw(cmdList,0);
+	texture.Draw(cmdList, ChangeTexure);
 
 	cmdList->IASetIndexBuffer(&ibView);
 
 	for (int i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[i].Draw(cmdList, vbView, ibView, _countof(indices),ChangeSquareFlag);
+		object3Ds[0].Draw(cmdList, vbView, ibView, _countof(indices),ChangeSquareFlag);
 	}
 
 	////定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
@@ -1309,8 +1313,8 @@ XMFLOAT3 DrawingObj::Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, 
 		{0.0f,0.0f, 1.0f}
 	};
 	float rotateA[3][3] = {
-		{cos(rotate * (PI / 180)),-sin(rotate * (PI / 180)), 0.0f},
-		{sin(rotate * (PI / 180)),cos(rotate * (PI / 180)), 0.0f},
+		{cosf(rotate * (PI / 180)),-sinf(rotate * (PI / 180)), 0.0f},
+		{sinf(rotate * (PI / 180)),cosf(rotate * (PI / 180)), 0.0f},
 		{0.0f,0.0f, 1.0f}
 	};
 
@@ -1390,7 +1394,7 @@ void DrawingObj::matViewUpdata(Float3 eye, Float3 target, Float3 up)
 
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[i].Update(matView, matProjection, matvi, matPro);
+		object3Ds[i].Update(matView, matProjection);
 	}
 	
 }
@@ -1423,7 +1427,7 @@ void DrawingObj::matWorldUpdata()
 
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[i].Update(matView, matProjection, matvi, matPro);
+		object3Ds[i].Update(matView, matProjection);
 	}
 	
 }
@@ -1455,7 +1459,7 @@ void DrawingObj::obj3DUpdate()
 {
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[i].Update(matView, matProjection, matvi, matPro);
+		object3Ds[i].Update(matView, matProjection);
 	}
 }
 
@@ -1482,10 +1486,10 @@ Matrix4x4 DrawingObj::matRotateXGeneration(float rotateX)
 
 	//回転角を行列に設定(ラジアン)
 	matRotateX.m[0][0] = 1;
-	matRotateX.m[1][1] = cos(rotateX);
-	matRotateX.m[1][2] = sin(rotateX);
-	matRotateX.m[2][1] = -sin(rotateX);
-	matRotateX.m[2][2] = cos(rotateX);
+	matRotateX.m[1][1] = cosf(rotateX);
+	matRotateX.m[1][2] = sinf(rotateX);
+	matRotateX.m[2][1] = -sinf(rotateX);
+	matRotateX.m[2][2] = cosf(rotateX);
 	matRotateX.m[3][3] = 1;
 
 	return matRotateX;
@@ -1498,11 +1502,11 @@ Matrix4x4 DrawingObj::matRotateYGeneration(float rotateY)
 	matRotateY.IdentityMatrix();
 
 	//回転角を行列に設定(ラジアン)
-	matRotateY.m[0][0] = cos(rotateY);
-	matRotateY.m[0][2] = -sin(rotateY);
+	matRotateY.m[0][0] = cosf(rotateY);
+	matRotateY.m[0][2] = -sinf(rotateY);
 	matRotateY.m[1][1] = 1;
-	matRotateY.m[2][0] = sin(rotateY);
-	matRotateY.m[2][2] = cos(rotateY);
+	matRotateY.m[2][0] = sinf(rotateY);
+	matRotateY.m[2][2] = cosf(rotateY);
 	matRotateY.m[3][3] = 1;
 
 	return matRotateY;
@@ -1515,10 +1519,10 @@ Matrix4x4 DrawingObj::matRotateZGeneration(float rotateZ)
 	matRotateZ.IdentityMatrix();
 
 	//回転角を行列に設定(ラジアン)
-	matRotateZ.m[0][0] = cos(rotateZ);
-	matRotateZ.m[0][1] = sin(rotateZ);
-	matRotateZ.m[1][0] = -sin(rotateZ);
-	matRotateZ.m[1][1] = cos(rotateZ);
+	matRotateZ.m[0][0] = cosf(rotateZ);
+	matRotateZ.m[0][1] = sinf(rotateZ);
+	matRotateZ.m[1][0] = -sinf(rotateZ);
+	matRotateZ.m[1][1] = cosf(rotateZ);
 	matRotateZ.m[2][2] = 1;
 	matRotateZ.m[3][3] = 1;
 
@@ -1766,4 +1770,9 @@ Float3 DrawingObj::float3Dat(Float3 A, Float3 B)
 
 	return num;
 
+}
+
+void DrawingObj::colorMap(float R, float G, float B)
+{
+	constMapMaterial->color = XMFLOAT4(R, G, B, 0.5f);
 }

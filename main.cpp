@@ -125,15 +125,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	directXinit->Init(w, hwnd,window_width,window_height);
 
 	DrawingObj charactorObj(window_width, window_height);
+	DrawingObj charactorObj2(window_width, window_height);
 
 
-	charactorObj.basicInit(directXinit->Getdev().Get());
+	charactorObj.colorChangeInit(directXinit->Getdev().Get());
+	charactorObj2.basicInit(directXinit->Getdev().Get());
 
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
 
 	//四角形に変更するときのフラグ
-	bool ChangeSquareFlag = true;
+	bool ChangeSquareFlag = false;
+
+	bool ChangeTexure = false;
 
 	//全キーの入力情報を取得する為の変数
 	/*BYTE key[256] = {};
@@ -141,8 +145,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	
 	float Red = 1.0f;
-	float Green = 1.0f;
-	float Blue = 1.0f;
+	float Green = 0.0f;
+	float Blue = 0.0f;
 
 	float X1 = 0.0f;
 	float X2 = 0.0f;
@@ -230,7 +234,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
 		
-		charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag);
+		charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
+		charactorObj2.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true,ChangeTexure);
 		
 		// 4.描画コマンドここまで
 
@@ -252,6 +257,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (directXinit->TriggerKey(DIK_1))
 		{
 			ChangeSquareFlag = !ChangeSquareFlag;
+		}
+
+		if (directXinit->TriggerKey(DIK_3))
+		{
+			ChangeTexure = !ChangeTexure;
 		}
 
 
@@ -276,7 +286,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 			//charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,-400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
 			charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,  -400 * cosf(angle)}, {0,0,0}, {0,1,0});
-			charactorObj.matvi = XMMatrixLookAtLH({ -400 * sinf(angle),angleY,  -400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
+			charactorObj2.matViewUpdata({ -400 * sinf(angle),angleY,  -400 * cosf(angle)}, {0,0,0}, {0,1,0});
 
 		}
 
@@ -307,7 +317,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 		//色変更
-		/*if (Red > 0 and Blue <= 0)
+		if (Red > 0 and Blue <= 0)
 		{
 			Red -= 0.05f;
 			Green += 0.05f;
@@ -321,13 +331,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			Blue -= 0.05f;
 			Red += 0.05f;
-		}*/
+		}
 
 #pragma endregion
 
 #pragma region 描画処理
 
-		
+		charactorObj.colorMap(Red, Green, Blue);
 
 #pragma endregion
 
