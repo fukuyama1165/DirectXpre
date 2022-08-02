@@ -11,6 +11,7 @@ Object3D::Object3D()
 
 Object3D::~Object3D()
 {
+	
 }
 
 void Object3D::Init(ID3D12Device* dev)

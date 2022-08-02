@@ -6,10 +6,15 @@ using namespace Microsoft::WRL;
 
 const float PI = 3.141592653589f;
 
-DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
+Texture* DrawingObj::texture =nullptr;
+
+DrawingObj::DrawingObj(const float windowWidth,const float windowHeight)
 {
 	Win_width = windowWidth;
 	Win_height = windowHeight;
+
+	texture = Texture::GetInstance();
+	
 
 	//頂点データ(四点分の座標)
 					//  x     y    z   法線  u    v
@@ -110,10 +115,12 @@ DrawingObj::DrawingObj(const int windowWidth,const int windowHeight)
 	up_ = { 0, 1, 0 };//上方向ベクトル
 }
 
-DrawingObj::DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1, XMFLOAT2 vertexUv2, XMFLOAT2 vertexUv3, XMFLOAT2 vertexUv4)
+DrawingObj::DrawingObj(const float windowWidth, const float windowHeight,XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1, XMFLOAT2 vertexUv2, XMFLOAT2 vertexUv3, XMFLOAT2 vertexUv4)
 {
 	Win_width = windowWidth;
 	Win_height = windowHeight;
+
+	texture = Texture::GetInstance();;
 
 	//頂点データ(四点分の座標)
 					//  x     y    z      u    v
@@ -149,6 +156,14 @@ DrawingObj::~DrawingObj()
 	
 }
 
+void DrawingObj::deleteTexture()
+{
+	if (texture != nullptr)
+	{
+		texture->instanceDelete();
+	}
+}
+
 void DrawingObj::basicInit(ID3D12Device* dev)
 {
 	vertexBuffGeneration(dev);
@@ -178,7 +193,7 @@ void DrawingObj::basicInit(ID3D12Device* dev)
 
 	textureBuffGeneraion(dev);*/
 
-	texture.Init(dev);
+	texture->Init(dev);
 
 	//SRVGeneraion(dev);
 
@@ -212,7 +227,7 @@ void DrawingObj::colorChangeInit(ID3D12Device* dev)
 
 	textureBuffGeneraion(dev);*/
 
-	texture.Init(dev);
+	texture->Init(dev);
 
 	//SRVGeneraion(dev);
 
@@ -1261,7 +1276,7 @@ void DrawingObj::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, 
 	////SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
 	//cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
-	texture.Draw(cmdList, ChangeTexure);
+	texture->Draw(cmdList, ChangeTexure);
 
 	cmdList->IASetIndexBuffer(&ibView);
 

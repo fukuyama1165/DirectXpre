@@ -1,12 +1,24 @@
 #include "Texture.h"
 
-Texture::Texture()
-{
-	
-}
+Texture* Texture::instance = nullptr;
 
 Texture::~Texture()
 {
+}
+
+Texture* Texture::GetInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = new Texture();
+	}
+
+	return instance;
+}
+
+void Texture::instanceDelete()
+{
+		delete(instance);
 }
 
 void Texture::Init(ID3D12Device* dev)

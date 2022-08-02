@@ -348,6 +348,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// ウィンドウクラスを登録解除
 	UnregisterClass(w.lpszClassName, w.hInstance);
 
+	charactorObj.deleteTexture();
+
 	directXinit->instanceDelete();
 
 	return 0;

@@ -26,8 +26,8 @@ using namespace DirectX;
 class Texture
 {
 public:
-	Texture();
-	~Texture();
+	
+	static Texture* GetInstance();
 
 	void Init(ID3D12Device* dev);
 
@@ -41,6 +41,18 @@ public:
 
 	//シェーダリソースビュー
 	void SRVGeneraion(ID3D12Device* dev);
+
+	void instanceDelete();
+
+private:
+
+	Texture() = default;
+	~Texture();
+
+	Texture(const Texture&) = delete;
+	Texture& operator=(const Texture&) = delete;
+
+	static Texture* instance;
 
 public:
 

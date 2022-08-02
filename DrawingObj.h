@@ -41,10 +41,10 @@ class DrawingObj
 {
 public:
 	//初期化をここで適当にエラーをはかないと思う値を入れている基本的に書き換えても問題ないはず(設定が破綻してなければ)
-	DrawingObj(const int windowWidth, const int windowHeight);
+	DrawingObj(const float windowWidth, const float windowHeight);
 
 	//座標を指定できるが引数大杉
-	DrawingObj(const int windowWidth, const int windowHeight,XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1 = { 0.0f,1.0f }, XMFLOAT2 vertexUv2 = { 0.0f,0.0f }, XMFLOAT2 vertexUv3 = { 1.0f,1.0f }, XMFLOAT2 vertexUv4 = { 1.0f,0.0f });
+	DrawingObj(const float windowWidth, const float windowHeight,XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1 = { 0.0f,1.0f }, XMFLOAT2 vertexUv2 = { 0.0f,0.0f }, XMFLOAT2 vertexUv3 = { 1.0f,1.0f }, XMFLOAT2 vertexUv4 = { 1.0f,0.0f });
 
 	~DrawingObj();
 
@@ -173,6 +173,8 @@ public:
 	Float3 float3Dat(Float3 A, Float3 B);
 
 	void colorMap(float R,float G,float B);
+
+	void deleteTexture();
 
 private:
 
@@ -324,7 +326,7 @@ private:
 	//3Dオブジェクトの配列
 	Object3D object3Ds[kObjectConst];
 
-	Texture texture;
+	static Texture* texture;
 
 	
 
