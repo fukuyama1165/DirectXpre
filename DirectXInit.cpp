@@ -65,8 +65,6 @@ void DirectXInit::Init(WNDCLASSEX w, HWND hwnd, const int win_width, const int w
 	//フェンス
 	FenceGeneration();
 
-	//DirectInput(できたら専用クラスを作る)
-	DirectInputGeneration(w, hwnd);
 }
 
 void DirectXInit::GraphicAdapterGeneration()
@@ -298,21 +296,6 @@ void DirectXInit::RTVGeneration()
 
 void DirectXInit::DrawStart()
 {
-#pragma region キーボード情報の取得
-
-	////キーボード情報の取得開始
-	//keyboard->Acquire();
-
-	////前フレームのキーボード入力を保存
-	//for (int i = 0; i < 256; i++)
-	//{
-	//	oldKey[i] = key[i];
-	//}
-
-	////全キーの入力情報を取得する
-	//keyboard->GetDeviceState(sizeof(key), key);
-
-#pragma endregion
 
 
 
