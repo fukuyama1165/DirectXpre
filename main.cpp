@@ -36,6 +36,8 @@ const float PI = 3.141592653589f;
 
 #include <dxgidebug.h>
 
+#include "Input.h"
+
 #pragma region ウィンドウプロシージャ
 
 
@@ -124,6 +126,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	directXinit->Init(w, hwnd,window_width,window_height);
 
+	Input* input=new Input();
+
+	input->init(w, hwnd);
+
 	DrawingObj charactorObj(window_width, window_height);
 	DrawingObj charactorObj2(window_width, window_height);
 
@@ -185,6 +191,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		
 #pragma region キーボード情報の取得
 
+		input->update();
 		////キーボード情報の取得開始
 		//directXinit.GetKeyBoard()->Acquire();
 
@@ -249,37 +256,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 更新処理
 
-		if (directXinit->TriggerKey(DIK_2))
+		if (input->TriggerKey(DIK_2))
 		{
 			PipeLineRuleFlag = !PipeLineRuleFlag;
 		}
 
-		if (directXinit->TriggerKey(DIK_1))
+		if (input->TriggerKey(DIK_1))
 		{
 			ChangeSquareFlag = !ChangeSquareFlag;
 		}
 
-		if (directXinit->TriggerKey(DIK_3))
+		if (input->TriggerKey(DIK_3))
 		{
 			ChangeTexure = !ChangeTexure;
 		}
 
 
-		if (directXinit->PushKey(DIK_D) or directXinit->PushKey(DIK_A)or directXinit->PushKey(DIK_W)or directXinit->PushKey(DIK_S))
+		if (input->PushKey(DIK_D) or input->PushKey(DIK_A)or input->PushKey(DIK_W)or input->PushKey(DIK_S))
 		{
-			if (directXinit->PushKey(DIK_D))
+			if (input->PushKey(DIK_D))
 			{
 				angle += XMConvertToRadians(1.0f);
 			}
-			else if (directXinit->PushKey(DIK_A))
+			else if (input->PushKey(DIK_A))
 			{
 				angle -= XMConvertToRadians(1.0f);
 			}
-			else if (directXinit->PushKey(DIK_W))
+			else if (input->PushKey(DIK_W))
 			{
 				angleY -= XMConvertToRadians(500.0f);
 			}
-			else if (directXinit->PushKey(DIK_S))
+			else if (input->PushKey(DIK_S))
 			{
 				angleY += XMConvertToRadians(500.0f);
 			}
@@ -290,21 +297,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		}
 
-		if (directXinit->PushKey(DIK_UP) or directXinit->PushKey(DIK_DOWN) or directXinit->PushKey(DIK_RIGHT) or directXinit->PushKey(DIK_LEFT))
+		if (input->PushKey(DIK_UP) or input->PushKey(DIK_DOWN) or input->PushKey(DIK_RIGHT) or input->PushKey(DIK_LEFT))
 		{
-			if (directXinit->PushKey(DIK_UP))
+			if (input->PushKey(DIK_UP))
 			{
 				pos.z += 1.0f;
 			}
-			else if (directXinit->PushKey(DIK_DOWN))
+			else if (input->PushKey(DIK_DOWN))
 			{
 				pos.z -= 1.0f;
 			}
-			else if (directXinit->PushKey(DIK_RIGHT))
+			else if (input->PushKey(DIK_RIGHT))
 			{
 				pos.x += 1.0f;
 			}
-			else if (directXinit->PushKey(DIK_LEFT))
+			else if (input->PushKey(DIK_LEFT))
 			{
 				pos.x -= 1.0f;
 			}
@@ -349,6 +356,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	UnregisterClass(w.lpszClassName, w.hInstance);
 
 	charactorObj.deleteTexture();
+
+	delete input;
 
 	directXinit->instanceDelete();
 

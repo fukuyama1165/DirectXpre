@@ -300,17 +300,17 @@ void DirectXInit::DrawStart()
 {
 #pragma region キーボード情報の取得
 
-	//キーボード情報の取得開始
-	keyboard->Acquire();
+	////キーボード情報の取得開始
+	//keyboard->Acquire();
 
-	//前フレームのキーボード入力を保存
-	for (int i = 0; i < 256; i++)
-	{
-		oldKey[i] = key[i];
-	}
+	////前フレームのキーボード入力を保存
+	//for (int i = 0; i < 256; i++)
+	//{
+	//	oldKey[i] = key[i];
+	//}
 
-	//全キーの入力情報を取得する
-	keyboard->GetDeviceState(sizeof(key), key);
+	////全キーの入力情報を取得する
+	//keyboard->GetDeviceState(sizeof(key), key);
 
 #pragma endregion
 
@@ -384,17 +384,6 @@ void DirectXInit::clearColorChange(float R, float G, float B, float A)
 	clearColor[3] = A;
 }
 
-bool DirectXInit::PushKey(BYTE CheckKey)
-{
-	return key[CheckKey];
-}
-
-bool DirectXInit::TriggerKey(BYTE CheckKey)
-{
-	return key[CheckKey] and oldKey[CheckKey] == 0;
-}
-
-
 void DirectXInit::FenceGeneration()
 {
 #pragma region フェンス辺
@@ -408,25 +397,25 @@ void DirectXInit::DirectInputGeneration(WNDCLASSEX w, HWND hwnd)
 {
 #pragma region DirectInoutオブジェクトの生成
 
-	//DirectInputの初期化
-	IDirectInput8* directInput = nullptr;
-	result = DirectInput8Create(
-		w.hInstance,
-		DIRECTINPUT_VERSION,
-		IID_IDirectInput8,
-		(void**)&directInput,
-		nullptr
-	);
-	assert(SUCCEEDED(result));
+	////DirectInputの初期化
+	//IDirectInput8* directInput = nullptr;
+	//result = DirectInput8Create(
+	//	w.hInstance,
+	//	DIRECTINPUT_VERSION,
+	//	IID_IDirectInput8,
+	//	(void**)&directInput,
+	//	nullptr
+	//);
+	//assert(SUCCEEDED(result));
 
 #pragma endregion 全体の初期化であり入力デバイスが増えてもこのオブジェクトは増やさなくてもいい
 
 #pragma region キーボードデバイスの生成
 
-	//キーボードデバイスの生成
-	
-	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
-	assert(SUCCEEDED(result));
+	////キーボードデバイスの生成
+	//
+	//result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
+	//assert(SUCCEEDED(result));
 
 #pragma endregion
 
@@ -450,19 +439,19 @@ void DirectXInit::DirectInputGeneration(WNDCLASSEX w, HWND hwnd)
 
 #pragma region 入力データ形式のセット
 
-	result = keyboard->SetDataFormat(&c_dfDIKeyboard);//標準形式
-	assert(SUCCEEDED(result));
+	//result = keyboard->SetDataFormat(&c_dfDIKeyboard);//標準形式
+	//assert(SUCCEEDED(result));
 
 #pragma endregion
 
 #pragma region 排他制御レベルのセット
 
-	result = keyboard->SetCooperativeLevel(
-		hwnd,
-		DISCL_FOREGROUND/*画面が手前にある場合のみ入力を受け付ける*/ |
-		DISCL_NONEXCLUSIVE/*デバイスをこのアプリだけで占有しない*/ |
-		DISCL_NOWINKEY/*windowキーを無効にする*/);
-	assert(SUCCEEDED(result));
+	//result = keyboard->SetCooperativeLevel(
+	//	hwnd,
+	//	DISCL_FOREGROUND/*画面が手前にある場合のみ入力を受け付ける*/ |
+	//	DISCL_NONEXCLUSIVE/*デバイスをこのアプリだけで占有しない*/ |
+	//	DISCL_NOWINKEY/*windowキーを無効にする*/);
+	//assert(SUCCEEDED(result));
 
 #pragma endregion
 }
@@ -471,11 +460,6 @@ void DirectXInit::DirectInputGeneration(WNDCLASSEX w, HWND hwnd)
 ComPtr<ID3D12Device> DirectXInit::Getdev()
 {
 	return dev;
-}
-
-IDirectInputDevice8* DirectXInit::GetKeyBoard()
-{
-	return keyboard;
 }
 
 ComPtr<ID3D12GraphicsCommandList> DirectXInit::GetcmdList()
