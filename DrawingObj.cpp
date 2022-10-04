@@ -341,7 +341,7 @@ void DrawingObj::vertexShaderGeneration()
 	//頂点シェーダファイルの読み込み辺
 	//頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"BasicVS.hlsl",//シェーダファイル名
+		L"Resources/shaders/BasicVS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名
@@ -382,7 +382,7 @@ void DrawingObj::vertexShaderGeneration2()
 	//頂点シェーダファイルの読み込み辺
 	//頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"vertexMoveVS.hlsl",//シェーダファイル名
+		L"Resources/shaders/vertexMoveVS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名
@@ -422,7 +422,7 @@ void DrawingObj::pixelShaderGeneration()
 
 	//ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"BasicPS.hlsl",//シェーダファイル名
+		L"Resources/shaders/BasicPS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名
@@ -462,7 +462,7 @@ void DrawingObj::pixelShaderGeneration2()
 
 	//ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"colorChangePS.hlsl",//シェーダファイル名
+		L"Resources/shaders/colorChangePS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名
@@ -1709,18 +1709,18 @@ Matrix4x4 DrawingObj::matViewGeneration(Float3 eye, Float3 target, Float3 up)
 	mResult.m[3][2] = vTemp4.y;
 	mResult.m[3][3] = vTemp4.w;
 
-	XMMATRIX matvi;
+	//XMMATRIX matvi;
 
-	XMFLOAT3 eye2;
-	XMFLOAT3 target2;
-	XMFLOAT3 up2;
+	//XMFLOAT3 eye2;
+	//XMFLOAT3 target2;
+	//XMFLOAT3 up2;
 
-	//ビュー変換行列
-	eye2 = { eye.x, eye.y, eye.z };//視点座標
-	target2 = { target.x, target.y, target.z };//注視点座標
-	up2 = { up.x, up.y, up.z };//上方向ベクトル
+	////ビュー変換行列
+	//eye2 = { eye.x, eye.y, eye.z };//視点座標
+	//target2 = { target.x, target.y, target.z };//注視点座標
+	//up2 = { up.x, up.y, up.z };//上方向ベクトル
 
-	matvi = XMMatrixLookAtLH(XMLoadFloat3(&eye2), XMLoadFloat3(&target2), XMLoadFloat3(&up2));
+	//matvi = XMMatrixLookAtLH(XMLoadFloat3(&eye2), XMLoadFloat3(&target2), XMLoadFloat3(&up2));
 
 	return mResult;
 }
