@@ -19,11 +19,11 @@ using namespace DirectX;
 #pragma comment(lib,"dxgi.lib")
 
 //キーボードやコントローラーなどの入力するヘッダとライブラリのリンク
-#define DIRECTINPUT_VERSION 0x0800
-#include <dinput.h>
-
-#pragma comment(lib,"dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
+//#define DIRECTINPUT_VERSION 0x0800
+//#include <dinput.h>
+//
+//#pragma comment(lib,"dinput8.lib")
+//#pragma comment(lib,"dxguid.lib")
 
 #include <DirectXTex.h>
 
@@ -77,7 +77,7 @@ public:
 	Microsoft::WRL::ComPtr<ID3D12Device> Getdev();
 
 	//keyboardを返す関数
-	IDirectInputDevice8* GetKeyBoard();
+	//IDirectInputDevice8* GetKeyBoard();
 
 	//cmdListを返す関数
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetcmdList();
@@ -91,14 +91,6 @@ public:
 
 	//画面のクリアカラー変更関数
 	void clearColorChange(float R, float G, float B, float A);
-
-	//inputでの入力反応関数(inputClassを作ったらこれも移動する)
-
-	//キーボードのキーを押したら反応する関数(長押しも反応)
-	bool PushKey(BYTE CheckKey);
-
-	//キーボードのキーを押した瞬間に反応する関数(長押し反応しない)
-	bool TriggerKey(BYTE CheckKey);
 
 	void instanceDelete();
 
@@ -131,16 +123,9 @@ private:
 	//デスクリプタヒープ
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
 
-	//キーボードデバイス
-	IDirectInputDevice8* keyboard = nullptr;
-
 	//フェンス
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence = nullptr;
 	UINT64 fenceVel = 0;
-
-	//全キーの入力情報を取得する為の変数
-	BYTE key[256] = {};
-	BYTE oldKey[256] = {};
 
 	//背景色変更するために外に配置
 	float clearColor[4]={0.1f,0.25f,0.5f,0.0f};//青っぽい色(画面クリアするときの色)

@@ -146,6 +146,7 @@
     <ClCompile Include="DrawingObj.cpp" />
     <ClCompile Include="Float3.cpp" />
     <ClCompile Include="Float4.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4x4.cpp" />
     <ClCompile Include="Object3D.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="DrawingObj.h" />
     <ClInclude Include="Float3.h" />
     <ClInclude Include="Float4.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="matrix4x4.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Texture.h" />
