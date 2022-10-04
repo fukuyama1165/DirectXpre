@@ -305,6 +305,8 @@ Matrix4x4 Matrix4x4::operator*=(const Matrix4x4& mat)
 	ansMat.m[3][2] = (m[3][0] * mat.m[0][2]) + (m[3][1] * mat.m[1][2]) + (m[3][2] * mat.m[2][2]) + (m[3][3] * mat.m[3][2]);
 	ansMat.m[3][3] = (m[3][0] * mat.m[0][3]) + (m[3][1] * mat.m[1][3]) + (m[3][2] * mat.m[2][3]) + (m[3][3] * mat.m[3][3]);
 
+	*this = ansMat;
+
 	return ansMat;
 
 }

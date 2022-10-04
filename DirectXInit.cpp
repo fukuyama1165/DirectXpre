@@ -364,9 +364,12 @@ void DirectXInit::DrawEnd()
 	if (fence->GetCompletedValue() != fenceVel)
 	{
 		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
-		fence->SetEventOnCompletion(fenceVel, event);
-		WaitForSingleObject(event, INFINITE);
-		CloseHandle(event);
+		if (event != 0)
+		{
+			fence->SetEventOnCompletion(fenceVel, event);
+			WaitForSingleObject(event, INFINITE);
+			CloseHandle(event);
+		}
 	}
 
 	cmdAllocator->Reset();

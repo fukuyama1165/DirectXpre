@@ -1,12 +1,24 @@
 #include "Texture.h"
 
-Texture::Texture()
-{
-	
-}
+Texture* Texture::instance = nullptr;
 
 Texture::~Texture()
 {
+}
+
+Texture* Texture::GetInstance()
+{
+	if (instance == nullptr)
+	{
+		instance = new Texture();
+	}
+
+	return instance;
+}
+
+void Texture::instanceDelete()
+{
+		delete(instance);
 }
 
 void Texture::Init(ID3D12Device* dev)
@@ -32,10 +44,16 @@ void Texture::Draw(ID3D12GraphicsCommandList* cmdList,bool chang)
 	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
 	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
-	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+	if (chang)
+	{
 
-	srvGpuHandle.ptr += incremantSize;
-	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+		cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+	}
+	else
+	{
+		srvGpuHandle.ptr += incremantSize;
+		cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+	}
 
 }
 
