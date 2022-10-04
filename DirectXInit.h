@@ -18,13 +18,6 @@ using namespace DirectX;
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-//キーボードやコントローラーなどの入力するヘッダとライブラリのリンク
-//#define DIRECTINPUT_VERSION 0x0800
-//#include <dinput.h>
-//
-//#pragma comment(lib,"dinput8.lib")
-//#pragma comment(lib,"dxguid.lib")
-
 #include <DirectXTex.h>
 
 #include "DrawingObj.h"
@@ -69,9 +62,6 @@ public:
 
 	//フェンス
 	void FenceGeneration();
-
-	//DirectInput(できたら専用クラスを作る)
-	void DirectInputGeneration(WNDCLASSEX w, HWND hwnd);
 
 	//devを返す関数
 	Microsoft::WRL::ComPtr<ID3D12Device> Getdev();
