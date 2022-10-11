@@ -38,6 +38,8 @@ const float PI = 3.141592653589f;
 
 #include "Input.h"
 
+#include "DrawOBJ.h"
+
 #pragma region ウィンドウプロシージャ
 
 
@@ -133,9 +135,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DrawingObj charactorObj(window_width, window_height);
 	DrawingObj charactorObj2(window_width, window_height);
 
+	DrawOBJ test(window_width, window_height);
+
 
 	charactorObj.colorChangeInit(directXinit->Getdev().Get());
 	charactorObj2.basicInit(directXinit->Getdev().Get());
+
+	test.colorChangeInit((directXinit->Getdev().Get()));
 
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
@@ -241,8 +247,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
 		
-		charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
-		charactorObj2.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true,ChangeTexure);
+		//charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
+		//charactorObj2.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true,ChangeTexure);
+
+		test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 		
 		// 4.描画コマンドここまで
 
