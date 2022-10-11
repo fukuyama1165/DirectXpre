@@ -32,6 +32,8 @@ const float PI = 3.141592653589f;
 
 #include "DrawingObj.h"
 
+#include "WinApp.h"
+
 #include "DirectXInit.h"
 
 #include <dxgidebug.h>
@@ -43,16 +45,16 @@ const float PI = 3.141592653589f;
 #pragma region ウィンドウプロシージャ
 
 
-LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
-{
-	switch (msg)
-	{
-	case WM_DESTROY://ウィンドウが破棄された
-		PostQuitMessage(0);//OSに対して、終わったことを伝える
-		return 0;
-	}
-	return DefWindowProc(hwnd, msg, wparam, lparam);//標準の処理をする
-}
+//LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+//{
+//	switch (msg)
+//	{
+//	case WM_DESTROY://ウィンドウが破棄された
+//		PostQuitMessage(0);//OSに対して、終わったことを伝える
+//		return 0;
+//	}
+//	return DefWindowProc(hwnd, msg, wparam, lparam);//標準の処理をする
+//}
 
 #pragma endregion
 
@@ -78,64 +80,31 @@ XMFLOAT3 Afin(XMFLOAT3 box, XMFLOAT3 box2, float moveX, float moveY, float rotat
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
+	//windowAPI
+	WinApp* winApp;
 
-#pragma region ウィンドウの初期化部分
-	const int window_width = 1280;
-	const int window_height = 720;
+	winApp = new WinApp();
 
-
-	WNDCLASSEX w = {};//ウィンドウクラスの設定
-
-	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = (WNDPROC)windowProc;//ウィンドウプロシージャ
-	w.lpszClassName = L"DirectXGame";//ウィンドウクラス名
-	w.hInstance = GetModuleHandle(nullptr);//ウィンドウハンドル
-	w.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
-
-	//ウィンドウクラスをOSに登録
-	RegisterClassEx(&w);
-
-	//ウィンドウのサイズの構造体{x座標,y座標,横幅,縦幅}
-	RECT wrc = { 0,0,window_width,window_height };
-	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);//自動でサイズ補正
-
-	//ウィンドウの構成要素？
-	HWND hwnd = CreateWindow(w.lpszClassName,//クラス名
-		L"DirectXGame",//タイトルバーの名前
-		WS_OVERLAPPEDWINDOW,//標準的なウインドウスタイル
-		CW_USEDEFAULT,//x座標(OSに任せる)
-		CW_USEDEFAULT,//y座標(OSに任せる)
-		wrc.right - wrc.left,//ウィンドウ横幅
-		wrc.bottom - wrc.top,//ウィンドウ縦幅
-		nullptr,//親ウィンドウハンドル
-		nullptr,//メニューハンドル
-		w.hInstance,//呼び出しアプリケーションハンドル
-		nullptr);//オプション
-
-	//ウィンドウ表示部分
-	ShowWindow(hwnd, SW_SHOW);
-
-	//これを書かないとウィンドウが一瞬で消えるため記述
-	MSG msg{};
-
+	winApp->initialize();
 	
-
-#pragma endregion
-	
+	//directXの初期化
 	DirectXInit* directXinit;
 
 	directXinit = DirectXInit::GetInstance();
 
-	directXinit->Init(w, hwnd,window_width,window_height);
+	directXinit->Init(winApp->getW(), winApp->getHwnd(), winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
+	//入力の初期化
 	Input* input=new Input();
 
-	input->init(w, hwnd);
+	input->init(winApp->getW(), winApp->getHwnd());
 
-	DrawingObj charactorObj(window_width, window_height);
-	DrawingObj charactorObj2(window_width, window_height);
+	//obj
+	DrawingObj charactorObj(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
+	DrawingObj charactorObj2(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
-	DrawOBJ test(window_width, window_height);
+	//.objのオブジェクト
+	DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
 
 	charactorObj.colorChangeInit(directXinit->Getdev().Get());
@@ -150,10 +119,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	bool ChangeSquareFlag = false;
 
 	bool ChangeTexure = false;
-
-	//全キーの入力情報を取得する為の変数
-	/*BYTE key[256] = {};
-	BYTE oldKey[256] = {};*/
 
 	
 	float Red = 1.0f;
@@ -174,21 +139,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//座標
 	Float3 pos={};
 
+	//作ったのが小さかったので
+	test.SetScale({ 20,20,0 });
+	test.obj3DUpdate();
+
 
 	//ゲームループ
 	while (true)
 	{
-		//メッセージがある？
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);//キー入力メッセージの処理
-			DispatchMessage(&msg);//プロシージャにメッセージを送る
-		}
 
-		//×ボタンで終了メッセージが来たらゲームループを抜ける
-		if (msg.message == WM_QUIT)
+		if (winApp->processMassage() or input->TriggerKey(DIK_ESCAPE))
 		{
+
 			break;
+
 		}
 
 #pragma region DirectX毎フレーム処理
@@ -198,17 +162,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma region キーボード情報の取得
 
 		input->update();
-		////キーボード情報の取得開始
-		//directXinit.GetKeyBoard()->Acquire();
-
-		////前フレームのキーボード入力を保存
-		//for (int i = 0; i < 256; i++)
-		//{
-		//	oldKey[i] = key[i];
-		//}
-
-		////全キーの入力情報を取得する
-		//directXinit.GetKeyBoard()->GetDeviceState(sizeof(key), key);
 
 #pragma endregion
 
@@ -222,8 +175,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//分割分のビューポートを用意(見にくいので減らした)
 		D3D12_VIEWPORT viewport{};
 
-		viewport.Width = window_width;//横幅
-		viewport.Height = window_height;//縦幅
+		viewport.Width = winApp->getWindowSizeWidth();//横幅
+		viewport.Height = winApp->getWindowSizeHeight();//縦幅
 		viewport.TopLeftX = 0;//左上X
 		viewport.TopLeftY = 0;//左上Y
 		viewport.MinDepth = 0.1f;//最少深度(0でよい)
@@ -237,9 +190,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		D3D12_RECT scissorrect{};
 
 		scissorrect.left = 0;//切り抜き座標左
-		scissorrect.right = scissorrect.left + window_width;//切り抜き座標右
+		scissorrect.right = scissorrect.left + winApp->getWindowSizeWidth();//切り抜き座標右
 		scissorrect.top = 0;//切り抜き座標上
-		scissorrect.bottom = scissorrect.top + window_height;//切り抜き座標下
+		scissorrect.bottom = scissorrect.top + winApp->getWindowSizeHeight();//切り抜き座標下
 
 		directXinit->GetcmdList()->RSSetScissorRects(1, &scissorrect);
 
@@ -247,8 +200,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
 		
-		//charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
-		//charactorObj2.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true,ChangeTexure);
+		charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
+		charactorObj2.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true,ChangeTexure);
 
 		test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 		
@@ -360,8 +313,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	}
 	
-	// ウィンドウクラスを登録解除
-	UnregisterClass(w.lpszClassName, w.hInstance);
+	delete winApp;
 
 	charactorObj.deleteTexture();
 

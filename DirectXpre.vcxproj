@@ -152,6 +152,7 @@
     <ClCompile Include="matrix4x4.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="WinApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -168,6 +169,7 @@
     <ClInclude Include="matrix4x4.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="WinApp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli" />
