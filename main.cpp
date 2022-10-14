@@ -143,6 +143,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	test.colorChangeInit((directXinit->Getdev().Get()));
 
+	test.SetScale({ 20,20,1 });
+	test.obj3DUpdate();
+
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
 
