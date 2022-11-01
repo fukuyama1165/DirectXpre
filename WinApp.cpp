@@ -1,4 +1,5 @@
 #include "WinApp.h"
+#pragma comment(lib,"winmm.lib")
 
 
 WinApp::WinApp()
@@ -47,6 +48,9 @@ void WinApp::initialize()
 
 	//ウィンドウ表示部分
 	ShowWindow(hwnd, SW_SHOW);
+
+	//システムタイマーの分解能を上げる
+	timeBeginPeriod(1);
 
 }
 

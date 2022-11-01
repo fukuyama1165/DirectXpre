@@ -30,7 +30,7 @@ const float PI = 3.141592653589f;
 
 #include <DirectXTex.h>
 
-#include "DrawingObj.h"
+//#include "DrawingObj.h"
 
 #include "WinApp.h"
 
@@ -40,7 +40,8 @@ const float PI = 3.141592653589f;
 
 #include "Input.h"
 
-#include "DrawOBJ.h"
+//#include "DrawOBJ.h"
+#include "Object3D.h"
 
 #pragma region ウィンドウプロシージャ
 
@@ -100,17 +101,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	input->init(winApp->getW(), winApp->getHwnd());
 
 	//obj
-	DrawingObj charactorObj(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
-	DrawingObj charactorObj2(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
+	Object3D charactorObj;
+	Object3D charactorObj2;
 
 	//.objのオブジェクト
-	DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
+	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
 
-	charactorObj.colorChangeInit(directXinit->Getdev().Get());
-	charactorObj2.basicInit(directXinit->Getdev().Get());
+	charactorObj.colorChangeInit(directXinit->Getdev().Get(), winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
+	charactorObj2.basicInit(directXinit->Getdev().Get(), winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
-	test.colorChangeInit((directXinit->Getdev().Get()));
+	//test.basicInit((directXinit->Getdev().Get()));
 
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
@@ -140,8 +141,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Float3 pos={};
 
 	//作ったのが小さかったので
-	test.SetScale({ 20,20,0 });
-	test.obj3DUpdate();
+	/*test.SetScale({ 20,20,0 });
+	test.obj3DUpdate();*/
 
 
 	//ゲームループ
@@ -203,7 +204,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
 		charactorObj2.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true,ChangeTexure);
 
-		test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
+		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 		
 		// 4.描画コマンドここまで
 
@@ -277,11 +278,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 				pos.x -= 1.0f;
 			}
 
-			charactorObj.SetTrans(pos);
+			charactorObj.SetPos(pos);
 
-			charactorObj.obj3DUpdate();
+			charactorObj.Update();
 
 		}
+
+		
 
 
 		//色変更
@@ -305,7 +308,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 描画処理
 
-		charactorObj.colorMap(Red, Green, Blue);
+		//charactorObj.colorMap(Red, Green, Blue);
 
 #pragma endregion
 
@@ -315,6 +318,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	delete winApp;
 
+	//texture.hを読み込んでいるobjctが増えてもdelteするのは一回にすること
 	charactorObj.deleteTexture();
 
 	delete input;

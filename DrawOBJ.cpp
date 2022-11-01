@@ -6,13 +6,15 @@ using namespace Microsoft::WRL;
 
 const float PI = 3.141592653589f;
 
+Texture* DrawOBJ::texture = nullptr;
+
 
 DrawOBJ::DrawOBJ(const float windowWidth, const float windowHeight)
 {
 	Win_width = windowWidth;
 	Win_height = windowHeight;
 
-
+	texture = Texture::GetInstance();
 
 	//頂点データ(四点分の座標)
 	//  x     y    z   法線  u    v
@@ -65,6 +67,7 @@ void DrawOBJ::basicInit(ID3D12Device* dev)
 
 	textureBuffGeneraion(dev);*/
 
+	texture->Init(dev);
 
 	//SRVGeneraion(dev);
 
@@ -98,8 +101,18 @@ void DrawOBJ::colorChangeInit(ID3D12Device* dev)
 
 	textureBuffGeneraion(dev);*/
 
+	texture->Init(dev);
+
 	//SRVGeneraion(dev);
 
+}
+
+void DrawOBJ::deleteTexture()
+{
+	if (texture != nullptr)
+	{
+		texture->instanceDelete();
+	}
 }
 
 void DrawOBJ::vertexBuffGeneration(ID3D12Device* dev)
@@ -115,7 +128,7 @@ void DrawOBJ::vertexBuffGeneration(ID3D12Device* dev)
 	std::ifstream file;
 
 	//0bjファイルを開く
-	file.open("Resources/obj/triangle.obj");
+	file.open("Resources/obj/triangle_tex.obj");
 
 	//ファイルオープン失敗をチェック
 	if (file.fail())
@@ -147,9 +160,39 @@ void DrawOBJ::vertexBuffGeneration(ID3D12Device* dev)
 			//座標データに追加
 			positions.emplace_back(position);
 
-			Vertex vertex{};
-			vertex.pos = position;
-			vertices.emplace_back(vertex);
+
+		}
+
+		//先頭文字列がvtならテクスチャ
+		if (key == "vt")
+		{
+
+			//U,V成分読み込み
+			XMFLOAT2 texcoord{};
+			lineStream >> texcoord.x;
+			lineStream >> texcoord.y;
+
+			//V方向反転
+			texcoord.y = 1.0f - texcoord.y;
+
+			//テクスチャ座標データに追加
+			texcoords.emplace_back(texcoord);
+
+		}
+
+		//先頭文字列がvnなら法線ベクトル
+		if (key == "vn")
+		{
+
+			//x,y,z座標読み込み
+			XMFLOAT3 normal{};
+			lineStream >> normal.x;
+			lineStream >> normal.y;
+			lineStream >> normal.z;
+
+			//座標データに追加
+			normals.emplace_back(normal);
+
 
 		}
 
@@ -167,9 +210,26 @@ void DrawOBJ::vertexBuffGeneration(ID3D12Device* dev)
 				std::istringstream indexStream(indexString);
 
 				unsigned short indexPosition;
+				unsigned short indexNormal;
+				unsigned short indexTexcoord;
 				indexStream >> indexPosition;
 
-				indices.emplace_back(indexPosition - 1);
+				//スラッシュを飛ばす
+				indexStream.seekg(1, std::ios_base::cur);
+				indexStream >> indexTexcoord;
+
+				//スラッシュを飛ばす
+				indexStream.seekg(1, std::ios_base::cur);
+				indexStream >> indexNormal;
+
+				//頂点データの追加
+				Vertex vertex{};
+				vertex.pos = positions[indexPosition - 1];
+				vertex.normal = normals[indexNormal - 1];
+				vertex.uv = texcoords[indexTexcoord - 1];
+				vertices.emplace_back(vertex);
+
+				indices.emplace_back((unsigned short)indices.size());
 
 			}
 
@@ -881,7 +941,7 @@ void DrawOBJ::constantBuffGeneration(ID3D12Device* dev)
 			//親オブジェクトに対してz方向-8.0ずらす
 			object3Ds[i].SetPos({ 0.0f,0.0f,-8.0f });
 
-			object3Ds[i].Update(matView, matProjection);
+			object3Ds[i].Update();
 
 		}
 
@@ -889,7 +949,7 @@ void DrawOBJ::constantBuffGeneration(ID3D12Device* dev)
 
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[i].Update(matView, matProjection);
+		//object3Ds[i].Update(matView, matProjection);
 	}
 
 #pragma endregion
@@ -1228,11 +1288,13 @@ void DrawOBJ::Draw(ID3D12GraphicsCommandList* cmdList, bool PipeLineRuleFlag, bo
 	////SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
 	//cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 
+	texture->Draw(cmdList, ChangeTexure);
+
 	cmdList->IASetIndexBuffer(&ibView);
 
 	for (int i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[0].Draw(cmdList, vbView, ibView, indices.size(), ChangeSquareFlag);
+		//object3Ds[0].Draw(cmdList, vbView, ibView, indices.size(), ChangeSquareFlag);
 	}
 
 	////定数バッファビュー(CBV)の設定コマンド(一番最初の引数は"ルートパラメータ"の要素番号である)
@@ -1286,7 +1348,7 @@ void DrawOBJ::matViewUpdata(Float3 eye, Float3 target, Float3 up)
 
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[i].Update(matView, matProjection);
+		//object3Ds[i].Update(matView, matProjection);
 	}
 
 }
@@ -1319,7 +1381,7 @@ void DrawOBJ::matWorldUpdata()
 
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[i].Update(matView, matProjection);
+		//object3Ds[i].Update(matView, matProjection);
 	}
 
 }
@@ -1351,7 +1413,7 @@ void DrawOBJ::obj3DUpdate()
 {
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
-		object3Ds[i].Update(matView, matProjection);
+		//object3Ds[i].Update(matView, matProjection);
 	}
 }
 

@@ -35,6 +35,7 @@ using namespace DirectX;
 #include "Float3.h"
 #include "Object3D.h"
 #include "Float4.h"
+#include "Texture.h"
 
 //ComPtr用インクルード
 #include <wrl.h>
@@ -167,6 +168,8 @@ public:
 	Float3 float3Dat(Float3 A, Float3 B);
 
 	void colorMap(float R, float G, float B);
+
+	void deleteTexture();
 
 private:
 
@@ -318,5 +321,6 @@ private:
 	//3Dオブジェクトの配列
 	Object3D object3Ds[kObjectConst];
 
+	static Texture* texture;
 
 };

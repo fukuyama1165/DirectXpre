@@ -27,6 +27,8 @@ using namespace DirectX;
 
 #include <dxgidebug.h>
 
+#include "FPS.h"
+
 
 class DirectXInit
 {
@@ -129,6 +131,8 @@ private:
 	IDXGIDebug* pDxgiDebug;
 
 	Microsoft::WRL::ComPtr<ID3D12Debug> pD3dDebug;
+
+	FPS fps;
 
 };
 

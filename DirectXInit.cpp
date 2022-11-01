@@ -42,7 +42,7 @@ void DirectXInit::Init(WNDCLASSEX w, HWND hwnd, const int win_width, const int w
 
 #pragma endregion
 
-	
+	fps.initialize();
 	
 
 	//グラフィックアダプター
@@ -354,6 +354,8 @@ void DirectXInit::DrawEnd()
 			CloseHandle(event);
 		}
 	}
+
+	fps.update();
 
 	cmdAllocator->Reset();
 	cmdList->Reset(cmdAllocator.Get(), nullptr);
