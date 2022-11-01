@@ -14,20 +14,20 @@ public:
 	//初期化
 	void initialize();
 
-	//更新(中身なし)
-	void updare();
+
 
 	//メッセージの処理
 	bool processMassage();
 
 	//ウインドウクラスの設定を返す関数
-	WNDCLASSEX getW();
+	//構造体のgetterは下のようにする(書き換えを不可にしつつここにある構造体を見に来れるようにしている)
+	const WNDCLASSEX& getW() const;
 
 	//画面サイズを持っている変数を返す関数
-	RECT getWrc();
+	const RECT& getWrc() const;
 
 	//HWNDを返す関数
-	HWND getHwnd();
+	HWND getHwnd() const;
 
 	//ウインドウの横幅を返す関数
 	int getWindowSizeWidth();

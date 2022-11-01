@@ -55,11 +55,6 @@ void WinApp::initialize()
 }
 
 
-void WinApp::updare()
-{
-
-}
-
 bool WinApp::processMassage()
 {
 
@@ -80,21 +75,21 @@ bool WinApp::processMassage()
 
 }
 
-WNDCLASSEX WinApp::getW()
+const WNDCLASSEX& WinApp::getW()const
 {
 
 	return w;
 
 }
 
-RECT WinApp::getWrc()
+const RECT& WinApp::getWrc() const
 {
 
 	return wrc;
 
 }
 
-HWND WinApp::getHwnd()
+HWND WinApp::getHwnd() const
 {
 
 	return hwnd;
