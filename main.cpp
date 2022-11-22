@@ -43,6 +43,8 @@ const float PI = 3.141592653589f;
 //#include "DrawOBJ.h"
 #include "Object3D.h"
 
+#include "Sprite.h"
+
 #pragma region ウィンドウプロシージャ
 
 
@@ -111,7 +113,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	charactorObj.colorChangeInit(directXinit->Getdev().Get(), winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 	charactorObj2.basicInit(directXinit->Getdev().Get(), winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
+	int texname;
+
+	texname = charactorObj.loadTexture("Resources/hokehoke.png");
 	//test.basicInit((directXinit->Getdev().Get()));
+
+	SpriteCommon spritecommon;
+
+	spritecommon.initialize(directXinit->Getdev().Get());
+
+	Sprite sprite;
+
+	sprite.initialize(directXinit->Getdev().Get());
 
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
@@ -201,10 +214,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		
 		
-		charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
-		charactorObj2.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true,ChangeTexure);
+		//charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
+		charactorObj2.Draw(directXinit->GetcmdList().Get(), texname, PipeLineRuleFlag);
 
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
+
+		//sprite.Draw(directXinit->GetcmdList().Get(), spritecommon, PipeLineRuleFlag);
 		
 		// 4.描画コマンドここまで
 

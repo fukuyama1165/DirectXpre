@@ -14,7 +14,7 @@
 using namespace DirectX;
 
 
-
+#include <vector>
 
 //const float PI = 3.141592653589;
 
@@ -31,10 +31,15 @@ public:
 
 	void Init(ID3D12Device* dev);
 
-	void Draw(ID3D12GraphicsCommandList* cmdList,bool chang);
+	/// <summary>
+	/// テクスチャー描画
+	/// </summary>
+	/// <param name="cmdList">コマンドリスト</param>
+	/// <param name="tex">loadTextureで帰ってきた値</param>
+	void Draw(ID3D12GraphicsCommandList* cmdList,int tex);
 
 	//画像イメージデータ
-	void imageDataGeneration();
+	void imageDataGeneration(const char filename[]);
 
 	//テクスチャバッファ
 	void textureBuffGeneraion(ID3D12Device* dev);
@@ -43,6 +48,8 @@ public:
 	void SRVGeneraion(ID3D12Device* dev);
 
 	void instanceDelete();
+
+	int loadTexture(const char filename[]);
 
 private:
 
@@ -64,16 +71,18 @@ private:
 
 	UINT incremantSize;
 
+	Microsoft::WRL::ComPtr <ID3D12Device> dev;
+
 	//画像データ等
-	TexMetadata metadata{};
-	ScratchImage scratchImg{};
+	std::vector<TexMetadata> metadata{};
+	std::vector<ScratchImage> scratchImg{};
 	TexMetadata metadata2{};
 	ScratchImage scratchImg2{};
 
-	D3D12_RESOURCE_DESC textureResourceDesc{};
+	std::vector < D3D12_RESOURCE_DESC> textureResourceDesc{};
 	D3D12_RESOURCE_DESC textureResourceDesc2{};
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff = nullptr;
+	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> texBuff;
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff2 = nullptr;
 
 	

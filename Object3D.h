@@ -40,7 +40,14 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList, bool PipeLineRuleFlag, bool ChangeSquareFlag, bool ChangeTexure);
+	/// <summary>
+	/// テクスチャを含めた描画
+	/// </summary>
+	/// <param name="cmdList">コマンドリスト</param>
+	/// <param name="ChangeTexure">loadTextureで帰ってきた値を入れると読み込んだ画像が出るはず</param>
+	/// /// <param name="PipeLineRuleFlag">パイプラインステートを変化させるフラグ</param>
+	/// <param name="ChangeSquareFlag">頂点３つだけ使って描画するように変化させるフラグ</param>
+	void Draw(ID3D12GraphicsCommandList* cmdList, int ChangeTexure = 1,  bool PipeLineRuleFlag =true, bool ChangeSquareFlag=true);
 
 	void constTransformMatUpdata(Matrix4x4 matView, Matrix4x4 matProjection);
 
@@ -93,10 +100,12 @@ public:
 	//頂点シェーダの読み込みとコンパイル
 	void vertexShaderGeneration();//basicVS読み込み
 	void vertexShaderGeneration2();//vertexMoveVS読み込み
+	void vertexShaderGeneration3();//OBJVS読み込み
 
 	//ピクセルシェーダの読み込みとコンパイル
 	void pixelShaderGeneration();//basicPS読み込み
 	void pixelShaderGeneration2();//colorChangePS読み込み
+	void pixelShaderGeneration3();//OBJPS読み込み
 
 	//頂点レイアウトの設定
 	void vertexLayout();
@@ -140,6 +149,10 @@ public:
 
 	void matViewUpdata(Float3 eye, Float3 target, Float3 up);
 
+	static void loadMaterial(const char filename[]);
+
+	int loadTexture(const char filename[]);
+
 private:
 
 	//画面サイズ
@@ -152,9 +165,37 @@ private:
 		Matrix4x4 mat;//3D変換行列
 	};
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform = nullptr;
+	struct ConstBufferDataB1
+	{
+		XMFLOAT3 ambient;//アンビエント影響度
+		float pad1;//パディング
+		XMFLOAT3 diffuse;//ディフューズ影響度
+		float pad2;//パディング
+		XMFLOAT3 specular;//スペキュラー影響度
+		float alpha;//アルファ
+	};
 
-	ConstBufferDataTransform* constMapTransform = nullptr;
+	struct Material
+	{
+		std::string name;//マテリアル名
+		XMFLOAT3 ambient;//アンビエント影響度
+		XMFLOAT3 diffuse;//ディフューズ影響度
+		XMFLOAT3 specular;//スペキュラー影響度
+		float alpha;//アルファ
+		std::string textureFilename;//テクスチャファイル名
+		
+		//コンストラクタ
+		Material()
+		{
+			ambient ={0.3f, 0.3f, 0.3f };
+			diffuse ={0.0f, 0.0f, 0.0f };
+			specular ={0.0f, 0.0f, 0.0f };
+			alpha = 1.0f;
+		}
+
+	};
+
+	
 
 	Float3 Scale_;
 	Float3 Rotate_;
@@ -224,29 +265,19 @@ private:
 	//定数バッファ用のリソース設定関数
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(int size);
 
-	//定数バッファ用データ構造体(マテリアル)
-	struct ConstBufferDataMaterial
-	{
-		XMFLOAT4 color;//色(RGBA)
-	};
-
-	struct ConstBufferDataMaterial2
-	{
-		XMFLOAT4 posM;//位置移動に使う(XYZ);
-	};
+	
 
 
 	//定数バッファそのもの
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial2 = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform0 = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform1 = nullptr;
+	
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1 = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform = nullptr;
 
+	
 	//マッピングするときのポインタ
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
-	ConstBufferDataMaterial2* constMapMaterial2 = nullptr;
-	ConstBufferDataTransform* constMapTransform0 = nullptr;
-	ConstBufferDataTransform* constMapTransform1 = nullptr;
+	ConstBufferDataTransform* constMapTransform = nullptr;
+	ConstBufferDataB1* constMapB1 = nullptr;
+
 
 	//インデックスデータ
 	std::vector< unsigned short> indices;
@@ -275,6 +306,8 @@ private:
 	Float3 up_;//上方向ベクトル
 
 	static Texture* texture;
+
+	static Material material;
 
 };
 

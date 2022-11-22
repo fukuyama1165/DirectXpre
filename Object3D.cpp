@@ -4,6 +4,8 @@ Texture* Object3D::texture = nullptr;
 
 const float PI = 3.141592653589f;
 
+Object3D::Material Object3D::material;
+
 Object3D::Object3D()
 {
 	Scale_ = { 1,1,1 };
@@ -49,7 +51,7 @@ void Object3D::Update()
 	constTransformMatUpdata(matView,matProjection);
 }
 
-void Object3D::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bool ChangeSquareFlag, bool ChangeTexure)
+void Object3D::Draw(ID3D12GraphicsCommandList* cmdList, int ChangeTexure,  bool PipeLineRuleFlag, bool ChangeSquareFlag)
 {
 
 	//パイプラインステートとルートシグネチャの設定
@@ -72,8 +74,8 @@ void Object3D::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bo
 
 
 	//定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
-	cmdList->SetGraphicsRootConstantBufferView(1, constBuffMaterial2->GetGPUVirtualAddress());
+	/*cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(1, constBuffMaterial2->GetGPUVirtualAddress());*/
 
 	texture->Draw(cmdList, ChangeTexure);
 
@@ -83,7 +85,8 @@ void Object3D::Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bo
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 
 	//定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(3, constBuffTransform->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(2, constBuffB1->GetGPUVirtualAddress());
 
 	//描画コマンド
 	if (ChangeSquareFlag)
@@ -253,6 +256,11 @@ Matrix4x4 Object3D::matMoveGeneration(Float3 translation)
 	return matMove;
 }
 
+int Object3D::loadTexture(const char filename[])
+{
+	return texture->loadTexture(filename);
+}
+
 void Object3D::basicInit(ID3D12Device* dev, float WinWidth, float WinHeight)
 {
 
@@ -285,6 +293,8 @@ void Object3D::basicInit(ID3D12Device* dev, float WinWidth, float WinHeight)
 	indicesBuffGeneration(dev);
 
 	texture->Init(dev);
+
+	texture->loadTexture("Resources/basketballman2.png");
 
 }
 
@@ -728,6 +738,19 @@ void Object3D::objVertexBuffGeneration(ID3D12Device* dev, const char filename[])
 
 		}
 
+		//先頭文字列ががmtllibならマテリアル
+		if (key == "mtllib")
+		{
+
+			//マテリアルのファイル名読み込み
+			std::string fileName;
+			lineStream >> fileName;
+
+			//マテリアル読み込み
+			loadMaterial(filename);
+
+		}
+
 	}
 
 	file.close();
@@ -824,6 +847,47 @@ void Object3D::vertexShaderGeneration2()
 #pragma endregion
 }
 
+void Object3D::vertexShaderGeneration3()
+{
+#pragma region 頂点シェーダファイルの読み込みとコンパイル
+
+	//頂点シェーダファイルの読み込み辺
+	//頂点シェーダの読み込みとコンパイル
+	result = D3DCompileFromFile(
+		L"Resources/shaders/OBJVS.hlsl",//シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
+		"main",//エントリーポイント名
+		"vs_5_0",//シェーダモデル指定
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバック用設定
+		0,
+		&vsBlob,
+		&errorBlob
+	);
+
+#pragma endregion 
+
+#pragma region 頂点シェーダの読み込み時のエラーを表示する場所
+
+	//頂点シェーダの読み込み時のエラーを表示する場所
+	if (FAILED(result))
+	{
+		//errorBlobからエラー内容をstring型にコピー
+		std::string errstr;
+		errstr.resize(errorBlob->GetBufferSize());
+
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
+			errorBlob->GetBufferSize(),
+			errstr.begin());
+		errstr += "\n";
+		//エラー内容をウィンドウに表示
+		OutputDebugStringA(errstr.c_str());
+		exit(1);
+	}
+
+#pragma endregion
+}
+
 void Object3D::pixelShaderGeneration()
 {
 #pragma region ピクセルシェーダの読み込みとコンパイル
@@ -871,6 +935,46 @@ void Object3D::pixelShaderGeneration2()
 	//ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
 		L"Resources/shaders/colorChangePS.hlsl",//シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
+		"main",//エントリーポイント名
+		"ps_5_0",//シェーダモデル指定
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバック用設定
+		0,
+		&psBlob,
+		&errorBlob
+	);
+
+#pragma endregion
+
+#pragma region ピクセルシェーダの読み込み時のエラーを表示する場所
+
+	//ピクセルシェーダの読み込み時のエラーを表示する場所
+	if (FAILED(result))
+	{
+		//errorBlobからエラー内容をstring型にコピー
+		std::string errstr;
+		errstr.resize(errorBlob->GetBufferSize());
+
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
+			errorBlob->GetBufferSize(),
+			errstr.begin());
+		errstr += "\n";
+		//エラー内容をウィンドウに表示
+		OutputDebugStringA(errstr.c_str());
+		exit(1);
+	}
+
+#pragma endregion
+}
+
+void Object3D::pixelShaderGeneration3()
+{
+#pragma region ピクセルシェーダの読み込みとコンパイル
+
+	//ピクセルシェーダの読み込みとコンパイル
+	result = D3DCompileFromFile(
+		L"Resources/shaders/OBJPS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名
@@ -1102,27 +1206,34 @@ void Object3D::rootParamGeneration()
 	//ルートパラメータの設定
 
 	//色
+	//rootParam[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
+	//rootParam[0].Descriptor.ShaderRegister = 0;//定数バッファ番号
+	//rootParam[0].Descriptor.RegisterSpace = 0;//デフォルト値
+	//rootParam[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
+
+	////位置
+	//rootParam[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
+	//rootParam[1].Descriptor.ShaderRegister = 1;//定数バッファ番号
+	//rootParam[1].Descriptor.RegisterSpace = 0;//デフォルト値
+	//rootParam[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
+
 	rootParam[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
 	rootParam[0].Descriptor.ShaderRegister = 0;//定数バッファ番号
 	rootParam[0].Descriptor.RegisterSpace = 0;//デフォルト値
 	rootParam[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
-	//位置
-	rootParam[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
-	rootParam[1].Descriptor.ShaderRegister = 1;//定数バッファ番号
-	rootParam[1].Descriptor.RegisterSpace = 0;//デフォルト値
-	rootParam[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
-
 	//画像データ用
-	rootParam[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//種類
-	rootParam[2].DescriptorTable.pDescriptorRanges = &descriptorRange;//デスクリプタレンジ
-	rootParam[2].DescriptorTable.NumDescriptorRanges = 1;//デスクリプタレンジ数
-	rootParam[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダから見える
+	rootParam[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//種類
+	rootParam[1].DescriptorTable.pDescriptorRanges = &descriptorRange;//デスクリプタレンジ
+	rootParam[1].DescriptorTable.NumDescriptorRanges = 1;//デスクリプタレンジ数
+	rootParam[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダから見える
 
-	rootParam[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
-	rootParam[3].Descriptor.ShaderRegister = 2;//定数バッファ番号
-	rootParam[3].Descriptor.RegisterSpace = 0;//デフォルト値
-	rootParam[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
+	rootParam[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
+	rootParam[2].Descriptor.ShaderRegister = 1;//定数バッファ番号
+	rootParam[2].Descriptor.RegisterSpace = 0;//デフォルト値
+	rootParam[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
+
+	
 
 #pragma endregion 定数バッファを増やしたら増やすところがある
 }
@@ -1214,31 +1325,18 @@ void Object3D::constantBuffGeneration(ID3D12Device* dev)
 
 	
 
-	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataMaterial));
+	//cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataMaterial));
 
-	//定数バッファの生成
-	result = dev->CreateCommittedResource(
-		&cbHeapProp,//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffMaterial)
-	);
-	assert(SUCCEEDED(result));
-
-	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataMaterial2));
-
-	//定数バッファの生成
-	result = dev->CreateCommittedResource(
-		&cbHeapProp,//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&constBuffMaterial2)
-	);
-	assert(SUCCEEDED(result));
+	////定数バッファの生成
+	//result = dev->CreateCommittedResource(
+	//	&cbHeapProp,//ヒープ設定
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&cbResourceDesc,//リソース設定
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&constBuffMaterial)
+	//);
+	//assert(SUCCEEDED(result));
 
 	
 	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
@@ -1254,6 +1352,25 @@ void Object3D::constantBuffGeneration(ID3D12Device* dev)
 
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);
 	assert(SUCCEEDED(result));
+
+	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataB1));
+
+	result = dev->CreateCommittedResource(
+		&cbHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffB1));
+	assert(SUCCEEDED(result));
+
+	result = constBuffB1->Map(0, nullptr, (void**)&constMapB1);
+	assert(SUCCEEDED(result));
+	constMapB1->ambient = material.ambient;
+	constMapB1->diffuse = material.diffuse;
+	constMapB1->specular = material.specular;
+	constMapB1->alpha = material.alpha;
+
 
 	//cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferDataTransform));
 
@@ -1271,8 +1388,6 @@ void Object3D::constantBuffGeneration(ID3D12Device* dev)
 
 	////定数バッファのマッピング
 	//
-	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);//マッピング
-	assert(SUCCEEDED(result));
 
 	//マッピングをするとGPUのVRSMがCPUと連動する
 	//Unmapをするとつながりが解除されるが定数バッファは書き換えることが多いので
@@ -1282,13 +1397,8 @@ void Object3D::constantBuffGeneration(ID3D12Device* dev)
 
 
 
-	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-
-
-	result = constBuffMaterial2->Map(0, nullptr, (void**)&constMapMaterial2);//マッピング
-	assert(SUCCEEDED(result));
-
-	constMapMaterial2->posM = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
+	//result = constBuffMaterial2->Map(0, nullptr, (void**)&constMapMaterial2);//マッピング
+	//assert(SUCCEEDED(result));
 
 	
 
@@ -1591,5 +1701,83 @@ void Object3D::matViewUpdata(Float3 eye, Float3 target, Float3 up)
 	matView = matViewGeneration(eye_, target_, up_);
 
 	Update();
+
+}
+
+void Object3D::loadMaterial(const char filename[])
+{
+
+	//ファイルストリーム
+	std::ifstream file;
+
+	//マテリアルファイルを開く
+	file.open(filename);
+
+	//ファイルオープン失敗をチェック
+	if (file.fail())
+	{
+		assert(0);
+	}
+
+	//1行ずつ読み込む
+	std::string line;
+	while (std::getline(file, line))
+	{
+
+		//1行分の文字列をストリームに変換
+		std::istringstream lineStream(line);
+
+		//半角スペース区切りで行の先頭文字列を取得
+		std::string key;
+		std::getline(lineStream, key, ' ');
+
+		//先頭のタブ文字は無視する
+		if (key[0] == '\t')
+		{
+			key.erase(key.begin());
+		}
+
+		//先頭文字列がnewmtlならマテリアル名
+		if (key == "newmtl")
+		{
+			
+			lineStream >> material.name;
+
+		}
+
+		//先頭文字列がKaならアンビエント色
+		if (key == "Ka")
+		{
+			
+			lineStream >> material.ambient.x;
+			lineStream >> material.ambient.y;
+			lineStream >> material.ambient.z;
+
+		}
+
+		//先頭文字列がKdならディフューズ色
+		if (key == "Kd")
+		{
+
+			lineStream >> material.diffuse.x;
+			lineStream >> material.diffuse.y;
+			lineStream >> material.diffuse.z;
+
+		}
+
+		//先頭文字列がKsならスペキュラー色
+		if (key == "Ks")
+		{
+
+			lineStream >> material.specular.x;
+			lineStream >> material.specular.y;
+			lineStream >> material.specular.z;
+
+		}
+
+	}
+
+	//ファイルを閉じる
+	file.close();
 
 }

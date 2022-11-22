@@ -25,16 +25,24 @@ void Texture::Init(ID3D12Device* dev)
 {
 	incremantSize = dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-	imageDataGeneration();
-
-	//テクスチャバッファ
-	textureBuffGeneraion(dev);
-
-	//シェーダリソースビュー
-	SRVGeneraion(dev);
+	this->dev = dev;
+	
 }
 
-void Texture::Draw(ID3D12GraphicsCommandList* cmdList,bool chang)
+int Texture::loadTexture(const char filename[])
+{
+	imageDataGeneration(filename);
+
+	//テクスチャバッファ
+	textureBuffGeneraion(dev.Get());
+
+	//シェーダリソースビュー
+	SRVGeneraion(dev.Get());
+
+	return metadata.size();
+}
+
+void Texture::Draw(ID3D12GraphicsCommandList* cmdList, int tex)
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
@@ -44,40 +52,41 @@ void Texture::Draw(ID3D12GraphicsCommandList* cmdList,bool chang)
 	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
 	//SRVヒープの先頭にあるSRVをルートパラメータ２番に設定
-	if (chang)
 	{
-
-		cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
-	}
-	else
-	{
-		srvGpuHandle.ptr += incremantSize;
-		cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+		srvGpuHandle.ptr += incremantSize*(tex-1);
+		cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 	}
 
 }
 
-void Texture::imageDataGeneration()
+void Texture::imageDataGeneration(const char filename[])
 {
 #pragma region 画像イメージデータの作成
 
 	//画像読み込みして画像イメージデータを生成
 
+	TexMetadata metadataBuff{};
+	ScratchImage scratchImgBuff{};
+
+	std::string filepath = filename;
+
+	wchar_t wfilepath[128];
+	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
-		L"Resources/hokehoke.png",
+		wfilepath,
 		WIC_FLAGS_NONE,
-		&metadata,
-		scratchImg
+		&metadataBuff,
+		scratchImgBuff
 	);
 
 	ScratchImage mipChain{};
 	//ミップマップの生成
 	result = GenerateMipMaps(
-		scratchImg.GetImages(),
-		scratchImg.GetImageCount(),
-		scratchImg.GetMetadata(),
+		scratchImgBuff.GetImages(),
+		scratchImgBuff.GetImageCount(),
+		scratchImgBuff.GetMetadata(),
 		TEX_FILTER_DEFAULT,
 		0,
 		mipChain
@@ -85,40 +94,42 @@ void Texture::imageDataGeneration()
 
 	if (SUCCEEDED(result))
 	{
-		scratchImg = std::move(mipChain);
-		metadata = scratchImg.GetMetadata();
+		scratchImg.push_back(std::move(mipChain));
+		metadataBuff=scratchImgBuff.GetMetadata();
 	}
 
 	//読み込んだディフューズテクスチャをSRGBとして扱う
-	metadata.format = MakeSRGB(metadata.format);
+	metadataBuff.format = MakeSRGB(metadataBuff.format);
 
-	//WICテクスチャのロード
-	result = LoadFromWICFile(
-		L"Resources/basketballman2.png",
-		WIC_FLAGS_NONE,
-		&metadata2,
-		scratchImg2
-	);
+	metadata.push_back(metadataBuff);
 
-	ScratchImage mipChain2{};
-	//ミップマップの生成
-	result = GenerateMipMaps(
-		scratchImg2.GetImages(),
-		scratchImg2.GetImageCount(),
-		scratchImg2.GetMetadata(),
-		TEX_FILTER_DEFAULT,
-		0,
-		mipChain2
-	);
+	////WICテクスチャのロード
+	//result = LoadFromWICFile(
+	//	L"Resources/basketballman2.png",
+	//	WIC_FLAGS_NONE,
+	//	&metadata2,
+	//	scratchImg2
+	//);
 
-	if (SUCCEEDED(result))
-	{
-		scratchImg2 = std::move(mipChain2);
-		metadata2 = scratchImg2.GetMetadata();
-	}
+	//ScratchImage mipChain2{};
+	////ミップマップの生成
+	//result = GenerateMipMaps(
+	//	scratchImg2.GetImages(),
+	//	scratchImg2.GetImageCount(),
+	//	scratchImg2.GetMetadata(),
+	//	TEX_FILTER_DEFAULT,
+	//	0,
+	//	mipChain2
+	//);
 
-	//読み込んだディフューズテクスチャをSRGBとして扱う
-	metadata2.format = MakeSRGB(metadata2.format);
+	//if (SUCCEEDED(result))
+	//{
+	//	scratchImg2 = std::move(mipChain2);
+	//	metadata2 = scratchImg2.GetMetadata();
+	//}
+
+	////読み込んだディフューズテクスチャをSRGBとして扱う
+	//metadata2.format = MakeSRGB(metadata2.format);
 
 #pragma endregion
 }
@@ -134,23 +145,32 @@ void Texture::textureBuffGeneraion(ID3D12Device* dev)
 	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 
 	//リソース設定
-	
-	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = metadata.format;
-	textureResourceDesc.Width = metadata.width;//幅
-	textureResourceDesc.Height = (UINT)metadata.height;//高さ
-	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
-	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
-	textureResourceDesc.SampleDesc.Count = 1;
+	for (int i = 0; i < metadata.size(); i++)
+	{
+
+		D3D12_RESOURCE_DESC textureResourceDescBuff{};
+		textureResourceDescBuff.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+		textureResourceDescBuff.Format = metadata[i].format;
+		textureResourceDescBuff.Width = metadata[i].width;//幅
+		textureResourceDescBuff.Height = (UINT)metadata[i].height;//高さ
+		textureResourceDescBuff.DepthOrArraySize = (UINT16)metadata[i].arraySize;
+		textureResourceDescBuff.MipLevels = (UINT16)metadata[i].mipLevels;
+		textureResourceDescBuff.SampleDesc.Count = 1;
+
+		if (textureResourceDesc.size() - 1 != i)
+		{
+			textureResourceDesc.push_back(textureResourceDescBuff);
+		}
+	}
 
 	
-	textureResourceDesc2.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc2.Format = metadata2.format;
-	textureResourceDesc2.Width = metadata2.width;//幅
-	textureResourceDesc2.Height = (UINT)metadata2.height;//高さ
-	textureResourceDesc2.DepthOrArraySize = (UINT16)metadata2.arraySize;
-	textureResourceDesc2.MipLevels = (UINT16)metadata2.mipLevels;
-	textureResourceDesc2.SampleDesc.Count = 1;
+	//textureResourceDesc2.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	//textureResourceDesc2.Format = metadata2.format;
+	//textureResourceDesc2.Width = metadata2.width;//幅
+	//textureResourceDesc2.Height = (UINT)metadata2.height;//高さ
+	//textureResourceDesc2.DepthOrArraySize = (UINT16)metadata2.arraySize;
+	//textureResourceDesc2.MipLevels = (UINT16)metadata2.mipLevels;
+	//textureResourceDesc2.SampleDesc.Count = 1;
 
 #pragma endregion
 
@@ -158,57 +178,70 @@ void Texture::textureBuffGeneraion(ID3D12Device* dev)
 
 	//テクスチャバッファの生成
 
-	result = dev->CreateCommittedResource(
-		&textureHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&texBuff)
-	);
+	
 
-	//ミップマップで置き換える
-	//全ミップマップについて
-	for (size_t i = 0; i < metadata.mipLevels; i++)
+	for (int i = 0; i < metadata.size(); i++)
 	{
-		//ミップマップレベルを指定してイメージを取得
-		const Image* img = scratchImg.GetImage(i, 0, 0);
-		//テクスチャバッファにデータ転送
-		result = texBuff->WriteToSubresource(
-			(UINT)i,
-			nullptr,//全領域へコピー
-			img->pixels,//元データアドレス
-			(UINT)img->rowPitch,//1ラインアドレス
-			(UINT)img->slicePitch//1枚サイズ
+
+		Microsoft::WRL::ComPtr<ID3D12Resource > newTexBuff;
+
+		result = dev->CreateCommittedResource(
+			&textureHeapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&textureResourceDesc[i],
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&newTexBuff)
 		);
-		assert(SUCCEEDED(result));
+
+		//ミップマップで置き換える
+		//全ミップマップについて
+		for (size_t j = 0; j < metadata[i].mipLevels; j++)
+		{
+			//ミップマップレベルを指定してイメージを取得
+			const Image* img = scratchImg[i].GetImage(j, 0, 0);
+			//テクスチャバッファにデータ転送
+			result = newTexBuff->WriteToSubresource(
+				(UINT)j,
+				nullptr,//全領域へコピー
+				img->pixels,//元データアドレス
+				(UINT)img->rowPitch,//1ラインアドレス
+				(UINT)img->slicePitch//1枚サイズ
+			);
+			assert(SUCCEEDED(result));
+		}
+
+		if (texBuff.size() - 1 != i)
+		{
+			texBuff.push_back(newTexBuff);
+		}
 	}
 
-	result = dev->CreateCommittedResource(
-		&textureHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc2,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&texBuff2)
-	);
+	//result = dev->CreateCommittedResource(
+	//	&textureHeapProp,
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&textureResourceDesc2,
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&texBuff2)
+	//);
 
-	//ミップマップで置き換える
-	//全ミップマップについて
-	for (size_t i = 0; i < metadata2.mipLevels; i++)
-	{
-		//ミップマップレベルを指定してイメージを取得
-		const Image* img = scratchImg2.GetImage(i, 0, 0);
-		//テクスチャバッファにデータ転送
-		result = texBuff2->WriteToSubresource(
-			(UINT)i,
-			nullptr,//全領域へコピー
-			img->pixels,//元データアドレス
-			(UINT)img->rowPitch,//1ラインアドレス
-			(UINT)img->slicePitch//1枚サイズ
-		);
-		assert(SUCCEEDED(result));
-	}
+	////ミップマップで置き換える
+	////全ミップマップについて
+	//for (size_t i = 0; i < metadata2.mipLevels; i++)
+	//{
+	//	//ミップマップレベルを指定してイメージを取得
+	//	const Image* img = scratchImg2.GetImage(i, 0, 0);
+	//	//テクスチャバッファにデータ転送
+	//	result = texBuff2->WriteToSubresource(
+	//		(UINT)i,
+	//		nullptr,//全領域へコピー
+	//		img->pixels,//元データアドレス
+	//		(UINT)img->rowPitch,//1ラインアドレス
+	//		(UINT)img->slicePitch//1枚サイズ
+	//	);
+	//	assert(SUCCEEDED(result));
+	//}
 
 #pragma endregion 
 }
@@ -239,26 +272,31 @@ void Texture::SRVGeneraion(ID3D12Device* dev)
 
 #pragma region シェーダリソースビュー
 
-	//シェーダリソースビュー
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
-	srvDesc.Format = textureResourceDesc.Format;//RGBA float
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
+	for (int i = 0; i < textureResourceDesc.size(); i++)
+	{
 
-	//ハンドルの指す位置にシェーダリソースビュー作成
-	dev->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
+		srvHandle.ptr += incremantSize*i;
+		//シェーダリソースビュー
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
+		srvDesc.Format = textureResourceDesc[i].Format;//RGBA float
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
+		srvDesc.Texture2D.MipLevels = textureResourceDesc[i].MipLevels;
 
-	srvHandle.ptr += incremantSize;
+		//ハンドルの指す位置にシェーダリソースビュー作成
+		dev->CreateShaderResourceView(texBuff[i].Get(), &srvDesc, srvHandle);
 
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};//設定構造体
-	srvDesc2.Format = textureResourceDesc2.Format;//RGBA float
-	srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-	srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
+		
+	}
 
-	//ハンドルの指す位置にシェーダリソースビュー作成
-	dev->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
+	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};//設定構造体
+	//srvDesc2.Format = textureResourceDesc2.Format;//RGBA float
+	//srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	//srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
+	//srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
+
+	////ハンドルの指す位置にシェーダリソースビュー作成
+	//dev->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
 
 #pragma endregion
 }
