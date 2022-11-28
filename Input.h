@@ -1,5 +1,5 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -9,17 +9,17 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//assert‚ðŽg‚¤‚½‚ß‚É•K—v
+//assertã‚’ä½¿ã†ãŸã‚ã«å¿…è¦
 #include <cassert>
 
 
-//#pragma comment‚Æ‚ÍAƒIƒuƒWƒFƒNƒgƒtƒ@ƒCƒ‹‚ÉA
-//ƒŠƒ“ƒJ‚ÅƒŠƒ“ƒN‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ì–¼‘O‚ð‹Lq‚·‚é‚à‚Ì
+//#pragma commentã¨ã¯ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«ã€
+//ãƒªãƒ³ã‚«ã§ãƒªãƒ³ã‚¯ã™ã‚‹ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åå‰ã‚’è¨˜è¿°ã™ã‚‹ã‚‚ã®
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
 
-//ƒL[ƒ{[ƒh‚âƒRƒ“ƒgƒ[ƒ‰[‚È‚Ç‚Ì“ü—Í‚·‚éƒwƒbƒ_‚Æƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
+//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚„ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãªã©ã®å…¥åŠ›ã™ã‚‹ãƒ˜ãƒƒãƒ€ã¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒªãƒ³ã‚¯
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
@@ -34,21 +34,20 @@ public:
 
 	void update();
 
-	//ƒL[ƒ{[ƒh‚ÌƒL[‚ð‰Ÿ‚µ‚½‚ç”½‰ž‚·‚éŠÖ”(’·‰Ÿ‚µ‚à”½‰ž)
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®ã‚­ãƒ¼ã‚’æŠ¼ã—ãŸã‚‰åå¿œã™ã‚‹é–¢æ•°(é•·æŠ¼ã—ã‚‚åå¿œ)
 	bool PushKey(BYTE CheckKey);
 
-	//ƒL[ƒ{[ƒh‚ÌƒL[‚ð‰Ÿ‚µ‚½uŠÔ‚É”½‰ž‚·‚éŠÖ”(’·‰Ÿ‚µ”½‰ž‚µ‚È‚¢)
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®ã‚­ãƒ¼ã‚’æŠ¼ã—ãŸçž¬é–“ã«åå¿œã™ã‚‹é–¢æ•°(é•·æŠ¼ã—åå¿œã—ãªã„)
 	bool TriggerKey(BYTE CheckKey);
 
 private:
 	HRESULT result;
 
-	//‘SƒL[‚Ì“ü—Íî•ñ‚ðŽæ“¾‚·‚éˆ×‚Ì•Ï”
+	//å…¨ã‚­ãƒ¼ã®å…¥åŠ›æƒ…å ±ã‚’å–å¾—ã™ã‚‹ç‚ºã®å¤‰æ•°
 	static BYTE key[256];
 	static BYTE oldKey[256];
 
-	//ƒL[ƒ{[ƒhƒfƒoƒCƒX
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹
 	IDirectInputDevice8* keyboard = nullptr;
 
 };
-

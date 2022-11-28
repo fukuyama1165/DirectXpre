@@ -18,7 +18,7 @@ Texture* Texture::GetInstance()
 
 void Texture::instanceDelete()
 {
-		delete(instance);
+	delete(instance);
 }
 
 void Texture::Init(ID3D12Device* dev)
@@ -26,17 +26,17 @@ void Texture::Init(ID3D12Device* dev)
 	incremantSize = dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	this->dev = dev;
-	
+
 }
 
 int Texture::loadTexture(const char filename[])
 {
 	imageDataGeneration(filename);
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	textureBuffGeneraion(dev.Get());
 
-	//ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
 	SRVGeneraion(dev.Get());
 
 	return metadata.size();
@@ -46,14 +46,14 @@ void Texture::Draw(ID3D12GraphicsCommandList* cmdList, int tex)
 {
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
-	//SRVƒq[ƒv‚Ìİ’èƒRƒ}ƒ“ƒh
+	//SRVãƒ’ãƒ¼ãƒ—ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
 	cmdList->SetDescriptorHeaps(1, srvHeap.GetAddressOf());
-	//SRVƒq[ƒv‚Ìæ“ªƒnƒ“ƒhƒ‹‚ğæ“¾(SRV‚ğw‚µ‚Ä‚¢‚é‚Í‚¸)
+	//SRVãƒ’ãƒ¼ãƒ—ã®å…ˆé ­ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—(SRVã‚’æŒ‡ã—ã¦ã„ã‚‹ã¯ãš)
 	srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
 
-	//SRVƒq[ƒv‚Ìæ“ª‚É‚ ‚éSRV‚ğƒ‹[ƒgƒpƒ‰ƒ[ƒ^‚Q”Ô‚Éİ’è
+	//SRVãƒ’ãƒ¼ãƒ—ã®å…ˆé ­ã«ã‚ã‚‹SRVã‚’ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ï¼’ç•ªã«è¨­å®š
 	{
-		srvGpuHandle.ptr += incremantSize*(tex-1);
+		srvGpuHandle.ptr += incremantSize * (tex - 1);
 		cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 	}
 
@@ -61,9 +61,9 @@ void Texture::Draw(ID3D12GraphicsCommandList* cmdList, int tex)
 
 void Texture::imageDataGeneration(const char filename[])
 {
-#pragma region ‰æ‘œƒCƒ[ƒWƒf[ƒ^‚Ìì¬
+#pragma region ç”»åƒã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆ
 
-	//‰æ‘œ“Ç‚İ‚İ‚µ‚Ä‰æ‘œƒCƒ[ƒWƒf[ƒ^‚ğ¶¬
+	//ç”»åƒèª­ã¿è¾¼ã¿ã—ã¦ç”»åƒã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆ
 
 	TexMetadata metadataBuff{};
 	ScratchImage scratchImgBuff{};
@@ -73,7 +73,7 @@ void Texture::imageDataGeneration(const char filename[])
 	wchar_t wfilepath[128];
 	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
-	//WICƒeƒNƒXƒ`ƒƒ‚Ìƒ[ƒh
+	//WICãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ­ãƒ¼ãƒ‰
 	result = LoadFromWICFile(
 		wfilepath,
 		WIC_FLAGS_NONE,
@@ -82,7 +82,7 @@ void Texture::imageDataGeneration(const char filename[])
 	);
 
 	ScratchImage mipChain{};
-	//ƒ~ƒbƒvƒ}ƒbƒv‚Ì¶¬
+	//ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ã®ç”Ÿæˆ
 	result = GenerateMipMaps(
 		scratchImgBuff.GetImages(),
 		scratchImgBuff.GetImageCount(),
@@ -95,15 +95,15 @@ void Texture::imageDataGeneration(const char filename[])
 	if (SUCCEEDED(result))
 	{
 		scratchImg.push_back(std::move(mipChain));
-		metadataBuff=scratchImgBuff.GetMetadata();
+		metadataBuff = scratchImgBuff.GetMetadata();
 	}
 
-	//“Ç‚İ‚ñ‚¾ƒfƒBƒtƒ…[ƒYƒeƒNƒXƒ`ƒƒ‚ğSRGB‚Æ‚µ‚Äˆµ‚¤
+	//èª­ã¿è¾¼ã‚“ã ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’SRGBã¨ã—ã¦æ‰±ã†
 	metadataBuff.format = MakeSRGB(metadataBuff.format);
 
 	metadata.push_back(metadataBuff);
 
-	////WICƒeƒNƒXƒ`ƒƒ‚Ìƒ[ƒh
+	////WICãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ­ãƒ¼ãƒ‰
 	//result = LoadFromWICFile(
 	//	L"Resources/basketballman2.png",
 	//	WIC_FLAGS_NONE,
@@ -112,7 +112,7 @@ void Texture::imageDataGeneration(const char filename[])
 	//);
 
 	//ScratchImage mipChain2{};
-	////ƒ~ƒbƒvƒ}ƒbƒv‚Ì¶¬
+	////ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ã®ç”Ÿæˆ
 	//result = GenerateMipMaps(
 	//	scratchImg2.GetImages(),
 	//	scratchImg2.GetImageCount(),
@@ -128,7 +128,7 @@ void Texture::imageDataGeneration(const char filename[])
 	//	metadata2 = scratchImg2.GetMetadata();
 	//}
 
-	////“Ç‚İ‚ñ‚¾ƒfƒBƒtƒ…[ƒYƒeƒNƒXƒ`ƒƒ‚ğSRGB‚Æ‚µ‚Äˆµ‚¤
+	////èª­ã¿è¾¼ã‚“ã ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’SRGBã¨ã—ã¦æ‰±ã†
 	//metadata2.format = MakeSRGB(metadata2.format);
 
 #pragma endregion
@@ -136,23 +136,23 @@ void Texture::imageDataGeneration(const char filename[])
 
 void Texture::textureBuffGeneraion(ID3D12Device* dev)
 {
-#pragma region ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@İ’è
+#pragma region ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡è¨­å®š
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
 	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	for (int i = 0; i < metadata.size(); i++)
 	{
 
 		D3D12_RESOURCE_DESC textureResourceDescBuff{};
 		textureResourceDescBuff.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 		textureResourceDescBuff.Format = metadata[i].format;
-		textureResourceDescBuff.Width = metadata[i].width;//•
-		textureResourceDescBuff.Height = (UINT)metadata[i].height;//‚‚³
+		textureResourceDescBuff.Width = metadata[i].width;//å¹…
+		textureResourceDescBuff.Height = (UINT)metadata[i].height;//é«˜ã•
 		textureResourceDescBuff.DepthOrArraySize = (UINT16)metadata[i].arraySize;
 		textureResourceDescBuff.MipLevels = (UINT16)metadata[i].mipLevels;
 		textureResourceDescBuff.SampleDesc.Count = 1;
@@ -163,22 +163,22 @@ void Texture::textureBuffGeneraion(ID3D12Device* dev)
 		}
 	}
 
-	
+
 	//textureResourceDesc2.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	//textureResourceDesc2.Format = metadata2.format;
-	//textureResourceDesc2.Width = metadata2.width;//•
-	//textureResourceDesc2.Height = (UINT)metadata2.height;//‚‚³
+	//textureResourceDesc2.Width = metadata2.width;//å¹…
+	//textureResourceDesc2.Height = (UINT)metadata2.height;//é«˜ã•
 	//textureResourceDesc2.DepthOrArraySize = (UINT16)metadata2.arraySize;
 	//textureResourceDesc2.MipLevels = (UINT16)metadata2.mipLevels;
 	//textureResourceDesc2.SampleDesc.Count = 1;
 
 #pragma endregion
 
-#pragma region ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Ì¶¬
+#pragma region ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Ì¶¬
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
-	
+
 
 	for (int i = 0; i < metadata.size(); i++)
 	{
@@ -194,19 +194,19 @@ void Texture::textureBuffGeneraion(ID3D12Device* dev)
 			IID_PPV_ARGS(&newTexBuff)
 		);
 
-		//ƒ~ƒbƒvƒ}ƒbƒv‚Å’u‚«Š·‚¦‚é
-		//‘Sƒ~ƒbƒvƒ}ƒbƒv‚É‚Â‚¢‚Ä
+		//ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ã§ç½®ãæ›ãˆã‚‹
+		//å…¨ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ã«ã¤ã„ã¦
 		for (size_t j = 0; j < metadata[i].mipLevels; j++)
 		{
-			//ƒ~ƒbƒvƒ}ƒbƒvƒŒƒxƒ‹‚ğw’è‚µ‚ÄƒCƒ[ƒW‚ğæ“¾
+			//ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ãƒ¬ãƒ™ãƒ«ã‚’æŒ‡å®šã—ã¦ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’å–å¾—
 			const Image* img = scratchImg[i].GetImage(j, 0, 0);
-			//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Éƒf[ƒ^“]‘—
+			//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡ãƒ¼ã‚¿è»¢é€
 			result = newTexBuff->WriteToSubresource(
 				(UINT)j,
-				nullptr,//‘S—Ìˆæ‚ÖƒRƒs[
-				img->pixels,//Œ³ƒf[ƒ^ƒAƒhƒŒƒX
-				(UINT)img->rowPitch,//1ƒ‰ƒCƒ“ƒAƒhƒŒƒX
-				(UINT)img->slicePitch//1–‡ƒTƒCƒY
+				nullptr,//å…¨é ˜åŸŸã¸ã‚³ãƒ”ãƒ¼
+				img->pixels,//å…ƒãƒ‡ãƒ¼ã‚¿ã‚¢ãƒ‰ãƒ¬ã‚¹
+				(UINT)img->rowPitch,//1ãƒ©ã‚¤ãƒ³ã‚¢ãƒ‰ãƒ¬ã‚¹
+				(UINT)img->slicePitch//1æšã‚µã‚¤ã‚º
 			);
 			assert(SUCCEEDED(result));
 		}
@@ -226,19 +226,19 @@ void Texture::textureBuffGeneraion(ID3D12Device* dev)
 	//	IID_PPV_ARGS(&texBuff2)
 	//);
 
-	////ƒ~ƒbƒvƒ}ƒbƒv‚Å’u‚«Š·‚¦‚é
-	////‘Sƒ~ƒbƒvƒ}ƒbƒv‚É‚Â‚¢‚Ä
+	////ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ã§ç½®ãæ›ãˆã‚‹
+	////å…¨ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ã«ã¤ã„ã¦
 	//for (size_t i = 0; i < metadata2.mipLevels; i++)
 	//{
-	//	//ƒ~ƒbƒvƒ}ƒbƒvƒŒƒxƒ‹‚ğw’è‚µ‚ÄƒCƒ[ƒW‚ğæ“¾
+	//	//ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ãƒ¬ãƒ™ãƒ«ã‚’æŒ‡å®šã—ã¦ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’å–å¾—
 	//	const Image* img = scratchImg2.GetImage(i, 0, 0);
-	//	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Éƒf[ƒ^“]‘—
+	//	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡ãƒ¼ã‚¿è»¢é€
 	//	result = texBuff2->WriteToSubresource(
 	//		(UINT)i,
-	//		nullptr,//‘S—Ìˆæ‚ÖƒRƒs[
-	//		img->pixels,//Œ³ƒf[ƒ^ƒAƒhƒŒƒX
-	//		(UINT)img->rowPitch,//1ƒ‰ƒCƒ“ƒAƒhƒŒƒX
-	//		(UINT)img->slicePitch//1–‡ƒTƒCƒY
+	//		nullptr,//å…¨é ˜åŸŸã¸ã‚³ãƒ”ãƒ¼
+	//		img->pixels,//å…ƒãƒ‡ãƒ¼ã‚¿ã‚¢ãƒ‰ãƒ¬ã‚¹
+	//		(UINT)img->rowPitch,//1ãƒ©ã‚¤ãƒ³ã‚¢ãƒ‰ãƒ¬ã‚¹
+	//		(UINT)img->slicePitch//1æšã‚µã‚¤ã‚º
 	//	);
 	//	assert(SUCCEEDED(result));
 	//}
@@ -248,54 +248,54 @@ void Texture::textureBuffGeneraion(ID3D12Device* dev)
 
 void Texture::SRVGeneraion(ID3D12Device* dev)
 {
-#pragma region ƒVƒF[ƒ_[ƒŠƒ\[ƒXƒrƒ…[‚Ìˆ×‚ÌƒfƒXƒNƒŠƒvƒ^ƒq[ƒv¶¬
+#pragma region ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ç‚ºã®ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ç”Ÿæˆ
 
-	//SRV‚ÌÅ‘åŒÂ”
+	//SRVã®æœ€å¤§å€‹æ•°
 	const size_t kMaxSRVCount = 2056;
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ìİ’è
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®è¨­å®š
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//ƒVƒF[ƒ_‚©‚çŒ©‚¦‚é‚æ‚¤‚É
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//ã‚·ã‚§ãƒ¼ãƒ€ã‹ã‚‰è¦‹ãˆã‚‹ã‚ˆã†ã«
 	srvHeapDesc.NumDescriptors = kMaxSRVCount;
 
-	//İ’è‚ğ‚à‚Æ‚ÉSRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚ğ¶¬
+	//è¨­å®šã‚’ã‚‚ã¨ã«SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã‚’ç”Ÿæˆ
 
 	result = dev->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
 	assert(SUCCEEDED(result));
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒnƒ“ƒhƒ‹(ƒq[ƒv“à‚Ì‘€ì‚·‚éêŠw’è‚Ég‚¤)
-	//SRVƒq[ƒv‚Ìæ“ªƒnƒ“ƒhƒ‹‚ğæ“¾
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒãƒ³ãƒ‰ãƒ«(ãƒ’ãƒ¼ãƒ—å†…ã®æ“ä½œã™ã‚‹å ´æ‰€æŒ‡å®šã«ä½¿ã†)
+	//SRVãƒ’ãƒ¼ãƒ—ã®å…ˆé ­ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 
 #pragma endregion
 
-#pragma region ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[
+#pragma region ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
 
 	for (int i = 0; i < textureResourceDesc.size(); i++)
 	{
 
-		srvHandle.ptr += incremantSize*i;
-		//ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//İ’è\‘¢‘Ì
+		srvHandle.ptr += incremantSize * i;
+		//ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//è¨­å®šæ§‹é€ ä½“
 		srvDesc.Format = textureResourceDesc[i].Format;//RGBA float
 		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2DƒeƒNƒXƒ`ƒƒ
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dãƒ†ã‚¯ã‚¹ãƒãƒ£
 		srvDesc.Texture2D.MipLevels = textureResourceDesc[i].MipLevels;
 
-		//ƒnƒ“ƒhƒ‹‚Ìw‚·ˆÊ’u‚ÉƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[ì¬
+		//ãƒãƒ³ãƒ‰ãƒ«ã®æŒ‡ã™ä½ç½®ã«ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ä½œæˆ
 		dev->CreateShaderResourceView(texBuff[i].Get(), &srvDesc, srvHandle);
 
-		
+
 	}
 
-	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};//İ’è\‘¢‘Ì
+	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc2{};//è¨­å®šæ§‹é€ ä½“
 	//srvDesc2.Format = textureResourceDesc2.Format;//RGBA float
 	//srvDesc2.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	//srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2DƒeƒNƒXƒ`ƒƒ
+	//srvDesc2.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dãƒ†ã‚¯ã‚¹ãƒãƒ£
 	//srvDesc2.Texture2D.MipLevels = textureResourceDesc2.MipLevels;
 
-	////ƒnƒ“ƒhƒ‹‚Ìw‚·ˆÊ’u‚ÉƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[ì¬
+	////ãƒãƒ³ãƒ‰ãƒ«ã®æŒ‡ã™ä½ç½®ã«ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ä½œæˆ
 	//dev->CreateShaderResourceView(texBuff2.Get(), &srvDesc2, srvHandle);
 
 #pragma endregion

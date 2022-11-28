@@ -11,33 +11,33 @@ public:
 	WinApp();
 	~WinApp();
 
-	//������
+	//初期化
 	void initialize();
 
 
 
-	//���b�Z�[�W�̏���
+	//メッセージの処理
 	bool processMassage();
 
-	//�E�C���h�E�N���X�̐ݒ��Ԃ��֐�
-	//�\���̂�getter�͉��̂悤�ɂ���(����������s�ɂ������ɂ���\���̂����ɗ����悤�ɂ��Ă���)
+	//ウインドウクラスの設定を返す関数
+	//構造体のgetterは下のようにする(書き換えを不可にしつつここにある構造体を見に来れるようにしている)
 	const WNDCLASSEX& getW() const;
 
-	//��ʃT�C�Y�������Ă���ϐ���Ԃ��֐�
+	//画面サイズを持っている変数を返す関数
 	const RECT& getWrc() const;
 
-	//HWND��Ԃ��֐�
+	//HWNDを返す関数
 	HWND getHwnd() const;
 
-	//�E�C���h�E�̉�����Ԃ��֐�
+	//ウインドウの横幅を返す関数
 	int getWindowSizeWidth();
 
-	//�E�C���h�E�̏c����Ԃ��֐�
+	//ウインドウの縦幅を返す関数
 	int getWindowSizeHeight();
 
-	//�ÓI�����o�֐�
+	//静的メンバ関数
 public:
-	//�E�C���h�E�v���V�[�W��
+	//ウインドウプロシージャ
 	static LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
@@ -45,14 +45,13 @@ private:
 	const int windowWidth = 1280;
 	const int windowHeight = 720;
 
-	WNDCLASSEX w = {};//�E�B���h�E�N���X�̐ݒ�
+	WNDCLASSEX w = {};//ウィンドウクラスの設定
 
 	RECT wrc = {};
 
 	HWND hwnd;
 
-	//����������Ȃ��ƃE�B���h�E����u�ŏ����邽�ߋL�q
+	//これを書かないとウィンドウが一瞬で消えるため記述
 	MSG msg{};
 
 };
-

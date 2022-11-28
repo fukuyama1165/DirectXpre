@@ -6,9 +6,9 @@ BYTE Input::oldKey[256] = {};
 void Input::init(WNDCLASSEX w, HWND hwnd)
 {
 
-#pragma region DirectInoutƒIƒuƒWƒFƒNƒg‚Ì¶¬
+#pragma region DirectInoutã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
 
-	//DirectInput‚Ì‰Šú‰»
+	//DirectInputã®åˆæœŸåŒ–
 	IDirectInput8* directInput = nullptr;
 	result = DirectInput8Create(
 		w.hInstance,
@@ -19,22 +19,22 @@ void Input::init(WNDCLASSEX w, HWND hwnd)
 	);
 	assert(SUCCEEDED(result));
 
-#pragma endregion ‘S‘Ì‚Ì‰Šú‰»‚Å‚ ‚è“ü—ÍƒfƒoƒCƒX‚ª‘‚¦‚Ä‚à‚±‚ÌƒIƒuƒWƒFƒNƒg‚Í‘‚â‚³‚È‚­‚Ä‚à‚¢‚¢
+#pragma endregion å…¨ä½“ã®åˆæœŸåŒ–ã§ã‚ã‚Šå…¥åŠ›ãƒ‡ãƒã‚¤ã‚¹ãŒå¢—ãˆã¦ã‚‚ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯å¢—ã‚„ã•ãªãã¦ã‚‚ã„ã„
 
-#pragma region ƒL[ƒ{[ƒhƒfƒoƒCƒX‚Ì¶¬
+#pragma region ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 
-	//ƒL[ƒ{[ƒhƒfƒoƒCƒX‚Ì¶¬
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
 	assert(SUCCEEDED(result));
 
 #pragma endregion
 
-#pragma region ƒQ[ƒ€ƒpƒbƒh‚Ì“ü—Í
+#pragma region ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®å…¥åŠ›
 
 	//DIDEVICEINSTANCE* gamePadDID = {};
 	//result = directInput->EnumDevices(
-	//	DI8DEVTYPE_JOYSTICK,//JOYSTICK‚¾‚Æ”F¯‚µ‚È‚¢‚±‚Æ‚ª‚ ‚é‚ç‚µ‚¢(Šm”F‚Å‚«‚é‚È‚çŠm”F‚·‚é‚±‚Æ)
+	//	DI8DEVTYPE_JOYSTICK,//JOYSTICKã ã¨èªè­˜ã—ãªã„ã“ã¨ãŒã‚ã‚‹ã‚‰ã—ã„(ç¢ºèªã§ãã‚‹ãªã‚‰ç¢ºèªã™ã‚‹ã“ã¨)
 	//	DeviceFindCallBack,
 	//	&gamePadDID,
 	//	DIEDFL_ATTACHEDONLY
@@ -46,22 +46,22 @@ void Input::init(WNDCLASSEX w, HWND hwnd)
 	//assert(SUCCEEDED(result));
 
 
-#pragma endregion(’†~)
+#pragma endregion(ä¸­æ­¢)
 
-#pragma region “ü—Íƒf[ƒ^Œ`®‚ÌƒZƒbƒg
+#pragma region å…¥åŠ›ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®ã‚»ãƒƒãƒˆ
 
-	result = keyboard->SetDataFormat(&c_dfDIKeyboard);//•W€Œ`®
+	result = keyboard->SetDataFormat(&c_dfDIKeyboard);//æ¨™æº–å½¢å¼
 	assert(SUCCEEDED(result));
 
 #pragma endregion
 
-#pragma region ”r‘¼§ŒäƒŒƒxƒ‹‚ÌƒZƒbƒg
+#pragma region æ’ä»–åˆ¶å¾¡ãƒ¬ãƒ™ãƒ«ã®ã‚»ãƒƒãƒˆ
 
 	result = keyboard->SetCooperativeLevel(
 		hwnd,
-		DISCL_FOREGROUND/*‰æ–Ê‚ªè‘O‚É‚ ‚éê‡‚Ì‚İ“ü—Í‚ğó‚¯•t‚¯‚é*/ |
-		DISCL_NONEXCLUSIVE/*ƒfƒoƒCƒX‚ğ‚±‚ÌƒAƒvƒŠ‚¾‚¯‚Åè—L‚µ‚È‚¢*/ |
-		DISCL_NOWINKEY/*windowƒL[‚ğ–³Œø‚É‚·‚é*/);
+		DISCL_FOREGROUND/*ç”»é¢ãŒæ‰‹å‰ã«ã‚ã‚‹å ´åˆã®ã¿å…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã‚‹*/ |
+		DISCL_NONEXCLUSIVE/*ãƒ‡ãƒã‚¤ã‚¹ã‚’ã“ã®ã‚¢ãƒ—ãƒªã ã‘ã§å æœ‰ã—ãªã„*/ |
+		DISCL_NOWINKEY/*windowã‚­ãƒ¼ã‚’ç„¡åŠ¹ã«ã™ã‚‹*/);
 	assert(SUCCEEDED(result));
 
 #pragma endregion
@@ -71,18 +71,18 @@ void Input::init(WNDCLASSEX w, HWND hwnd)
 void Input::update()
 {
 
-#pragma region ƒL[ƒ{[ƒhî•ñ‚Ìæ“¾
+#pragma region ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—
 
-	//ƒL[ƒ{[ƒhî•ñ‚Ìæ“¾ŠJn
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—é–‹å§‹
 	keyboard->Acquire();
 
-	//‘OƒtƒŒ[ƒ€‚ÌƒL[ƒ{[ƒh“ü—Í‚ğ•Û‘¶
+	//å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›ã‚’ä¿å­˜
 	for (int i = 0; i < 256; i++)
 	{
 		oldKey[i] = key[i];
 	}
 
-	//‘SƒL[‚Ì“ü—Íî•ñ‚ğæ“¾‚·‚é
+	//å…¨ã‚­ãƒ¼ã®å…¥åŠ›æƒ…å ±ã‚’å–å¾—ã™ã‚‹
 	keyboard->GetDeviceState(sizeof(key), key);
 
 #pragma endregion

@@ -1,5 +1,5 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -9,14 +9,14 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//”Šwƒ‰ƒCƒuƒ‰ƒŠ(Å“K‰»‚³‚ê‚·‚¬‚Äg‚¢‚É‚­‚¢‚ç‚µ‚¢‚Ì‚Å‚ ‚Æ‚Å©ì‚µ‚ë‚Á‚Ä)
+//æ•°å­¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(æœ€é©åŒ–ã•ã‚Œã™ãã¦ä½¿ã„ã«ãã„ã‚‰ã—ã„ã®ã§ã‚ã¨ã§è‡ªä½œã—ã‚ã£ã¦)
 #include<DirectXMath.h>
 using namespace DirectX;
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-//ƒL[ƒ{[ƒh‚âƒRƒ“ƒgƒ[ƒ‰[‚È‚Ç‚Ì“ü—Í‚·‚éƒwƒbƒ_‚Æƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
+//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚„ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãªã©ã®å…¥åŠ›ã™ã‚‹ãƒ˜ãƒƒãƒ€ã¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒªãƒ³ã‚¯
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
@@ -33,62 +33,62 @@ using namespace DirectX;
 #include "Object3D.h"
 
 
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 class DrawingObj
 {
 public:
-	//‰Šú‰»‚ğ‚±‚±‚Å“K“–‚ÉƒGƒ‰[‚ğ‚Í‚©‚È‚¢‚Æv‚¤’l‚ğ“ü‚ê‚Ä‚¢‚éŠî–{“I‚É‘‚«Š·‚¦‚Ä‚à–â‘è‚È‚¢‚Í‚¸(İ’è‚ª”j’]‚µ‚Ä‚È‚¯‚ê‚Î)
+	//åˆæœŸåŒ–ã‚’ã“ã“ã§é©å½“ã«ã‚¨ãƒ©ãƒ¼ã‚’ã¯ã‹ãªã„ã¨æ€ã†å€¤ã‚’å…¥ã‚Œã¦ã„ã‚‹åŸºæœ¬çš„ã«æ›¸ãæ›ãˆã¦ã‚‚å•é¡Œãªã„ã¯ãš(è¨­å®šãŒç ´ç¶»ã—ã¦ãªã‘ã‚Œã°)
 	DrawingObj(const float windowWidth, const float windowHeight);
 
-	//À•W‚ğw’è‚Å‚«‚é‚ªˆø”‘å™
-	DrawingObj(const float windowWidth, const float windowHeight,XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1 = { 0.0f,1.0f }, XMFLOAT2 vertexUv2 = { 0.0f,0.0f }, XMFLOAT2 vertexUv3 = { 1.0f,1.0f }, XMFLOAT2 vertexUv4 = { 1.0f,0.0f });
+	//åº§æ¨™ã‚’æŒ‡å®šã§ãã‚‹ãŒå¼•æ•°å¤§æ‰
+	DrawingObj(const float windowWidth, const float windowHeight, XMFLOAT3 vertexPos1, XMFLOAT3 vertexPos2, XMFLOAT3 vertexPos3, XMFLOAT3 vertexPos4, XMFLOAT2 vertexUv1 = { 0.0f,1.0f }, XMFLOAT2 vertexUv2 = { 0.0f,0.0f }, XMFLOAT2 vertexUv3 = { 1.0f,1.0f }, XMFLOAT2 vertexUv4 = { 1.0f,0.0f });
 
 	~DrawingObj();
 
-	
 
-	//‰æ‘œƒCƒ[ƒWƒf[ƒ^
+
+	//ç”»åƒã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿
 	void imageDataGeneration();
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	void textureBuffGeneraion(ID3D12Device* dev);
 
-	//ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
 	void SRVGeneraion(ID3D12Device* dev);
 
-	//GPU‚É’¸“_ƒf[ƒ^‚ğ“]‘—‚·‚éŠÖ”
+	//GPUã«é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’è»¢é€ã™ã‚‹é–¢æ•°
 	void vertexMap();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
-	/// <param name="cmdList">ƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
-	/// <param name="PipeLineRuleFlag">•`‰æ•û–@‚ğ•ÏX‚·‚é‚©‚Ç‚¤‚©(Œ»İ‚ÍƒƒCƒ„[ƒtƒŒ[ƒ€‚©“h‚è‚Â‚Ô‚µ)true‚Í“h‚è‚Â‚Ô‚µ</param>
-	/// <param name="ChangeSquareFlag">OŠpŒ`‚Å•`‰æ‚·‚é‚©lŠpŒ`‚É•`‰æ‚·‚é(true‚ÍlŠpŒ`)</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList,bool PipeLineRuleFlag, bool ChangeSquareFlag, bool ChangeTexure);
+	/// <param name="cmdList">ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
+	/// <param name="PipeLineRuleFlag">æç”»æ–¹æ³•ã‚’å¤‰æ›´ã™ã‚‹ã‹ã©ã†ã‹(ç¾åœ¨ã¯ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‹å¡—ã‚Šã¤ã¶ã—)trueã¯å¡—ã‚Šã¤ã¶ã—</param>
+	/// <param name="ChangeSquareFlag">ä¸‰è§’å½¢ã§æç”»ã™ã‚‹ã‹å››è§’å½¢ã«æç”»ã™ã‚‹(trueã¯å››è§’å½¢)</param>
+	void Draw(ID3D12GraphicsCommandList* cmdList, bool PipeLineRuleFlag, bool ChangeSquareFlag, bool ChangeTexure);
 
 
-	//ƒAƒtƒBƒ“•ÏŠ·‚»‚Ì‚à‚Ì‚ÌŠÖ”(2D)
+	//ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›ãã®ã‚‚ã®ã®é–¢æ•°(2D)
 	XMFLOAT3 Afin(XMFLOAT3 box, float moveX, float moveY, float rotate, float scaleX, float scaleY);
 
-	//Obj‚É‘Î‚µ‚ÄƒAƒtƒBƒ“•ÏŠ·‚ğ‚©‚¯‚éŠÖ”
+	//Objã«å¯¾ã—ã¦ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›ã‚’ã‹ã‘ã‚‹é–¢æ•°
 	void ObjAfin(float moveX, float moveY, float rotate, float scaleX, float scaleY);
 
-	//’è”ƒoƒbƒtƒ@‚ğ•ÏX‚·‚éŠÖ”
-	void constBuffColorUpdata(float Red,float Green,float Blue);
-	void constBuffPosMUpdata(float X,float Y,float Z);
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã‚’å¤‰æ›´ã™ã‚‹é–¢æ•°
+	void constBuffColorUpdata(float Red, float Green, float Blue);
+	void constBuffPosMUpdata(float X, float Y, float Z);
 
-	//ƒrƒ…[•ÏŠ·s—ñXV
+	//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—æ›´æ–°
 	//void matViewUpdata(Float3 eye, Float3 target, Float3 up);
 	void matViewUpdata(Float3 eye, Float3 target, Float3 up);
 
-	//’è”ƒoƒbƒtƒ@‚Ìs—ñ‚ğXV‚·‚éŠÖ”
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®è¡Œåˆ—ã‚’æ›´æ–°ã™ã‚‹é–¢æ•°
 	void constTransformMatUpdata();
 	void constTransformMatUpdata1();
 
-	//ƒ[ƒ‹ƒhÀ•WXV
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™æ›´æ–°
 	void matWorldUpdata();
 	void matWorldUpdata1();
 
@@ -102,37 +102,37 @@ public:
 
 	Matrix4x4 matMoveGeneration(Float3 translation);
 
-	
 
-	//ƒXƒP[ƒ‹•ÏXs—ñ
+
+	//ã‚¹ã‚±ãƒ¼ãƒ«å¤‰æ›´è¡Œåˆ—
 	void SetScale(Float3 scale);
-	//Šp“x•ÏXs—ñ
+	//è§’åº¦å¤‰æ›´è¡Œåˆ—
 	void SetRotate(Float3 rotate);
-	//•½sˆÚ“®s—ñ
+	//å¹³è¡Œç§»å‹•è¡Œåˆ—
 	void SetTrans(Float3 TransForm);
 
 	void obj3DUpdate();
 
-	
 
-	void colorMap(float R,float G,float B);
 
-	
+	void colorMap(float R, float G, float B);
+
+
 
 private:
 
-	
 
-	
 
-	////“§‹“Š‰es—ñ
+
+
+	////é€è¦–æŠ•å½±è¡Œåˆ—
 	//XMMATRIX matProjection;
 
-	////ƒrƒ…[•ÏŠ·s—ñ
+	////ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
 	//XMMATRIX matView;
-	//XMFLOAT3 eye_;//‹“_À•W
-	//XMFLOAT3 target_;//’‹“_À•W
-	//XMFLOAT3 up_;//ã•ûŒüƒxƒNƒgƒ‹
+	//XMFLOAT3 eye_;//è¦–ç‚¹åº§æ¨™
+	//XMFLOAT3 target_;//æ³¨è¦–ç‚¹åº§æ¨™
+	//XMFLOAT3 up_;//ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 
 	//XMMATRIX matWorld;
 	//XMMATRIX matWorld1;
@@ -145,16 +145,16 @@ private:
 	//XMFLOAT3 Rotate_;
 	//XMFLOAT3 Trans_;
 
-	//3DƒIƒuƒWƒFƒNƒg‚Ì”
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°
 	const static size_t kObjectConst = 50;
-	
-	
 
-	//3DƒIƒuƒWƒFƒNƒg‚Ì”z—ñ
+
+
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
 	//Object3D object3Ds[kObjectConst];
 
-	
 
-	
+
+
 
 };

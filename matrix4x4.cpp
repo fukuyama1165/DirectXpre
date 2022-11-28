@@ -25,7 +25,7 @@ Matrix4x4::Matrix4x4(float m00, float m01, float m02, float m03, float m10, floa
 	m[3][1] = m31;
 	m[3][2] = m32;
 	m[3][3] = m33;
-	
+
 }
 
 Matrix4x4::~Matrix4x4()
@@ -55,7 +55,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	Matrix4x4 inverse = {};
 	float calcMat[4][8] = {};
-	
+
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
@@ -71,36 +71,36 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	double calcMatTmp[4][8];
 
-	//‚Ps‚P—ñ‚ð‚P‚É‚·‚é
-	
-	{
-	double max = abs(calcMat[0][0]);
-	int	maxI = 0;
+	//â€šPÂsâ€šPâ€”Ã±â€šÃ°â€šPâ€šÃ‰â€šÂ·â€šÃ©
 
-	for (int i = 1; i < 4; i++)
 	{
-		if (abs(calcMat[i][0]) > max)
+		double max = abs(calcMat[0][0]);
+		int	maxI = 0;
+
+		for (int i = 1; i < 4; i++)
 		{
-			max = abs(calcMat[i][0]);
-			maxI = i;
+			if (abs(calcMat[i][0]) > max)
+			{
+				max = abs(calcMat[i][0]);
+				maxI = i;
+			}
 		}
-	}
 
-	if (abs(calcMat[maxI][0]) <= 0)
-	{
-		Matrix4x4 a = {};
-		a.IdentityMatrix();
-		return a;
-	}
-
-	if (maxI != 0)
-	{
-		for (int j = 0; j < 8; j++) {
-			double tmp = calcMat[maxI][j];
-			calcMat[maxI][j] = calcMat[0][j];
-			calcMat[0][j] = tmp;
+		if (abs(calcMat[maxI][0]) <= 0)
+		{
+			Matrix4x4 a = {};
+			a.IdentityMatrix();
+			return a;
 		}
-	}
+
+		if (maxI != 0)
+		{
+			for (int j = 0; j < 8; j++) {
+				double tmp = calcMat[maxI][j];
+				calcMat[maxI][j] = calcMat[0][j];
+				calcMat[0][j] = tmp;
+			}
+		}
 
 
 	}
@@ -283,7 +283,7 @@ Matrix4x4 Matrix4x4::operator*(Matrix4x4& mat)
 
 Matrix4x4 Matrix4x4::operator*=(const Matrix4x4& mat)
 {
-	Matrix4x4 ansMat=Matrix4x4();
+	Matrix4x4 ansMat = Matrix4x4();
 
 	ansMat.m[0][0] = (m[0][0] * mat.m[0][0]) + (m[0][1] * mat.m[1][0]) + (m[0][2] * mat.m[2][0]) + (m[0][3] * mat.m[3][0]);
 	ansMat.m[0][1] = (m[0][0] * mat.m[0][1]) + (m[0][1] * mat.m[1][1]) + (m[0][2] * mat.m[2][1]) + (m[0][3] * mat.m[3][1]);

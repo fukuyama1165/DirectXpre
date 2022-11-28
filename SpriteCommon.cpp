@@ -18,17 +18,17 @@ void SpriteCommon::initialize(ID3D12Device* dev)
 
 void SpriteCommon::vertexShaderGeneration()
 {
-#pragma region ’¸“_ƒVƒF[ƒ_ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+#pragma region é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 
-	//’¸“_ƒVƒF[ƒ_ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ•Ó
-	//’¸“_ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿è¾º
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	result = D3DCompileFromFile(
-		L"Resources/shaders/SpriteVS.hlsl",//ƒVƒF[ƒ_ƒtƒ@ƒCƒ‹–¼
+		L"Resources/shaders/SpriteVS.hlsl",//ã‚·ã‚§ãƒ¼ãƒ€ãƒ•ã‚¡ã‚¤ãƒ«å
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE,//ƒCƒ“ƒNƒ‹[ƒh‰Â”\‚É‚·‚é
-		"main",//ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg–¼
-		"vs_5_0",//ƒVƒF[ƒ_ƒ‚ƒfƒ‹w’è
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//ƒfƒoƒbƒN—pİ’è
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰å¯èƒ½ã«ã™ã‚‹
+		"main",//ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆå
+		"vs_5_0",//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¢ãƒ‡ãƒ«æŒ‡å®š
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//ãƒ‡ãƒãƒƒã‚¯ç”¨è¨­å®š
 		0,
 		&vsBlob,
 		&errorBlob
@@ -36,12 +36,12 @@ void SpriteCommon::vertexShaderGeneration()
 
 #pragma endregion 
 
-#pragma region ’¸“_ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÌƒGƒ‰[‚ğ•\¦‚·‚éêŠ
+#pragma region é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿æ™‚ã®ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹å ´æ‰€
 
-	//’¸“_ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÌƒGƒ‰[‚ğ•\¦‚·‚éêŠ
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿æ™‚ã®ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹å ´æ‰€
 	if (FAILED(result))
 	{
-		//errorBlob‚©‚çƒGƒ‰[“à—e‚ğstringŒ^‚ÉƒRƒs[
+		//errorBlobã‹ã‚‰ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’stringå‹ã«ã‚³ãƒ”ãƒ¼
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
@@ -49,7 +49,7 @@ void SpriteCommon::vertexShaderGeneration()
 			errorBlob->GetBufferSize(),
 			errstr.begin());
 		errstr += "\n";
-		//ƒGƒ‰[“à—e‚ğƒEƒBƒ“ƒhƒE‚É•\¦
+		//ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤º
 		OutputDebugStringA(errstr.c_str());
 		exit(1);
 	}
@@ -59,16 +59,16 @@ void SpriteCommon::vertexShaderGeneration()
 
 void SpriteCommon::pixelShaderGeneration()
 {
-#pragma region ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+#pragma region ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	result = D3DCompileFromFile(
-		L"Resources/shaders/SpritePS.hlsl",//ƒVƒF[ƒ_ƒtƒ@ƒCƒ‹–¼
+		L"Resources/shaders/SpritePS.hlsl",//ã‚·ã‚§ãƒ¼ãƒ€ãƒ•ã‚¡ã‚¤ãƒ«å
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE,//ƒCƒ“ƒNƒ‹[ƒh‰Â”\‚É‚·‚é
-		"main",//ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg–¼
-		"ps_5_0",//ƒVƒF[ƒ_ƒ‚ƒfƒ‹w’è
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//ƒfƒoƒbƒN—pİ’è
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰å¯èƒ½ã«ã™ã‚‹
+		"main",//ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆå
+		"ps_5_0",//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¢ãƒ‡ãƒ«æŒ‡å®š
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//ãƒ‡ãƒãƒƒã‚¯ç”¨è¨­å®š
 		0,
 		&psBlob,
 		&errorBlob
@@ -76,12 +76,12 @@ void SpriteCommon::pixelShaderGeneration()
 
 #pragma endregion
 
-#pragma region ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÌƒGƒ‰[‚ğ•\¦‚·‚éêŠ
+#pragma region ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿æ™‚ã®ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹å ´æ‰€
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÌƒGƒ‰[‚ğ•\¦‚·‚éêŠ
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿æ™‚ã®ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹å ´æ‰€
 	if (FAILED(result))
 	{
-		//errorBlob‚©‚çƒGƒ‰[“à—e‚ğstringŒ^‚ÉƒRƒs[
+		//errorBlobã‹ã‚‰ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’stringå‹ã«ã‚³ãƒ”ãƒ¼
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
@@ -89,7 +89,7 @@ void SpriteCommon::pixelShaderGeneration()
 			errorBlob->GetBufferSize(),
 			errstr.begin());
 		errstr += "\n";
-		//ƒGƒ‰[“à—e‚ğƒEƒBƒ“ƒhƒE‚É•\¦
+		//ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤º
 		OutputDebugStringA(errstr.c_str());
 		exit(1);
 	}
@@ -99,422 +99,422 @@ void SpriteCommon::pixelShaderGeneration()
 
 void SpriteCommon::vertexLayout()
 {
-#pragma region ’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+#pragma region é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 
-	//’¸“_ƒŒƒCƒAƒEƒg
-	//ƒOƒ‰ƒtƒBƒbƒNƒpƒCƒvƒ‰ƒCƒ“‚Å’¸“_ˆê‚Â•ª‚Ìƒf[ƒ^‚É‰½‚ğ‚½‚¹‚é‚©Œˆ‚ß‚é
-	//‚±‚ê‚ÍÅ’áŒÀ‚Ì3DÀ•W‚¾‚¯‚½‚¹‚Ä‚¢‚é‚ç‚µ‚¢
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã§é ‚ç‚¹ä¸€ã¤åˆ†ã®ãƒ‡ãƒ¼ã‚¿ã«ä½•ã‚’æŒãŸã›ã‚‹ã‹æ±ºã‚ã‚‹
+	//ã“ã‚Œã¯æœ€ä½é™ã®3Dåº§æ¨™ã ã‘æŒãŸã›ã¦ã„ã‚‹ã‚‰ã—ã„
 	inputLayout[0] =
 	{
-		"POSITION",//ƒZƒ}ƒ“ƒeƒBƒbƒN–¼
-		0,//“¯‚¶ƒZƒ}ƒ“ƒeƒBƒbƒN–¼‚ª•¡”‚ ‚é‚Æ‚«‚ÌƒCƒ“ƒfƒbƒNƒX
-		DXGI_FORMAT_R32G32B32_FLOAT,//—v‘f”‚Æƒrƒbƒg”‚ğ•Ô‚·(XYZ‚Ì‚R‚Â‚ÅfloatŒ^‚È‚Ì‚ÅR32G32B32_FLOAT)
-		0,//“ü—ÍƒXƒƒbƒgƒCƒ“ƒfƒbƒNƒX
-		D3D12_APPEND_ALIGNED_ELEMENT,//ƒf[ƒ^‚ÌƒIƒtƒZƒbƒg’l(D3D12_APPEND_ALIGNED_ELEMENT‚¾‚Æ©“®İ’è)
-		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,//“ü—Íƒf[ƒ^¯•Ê(•W€‚ÍD3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA)
-		0,//ˆê“x‚É•`‰æ‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX”
+		"POSITION",//ã‚»ãƒãƒ³ãƒ†ã‚£ãƒƒã‚¯å
+		0,//åŒã˜ã‚»ãƒãƒ³ãƒ†ã‚£ãƒƒã‚¯åãŒè¤‡æ•°ã‚ã‚‹ã¨ãã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		DXGI_FORMAT_R32G32B32_FLOAT,//è¦ç´ æ•°ã¨ãƒ“ãƒƒãƒˆæ•°ã‚’è¿”ã™(XYZã®ï¼“ã¤ã§floatå‹ãªã®ã§R32G32B32_FLOAT)
+		0,//å…¥åŠ›ã‚¹ãƒ­ãƒƒãƒˆã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		D3D12_APPEND_ALIGNED_ELEMENT,//ãƒ‡ãƒ¼ã‚¿ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆå€¤(D3D12_APPEND_ALIGNED_ELEMENTã ã¨è‡ªå‹•è¨­å®š)
+		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,//å…¥åŠ›ãƒ‡ãƒ¼ã‚¿è­˜åˆ¥(æ¨™æº–ã¯D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA)
+		0,//ä¸€åº¦ã«æç”»ã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹æ•°
 	};
-	//À•WˆÈŠO‚É@FAƒeƒNƒXƒ`ƒƒUV‚È‚Ç‚ğ“n‚·ê‡‚Í‚³‚ç‚É‘±‚¯‚é
+	//åº§æ¨™ä»¥å¤–ã«ã€€è‰²ã€ãƒ†ã‚¯ã‚¹ãƒãƒ£UVãªã©ã‚’æ¸¡ã™å ´åˆã¯ã•ã‚‰ã«ç¶šã‘ã‚‹
 
 #pragma endregion
 }
 
 void SpriteCommon::graphicPipelineGeneration()
 {
-#pragma region ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“İ’è
+#pragma region ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³è¨­å®š
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“•Ó
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³è¾º
 
-	//’¸“_ƒVƒF[ƒ_AƒsƒNƒZƒ‹ƒVƒF[ƒ_‚ğƒpƒCƒvƒ‰ƒCƒ“‚Éİ’è
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã€ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚’ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«è¨­å®š
 	gpipeline.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	gpipeline.VS.BytecodeLength = vsBlob->GetBufferSize();
 	gpipeline.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	gpipeline.PS.BytecodeLength = psBlob->GetBufferSize();
 
-	//ƒTƒ“ƒvƒ‹ƒ}ƒXƒN‚Æƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒg‚Ìİ’è
-	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//•W€İ’è
-	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ƒJƒŠƒ“ƒO‚µ‚È‚¢
-	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ƒ|ƒŠƒSƒ““à“h‚è‚Â‚Ô‚µ
-	gpipeline.RasterizerState.DepthClipEnable = true;//[“xƒNƒŠƒbƒsƒ“ƒO‚ğ—LŒø‚É
+	//ã‚µãƒ³ãƒ—ãƒ«ãƒã‚¹ã‚¯ã¨ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//æ¨™æº–è¨­å®š
+	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ã‚«ãƒªãƒ³ã‚°ã—ãªã„
+	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ãƒãƒªã‚´ãƒ³å†…å¡—ã‚Šã¤ã¶ã—
+	gpipeline.RasterizerState.DepthClipEnable = true;//æ·±åº¦ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°ã‚’æœ‰åŠ¹ã«
 
 
-	//ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ìİ’è
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA‘S‚Ä‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ğ•`‰æ
+	//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBAå…¨ã¦ã®ãƒãƒ£ãƒ³ãƒãƒ«ã‚’æç”»
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = gpipeline.BlendState.RenderTarget[0];
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-#pragma region ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ì‹¤’Êİ’è(ƒAƒ‹ƒtƒ@’l)
+#pragma region ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®å…±é€šè¨­å®š(ã‚¢ãƒ«ãƒ•ã‚¡å€¤)
 
-	blenddesc.BlendEnable = true;//ƒuƒŒƒ“ƒh‚ğ—LŒø‚É‚·‚é
-	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//ƒfƒXƒg‚Ì’l‚ğ0%g‚¤
-
-#pragma endregion
-
-
-#pragma region ‰ÁZ‡¬
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;//ƒfƒXƒg‚Ì’l‚ğ100%g‚¤
-
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
-
-#pragma region Œ¸Z‡¬
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//ƒfƒXƒg‚©‚çƒ\[ƒX‚ğŒ¸Z
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;//ƒfƒXƒg‚Ì’l‚ğ100%g‚¤
-
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
-
-#pragma region F”½“]
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-ƒfƒXƒgƒJƒ‰[‚Ì’l
-	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//g‚í‚È‚¢
-
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
-
-#pragma region ”¼“§–¾‡¬
-
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
+	blenddesc.BlendEnable = true;//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’0%ä½¿ã†
 
 #pragma endregion
 
 
+#pragma region åŠ ç®—åˆæˆ
 
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’100%ä½¿ã†
+
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
+
+#pragma region æ¸›ç®—åˆæˆ
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//ãƒ‡ã‚¹ãƒˆã‹ã‚‰ã‚½ãƒ¼ã‚¹ã‚’æ¸›ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’100%ä½¿ã†
+
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
+
+#pragma region è‰²åè»¢
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-ãƒ‡ã‚¹ãƒˆã‚«ãƒ©ãƒ¼ã®å€¤
+	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//ä½¿ã‚ãªã„
+
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
+
+#pragma region åŠé€æ˜åˆæˆ
+
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+
+#pragma endregion
+
+
+
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	gpipeline.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline.InputLayout.NumElements = _countof(inputLayout);
 
-	//}Œ`‚ÌŒ`ó‚ğOŠpŒ`‚Éİ’è
+	//å›³å½¢ã®å½¢çŠ¶ã‚’ä¸‰è§’å½¢ã«è¨­å®š
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	//‚»‚Ì‘¼‚Ìİ’è
-	gpipeline.NumRenderTargets = 1;//•`‰æ‘ÎÛ‚Í‚P‚Â
-	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0`255w’è‚ÌRGBA
-	gpipeline.SampleDesc.Count = 1;//‚PƒsƒNƒZƒ‹‚É‚Â‚«‚P‰ñƒTƒ“ƒvƒŠƒ“ƒO
+	//ãã®ä»–ã®è¨­å®š
+	gpipeline.NumRenderTargets = 1;//æç”»å¯¾è±¡ã¯ï¼‘ã¤
+	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0ï½255æŒ‡å®šã®RGBA
+	gpipeline.SampleDesc.Count = 1;//ï¼‘ãƒ”ã‚¯ã‚»ãƒ«ã«ã¤ãï¼‘å›ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°
 
-#pragma endregion ’Êí•`‰æƒ|ƒŠƒSƒ““à‚ğ“h‚è‚Â‚Ô‚µ(OŠpŒ`)
+#pragma endregion é€šå¸¸æç”»ãƒãƒªã‚´ãƒ³å†…ã‚’å¡—ã‚Šã¤ã¶ã—(ä¸‰è§’å½¢)
 
-#pragma region ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Q‚Ìİ’è
+#pragma region ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ï¼’ã®è¨­å®š
 
-//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“•Ó
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³è¾º
 
 
-	//’¸“_ƒVƒF[ƒ_AƒsƒNƒZƒ‹ƒVƒF[ƒ_‚ğƒpƒCƒvƒ‰ƒCƒ“‚Éİ’è
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã€ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚’ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«è¨­å®š
 	gpipeline2.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	gpipeline2.VS.BytecodeLength = vsBlob->GetBufferSize();
 	gpipeline2.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	gpipeline2.PS.BytecodeLength = psBlob->GetBufferSize();
 
-	//ƒTƒ“ƒvƒ‹ƒ}ƒXƒN‚Æƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒg‚Ìİ’è
-	gpipeline2.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//•W€İ’è
-	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ƒJƒŠƒ“ƒO‚µ‚È‚¢
-	gpipeline2.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;//ƒƒCƒ„[ƒtƒŒ[ƒ€•`‰æ
-	gpipeline2.RasterizerState.DepthClipEnable = true;//[“xƒNƒŠƒbƒsƒ“ƒO‚ğ—LŒø‚É
+	//ã‚µãƒ³ãƒ—ãƒ«ãƒã‚¹ã‚¯ã¨ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	gpipeline2.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//æ¨™æº–è¨­å®š
+	gpipeline2.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ã‚«ãƒªãƒ³ã‚°ã—ãªã„
+	gpipeline2.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;//ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ æç”»
+	gpipeline2.RasterizerState.DepthClipEnable = true;//æ·±åº¦ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°ã‚’æœ‰åŠ¹ã«
 
-	//ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ìİ’è
-	//gpipeline2.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA‘S‚Ä‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ğ•`‰æ
+	//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	//gpipeline2.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBAå…¨ã¦ã®ãƒãƒ£ãƒ³ãƒãƒ«ã‚’æç”»
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc2 = gpipeline2.BlendState.RenderTarget[0];
 	blenddesc2.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-#pragma region ‹¤’Êİ’è(ƒAƒ‹ƒtƒ@’l)
+#pragma region å…±é€šè¨­å®š(ã‚¢ãƒ«ãƒ•ã‚¡å€¤)
 
-	blenddesc2.BlendEnable = true;//ƒuƒŒƒ“ƒh‚ğ—LŒø‚É‚·‚é
-	blenddesc2.BlendOpAlpha = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc2.SrcBlendAlpha = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	blenddesc2.DestBlendAlpha = D3D12_BLEND_ZERO;//ƒfƒXƒg‚Ì’l‚ğ0%g‚¤
-
-#pragma endregion
-
-#pragma region ”¼“§–¾‡¬
-
-	blenddesc2.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc2.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
-	blenddesc2.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
+	blenddesc2.BlendEnable = true;//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	blenddesc2.BlendOpAlpha = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc2.SrcBlendAlpha = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	blenddesc2.DestBlendAlpha = D3D12_BLEND_ZERO;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’0%ä½¿ã†
 
 #pragma endregion
 
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+#pragma region åŠé€æ˜åˆæˆ
+
+	blenddesc2.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc2.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+	blenddesc2.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+
+#pragma endregion
+
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	gpipeline2.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline2.InputLayout.NumElements = _countof(inputLayout);
 
-	//}Œ`‚ÌŒ`ó‚ğOŠpŒ`‚Éİ’è
+	//å›³å½¢ã®å½¢çŠ¶ã‚’ä¸‰è§’å½¢ã«è¨­å®š
 	gpipeline2.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	//‚»‚Ì‘¼‚Ìİ’è
-	gpipeline2.NumRenderTargets = 1;//•`‰æ‘ÎÛ‚Í‚P‚Â
-	gpipeline2.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0`255w’è‚ÌRGBA
-	gpipeline2.SampleDesc.Count = 1;//‚PƒsƒNƒZƒ‹‚É‚Â‚«‚P‰ñƒTƒ“ƒvƒŠƒ“ƒO
+	//ãã®ä»–ã®è¨­å®š
+	gpipeline2.NumRenderTargets = 1;//æç”»å¯¾è±¡ã¯ï¼‘ã¤
+	gpipeline2.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0ï½255æŒ‡å®šã®RGBA
+	gpipeline2.SampleDesc.Count = 1;//ï¼‘ãƒ”ã‚¯ã‚»ãƒ«ã«ã¤ãï¼‘å›ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°
 
-#pragma endregion ’Êí•`‰æƒƒCƒ„[ƒtƒŒ[ƒ€•`‰æ(OŠpŒ`)
+#pragma endregion é€šå¸¸æç”»ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ æç”»(ä¸‰è§’å½¢)
 
-#pragma region ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“3İ’è
+#pragma region ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³3è¨­å®š
 
-//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“•Ó
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³è¾º
 
-//’¸“_ƒVƒF[ƒ_AƒsƒNƒZƒ‹ƒVƒF[ƒ_‚ğƒpƒCƒvƒ‰ƒCƒ“‚Éİ’è
+//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã€ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚’ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«è¨­å®š
 	gpipeline3.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	gpipeline3.VS.BytecodeLength = vsBlob->GetBufferSize();
 	gpipeline3.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	gpipeline3.PS.BytecodeLength = psBlob->GetBufferSize();
 
-	//ƒTƒ“ƒvƒ‹ƒ}ƒXƒN‚Æƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒg‚Ìİ’è
-	gpipeline3.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//•W€İ’è
-	gpipeline3.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ƒJƒŠƒ“ƒO‚µ‚È‚¢
-	gpipeline3.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ƒ|ƒŠƒSƒ““à“h‚è‚Â‚Ô‚µ
-	gpipeline3.RasterizerState.DepthClipEnable = true;//[“xƒNƒŠƒbƒsƒ“ƒO‚ğ—LŒø‚É
+	//ã‚µãƒ³ãƒ—ãƒ«ãƒã‚¹ã‚¯ã¨ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	gpipeline3.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//æ¨™æº–è¨­å®š
+	gpipeline3.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ã‚«ãƒªãƒ³ã‚°ã—ãªã„
+	gpipeline3.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ãƒãƒªã‚´ãƒ³å†…å¡—ã‚Šã¤ã¶ã—
+	gpipeline3.RasterizerState.DepthClipEnable = true;//æ·±åº¦ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°ã‚’æœ‰åŠ¹ã«
 
 
-	//ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ìİ’è
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA‘S‚Ä‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ğ•`‰æ
+	//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBAå…¨ã¦ã®ãƒãƒ£ãƒ³ãƒãƒ«ã‚’æç”»
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc3 = gpipeline3.BlendState.RenderTarget[0];
 	blenddesc3.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-#pragma region ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ì‹¤’Êİ’è(ƒAƒ‹ƒtƒ@’l)
+#pragma region ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®å…±é€šè¨­å®š(ã‚¢ãƒ«ãƒ•ã‚¡å€¤)
 
-	blenddesc3.BlendEnable = true;//ƒuƒŒƒ“ƒh‚ğ—LŒø‚É‚·‚é
-	blenddesc3.BlendOpAlpha = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc3.SrcBlendAlpha = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	blenddesc3.DestBlendAlpha = D3D12_BLEND_ZERO;//ƒfƒXƒg‚Ì’l‚ğ0%g‚¤
+	blenddesc3.BlendEnable = true;//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	blenddesc3.BlendOpAlpha = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc3.SrcBlendAlpha = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	blenddesc3.DestBlendAlpha = D3D12_BLEND_ZERO;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’0%ä½¿ã†
 
 #pragma endregion
 
 
-#pragma region ‰ÁZ‡¬
+#pragma region åŠ ç®—åˆæˆ
 
-	blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	blenddesc3.DestBlend = D3D12_BLEND_ONE;//ƒfƒXƒg‚Ì’l‚ğ100%g‚¤
+	blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	blenddesc3.DestBlend = D3D12_BLEND_ONE;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’100%ä½¿ã†
 
 #pragma endregion 
 
-#pragma region Œ¸Z‡¬
+#pragma region æ¸›ç®—åˆæˆ
 
-	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//ƒfƒXƒg‚©‚çƒ\[ƒX‚ğŒ¸Z
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;//ƒfƒXƒg‚Ì’l‚ğ100%g‚¤
+	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//ãƒ‡ã‚¹ãƒˆã‹ã‚‰ã‚½ãƒ¼ã‚¹ã‚’æ¸›ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	//blenddesc.DestBlend = D3D12_BLEND_ONE;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’100%ä½¿ã†
 
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
 
-#pragma region F”½“]
+#pragma region è‰²åè»¢
 
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-ƒfƒXƒgƒJƒ‰[‚Ì’l
-	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//g‚í‚È‚¢
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-ãƒ‡ã‚¹ãƒˆã‚«ãƒ©ãƒ¼ã®å€¤
+	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//ä½¿ã‚ãªã„
 
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
 
-#pragma region ”¼“§–¾‡¬
+#pragma region åŠé€æ˜åˆæˆ
 
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
 
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
 
 
 
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	gpipeline3.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline3.InputLayout.NumElements = _countof(inputLayout);
 
-	//}Œ`‚ÌŒ`ó‚ğOŠpŒ`‚Éİ’è
+	//å›³å½¢ã®å½¢çŠ¶ã‚’ä¸‰è§’å½¢ã«è¨­å®š
 	gpipeline3.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	//‚»‚Ì‘¼‚Ìİ’è
-	gpipeline3.NumRenderTargets = 1;//•`‰æ‘ÎÛ‚Í‚P‚Â
-	gpipeline3.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0`255w’è‚ÌRGBA
-	gpipeline3.SampleDesc.Count = 1;//‚PƒsƒNƒZƒ‹‚É‚Â‚«‚P‰ñƒTƒ“ƒvƒŠƒ“ƒO
+	//ãã®ä»–ã®è¨­å®š
+	gpipeline3.NumRenderTargets = 1;//æç”»å¯¾è±¡ã¯ï¼‘ã¤
+	gpipeline3.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0ï½255æŒ‡å®šã®RGBA
+	gpipeline3.SampleDesc.Count = 1;//ï¼‘ãƒ”ã‚¯ã‚»ãƒ«ã«ã¤ãï¼‘å›ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°
 
-#pragma endregion ’Êí•`‰æƒ|ƒŠƒSƒ““à‚ğ“h‚è‚Â‚Ô‚µ(OŠpŒ`)‰ÁZ‡¬
+#pragma endregion é€šå¸¸æç”»ãƒãƒªã‚´ãƒ³å†…ã‚’å¡—ã‚Šã¤ã¶ã—(ä¸‰è§’å½¢)åŠ ç®—åˆæˆ
 
-#pragma region ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“4İ’è
+#pragma region ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³4è¨­å®š
 
-//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“•Ó
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³è¾º
 
-//’¸“_ƒVƒF[ƒ_AƒsƒNƒZƒ‹ƒVƒF[ƒ_‚ğƒpƒCƒvƒ‰ƒCƒ“‚Éİ’è
+//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã€ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚’ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«è¨­å®š
 	gpipeline4.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	gpipeline4.VS.BytecodeLength = vsBlob->GetBufferSize();
 	gpipeline4.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	gpipeline4.PS.BytecodeLength = psBlob->GetBufferSize();
 
-	//ƒTƒ“ƒvƒ‹ƒ}ƒXƒN‚Æƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒg‚Ìİ’è
-	gpipeline4.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//•W€İ’è
-	gpipeline4.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ƒJƒŠƒ“ƒO‚µ‚È‚¢
-	gpipeline4.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ƒ|ƒŠƒSƒ““à“h‚è‚Â‚Ô‚µ
-	gpipeline4.RasterizerState.DepthClipEnable = true;//[“xƒNƒŠƒbƒsƒ“ƒO‚ğ—LŒø‚É
+	//ã‚µãƒ³ãƒ—ãƒ«ãƒã‚¹ã‚¯ã¨ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	gpipeline4.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//æ¨™æº–è¨­å®š
+	gpipeline4.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ã‚«ãƒªãƒ³ã‚°ã—ãªã„
+	gpipeline4.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ãƒãƒªã‚´ãƒ³å†…å¡—ã‚Šã¤ã¶ã—
+	gpipeline4.RasterizerState.DepthClipEnable = true;//æ·±åº¦ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°ã‚’æœ‰åŠ¹ã«
 
 
-	//ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ìİ’è
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA‘S‚Ä‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ğ•`‰æ
+	//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBAå…¨ã¦ã®ãƒãƒ£ãƒ³ãƒãƒ«ã‚’æç”»
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc4 = gpipeline4.BlendState.RenderTarget[0];
 	blenddesc4.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-#pragma region ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ì‹¤’Êİ’è(ƒAƒ‹ƒtƒ@’l)
+#pragma region ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®å…±é€šè¨­å®š(ã‚¢ãƒ«ãƒ•ã‚¡å€¤)
 
-	blenddesc4.BlendEnable = true;//ƒuƒŒƒ“ƒh‚ğ—LŒø‚É‚·‚é
-	blenddesc4.BlendOpAlpha = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc4.SrcBlendAlpha = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	blenddesc4.DestBlendAlpha = D3D12_BLEND_ZERO;//ƒfƒXƒg‚Ì’l‚ğ0%g‚¤
-
-#pragma endregion
-
-
-#pragma region ‰ÁZ‡¬
-
-	//blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	//blenddesc3.DestBlend = D3D12_BLEND_ONE;//ƒfƒXƒg‚Ì’l‚ğ100%g‚¤
-
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
-
-#pragma region Œ¸Z‡¬
-
-	blenddesc4.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//ƒfƒXƒg‚©‚çƒ\[ƒX‚ğŒ¸Z
-	blenddesc4.SrcBlend = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	blenddesc4.DestBlend = D3D12_BLEND_ONE;//ƒfƒXƒg‚Ì’l‚ğ100%g‚¤
+	blenddesc4.BlendEnable = true;//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	blenddesc4.BlendOpAlpha = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc4.SrcBlendAlpha = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	blenddesc4.DestBlendAlpha = D3D12_BLEND_ZERO;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’0%ä½¿ã†
 
 #pragma endregion
 
-#pragma region F”½“]
 
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-ƒfƒXƒgƒJƒ‰[‚Ì’l
-	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//g‚í‚È‚¢
+#pragma region åŠ ç®—åˆæˆ
 
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
+	//blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	//blenddesc3.DestBlend = D3D12_BLEND_ONE;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’100%ä½¿ã†
 
-#pragma region ”¼“§–¾‡¬
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
 
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
+#pragma region æ¸›ç®—åˆæˆ
 
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
+	blenddesc4.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//ãƒ‡ã‚¹ãƒˆã‹ã‚‰ã‚½ãƒ¼ã‚¹ã‚’æ¸›ç®—
+	blenddesc4.SrcBlend = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	blenddesc4.DestBlend = D3D12_BLEND_ONE;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’100%ä½¿ã†
+
+#pragma endregion
+
+#pragma region è‰²åè»¢
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-ãƒ‡ã‚¹ãƒˆã‚«ãƒ©ãƒ¼ã®å€¤
+	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//ä½¿ã‚ãªã„
+
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
+
+#pragma region åŠé€æ˜åˆæˆ
+
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
 
 
 
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	gpipeline4.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline4.InputLayout.NumElements = _countof(inputLayout);
 
-	//}Œ`‚ÌŒ`ó‚ğOŠpŒ`‚Éİ’è
+	//å›³å½¢ã®å½¢çŠ¶ã‚’ä¸‰è§’å½¢ã«è¨­å®š
 	gpipeline4.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	//‚»‚Ì‘¼‚Ìİ’è
-	gpipeline4.NumRenderTargets = 1;//•`‰æ‘ÎÛ‚Í‚P‚Â
-	gpipeline4.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0`255w’è‚ÌRGBA
-	gpipeline4.SampleDesc.Count = 1;//‚PƒsƒNƒZƒ‹‚É‚Â‚«‚P‰ñƒTƒ“ƒvƒŠƒ“ƒO
+	//ãã®ä»–ã®è¨­å®š
+	gpipeline4.NumRenderTargets = 1;//æç”»å¯¾è±¡ã¯ï¼‘ã¤
+	gpipeline4.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0ï½255æŒ‡å®šã®RGBA
+	gpipeline4.SampleDesc.Count = 1;//ï¼‘ãƒ”ã‚¯ã‚»ãƒ«ã«ã¤ãï¼‘å›ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°
 
-#pragma endregion ’Êí•`‰æƒ|ƒŠƒSƒ““à‚ğ“h‚è‚Â‚Ô‚µ(OŠpŒ`)Œ¸Z‡¬
+#pragma endregion é€šå¸¸æç”»ãƒãƒªã‚´ãƒ³å†…ã‚’å¡—ã‚Šã¤ã¶ã—(ä¸‰è§’å½¢)æ¸›ç®—åˆæˆ
 
-#pragma region ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“5İ’è
+#pragma region ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³5è¨­å®š
 
-//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“•Ó
+//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³è¾º
 
-//’¸“_ƒVƒF[ƒ_AƒsƒNƒZƒ‹ƒVƒF[ƒ_‚ğƒpƒCƒvƒ‰ƒCƒ“‚Éİ’è
+//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã€ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚’ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«è¨­å®š
 	gpipeline5.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	gpipeline5.VS.BytecodeLength = vsBlob->GetBufferSize();
 	gpipeline5.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	gpipeline5.PS.BytecodeLength = psBlob->GetBufferSize();
 
-	//ƒTƒ“ƒvƒ‹ƒ}ƒXƒN‚Æƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒg‚Ìİ’è
-	gpipeline5.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//•W€İ’è
-	gpipeline5.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ƒJƒŠƒ“ƒO‚µ‚È‚¢
-	gpipeline5.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ƒ|ƒŠƒSƒ““à“h‚è‚Â‚Ô‚µ
-	gpipeline5.RasterizerState.DepthClipEnable = true;//[“xƒNƒŠƒbƒsƒ“ƒO‚ğ—LŒø‚É
+	//ã‚µãƒ³ãƒ—ãƒ«ãƒã‚¹ã‚¯ã¨ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	gpipeline5.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//æ¨™æº–è¨­å®š
+	gpipeline5.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//ã‚«ãƒªãƒ³ã‚°ã—ãªã„
+	gpipeline5.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ãƒãƒªã‚´ãƒ³å†…å¡—ã‚Šã¤ã¶ã—
+	gpipeline5.RasterizerState.DepthClipEnable = true;//æ·±åº¦ã‚¯ãƒªãƒƒãƒ”ãƒ³ã‚°ã‚’æœ‰åŠ¹ã«
 
 
-	//ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ìİ’è
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA‘S‚Ä‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ğ•`‰æ
+	//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBAå…¨ã¦ã®ãƒãƒ£ãƒ³ãƒãƒ«ã‚’æç”»
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc5 = gpipeline5.BlendState.RenderTarget[0];
 	blenddesc5.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-#pragma region ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ì‹¤’Êİ’è(ƒAƒ‹ƒtƒ@’l)
+#pragma region ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®å…±é€šè¨­å®š(ã‚¢ãƒ«ãƒ•ã‚¡å€¤)
 
-	blenddesc5.BlendEnable = true;//ƒuƒŒƒ“ƒh‚ğ—LŒø‚É‚·‚é
-	blenddesc5.BlendOpAlpha = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc5.SrcBlendAlpha = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	blenddesc5.DestBlendAlpha = D3D12_BLEND_ZERO;//ƒfƒXƒg‚Ì’l‚ğ0%g‚¤
+	blenddesc5.BlendEnable = true;//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	blenddesc5.BlendOpAlpha = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc5.SrcBlendAlpha = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	blenddesc5.DestBlendAlpha = D3D12_BLEND_ZERO;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’0%ä½¿ã†
 
 #pragma endregion
 
 
-#pragma region ‰ÁZ‡¬
+#pragma region åŠ ç®—åˆæˆ
 
-	//blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	//blenddesc3.DestBlend = D3D12_BLEND_ONE;//ƒfƒXƒg‚Ì’l‚ğ100%g‚¤
+	//blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	//blenddesc3.DestBlend = D3D12_BLEND_ONE;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’100%ä½¿ã†
 
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
 
-#pragma region Œ¸Z‡¬
+#pragma region æ¸›ç®—åˆæˆ
 
-	//blenddesc4.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//ƒfƒXƒg‚©‚çƒ\[ƒX‚ğŒ¸Z
-	//blenddesc4.SrcBlend = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	//blenddesc4.DestBlend = D3D12_BLEND_ONE;//ƒfƒXƒg‚Ì’l‚ğ100%g‚¤
+	//blenddesc4.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//ãƒ‡ã‚¹ãƒˆã‹ã‚‰ã‚½ãƒ¼ã‚¹ã‚’æ¸›ç®—
+	//blenddesc4.SrcBlend = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	//blenddesc4.DestBlend = D3D12_BLEND_ONE;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’100%ä½¿ã†
 
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
 
-#pragma region F”½“]
+#pragma region è‰²åè»¢
 
-	blenddesc5.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc5.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-ƒfƒXƒgƒJƒ‰[‚Ì’l
-	blenddesc5.DestBlend = D3D12_BLEND_ZERO;//g‚í‚È‚¢
+	blenddesc5.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc5.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-ãƒ‡ã‚¹ãƒˆã‚«ãƒ©ãƒ¼ã®å€¤
+	blenddesc5.DestBlend = D3D12_BLEND_ZERO;//ä½¿ã‚ãªã„
 
 #pragma endregion 
 
-#pragma region ”¼“§–¾‡¬
+#pragma region åŠé€æ˜åˆæˆ
 
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
+	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
 
-#pragma endregion ƒRƒƒ“ƒgƒAƒEƒg’†
+#pragma endregion ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆä¸­
 
 
 
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	gpipeline5.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline5.InputLayout.NumElements = _countof(inputLayout);
 
-	//}Œ`‚ÌŒ`ó‚ğOŠpŒ`‚Éİ’è
+	//å›³å½¢ã®å½¢çŠ¶ã‚’ä¸‰è§’å½¢ã«è¨­å®š
 	gpipeline5.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	//‚»‚Ì‘¼‚Ìİ’è
-	gpipeline5.NumRenderTargets = 1;//•`‰æ‘ÎÛ‚Í‚P‚Â
-	gpipeline5.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0`255w’è‚ÌRGBA
-	gpipeline5.SampleDesc.Count = 1;//‚PƒsƒNƒZƒ‹‚É‚Â‚«‚P‰ñƒTƒ“ƒvƒŠƒ“ƒO
+	//ãã®ä»–ã®è¨­å®š
+	gpipeline5.NumRenderTargets = 1;//æç”»å¯¾è±¡ã¯ï¼‘ã¤
+	gpipeline5.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;//0ï½255æŒ‡å®šã®RGBA
+	gpipeline5.SampleDesc.Count = 1;//ï¼‘ãƒ”ã‚¯ã‚»ãƒ«ã«ã¤ãï¼‘å›ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°
 
-#pragma endregion ’Êí•`‰æƒ|ƒŠƒSƒ““à‚ğ“h‚è‚Â‚Ô‚µ(OŠpŒ`)F”½“]
+#pragma endregion é€šå¸¸æç”»ãƒãƒªã‚´ãƒ³å†…ã‚’å¡—ã‚Šã¤ã¶ã—(ä¸‰è§’å½¢)è‰²åè»¢
 
 }
 
 void SpriteCommon::rootsignatureGeneration(ID3D12Device* dev)
 {
-#pragma region ƒ‹[ƒgƒVƒOƒlƒ`ƒƒİ’è
+#pragma region ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£è¨­å®š
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚Ìİ’è
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã®è¨­å®š
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚Ì¶¬
+
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã®ç”Ÿæˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	result = dev->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
 
 
-	//ƒpƒCƒvƒ‰ƒCƒ“‚Éƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚ğƒZƒbƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã‚’ã‚»ãƒƒãƒˆ
 	gpipeline.pRootSignature = rootsignature.Get();
 
-	//ƒpƒCƒvƒ‰ƒCƒ“2‚É‚àƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚ğƒZƒbƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³2ã«ã‚‚ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã‚’ã‚»ãƒƒãƒˆ
 	gpipeline2.pRootSignature = rootsignature.Get();
 
 	gpipeline3.pRootSignature = rootsignature.Get();
@@ -523,33 +523,33 @@ void SpriteCommon::rootsignatureGeneration(ID3D12Device* dev)
 
 	gpipeline5.pRootSignature = rootsignature.Get();
 
-#pragma endregion ’è”ƒoƒbƒtƒ@‚ğ‘‚â‚µ‚½‚çƒ‹[ƒgƒpƒ‰ƒ[ƒ^‚ğ‘‚«Š·‚¦ƒpƒ‰ƒ[ƒ^”‚ğ‘‚«Š·‚¦‚é
+#pragma endregion å®šæ•°ãƒãƒƒãƒ•ã‚¡ã‚’å¢—ã‚„ã—ãŸã‚‰ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’æ›¸ãæ›ãˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ•°ã‚’æ›¸ãæ›ãˆã‚‹
 
-#pragma region ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg
+#pragma region ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆ
 
-	////ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg‚Ìİ’è
-	//gpipeline.DepthStencilState.DepthEnable = true;//[“xƒeƒXƒg‚ğs‚¤
-	//gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//‘‚«‚İ‹–‰Â
-	//gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//¬‚³‚¯‚ê‚Î‡Ši
-	//gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;//[“x’lƒtƒH[ƒ}ƒbƒg
+	////ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	//gpipeline.DepthStencilState.DepthEnable = true;//æ·±åº¦ãƒ†ã‚¹ãƒˆã‚’è¡Œã†
+	//gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//æ›¸ãè¾¼ã¿è¨±å¯
+	//gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//å°ã•ã‘ã‚Œã°åˆæ ¼
+	//gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;//æ·±åº¦å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 
-	//gpipeline2.DepthStencilState.DepthEnable = true;//[“xƒeƒXƒg‚ğs‚¤
-	//gpipeline2.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//‘‚«‚İ‹–‰Â
-	//gpipeline2.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//¬‚³‚¯‚ê‚Î‡Ši
-	//gpipeline2.DSVFormat = DXGI_FORMAT_D32_FLOAT;//[“x’lƒtƒH[ƒ}ƒbƒg
+	//gpipeline2.DepthStencilState.DepthEnable = true;//æ·±åº¦ãƒ†ã‚¹ãƒˆã‚’è¡Œã†
+	//gpipeline2.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//æ›¸ãè¾¼ã¿è¨±å¯
+	//gpipeline2.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//å°ã•ã‘ã‚Œã°åˆæ ¼
+	//gpipeline2.DSVFormat = DXGI_FORMAT_D32_FLOAT;//æ·±åº¦å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 
 
 
 #pragma endregion
 
 
-#pragma region ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg‚Ì¶¬
+#pragma region ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã®ç”Ÿæˆ
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg‚Ì¶¬
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã®ç”Ÿæˆ
 
 	result = dev->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate));
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg‚Q‚Ì¶¬
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆï¼’ã®ç”Ÿæˆ
 
 	result = dev->CreateGraphicsPipelineState(&gpipeline2, IID_PPV_ARGS(&pipelinestate2));
 
@@ -562,4 +562,3 @@ void SpriteCommon::rootsignatureGeneration(ID3D12Device* dev)
 #pragma endregion
 
 }
-

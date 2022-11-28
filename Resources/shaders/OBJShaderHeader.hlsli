@@ -1,9 +1,9 @@
 cbuffer cbuff0:register(b0)
 {
-	matrix mat;//3D•ÏŠ·s—ñ
+	matrix mat;//3Då¤‰æ›è¡Œåˆ—
 }
 
-cbuffer cbuff1 : register(b1)//’è”ƒoƒbƒtƒ@‚Ì”Ô†‚ğb‚ÌŒã‚ë‚É‚Â‚¯‚é
+cbuffer cbuff1 : register(b1)//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç•ªå·ã‚’bã®å¾Œã‚ã«ã¤ã‘ã‚‹
 {
 	float3 m_ambient:packoffset(c0);
 	float3 m_diffuse:packoffset(c1);
@@ -12,14 +12,14 @@ cbuffer cbuff1 : register(b1)//’è”ƒoƒbƒtƒ@‚Ì”Ô†‚ğb‚ÌŒã‚ë‚É‚Â‚¯‚é
 }
 
 
-//’¸“_ƒVƒF[ƒ_[‚Ìo—Í\‘¢‘Ì
-//(’¸“_ƒVƒF[ƒ_[‚©‚çƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚Ö‚Ì‚â‚èæ‚è‚Ég—p‚·‚é)
+//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®å‡ºåŠ›æ§‹é€ ä½“
+//(é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¸ã®ã‚„ã‚Šå–ã‚Šã«ä½¿ç”¨ã™ã‚‹)
 struct VSOutput
 {
-	//ƒVƒXƒeƒ€—p’¸“_À•W
+	//ã‚·ã‚¹ãƒ†ãƒ ç”¨é ‚ç‚¹åº§æ¨™
 	float4 svpos:SV_POSITION;
-	//–@üƒxƒNƒgƒ‹
+	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 	float3 normal:NORMAL;
-	//uv’l
+	//uvå€¤
 	float2 uv:TEXCOORD;
 };

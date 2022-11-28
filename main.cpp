@@ -1,6 +1,6 @@
 #include<Windows.h>
 
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -10,16 +10,16 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//”Šwƒ‰ƒCƒuƒ‰ƒŠ(Å“K‰»‚³‚ê‚·‚¬‚ÄŽg‚¢‚É‚­‚¢‚ç‚µ‚¢‚Ì‚Å‚ ‚Æ‚ÅŽ©ì‚µ‚ë‚Á‚Ä)
+//æ•°å­¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(æœ€é©åŒ–ã•ã‚Œã™ãŽã¦ä½¿ã„ã«ãã„ã‚‰ã—ã„ã®ã§ã‚ã¨ã§è‡ªä½œã—ã‚ã£ã¦)
 #include<DirectXMath.h>
 using namespace DirectX;
 
-//#pragma comment‚Æ‚ÍAƒIƒuƒWƒFƒNƒgƒtƒ@ƒCƒ‹‚ÉA
-//ƒŠƒ“ƒJ‚ÅƒŠƒ“ƒN‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ì–¼‘O‚ð‹Lq‚·‚é‚à‚Ì
+//#pragma commentã¨ã¯ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«ã€
+//ãƒªãƒ³ã‚«ã§ãƒªãƒ³ã‚¯ã™ã‚‹ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åå‰ã‚’è¨˜è¿°ã™ã‚‹ã‚‚ã®
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-//ƒL[ƒ{[ƒh‚âƒRƒ“ƒgƒ[ƒ‰[‚È‚Ç‚Ì“ü—Í‚·‚éƒwƒbƒ_‚Æƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
+//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚„ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãªã©ã®å…¥åŠ›ã™ã‚‹ãƒ˜ãƒƒãƒ€ã¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒªãƒ³ã‚¯
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
@@ -45,24 +45,24 @@ const float PI = 3.141592653589f;
 
 #include "Sprite.h"
 
-#pragma region ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
+#pragma region ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
 
 
 //LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 //{
 //	switch (msg)
 //	{
-//	case WM_DESTROY://ƒEƒBƒ“ƒhƒE‚ª”jŠü‚³‚ê‚½
-//		PostQuitMessage(0);//OS‚É‘Î‚µ‚ÄAI‚í‚Á‚½‚±‚Æ‚ð“`‚¦‚é
+//	case WM_DESTROY://ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒç ´æ£„ã•ã‚ŒãŸ
+//		PostQuitMessage(0);//OSã«å¯¾ã—ã¦ã€çµ‚ã‚ã£ãŸã“ã¨ã‚’ä¼ãˆã‚‹
 //		return 0;
 //	}
-//	return DefWindowProc(hwnd, msg, wparam, lparam);//•W€‚Ìˆ—‚ð‚·‚é
+//	return DefWindowProc(hwnd, msg, wparam, lparam);//æ¨™æº–ã®å‡¦ç†ã‚’ã™ã‚‹
 //}
 
 #pragma endregion
 
 
-//ƒfƒoƒCƒX”­Œ©Žž‚ÌŽÀs‚³‚ê‚é
+//ãƒ‡ãƒã‚¤ã‚¹ç™ºè¦‹æ™‚ã®å®Ÿè¡Œã•ã‚Œã‚‹
 BOOL CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE ipddi, LPVOID pvRef)
 {
 	return DIENUM_CONTINUE;
@@ -70,15 +70,15 @@ BOOL CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE ipddi, LPVOID pvRef)
 
 
 /// <summary>
-/// “ñŽŸŒ³‚ÌƒAƒtƒBƒ“•ÏŠ·‚ð‚·‚éŠÖ”
+/// äºŒæ¬¡å…ƒã®ã‚¢ãƒ•ã‚£ãƒ³å¤‰æ›ã‚’ã™ã‚‹é–¢æ•°
 /// </summary>
-/// <param name="box">’¸“_ƒf[ƒ^(X,Y)</param>
-/// <param name="box">}Œ`‚Ì’†‚ÌŒ´“_(X,Y)</param>
-/// <param name="moveX">x•ûŒü‚ÌˆÚ“®—Ê</param>
-/// <param name="moveY">y•ûŒü‚ÌˆÚ“®—Ê</param>
-/// <param name="rotate">‰ñ“]Šp“x(“x”–@)</param>
-/// <param name="scaleX">x•ûŒü‚ÌŠg‘å—¦</param>
-/// <param name="scaleY">y•ûŒü‚ÌŠg‘å—¦</param>
+/// <param name="box">é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿(X,Y)</param>
+/// <param name="box">å›³å½¢ã®ä¸­ã®åŽŸç‚¹(X,Y)</param>
+/// <param name="moveX">xæ–¹å‘ã®ç§»å‹•é‡</param>
+/// <param name="moveY">yæ–¹å‘ã®ç§»å‹•é‡</param>
+/// <param name="rotate">å›žè»¢è§’åº¦(åº¦æ•°æ³•)</param>
+/// <param name="scaleX">xæ–¹å‘ã®æ‹¡å¤§çŽ‡</param>
+/// <param name="scaleY">yæ–¹å‘ã®æ‹¡å¤§çŽ‡</param>
 XMFLOAT3 Afin(XMFLOAT3 box, XMFLOAT3 box2, float moveX, float moveY, float rotate, float scaleX, float scaleY);
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -89,16 +89,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	winApp = new WinApp();
 
 	winApp->initialize();
-	
-	//directX‚Ì‰Šú‰»
+
+	//directXã®åˆæœŸåŒ–
 	DirectXInit* directXinit;
 
 	directXinit = DirectXInit::GetInstance();
 
 	directXinit->Init(winApp->getW(), winApp->getHwnd(), winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
-	//“ü—Í‚Ì‰Šú‰»
-	Input* input=new Input();
+	//å…¥åŠ›ã®åˆæœŸåŒ–
+	Input* input = new Input();
 
 	input->init(winApp->getW(), winApp->getHwnd());
 
@@ -106,7 +106,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3D charactorObj;
 	Object3D charactorObj2;
 
-	//.obj‚ÌƒIƒuƒWƒFƒNƒg
+	//.objã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
 
@@ -126,15 +126,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	sprite.initialize(directXinit->Getdev().Get());
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgØ‚è‘Ö‚¦—pƒtƒ‰ƒO
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆåˆ‡ã‚Šæ›¿ãˆç”¨ãƒ•ãƒ©ã‚°
 	bool PipeLineRuleFlag = true;
 
-	//ŽlŠpŒ`‚É•ÏX‚·‚é‚Æ‚«‚Ìƒtƒ‰ƒO
+	//å››è§’å½¢ã«å¤‰æ›´ã™ã‚‹ã¨ãã®ãƒ•ãƒ©ã‚°
 	bool ChangeSquareFlag = false;
 
 	bool ChangeTexure = false;
 
-	
+
 	float Red = 1.0f;
 	float Green = 0.0f;
 	float Blue = 0.0f;
@@ -147,18 +147,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float scaleX = 1;
 	float scaleY = 1;
 
-	float angle = 0.0f;//ƒJƒƒ‰‚Ì‰ñ“]Šp
-	float angleY = 0.0f;//ƒJƒƒ‰‚Ì‰ñ“]Šp
+	float angle = 0.0f;//ã‚«ãƒ¡ãƒ©ã®å›žè»¢è§’
+	float angleY = 0.0f;//ã‚«ãƒ¡ãƒ©ã®å›žè»¢è§’
 
-	//À•W
-	Float3 pos={};
+	//åº§æ¨™
+	Float3 pos = {};
 
-	//ì‚Á‚½‚Ì‚ª¬‚³‚©‚Á‚½‚Ì‚Å
+	//ä½œã£ãŸã®ãŒå°ã•ã‹ã£ãŸã®ã§
 	/*test.SetScale({ 20,20,0 });
 	test.obj3DUpdate();*/
 
 
-	//ƒQ[ƒ€ƒ‹[ƒv
+	//ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
 	while (true)
 	{
 
@@ -169,11 +169,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		}
 
-#pragma region DirectX–ˆƒtƒŒ[ƒ€ˆ—
+#pragma region DirectXæ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 
-		//DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚©‚ç
-		
-#pragma region ƒL[ƒ{[ƒhî•ñ‚ÌŽæ“¾
+		//DirectXæ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ã€€ã“ã“ã‹ã‚‰
+
+#pragma region ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—
 
 		input->update();
 
@@ -181,57 +181,57 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		directXinit->DrawStart();
 
-#pragma region •`‰æƒRƒ}ƒ“ƒh
+#pragma region æç”»ã‚³ãƒžãƒ³ãƒ‰
 
-		// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚©‚ç
-		
-		//ƒrƒ…[ƒ|[ƒgÝ’è
-		//•ªŠ„•ª‚Ìƒrƒ…[ƒ|[ƒg‚ð—pˆÓ(Œ©‚É‚­‚¢‚Ì‚ÅŒ¸‚ç‚µ‚½)
+		// 4.æç”»ã‚³ãƒžãƒ³ãƒ‰ã“ã“ã‹ã‚‰
+
+		//ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¨­å®š
+		//åˆ†å‰²åˆ†ã®ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆã‚’ç”¨æ„(è¦‹ã«ãã„ã®ã§æ¸›ã‚‰ã—ãŸ)
 		D3D12_VIEWPORT viewport{};
 
-		viewport.Width = winApp->getWindowSizeWidth();//‰¡•
-		viewport.Height = winApp->getWindowSizeHeight();//c•
-		viewport.TopLeftX = 0;//¶ãX
-		viewport.TopLeftY = 0;//¶ãY
-		viewport.MinDepth = 0.1f;//Å­[“x(0‚Å‚æ‚¢)
-		viewport.MaxDepth = 1.0f;//Å‘å[“x(‚P‚Å‚æ‚¢)
+		viewport.Width = winApp->getWindowSizeWidth();//æ¨ªå¹…
+		viewport.Height = winApp->getWindowSizeHeight();//ç¸¦å¹…
+		viewport.TopLeftX = 0;//å·¦ä¸ŠX
+		viewport.TopLeftY = 0;//å·¦ä¸ŠY
+		viewport.MinDepth = 0.1f;//æœ€å°‘æ·±åº¦(0ã§ã‚ˆã„)
+		viewport.MaxDepth = 1.0f;//æœ€å¤§æ·±åº¦(ï¼‘ã§ã‚ˆã„)
 
-		//ƒRƒ}ƒ“ƒhƒŠƒXƒg‚É’Ç‰Á
+		//ã‚³ãƒžãƒ³ãƒ‰ãƒªã‚¹ãƒˆã«è¿½åŠ 
 		directXinit->GetcmdList()->RSSetViewports(1, &viewport);
-		
 
-		//ƒVƒU[‹éŒ`Ý’è
+
+		//ã‚·ã‚¶ãƒ¼çŸ©å½¢è¨­å®š
 		D3D12_RECT scissorrect{};
 
-		scissorrect.left = 0;//Ø‚è”²‚«À•W¶
-		scissorrect.right = scissorrect.left + winApp->getWindowSizeWidth();//Ø‚è”²‚«À•W‰E
-		scissorrect.top = 0;//Ø‚è”²‚«À•Wã
-		scissorrect.bottom = scissorrect.top + winApp->getWindowSizeHeight();//Ø‚è”²‚«À•W‰º
+		scissorrect.left = 0;//åˆ‡ã‚ŠæŠœãåº§æ¨™å·¦
+		scissorrect.right = scissorrect.left + winApp->getWindowSizeWidth();//åˆ‡ã‚ŠæŠœãåº§æ¨™å³
+		scissorrect.top = 0;//åˆ‡ã‚ŠæŠœãåº§æ¨™ä¸Š
+		scissorrect.bottom = scissorrect.top + winApp->getWindowSizeHeight();//åˆ‡ã‚ŠæŠœãåº§æ¨™ä¸‹
 
 		directXinit->GetcmdList()->RSSetScissorRects(1, &scissorrect);
 
-		//ƒvƒŠƒ~ƒeƒBƒuŒ`ó(ŽOŠpŒ`ƒŠƒXƒg)
+		//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å½¢çŠ¶(ä¸‰è§’å½¢ãƒªã‚¹ãƒˆ)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		
-		
+
+
 		//charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag,true);
 		charactorObj2.Draw(directXinit->GetcmdList().Get(), texname, PipeLineRuleFlag);
 
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
 		//sprite.Draw(directXinit->GetcmdList().Get(), spritecommon, PipeLineRuleFlag);
-		
-		// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚Ü‚Å
+
+		// 4.æç”»ã‚³ãƒžãƒ³ãƒ‰ã“ã“ã¾ã§
 
 #pragma endregion
 
 		directXinit->DrawEnd();
 
-		//DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚Ü‚Å
+		//DirectXæ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ã€€ã“ã“ã¾ã§
 
 #pragma endregion
 
-#pragma region XVˆ—
+#pragma region æ›´æ–°å‡¦ç†
 
 		if (input->TriggerKey(DIK_2))
 		{
@@ -249,7 +249,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 
-		if (input->PushKey(DIK_D) or input->PushKey(DIK_A)or input->PushKey(DIK_W)or input->PushKey(DIK_S))
+		if (input->PushKey(DIK_D) or input->PushKey(DIK_A) or input->PushKey(DIK_W) or input->PushKey(DIK_S))
 		{
 			if (input->PushKey(DIK_D))
 			{
@@ -269,8 +269,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			}
 
 			//charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,-400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
-			charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,  -400 * cosf(angle)}, {0,0,0}, {0,1,0});
-			charactorObj2.matViewUpdata({ -400 * sinf(angle),angleY,  -400 * cosf(angle)}, {0,0,0}, {0,1,0});
+			charactorObj.matViewUpdata({ -400 * sinf(angle),angleY,  -400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
+			charactorObj2.matViewUpdata({ -400 * sinf(angle),angleY,  -400 * cosf(angle) }, { 0,0,0 }, { 0,1,0 });
 
 		}
 
@@ -299,10 +299,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		}
 
-		
 
 
-		//F•ÏX
+
+		//è‰²å¤‰æ›´
 		if (Red > 0 and Blue <= 0)
 		{
 			Red -= 0.05f;
@@ -321,19 +321,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma endregion
 
-#pragma region •`‰æˆ—
+#pragma region æç”»å‡¦ç†
 
 		//charactorObj.colorMap(Red, Green, Blue);
 
 #pragma endregion
 
-		
+
 
 	}
-	
+
 	delete winApp;
 
-	//texture.h‚ð“Ç‚Ýž‚ñ‚Å‚¢‚éobjct‚ª‘‚¦‚Ä‚àdelte‚·‚é‚Ì‚Íˆê‰ñ‚É‚·‚é‚±‚Æ
+	//texture.hã‚’èª­ã¿è¾¼ã‚“ã§ã„ã‚‹objctãŒå¢—ãˆã¦ã‚‚delteã™ã‚‹ã®ã¯ä¸€å›žã«ã™ã‚‹ã“ã¨
 	charactorObj.deleteTexture();
 
 	delete input;
@@ -342,5 +342,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	return 0;
 
-	
+
 }
+

@@ -10,7 +10,7 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//”Šwƒ‰ƒCƒuƒ‰ƒŠ(Å“K‰»‚³‚ê‚·‚¬‚Äg‚¢‚É‚­‚¢‚ç‚µ‚¢‚Ì‚Å‚ ‚Æ‚Å©ì‚µ‚ë‚Á‚Ä)
+//æ•°å­¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(æœ€é©åŒ–ã•ã‚Œã™ãã¦ä½¿ã„ã«ãã„ã‚‰ã—ã„ã®ã§ã‚ã¨ã§è‡ªä½œã—ã‚ã£ã¦)
 #include<DirectXMath.h>
 using namespace DirectX;
 
@@ -20,7 +20,7 @@ using namespace DirectX;
 #include "matrix4x4.h"
 #include "Float3.h"
 
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 #include "SpriteCommon.h"
@@ -32,7 +32,7 @@ public:
 
 	void vertexBuffGeneration(ID3D12Device* dev);
 
-	void Draw(ID3D12GraphicsCommandList* cmdList,SpriteCommon& spriteCommon, bool PipeLineRuleFlag);
+	void Draw(ID3D12GraphicsCommandList* cmdList, SpriteCommon& spriteCommon, bool PipeLineRuleFlag);
 
 private:
 
@@ -42,13 +42,12 @@ private:
 
 	HRESULT result;
 
-	//’¸“_ƒoƒbƒtƒ@—p•Ï”
-	D3D12_HEAP_PROPERTIES heapprop{};//ƒq[ƒvİ’è
-	D3D12_RESOURCE_DESC resDesc{};//ƒŠƒ\[ƒXİ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”¨å¤‰æ•°
+	D3D12_HEAP_PROPERTIES heapprop{};//ãƒ’ãƒ¼ãƒ—è¨­å®š
+	D3D12_RESOURCE_DESC resDesc{};//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff = nullptr;
 	XMFLOAT3* vertMap = nullptr;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 
 };
-

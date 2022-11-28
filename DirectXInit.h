@@ -1,5 +1,5 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -9,12 +9,12 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//”Šwƒ‰ƒCƒuƒ‰ƒŠ(Å“K‰»‚³‚ê‚·‚¬‚Äg‚¢‚É‚­‚¢‚ç‚µ‚¢‚Ì‚Å‚ ‚Æ‚Å©ì‚µ‚ë‚Á‚Ä)
+//æ•°å­¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(æœ€é©åŒ–ã•ã‚Œã™ãã¦ä½¿ã„ã«ãã„ã‚‰ã—ã„ã®ã§ã‚ã¨ã§è‡ªä½œã—ã‚ã£ã¦)
 #include<DirectXMath.h>
 using namespace DirectX;
 
-//#pragma comment‚Æ‚ÍAƒIƒuƒWƒFƒNƒgƒtƒ@ƒCƒ‹‚ÉA
-//ƒŠƒ“ƒJ‚ÅƒŠƒ“ƒN‚·‚éƒ‰ƒCƒuƒ‰ƒŠ‚Ì–¼‘O‚ğ‹Lq‚·‚é‚à‚Ì
+//#pragma commentã¨ã¯ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«ã€
+//ãƒªãƒ³ã‚«ã§ãƒªãƒ³ã‚¯ã™ã‚‹ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åå‰ã‚’è¨˜è¿°ã™ã‚‹ã‚‚ã®
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
@@ -22,7 +22,7 @@ using namespace DirectX;
 
 #include "DrawingObj.h"
 
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 #include <dxgidebug.h>
@@ -37,58 +37,57 @@ public:
 	static DirectXInit* GetInstance();
 
 	/*static void Create();
-
 	static void Destroy()*/;
-	
-	//‰Šú‰»
-	
-	void Init(WNDCLASSEX w, HWND hwnd,const int win_width, const int win_height);
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒAƒ_ƒvƒ^[
+	//åˆæœŸåŒ–
+
+	void Init(WNDCLASSEX w, HWND hwnd, const int win_width, const int win_height);
+
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¢ãƒ€ãƒ—ã‚¿ãƒ¼
 	void GraphicAdapterGeneration();
 
-	//ƒRƒ}ƒ“ƒhƒŠƒXƒg
+	//ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 	void CommandListGeneration();
 
-	//ƒRƒ}ƒ“ƒhƒLƒ…[
+	//ã‚³ãƒãƒ³ãƒ‰ã‚­ãƒ¥ãƒ¼
 	void CommandQueueGeneration();
 
-	//ƒXƒƒbƒvƒ`ƒF[ƒ“
+	//ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³
 	void SwapChainGeneration(HWND hwnd, const int win_width, const int win_height);
 
-	//[“xƒoƒbƒtƒ@
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡
 	void DepthBuffGeneration(const int win_width, const int win_height);
 
-	//ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgƒrƒ…[
+	//ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆãƒ“ãƒ¥ãƒ¼
 	void RTVGeneration();
 
-	//ƒtƒFƒ“ƒX
+	//ãƒ•ã‚§ãƒ³ã‚¹
 	void FenceGeneration();
 
-	//dev‚ğ•Ô‚·ŠÖ”
+	//devã‚’è¿”ã™é–¢æ•°
 	Microsoft::WRL::ComPtr<ID3D12Device> Getdev();
 
-	//keyboard‚ğ•Ô‚·ŠÖ”
+	//keyboardã‚’è¿”ã™é–¢æ•°
 	//IDirectInputDevice8* GetKeyBoard();
 
-	//cmdList‚ğ•Ô‚·ŠÖ”
+	//cmdListã‚’è¿”ã™é–¢æ•°
 	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetcmdList();
 
-	//•`‰æ‚Ì‰‚ß‚Ì•”•ª
+	//æç”»ã®åˆã‚ã®éƒ¨åˆ†
 	void DrawStart();
 
-	//•`‰æI‚í‚è‚Ì•”•ª
+	//æç”»çµ‚ã‚ã‚Šã®éƒ¨åˆ†
 	void DrawEnd();
 
 
-	//‰æ–Ê‚ÌƒNƒŠƒAƒJƒ‰[•ÏXŠÖ”
+	//ç”»é¢ã®ã‚¯ãƒªã‚¢ã‚«ãƒ©ãƒ¼å¤‰æ›´é–¢æ•°
 	void clearColorChange(float R, float G, float B, float A);
 
 	void instanceDelete();
 
 private:
 
-	DirectXInit()=default;
+	DirectXInit() = default;
 	~DirectXInit();
 
 	DirectXInit(const DirectXInit&) = delete;
@@ -109,20 +108,20 @@ private:
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff = nullptr;
 
-	//ƒoƒbƒNƒoƒbƒtƒ@
-	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>>backBuffers{2};
+	//ãƒãƒƒã‚¯ãƒãƒƒãƒ•ã‚¡
+	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>>backBuffers{ 2 };
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc{};
 
-	//ƒtƒFƒ“ƒX
+	//ãƒ•ã‚§ãƒ³ã‚¹
 	Microsoft::WRL::ComPtr<ID3D12Fence> fence = nullptr;
 	UINT64 fenceVel = 0;
 
-	//”wŒiF•ÏX‚·‚é‚½‚ß‚ÉŠO‚É”z’u
-	float clearColor[4]={0.1f,0.25f,0.5f,0.0f};//Â‚Á‚Û‚¢F(‰æ–ÊƒNƒŠƒA‚·‚é‚Æ‚«‚ÌF)
+	//èƒŒæ™¯è‰²å¤‰æ›´ã™ã‚‹ãŸã‚ã«å¤–ã«é…ç½®
+	float clearColor[4] = { 0.1f,0.25f,0.5f,0.0f };//é’ã£ã½ã„è‰²(ç”»é¢ã‚¯ãƒªã‚¢ã™ã‚‹ã¨ãã®è‰²)
 
-	//ƒŠƒ\[ƒXƒoƒŠƒA
+	//ãƒªã‚½ãƒ¼ã‚¹ãƒãƒªã‚¢
 	D3D12_RESOURCE_BARRIER barrierDesc{};
 
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> dsvHeap = nullptr;
@@ -135,4 +134,3 @@ private:
 	FPS fps;
 
 };
-

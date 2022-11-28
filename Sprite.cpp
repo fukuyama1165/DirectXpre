@@ -15,15 +15,15 @@ void Sprite::initialize(ID3D12Device* dev)
 
 void Sprite::vertexBuffGeneration(ID3D12Device* dev)
 {
-#pragma region ’¸“_ƒoƒbƒtƒ@‚ÌŠm•Û
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿
 
-	//’¸“_ƒoƒbƒtƒ@‚ÌŠm•Û•Ó
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿è¾º
 
-	heapprop.Type = D3D12_HEAP_TYPE_UPLOAD;//GPU‚Ö‚Ì“]‘——p
+	heapprop.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUã¸ã®è»¢é€ç”¨
 
 
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeVB;//’¸“_ƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	resDesc.Width = sizeVB;//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	resDesc.Height = 1;
 	resDesc.DepthOrArraySize = 1;
 	resDesc.MipLevels = 1;
@@ -32,14 +32,14 @@ void Sprite::vertexBuffGeneration(ID3D12Device* dev)
 
 #pragma endregion
 
-#pragma region ’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
-	//’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
 	result = dev->CreateCommittedResource(
-		&heapprop,//ƒq[ƒvİ’è
+		&heapprop,//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc,//ƒŠƒ\[ƒXİ’è
+		&resDesc,//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff)
@@ -48,31 +48,31 @@ void Sprite::vertexBuffGeneration(ID3D12Device* dev)
 	assert(SUCCEEDED(result));
 
 #pragma endregion
-#pragma region ’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
 
-	//’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
-	//GPUã‚Ìƒoƒbƒtƒ@‚É‘Î‰‚µ‚½‰¼‘zƒƒ‚ƒŠ‚ğæ“¾
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
+	//GPUä¸Šã®ãƒãƒƒãƒ•ã‚¡ã«å¯¾å¿œã—ãŸä»®æƒ³ãƒ¡ãƒ¢ãƒªã‚’å–å¾—
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 
 	assert(SUCCEEDED(result));
 
-	//‘S’¸“_‚É‘Î‚µ‚Ä
+	//å…¨é ‚ç‚¹ã«å¯¾ã—ã¦
 	for (int i = 0; i < _countof(vertices); i++)
 	{
-		vertMap[i] = vertices[i];//À•W‚ğƒRƒs[
+		vertMap[i] = vertices[i];//åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
 	}
 
 
-	//‚Â‚È‚ª‚è‚ğ‰ğœ
+	//ã¤ãªãŒã‚Šã‚’è§£é™¤
 	vertBuff->Unmap(0, nullptr);
 
 #pragma endregion
 
-#pragma region ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ì¶¬
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ç”Ÿæˆ
 
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬(GPU‚Ö‚Ì“¹‚µ‚é‚×)•Ó
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ(GPUã¸ã®é“ã—ã‚‹ã¹)è¾º
 
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	vbView.SizeInBytes = sizeVB;
@@ -85,9 +85,9 @@ void Sprite::vertexBuffGeneration(ID3D12Device* dev)
 void Sprite::Draw(ID3D12GraphicsCommandList* cmdList, SpriteCommon& spriteCommon, bool PipeLineRuleFlag)
 {
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg‚Æƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚Ìİ’è
-	//ì‚Á‚½ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg‚Æƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚ğƒZƒbƒg‚·‚é
-	//Œˆ‚ß‚½ƒ‹[ƒ‹‚Å•`‰æ‚ğ‚¨Šè‚¢‚·‚é‚Æ‚±‚ë
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã¨ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã®è¨­å®š
+	//ä½œã£ãŸãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã¨ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	//æ±ºã‚ãŸãƒ«ãƒ¼ãƒ«ã§æç”»ã‚’ãŠé¡˜ã„ã™ã‚‹ã¨ã“ã‚
 
 	if (PipeLineRuleFlag)
 	{
@@ -101,17 +101,17 @@ void Sprite::Draw(ID3D12GraphicsCommandList* cmdList, SpriteCommon& spriteCommon
 	cmdList->SetGraphicsRootSignature(spriteCommon.getRootsignature().Get());
 
 
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìİ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®è¨­å®š
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 
 
-	//’è”ƒoƒbƒtƒ@ƒrƒ…[(CBV)‚Ìİ’èƒRƒ}ƒ“ƒh
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼(CBV)ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
 	/*cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	cmdList->SetGraphicsRootConstantBufferView(1, constBuffMaterial2->GetGPUVirtualAddress());*/
 
 	//cmdList->IASetVertexBuffers(0, 1, &vbView);
 
-	//’è”ƒoƒbƒtƒ@ƒrƒ…[(CBV)‚Ìİ’èƒRƒ}ƒ“ƒh
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼(CBV)ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
 
 	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
 

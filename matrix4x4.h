@@ -3,16 +3,16 @@
 class Matrix4x4
 {
 public:
-	//’†g‚Í‘S‚Äƒ[ƒ
+	//ä¸­èº«ã¯å…¨ã¦ã‚¼ãƒ­
 	Matrix4x4();
-	//—v‘fŒˆ’è—p(ˆø”‚Ì”š‚Í—v‘f”Ô†¶‚ªs ‰E‚Í—ñ)
-	Matrix4x4(float m00,float m01,float m02,float m03,float m10,float m11,float m12,float m13,float m20,float m21,float m22,float m23,float m30,float m31,float m32,float m33);
+	//è¦ç´ æ±ºå®šç”¨(å¼•æ•°ã®æ•°å­—ã¯è¦ç´ ç•ªå·å·¦ãŒè¡Œ å³ã¯åˆ—)
+	Matrix4x4(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33);
 	~Matrix4x4();
 
-	//’PˆÊs—ñ‚É‚·‚é
+	//å˜ä½è¡Œåˆ—ã«ã™ã‚‹
 	void IdentityMatrix();
 
-	//‹ts—ñ‚É‚·‚é
+	//é€†è¡Œåˆ—ã«ã™ã‚‹
 	Matrix4x4 InverseMatrix();
 
 	Matrix4x4 operator*(Matrix4x4& mat);
@@ -24,9 +24,8 @@ private:
 	float abs(float num);
 
 public:
-	float m[4][4]={};
+	float m[4][4] = {};
 
 private:
 
 };
-

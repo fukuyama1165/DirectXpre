@@ -25,26 +25,26 @@ void FPS::update()
 
 	const std::chrono::microseconds kMinCheckTime(uint16_t(1000000.0f / 65.0f));
 
-	//Œ»İŠÔ‚ğæ“¾‚·‚é
+	//ç¾åœ¨æ™‚é–“ã‚’å–å¾—ã™ã‚‹
 	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
 
-	//‘O‰ñ‹L˜^‚©‚çŒo‰ßŠÔ‚ğæ“¾‚·‚é
+	//å‰å›è¨˜éŒ²ã‹ã‚‰çµŒéæ™‚é–“ã‚’å–å¾—ã™ã‚‹
 	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference);
 
-	//1/60•b(‚æ‚è‚í‚¸‚©‚É’Z‚¢ŠÔ)Œo‚Á‚Ä‚¢‚È‚¢ê‡
+	//1/60ç§’(ã‚ˆã‚Šã‚ãšã‹ã«çŸ­ã„æ™‚é–“)çµŒã£ã¦ã„ãªã„å ´åˆ
 	if (elapsed < kMinTime)
 	{
 
-		while (std::chrono::steady_clock::now()-reference<kMinTime)
+		while (std::chrono::steady_clock::now() - reference < kMinTime)
 		{
-			//1ƒ}ƒCƒNƒ•bƒXƒŠ[ƒv
+			//1ãƒã‚¤ã‚¯ãƒ­ç§’ã‚¹ãƒªãƒ¼ãƒ—
 			std::this_thread::sleep_for(std::chrono::microseconds(1));
 
 		}
 
 	}
 
-	//Œ»İ‚ÌŠÔ‚ğ‹L˜^‚·‚é
+	//ç¾åœ¨ã®æ™‚é–“ã‚’è¨˜éŒ²ã™ã‚‹
 	reference = std::chrono::steady_clock::now();
 
 }

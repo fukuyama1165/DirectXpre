@@ -1,18 +1,17 @@
-
-
 cbuffer ConstBufferDataTransform : register(b0)
 {
-	matrix mat;//3D•ÏŠ·s—ñ
+	matrix mat;//3Då¤‰æ›è¡Œåˆ—
 }
 
-//’¸“_ƒVƒF[ƒ_[‚Ìo—Í\‘¢‘Ì
-//(’¸“_ƒVƒF[ƒ_[‚©‚çƒsƒNƒZƒ‹ƒVƒF[ƒ_[‚Ö‚Ì‚â‚èŽæ‚è‚ÉŽg—p‚·‚é)
+//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®å‡ºåŠ›æ§‹é€ ä½“
+//(é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¸ã®ã‚„ã‚Šå–ã‚Šã«ä½¿ç”¨ã™ã‚‹)
 struct VSOutput
 {
-	//ƒVƒXƒeƒ€—p’¸“_À•W
+	//ã‚·ã‚¹ãƒ†ãƒ ç”¨é ‚ç‚¹åº§æ¨™
 	float4 svpos:SV_POSITION;
-	//–@üƒxƒNƒgƒ‹
+	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 	float3 normal:NORMAL;
-	//uv’l
+	//uvå€¤
 	float2 uv:TEXCOORD;
 };
+

@@ -1,7 +1,7 @@
 #include "OBJShaderHeader.hlsli"
 
-Texture2D<float4> tex : register(t0);//‚O”ÔƒXƒƒbƒg‚Ìİ’è‚³‚ê‚½ƒeƒNƒXƒ`ƒƒ
-SamplerState smp :register(s0);//‚O”ÔƒXƒƒbƒg‚Éİ’è‚³‚ê‚½ƒTƒ“ƒvƒ‰[
+Texture2D<float4> tex : register(t0);//ï¼ç•ªã‚¹ãƒ­ãƒƒãƒˆã®è¨­å®šã•ã‚ŒãŸãƒ†ã‚¯ã‚¹ãƒãƒ£
+SamplerState smp :register(s0);//ï¼ç•ªã‚¹ãƒ­ãƒƒãƒˆã«è¨­å®šã•ã‚ŒãŸã‚µãƒ³ãƒ—ãƒ©ãƒ¼
 
 
 float4 main(VSOutput input) : SV_TARGET

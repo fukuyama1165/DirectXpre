@@ -1,6 +1,6 @@
 #pragma once
 
-// D3DƒRƒ“ƒpƒCƒ‰
+// D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -12,14 +12,14 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 
-//”Šwƒ‰ƒCƒuƒ‰ƒŠ(Å“K‰»‚³‚ê‚·‚¬‚Äg‚¢‚É‚­‚¢‚ç‚µ‚¢‚Ì‚Å‚ ‚Æ‚Å©ì‚µ‚ë‚Á‚Ä)
+//æ•°å­¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(æœ€é©åŒ–ã•ã‚Œã™ãã¦ä½¿ã„ã«ãã„ã‚‰ã—ã„ã®ã§ã‚ã¨ã§è‡ªä½œã—ã‚ã£ã¦)
 #include<DirectXMath.h>
 using namespace DirectX;
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-//ƒL[ƒ{[ƒh‚âƒRƒ“ƒgƒ[ƒ‰[‚È‚Ç‚Ì“ü—Í‚·‚éƒwƒbƒ_‚Æƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
+//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚„ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãªã©ã®å…¥åŠ›ã™ã‚‹ãƒ˜ãƒƒãƒ€ã¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒªãƒ³ã‚¯
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
@@ -37,100 +37,100 @@ using namespace DirectX;
 #include "Float4.h"
 #include "Texture.h"
 
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 class DrawOBJ
 {
 public:
-	//‰Šú‰»‚ğ‚±‚±‚Å“K“–‚ÉƒGƒ‰[‚ğ‚Í‚©‚È‚¢‚Æv‚¤’l‚ğ“ü‚ê‚Ä‚¢‚éŠî–{“I‚É‘‚«Š·‚¦‚Ä‚à–â‘è‚È‚¢‚Í‚¸(İ’è‚ª”j’]‚µ‚Ä‚È‚¯‚ê‚Î)
+	//åˆæœŸåŒ–ã‚’ã“ã“ã§é©å½“ã«ã‚¨ãƒ©ãƒ¼ã‚’ã¯ã‹ãªã„ã¨æ€ã†å€¤ã‚’å…¥ã‚Œã¦ã„ã‚‹åŸºæœ¬çš„ã«æ›¸ãæ›ãˆã¦ã‚‚å•é¡Œãªã„ã¯ãš(è¨­å®šãŒç ´ç¶»ã—ã¦ãªã‘ã‚Œã°)
 	DrawOBJ(const float windowWidth, const float windowHeight);
 
 	~DrawOBJ();
 
-	//•`‰æ‰Šú‰»ˆ—ŠÖ”
-	void basicInit(ID3D12Device* dev);//basicPS“Ç‚İ‚İ
-	void colorChangeInit(ID3D12Device* dev);//colorChangePS“Ç‚İ‚İ
+	//æç”»åˆæœŸåŒ–å‡¦ç†é–¢æ•°
+	void basicInit(ID3D12Device* dev);//basicPSèª­ã¿è¾¼ã¿
+	void colorChangeInit(ID3D12Device* dev);//colorChangePSèª­ã¿è¾¼ã¿
 
-	//’¸“_ƒf[ƒ^\‘¢‘Ì
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct Vertex
 	{
-		XMFLOAT3 pos;//xyzÀ•W
-		XMFLOAT3 normal;//–@üƒxƒNƒgƒ‹
-		XMFLOAT2 uv;//uvÀ•W
+		XMFLOAT3 pos;//xyzåº§æ¨™
+		XMFLOAT3 normal;//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+		XMFLOAT2 uv;//uvåº§æ¨™
 	};
 
-	
 
-	//’¸“_ƒoƒbƒtƒ@¶¬
+
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	void vertexBuffGeneration(ID3D12Device* dev);
 
-	//’¸“_ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
-	void vertexShaderGeneration();//basicVS“Ç‚İ‚İ
-	void vertexShaderGeneration2();//vertexMoveVS“Ç‚İ‚İ
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
+	void vertexShaderGeneration();//basicVSèª­ã¿è¾¼ã¿
+	void vertexShaderGeneration2();//vertexMoveVSèª­ã¿è¾¼ã¿
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
-	void pixelShaderGeneration();//basicPS“Ç‚İ‚İ
-	void pixelShaderGeneration2();//colorChangePS“Ç‚İ‚İ
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
+	void pixelShaderGeneration();//basicPSèª­ã¿è¾¼ã¿
+	void pixelShaderGeneration2();//colorChangePSèª­ã¿è¾¼ã¿
 
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	void vertexLayout();
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ìİ’è
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®è¨­å®š
 	void graphicPipelineGeneration();
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒŒƒ“ƒW‚Ìİ’è
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ¬ãƒ³ã‚¸ã®è¨­å®š
 	void descriptorRangeGeneration();
 
-	//ƒ‹[ƒgƒpƒ‰ƒ[ƒ^‚Ìİ’è(’è”ƒoƒbƒtƒ@‚ÆƒVƒF[ƒ_‚É‚Â‚¢‚Ä)
+	//ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š(å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¨ã‚·ã‚§ãƒ¼ãƒ€ã«ã¤ã„ã¦)
 	void rootParamGeneration();
 
-	//ƒeƒNƒXƒ`ƒƒƒTƒ“ƒvƒ‰[‚Ìİ’è
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã®è¨­å®š
 	void textureSamplerGeneration();
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	void rootsignatureGeneration(ID3D12Device* dev);
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	void constantBuffGeneration(ID3D12Device* dev);
 	void constantBuffGeneration1(ID3D12Device* dev);
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^ŠÖ˜A(ƒCƒ“ƒfƒbƒNƒXƒrƒ…[‚à‚±‚±)
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿é–¢é€£(ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ“ãƒ¥ãƒ¼ã‚‚ã“ã“)
 	void indicesBuffGeneration(ID3D12Device* devconst);
 
-	//‰æ‘œƒCƒ[ƒWƒf[ƒ^
+	//ç”»åƒã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿
 	void imageDataGeneration();
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	void textureBuffGeneraion(ID3D12Device* dev);
 
-	//ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
 	void SRVGeneraion(ID3D12Device* dev);
 
-	//GPU‚É’¸“_ƒf[ƒ^‚ğ“]‘—‚·‚éŠÖ”
+	//GPUã«é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’è»¢é€ã™ã‚‹é–¢æ•°
 	void vertexMap();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
-	/// <param name="cmdList">ƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
-	/// <param name="PipeLineRuleFlag">•`‰æ•û–@‚ğ•ÏX‚·‚é‚©‚Ç‚¤‚©(Œ»İ‚ÍƒƒCƒ„[ƒtƒŒ[ƒ€‚©“h‚è‚Â‚Ô‚µ)true‚Í“h‚è‚Â‚Ô‚µ</param>
-	/// <param name="ChangeSquareFlag">OŠpŒ`‚Å•`‰æ‚·‚é‚©lŠpŒ`‚É•`‰æ‚·‚é(true‚ÍlŠpŒ`)</param>
+	/// <param name="cmdList">ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
+	/// <param name="PipeLineRuleFlag">æç”»æ–¹æ³•ã‚’å¤‰æ›´ã™ã‚‹ã‹ã©ã†ã‹(ç¾åœ¨ã¯ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‹å¡—ã‚Šã¤ã¶ã—)trueã¯å¡—ã‚Šã¤ã¶ã—</param>
+	/// <param name="ChangeSquareFlag">ä¸‰è§’å½¢ã§æç”»ã™ã‚‹ã‹å››è§’å½¢ã«æç”»ã™ã‚‹(trueã¯å››è§’å½¢)</param>
 	void Draw(ID3D12GraphicsCommandList* cmdList, bool PipeLineRuleFlag, bool ChangeSquareFlag, bool ChangeTexure);
 
-	//’è”ƒoƒbƒtƒ@‚ğ•ÏX‚·‚éŠÖ”
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã‚’å¤‰æ›´ã™ã‚‹é–¢æ•°
 	void constBuffColorUpdata(float Red, float Green, float Blue);
 	void constBuffPosMUpdata(float X, float Y, float Z);
 
-	//ƒrƒ…[•ÏŠ·s—ñXV
+	//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—æ›´æ–°
 	//void matViewUpdata(Float3 eye, Float3 target, Float3 up);
 	void matViewUpdata(Float3 eye, Float3 target, Float3 up);
 
-	//’è”ƒoƒbƒtƒ@‚Ìs—ñ‚ğXV‚·‚éŠÖ”
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®è¡Œåˆ—ã‚’æ›´æ–°ã™ã‚‹é–¢æ•°
 	void constTransformMatUpdata();
 	void constTransformMatUpdata1();
 
-	//ƒ[ƒ‹ƒhÀ•WXV
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™æ›´æ–°
 	void matWorldUpdata();
 	void matWorldUpdata1();
 
@@ -148,21 +148,21 @@ public:
 
 	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY, float NearZ, float FarZ);
 
-	//ƒXƒP[ƒ‹•ÏXs—ñ
+	//ã‚¹ã‚±ãƒ¼ãƒ«å¤‰æ›´è¡Œåˆ—
 	void SetScale(Float3 scale);
-	//Šp“x•ÏXs—ñ
+	//è§’åº¦å¤‰æ›´è¡Œåˆ—
 	void SetRotate(Float3 rotate);
-	//•½sˆÚ“®s—ñ
+	//å¹³è¡Œç§»å‹•è¡Œåˆ—
 	void SetTrans(Float3 TransForm);
 
 	void obj3DUpdate();
 
 	/// <summary>
-	/// sin‚Æcos‚ğ•Ô‚·ŠÖ”
+	/// sinã¨cosã‚’è¿”ã™é–¢æ•°
 	/// </summary>
-	/// <param name="Sin">sin‚Ì’l‚ª“ü‚éˆø”</param>
-	/// <param name="Cos">cos‚Ì’l‚ª“ü‚éˆø”</param>
-	/// <param name="angle">ƒ¦‚Ì’l</param>
+	/// <param name="Sin">sinã®å€¤ãŒå…¥ã‚‹å¼•æ•°</param>
+	/// <param name="Cos">cosã®å€¤ãŒå…¥ã‚‹å¼•æ•°</param>
+	/// <param name="angle">Î˜ã®å€¤</param>
 	void sinCos(float& Sin, float& Cos, float angle);
 
 	Float3 float3Dat(Float3 A, Float3 B);
@@ -173,100 +173,100 @@ public:
 
 private:
 
-	//‰æ–ÊƒTƒCƒY
+	//ç”»é¢ã‚µã‚¤ã‚º
 	float Win_width;
 	float Win_height;
 
-	//’¸“_ƒf[ƒ^(‘‚â‚µ‚½‚¢‚È‚ç‚±‚±‚à‘‚â‚µ‚Ä‚¨‚­)
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿(å¢—ã‚„ã—ãŸã„ãªã‚‰ã“ã“ã‚‚å¢—ã‚„ã—ã¦ãŠã)
 	std::vector <Vertex> vertices;
 
-	//’¸“_ƒf[ƒ^ƒTƒCƒY
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º
 	UINT sizeVB;
 
 	HRESULT result;
 
-	//’¸“_ƒoƒbƒtƒ@—p•Ï”
-	D3D12_HEAP_PROPERTIES heapprop{};//ƒq[ƒvİ’è
-	D3D12_RESOURCE_DESC resDesc{};//ƒŠƒ\[ƒXİ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”¨å¤‰æ•°
+	D3D12_HEAP_PROPERTIES heapprop{};//ãƒ’ãƒ¼ãƒ—è¨­å®š
+	D3D12_RESOURCE_DESC resDesc{};//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff = nullptr;
 	Vertex* vertMap = nullptr;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 
-	//’¸“_ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> vsBlob = nullptr;
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> psBlob = nullptr;
 
-	//ƒGƒ‰[ƒIƒuƒWƒFƒNƒg
+	//ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
 
-	//’¸“_ƒŒƒCƒAƒEƒg(—v‘f‚ğ‘‚â‚·‚È‚ç”z—ñ”‚ğ‘‚â‚·)
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ(è¦ç´ ã‚’å¢—ã‚„ã™ãªã‚‰é…åˆ—æ•°ã‚’å¢—ã‚„ã™)
 	D3D12_INPUT_ELEMENT_DESC inputLayout[3];
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚ÌŠeƒXƒe[ƒW‚Ìİ’è‚ğ‚·‚é\‘¢‘Ì‚ğ—pˆÓ
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®å„ã‚¹ãƒ†ãƒ¼ã‚¸ã®è¨­å®šã‚’ã™ã‚‹æ§‹é€ ä½“ã‚’ç”¨æ„
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline2{};
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒŒƒ“ƒW
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ¬ãƒ³ã‚¸
 	D3D12_DESCRIPTOR_RANGE descriptorRange{};
 
-	//ƒ‹[ƒgƒpƒ‰ƒ[ƒ^(’è”ƒoƒbƒtƒ@‚Ì”‚ª‘‚¦‚½‚ç”z—ñ‚Ì—v‘f”‚ğ‘‚â‚µ‚Äİ’è‚ğ‚µ‚Ä‚¢‚éŠÖ”‚Ì’†g‚É‚à’Ç‰Á‚·‚é‚±‚Æ)
+	//ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿(å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®æ•°ãŒå¢—ãˆãŸã‚‰é…åˆ—ã®è¦ç´ æ•°ã‚’å¢—ã‚„ã—ã¦è¨­å®šã‚’ã—ã¦ã„ã‚‹é–¢æ•°ã®ä¸­èº«ã«ã‚‚è¿½åŠ ã™ã‚‹ã“ã¨)
 	D3D12_ROOT_PARAMETER rootParam[4] = {};
 
-	//ƒeƒNƒXƒ`ƒƒƒTƒ“ƒvƒ‰[
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µãƒ³ãƒ—ãƒ©ãƒ¼
 	D3D12_STATIC_SAMPLER_DESC sampleDesc{};
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature;
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆ
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate2 = nullptr;
 
-	//’è”ƒoƒbƒtƒ@—p‚ÌƒŠƒ\[ƒXİ’èŠÖ”
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ã®ãƒªã‚½ãƒ¼ã‚¹è¨­å®šé–¢æ•°
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(int size);
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(ƒ}ƒeƒŠƒAƒ‹)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(ãƒãƒ†ãƒªã‚¢ãƒ«)
 	struct ConstBufferDataMaterial
 	{
-		XMFLOAT4 color;//F(RGBA)
+		XMFLOAT4 color;//è‰²(RGBA)
 	};
 
 	struct ConstBufferDataMaterial2
 	{
-		XMFLOAT4 posM;//ˆÊ’uˆÚ“®‚Ég‚¤(XYZ);
+		XMFLOAT4 posM;//ä½ç½®ç§»å‹•ã«ä½¿ã†(XYZ);
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(3D•ÏŠ·s—ñ)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(3Då¤‰æ›è¡Œåˆ—)
 	struct ConstBufferDataTransform
 	{
-		XMMATRIX mat;//3D•ÏŠ·s—ñ
+		XMMATRIX mat;//3Då¤‰æ›è¡Œåˆ—
 	};
 
-	//’è”ƒoƒbƒtƒ@‚»‚Ì‚à‚Ì
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãã®ã‚‚ã®
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial2 = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform0 = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform1 = nullptr;
 
-	//ƒ}ƒbƒsƒ“ƒO‚·‚é‚Æ‚«‚Ìƒ|ƒCƒ“ƒ^
+	//ãƒãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹ã¨ãã®ãƒã‚¤ãƒ³ã‚¿
 	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	ConstBufferDataMaterial2* constMapMaterial2 = nullptr;
 	ConstBufferDataTransform* constMapTransform0 = nullptr;
 	ConstBufferDataTransform* constMapTransform1 = nullptr;
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿
 	std::vector< unsigned short> indices;
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	UINT sizeIB;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff = nullptr;
-	//ƒCƒ“ƒfƒbƒNƒXƒrƒ…[
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView{};
 
-	//‰æ‘œƒf[ƒ^“™
+	//ç”»åƒãƒ‡ãƒ¼ã‚¿ç­‰
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
@@ -274,14 +274,14 @@ private:
 
 	//ID3D12DescriptorHeap* srvHeap = nullptr;
 
-	//“§‹“Š‰es—ñ
+	//é€è¦–æŠ•å½±è¡Œåˆ—
 	Matrix4x4 matProjection;
 
-	//ƒrƒ…[•ÏŠ·s—ñ
+	//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
 	Matrix4x4 matView;
-	Float3 eye_;//‹“_À•W
-	Float3 target_;//’‹“_À•W
-	Float3 up_;//ã•ûŒüƒxƒNƒgƒ‹
+	Float3 eye_;//è¦–ç‚¹åº§æ¨™
+	Float3 target_;//æ³¨è¦–ç‚¹åº§æ¨™
+	Float3 up_;//ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 
 	Matrix4x4 matWorld;
 
@@ -293,14 +293,14 @@ private:
 	Float3 Rotate_;
 	Float3 Trans_;
 
-	////“§‹“Š‰es—ñ
+	////é€è¦–æŠ•å½±è¡Œåˆ—
 	//XMMATRIX matProjection;
 
-	////ƒrƒ…[•ÏŠ·s—ñ
+	////ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
 	//XMMATRIX matView;
-	//XMFLOAT3 eye_;//‹“_À•W
-	//XMFLOAT3 target_;//’‹“_À•W
-	//XMFLOAT3 up_;//ã•ûŒüƒxƒNƒgƒ‹
+	//XMFLOAT3 eye_;//è¦–ç‚¹åº§æ¨™
+	//XMFLOAT3 target_;//æ³¨è¦–ç‚¹åº§æ¨™
+	//XMFLOAT3 up_;//ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 
 	//XMMATRIX matWorld;
 	//XMMATRIX matWorld1;
@@ -313,12 +313,12 @@ private:
 	//XMFLOAT3 Rotate_;
 	//XMFLOAT3 Trans_;
 
-	//3DƒIƒuƒWƒFƒNƒg‚Ì”
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°
 	const static size_t kObjectConst = 50;
 
 
 
-	//3DƒIƒuƒWƒFƒNƒg‚Ì”z—ñ
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é…åˆ—
 	Object3D object3Ds[kObjectConst];
 
 	static Texture* texture;

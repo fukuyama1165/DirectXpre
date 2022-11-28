@@ -1,5 +1,5 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -9,14 +9,14 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//”Šwƒ‰ƒCƒuƒ‰ƒŠ(Å“K‰»‚³‚ê‚·‚¬‚Äg‚¢‚É‚­‚¢‚ç‚µ‚¢‚Ì‚Å‚ ‚Æ‚Å©ì‚µ‚ë‚Á‚Ä)
+//æ•°å­¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(æœ€é©åŒ–ã•ã‚Œã™ãã¦ä½¿ã„ã«ãã„ã‚‰ã—ã„ã®ã§ã‚ã¨ã§è‡ªä½œã—ã‚ã£ã¦)
 #include<DirectXMath.h>
 using namespace DirectX;
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-//ƒL[ƒ{[ƒh‚âƒRƒ“ƒgƒ[ƒ‰[‚È‚Ç‚Ì“ü—Í‚·‚éƒwƒbƒ_‚Æƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒŠƒ“ƒN
+//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã‚„ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãªã©ã®å…¥åŠ›ã™ã‚‹ãƒ˜ãƒƒãƒ€ã¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒªãƒ³ã‚¯
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
@@ -34,11 +34,10 @@ using namespace DirectX;
 #include "Texture.h"
 #include "Float4.h"
 
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 
 class DrawBillboard
 {
 };
-

@@ -1,5 +1,5 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
@@ -9,7 +9,7 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//”Šwƒ‰ƒCƒuƒ‰ƒŠ(Å“K‰»‚³‚ê‚·‚¬‚Äg‚¢‚É‚­‚¢‚ç‚µ‚¢‚Ì‚Å‚ ‚Æ‚Å©ì‚µ‚ë‚Á‚Ä)
+//æ•°å­¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(æœ€é©åŒ–ã•ã‚Œã™ãã¦ä½¿ã„ã«ãã„ã‚‰ã—ã„ã®ã§ã‚ã¨ã§è‡ªä½œã—ã‚ã£ã¦)
 #include<DirectXMath.h>
 using namespace DirectX;
 
@@ -20,31 +20,31 @@ using namespace DirectX;
 
 #include <DirectXTex.h>
 
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 class Texture
 {
 public:
-	
+
 	static Texture* GetInstance();
 
 	void Init(ID3D12Device* dev);
 
 	/// <summary>
-	/// ƒeƒNƒXƒ`ƒƒ[•`‰æ
+	/// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¼æç”»
 	/// </summary>
-	/// <param name="cmdList">ƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
-	/// <param name="tex">loadTexture‚Å‹A‚Á‚Ä‚«‚½’l</param>
-	void Draw(ID3D12GraphicsCommandList* cmdList,int tex);
+	/// <param name="cmdList">ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
+	/// <param name="tex">loadTextureã§å¸°ã£ã¦ããŸå€¤</param>
+	void Draw(ID3D12GraphicsCommandList* cmdList, int tex);
 
-	//‰æ‘œƒCƒ[ƒWƒf[ƒ^
+	//ç”»åƒã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‡ãƒ¼ã‚¿
 	void imageDataGeneration(const char filename[]);
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	void textureBuffGeneraion(ID3D12Device* dev);
 
-	//ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
 	void SRVGeneraion(ID3D12Device* dev);
 
 	void instanceDelete();
@@ -63,7 +63,7 @@ private:
 
 public:
 
-	
+
 
 private:
 
@@ -73,7 +73,7 @@ private:
 
 	Microsoft::WRL::ComPtr <ID3D12Device> dev;
 
-	//‰æ‘œƒf[ƒ^“™
+	//ç”»åƒãƒ‡ãƒ¼ã‚¿ç­‰
 	std::vector<TexMetadata> metadata{};
 	std::vector<ScratchImage> scratchImg{};
 	TexMetadata metadata2{};
@@ -85,7 +85,6 @@ private:
 	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> texBuff;
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff2 = nullptr;
 
-	
+
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> srvHeap = nullptr;
 };
-

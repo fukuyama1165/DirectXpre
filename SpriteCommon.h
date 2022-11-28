@@ -10,7 +10,7 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//”Šwƒ‰ƒCƒuƒ‰ƒŠ(Å“K‰»‚³‚ê‚·‚¬‚Äg‚¢‚É‚­‚¢‚ç‚µ‚¢‚Ì‚Å‚ ‚Æ‚Å©ì‚µ‚ë‚Á‚Ä)
+//æ•°å­¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(æœ€é©åŒ–ã•ã‚Œã™ãã¦ä½¿ã„ã«ãã„ã‚‰ã—ã„ã®ã§ã‚ã¨ã§è‡ªä½œã—ã‚ã£ã¦)
 #include<DirectXMath.h>
 using namespace DirectX;
 
@@ -20,7 +20,7 @@ using namespace DirectX;
 #include "matrix4x4.h"
 #include "Float3.h"
 
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 class SpriteCommon
@@ -28,31 +28,31 @@ class SpriteCommon
 public:
 	void initialize(ID3D12Device* dev);
 
-	//’¸“_ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	void vertexShaderGeneration();
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	void pixelShaderGeneration();
 
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	void vertexLayout();
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ìİ’è
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®è¨­å®š
 	void graphicPipelineGeneration();
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	void rootsignatureGeneration(ID3D12Device* dev);
 
-	
+
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> getRootsignature() { return rootsignature; };
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆ
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate() { return pipelinestate; };
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate2() { return pipelinestate2; };
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate3() { return pipelinestate3; };
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate4() { return pipelinestate4; };
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate5() { return pipelinestate5; };
-	
+
 
 private:
 
@@ -60,32 +60,32 @@ private:
 
 	HRESULT result;
 
-	
 
 
-	//’¸“_ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg
+
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> vsBlob = nullptr;
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> psBlob = nullptr;
 
-	//ƒGƒ‰[ƒIƒuƒWƒFƒNƒg
+	//ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
 
-	//’¸“_ƒŒƒCƒAƒEƒg(—v‘f‚ğ‘‚â‚·‚È‚ç”z—ñ”‚ğ‘‚â‚·)
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ(è¦ç´ ã‚’å¢—ã‚„ã™ãªã‚‰é…åˆ—æ•°ã‚’å¢—ã‚„ã™)
 	D3D12_INPUT_ELEMENT_DESC inputLayout[1];
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚ÌŠeƒXƒe[ƒW‚Ìİ’è‚ğ‚·‚é\‘¢‘Ì‚ğ—pˆÓ
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®å„ã‚¹ãƒ†ãƒ¼ã‚¸ã®è¨­å®šã‚’ã™ã‚‹æ§‹é€ ä½“ã‚’ç”¨æ„
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline2{};
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline3{};//‰ÁZ
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline4{};//Œ¸Z
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline5{};//F”½“]
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline3{};//åŠ ç®—
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline4{};//æ¸›ç®—
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline5{};//è‰²åè»¢
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature;
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆ
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate2 = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate3 = nullptr;
@@ -94,10 +94,9 @@ private:
 
 	struct  ConstBuffermaterial
 	{
-		
+
 		XMFLOAT4 color;
 
 	};
 
 };
-
