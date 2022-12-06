@@ -34,24 +34,18 @@ public:
 	//ピクセルシェーダの読み込みとコンパイル
 	void pixelShaderGeneration();
 
-	//頂点レイアウトの設定
-	void vertexLayout();
-
-	//グラフィックスパイプラインの設定
-	void graphicPipelineGeneration();
-
-	//ルートシグネチャ
-	void rootsignatureGeneration(ID3D12Device* dev);
+	//ジオメトリシェーダの読み込みとコンパイル
+	void geometryShaderGeneration();
 
 
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> getRootsignature() { return rootsignature; };
+	//頂点シェーダオブジェクト
+	Microsoft::WRL::ComPtr<ID3DBlob> getVsBlob() { return vsBlob; };
 
-	//パイプラインステート
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate() { return pipelinestate; };
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate2() { return pipelinestate2; };
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate3() { return pipelinestate3; };
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate4() { return pipelinestate4; };
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> getPipelinestate5() { return pipelinestate5; };
+	//ピクセルシェーダオブジェクト
+	Microsoft::WRL::ComPtr<ID3DBlob> getPsBlob() { return psBlob; };
+
+	//ピクセルシェーダオブジェクト
+	Microsoft::WRL::ComPtr<ID3DBlob> getGsBlob() { return gsBlob; };
 
 
 private:
@@ -69,34 +63,12 @@ private:
 	//ピクセルシェーダオブジェクト
 	Microsoft::WRL::ComPtr<ID3DBlob> psBlob = nullptr;
 
+	Microsoft::WRL::ComPtr<ID3DBlob> gsBlob = nullptr;
+
 	//エラーオブジェクト
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
 
-	//頂点レイアウト(要素を増やすなら配列数を増やす)
-	D3D12_INPUT_ELEMENT_DESC inputLayout[1];
 
-	//グラフィックスパイプラインの各ステージの設定をする構造体を用意
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline{};
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline2{};
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline3{};//加算
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline4{};//減算
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline5{};//色反転
 
-	//ルートシグネチャ
-	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature;
-
-	//パイプラインステート
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate2 = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate3 = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate4 = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate5 = nullptr;
-
-	struct  ConstBuffermaterial
-	{
-
-		XMFLOAT4 color;
-
-	};
 
 };
