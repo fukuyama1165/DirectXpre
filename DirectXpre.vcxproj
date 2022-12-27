@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="DirectXInit.cpp" />
     <ClCompile Include="DrawBillboard.cpp" />
     <ClCompile Include="DrawingObj.cpp" />
@@ -164,6 +165,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="DirectXInit.h" />
     <ClInclude Include="DrawBillboard.h" />
     <ClInclude Include="DrawingObj.h" />
