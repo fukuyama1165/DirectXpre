@@ -6,5 +6,5 @@ SamplerState smp :register(s0);//０番スロットに設定されたサンプ�
 
 float4 main(VSOutput input) : SV_TARGET
 {
-	return tex.Sample(smp,input.uv) * color;
+	return float4(tex.Sample(smp,input.uv)) * color;
 }
