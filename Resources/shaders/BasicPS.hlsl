@@ -1,15 +1,16 @@
 #include "Basic.hlsli"
 
-Texture2D<float4> tex : register(t0);//‚O”ÔƒXƒƒbƒg‚Ìİ’è‚³‚ê‚½ƒeƒNƒXƒ`ƒƒ
-SamplerState smp :register(s0);//‚O”ÔƒXƒƒbƒg‚Éİ’è‚³‚ê‚½ƒTƒ“ƒvƒ‰[
+Texture2D<float4> tex : register(t0);//ï¼ç•ªã‚¹ãƒ­ãƒƒãƒˆã®è¨­å®šã•ã‚ŒãŸãƒ†ã‚¯ã‚¹ãƒãƒ£
+SamplerState smp :register(s0);//ï¼ç•ªã‚¹ãƒ­ãƒƒãƒˆã«è¨­å®šã•ã‚ŒãŸã‚µãƒ³ãƒ—ãƒ©ãƒ¼
 
 
 float4 main(VSOutput input) : SV_TARGET
 {
 	float4 texcolor = float4(tex.Sample(smp,input.uv));
 
-	float3 light = normalize(float3(1,-1,1));
+	/*float3 light = normalize(float3(1,-1,1));
 	float diffuse = saturate(dot(-light, input.normal));
 	float brightness = diffuse + 0.3f;
-	return float4(texcolor.rgb * brightness, texcolor.a) * color;
+	return float4(texcolor.rgb * brightness, texcolor.a);*/
+	return input.color * texcolor;
 }

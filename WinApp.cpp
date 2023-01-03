@@ -1,4 +1,5 @@
 #include "WinApp.h"
+#pragma comment(lib,"winmm.lib")
 
 
 WinApp::WinApp()
@@ -8,7 +9,7 @@ WinApp::WinApp()
 WinApp::~WinApp()
 {
 
-	// ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğ“o˜^‰ğœ
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’ç™»éŒ²è§£é™¤
 	UnregisterClass(w.lpszClassName, w.hInstance);
 
 }
@@ -16,57 +17,55 @@ WinApp::~WinApp()
 void WinApp::initialize()
 {
 
-#pragma region ƒEƒBƒ“ƒhƒE‚Ì‰Šú‰»•”•ª
-	
+#pragma region ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®åˆæœŸåŒ–éƒ¨åˆ†
+
 
 	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = static_cast<WNDPROC>(windowProc);//ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
-	w.lpszClassName = L"DirectXGame";//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX–¼
-	w.hInstance = GetModuleHandle(nullptr);//ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	w.hCursor = LoadCursor(NULL, IDC_ARROW);//ƒJ[ƒ\ƒ‹w’è
+	w.lpfnWndProc = static_cast<WNDPROC>(windowProc);//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
+	w.lpszClassName = L"DirectXGame";//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹å
+	w.hInstance = GetModuleHandle(nullptr);//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	w.hCursor = LoadCursor(NULL, IDC_ARROW);//ã‚«ãƒ¼ã‚½ãƒ«æŒ‡å®š
 
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğOS‚É“o˜^
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’OSã«ç™»éŒ²
 	RegisterClassEx(&w);
 
-	//ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚Ì\‘¢‘Ì{xÀ•W,yÀ•W,‰¡•,c•}
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚µã‚¤ã‚ºã®æ§‹é€ ä½“{xåº§æ¨™,yåº§æ¨™,æ¨ªå¹…,ç¸¦å¹…}
 	wrc = { 0,0,windowWidth,windowHeight };
-	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);//©“®‚ÅƒTƒCƒY•â³
+	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);//è‡ªå‹•ã§ã‚µã‚¤ã‚ºè£œæ­£
 
-	//ƒEƒBƒ“ƒhƒE‚Ì\¬—v‘fH
-	hwnd = CreateWindow(w.lpszClassName,//ƒNƒ‰ƒX–¼
-		L"DirectXGame",//ƒ^ƒCƒgƒ‹ƒo[‚Ì–¼‘O
-		WS_OVERLAPPEDWINDOW,//•W€“I‚ÈƒEƒCƒ“ƒhƒEƒXƒ^ƒCƒ‹
-		CW_USEDEFAULT,//xÀ•W(OS‚É”C‚¹‚é)
-		CW_USEDEFAULT,//yÀ•W(OS‚É”C‚¹‚é)
-		wrc.right - wrc.left,//ƒEƒBƒ“ƒhƒE‰¡•
-		wrc.bottom - wrc.top,//ƒEƒBƒ“ƒhƒEc•
-		nullptr,//eƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
-		nullptr,//ƒƒjƒ…[ƒnƒ“ƒhƒ‹
-		w.hInstance,//ŒÄ‚Ño‚µƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
-		nullptr);//ƒIƒvƒVƒ‡ƒ“
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®æ§‹æˆè¦ç´ ï¼Ÿ
+	hwnd = CreateWindow(w.lpszClassName,//ã‚¯ãƒ©ã‚¹å
+		L"DirectXGame",//ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã®åå‰
+		WS_OVERLAPPEDWINDOW,//æ¨™æº–çš„ãªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
+		CW_USEDEFAULT,//xåº§æ¨™(OSã«ä»»ã›ã‚‹)
+		CW_USEDEFAULT,//yåº§æ¨™(OSã«ä»»ã›ã‚‹)
+		wrc.right - wrc.left,//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦æ¨ªå¹…
+		wrc.bottom - wrc.top,//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ç¸¦å¹…
+		nullptr,//è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+		nullptr,//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ³ãƒ‰ãƒ«
+		w.hInstance,//å‘¼ã³å‡ºã—ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«
+		nullptr);//ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 
-	//ƒEƒBƒ“ƒhƒE•\¦•”•ª
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦è¡¨ç¤ºéƒ¨åˆ†
 	ShowWindow(hwnd, SW_SHOW);
 
-}
-
-
-void WinApp::updare()
-{
+	//ã‚·ã‚¹ãƒ†ãƒ ã‚¿ã‚¤ãƒãƒ¼ã®åˆ†è§£èƒ½ã‚’ä¸Šã’ã‚‹
+	timeBeginPeriod(1);
 
 }
+
 
 bool WinApp::processMassage()
 {
 
-	//ƒƒbƒZ[ƒW‚ª‚ ‚éH
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã‚ã‚‹ï¼Ÿ
 	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
-		TranslateMessage(&msg);//ƒL[“ü—ÍƒƒbƒZ[ƒW‚Ìˆ—
-		DispatchMessage(&msg);//ƒvƒƒV[ƒWƒƒ‚ÉƒƒbƒZ[ƒW‚ğ‘—‚é
+		TranslateMessage(&msg);//ã‚­ãƒ¼å…¥åŠ›ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†
+		DispatchMessage(&msg);//ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹
 	}
 
-	//~ƒ{ƒ^ƒ“‚ÅI—¹ƒƒbƒZ[ƒW‚ª—ˆ‚½‚çƒQ[ƒ€ƒ‹[ƒv‚ğ”²‚¯‚é
+	//Ã—ãƒœã‚¿ãƒ³ã§çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒæ¥ãŸã‚‰ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹
 	if (msg.message == WM_QUIT)
 	{
 		return true;
@@ -76,21 +75,21 @@ bool WinApp::processMassage()
 
 }
 
-WNDCLASSEX WinApp::getW()
+const WNDCLASSEX& WinApp::getW()const
 {
 
 	return w;
 
 }
 
-RECT WinApp::getWrc()
+const RECT& WinApp::getWrc() const
 {
 
 	return wrc;
 
 }
 
-HWND WinApp::getHwnd()
+HWND WinApp::getHwnd() const
 {
 
 	return hwnd;
@@ -113,18 +112,18 @@ int WinApp::getWindowSizeHeight()
 
 }
 
-#pragma region ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
+#pragma region ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
 
 
 LRESULT WinApp::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg)
 	{
-	case WM_DESTROY://ƒEƒBƒ“ƒhƒE‚ª”jŠü‚³‚ê‚½
-		PostQuitMessage(0);//OS‚É‘Î‚µ‚ÄAI‚í‚Á‚½‚±‚Æ‚ğ“`‚¦‚é
+	case WM_DESTROY://ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãŒç ´æ£„ã•ã‚ŒãŸ
+		PostQuitMessage(0);//OSã«å¯¾ã—ã¦ã€çµ‚ã‚ã£ãŸã“ã¨ã‚’ä¼ãˆã‚‹
 		return 0;
 	}
-	return DefWindowProc(hwnd, msg, wparam, lparam);//•W€‚Ìˆ—‚ğ‚·‚é
+	return DefWindowProc(hwnd, msg, wparam, lparam);//æ¨™æº–ã®å‡¦ç†ã‚’ã™ã‚‹
 }
 
 #pragma endregion
