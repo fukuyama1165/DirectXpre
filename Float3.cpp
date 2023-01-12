@@ -123,3 +123,13 @@ const Float3 operator/(const Float3& v, float s)
 	Float3 temp(v);
 	return temp /= s;
 }
+
+Float3 nainavec3(Float3 a, Float3 b)
+{
+	Float3 ans = {};
+
+	ans = { a.x - b.x,a.y - b.y,a.z - b.z };
+
+	return ans;
+
+}

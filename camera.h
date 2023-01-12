@@ -3,11 +3,13 @@
 #include "Float3.h"
 #include "Float4.h"
 #include <math.h>
+#include "PI.h"
 
 
 class Camera
 {
 public:
+	Camera();
 	Camera(float win_width,float win_height);
 	~Camera();
 

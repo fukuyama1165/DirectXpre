@@ -33,3 +33,5 @@ const Float3 operator-(const Float3& v1, const Float3& v2);
 const Float3 operator*(const Float3& v, float s);
 const Float3 operator*(float s, const Float3& v);
 const Float3 operator/(const Float3& v, float s);
+
+Float3 nainavec3(Float3 a, Float3 b);

@@ -1,7 +1,12 @@
 #include "camera.h"
 
-const float PI = 3.141592653589f;
 
+
+Camera::Camera()
+{
+	Win_width = 1280;
+	Win_height = 720;
+}
 
 Camera::Camera(float win_width, float win_height)
 {
@@ -19,7 +24,7 @@ void Camera::upDate()
 {
 	matView = matViewGeneration(eye_, target_, up_);
 
-	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000.0f);
+	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000000.0f);
 }
 
 Matrix4x4 Camera::matViewGeneration(Float3 eye, Float3 target, Float3 up)

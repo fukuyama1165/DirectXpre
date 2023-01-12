@@ -143,10 +143,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="cameraObj.cpp" />
     <ClCompile Include="DirectXInit.cpp" />
     <ClCompile Include="DrawBillboard.cpp" />
     <ClCompile Include="DrawingObj.cpp" />
     <ClCompile Include="DrawOBJ.cpp" />
+    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="Float3.cpp" />
     <ClCompile Include="Float4.cpp" />
     <ClCompile Include="FPS.cpp" />
@@ -154,6 +157,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4x4.cpp" />
     <ClCompile Include="Object3D.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteCommon.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -166,16 +170,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="cameraObj.h" />
     <ClInclude Include="DirectXInit.h" />
     <ClInclude Include="DrawBillboard.h" />
     <ClInclude Include="DrawingObj.h" />
     <ClInclude Include="DrawOBJ.h" />
+    <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemyManager.h" />
     <ClInclude Include="Float3.h" />
     <ClInclude Include="Float4.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="matrix4x4.h" />
     <ClInclude Include="Object3D.h" />
+    <ClInclude Include="PI.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteCommon.h" />
     <ClInclude Include="Texture.h" />
