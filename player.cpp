@@ -12,11 +12,12 @@ player::~player()
 void player::Init(ID3D12Device* dev, const std::string directoryPath, const char filename[])
 {
 	input = input->GetInstance();
-	playerObj.objDrawInit(dev, directoryPath, filename);
+	playerObj.objDrawInit(dev, directoryPath, filename,true);
 	attackObj.objDrawInit(dev, directoryPath, filename);
 	
-	attackObj.SetParent(&playerObj);
-	attackObj.SetPos({ 0,0,-120 });
+	//attackObj.SetParent(&playerObj);
+	attackObj.SetPos({ -50,0,0 });
+	playerObj.SetPos({ 50,0,0 });
 	
 }
 
@@ -25,7 +26,7 @@ void player::Update(cameraObj camera)
 	moveVec = { 0,0,0 };
 	
 
-	if (input->PushKey(DIK_UP))
+	/*if (input->PushKey(DIK_UP))
 	{
 		moveVec.z = 1;
 	}
@@ -40,7 +41,7 @@ void player::Update(cameraObj camera)
 	if (input->PushKey(DIK_LEFT))
 	{
 		moveVec.x = -1;
-	}
+	}*/
 
 	if (input->PushKey(DIK_SPACE))
 	{
@@ -49,6 +50,10 @@ void player::Update(cameraObj camera)
 
 	//ˆÚ“®
 
+	playerObj.SetRotate({ 0,rotate,0 });
+	attackObj.SetRotate({ 0,rotate,0 });
+
+	rotate+=0.01;
 
 	/*float pPos = atan2(moveVec.x, moveVec.z);
 	float cVec = atan2(camera.forward.x, camera.forward.z);
@@ -70,7 +75,7 @@ void player::Update(cameraObj camera)
 	playerObj.Update(camera.GetCamera());
 	attackObj.Update(camera.GetCamera());
 
-	Attack();
+	//Attack();
 
 	if (playerObj.GetWorldPos().x < -1200)
 	{

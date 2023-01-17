@@ -154,6 +154,7 @@
     <ClCompile Include="Float4.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix4x4.cpp" />
     <ClCompile Include="Object3D.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Float4.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="matrix4x4.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="PI.h" />

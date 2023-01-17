@@ -22,7 +22,7 @@ public:
 private:
 
 	
-
+	float rotate = 0;
 	
 
 	Input* input=nullptr;

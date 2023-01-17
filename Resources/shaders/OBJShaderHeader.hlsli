@@ -1,6 +1,10 @@
 cbuffer cbuff0:register(b0)
 {
-	matrix mat;//3D変換行列
+	//matrix mat;//3D変換行列
+	matrix viewProj;//ビュープロジェクション行列
+	matrix world;//ワールド行列
+	float3 cameraPos;//カメラ座標(ワールド座標)
+
 }
 
 cbuffer cbuff1 : register(b1)//定数バッファの番号をbの後ろにつける
@@ -9,6 +13,14 @@ cbuffer cbuff1 : register(b1)//定数バッファの番号をbの後ろにつけ
 	float3 m_diffuse:packoffset(c1);
 	float3 m_specular:packoffset(c2);
 	float m_alpha : packoffset(c2.w);
+}
+
+cbuffer cbuff2 : register(b2)
+{
+
+	float3 lightV;//ライトへの方向の単位ベクトル
+	float3 lightColor;//ライトの色(RGB)
+
 }
 
 
