@@ -343,6 +343,28 @@ Vector3 VectorMat(Matrix4x4 mat, Vector3 vector)
 	return changeVector;
 }
 
+Vector4 operator*(Matrix4x4 mat, Vector4 vector)
+{
+	Vector4 changeVector = { 0,0,0,0 };
+
+	changeVector.x = mat.m[0][0] * vector.x + mat.m[0][1] * vector.y + mat.m[0][2] * vector.z + mat.m[0][3] * vector.w;
+	changeVector.y = mat.m[1][0] * vector.x + mat.m[1][1] * vector.y + mat.m[1][2] * vector.z + mat.m[1][3] * vector.w;
+	changeVector.z = mat.m[2][0] * vector.x + mat.m[2][1] * vector.y + mat.m[2][2] * vector.z + mat.m[2][3] * vector.w;
+
+	return changeVector;
+}
+
+Vector4 operator*(Vector4 vector, Matrix4x4 mat)
+{
+	Vector4 changeVector = { 0,0,0,0};
+
+	changeVector.x = vector.x * mat.m[0][0] + vector.y * mat.m[1][0] + vector.z * mat.m[2][0] + vector.w * mat.m[3][0];
+	changeVector.y = vector.x * mat.m[0][1] + vector.y * mat.m[1][1] + vector.z * mat.m[2][1] + vector.w * mat.m[3][1];
+	changeVector.z = vector.x * mat.m[0][2] + vector.y * mat.m[1][2] + vector.z * mat.m[2][2] + vector.w * mat.m[3][2];
+
+	return changeVector;
+}
+
 Vector3 PosMat(Vector3 vector, Matrix4x4 mat)
 {
 

@@ -6,10 +6,10 @@ public:
 	Vector4(float x, float y, float z,float w);
 
 	float length()const;
-	Vector4& normalize();
+	static Vector4& normalize(const Vector4& v);
 
-	float dot(const Vector4& v)const;
-	Vector4 cross(const Vector4& v)const;
+	static float dot(const Vector4& v, const Vector4& v2);
+	static Vector4 cross(const Vector4& v, const Vector4& v2);
 
 	
 

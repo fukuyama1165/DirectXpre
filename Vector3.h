@@ -8,9 +8,12 @@ public:
 	~Vector3();
 
 	float length()const;
+	static Vector3& normalize(const Vector3& v);
 	Vector3& normalize();
-	float dot(const Vector3& v)const;
-	Vector3 cross(const Vector3& v)const;
+	static float dot(const Vector3& v, const Vector3& v2);
+	float dot(const Vector3& v);
+	static Vector3 cross(const Vector3& v, const Vector3& v2);
+	Vector3 cross(const Vector3& v);
 
 	Vector3 operator+() const;
 	Vector3 operator-() const;

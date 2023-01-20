@@ -13,19 +13,19 @@ Vector4::Vector4(float x, float y, float z,float w)
 {
 }
 
-float Vector4::dot(const Vector4& v) const
+float Vector4::dot(const Vector4& v, const Vector4& v2)
 {
-	return x * v.x + y * v.y + z * v.z + w * v.w;
+	return v.x * v2.x + v.y * v2.y + v.z * v2.z + v.w * v2.w;
 }
 
-Vector4 Vector4::cross(const Vector4& v) const
+Vector4 Vector4::cross(const Vector4& v, const Vector4& v2)
 {
 	Vector4 a = Vector4();
 
-	a.x = y * v.z - z * v.y;
-	a.y = z * v.x - x * v.z;
-	a.z = y * v.z - z * v.y;
-	a.w = y * v.z - z * v.y;
+	a.x = v.y * v2.z - v.z * v2.y;
+	a.y = v.z * v2.x - v.x * v2.z;
+	a.z = v.y * v2.z - v.z * v2.y;
+	a.w = v.y * v2.z - v.z * v2.y;
 
 	return a;
 }
@@ -35,15 +35,16 @@ float Vector4::length()const
 	return sqrtf(x * x + y * y + z * z+w*w);
 }
 
-Vector4& Vector4::normalize()
+Vector4& Vector4::normalize(const Vector4& v)
 {
-	float len = length();
+	float len = v.length();
+	Vector4 ans = v;
 	if (len != 0)
 	{
-		return *this /= len;
+		return ans /= len;
 	}
 
-	return *this;
+	return ans;
 }
 
 Vector4 Vector4::operator+() const

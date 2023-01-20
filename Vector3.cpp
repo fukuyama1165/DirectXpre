@@ -21,6 +21,18 @@ float Vector3::length()const
 	return sqrtf(x * x + y * y + z * z);
 }
 
+Vector3& Vector3::normalize(const Vector3& v)
+{
+	float len = v.length();
+	Vector3 ans = v;
+	if (len != 0)
+	{
+		return ans /= len;
+	}
+
+	return ans;
+}
+
 Vector3& Vector3::normalize()
 {
 	float len = length();
@@ -32,12 +44,28 @@ Vector3& Vector3::normalize()
 	return *this;
 }
 
-float Vector3::dot(const Vector3& v) const
+float Vector3::dot(const Vector3& v, const Vector3& v2)
+{
+	return v.x * v2.x + v.y * v2.y + v.z * v2.z;
+}
+
+float Vector3::dot(const Vector3& v)
 {
 	return x * v.x + y * v.y + z * v.z;
 }
 
-Vector3 Vector3::cross(const Vector3& v) const
+Vector3 Vector3::cross(const Vector3& v, const Vector3& v2)
+{
+	Vector3 a = Vector3();
+
+	a.x = v.y * v2.z - v.z * v2.y;
+	a.y = v.z * v2.x - v.x * v2.z;
+	a.z = v.x * v2.y - v.y * v2.x;
+
+	return a;
+}
+
+Vector3 Vector3::cross(const Vector3& v)
 {
 	Vector3 a = Vector3();
 
