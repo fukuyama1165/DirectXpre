@@ -34,7 +34,7 @@ using namespace DirectX;
 #include "matrix4x4.h"
 #include "Vector3.h"
 #include "Object3D.h"
-#include "Float4.h"
+#include "Vector4.h"
 #include "Texture.h"
 
 //ComPtr用インクルード

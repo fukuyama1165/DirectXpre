@@ -113,10 +113,10 @@ Matrix4x4 Camera::matViewGeneration(Vector3 eye, Vector3 target, Vector3 up)
 	//// z.z,z.w,w.z,w.w
 	//XMVECTOR vTemp4 = _mm_shuffle_ps(M.r[2], M.r[3], _MM_SHUFFLE(3, 2, 3, 2));
 
-	Float4 vTemp1 = { M.m[0][0],M.m[0][1],M.m[1][0],M.m[1][1] };
-	Float4 vTemp2 = { M.m[0][2],M.m[0][3],M.m[1][2],M.m[1][3] };
-	Float4 vTemp3 = { M.m[2][0],M.m[2][1],M.m[3][0],M.m[3][1] };
-	Float4 vTemp4 = { M.m[2][2],M.m[2][3],M.m[3][2],M.m[3][3] };
+	Vector4 vTemp1 = { M.m[0][0],M.m[0][1],M.m[1][0],M.m[1][1] };
+	Vector4 vTemp2 = { M.m[0][2],M.m[0][3],M.m[1][2],M.m[1][3] };
+	Vector4 vTemp3 = { M.m[2][0],M.m[2][1],M.m[3][0],M.m[3][1] };
+	Vector4 vTemp4 = { M.m[2][2],M.m[2][3],M.m[3][2],M.m[3][3] };
 
 	//XMMATRIX mResult;
 	//// x.x,y.x,z.x,w.x

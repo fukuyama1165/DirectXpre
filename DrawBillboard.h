@@ -32,7 +32,7 @@ using namespace DirectX;
 #include "Vector3.h"
 #include "Object3D.h"
 #include "Texture.h"
-#include "Float4.h"
+#include "Vector4.h"
 
 //ComPtr用インクルード
 #include <wrl.h>
