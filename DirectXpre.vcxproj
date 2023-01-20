@@ -144,13 +144,14 @@
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="cameraObj.cpp" />
+    <ClCompile Include="CollisionPrimirive.cpp" />
     <ClCompile Include="DirectXInit.cpp" />
     <ClCompile Include="DrawBillboard.cpp" />
     <ClCompile Include="DrawingObj.cpp" />
     <ClCompile Include="DrawOBJ.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
-    <ClCompile Include="Float3.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Float4.cpp" />
     <ClCompile Include="FPS.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -172,13 +173,14 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="cameraObj.h" />
+    <ClInclude Include="CollisionPrimirive.h" />
     <ClInclude Include="DirectXInit.h" />
     <ClInclude Include="DrawBillboard.h" />
     <ClInclude Include="DrawingObj.h" />
     <ClInclude Include="DrawOBJ.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
-    <ClInclude Include="Float3.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="Float4.h" />
     <ClInclude Include="FPS.h" />
     <ClInclude Include="Input.h" />

@@ -1,7 +1,7 @@
 #include "enemyManager.h"
 
 
-void enemyManager::PopEnemy(ID3D12Device* dev, Float3 pos)
+void enemyManager::PopEnemy(ID3D12Device* dev, Vector3 pos)
 {
 	std::unique_ptr<enemy> newEnemy = std::make_unique<enemy>();
 
@@ -14,7 +14,7 @@ void enemyManager::PopEnemy(ID3D12Device* dev, Float3 pos)
 	enemys.push_back(std::move(newEnemy));
 }
 
-void enemyManager::UpDate(Camera camera, Float3 playerPos)
+void enemyManager::UpDate(Camera camera, Vector3 playerPos)
 {
 	for (std::unique_ptr<enemy>& enem : enemys)
 	{

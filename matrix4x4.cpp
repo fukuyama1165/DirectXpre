@@ -321,9 +321,9 @@ float Matrix4x4::abs(float num)
 	return num;
 }
 
-Float3 VectorMat(Float3 vector, Matrix4x4 mat)
+Vector3 VectorMat(Vector3 vector, Matrix4x4 mat)
 {
-	Float3 changeVector = { 0,0,0 };
+	Vector3 changeVector = { 0,0,0 };
 
 	changeVector.x = vector.x * mat.m[0][0] + vector.y * mat.m[1][0] + vector.z * mat.m[2][0] + 0.0f * mat.m[3][0];
 	changeVector.y = vector.x * mat.m[0][1] + vector.y * mat.m[1][1] + vector.z * mat.m[2][1] + 0.0f * mat.m[3][1];
@@ -332,9 +332,9 @@ Float3 VectorMat(Float3 vector, Matrix4x4 mat)
 	return changeVector;
 }
 
-Float3 VectorMat(Matrix4x4 mat, Float3 vector)
+Vector3 VectorMat(Matrix4x4 mat, Vector3 vector)
 {
-	Float3 changeVector = { 0,0,0 };
+	Vector3 changeVector = { 0,0,0 };
 
 	changeVector.x = mat.m[0][0] * vector.x + mat.m[0][1] * vector.y + mat.m[0][2] * vector.z + mat.m[0][3] * 0.0f;
 	changeVector.y = mat.m[1][0] * vector.x + mat.m[1][1] * vector.y + mat.m[1][2] * vector.z + mat.m[1][3] * 0.0f;
@@ -343,10 +343,10 @@ Float3 VectorMat(Matrix4x4 mat, Float3 vector)
 	return changeVector;
 }
 
-Float3 PosMat(Float3 vector, Matrix4x4 mat)
+Vector3 PosMat(Vector3 vector, Matrix4x4 mat)
 {
 
-	Float3 changeVector = { 0,0,0 };
+	Vector3 changeVector = { 0,0,0 };
 
 	changeVector.x = vector.x * mat.m[0][0] + vector.y * mat.m[1][0] + vector.z * mat.m[2][0] + 1.0f * mat.m[3][0];
 	changeVector.y = vector.x * mat.m[0][1] + vector.y * mat.m[1][1] + vector.z * mat.m[2][1] + 1.0f * mat.m[3][1];
@@ -355,9 +355,9 @@ Float3 PosMat(Float3 vector, Matrix4x4 mat)
 	return changeVector;
 }
 
-Float3 PosMat(Matrix4x4 mat, Float3 vector)
+Vector3 PosMat(Matrix4x4 mat, Vector3 vector)
 {
-	Float3 changeVector = { 0,0,0 };
+	Vector3 changeVector = { 0,0,0 };
 
 	changeVector.x = mat.m[0][0] * vector.x + mat.m[0][1] * vector.y + mat.m[0][2] * vector.z + mat.m[0][3] * 1.0f;
 	changeVector.y = mat.m[1][0] * vector.x + mat.m[1][1] * vector.y + mat.m[1][2] * vector.z + mat.m[1][3] * 1.0f;
@@ -366,11 +366,11 @@ Float3 PosMat(Matrix4x4 mat, Float3 vector)
 	return changeVector;
 }
 
-Float3 Matrix4x4::VectorMatDivW(Matrix4x4 mat, Float3 pos)
+Vector3 Matrix4x4::VectorMatDivW(Matrix4x4 mat, Vector3 pos)
 {
 	float w = pos.x * mat.m[0][3] + pos.y * mat.m[1][3] + pos.z * mat.m[2][3] + mat.m[3][3];
 
-	Float3 result =
+	Vector3 result =
 	{
 		(pos.x * mat.m[0][0] + pos.y * mat.m[1][0] + pos.z * mat.m[2][0] + mat.m[3][0]) / w,
 		(pos.x * mat.m[0][1] + pos.y * mat.m[1][1] + pos.z * mat.m[2][1] + mat.m[3][1]) / w,

@@ -17,14 +17,14 @@ void enemy::Init(ID3D12Device* dev, const std::string directoryPath, const char 
 
 }
 
-void enemy::Update(Camera camera,Float3 playerPos)
+void enemy::Update(Camera camera,Vector3 playerPos)
 {
 	if (isAlive)
 	{
 		if (isHit == false)
 		{
 
-			Float3 playerEnemyVec = enemyObj.GetPos() - playerPos;
+			Vector3 playerEnemyVec = enemyObj.GetPos() - playerPos;
 
 			playerEnemyVec = playerEnemyVec.normalize();
 

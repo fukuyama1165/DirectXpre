@@ -8,7 +8,7 @@ public:
 	~enemy();
 
 	void Init(ID3D12Device* dev, const std::string directoryPath, const char filename[]);
-	void Update(Camera camera,Float3 playerPos);
+	void Update(Camera camera,Vector3 playerPos);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	Object3D enemyObj;
@@ -20,12 +20,12 @@ private:
 
 	bool isHitSet = false;
 
-	Float3 hitVec;
+	Vector3 hitVec;
 
 	int hitTime = 0;
 
 	Input* input;
 
-	Float3 pos = {};
+	Vector3 pos = {};
 };
 

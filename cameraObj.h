@@ -13,10 +13,10 @@ public:
 
 public:
 
-	Float3 pos = {};
-	Float3 rotate = {};
+	Vector3 pos = {};
+	Vector3 rotate = {};
 
-	Float3 forward = { 0.0f, 0.0f, 1.0f };
+	Vector3 forward = { 0.0f, 0.0f, 1.0f };
 
 	//本体(単純に位置としてしか使ってないのでこいつ自体はinit等使うことはないはず)
 	Object3D cameobj;

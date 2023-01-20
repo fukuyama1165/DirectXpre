@@ -24,7 +24,7 @@ void cameraObj::upDate()
 
 	camera.target_ = camera.eye_ + forward;
 
-	Float3 up(0, 1, 0);
+	Vector3 up(0, 1, 0);
 
 	camera.up_ = VectorMat(up, cameobj.GetWorldMat());
 

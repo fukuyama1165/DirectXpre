@@ -6,9 +6,9 @@ class enemyManager
 
 public:
 
-	void PopEnemy(ID3D12Device* dev, Float3 pos);
+	void PopEnemy(ID3D12Device* dev, Vector3 pos);
 
-	void UpDate(Camera camera, Float3 playerPos);
+	void UpDate(Camera camera, Vector3 playerPos);
 
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 

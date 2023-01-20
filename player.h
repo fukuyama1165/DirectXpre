@@ -27,9 +27,9 @@ private:
 
 	Input* input=nullptr;
 
-	Float3 pos = {};
+	Vector3 pos = {};
 
-	Float3 moveVec;
+	Vector3 moveVec;
 
 	float moveSpeed = 5;
 

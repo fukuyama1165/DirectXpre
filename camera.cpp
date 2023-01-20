@@ -27,18 +27,18 @@ void Camera::upDate()
 	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000000.0f);
 }
 
-Matrix4x4 Camera::matViewGeneration(Float3 eye, Float3 target, Float3 up)
+Matrix4x4 Camera::matViewGeneration(Vector3 eye, Vector3 target, Vector3 up)
 {
 
-	Float3 zVer = target - eye;
+	Vector3 zVer = target - eye;
 
 	zVer.normalize();
 
-	Float3 xVer = up.cross(zVer);
+	Vector3 xVer = up.cross(zVer);
 
 	xVer.normalize();
 
-	Float3 yVer = zVer.cross(xVer);
+	Vector3 yVer = zVer.cross(xVer);
 
 
 	Matrix4x4 cameraRotateMat = {};
@@ -65,21 +65,21 @@ Matrix4x4 Camera::matViewGeneration(Float3 eye, Float3 target, Float3 up)
 
 	ans = cameraRotateMat.InverseMatrix();
 
-	Float3 eyeDis = {};
+	Vector3 eyeDis = {};
 	eyeDis = { target.x - eye.x,target.y - eye.y,target.z - eye.z };
 
-	Float3 R2 = eyeDis.normalize();
+	Vector3 R2 = eyeDis.normalize();
 
-	Float3 R0 = up.cross(R2);
+	Vector3 R0 = up.cross(R2);
 	R0 = R0.normalize();
 
-	Float3 R1 = R2.cross(R0);
+	Vector3 R1 = R2.cross(R0);
 
-	Float3 NegEyePosition = { -eye.x,-eye.y,-eye.z };
+	Vector3 NegEyePosition = { -eye.x,-eye.y,-eye.z };
 
-	Float3 D0 = float3Dat(R0, NegEyePosition);
-	Float3 D1 = float3Dat(R1, NegEyePosition);
-	Float3 D2 = float3Dat(R2, NegEyePosition);
+	Vector3 D0 = float3Dat(R0, NegEyePosition);
+	Vector3 D1 = float3Dat(R1, NegEyePosition);
+	Vector3 D2 = float3Dat(R2, NegEyePosition);
 
 	Matrix4x4 M;
 	M.m[0][0] = R0.x;
@@ -209,9 +209,9 @@ void Camera::sinCos(float& Sin, float& Cos, float angle)
 	Cos = cosf(angle);
 }
 
-Float3 Camera::float3Dat(Float3 A, Float3 B)
+Vector3 Camera::float3Dat(Vector3 A, Vector3 B)
 {
-	Float3 num = { A.x * B.x,A.y * B.y,A.z * B.z };
+	Vector3 num = { A.x * B.x,A.y * B.y,A.z * B.z };
 
 	num.x = num.x + num.y + num.z;
 
