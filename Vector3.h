@@ -8,11 +8,17 @@ public:
 	~Vector3();
 
 	float length()const;
+	//“n‚µ‚½‚à‚Ì‚ğ³‹K‰»‚µ‚Ä•Ô‚·
 	static Vector3& normalize(const Vector3& v);
+	//©•ª‚ğ³‹K‰»‚·‚é(©•ª‘‚«Š·‚¦‚é)
 	Vector3& normalize();
+	//“n‚µ‚½‚à‚Ì‚Å“àÏ‚ğŒvZ‚µ‚Ä•Ô‚·
 	static float dot(const Vector3& v, const Vector3& v2);
+	//©•ª‚Æ“n‚µ‚½‚à‚Ì‚Å“àÏ‚ğŒvZ‚µ‚Ä•Ô‚·(©•ªæ)
 	float dot(const Vector3& v);
+	//“n‚µ‚½‚à‚Ì‚ÅŠOÏ‚ğŒvZ‚µ‚Ä•Ô‚·
 	static Vector3 cross(const Vector3& v, const Vector3& v2);
+	//©•ª‚Æ“n‚µ‚½‚à‚Ì‚ÅŠOÏ‚ğŒvZ‚µ‚Ä•Ô‚·(©•ªæ)
 	Vector3 cross(const Vector3& v);
 
 	Vector3 operator+() const;

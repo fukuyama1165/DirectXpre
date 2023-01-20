@@ -18,6 +18,11 @@ float Vector4::dot(const Vector4& v, const Vector4& v2)
 	return v.x * v2.x + v.y * v2.y + v.z * v2.z + v.w * v2.w;
 }
 
+float Vector4::dot(const Vector4& v)
+{
+	return x * v.x + y * v.y + z * v.z + w * v.w;
+}
+
 Vector4 Vector4::cross(const Vector4& v, const Vector4& v2)
 {
 	Vector4 a = Vector4();
@@ -26,6 +31,18 @@ Vector4 Vector4::cross(const Vector4& v, const Vector4& v2)
 	a.y = v.z * v2.x - v.x * v2.z;
 	a.z = v.y * v2.z - v.z * v2.y;
 	a.w = v.y * v2.z - v.z * v2.y;
+
+	return a;
+}
+
+Vector4 Vector4::cross(const Vector4& v)
+{
+	Vector4 a = Vector4();
+
+	a.x = y * v.z - z * v.y;
+	a.y = z * v.x - x * v.z;
+	a.z = y * v.z - z * v.y;
+	a.w = y * v.z - z * v.y;
 
 	return a;
 }
@@ -45,6 +62,18 @@ Vector4& Vector4::normalize(const Vector4& v)
 	}
 
 	return ans;
+}
+
+Vector4& Vector4::normalize()
+{
+	float len = length();
+	
+	if (len != 0)
+	{
+		return *this /= len;
+	}
+
+	return *this;
 }
 
 Vector4 Vector4::operator+() const
