@@ -49,7 +49,7 @@ Vector4 Vector4::cross(const Vector4& v)
 
 float Vector4::length()const
 {
-	return sqrtf(x * x + y * y + z * z+w*w);
+	return sqrtf(x * x + y * y + z * z + w * w);
 }
 
 Vector4& Vector4::normalize(const Vector4& v)
