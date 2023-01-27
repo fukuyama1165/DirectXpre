@@ -41,6 +41,17 @@ private:
 
 };
 
+struct Ray
+{
+
+	//‹“_À•W
+	Vector4 start = { 0,0,0,1 };
+
+	//•ûŒü
+	Vector4 dir = { 1,0,0,0 };
+
+};
+
 
 
 class CollisionPrimirive

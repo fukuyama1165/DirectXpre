@@ -35,6 +35,7 @@ void Collison::ClosestPtPoint2Triangle(const Vector4& point, const Triangle& tri
 {
 
 	//pointがp0の外側の頂点領域の中にあるかどうかチェック
+
 #pragma region p0チェック
 
 	//triangleのp0とp1のベクトル
@@ -63,10 +64,10 @@ void Collison::ClosestPtPoint2Triangle(const Vector4& point, const Triangle& tri
 
 #pragma endregion
 
+	//pointがp1の外側の頂点領域の中にあるかどうかチェック
+
 #pragma region p1チェック
 
-	//pointがp1の外側の頂点領域の中にあるかどうかチェック
-	
 	//triangleのp1とPointのベクトル
 	Vector4 p1Po = point - triangle.p1;
 
