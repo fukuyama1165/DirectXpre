@@ -15,11 +15,30 @@ cbuffer cbuff1 : register(b1)//定数バッファの番号をbの後ろにつけ
 	float m_alpha : packoffset(c2.w);
 }
 
+//cbuffer cbuff2 : register(b2)
+//{
+//
+//	float3 lightV;//ライトへの方向の単位ベクトル
+//	float3 lightColor;//ライトの色(RGB)
+//
+//}
+
+static const uint DIR_LIGHT_NUM = 3;
+
+struct DirLight
+{
+
+	float3 lightV;
+	float3 lightColor;
+	uint active;
+
+};
+
 cbuffer cbuff2 : register(b2)
 {
 
-	float3 lightV;//ライトへの方向の単位ベクトル
-	float3 lightColor;//ライトの色(RGB)
+	float3 ambientColor;
+	DirLight dirLights[DIR_LIGHT_NUM];
 
 }
 

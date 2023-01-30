@@ -32,6 +32,7 @@ public://サブクラス
 
 		XMVECTOR lightv;
 		XMFLOAT3 lightColor;
+		unsigned int active;
 
 	};
 
@@ -73,6 +74,16 @@ public:
 	/// <param name="lightcolor">ライト色</param>
 	void SetLightColor(const XMFLOAT3& lightcolor);
 
+	//有効フラグをセット
+	inline void SetIsActive(bool flag) { isActive = flag; };
+
+	//有効フラグを取得
+	inline bool GetIsActive() { return isActive; };
+
+	XMVECTOR GetLightDir() { return lightDir; };
+
+	XMFLOAT3 GetLightColor() { return lightColor; };
+
 private://メンバ関数(privete)
 
 	//定数バッファ
@@ -85,6 +96,9 @@ private://メンバ関数(privete)
 private://メンバ変数
 
 	HRESULT result;
+
+	//有効フラグ
+	bool isActive = false;
 
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuff = nullptr;
