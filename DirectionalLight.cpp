@@ -1,26 +1,26 @@
-#include "Light.h"
+#include "DirectionalLight.h"
 
 using namespace DirectX;
 
 //静的メンバ変数の実体
-ID3D12Device* Light::dev = nullptr;
+ID3D12Device* DirectionalLight::dev = nullptr;
 
-void Light::StaticInitialize(ID3D12Device* device)
+void DirectionalLight::StaticInitialize(ID3D12Device* device)
 {
 
 	//再初期化チェック
-	assert(!Light::dev);
+	assert(!DirectionalLight::dev);
 	//nullptrチェック
 	assert(device);
 	//静的メンバ変数のセット
-	Light::dev = device;
+	DirectionalLight::dev = device;
 
 }
 
-Light* Light::Create()
+DirectionalLight* DirectionalLight::Create()
 {
 
-	Light* instance = new Light();
+	DirectionalLight* instance = new DirectionalLight();
 
 	//初期化
 	instance->Init();
@@ -30,7 +30,7 @@ Light* Light::Create()
 
 }
 
-void Light::Init()
+void DirectionalLight::Init()
 {
 
 	constantBuffGeneration(dev);
@@ -39,7 +39,7 @@ void Light::Init()
 
 }
 
-void Light::Update()
+void DirectionalLight::Update()
 {
 
 
@@ -52,14 +52,14 @@ void Light::Update()
 
 }
 
-void Light::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
+void DirectionalLight::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
 {
 
 	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff->GetGPUVirtualAddress());
 
 }
 
-void Light::SetLightDir(const XMVECTOR& lightdir)
+void DirectionalLight::SetLightDir(const XMVECTOR& lightdir)
 {
 
 	this->lightDir = XMVector3Normalize(lightdir);
@@ -67,7 +67,7 @@ void Light::SetLightDir(const XMVECTOR& lightdir)
 
 }
 
-void Light::SetLightColor(const XMFLOAT3& lightcolor)
+void DirectionalLight::SetLightColor(const XMFLOAT3& lightcolor)
 {
 
 	this->lightColor = lightcolor;
@@ -75,7 +75,7 @@ void Light::SetLightColor(const XMFLOAT3& lightcolor)
 
 }
 
-void Light::constantBuffGeneration(ID3D12Device* dev)
+void DirectionalLight::constantBuffGeneration(ID3D12Device* dev)
 {
 #pragma region 定数バッファ
 
@@ -99,7 +99,7 @@ void Light::constantBuffGeneration(ID3D12Device* dev)
 #pragma endregion
 }
 
-D3D12_RESOURCE_DESC Light::constBuffResourceGeneration(int size)
+D3D12_RESOURCE_DESC DirectionalLight::constBuffResourceGeneration(int size)
 {
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -113,7 +113,7 @@ D3D12_RESOURCE_DESC Light::constBuffResourceGeneration(int size)
 	return cbResourceDesc;
 }
 
-void Light::TransferConstBuffer()
+void DirectionalLight::TransferConstBuffer()
 {
 
 	//マッピングするときのポインタ

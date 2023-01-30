@@ -11,7 +11,7 @@
 #include<DirectXMath.h>
 #include <wrl.h>
 
-class Light
+class DirectionalLight
 {
 private://エイリアス
 
@@ -47,7 +47,7 @@ public://静的メンバ関数
 public:
 
 	//インスタンス生成
-	static Light* Create();
+	static DirectionalLight* Create();
 
 	//初期化
 	void Init();
