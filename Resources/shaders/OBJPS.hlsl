@@ -36,7 +36,7 @@ float4 main(VSOutput input) : SV_TARGET
 	//shadecolor.rgb = (ambient + diffuse + specular) * lightColor;
 	//shadecolor.a = m_alpha;
 
-	float4 shadecolor = float4(ambientColor * ambient, m_ambient);
+	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
 	for (int i = 0; i < DIR_LIGHT_NUM; i++)
 	{

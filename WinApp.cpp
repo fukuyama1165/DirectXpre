@@ -1,6 +1,8 @@
 #include "WinApp.h"
 #pragma comment(lib,"winmm.lib")
+#include <imgui_impl_win32.h>
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 WinApp::WinApp()
 {
@@ -117,6 +119,11 @@ int WinApp::getWindowSizeHeight()
 
 LRESULT WinApp::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+	{
+		return true;
+	}
+
 	switch (msg)
 	{
 	case WM_DESTROY://ウィンドウが破棄された

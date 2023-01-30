@@ -1,4 +1,5 @@
 #include "player.h"
+#include <imgui.h>
 
 player::player()
 {
@@ -8,6 +9,8 @@ player::~player()
 {
 
 }
+
+
 
 void player::Init(ID3D12Device* dev, const std::string directoryPath, const char filename[])
 {
@@ -24,6 +27,7 @@ void player::Init(ID3D12Device* dev, const std::string directoryPath, const char
 void player::Update(cameraObj camera)
 {
 	moveVec = { 0,0,0 };
+
 	
 
 	/*if (input->PushKey(DIK_UP))

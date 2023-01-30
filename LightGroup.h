@@ -8,21 +8,6 @@
 
 class LightGroup
 {
-public:
-
-	static void Staticlnitialize(ID3D12Device* device);
-
-	void Init();
-
-	//定数バッファ転送
-	void TransferConstBuffer();
-
-	void SetAmbientColor(const XMFLOAT3& color);
-
-	void SetDirLightActive(int index, bool active);
-
-	void SetDirLightDir(int index, const XMVECTOR& lightdir);
-
 private:
 
 	//Microsoft::WRL::を省略
@@ -34,6 +19,34 @@ private:
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
+
+public:
+
+	static void Staticlnitialize(ID3D12Device* device);
+
+	//インスタンス生成
+	static LightGroup* Create();
+
+	void Init();
+
+	void Update();
+
+	void Draw(ID3D12GraphicsCommandList* cmdList,UINT rootParameterIndex);
+
+	//定数バッファ転送
+	void TransferConstBuffer();
+
+	void SetAmbientColor(const XMFLOAT3& color);
+
+	void SetDirLightActive(int index, bool active);
+
+	void SetDirLightDir(int index, const XMVECTOR& lightdir);
+
+	void SetDirLightColor(int index, const XMFLOAT3& lightcolor);
+
+	void DefaultLightSetting();
+
+private:
 
 	//定数バッファ
 	void constantBuffGeneration(ID3D12Device* dev);
@@ -66,7 +79,7 @@ private:
 
 	
 
-	ComPtr<ID3D12Resource> constBuff;
+	//ComPtr<ID3D12Resource> constBuff;
 
 	XMFLOAT3 ambientColor = { 1,1,1 };
 

@@ -15,12 +15,44 @@ void LightGroup::Staticlnitialize(ID3D12Device* device)
 
 }
 
+LightGroup* LightGroup::Create()
+{
+
+	LightGroup* instance = new LightGroup();
+
+	instance->Init();
+
+	return instance;
+
+}
+
 void LightGroup::Init()
 {
+	DefaultLightSetting();
 
 	constantBuffGeneration(dev);
 
 	TransferConstBuffer();
+
+}
+
+void LightGroup::Update()
+{
+
+	if (dirty)
+	{
+
+		TransferConstBuffer();
+		dirty = false;
+
+	}
+
+}
+
+void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
+{
+
+	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff->GetGPUVirtualAddress());
 
 }
 
@@ -99,14 +131,55 @@ void LightGroup::TransferConstBuffer()
 void LightGroup::SetAmbientColor(const XMFLOAT3& color)
 {
 
+	ambientColor = color;
+	dirty = true;
+
 }
 
 void LightGroup::SetDirLightActive(int index, bool active)
 {
 
+	assert(0 <= index and index < DirLightNum);
+
+	dirLights[index].SetIsActive(active);
+
 }
 
 void LightGroup::SetDirLightDir(int index, const XMVECTOR& lightdir)
 {
+
+	assert(0 <= index and index < DirLightNum);
+
+	dirLights[index].SetLightDir(lightdir);
+
+	dirty = true;
+
+}
+
+void LightGroup::SetDirLightColor(int index, const XMFLOAT3& lightcolor)
+{
+
+	assert(0 <= index and index < DirLightNum);
+
+	dirLights[index].SetLightColor(lightcolor);
+
+	dirty = true;
+
+}
+
+void LightGroup::DefaultLightSetting()
+{
+
+	dirLights[0].SetIsActive(true);
+	dirLights[0].SetLightColor({1.0f,1.0f,1.0f});
+	dirLights[0].SetLightDir({0.0f,-1.0f,0.0f,0});
+
+	dirLights[1].SetIsActive(true);
+	dirLights[1].SetLightColor({ 1.0f,1.0f,1.0f });
+	dirLights[1].SetLightDir({ +0.5f,+0.1f,+0.2f,0 });
+
+	dirLights[2].SetIsActive(true);
+	dirLights[2].SetLightColor({ 1.0f,1.0f,1.0f });
+	dirLights[2].SetLightDir({ -0.5f,+0.1f,-0.2f,0 });
 
 }
