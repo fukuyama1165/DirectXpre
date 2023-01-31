@@ -69,12 +69,12 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 	calcMat[2][6] = 1;
 	calcMat[3][7] = 1;
 
-	double calcMatTmp[4][8];
+	float calcMatTmp[4][8];
 
 	//‚Ps‚P—ñ‚ð‚P‚É‚·‚é
 
 	{
-		double max = abs(calcMat[0][0]);
+		float max = abs(calcMat[0][0]);
 		int	maxI = 0;
 
 		for (int i = 1; i < 4; i++)
@@ -96,7 +96,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 		if (maxI != 0)
 		{
 			for (int j = 0; j < 8; j++) {
-				double tmp = calcMat[maxI][j];
+				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[0][j];
 				calcMat[0][j] = tmp;
 			}
@@ -143,7 +143,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 		if (maxI != 1)
 		{
 			for (int j = 0; j < 8; j++) {
-				double tmp = calcMat[maxI][j];
+				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[1][j];
 				calcMat[1][j] = tmp;
 			}
@@ -189,7 +189,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 		if (maxI != 2)
 		{
 			for (int j = 0; j < 8; j++) {
-				double tmp = calcMat[maxI][j];
+				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[2][j];
 				calcMat[2][j] = tmp;
 			}

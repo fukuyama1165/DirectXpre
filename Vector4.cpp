@@ -52,7 +52,7 @@ float Vector4::length()const
 	return sqrtf(x * x + y * y + z * z + w * w);
 }
 
-Vector4& Vector4::normalize(const Vector4& v)
+Vector4 Vector4::normalize(const Vector4& v)
 {
 	float len = v.length();
 	Vector4 ans = v;

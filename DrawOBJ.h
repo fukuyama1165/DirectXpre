@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // D3Dコンパイラ
 #include <d3dcompiler.h>

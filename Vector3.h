@@ -9,7 +9,7 @@ public:
 
 	float length()const;
 	//“n‚µ‚½‚à‚Ì‚ğ³‹K‰»‚µ‚Ä•Ô‚·
-	static Vector3& normalize(const Vector3& v);
+	static Vector3 normalize(const Vector3& v);
 	//©•ª‚ğ³‹K‰»‚·‚é(©•ª‘‚«Š·‚¦‚é)
 	Vector3& normalize();
 	//“n‚µ‚½‚à‚Ì‚Å“àÏ‚ğŒvZ‚µ‚Ä•Ô‚·
