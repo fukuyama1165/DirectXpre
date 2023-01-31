@@ -57,7 +57,7 @@ void player::Update(cameraObj camera)
 	playerObj.SetRotate({ 0,rotate,0 });
 	attackObj.SetRotate({ 0,rotate,0 });
 
-	rotate+=0.01;
+	rotate+=0.01f;
 
 	/*float pPos = atan2(moveVec.x, moveVec.z);
 	float cVec = atan2(camera.forward.x, camera.forward.z);
@@ -118,7 +118,7 @@ void player::Attack()
 		{
 
 			attackObj.SetPos({ sinf(attackTime)*120 ,0,cosf(attackTime)*120 });
-			attackTime+=/*0.45*/0.05;
+			attackTime+=/*0.45*/0.05f;
 		}
 		else
 		{
