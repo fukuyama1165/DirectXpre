@@ -1,6 +1,10 @@
-cbuffer ConstBufferDataTransform : register(b0)
+cbuffer cbuff0:register(b0)
 {
-	matrix mat;//3D変換行列
+	//matrix mat;//3D変換行列
+	matrix viewProj;//ビュープロジェクション行列
+	matrix world;//ワールド行列
+	float3 cameraPos;//カメラ座標(ワールド座標)
+
 }
 
 //頂点シェーダーの出力構造体

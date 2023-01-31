@@ -26,6 +26,9 @@
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
+//コントローラーを使うならこれが簡単らしい
+#include <Xinput.h>
+#pragma comment(lib,"Xinput.lib")
 
 class Input
 {

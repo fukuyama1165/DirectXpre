@@ -149,15 +149,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	cameraObj cameobj((float)winApp->getWindowSizeWidth(), (float)winApp->getWindowSizeHeight());
 
-	cameobj.pos = { 0.0f,0.0f,-200.0f };
-	cameobj.rotate = { 0.0f,0.0f,0.0f };
-
 	player play;
 	//.objのオブジェクト
 	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
 
-	//charactorObj.colorChangeInit(directXinit->Getdev().Get());
+	charactorObj.colorChangeInit(directXinit->Getdev().Get());
 	charactorObj2.basicInit(directXinit->Getdev().Get());
 
 	int texname = 0;
@@ -174,15 +171,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Triangle triangle;
 	
 	sphere.center = { 0,2,0,1 };
-	sphere.radius = 1.0f;
+	sphere.radius = 2.0f;
 
 	plane.normal = { 0,1,0,0 };
 	plane.distance = 0.0f;
 
-	triangle.p0 = { -1.0f,0.0f,-1.0f,1 };
-	triangle.p1 = { -1.0f,0.0f,1.0f,1 };
-	triangle.p2 = { 1.0f,0.0f,-1.0f,1 };
-	triangle.normal = { 0.0f,1.0f,0.0f,0 };
+	triangle.p0 = { -50.0f,-50.0f,50.0f,1 };
+	triangle.p1 = { 50.0f,-50.0f,50.0f,1 };
+	triangle.p2 = { -50.0f, 50.0f,50.0f,1 };
+	triangle.normal = { 0.0f,0.0f,1.0f,0 };
 
 	//eenemy.PopEnemy(directXinit->Getdev().Get(), { 0,0,0 });
 
@@ -190,7 +187,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//texname = charactorObj2.loadTexture("Resources/player_shade.png");
 	//test.basicInit((directXinit->Getdev().Get()));
 
-	//objobj.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/karaage/", "karaage.obj");
+	objobj.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/testcoll/", "testcoll.obj");
 	//objobj2.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/100t/", "100t.obj");
 
 	SpriteCommon spritecommon;
@@ -198,10 +195,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	spritecommon.initialize(directXinit->Getdev().Get());
 
 	Sprite sprite;
+	Sprite sprite2;
 
-	sprite.initialize(directXinit->Getdev().Get(), &spritecommon);
+	sprite.initialize(directXinit->Getdev().Get(), &spritecommon,2);
+	sprite2.initialize(directXinit->Getdev().Get(), &spritecommon,1);
 
-	
+	sprite.posX = 100;
+	sprite.posY = 200;
+
+	sprite2.posX = 50;
+	sprite2.posY = 200;
 
 	//パイプラインステート切り替え用フラグ
 	bool PipeLineRuleFlag = true;
@@ -257,7 +260,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	float lightDir2[3] = { 1,0,0 };
 	float lightColor2[3] = { 0,0,1 };
+
+	Vector3 movecoll;
+
+	Vector3 cameraPos = {0,0,-200};
+	Vector3 cameraRot;
 	
+	Vector3 spriteMove = { 50 ,200 ,0 };
 
 	//ゲームループ
 	while (true)
@@ -286,7 +295,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		
 
-		if (input->PushKey(DIK_I))
+		/*if (input->PushKey(DIK_I))
 		{
 			sprite.rotate += 1;
 		}
@@ -301,7 +310,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (input->PushKey(DIK_J))
 		{
 			sprite.posX = -1;
-		}
+		}*/
 
 		
 	
@@ -343,21 +352,36 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Vector4 moveY(0, 0.01f, 0, 0);
 		if (input->PushKey(DIK_W))
 		{
-			sphere.center += moveY;
+			movecoll.y += moveY.y;
 		}
 		if (input->PushKey(DIK_S))
 		{
-			sphere.center -= moveY;
+			movecoll.y -= moveY.y;
 		}
 		Vector4 moveX(0.01f, 0, 0, 0);
 		if (input->PushKey(DIK_D))
 		{
-			sphere.center += moveX;
+			movecoll.x += moveX.x;
 		}
 		if (input->PushKey(DIK_A))
 		{
-			sphere.center -= moveX;
+			movecoll.x -= moveX.x;
 		}
+
+		if (input->PushKey(DIK_Z))
+		{
+			movecoll.z += 0.01f;
+		}
+
+		if (input->PushKey(DIK_X))
+		{
+			movecoll.z -= 0.01f;
+		}
+
+		sphere.center = { movecoll.x ,movecoll.y,movecoll.z,0 };
+
+		sprite2.posX = spriteMove.x;
+		sprite2.posY = spriteMove.y;
 
 		bool hit = Collison::CheckSphere2Triangle(sphere, triangle);
 
@@ -373,6 +397,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
 		//lightGroup->SetDirLightDir(2,{ lightDir2.x,lightDir2.y ,lightDir2.z });
 
+#pragma region imgui_Light
+
 		ImGui::Begin("Light");
 		//ImGui::SetWindowPos(ImVec2(0, 0));
 		ImGui::SetWindowSize(ImVec2(500, 200));
@@ -387,9 +413,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		ImGui::End();
 
+#pragma endregion
+
+#pragma region Collision_camera
+
 		ImGui::Begin("Collision");
 
-		ImGui::SetWindowSize(ImVec2(300, 80));
+		ImGui::SetWindowSize(ImVec2(300, 300));
+
+		ImGui::Text("move:WASDZX");
+
+		ImGui::SliderFloat("movecollx", &movecoll.x, -200.0f, 200.0f, "%.3f");
+		ImGui::SliderFloat("movecolly", &movecoll.y, -200.0f, 200.0f, "%.3f");
+		ImGui::SliderFloat("movecollz", &movecoll.z, -200.0f, 200.0f, "%.3f");
 
 		ImGui::Text("x:%f y:%f z:%f", sphere.center.x, sphere.center.y, sphere.center.z);
 
@@ -397,15 +433,238 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			ImGui::Text("hit");
 		}
+		if (ImGui::CollapsingHeader("camera"))
+		{
+
+			ImGui::SliderFloat("cameraX", &cameraPos.x, -500.0f, 500.0f, "%.3f");
+			ImGui::SliderFloat("cameraY", &cameraPos.y, -500.0f, 500.0f, "%.3f");
+			ImGui::SliderFloat("cameraZ", &cameraPos.z, -500.0f, 500.0f, "%.3f");
+
+			ImGui::SliderFloat("cameraRotX", &cameraRot.x, -5.0f, 5.0f, "%.3f");
+			ImGui::SliderFloat("cameraRotY", &cameraRot.y, -5.0f, 5.0f, "%.3f");
+			ImGui::SliderFloat("cameraRotZ", &cameraRot.z, -5.0f, 5.0f, "%.3f");
+
+			ImGui::Text("reset");
+
+			if (ImGui::Button("posX"))
+			{
+				cameraPos.x = 0;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("posY"))
+			{
+				cameraPos.y = 0;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("posZ"))
+			{
+				cameraPos.z = -200;
+			}
+			if (ImGui::Button("rotX"))
+			{
+				cameraRot.x = 0;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("rotY"))
+			{
+				cameraRot.y = 0;
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("rotZ"))
+			{
+				cameraRot.z = 0;
+			}
+	
+		}
 
 		ImGui::End();
 
+#pragma endregion
+
+#pragma region input
+
+		ImGui::SetNextWindowSize(ImVec2(300, 300));
+
+		ImGui::Begin("input");
+
+		if (input->PushKey(DIK_A))
+		{
+			ImGui::Text("A");
+		}
+		if (input->PushKey(DIK_B))
+		{
+			ImGui::Text("B");
+		}
+		if (input->PushKey(DIK_C))
+		{
+			ImGui::Text("C");
+		}
+		if (input->PushKey(DIK_D))
+		{
+			ImGui::Text("D");
+		}
+		if (input->PushKey(DIK_E))
+		{
+			ImGui::Text("E");
+		}
+		if (input->PushKey(DIK_F))
+		{
+			ImGui::Text("F");
+		}
+		if (input->PushKey(DIK_G))
+		{
+			ImGui::Text("G");
+		}
+		if (input->PushKey(DIK_H))
+		{
+			ImGui::Text("H");
+		}
+		if (input->PushKey(DIK_I))
+		{
+			ImGui::Text("I");
+		}
+		if (input->PushKey(DIK_J))
+		{
+			ImGui::Text("J");
+		}
+		if (input->PushKey(DIK_K))
+		{
+			ImGui::Text("K");
+		}
+		if (input->PushKey(DIK_L))
+		{
+			ImGui::Text("L");
+		}
+		if (input->PushKey(DIK_M))
+		{
+			ImGui::Text("M");
+		}
+		if (input->PushKey(DIK_N))
+		{
+			ImGui::Text("N");
+		}
+		if (input->PushKey(DIK_O))
+		{
+			ImGui::Text("O");
+		}
+		if (input->PushKey(DIK_P))
+		{
+			ImGui::Text("P");
+		}
+		if (input->PushKey(DIK_Q))
+		{
+			ImGui::Text("Q");
+		}
+		if (input->PushKey(DIK_R))
+		{
+			ImGui::Text("R");
+		}
+		if (input->PushKey(DIK_S))
+		{
+			ImGui::Text("S");
+		}
+		if (input->PushKey(DIK_T))
+		{
+			ImGui::Text("T");
+		}
+		if (input->PushKey(DIK_U))
+		{
+			ImGui::Text("U");
+		}
+		if (input->PushKey(DIK_X))
+		{
+			ImGui::Text("X");
+		}
+		if (input->PushKey(DIK_Y))
+		{
+			ImGui::Text("Y");
+		}
+		if (input->PushKey(DIK_Z))
+		{
+			ImGui::Text("Z");
+		}
+
+		if (input->PushKey(DIK_UP))
+		{
+			ImGui::Text("Up");
+		}
+
+		if (input->PushKey(DIK_DOWN))
+		{
+			ImGui::Text("Down");
+		}
+
+		if (input->PushKey(DIK_RIGHT))
+		{
+			ImGui::Text("Right");
+		}
+
+		if (input->PushKey(DIK_LEFT))
+		{
+			ImGui::Text("Left");
+		}
+
+		if (input->PushKey(DIK_RETURN))
+		{
+			ImGui::Text("Return");
+		}
+
+		if (input->PushKey(DIK_SPACE))
+		{
+			ImGui::Text("Space");
+		}
+
+		if (input->PushKey(DIK_LSHIFT))
+		{
+			ImGui::Text("Lshift");
+		}
+
+		if (input->PushKey(DIK_LCONTROL))
+		{
+			ImGui::Text("Lcontrol");
+		}
+
+		ImGui::End();
+
+#pragma endregion
+
+#pragma region sprite
+
+		ImGui::Begin("spriteMove");
+
+		ImGui::SetWindowSize(ImVec2(300, 300));
+
+		ImGui::Text("spriteMove");
+
+		ImGui::SliderFloat("X", &spriteMove.x, -500.0f, 500.0f, "%.3f");
+		ImGui::SliderFloat("Y", &spriteMove.y, 0.0f, 500.0f, "%.3f");
+
+		ImGui::End();
+
+#pragma endregion
+
+
+#ifdef _DEBUG
+
+		ImGui::ShowDemoWindow();
+#endif
+
+		cameobj.pos = cameraPos;
+		cameobj.rotate = cameraRot;
+
+		objobj.SetPos(movecoll);
 
 		cameobj.upDate();
 		play.Update(cameobj);
 		lightGroup->Update();
 		
 		sprite.Update();
+		sprite2.Update();
+
+		charactorObj.Update(cameobj.GetCamera());
+		charactorObj2.Update(cameobj.GetCamera());
+
+		objobj.Update(cameobj.GetCamera());
 
 		imGuiManager.End();
 
@@ -446,18 +705,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
-		//charactorObj.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, ChangeSquareFlag);
+		charactorObj.Draw(directXinit->GetcmdList().Get(), 0, 1,0);
 		//charactorObj2.Draw(directXinit->GetcmdList().Get(), 3, PipeLineRuleFlag);
-		//objobj.Draw(directXinit->GetcmdList().Get());
+		objobj.Draw(directXinit->GetcmdList().Get());
 		//objobj2.Draw(directXinit->GetcmdList().Get());
 
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
 		
-		//sprite.Draw(directXinit->GetcmdList().Get());
+		
 		
 		
 		play.Draw(directXinit->GetcmdList().Get());
+
+		sprite.Draw(directXinit->GetcmdList().Get(), 2);
+		sprite2.Draw(directXinit->GetcmdList().Get());
 			
 	
 		// 4.描画コマンドここまで

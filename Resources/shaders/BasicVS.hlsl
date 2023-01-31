@@ -27,7 +27,7 @@ VSOutput main( float4 pos : POSITION,float3 normal:NORMAL, float2 uv:TEXCOORD)
 	float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * 1;
 
 	VSOutput output;//ピクセルシェーダーに渡す値
-	output.svpos = mul(mat, pos);
+	output.svpos = mul(mul(world, viewProj), pos);
 	output.color.rgb = (ambient + diffuse + specular) * lightcolor;
 	output.color.a = 1;
 	output.uv = uv;
