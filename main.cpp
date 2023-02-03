@@ -190,6 +190,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ray.start = { 0.0f,1.0f,0.0f,1.0f };
 	ray.dir = { 0.0f,0.0f,1.0f,0.0f };
 
+	enemyManager eenemy;
+
 	//eenemy.PopEnemy(directXinit->Getdev().Get(), { 0,0,0 });
 
 	
@@ -277,8 +279,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Vector3 movecoll;
 
-	Vector3 cameraPos = {0,20,-200};
-	Vector3 cameraRot;
+	Vector3 cameraPos = {0,1500,-2000};
+	Vector3 cameraRot = { 0.5f,0,0 };
 	
 	Vector3 spriteMove = { 50 ,200 ,0 };
 
@@ -307,60 +309,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		imGuiManager.Begin();
 
-		
-
-		/*if (input->PushKey(DIK_I))
-		{
-			sprite.rotate += 1;
-		}
-		if (input->PushKey(DIK_K))
-		{
-			sprite.rotate += -1;
-		}
-		if (input->PushKey(DIK_L))
-		{
-			sprite.posX = 1;
-		}
-		if (input->PushKey(DIK_J))
-		{
-			sprite.posX = -1;
-		}*/
-
-		
-	
-		if (input->PushKey(DIK_UP))
-		{
-			lightDir.z = 1;
-		}
-		if (input->PushKey(DIK_DOWN))
-		{
-			lightDir.z = -1;
-		}
-		if (input->PushKey(DIK_RIGHT))
-		{
-			lightDir.x = 1;
-		}
-		if (input->PushKey(DIK_LEFT))
-		{
-			lightDir.x = -1;
-		}
-
-		/*if (input->PushKey(DIK_W))
-		{
-			lightDir2.z = 1;
-		}
-		if (input->PushKey(DIK_S))
-		{
-			lightDir2.z = -1;
-		}
-		if (input->PushKey(DIK_D))
-		{
-			lightDir2.x = 1;
-		}
-		if (input->PushKey(DIK_A))
-		{
-			lightDir2.x = -1;
-		}*/
 
 		Vector4 moveY(0, 0.01f, 0, 0);
 		if (input->PushKey(DIK_W))
@@ -411,6 +359,39 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		lightGroup->SetDirLightDir(2, { lightDir2[0],lightDir2[1] ,lightDir2[2],0 });
 		lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
 		//lightGroup->SetDirLightDir(2,{ lightDir2.x,lightDir2.y ,lightDir2.z });
+
+		if (time > 200)
+		{
+			eenemy.PopEnemy(directXinit->Getdev().Get(), { -2000,0,300 });
+			eenemy.PopEnemy(directXinit->Getdev().Get(), { 2000,0,-600 });
+			eenemy.PopEnemy(directXinit->Getdev().Get(), { -1200,0,-600 });
+			time = 0;
+		}
+		time++;
+
+		for (const std::unique_ptr<enemy>& eeenemy : eenemy.enemys)
+		{
+			if (CollsionSphere(eeenemy->enemyObj.GetPos(), eeenemy->enemyObj.GetScale().x, play.playerObj.GetPos() + play.attackObj.GetPos(), 50) and play.GetAttackFlag())
+			{
+				eeenemy->isHit = true;
+			}
+		}
+
+		for (const std::unique_ptr<enemy>& eeenemy : eenemy.enemys)
+		{
+			for (const std::unique_ptr<enemy>& eeeenemy : eenemy.enemys)
+			{
+				if (eeenemy != eeeenemy)
+				{
+					//ほぼ自機のこうげきなので大きめに
+					if (CollsionSphere(eeenemy->enemyObj.GetPos(), eeenemy->enemyObj.GetScale().x, eeeenemy->enemyObj.GetPos(), 50) and eeenemy->isHit)
+					{
+						eeeenemy->isAlive = false;
+						eenemy.enemyCount++;
+					}
+				}
+			}
+		}
 
 #pragma region imgui_Light
 
@@ -673,6 +654,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		cameobj.upDate();
 		play.Update(cameobj);
 		lightGroup->Update();
+
+		eenemy.UpDate(cameobj.GetCamera(),play.playerObj.GetWorldPos());
 		
 		sprite.Update();
 		sprite2.Update();
@@ -725,18 +708,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 		//charactorObj.Draw(directXinit->GetcmdList().Get(), 0, 1,0);
-		charactorObj3.Draw(directXinit->GetcmdList().Get(), 4, 1,1);
+		//charactorObj3.Draw(directXinit->GetcmdList().Get(), 4, 1,1);
 		//charactorObj2.Draw(directXinit->GetcmdList().Get(), 3, PipeLineRuleFlag);
-		if (hit == false)
+		/*if (hit == false)
 		{
 			objobj.Draw(directXinit->GetcmdList().Get());
 		}
 		else
 		{
 			objobj2.Draw(directXinit->GetcmdList().Get());
-		}
+		}*/
 
-		objobj3.Draw(directXinit->GetcmdList().Get());
+		eenemy.Draw(directXinit->GetcmdList().Get());
+
+		//objobj3.Draw(directXinit->GetcmdList().Get());
 
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
@@ -744,7 +729,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		
 		
 		
-		//play.Draw(directXinit->GetcmdList().Get());
+		play.Draw(directXinit->GetcmdList().Get());
 
 		//sprite.Draw(directXinit->GetcmdList().Get(), 2);
 		//sprite2.Draw(directXinit->GetcmdList().Get());

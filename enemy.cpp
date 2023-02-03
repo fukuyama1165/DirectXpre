@@ -36,12 +36,18 @@ void enemy::Update(Camera camera,Vector3 playerPos)
 			if (isHitSet == false)
 			{
 				hitVec = enemyObj.GetPos() - playerPos;
+				hitPos = enemyObj.GetPos();
 				hitVec = hitVec.normalize();
 				hitVec = -hitVec;
 				isHitSet = true;
 			}
 
-			enemyObj.SetPos(enemyObj.GetPos() - (hitVec * 10));
+			Vector3 a = lerp(hitPos,{ 500 + (hitVec.x * 300),500 + (hitVec.y * 300),500 + (hitVec.z * 300) }, (float)hitTime / 300);
+			Vector3 b = lerp({ 500 + (hitVec.x * 300),500 + (hitVec.y * 300),500 + (hitVec.z * 300) }, {hitPos.x + (hitVec.x * 300),hitPos.y + (hitVec.y * 300),hitPos.z + (hitVec.y * 300)}, (float)hitTime / 300);
+
+			Vector3 c = lerp(a, b, (float)hitTime / 300);
+
+			enemyObj.SetPos(c);
 			hitTime++;
 		}
 

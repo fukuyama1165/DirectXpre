@@ -22,6 +22,8 @@ private:
 
 	Vector3 hitVec;
 
+	Vector3 hitPos;
+
 	int hitTime = 0;
 
 	Input* input;
