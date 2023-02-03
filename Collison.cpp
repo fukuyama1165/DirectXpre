@@ -183,3 +183,116 @@ bool Collison::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triang
 
 	return true;
 }
+
+bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector4* inter)
+{
+
+	//誤差を撮るためのやつ
+	const float epsilon = 1.0e-5f;
+
+	//内積
+	float d1 = Vector4::dot(plane.normal, ray.dir);
+
+	//向きが同じなので当たってない
+	if (d1 > -epsilon)
+	{
+		return false;
+	}
+
+	//射影を求める
+	float d2 = Vector4::dot(plane.normal, ray.start);
+
+	//始点と平面の距離
+	float dist = d2 - plane.distance;
+
+	float t = dist / (-Vector4::dot(plane.normal, ray.dir));
+
+	if (t < 0)
+	{
+		return false;
+	}
+
+	if (distance != nullptr)
+	{
+
+		*distance = t;
+
+	}
+
+	if (inter != nullptr)
+	{
+		*inter = ray.start + t * ray.dir;
+	}
+
+	return true;
+
+
+}
+
+
+bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector4* inter)
+{
+
+	//まず三角形が属する平面との当たり判定をとる
+	Plane plane;
+
+	Vector4 planeInter;
+
+	//法線は三角形と同じ
+	plane.normal = triangle.normal;
+
+	//距離は代表の位置ベクトルと法線で求められる
+	plane.distance = Vector4::dot(triangle.normal,triangle.p0);
+
+	//平面にすら当たっていないならそもそも当たってない
+	if (!CheckRay2Plane(ray, plane, distance, &planeInter))
+	{
+		return false;
+	}
+
+	//誤差を撮るためのやつ
+	const float epsilon = 1.0e-5f;
+
+	Vector4 p0p1 = triangle.p1 - triangle.p0;
+	Vector4 interp0 = triangle.p0 - planeInter;
+
+	Vector4 m0 = Vector4::cross(interp0, p0p1);
+
+	//内側なら法線と同じ方向を向いているので別の方向なら当たってない
+	if (Vector4::dot(m0, triangle.normal) <  -epsilon)
+	{
+		return false;
+	}
+
+	Vector4 p1p2 = triangle.p2 - triangle.p1;
+	Vector4 interp1 = triangle.p1 - planeInter;
+
+	Vector4 m1 = Vector4::cross(interp1, p1p2);
+
+	//法線と逆方向を向いているなら当たってない
+	if (Vector4::dot(m1, triangle.normal) < -epsilon)
+	{
+		return false;
+	}
+
+	Vector4 p2p0 = triangle.p0 - triangle.p2;
+	Vector4 interp2 = triangle.p2 - planeInter;
+
+	Vector4 m2 = Vector4::cross(interp2, p2p0);
+
+	//法線と逆方向を向いているなら当たってない
+	if (Vector4::dot(m2, triangle.normal) < -epsilon)
+	{
+		return false;
+	}
+
+	if (inter != nullptr)
+	{
+
+		*inter = planeInter;
+
+	}
+
+	return true;
+
+}

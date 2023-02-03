@@ -1,10 +1,11 @@
 #pragma once
 #include "camera.h"
 #include "Object3D.h"
+#include "WinApp.h"
 class cameraObj
 {
 public:
-	cameraObj(float win_width, float win_height);
+	cameraObj(float win_width =(float)WinApp::windowWidth, float win_height = (float)WinApp::windowHeight);
 	~cameraObj();
 
 	void upDate();
@@ -22,8 +23,6 @@ public:
 	Object3D cameobj;
 
 private:
-
-	
 
 	//ƒJƒƒ‰‚Æ‚µ‚Ä‚Ì‹@”\
 	Camera camera;

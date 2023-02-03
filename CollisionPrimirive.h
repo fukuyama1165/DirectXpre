@@ -26,6 +26,7 @@ struct Plane
 
 };
 
+//三角形
 class Triangle
 {
 public:
@@ -37,10 +38,14 @@ public:
 	//法線ベクトル
 	Vector4 normal;
 
+	//法線ベクトルの算出
+	void ComputeNormal();
+
 private:
 
 };
 
+//レイ
 struct Ray
 {
 
@@ -53,7 +58,7 @@ struct Ray
 };
 
 
-
+//一応で用意したやつ
 class CollisionPrimirive
 {
 };

@@ -4,8 +4,8 @@
 
 Camera::Camera()
 {
-	Win_width = 1280;
-	Win_height = 720;
+	Win_width = WinApp::windowWidth;
+	Win_height = WinApp::windowHeight;
 }
 
 Camera::Camera(float win_width, float win_height)

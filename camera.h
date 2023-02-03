@@ -4,6 +4,7 @@
 #include "Vector4.h"
 #include <math.h>
 #include "PI.h"
+#include "WinApp.h"
 
 
 class Camera

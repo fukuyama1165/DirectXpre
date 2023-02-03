@@ -156,6 +156,7 @@
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="LightGroup.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />
     <ClCompile Include="FPS.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="LightGroup.h" />
+    <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="FPS.h" />

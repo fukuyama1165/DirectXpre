@@ -140,14 +140,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//obj
 	Object3D charactorObj;
 	Object3D charactorObj2;
+	Object3D charactorObj3;
 
 	Object3D objobj;
 	Object3D objobj2;
+	Object3D objobj3;
 
 	Camera camera((float)winApp->getWindowSizeWidth(), (float)winApp->getWindowSizeHeight());
 	camera.eye_ = { 0.0f,0.0f,-1000.0f };
 
 	cameraObj cameobj((float)winApp->getWindowSizeWidth(), (float)winApp->getWindowSizeHeight());
+
+	//cameobj.cameobj.SetParent(&objobj);
 
 	player play;
 	//.objのオブジェクト
@@ -155,7 +159,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 	charactorObj.colorChangeInit(directXinit->Getdev().Get());
-	charactorObj2.basicInit(directXinit->Getdev().Get());
+	charactorObj3.basicInit(directXinit->Getdev().Get());
+	charactorObj2.colorChangeInit(directXinit->Getdev().Get());
 
 	int texname = 0;
 
@@ -169,9 +174,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Sphere sphere;
 	Plane plane;
 	Triangle triangle;
+	Ray ray;
 	
 	sphere.center = { 0,2,0,1 };
-	sphere.radius = 2.0f;
+	sphere.radius = 1.0f;
 
 	plane.normal = { 0,1,0,0 };
 	plane.distance = 0.0f;
@@ -179,7 +185,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	triangle.p0 = { -50.0f,-50.0f,50.0f,1 };
 	triangle.p1 = { 50.0f,-50.0f,50.0f,1 };
 	triangle.p2 = { -50.0f, 50.0f,50.0f,1 };
-	triangle.normal = { 0.0f,0.0f,1.0f,0 };
+	triangle.normal = { 0.0f,0.0f,-1.0f,0 };
+
+	ray.start = { 0.0f,1.0f,0.0f,1.0f };
+	ray.dir = { 0.0f,0.0f,1.0f,0.0f };
 
 	//eenemy.PopEnemy(directXinit->Getdev().Get(), { 0,0,0 });
 
@@ -188,7 +197,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//test.basicInit((directXinit->Getdev().Get()));
 
 	objobj.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/testcoll/", "testcoll.obj");
-	//objobj2.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/100t/", "100t.obj");
+	objobj2.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/collHittest/", "collHitTest.obj");
+	objobj3.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/skydome/", "skydome.obj");
 
 	SpriteCommon spritecommon;
 
@@ -246,6 +256,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	charactorObj2.SetPos({ 100,0,0 });
 	objobj.SetPos({ -100,0,0 });
+	objobj3.SetScale({ 1000,1000,1000 });
+
+	//charactorObj3.SetRotate({ PI/2,0,0});
+	charactorObj3.SetScale({ 0.1f,0.001f,0.1f});
 
 	Vector3 lightDir;
 	//Vector3 lightDir2;
@@ -263,7 +277,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Vector3 movecoll;
 
-	Vector3 cameraPos = {0,0,-200};
+	Vector3 cameraPos = {0,20,-200};
 	Vector3 cameraRot;
 	
 	Vector3 spriteMove = { 50 ,200 ,0 };
@@ -331,7 +345,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			lightDir.x = -1;
 		}
 
-
 		/*if (input->PushKey(DIK_W))
 		{
 			lightDir2.z = 1;
@@ -380,10 +393,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		sphere.center = { movecoll.x ,movecoll.y,movecoll.z,0 };
 
+		ray.start = { movecoll.x ,movecoll.y,movecoll.z,0 };
+
 		sprite2.posX = spriteMove.x;
 		sprite2.posY = spriteMove.y;
 
-		bool hit = Collison::CheckSphere2Triangle(sphere, triangle);
+		bool hit = Collison::CheckSphere2Plane(sphere, plane);
 
 		lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
 
@@ -419,7 +434,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		ImGui::Begin("Collision");
 
-		ImGui::SetWindowSize(ImVec2(300, 300));
+		//ImGui::SetWindowSize(ImVec2(300, 300));
 
 		ImGui::Text("move:WASDZX");
 
@@ -427,7 +442,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ImGui::SliderFloat("movecolly", &movecoll.y, -200.0f, 200.0f, "%.3f");
 		ImGui::SliderFloat("movecollz", &movecoll.z, -200.0f, 200.0f, "%.3f");
 
-		ImGui::Text("x:%f y:%f z:%f", sphere.center.x, sphere.center.y, sphere.center.z);
+		ImGui::Text("x:%f y:%f z:%f", ray.start.x, ray.start.y, ray.start.z);
 
 		if (hit)
 		{
@@ -483,7 +498,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region input
 
-		ImGui::SetNextWindowSize(ImVec2(300, 300));
+		/*ImGui::SetNextWindowSize(ImVec2(300, 300));
 
 		ImGui::Begin("input");
 
@@ -624,13 +639,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			ImGui::Text("Lcontrol");
 		}
 
-		ImGui::End();
+		ImGui::End();*/
 
 #pragma endregion
 
 #pragma region sprite
 
-		ImGui::Begin("spriteMove");
+		/*ImGui::Begin("spriteMove");
 
 		ImGui::SetWindowSize(ImVec2(300, 300));
 
@@ -639,7 +654,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ImGui::SliderFloat("X", &spriteMove.x, -500.0f, 500.0f, "%.3f");
 		ImGui::SliderFloat("Y", &spriteMove.y, 0.0f, 500.0f, "%.3f");
 
-		ImGui::End();
+		ImGui::End();*/
 
 #pragma endregion
 
@@ -653,6 +668,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		cameobj.rotate = cameraRot;
 
 		objobj.SetPos(movecoll);
+		objobj2.SetPos(movecoll);
 
 		cameobj.upDate();
 		play.Update(cameobj);
@@ -663,8 +679,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		charactorObj.Update(cameobj.GetCamera());
 		charactorObj2.Update(cameobj.GetCamera());
+		charactorObj3.Update(cameobj.GetCamera());
 
 		objobj.Update(cameobj.GetCamera());
+		objobj2.Update(cameobj.GetCamera());
+		objobj3.Update(cameobj.GetCamera());
 
 		imGuiManager.End();
 
@@ -705,10 +724,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
-		charactorObj.Draw(directXinit->GetcmdList().Get(), 0, 1,0);
+		//charactorObj.Draw(directXinit->GetcmdList().Get(), 0, 1,0);
+		charactorObj3.Draw(directXinit->GetcmdList().Get(), 4, 1,1);
 		//charactorObj2.Draw(directXinit->GetcmdList().Get(), 3, PipeLineRuleFlag);
-		objobj.Draw(directXinit->GetcmdList().Get());
-		//objobj2.Draw(directXinit->GetcmdList().Get());
+		if (hit == false)
+		{
+			objobj.Draw(directXinit->GetcmdList().Get());
+		}
+		else
+		{
+			objobj2.Draw(directXinit->GetcmdList().Get());
+		}
+
+		objobj3.Draw(directXinit->GetcmdList().Get());
 
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
@@ -716,10 +744,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		
 		
 		
-		play.Draw(directXinit->GetcmdList().Get());
+		//play.Draw(directXinit->GetcmdList().Get());
 
-		sprite.Draw(directXinit->GetcmdList().Get(), 2);
-		sprite2.Draw(directXinit->GetcmdList().Get());
+		//sprite.Draw(directXinit->GetcmdList().Get(), 2);
+		//sprite2.Draw(directXinit->GetcmdList().Get());
 			
 	
 		// 4.描画コマンドここまで

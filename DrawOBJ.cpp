@@ -914,30 +914,30 @@ void DrawOBJ::constantBuffGeneration(ID3D12Device* dev)
 	 matWorldUpdata();
 	 constTransformMatUpdata();*/
 
-	for (int i = 0; i < _countof(object3Ds); i++)
-	{
-		//初期化
-		object3Ds[i].Init(dev);
+	//for (int i = 0; i < _countof(object3Ds); i++)
+	//{
+	//	//初期化
+	//	object3Ds[i].Init(dev);
 
-		if (i > 0)
-		{
-			//ひとつ前のオブジェクトを親オブジェクトとする
-			object3Ds[i].SetParent(&object3Ds[i - 1]);
+	//	if (i > 0)
+	//	{
+	//		//ひとつ前のオブジェクトを親オブジェクトとする
+	//		object3Ds[i].SetParent(&object3Ds[i - 1]);
 
-			//親オブジェクトの9割の大きさ
-			object3Ds[i].SetScale({ 0.9f,0.9f,0.9f });
+	//		//親オブジェクトの9割の大きさ
+	//		object3Ds[i].SetScale({ 0.9f,0.9f,0.9f });
 
-			//親オブジェクトに対してz軸周りに30度回転
-			object3Ds[i].SetRotate({ 0.0f,0.0f,XMConvertToRadians(30.0f) });
+	//		//親オブジェクトに対してz軸周りに30度回転
+	//		object3Ds[i].SetRotate({ 0.0f,0.0f,XMConvertToRadians(30.0f) });
 
-			//親オブジェクトに対してz方向-8.0ずらす
-			object3Ds[i].SetPos({ 0.0f,0.0f,-8.0f });
+	//		//親オブジェクトに対してz方向-8.0ずらす
+	//		object3Ds[i].SetPos({ 0.0f,0.0f,-8.0f });
 
-			//object3Ds[i].Update();
+	//		//object3Ds[i].Update();
 
-		}
+	//	}
 
-	}
+	//}
 
 	for (size_t i = 0; i < _countof(object3Ds); i++)
 	{
@@ -1393,7 +1393,7 @@ void DrawOBJ::SetScale(Vector3 scale)
 
 void DrawOBJ::SetRotate(Vector3 rotate)
 {
-	object3Ds[0].SetRotate(rotate);
+	//object3Ds[0].SetRotate(rotate);
 }
 
 void DrawOBJ::SetTrans(Vector3 TransForm)

@@ -54,10 +54,10 @@ void player::Update(cameraObj camera)
 
 	//ˆÚ“®
 
-	playerObj.SetRotate({ 0,rotate,0 });
-	attackObj.SetRotate({ 0,rotate,0 });
+	//playerObj.SetRotate({ 0,rotate,0 });
+	//attackObj.SetRotate({ 0,rotate,0 });
 
-	rotate+=0.01f;
+	//rotate+=0.01f;
 
 	/*float pPos = atan2(moveVec.x, moveVec.z);
 	float cVec = atan2(camera.forward.x, camera.forward.z);
