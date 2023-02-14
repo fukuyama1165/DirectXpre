@@ -1,4 +1,5 @@
 #include "Collison.h"
+#include <cmath>
 
 float abs(float a)
 {
@@ -229,7 +230,6 @@ bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distanc
 
 }
 
-
 bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector3* inter)
 {
 
@@ -290,6 +290,49 @@ bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float
 	{
 
 		*inter = planeInter;
+
+	}
+
+	return true;
+
+}
+
+bool Collison::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance = nullptr, Vector3* inter = nullptr)
+{
+
+	//球の中心からレイの始点へのベクトルを作る
+	Vector3 m = ray.start - sphere.center;
+	float b = Vector3::dot(m, ray.dir);
+	float c = Vector3::dot(m, m) - (sphere.radius * sphere.radius);
+
+	float d = (b * b) - c;
+
+	//交点が存在しないので当たってない
+	if (d < 0)
+	{
+		return false;
+	}
+
+	//交点の一番近いところを計算(淵ではないなら2つあるため)
+	float t = -b - sqrtf(d);
+
+	//tが負の数ならレイが球の内側にいるらしいので0にする
+	if (t < 0)
+	{
+		t = 0;
+	}
+
+	if (distance != nullptr)
+	{
+
+		*distance = t;
+
+	}
+
+	if (inter != nullptr)
+	{
+
+		*inter = ray.start + t * ray.dir;
 
 	}
 
