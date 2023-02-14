@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Vector4.h"
+#include "Vector3.h"
 
 //球
 struct Sphere
 {
 
 	//中心座標
-	Vector4 center = { 0,0,0,1 };
+	Vector3 center = { 0,0,0};
 
 	//半径
 	float radius = 1.0f;
@@ -19,7 +19,7 @@ struct Plane
 {
 
 	//法線ベクトル
-	Vector4 normal = { 0,1,0,0 };
+	Vector3 normal = { 0,1,0 };
 
 	//原点(0,0,0)からの距離
 	float distance = 0.0f;
@@ -31,12 +31,12 @@ class Triangle
 {
 public:
 	//頂点座標3つ
-	Vector4 p0;
-	Vector4 p1;
-	Vector4 p2;
+	Vector3 p0;
+	Vector3 p1;
+	Vector3 p2;
 
 	//法線ベクトル
-	Vector4 normal;
+	Vector3 normal;
 
 	//法線ベクトルの算出
 	void ComputeNormal();
@@ -50,10 +50,10 @@ struct Ray
 {
 
 	//視点座標
-	Vector4 start = { 0,0,0,1 };
+	Vector3 start = { 0,0,0};
 
 	//方向
-	Vector4 dir = { 1,0,0,0 };
+	Vector3 dir = { 1,0,0};
 
 };
 

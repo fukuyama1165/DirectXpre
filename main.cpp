@@ -176,19 +176,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Triangle triangle;
 	Ray ray;
 	
-	sphere.center = { 0,2,0,1 };
+	sphere.center = { 0,2,0};
 	sphere.radius = 1.0f;
 
-	plane.normal = { 0,1,0,0 };
+	plane.normal = { 0,1,0};
 	plane.distance = 0.0f;
 
-	triangle.p0 = { -50.0f,-50.0f,50.0f,1 };
-	triangle.p1 = { 50.0f,-50.0f,50.0f,1 };
-	triangle.p2 = { -50.0f, 50.0f,50.0f,1 };
-	triangle.normal = { 0.0f,0.0f,-1.0f,0 };
+	triangle.p0 = { -50.0f,-50.0f,50.0f};
+	triangle.p1 = { 50.0f,-50.0f,50.0f};
+	triangle.p2 = { -50.0f, 50.0f,50.0f};
+	triangle.ComputeNormal();
+	//triangle.normal = { 0.0f,0.0f,-1.0f,0 };
 
-	ray.start = { 0.0f,1.0f,0.0f,1.0f };
-	ray.dir = { 0.0f,0.0f,1.0f,0.0f };
+	ray.start = { 0.0f,1.0f,0.0f};
+	ray.dir = { 0.0f,0.0f,-1.0f};
 
 	//eenemy.PopEnemy(directXinit->Getdev().Get(), { 0,0,0 });
 
@@ -254,7 +255,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	/*test.SetScale({ 20,20,0 });
 	test.obj3DUpdate();*/
 
-	charactorObj2.SetPos({ 100,0,0 });
+	//charactorObj2.SetPos({ 100,0,0 });
 	objobj.SetPos({ -100,0,0 });
 	objobj3.SetScale({ 1000,1000,1000 });
 
@@ -391,14 +392,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			movecoll.z -= 0.01f;
 		}
 
-		sphere.center = { movecoll.x ,movecoll.y,movecoll.z,0 };
+		sphere.center = { movecoll.x ,movecoll.y,movecoll.z};
 
-		ray.start = { movecoll.x ,movecoll.y,movecoll.z,0 };
+		ray.start = { movecoll.x ,movecoll.y,movecoll.z};
 
 		sprite2.posX = spriteMove.x;
 		sprite2.posY = spriteMove.y;
 
-		bool hit = Collison::CheckSphere2Plane(sphere, plane);
+		bool hit = Collison::CheckRay2Triangle(ray, triangle);
 
 		lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
 
@@ -725,8 +726,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 		//charactorObj.Draw(directXinit->GetcmdList().Get(), 0, 1,0);
-		charactorObj3.Draw(directXinit->GetcmdList().Get(), 4, 1,1);
-		//charactorObj2.Draw(directXinit->GetcmdList().Get(), 3, PipeLineRuleFlag);
+		//charactorObj3.Draw(directXinit->GetcmdList().Get(), 4, 1,1);
+		charactorObj2.Draw(directXinit->GetcmdList().Get(), 4, 1,0);
 		if (hit == false)
 		{
 			objobj.Draw(directXinit->GetcmdList().Get());

@@ -11,10 +11,10 @@ float abs(float a)
 }
 
 
-bool Collison::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vector4* inter)
+bool Collison::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vector3* inter)
 {
 
-	float distV = Vector4::dot(sphere.center, plane.normal);
+	float distV = Vector3::dot(sphere.center, plane.normal);
 
 	float dist = distV - plane.distance;
 
@@ -31,7 +31,7 @@ bool Collison::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vecto
 	
 }
 
-void Collison::ClosestPtPoint2Triangle(const Vector4& point, const Triangle& triangle, Vector4* closest)
+void Collison::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& triangle, Vector3* closest)
 {
 
 	//pointがp0の外側の頂点領域の中にあるかどうかチェック
@@ -39,19 +39,19 @@ void Collison::ClosestPtPoint2Triangle(const Vector4& point, const Triangle& tri
 #pragma region p0チェック
 
 	//triangleのp0とp1のベクトル
-	Vector4 p0p1 = triangle.p1 - triangle.p0;
+	Vector3 p0p1 = triangle.p1 - triangle.p0;
 
 	//triangleのp0とp2のベクトル
-	Vector4 p0p2 = triangle.p2 - triangle.p0;
+	Vector3 p0p2 = triangle.p2 - triangle.p0;
 
 	//triangleのp0とPointのベクトル
-	Vector4 p0Po = point - triangle.p0;
+	Vector3 p0Po = point - triangle.p0;
 
 	//triangleのp0とp1のベクトルとtriangleのp0とPointのベクトルの内積
-	float d1 = Vector4::dot(p0p1, p0Po);
+	float d1 = Vector3::dot(p0p1, p0Po);
 
 	//triangleのp0とp2のベクトルとtriangleのp0とPointのベクトルの内積
-	float d2 = Vector4::dot(p0p2, p0Po);
+	float d2 = Vector3::dot(p0p2, p0Po);
 
 	//2つの内積が負の数ならp0が一番近い
 	if (d1 <= 0.0f and d2 <= 0.0f)
@@ -69,13 +69,13 @@ void Collison::ClosestPtPoint2Triangle(const Vector4& point, const Triangle& tri
 #pragma region p1チェック
 
 	//triangleのp1とPointのベクトル
-	Vector4 p1Po = point - triangle.p1;
+	Vector3 p1Po = point - triangle.p1;
 
 	//triangleのp0とp1のベクトルとtriangleのp1とPointのベクトルの内積
-	float d3 = Vector4::dot(p0p1, p1Po);
+	float d3 = Vector3::dot(p0p1, p1Po);
 
 	//triangleのp0とp2のベクトルとtriangleのp1とPointのベクトルの内積
-	float d4 = Vector4::dot(p0p2, p1Po);
+	float d4 = Vector3::dot(p0p2, p1Po);
 
 
 	
@@ -106,13 +106,13 @@ void Collison::ClosestPtPoint2Triangle(const Vector4& point, const Triangle& tri
 #pragma region p2チェック
 
 	//triangleのp2とPointのベクトル
-	Vector4 p2Po = point - triangle.p2;
+	Vector3 p2Po = point - triangle.p2;
 
 	//triangleのp0とp1のベクトルとtriangleのp2とPointのベクトルの内積
-	float d5 = Vector4::dot(p0p1, p2Po);
+	float d5 = Vector3::dot(p0p1, p2Po);
 
 	//triangleのp0とp2のベクトルとtriangleのp2とPointのベクトルの内積
-	float d6 = Vector4::dot(p0p2, p2Po);
+	float d6 = Vector3::dot(p0p2, p2Po);
 
 
 	
@@ -160,16 +160,16 @@ void Collison::ClosestPtPoint2Triangle(const Vector4& point, const Triangle& tri
 
 }
 
-bool Collison::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, Vector4* inter)
+bool Collison::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, Vector3* inter)
 {
 
-	Vector4 p;
+	Vector3 p;
 
 	Collison::ClosestPtPoint2Triangle(sphere.center, triangle, &p);
 
-	Vector4 v = p - sphere.center;
+	Vector3 v = p - sphere.center;
 
-	float vDot = Vector4::dot(v,v);
+	float vDot = Vector3::dot(v,v);
 
 	if (vDot > sphere.radius * sphere.radius)
 	{
@@ -184,14 +184,14 @@ bool Collison::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triang
 	return true;
 }
 
-bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector4* inter)
+bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector3* inter)
 {
 
 	//誤差を撮るためのやつ
 	const float epsilon = 1.0e-5f;
 
 	//内積
-	float d1 = Vector4::dot(plane.normal, ray.dir);
+	float d1 = Vector3::dot(plane.normal, ray.dir);
 
 	//向きが同じなので当たってない
 	if (d1 > -epsilon)
@@ -200,12 +200,12 @@ bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distanc
 	}
 
 	//射影を求める
-	float d2 = Vector4::dot(plane.normal, ray.start);
+	float d2 = Vector3::dot(plane.normal, ray.start);
 
 	//始点と平面の距離
 	float dist = d2 - plane.distance;
 
-	float t = dist / (-Vector4::dot(plane.normal, ray.dir));
+	float t = dist / -d1/*(-Vector3::dot(plane.normal, ray.dir))*/;
 
 	if (t < 0)
 	{
@@ -230,19 +230,19 @@ bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distanc
 }
 
 
-bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector4* inter)
+bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector3* inter)
 {
 
 	//まず三角形が属する平面との当たり判定をとる
 	Plane plane;
 
-	Vector4 planeInter;
+	Vector3 planeInter;
 
 	//法線は三角形と同じ
 	plane.normal = triangle.normal;
 
 	//距離は代表の位置ベクトルと法線で求められる
-	plane.distance = Vector4::dot(triangle.normal,triangle.p0);
+	plane.distance = Vector3::dot(triangle.normal,triangle.p0);
 
 	//平面にすら当たっていないならそもそも当たってない
 	if (!CheckRay2Plane(ray, plane, distance, &planeInter))
@@ -253,35 +253,35 @@ bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float
 	//誤差を撮るためのやつ
 	const float epsilon = 1.0e-5f;
 
-	Vector4 p0p1 = triangle.p1 - triangle.p0;
-	Vector4 interp0 = triangle.p0 - planeInter;
+	Vector3 p0p1 = triangle.p1 - triangle.p0;
+	Vector3 interp0 = triangle.p0 - planeInter;
 
-	Vector4 m0 = Vector4::cross(interp0, p0p1);
+	Vector3 m0 = Vector3::cross(interp0, p0p1);
 
 	//内側なら法線と同じ方向を向いているので別の方向なら当たってない
-	if (Vector4::dot(m0, triangle.normal) <  -epsilon)
+	if (Vector3::dot(m0, triangle.normal) <  -epsilon)
 	{
 		return false;
 	}
 
-	Vector4 p1p2 = triangle.p2 - triangle.p1;
-	Vector4 interp1 = triangle.p1 - planeInter;
+	Vector3 p1p2 = triangle.p2 - triangle.p1;
+	Vector3 interp1 = triangle.p1 - planeInter;
 
-	Vector4 m1 = Vector4::cross(interp1, p1p2);
+	Vector3 m1 = Vector3::cross(interp1, p1p2);
 
 	//法線と逆方向を向いているなら当たってない
-	if (Vector4::dot(m1, triangle.normal) < -epsilon)
+	if (Vector3::dot(m1, triangle.normal) < -epsilon)
 	{
 		return false;
 	}
 
-	Vector4 p2p0 = triangle.p0 - triangle.p2;
-	Vector4 interp2 = triangle.p2 - planeInter;
+	Vector3 p2p0 = triangle.p0 - triangle.p2;
+	Vector3 interp2 = triangle.p2 - planeInter;
 
-	Vector4 m2 = Vector4::cross(interp2, p2p0);
+	Vector3 m2 = Vector3::cross(interp2, p2p0);
 
 	//法線と逆方向を向いているなら当たってない
-	if (Vector4::dot(m2, triangle.normal) < -epsilon)
+	if (Vector3::dot(m2, triangle.normal) < -epsilon)
 	{
 		return false;
 	}
