@@ -144,9 +144,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="cameraObj.cpp" />
+    <ClCompile Include="CollisionInfo.cpp" />
     <ClCompile Include="CollisionPrimirive.cpp" />
+    <ClCompile Include="CollisionTypes.cpp" />
     <ClCompile Include="Collison.cpp" />
     <ClCompile Include="DirectXInit.cpp" />
     <ClCompile Include="DrawBillboard.cpp" />
@@ -180,9 +183,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseCollider.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="cameraObj.h" />
+    <ClInclude Include="CollisionInfo.h" />
     <ClInclude Include="CollisionPrimirive.h" />
+    <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="Collison.h" />
     <ClInclude Include="DirectXInit.h" />
     <ClInclude Include="DrawBillboard.h" />
