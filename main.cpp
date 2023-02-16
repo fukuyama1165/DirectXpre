@@ -158,9 +158,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
 
-	charactorObj.colorChangeInit(directXinit->Getdev().Get());
-	charactorObj3.basicInit(directXinit->Getdev().Get());
-	charactorObj2.colorChangeInit(directXinit->Getdev().Get());
+	charactorObj.colorChangeInit();
+	charactorObj3.basicInit();
+	charactorObj2.colorChangeInit();
 
 	int texname = 0;
 
@@ -197,9 +197,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//texname = charactorObj2.loadTexture("Resources/player_shade.png");
 	//test.basicInit((directXinit->Getdev().Get()));
 
-	objobj.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/testcoll/", "testcoll.obj");
-	objobj2.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/collHittest/", "collHitTest.obj");
-	objobj3.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/skydome/", "skydome.obj");
+	objobj.objDrawInit("Resources/obj/testcoll/", "testcoll.obj");
+	objobj2.objDrawInit("Resources/obj/collHittest/", "collHitTest.obj");
+	objobj3.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 
 	objobj.Scale_ = { 0.95f,0.95f,0.95f };
 	objobj2.Scale_ = { 0.95f,0.95f,0.95f };
@@ -730,18 +730,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 		//charactorObj.Draw(directXinit->GetcmdList().Get(), 0, 1,0);
-		charactorObj3.Draw(directXinit->GetcmdList().Get(), 4, 1,1);
+		charactorObj3.Draw(4,1,1);
 		//charactorObj2.Draw(directXinit->GetcmdList().Get(), 4, 1,0);
 		if (hit == false)
 		{
-			objobj.Draw(directXinit->GetcmdList().Get());
+			objobj.Draw();
 		}
 		else
 		{
-			objobj2.Draw(directXinit->GetcmdList().Get());
+			objobj2.Draw();
 		}
 
-		objobj3.Draw(directXinit->GetcmdList().Get());
+		objobj3.Draw();
 
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 

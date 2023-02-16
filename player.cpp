@@ -15,8 +15,8 @@ player::~player()
 void player::Init(ID3D12Device* dev, const std::string directoryPath, const char filename[])
 {
 	input = input->GetInstance();
-	playerObj.objDrawInit(dev, directoryPath, filename,true);
-	attackObj.objDrawInit(dev, directoryPath, filename);
+	playerObj.objDrawInit(directoryPath, filename,true);
+	attackObj.objDrawInit(directoryPath, filename);
 	
 	//attackObj.SetParent(&playerObj);
 	attackObj.SetPos({ -50,0,0 });
@@ -104,8 +104,8 @@ void player::Update(cameraObj camera)
 
 void player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	playerObj.Draw(cmdList);
-	attackObj.Draw(cmdList);
+	playerObj.Draw();
+	attackObj.Draw();
 }
 
 void player::Attack()

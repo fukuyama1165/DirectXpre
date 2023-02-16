@@ -13,7 +13,7 @@ enemy::~enemy()
 void enemy::Init(ID3D12Device* dev, const std::string directoryPath, const char filename[])
 {
 	input = input->GetInstance();
-	enemyObj.objDrawInit(dev, directoryPath, filename);
+	enemyObj.objDrawInit(directoryPath, filename);
 
 }
 
@@ -56,5 +56,5 @@ void enemy::Update(Camera camera,Vector3 playerPos)
 
 void enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	enemyObj.Draw(cmdList);
+	enemyObj.Draw();
 }
