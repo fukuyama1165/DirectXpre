@@ -176,7 +176,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Triangle triangle;
 	Ray ray;
 	
-	sphere.center = { 0,2,0};
+	sphere.center = { 0,0,0};
 	sphere.radius = 1.0f;
 
 	plane.normal = { 0,1,0};
@@ -188,7 +188,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	triangle.ComputeNormal();
 	//triangle.normal = { 0.0f,0.0f,-1.0f,0 };
 
-	ray.start = { 0.0f,1.0f,0.0f};
+	ray.start = { 0.0f,0.0f,0.0f};
 	ray.dir = { 0.0f,0.0f,-1.0f};
 
 	//eenemy.PopEnemy(directXinit->Getdev().Get(), { 0,0,0 });
@@ -200,6 +200,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	objobj.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/testcoll/", "testcoll.obj");
 	objobj2.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/collHittest/", "collHitTest.obj");
 	objobj3.objDrawInit(directXinit->Getdev().Get(), "Resources/obj/skydome/", "skydome.obj");
+
+	objobj.Scale_ = { 0.95f,0.95f,0.95f };
+	objobj2.Scale_ = { 0.95f,0.95f,0.95f };
 
 	SpriteCommon spritecommon;
 
@@ -260,7 +263,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	objobj3.SetScale({ 1000,1000,1000 });
 
 	//charactorObj3.SetRotate({ PI/2,0,0});
-	charactorObj3.SetScale({ 0.1f,0.001f,0.1f});
+	//charactorObj3.SetScale({ 0.1f,0.001f,0.1f});
+	charactorObj3.SetScale({ 0.001f,0.001f,100.0f});
 
 	Vector3 lightDir;
 	//Vector3 lightDir2;
@@ -394,12 +398,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		sphere.center = { movecoll.x ,movecoll.y,movecoll.z};
 
-		ray.start = { movecoll.x ,movecoll.y,movecoll.z};
+		//ray.start = { movecoll.x ,movecoll.y,movecoll.z};
 
 		sprite2.posX = spriteMove.x;
 		sprite2.posY = spriteMove.y;
 
-		bool hit = Collison::CheckRay2Triangle(ray, triangle);
+		bool hit = Collison::CheckRay2Sphere(ray, sphere);
 
 		lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
 
@@ -726,8 +730,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 		//charactorObj.Draw(directXinit->GetcmdList().Get(), 0, 1,0);
-		//charactorObj3.Draw(directXinit->GetcmdList().Get(), 4, 1,1);
-		charactorObj2.Draw(directXinit->GetcmdList().Get(), 4, 1,0);
+		charactorObj3.Draw(directXinit->GetcmdList().Get(), 4, 1,1);
+		//charactorObj2.Draw(directXinit->GetcmdList().Get(), 4, 1,0);
 		if (hit == false)
 		{
 			objobj.Draw(directXinit->GetcmdList().Get());
