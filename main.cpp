@@ -58,7 +58,7 @@ using namespace DirectX;
 
 #include "LightGroup.h"
 #include "CollisionPrimirive.h"
-#include "Collison.h"
+#include "Collision.h"
 
 #include <sstream>
 
@@ -403,7 +403,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sprite2.posX = spriteMove.x;
 		sprite2.posY = spriteMove.y;
 
-		bool hit = Collison::CheckRay2Sphere(ray, sphere);
+		bool hit = Collision::CheckRay2Sphere(ray, sphere);
 
 		lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
 

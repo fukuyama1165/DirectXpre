@@ -148,6 +148,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="cameraObj.cpp" />
     <ClCompile Include="CollisionInfo.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionPrimirive.cpp" />
     <ClCompile Include="CollisionTypes.cpp" />
     <ClCompile Include="Collison.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="cameraObj.h" />
     <ClInclude Include="CollisionInfo.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionPrimirive.h" />
     <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="Collison.h" />
