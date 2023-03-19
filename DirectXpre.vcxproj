@@ -151,7 +151,7 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionPrimirive.cpp" />
     <ClCompile Include="CollisionTypes.cpp" />
-    <ClCompile Include="Collison.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DirectXInit.cpp" />
     <ClCompile Include="DrawBillboard.cpp" />
     <ClCompile Include="DrawingObj.cpp" />
@@ -192,7 +192,7 @@
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionPrimirive.h" />
     <ClInclude Include="CollisionTypes.h" />
-    <ClInclude Include="Collison.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="DirectXInit.h" />
     <ClInclude Include="DrawBillboard.h" />
     <ClInclude Include="DrawingObj.h" />

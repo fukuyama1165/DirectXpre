@@ -1,4 +1,4 @@
-#include "Collison.h"
+#include "Collision.h"
 #include <cmath>
 
 //float abs(float a)
@@ -12,7 +12,14 @@
 //}
 
 
-bool Collison::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vector3* inter)
+bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, Vector3* inter = nullptr)
+{
+
+	if((aph))
+
+}
+
+bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vector3* inter)
 {
 
 	float distV = Vector3::dot(sphere.center, plane.normal);
@@ -32,7 +39,7 @@ bool Collison::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vecto
 	
 }
 
-void Collison::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& triangle, Vector3* closest)
+void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& triangle, Vector3* closest)
 {
 
 	//pointがp0の外側の頂点領域の中にあるかどうかチェック
@@ -161,12 +168,12 @@ void Collison::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tri
 
 }
 
-bool Collison::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, Vector3* inter)
+bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, Vector3* inter)
 {
 
 	Vector3 p;
 
-	Collison::ClosestPtPoint2Triangle(sphere.center, triangle, &p);
+	Collision::ClosestPtPoint2Triangle(sphere.center, triangle, &p);
 
 	Vector3 v = p - sphere.center;
 
@@ -185,7 +192,7 @@ bool Collison::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triang
 	return true;
 }
 
-bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector3* inter)
+bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector3* inter)
 {
 
 	//誤差を撮るためのやつ
@@ -230,7 +237,7 @@ bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distanc
 
 }
 
-bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector3* inter)
+bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector3* inter)
 {
 
 	//まず三角形が属する平面との当たり判定をとる
@@ -297,7 +304,7 @@ bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float
 
 }
 
-bool Collison::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, Vector3* inter)
+bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, Vector3* inter)
 {
 
 	//球の中心からレイの始点へのベクトルを作る

@@ -2,10 +2,19 @@
 #include "CollisionPrimirive.h"
 
 //当たり判定実践クラス
-class Collison
+class Collision
 {
 
 public:
+
+	/// <summary>
+	/// 球と球の当たり判定
+	/// </summary>
+	/// <param name="sphereA">球A</param>
+	/// <param name="sphereB">球B</param>
+	/// <param name="inter">最近接点(中心と中心の距離の半分)</param>
+	/// <returns>当たっているか否か</returns>
+	static bool CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, Vector3* inter = nullptr);
 
 	/// <summary>
 	/// 球と平面の当たり判定
