@@ -35,6 +35,7 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 
 	}
 
+	//“–‚½‚Á‚½‚ ‚ ‚ ‚ 
 	return true;
 
 }
