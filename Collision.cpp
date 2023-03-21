@@ -12,10 +12,30 @@
 //}
 
 
-bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, Vector3* inter = nullptr)
+bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, Vector3* inter)
 {
 
-	if((aph))
+	float x = sphereB.center.x - sphereA.center.x;
+	float y = sphereB.center.y - sphereA.center.y;
+	float z = sphereB.center.z - sphereA.center.z;
+	float r = sphereA.radius + sphereB.radius;
+
+	//条件に該当してないなら当たってない
+	if ((x * x) + (y * y) + (y * y) > r * r)
+	{
+		return false;
+	}
+
+	if (inter)
+	{
+		//接点は中心と中心のベクトルの半分進んだ距離にした
+		Vector3 vec = sphereB.center - sphereA.center;
+
+		*inter = sphereA.center + vec / 2;
+
+	}
+
+	return true;
 
 }
 
