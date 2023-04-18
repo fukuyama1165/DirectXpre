@@ -175,6 +175,7 @@
     <ClCompile Include="SpriteCommon.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="WinApp.cpp" />
+    <ClCompile Include="XAudio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -216,6 +217,7 @@
     <ClInclude Include="SpriteCommon.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="WinApp.h" />
+    <ClInclude Include="XAudio.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli" />
