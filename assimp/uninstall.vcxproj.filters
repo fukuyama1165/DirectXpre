@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\5a550d3339e9be3eb3b06b4fc90c6f77\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\k021g1165\DirectX\DirectXpre\assimp\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{4B1DB054-1B46-3742-93A9-F55BF290707A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
