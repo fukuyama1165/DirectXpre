@@ -186,6 +186,9 @@
     <ClCompile Include="XAudio.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinApp.h">
@@ -282,6 +285,9 @@
       <Filter>ヘッダー ファイル\Game\collision</Filter>
     </ClInclude>
     <ClInclude Include="XAudio.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
   </ItemGroup>
