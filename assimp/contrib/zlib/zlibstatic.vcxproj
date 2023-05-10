@@ -59,11 +59,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)assimp\contrib\zlib\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">zlibstatic.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">zlibstaticd</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)assimp\contrib\zlib\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">zlibstatic.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">zlibstatic</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;$(SolutionDir)assimp;$(SolutionDir)assimp\code;$(SolutionDir)assimp\.;$(SolutionDir)assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\k021g1165\DirectX\DirectXpre\assimp\include;C:\k021g1165\DirectX\DirectXpre\assimp;C:\k021g1165\DirectX\DirectXpre\assimp\code;C:\k021g1165\DirectX\DirectXpre\assimp\.;C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -115,7 +115,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;$(SolutionDir)assimp;$(SolutionDir)assimp\code;$(SolutionDir)assimp\.;$(SolutionDir)assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\k021g1165\DirectX\DirectXpre\assimp\include;C:\k021g1165\DirectX\DirectXpre\assimp;C:\k021g1165\DirectX\DirectXpre\assimp\code;C:\k021g1165\DirectX\DirectXpre\assimp\.;C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DisableSpecificWarnings>4131;4127;4244;4244</DisableSpecificWarnings>
@@ -307,6 +307,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib\inftrees.h" />
     <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib\trees.h" />
     <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib\zutil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\k021g1165\DirectX\DirectXpre\assimp\ZERO_CHECK.vcxproj">
+      <Project>{83363FD2-2C88-3083-8A2A-8EC362EBC93C}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -142,7 +142,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;$(SolutionDir)assimp;$(SolutionDir)assimp\code;$(SolutionDir)assimp\.;$(SolutionDir)assimp\contrib\zlib;$(SolutionDir)assimp\code\..\contrib\pugixml\src;$(SolutionDir)assimp\code\..\contrib\rapidjson\include;$(SolutionDir)assimp\code\..\contrib;$(SolutionDir)assimp\code\..\contrib\unzip;$(SolutionDir)assimp\code\..\contrib\openddlparser\include;$(SolutionDir)assimp\code\..\include;$(SolutionDir)assimp\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;$(SolutionDir)assimp;C$(SolutionDir)assimp\code;$(SolutionDir)assimp\.;$(SolutionDir)assimp\contrib\zlib;$(SolutionDir)assimp\code\..\contrib\pugixml\src;$(SolutionDir)assimp\code\..\contrib\rapidjson\include;$(SolutionDir)assimp\code\..\contrib;$(SolutionDir)assimp\code\..\contrib\unzip;$(SolutionDir)assimp\code\..\contrib\openddlparser\include;$(SolutionDir)assimp\code\..\include;$(SolutionDir)assimp\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;$(SolutionDir)assimp;$(SolutionDir)assimp\code;$(SolutionDir)assimp\.;$(SolutionDir)assimp\contrib\zlib;$(SolutionDir)assimp\code\..\contrib\pugixml\src;$(SolutionDir)assimp\code\..\contrib\rapidjson\include;$(SolutionDir)assimp\code\..\contrib;$(SolutionDir)assimp\code\..\contrib\unzip;$(SolutionDir)assimp\code\..\contrib\openddlparser\include;$(SolutionDir)assimp\code\..\include;$(SolutionDir)assimp\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -155,7 +155,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;C$(SolutionDir)assimp;$(SolutionDir)assimp\code;$(SolutionDir)assimp\.;$(SolutionDir)assimp\contrib\zlib;$(SolutionDir)assimp\code\..\contrib\pugixml\src;$(SolutionDir)assimp\code\..\contrib\rapidjson\include;$(SolutionDir)assimp\code\..\contrib;$(SolutionDir)assimp\code\..\contrib\unzip;$(SolutionDir)assimp\code\..\contrib\openddlparser\include;$(SolutionDir)assimp\code\..\include;$(SolutionDir)assimp\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;$(SolutionDir)assimp;$(SolutionDir)assimp\code;$(SolutionDir)assimp\.;$(SolutionDir)assimp\contrib\zlib;$(SolutionDir)assimp\code\..\contrib\pugixml\src;$(SolutionDir)assimp\code\..\contrib\rapidjson\include;$(SolutionDir)assimp\code\..\contrib;$(SolutionDir)assimp\code\..\contrib\unzip;$(SolutionDir)assimp\code\..\contrib\openddlparser\include;$(SolutionDir)assimp\code\..\include;$(SolutionDir)assimp\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DisableSpecificWarnings>4244</DisableSpecificWarnings>
@@ -868,8 +868,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="$(SolutionDir)assimp\include\assimp\Compiler\pstdint.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\contrib\zlib\zlibstatic.vcxproj">
-      <Project>{972acdb0-a912-3138-b899-683084ea82d1}</Project>
+    <ProjectReference Include="$(SolutionDir)assimp\ZERO_CHECK.vcxproj">
+      <Project>{83363FD2-2C88-3083-8A2A-8EC362EBC93C}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="$(SolutionDir)assimp\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{972ACDB0-A912-3138-B899-683084EA82D1}</Project>
+      <Name>zlibstatic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
