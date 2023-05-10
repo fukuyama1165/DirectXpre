@@ -33,10 +33,11 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
-/assimp/lib/Debug/assimp-vc143-mtd.lib
-/assimp/lib/Relese/assimp-vc143-mt.lib
+/assimp/lib/*/*.lib
+
 
 /assimp/contrib/zlib/*/zlibstaticd.lib
+/assimp/contrib/zlib/*/zlibstatic.lib
 
 
 # Visual Studio 2015/2017 cache/options directory
