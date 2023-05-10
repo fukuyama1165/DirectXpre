@@ -88,6 +88,9 @@
     <Filter Include="ヘッダー ファイル\Game\sprite">
       <UniqueIdentifier>{de3f1444-e4c3-4883-b134-bcff4fd9e563}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル\object\Phong_toon_rim">
+      <UniqueIdentifier>{33bdefe8-c1bf-4d79-883d-48dc3235e926}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -301,6 +304,9 @@
     <None Include="Resources\shaders\Basic.hlsli">
       <Filter>シェーダーファイル\Basic</Filter>
     </None>
+    <None Include="Resources\shaders\Phong_toon_rim.hlsli">
+      <Filter>シェーダーファイル\object\Phong_toon_rim</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\OBJPS.hlsl">
@@ -326,6 +332,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\BasicVS.hlsl">
       <Filter>シェーダーファイル\Basic</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Phong_toon_rim_PS.hlsl">
+      <Filter>シェーダーファイル\object\Phong_toon_rim</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\Phong_toon_rim_VS.hlsl">
+      <Filter>シェーダーファイル\object\Phong_toon_rim</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

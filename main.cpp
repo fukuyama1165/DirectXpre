@@ -197,7 +197,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//texname = charactorObj2.loadTexture("Resources/player_shade.png");
 	//test.basicInit((directXinit->Getdev().Get()));
 
-	objobj.objDrawInit("Resources/obj/testcoll/", "testcoll.obj");
+	objobj.objDrawInit("Resources/obj/testBall/", "testBall.obj",true);
 	objobj2.objDrawInit("Resources/obj/collHittest/", "collHitTest.obj");
 	objobj3.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 
@@ -271,14 +271,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	float ambientColor0[3] = { 1,1,1 };
 
-	float lightDir0[3] = { 0,0,1 };
-	float lightColor0[3] = { 1,0,0 };
+	float lightDir0[3] = { 1,0,0 };
+	float lightColor0[3] = { 0.9,0.7,0.7 };
 	
-	float lightDir1[3] = { 0,1,0 };
-	float lightColor1[3] = { 0,1,0 };
+	float lightDir1[3] = { 1,0,0 };
+	float lightColor1[3] = { 0,0,0 };
 
 	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
+	float lightColor2[3] = { 0,0,0 };
 
 	Vector3 movecoll;
 
@@ -729,17 +729,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
-		//charactorObj.Draw(directXinit->GetcmdList().Get(), 0, 1,0);
-		charactorObj3.Draw(4,1,1);
-		//charactorObj2.Draw(directXinit->GetcmdList().Get(), 4, 1,0);
-		if (hit == false)
-		{
+		//charactorObj.Draw(0,1,0);
+		//charactorObj3.Draw(4,1,1);
+		//charactorObj2.Draw(4, 1,0);
+		/*if (hit == false)
+		{*/
 			objobj.Draw();
-		}
+		/*}
 		else
 		{
 			objobj2.Draw();
-		}
+		}*/
 
 		objobj3.Draw();
 
