@@ -33,11 +33,10 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
-/assimp/lib/*/*.lib
+assimp/lib/*/*.lib
 
 
-/assimp/contrib/zlib/*/zlibstaticd.lib
-/assimp/contrib/zlib/*/zlibstatic.lib
+assimp/contrib/zlib/*/*.lib
 
 
 # Visual Studio 2015/2017 cache/options directory
@@ -105,8 +104,8 @@ x64/*/*.obj
 *.svclog
 *.scc
 
-assimp/*/assimp.dir
-assimp/*/zlib/zlibstatic.dir
+assimp/*/assimpdir
+assimp/*/*/zlibstaticdir
 
 # Chutzpah Test files
 _Chutzpah*
