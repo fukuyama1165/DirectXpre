@@ -37,6 +37,7 @@ assimp/lib/*/*.lib
 
 
 assimp/contrib/zlib/*/*.lib
+assimp/contrib/zlib/Debug/zlibstaticd.lib
 
 
 # Visual Studio 2015/2017 cache/options directory
