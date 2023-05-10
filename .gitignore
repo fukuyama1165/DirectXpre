@@ -35,6 +35,8 @@ bld/
 
 /assimp/lib/Debug/assimp-vc143-mtd.lib
 
+
+
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
@@ -99,6 +101,8 @@ x64/*/*.obj
 *.pidb
 *.svclog
 *.scc
+
+assimp/*/*.dir
 
 # Chutzpah Test files
 _Chutzpah*
