@@ -91,6 +91,12 @@
     <Filter Include="シェーダーファイル\object\Phong_toon_rim">
       <UniqueIdentifier>{33bdefe8-c1bf-4d79-883d-48dc3235e926}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル\PostEffect">
+      <UniqueIdentifier>{1316f7a6-d5ab-4fdc-9227-0307b8779385}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\PostEffect\GaussianBlur">
+      <UniqueIdentifier>{cb8b97e2-3ba9-408d-aaf2-653bc0e6f196}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -190,6 +196,9 @@
       <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonLevelLoader.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
   </ItemGroup>
@@ -293,6 +302,9 @@
     <ClInclude Include="Model.h">
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
+    <ClInclude Include="JsonLevelLoader.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\OBJShaderHeader.hlsli">
@@ -306,6 +318,9 @@
     </None>
     <None Include="Resources\shaders\Phong_toon_rim.hlsli">
       <Filter>シェーダーファイル\object\Phong_toon_rim</Filter>
+    </None>
+    <None Include="Resources\shaders\GaussianBlur.hlsli">
+      <Filter>シェーダーファイル\PostEffect\GaussianBlur</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -338,6 +353,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\Phong_toon_rim_VS.hlsl">
       <Filter>シェーダーファイル\object\Phong_toon_rim</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GaussianBlurPS.hlsl">
+      <Filter>シェーダーファイル\PostEffect\GaussianBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GaussianBlurVS.hlsl">
+      <Filter>シェーダーファイル\PostEffect\GaussianBlur</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

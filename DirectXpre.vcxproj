@@ -159,6 +159,7 @@
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="enemyManager.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
+    <ClCompile Include="JsonLevelLoader.cpp" />
     <ClCompile Include="LightGroup.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Quaternion.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="enemy.h" />
     <ClInclude Include="enemyManager.h" />
     <ClInclude Include="ImGuiManager.h" />
+    <ClInclude Include="JsonLevelLoader.h" />
     <ClInclude Include="LightGroup.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Quaternion.h" />
@@ -226,6 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli" />
+    <None Include="Resources\shaders\GaussianBlur.hlsli" />
     <None Include="Resources\shaders\OBJShaderHeader.hlsli" />
     <None Include="Resources\shaders\Phong_toon_rim.hlsli" />
     <None Include="Resources\shaders\Sprite.hlsli" />
@@ -248,6 +251,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GaussianBlurPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GaussianBlurVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\shaders\OBJPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

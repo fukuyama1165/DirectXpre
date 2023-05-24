@@ -60,6 +60,8 @@ using namespace DirectX;
 #include "CollisionPrimirive.h"
 #include "Collision.h"
 
+#include "JsonLevelLoader.h"
+
 #include <sstream>
 
 #pragma region ウィンドウプロシージャ
@@ -190,6 +192,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ray.start = { 0.0f,0.0f,0.0f};
 	ray.dir = { 0.0f,0.0f,-1.0f};
+
+	LevelData* levelData = JsonLevelLoader::LoadJsonFile("scenetest3");
+
+	std::vector<Object3D> levelObj;
+
+	for (auto& objData : levelData->objects)
+	{
+		Object3D newObject;
+		newObject.objDrawInit("Resources/obj/testBox/", "testBox.obj");
+		newObject.Trans_ = Vector3{objData.trans.x,objData.trans.y ,objData.trans.z };
+		newObject.Rotate_ = Vector3{objData.rot.x,objData.rot.y ,objData.rot.z };
+		newObject.Scale_ = Vector3{objData.scale.x,objData.scale.y ,objData.scale.z };
+		newObject.matWorldGeneration();
+
+		levelObj.emplace_back(newObject);
+
+	}
 
 	//eenemy.PopEnemy(directXinit->Getdev().Get(), { 0,0,0 });
 
@@ -690,6 +709,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		objobj2.Update(cameobj.GetCamera());
 		objobj3.Update(cameobj.GetCamera());
 
+		for (Object3D a : levelObj)
+		{
+			a.Update(cameobj.GetCamera());
+		}
+
 		imGuiManager.End();
 
 #pragma endregion
@@ -734,19 +758,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//charactorObj2.Draw(4, 1,0);
 		/*if (hit == false)
 		{*/
-			objobj.Draw();
+			//objobj.Draw();
 		/*}
 		else
 		{
 			objobj2.Draw();
 		}*/
 
-		objobj3.Draw();
+		//objobj3.Draw();
 
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
 		
-		
+		for (Object3D a : levelObj)
+		{
+			a.Draw();
+		}
 		
 		
 		//play.Draw(directXinit->GetcmdList().Get());
@@ -787,6 +814,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	input->instanceDelete();
 
 	delete(lightGroup);
+	delete(levelData);
 
 	imGuiManager.Finalize();
 
