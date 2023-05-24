@@ -193,7 +193,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ray.start = { 0.0f,0.0f,0.0f};
 	ray.dir = { 0.0f,0.0f,-1.0f};
 
-	LevelData* levelData = JsonLevelLoader::LoadJsonFile("scenetest3");
+	/*LevelData* levelData = JsonLevelLoader::LoadJsonFile("scenetest3");
 
 	std::vector<Object3D> levelObj;
 
@@ -208,7 +208,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		levelObj.emplace_back(newObject);
 
-	}
+	}*/
 
 	//eenemy.PopEnemy(directXinit->Getdev().Get(), { 0,0,0 });
 
@@ -709,10 +709,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		objobj2.Update(cameobj.GetCamera());
 		objobj3.Update(cameobj.GetCamera());
 
-		for (Object3D a : levelObj)
+		/*for (Object3D a : levelObj)
 		{
 			a.Update(cameobj.GetCamera());
-		}
+		}*/
 
 		imGuiManager.End();
 
@@ -770,10 +770,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
 		
-		for (Object3D a : levelObj)
+		/*for (Object3D a : levelObj)
 		{
 			a.Draw();
-		}
+		}*/
 		
 		
 		//play.Draw(directXinit->GetcmdList().Get());
@@ -814,7 +814,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	input->instanceDelete();
 
 	delete(lightGroup);
-	delete(levelData);
+	//delete(levelData);
 
 	imGuiManager.Finalize();
 
