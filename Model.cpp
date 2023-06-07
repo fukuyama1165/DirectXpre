@@ -6,7 +6,13 @@ bool DoTheImportThing(const std::string& pFile)
 	Assimp::Importer importer;
 
 	//指定したファイルの読み込みらしい
-	const aiScene* scene = importer.ReadFile(pFile, aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+	const aiScene* scene = importer.ReadFile(pFile, 
+		aiProcess_CalcTangentSpace | 
+		aiProcess_Triangulate | 
+		aiProcess_JoinIdenticalVertices | 
+		aiProcess_SortByPType|
+		aiProcess_MakeLeftHanded //左手座標系に
+	);
 
 	//読み込みに失敗したらエラーをはいて止まる?
 	if (nullptr != scene)

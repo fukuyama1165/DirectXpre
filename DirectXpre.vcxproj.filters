@@ -97,6 +97,12 @@
     <Filter Include="シェーダーファイル\PostEffect\GaussianBlur">
       <UniqueIdentifier>{cb8b97e2-3ba9-408d-aaf2-653bc0e6f196}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\DirectX\resouse\Loader">
+      <UniqueIdentifier>{cc65a17b-99c1-4179-aee3-241608f4e1c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\DirectX\resouse\Loader">
+      <UniqueIdentifier>{c9392d09-6117-4ec3-8b45-8e4905123574}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -198,8 +204,14 @@
     <ClCompile Include="Model.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
+    <ClCompile Include="FBXLoader.cpp">
+      <Filter>ソース ファイル\DirectX\resouse\Loader</Filter>
+    </ClCompile>
     <ClCompile Include="JsonLevelLoader.cpp">
-      <Filter>ソース ファイル\DirectX\resouse</Filter>
+      <Filter>ソース ファイル\DirectX\resouse\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -303,7 +315,13 @@
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
     <ClInclude Include="JsonLevelLoader.h">
-      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+      <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXLoader.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
