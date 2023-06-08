@@ -1,34 +1,34 @@
 #include "enemyManager.h"
 
 
-void enemyManager::PopEnemy(ID3D12Device* dev, Vector3 pos)
+void enemyManager::PopEnemy(Vector3 pos)
 {
 	std::unique_ptr<enemy> newEnemy = std::make_unique<enemy>();
 
-	newEnemy->Init(dev, "Resources/obj/enemy/", "enemy.obj");
+	newEnemy->Init("Resources/obj/enemy/", "enemy.obj");
 
-	newEnemy->enemyObj.SetPos(pos);
+	newEnemy->enemyObj_.SetPos(pos);
 
 
 	//“GƒLƒƒƒ‰‚ð“o˜^
-	enemys.push_back(std::move(newEnemy));
+	enemys_.push_back(std::move(newEnemy));
 }
 
 void enemyManager::UpDate(Camera camera, Vector3 playerPos)
 {
-	for (std::unique_ptr<enemy>& enem : enemys)
+	for (std::unique_ptr<enemy>& enem : enemys_)
 	{
-		if (enem->isAlive == false)
+		if (enem->isAlive_ == false)
 		{
-			enemyCount++;
+			enemyCount_++;
 		}
 	}
-	enemys.remove_if([](std::unique_ptr<enemy>& enem)
+	enemys_.remove_if([](std::unique_ptr<enemy>& enem)
 	{
-		return !enem->isAlive;
+		return !enem->isAlive_;
 	});
 	
-	for (std::unique_ptr<enemy>& enem : enemys)
+	for (std::unique_ptr<enemy>& enem : enemys_)
 	{
 		enem->Update(camera, playerPos);
 	}
@@ -36,12 +36,12 @@ void enemyManager::UpDate(Camera camera, Vector3 playerPos)
 
 }
 
-void enemyManager::Draw(ID3D12GraphicsCommandList* cmdList)
+void enemyManager::Draw()
 {
 
-	for (std::unique_ptr<enemy>& enem : enemys)
+	for (std::unique_ptr<enemy>& enem : enemys_)
 	{
-		enem->Draw(cmdList);
+		enem->Draw();
 	}
 
 }

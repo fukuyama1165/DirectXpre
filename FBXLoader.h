@@ -31,13 +31,13 @@
 //部位のtransformだと思う
 struct NodeUnit
 {
-	std::string name;
-	std::vector<Vector3> position;
-	std::vector<double> positionTime;
-	std::vector<Vector3> rotation;
-	std::vector<double> totationTime;
-	std::vector<Vector3> scale;
-	std::vector<double> scaleTime;
+	std::string name_;
+	std::vector<Vector3> position_;
+	std::vector<double> positionTime_;
+	std::vector<Vector3> rotation_;
+	std::vector<double> totationTime_;
+	std::vector<Vector3> scale_;
+	std::vector<double> scaleTime_;
 
 };
 
@@ -45,10 +45,10 @@ struct NodeUnit
 struct Animation
 {
 
-	std::string name;
-	double duration;//間隔
-	double ticksPerSecond;//経過?時間
-	std::vector< NodeUnit> channels;//たぶん部位単位の位置を持ってる
+	std::string name_;
+	double duration_;//間隔
+	double ticksPerSecond_;//経過?時間
+	std::vector< NodeUnit> channels_;//たぶん部位単位の位置を持ってる
 
 };
 
@@ -56,35 +56,35 @@ struct Animation
 struct Node
 {
 	//名前(たぶん動かす際にこの部分のやつ動かすために必要になる？)
-	std::string name;
+	std::string name_;
 
 	//モデルって書いてあるけど単位的にメッシュになる
-	std::vector<std::unique_ptr<Model>> meshes;
+	std::vector<std::unique_ptr<Model>> meshes_;
 
 	//ここから単体の行列やローカル座標
 
 	//たぶんXMVECTORでしか受け取れない？
 	//大きさ
-	DirectX::XMVECTOR scale = { 1,1,1,0 };
+	DirectX::XMVECTOR scale_ = { 1,1,1,0 };
 	//角度
-	DirectX::XMVECTOR rotation = { 0,0,0,0 };
+	DirectX::XMVECTOR rotation_ = { 0,0,0,0 };
 	//位置
-	DirectX::XMVECTOR translation = { 0,0,0,1 };
+	DirectX::XMVECTOR translation_ = { 0,0,0,1 };
 
 	//ローカル座標行列
-	DirectX::XMMATRIX transform = DirectX::XMMatrixIdentity();
+	DirectX::XMMATRIX transform_ = DirectX::XMMatrixIdentity();
 
 	//グローバル(ワールド)座標行列?
-	DirectX::XMMATRIX globalTransform = DirectX::XMMatrixIdentity();
+	DirectX::XMMATRIX globalTransform_ = DirectX::XMMatrixIdentity();
 
 	//グローバル(ワールド)座標の逆行列
-	DirectX::XMMATRIX globalInverseTransform = DirectX::XMMatrixIdentity();
+	DirectX::XMMATRIX globalInverseTransform_ = DirectX::XMMatrixIdentity();
 
 	//親のアニメーション行列?
-	DirectX::XMMATRIX animaetionParentMat = DirectX::XMMatrixIdentity();
+	DirectX::XMMATRIX animaetionParentMat_ = DirectX::XMMatrixIdentity();
 
 	//親オブジェクト
-	Node* parent = nullptr;
+	Node* parent_ = nullptr;
 
 };
 
@@ -98,38 +98,38 @@ static const unsigned short int MAX_BONE = 128;
 struct AnimationVertex
 {
 
-	Vector3 pos;
-	Vector3 normal;
-	Vector2 uv;
-	unsigned int ids[NUM_BONES_PER_VERTEX] = {};
-	float weights[NUM_BONES_PER_VERTEX] = {};
+	Vector3 pos_;
+	Vector3 normal_;
+	Vector2 uv_;
+	unsigned int ids_[NUM_BONES_PER_VERTEX] = {};
+	float weights_[NUM_BONES_PER_VERTEX] = {};
 
 };
 
 //定数バッファ用
 struct ConstBuffSkin
 {
-	Matrix4x4 boneMats[MAX_BONE] = {};
+	Matrix4x4 boneMats_[MAX_BONE] = {};
 };
 
 //ウエイトの情報
 struct SetWeight
 {
-	unsigned int id;
-	float weight;
+	unsigned int id_;
+	float weight_;
 };
 
 //ボーンの情報
 struct Bone
 {
 	//どこのやつか
-	std::string name;
+	std::string name_;
 
 	//初期位置
-	Matrix4x4 offsetMatrix;
+	Matrix4x4 offsetMatrix_;
 
 	//最終位置?
-	Matrix4x4 finalMatrix;
+	Matrix4x4 finalMatrix_;
 
 };
 
@@ -139,19 +139,19 @@ class AnimationModel
 
 public:
 	//textureのインスタンスをもらってくる
-	DirectXInit* directXinit = DirectXInit::GetInstance();
-	Texture* texture = Texture::GetInstance(directXinit->Getdev().Get());
+	DirectXInit* directXinit_ = DirectXInit::GetInstance();
+	Texture* texture_ = Texture::GetInstance();
 
 	//頂点位置群？
-	std::vector<std::unique_ptr<Node>> nodes;
-	std::vector<std::unique_ptr<Animation>> animations;
+	std::vector<std::unique_ptr<Node>> nodes_;
+	std::vector<std::unique_ptr<Animation>> animations_;
 	std::vector<Bone> bones;
 
 	//デストラクタ
 	~AnimationModel();
 
 	//ファイル名
-	std::string filename;
+	std::string filename_;
 
 	//aisceneを持ってくる
 	//読み込み

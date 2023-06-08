@@ -15,10 +15,10 @@
 bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB, Vector3* inter)
 {
 
-	float x = sphereB.center.x - sphereA.center.x;
-	float y = sphereB.center.y - sphereA.center.y;
-	float z = sphereB.center.z - sphereA.center.z;
-	float r = sphereA.radius + sphereB.radius;
+	float x = sphereB.center_.x - sphereA.center_.x;
+	float y = sphereB.center_.y - sphereA.center_.y;
+	float z = sphereB.center_.z - sphereA.center_.z;
+	float r = sphereA.radius_ + sphereB.radius_;
 
 	//条件に該当してないなら当たってない
 	if ((x * x) + (y * y) + (z * z) > r * r)
@@ -29,9 +29,9 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 	if (inter)
 	{
 		//接点は中心と中心のベクトルの半分進んだ距離にした
-		Vector3 vec = sphereB.center - sphereA.center;
+		Vector3 vec = sphereB.center_ - sphereA.center_;
 
-		*inter = sphereA.center + vec / 2;
+		*inter = sphereA.center_ + vec / 2;
 
 	}
 
@@ -43,16 +43,16 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vector3* inter)
 {
 
-	float distV = Vector3::dot(sphere.center, plane.normal);
+	float distV = Vector3::dot(sphere.center_, plane.normal_);
 
-	float dist = distV - plane.distance;
+	float dist = distV - plane.distance_;
 
-	if (abs(dist) > sphere.radius) return false;
+	if (abs(dist) > sphere.radius_) return false;
 
 	if (inter)
 	{
 
-		*inter = -dist * plane.normal + sphere.center;
+		*inter = -dist * plane.normal_ + sphere.center_;
 
 	}
 
@@ -68,13 +68,13 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 #pragma region p0チェック
 
 	//triangleのp0とp1のベクトル
-	Vector3 p0p1 = triangle.p1 - triangle.p0;
+	Vector3 p0p1 = triangle.p1_ - triangle.p0_;
 
 	//triangleのp0とp2のベクトル
-	Vector3 p0p2 = triangle.p2 - triangle.p0;
+	Vector3 p0p2 = triangle.p2_ - triangle.p0_;
 
 	//triangleのp0とPointのベクトル
-	Vector3 p0Po = point - triangle.p0;
+	Vector3 p0Po = point - triangle.p0_;
 
 	//triangleのp0とp1のベクトルとtriangleのp0とPointのベクトルの内積
 	float d1 = Vector3::dot(p0p1, p0Po);
@@ -86,7 +86,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	if (d1 <= 0.0f and d2 <= 0.0f)
 	{
 
-		*closest = triangle.p0;
+		*closest = triangle.p0_;
 		return;
 
 	}
@@ -98,7 +98,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 #pragma region p1チェック
 
 	//triangleのp1とPointのベクトル
-	Vector3 p1Po = point - triangle.p1;
+	Vector3 p1Po = point - triangle.p1_;
 
 	//triangleのp0とp1のベクトルとtriangleのp1とPointのベクトルの内積
 	float d3 = Vector3::dot(p0p1, p1Po);
@@ -111,7 +111,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	if (d3 >= 0.0f and d4 <= d3)
 	{
 
-		*closest = triangle.p1;
+		*closest = triangle.p1_;
 		return;
 
 	}
@@ -124,7 +124,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 
 	if (p0p1Projection <= 0.0f and d1 >= 0.0f and d3 <= 0.0f)
 	{
-		*closest = triangle.p0 + ((d1 / (d1 - d3)) * p0p1);
+		*closest = triangle.p0_ + ((d1 / (d1 - d3)) * p0p1);
 		return;
 	}
 
@@ -135,7 +135,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 #pragma region p2チェック
 
 	//triangleのp2とPointのベクトル
-	Vector3 p2Po = point - triangle.p2;
+	Vector3 p2Po = point - triangle.p2_;
 
 	//triangleのp0とp1のベクトルとtriangleのp2とPointのベクトルの内積
 	float d5 = Vector3::dot(p0p1, p2Po);
@@ -148,7 +148,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	if (d6 >= 0.0f and d5 <= d6)
 	{
 
-		*closest = triangle.p2;
+		*closest = triangle.p2_;
 		return;
 
 	}
@@ -161,7 +161,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 
 	if (p0p2Projection <= 0.0f and d2 >= 0.0f and d6 <= 0.0f)
 	{
-		*closest = triangle.p0 + ((d2 / (d2 - d6)) * p0p2);
+		*closest = triangle.p0_ + ((d2 / (d2 - d6)) * p0p2);
 		return;
 	}
 
@@ -173,7 +173,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	if (p1p2Projection <= 0.0f and (d4-d3) >= 0.0f and (d5-d6) >= 0.0f)
 	{
 
-		*closest = triangle.p1 + (((d4 - d3) / ((d4 - d3) + (d5 - d6))) * (triangle.p2-triangle.p1));
+		*closest = triangle.p1_ + (((d4 - d3) / ((d4 - d3) + (d5 - d6))) * (triangle.p2_ -triangle.p1_));
 		return;
 
 	}
@@ -185,7 +185,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	float v = p0p2Projection * denom;
 	float w = p0p1Projection * denom;
 
-	*closest = triangle.p0 + p0p1 * v + p0p2 * w;
+	*closest = triangle.p0_ + p0p1 * v + p0p2 * w;
 
 }
 
@@ -194,13 +194,13 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 
 	Vector3 p;
 
-	Collision::ClosestPtPoint2Triangle(sphere.center, triangle, &p);
+	Collision::ClosestPtPoint2Triangle(sphere.center_, triangle, &p);
 
-	Vector3 v = p - sphere.center;
+	Vector3 v = p - sphere.center_;
 
 	float vDot = Vector3::dot(v,v);
 
-	if (vDot > sphere.radius * sphere.radius)
+	if (vDot > sphere.radius_ * sphere.radius_)
 	{
 		return false;
 	}
@@ -220,7 +220,7 @@ bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distan
 	const float epsilon = 1.0e-5f;
 
 	//内積
-	float d1 = Vector3::dot(plane.normal, ray.dir);
+	float d1 = Vector3::dot(plane.normal_, ray.dir_);
 
 	//向きが同じなので当たってない
 	if (d1 > -epsilon)
@@ -229,10 +229,10 @@ bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distan
 	}
 
 	//射影を求める
-	float d2 = Vector3::dot(plane.normal, ray.start);
+	float d2 = Vector3::dot(plane.normal_, ray.start_);
 
 	//始点と平面の距離
-	float dist = d2 - plane.distance;
+	float dist = d2 - plane.distance_;
 
 	float t = dist / -d1/*(-Vector3::dot(plane.normal, ray.dir))*/;
 
@@ -250,7 +250,7 @@ bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distan
 
 	if (inter != nullptr)
 	{
-		*inter = ray.start + t * ray.dir;
+		*inter = ray.start_ + t * ray.dir_;
 	}
 
 	return true;
@@ -267,10 +267,10 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 	Vector3 planeInter;
 
 	//法線は三角形と同じ
-	plane.normal = triangle.normal;
+	plane.normal_ = triangle.normal_;
 
 	//距離は代表の位置ベクトルと法線で求められる
-	plane.distance = Vector3::dot(triangle.normal,triangle.p0);
+	plane.distance_ = Vector3::dot(triangle.normal_,triangle.p0_);
 
 	//平面にすら当たっていないならそもそも当たってない
 	if (!CheckRay2Plane(ray, plane, distance, &planeInter))
@@ -281,35 +281,35 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 	//誤差を撮るためのやつ
 	const float epsilon = 1.0e-5f;
 
-	Vector3 p0p1 = triangle.p1 - triangle.p0;
-	Vector3 interp0 = triangle.p0 - planeInter;
+	Vector3 p0p1 = triangle.p1_ - triangle.p0_;
+	Vector3 interp0 = triangle.p0_ - planeInter;
 
 	Vector3 m0 = Vector3::cross(interp0, p0p1);
 
 	//内側なら法線と同じ方向を向いているので別の方向なら当たってない
-	if (Vector3::dot(m0, triangle.normal) <  -epsilon)
+	if (Vector3::dot(m0, triangle.normal_) <  -epsilon)
 	{
 		return false;
 	}
 
-	Vector3 p1p2 = triangle.p2 - triangle.p1;
-	Vector3 interp1 = triangle.p1 - planeInter;
+	Vector3 p1p2 = triangle.p2_ - triangle.p1_;
+	Vector3 interp1 = triangle.p1_ - planeInter;
 
 	Vector3 m1 = Vector3::cross(interp1, p1p2);
 
 	//法線と逆方向を向いているなら当たってない
-	if (Vector3::dot(m1, triangle.normal) < -epsilon)
+	if (Vector3::dot(m1, triangle.normal_) < -epsilon)
 	{
 		return false;
 	}
 
-	Vector3 p2p0 = triangle.p0 - triangle.p2;
-	Vector3 interp2 = triangle.p2 - planeInter;
+	Vector3 p2p0 = triangle.p0_ - triangle.p2_;
+	Vector3 interp2 = triangle.p2_ - planeInter;
 
 	Vector3 m2 = Vector3::cross(interp2, p2p0);
 
 	//法線と逆方向を向いているなら当たってない
-	if (Vector3::dot(m2, triangle.normal) < -epsilon)
+	if (Vector3::dot(m2, triangle.normal_) < -epsilon)
 	{
 		return false;
 	}
@@ -329,9 +329,9 @@ bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* dis
 {
 
 	//球の中心からレイの始点へのベクトルを作る
-	Vector3 m = ray.start - sphere.center;
-	float b = Vector3::dot(m, ray.dir);
-	float c = Vector3::dot(m, m) - (sphere.radius * sphere.radius);
+	Vector3 m = ray.start_ - sphere.center_;
+	float b = Vector3::dot(m, ray.dir_);
+	float c = Vector3::dot(m, m) - (sphere.radius_ * sphere.radius_);
 
 	//rayの始点がsphereの外側にあり(c>0)、
 	//rayがsphereから離れていく方向を指している場合(b>0)、
@@ -370,7 +370,7 @@ bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* dis
 	if (inter != nullptr)
 	{
 
-		*inter = ray.start + t * ray.dir;
+		*inter = ray.start_ + t * ray.dir_;
 
 	}
 

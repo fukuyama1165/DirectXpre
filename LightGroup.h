@@ -22,7 +22,7 @@ private:
 
 public:
 
-	static void Staticlnitialize(ID3D12Device* device);
+	static void Staticlnitialize();
 
 	//インスタンス生成
 	static LightGroup* Create();
@@ -31,7 +31,7 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList,UINT rootParameterIndex);
+	void Draw(UINT rootParameterIndex);
 
 	//定数バッファ転送
 	void TransferConstBuffer();
@@ -49,14 +49,14 @@ public:
 private:
 
 	//定数バッファ
-	void constantBuffGeneration(ID3D12Device* dev);
+	void constantBuffGeneration();
 
 	//定数バッファ用のリソース設定関数
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(int size);
 
 public:
 
-	static const int DirLightNum = 3;
+	static const int SDirLightNum_ = 3;
 
 public:
 
@@ -66,34 +66,34 @@ public:
 		XMFLOAT3 ambientColor;
 		float pad1;
 		//平行光源用
-		DirectionalLight::ConstBufferData dirLights[DirLightNum];
+		DirectionalLight::ConstBufferData dirLights[SDirLightNum_];
 
 	}; 
 
 private:
 
-	HRESULT result;
+	HRESULT result_;
 
-	static ID3D12Device* dev;
+	static Microsoft::WRL::ComPtr<ID3D12Device> dev;
 
 
 	
 
 	//ComPtr<ID3D12Resource> constBuff;
 
-	XMFLOAT3 ambientColor = { 1,1,1 };
+	XMFLOAT3 ambientColor_ = { 1,1,1 };
 
-	DirectionalLight dirLights[DirLightNum];
+	DirectionalLight dirLights_[SDirLightNum_];
 
-	bool dirty = false;
+	bool dirty_ = false;
 
 	//定数バッファ
-	ComPtr<ID3D12Resource>constBuff = nullptr;
+	ComPtr<ID3D12Resource>constBuff_ = nullptr;
 
 	//ヒープ設定
-	D3D12_HEAP_PROPERTIES cbHeapProp{};
+	D3D12_HEAP_PROPERTIES cbHeapProp_{};
 	//リソース設定
-	D3D12_RESOURCE_DESC cbResourceDesc{};
+	D3D12_RESOURCE_DESC cbResourceDesc_{};
 
 };
 

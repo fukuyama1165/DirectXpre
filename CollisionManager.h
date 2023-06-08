@@ -18,7 +18,7 @@ public:
 	/// <param name="Collider">コライダー</param>
 	inline void AddCollider(BaseCollider* Collider)
 	{
-		colliders.push_front(Collider);
+		colliders_.push_front(Collider);
 	}
 
 	/// <summary>
@@ -27,7 +27,7 @@ public:
 	/// <param name="Collider">コライダー</param>
 	inline void RemoveCollider(BaseCollider* Collider)
 	{
-		colliders.remove(Collider);
+		colliders_.remove(Collider);
 	}
 
 	//すべての衝突チェック
@@ -41,7 +41,7 @@ private:
 	CollisionManager& operator=(const CollisionManager&) = delete;
 
 	//コライダーのリスト
-	std::forward_list<BaseCollider*>colliders;
+	std::forward_list<BaseCollider*>colliders_;
 
 
 };

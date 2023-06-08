@@ -24,30 +24,30 @@ bool DoTheImportThing(const std::string& pFile)
 	//中身に触れるらしい
 
 	//ボーンの情報の部分らしい
-	aiNode* a = scene->mRootNode;
+	//aiNode* a = scene->mRootNode;
 
 	//データのよみこみ
 	
 	
-	
+	return false;
 }
 
-void Model::vertexBuffObjGeneration(ID3D12Device* dev)
+void Model::vertexBuffObjGeneration()
 {
 #pragma region 頂点バッファの確保
 
 	//頂点バッファの確保辺
 
-	heapprop.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+	heapprop_.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
 
 
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeVB;//頂点データ全体のサイズ
-	resDesc.Height = 1;
-	resDesc.DepthOrArraySize = 1;
-	resDesc.MipLevels = 1;
-	resDesc.SampleDesc.Count = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	resDesc_.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc_.Width = sizeVB_;//頂点データ全体のサイズ
+	resDesc_.Height = 1;
+	resDesc_.DepthOrArraySize = 1;
+	resDesc_.MipLevels = 1;
+	resDesc_.SampleDesc.Count = 1;
+	resDesc_.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 #pragma endregion
 
@@ -55,13 +55,13 @@ void Model::vertexBuffObjGeneration(ID3D12Device* dev)
 
 	//頂点バッファの生成
 
-	result = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
-		&heapprop,//ヒープ設定
+	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
+		&heapprop_,//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc,//リソース設定
+		&resDesc_,//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&vertBuff)
+		IID_PPV_ARGS(&vertBuff_)
 	);
 
 #pragma endregion
@@ -71,17 +71,17 @@ void Model::vertexBuffObjGeneration(ID3D12Device* dev)
 
 	//頂点バッファへのデータ転送
 	//GPU上のバッファに対応した仮想メモリを取得
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	result_ = vertBuff_->Map(0, nullptr, (void**)&vertMap_);
 
 	//全頂点に対して
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < vertices_.size(); i++)
 	{
-		vertMap[i] = vertices[i];//座標をコピー
+		vertMap_[i] = vertices_[i];//座標をコピー
 	}
 
 
 	//つながりを解除
-	vertBuff->Unmap(0, nullptr);
+	vertBuff_->Unmap(0, nullptr);
 
 #pragma endregion
 
@@ -91,9 +91,9 @@ void Model::vertexBuffObjGeneration(ID3D12Device* dev)
 
 	//頂点バッファビューの作成
 
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(vertices[0]);
+	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
+	vbView_.SizeInBytes = sizeVB_;
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 #pragma endregion
 
@@ -104,36 +104,36 @@ void Model::indicesBuffGeneration(ID3D12Device* dev)
 #pragma region インデックスバッファ
 
 	//リソース設定
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeIB;//インデックス情報が入る分のサイズ
-	resDesc.Height = 1;
-	resDesc.DepthOrArraySize = 1;
-	resDesc.MipLevels = 1;
-	resDesc.SampleDesc.Count = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	resDesc_.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc_.Width = sizeIB_;//インデックス情報が入る分のサイズ
+	resDesc_.Height = 1;
+	resDesc_.DepthOrArraySize = 1;
+	resDesc_.MipLevels = 1;
+	resDesc_.SampleDesc.Count = 1;
+	resDesc_.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//インデックスバッファの生成
 
-	result = dev->CreateCommittedResource(
-		&heapprop,//ヒープ設定
+	result_ = dev->CreateCommittedResource(
+		&heapprop_,//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc,//リソース設定
+		&resDesc_,//リソース設定
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&indexBuff)
+		IID_PPV_ARGS(&indexBuff_)
 	);
 
 	//インデックスバッファをマッピング
 	uint16_t* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	result_ = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	//全インデックスに対して
-	for (int i = 0; i < indices.size(); i++)
+	for (int i = 0; i < indices_.size(); i++)
 	{
-		indexMap[i] = indices[i];//インデックスをコピー
+		indexMap[i] = indices_[i];//インデックスをコピー
 	}
 
 	//マッピング解除
-	indexBuff->Unmap(0, nullptr);
+	indexBuff_->Unmap(0, nullptr);
 
 #pragma endregion 頂点を通る順番を決める場所
 
@@ -141,9 +141,9 @@ void Model::indicesBuffGeneration(ID3D12Device* dev)
 
 	//インデックスバッファビューの生成
 
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
+	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
+	ibView_.Format = DXGI_FORMAT_R16_UINT;
+	ibView_.SizeInBytes = sizeIB_;
 
 #pragma endregion
 

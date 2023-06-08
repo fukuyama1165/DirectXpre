@@ -14,13 +14,13 @@ struct SoundData
 {
 
 	//波形フォーマット
-	WAVEFORMATEX wfex;
+	WAVEFORMATEX wfex_;
 
 	//バッファの先頭アドレス
-	BYTE* pBuffer;
+	BYTE* pBuffer_;
 
 	//バッファのサイズ
-	unsigned int BufferSize;
+	unsigned int BufferSize_;
 
 
 };
@@ -46,10 +46,10 @@ private:
 	{
 
 		//チャンク毎のID
-		char id[4];
+		char id_[4];
 
 		//チャンクサイズ
-		int32_t size;
+		int32_t size_;
 
 	};
 
@@ -58,11 +58,11 @@ private:
 	{
 
 		//RIFF
-		ChunkHeader chunk;
+		ChunkHeader chunk_;
 
 		//↓拡張子の確認してる?
 		//WAVE
-		char type[4];
+		char type_[4];
 
 	};
 
@@ -71,10 +71,10 @@ private:
 	{
 
 		//"fmt"
-		ChunkHeader chunk;
+		ChunkHeader chunk_;
 
 		//波形フォーマット
-		WAVEFORMATEX fmt;
+		WAVEFORMATEX fmt_;
 
 	};
 
@@ -86,11 +86,11 @@ public:
 
 private:
 
-	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
+	Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
 
-	IXAudio2MasteringVoice* masterVoice;
+	IXAudio2MasteringVoice* masterVoice_;
 
-	HRESULT result;
+	HRESULT result_;
 
 	//関数
 public:

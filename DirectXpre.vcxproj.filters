@@ -135,15 +135,6 @@
     <ClCompile Include="Vector4.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="DrawOBJ.cpp">
-      <Filter>ソース ファイル\debris</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawBillboard.cpp">
-      <Filter>ソース ファイル\debris</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawingObj.cpp">
-      <Filter>ソース ファイル\debris</Filter>
-    </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>ソース ファイル\debris</Filter>
     </ClCompile>
@@ -271,15 +262,6 @@
     </ClInclude>
     <ClInclude Include="Object3D.h">
       <Filter>ヘッダー ファイル\Game\object</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawBillboard.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawingObj.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawOBJ.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>ヘッダー ファイル\debris</Filter>

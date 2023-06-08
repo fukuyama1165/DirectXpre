@@ -6,6 +6,7 @@
 
 #include<vector>
 #include<string>
+#include <memory>
 
 #include<d3d12.h>
 #include<dxgi1_6.h>
@@ -82,7 +83,7 @@ using namespace DirectX;
 
 
 //デバイス発見時の実行される
-BOOL CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE ipddi, LPVOID pvRef)
+BOOL CALLBACK DeviceFindCallBack()
 {
 	return DIENUM_CONTINUE;
 }
@@ -106,9 +107,7 @@ bool CollsionSphere(Vector3 posA, float rA, Vector3 posB, float rB);
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	//windowAPI
-	WinApp* winApp;
-
-	winApp = new WinApp();
+	std::unique_ptr<WinApp> winApp = std::make_unique<WinApp>();
 
 	winApp->initialize();
 
@@ -121,14 +120,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ImGuiManager imGuiManager;
 
-	imGuiManager.Init(winApp);
+	imGuiManager.Init(winApp.get());
 
 	//入力の初期化
 	Input* input = input->GetInstance();
 
 	input->init(winApp->getW(), winApp->getHwnd());
 
-	LightGroup::Staticlnitialize(directXinit->Getdev().Get());
+	LightGroup::Staticlnitialize();
 
 	LightGroup* lightGroup = nullptr;
 
@@ -168,30 +167,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	texname = charactorObj2.loadTexture("Resources/hokehoke.png");
 
-	play.Init(directXinit->Getdev().Get(), "Resources/obj/karaage/", "karaage.obj");
+	play.Init("Resources/obj/karaage/", "karaage.obj");
 	
-	int texname2 = 0;
-	int texname3 = 0;
-
 	Sphere sphere;
 	Plane plane;
 	Triangle triangle;
 	Ray ray;
 	
-	sphere.center = { 0,0,0};
-	sphere.radius = 1.0f;
+	sphere.center_ = { 0,0,0};
+	sphere.radius_ = 1.0f;
 
-	plane.normal = { 0,1,0};
-	plane.distance = 0.0f;
+	plane.normal_ = { 0,1,0};
+	plane.distance_ = 0.0f;
 
-	triangle.p0 = { -50.0f,-50.0f,50.0f};
-	triangle.p1 = { 50.0f,-50.0f,50.0f};
-	triangle.p2 = { -50.0f, 50.0f,50.0f};
+	triangle.p0_ = { -50.0f,-50.0f,50.0f};
+	triangle.p1_ = { 50.0f,-50.0f,50.0f};
+	triangle.p2_ = { -50.0f, 50.0f,50.0f};
 	triangle.ComputeNormal();
 	//triangle.normal = { 0.0f,0.0f,-1.0f,0 };
 
-	ray.start = { 0.0f,0.0f,0.0f};
-	ray.dir = { 0.0f,0.0f,-1.0f};
+	ray.start_ = { 0.0f,0.0f,0.0f};
+	ray.dir_ = { 0.0f,0.0f,-1.0f};
 
 	/*LevelData* levelData = JsonLevelLoader::LoadJsonFile("scenetest3");
 
@@ -230,45 +226,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Sprite sprite;
 	Sprite sprite2;
 
-	sprite.initialize(directXinit->Getdev().Get(), &spritecommon,2);
-	sprite2.initialize(directXinit->Getdev().Get(), &spritecommon,1);
+	sprite.initialize(&spritecommon,2);
+	sprite2.initialize(&spritecommon,1);
 
-	sprite.posX = 100;
-	sprite.posY = 200;
+	sprite.posX_ = 100;
+	sprite.posY_ = 200;
 
-	sprite2.posX = 50;
-	sprite2.posY = 200;
-
-	//パイプラインステート切り替え用フラグ
-	bool PipeLineRuleFlag = true;
-
-	//四角形に変更するときのフラグ
-	bool ChangeSquareFlag = true;
-
-	bool ChangeTexure = false;
-
-
-	float Red = 1.0f;
-	float Green = 0.0f;
-	float Blue = 0.0f;
-
-	float X1 = 0.0f;
-	float X2 = 0.0f;
-	float Y1 = 0.0f;
-	float Y2 = 0.0f;
-	float rotate = 0;
-	float scaleX = 1;
-	float scaleY = 1;
-
-	float angle = 0.0f;//カメラの回転角
-	float angleY = 0.0f;//カメラの回転角
-
-	float rotateX = 0;
-	float rotateY = 0;
-
-	int time = 0;
-
-	int scene = 0;
+	sprite2.posX_ = 50;
+	sprite2.posY_ = 200;
 
 	//座標
 	Vector3 pos = {};
@@ -291,7 +256,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	float ambientColor0[3] = { 1,1,1 };
 
 	float lightDir0[3] = { 1,0,0 };
-	float lightColor0[3] = { 0.9,0.7,0.7 };
+	float lightColor0[3] = { 0.9f,0.7f,0.7f };
 	
 	float lightDir1[3] = { 1,0,0 };
 	float lightColor1[3] = { 0,0,0 };
@@ -415,12 +380,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			movecoll.z -= 0.01f;
 		}
 
-		sphere.center = { movecoll.x ,movecoll.y,movecoll.z};
+		sphere.center_ = { movecoll.x ,movecoll.y,movecoll.z};
 
 		//ray.start = { movecoll.x ,movecoll.y,movecoll.z};
 
-		sprite2.posX = spriteMove.x;
-		sprite2.posY = spriteMove.y;
+		sprite2.posX_ = spriteMove.x;
+		sprite2.posY_ = spriteMove.y;
 
 		bool hit = Collision::CheckRay2Sphere(ray, sphere);
 
@@ -466,7 +431,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ImGui::SliderFloat("movecolly", &movecoll.y, -200.0f, 200.0f, "%.3f");
 		ImGui::SliderFloat("movecollz", &movecoll.z, -200.0f, 200.0f, "%.3f");
 
-		ImGui::Text("x:%f y:%f z:%f", ray.start.x, ray.start.y, ray.start.z);
+		ImGui::Text("x:%f y:%f z:%f", ray.start_.x, ray.start_.y, ray.start_.z);
 
 		if (hit)
 		{
@@ -688,8 +653,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ImGui::ShowDemoWindow();
 #endif
 
-		cameobj.pos = cameraPos;
-		cameobj.rotate = cameraRot;
+		cameobj.pos_ = cameraPos;
+		cameobj.rotate_ = cameraRot;
 
 		objobj.SetPos(movecoll);
 		objobj2.SetPos(movecoll);
@@ -758,14 +723,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//charactorObj2.Draw(4, 1,0);
 		/*if (hit == false)
 		{*/
-			//objobj.Draw();
+			objobj.Draw();
 		/*}
 		else
 		{
 			objobj2.Draw();
 		}*/
 
-		//objobj3.Draw();
+		objobj3.Draw();
 
 		//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
@@ -806,7 +771,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	}
 
-	delete winApp;
+	//delete winApp;
 
 	//texture.hを読み込んでいるobjctが増えてもdelteするのは一回にすること
 	charactorObj.deleteTexture();
@@ -818,7 +783,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	imGuiManager.Finalize();
 
-	directXinit->instanceDelete();
+	//directXinit->instanceDelete();
 
 	return 0;
 

@@ -5,14 +5,14 @@ void SphereCollider::Update()
 {
 
 	//ワールド行列から座標を抽出
-	const Matrix4x4& matWorld = object3d->GetWorldMat();
+	const Matrix4x4& matWorld = object3d_->GetWorldMat();
 
 	//球のメンバ変数を更新
-	Sphere::center.x = matWorld.m[3][0] + offset.x;
-	Sphere::center.y = matWorld.m[3][1] + offset.y;
-	Sphere::center.z = matWorld.m[3][2] + offset.z;
+	Sphere::center_.x = matWorld.m[3][0] + offset_.x;
+	Sphere::center_.y = matWorld.m[3][1] + offset_.y;
+	Sphere::center_.z = matWorld.m[3][2] + offset_.z;
 
-	Sphere::radius = radius;
+	Sphere::radius_ = radius_;
 
 
 }

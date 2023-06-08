@@ -35,17 +35,17 @@ public:
 
 
 	//透視投影行列
-	Matrix4x4 matProjection;
+	Matrix4x4 matProjection_;
 
 	//ビュー変換行列
-	Matrix4x4 matView;
+	Matrix4x4 matView_;
 	Vector3 eye_ = {};//視点座標
 	Vector3 target_ = {};//注視点座標
 	Vector3 up_= { 0, 1, 0 };//上方向ベクトル
 
 private:
 	//画面サイズ
-	float Win_width;
-	float Win_height;
+	float Win_width_;
+	float Win_height_;
 };
 

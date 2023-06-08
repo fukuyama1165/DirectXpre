@@ -7,25 +7,25 @@ public:
 	enemy();
 	~enemy();
 
-	void Init(ID3D12Device* dev, const std::string directoryPath, const char filename[]);
+	void Init(const std::string directoryPath, const char filename[]);
 	void Update(Camera camera,Vector3 playerPos);
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 
-	Object3D enemyObj;
+	Object3D enemyObj_;
 
-	bool isAlive = true;
-	bool isHit = false;
+	bool isAlive_ = true;
+	bool isHit_ = false;
 
 private:
 
-	bool isHitSet = false;
+	bool isHitSet_ = false;
 
-	Vector3 hitVec;
+	Vector3 hitVec_;
 
-	int hitTime = 0;
+	int hitTime_ = 0;
 
-	Input* input;
+	Input* input_;
 
-	Vector3 pos = {};
+	Vector3 pos_ = {};
 };
 

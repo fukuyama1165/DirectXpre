@@ -12,8 +12,8 @@ void ImGuiManager::Init(WinApp* winApp)
 	dsvHeapDesc.NumDescriptors = 1;//深度ビューは1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;//デプスステンシルビュー
 	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	result = directXInit->Getdev().Get()->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
-	assert(SUCCEEDED(result));
+	result_ = directXInit->Getdev().Get()->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap_));
+	assert(SUCCEEDED(result_));
 
 	ImGui::CreateContext();
 
@@ -21,9 +21,9 @@ void ImGuiManager::Init(WinApp* winApp)
 
 	ImGui_ImplWin32_Init(winApp->getHwnd());
 	ImGui_ImplDX12_Init(directXInit->Getdev().Get(), (int)directXInit->GetBackBufferCount(),
-		DXGI_FORMAT_R8G8B8A8_UNORM, dsvHeap.Get(),
-		dsvHeap->GetCPUDescriptorHandleForHeapStart(),
-		dsvHeap->GetGPUDescriptorHandleForHeapStart());
+		DXGI_FORMAT_R8G8B8A8_UNORM, dsvHeap_.Get(),
+		dsvHeap_->GetCPUDescriptorHandleForHeapStart(),
+		dsvHeap_->GetGPUDescriptorHandleForHeapStart());
 	
 
 
@@ -37,7 +37,7 @@ void ImGuiManager::Finalize()
 	ImGui::DestroyContext();
 
 	//デスクリプタヒープを解放
-	dsvHeap.Reset();
+	dsvHeap_.Reset();
 
 }
 
@@ -61,7 +61,7 @@ void ImGuiManager::Draw()
 {
 	DirectXInit* directXInit = DirectXInit::GetInstance();
 
-	ID3D12DescriptorHeap* ppHeaps[] = { dsvHeap.Get() };
+	ID3D12DescriptorHeap* ppHeaps[] = { dsvHeap_.Get() };
 
 	directXInit->GetcmdList()->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 

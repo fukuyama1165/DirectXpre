@@ -18,10 +18,10 @@ public:
 
 	inline void SetObject(Object3D* object)
 	{
-		this->object3d = object;
+		object3d_ = object;
 	}
 
-	inline Object3D* GetObject3D() { return object3d; };
+	inline Object3D* GetObject3D() { return object3d_; };
 
 	/// <summary>
 	/// 更新
@@ -29,15 +29,15 @@ public:
 	virtual void Update() = 0;
 
 	//形状タイプ取得
-	inline CollisionShapeType GetShapeType() { return shapeType; };
+	inline CollisionShapeType GetShapeType() { return shapeType_; };
 
-	inline void OnCollision(const CollisionInfo& Info) { object3d->OnCollision(Info); };
+	inline void OnCollision(const CollisionInfo& Info) { object3d_->OnCollision(Info); };
 
 protected:
 
-	Object3D* object3d = nullptr;
+	 Object3D* object3d_ = nullptr;
 
-	CollisionShapeType shapeType = SHAPE_UNKNOWN;
+	CollisionShapeType shapeType_ = SHAPE_UNKNOWN;
 
 };
 

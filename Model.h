@@ -32,7 +32,7 @@ public:
 private:
 
 	//頂点バッファ
-	void vertexBuffObjGeneration(ID3D12Device* dev);
+	void vertexBuffObjGeneration();
 
 	//インデックスデータ関連(インデックスビューもここ)
 	void indicesBuffGeneration(ID3D12Device* dev);
@@ -42,64 +42,64 @@ private:
 	//頂点データ構造体
 	struct Vertex
 	{
-		Vector3 pos;//xyz座標
-		Vector3 normal;//法線ベクトル
-		Vector3 uv;//uv座標
+		Vector3 pos_;//xyz座標
+		Vector3 normal_;//法線ベクトル
+		Vector3 uv_;//uv座標
 	};
 
 	struct Material
 	{
-		std::string name;//マテリアル名
-		XMFLOAT3 ambient;//アンビエント影響度
-		XMFLOAT3 diffuse;//ディフューズ影響度
-		XMFLOAT3 specular;//スペキュラー影響度
-		float alpha;//アルファ
-		std::string textureFilename;//テクスチャファイル名
+		std::string name_;//マテリアル名
+		XMFLOAT3 ambient_;//アンビエント影響度
+		XMFLOAT3 diffuse_;//ディフューズ影響度
+		XMFLOAT3 specular_;//スペキュラー影響度
+		float alpha_;//アルファ
+		std::string textureFilename_;//テクスチャファイル名
 
 		//コンストラクタ
 		Material()
 		{
-			ambient = { 0.3f, 0.3f, 0.3f };
-			diffuse = { 0.0f, 0.0f, 0.0f };
-			specular = { 0.0f, 0.0f, 0.0f };
-			alpha = 1.0f;
+			ambient_ = { 0.3f, 0.3f, 0.3f };
+			diffuse_ = { 0.0f, 0.0f, 0.0f };
+			specular_ = { 0.0f, 0.0f, 0.0f };
+			alpha_ = 1.0f;
 		}
 
 	};
 
 	//頂点データ(増やしたいならここも増やしておく)
-	std::vector <Vertex> vertices;
+	std::vector <Vertex> vertices_;
 
 	//頂点データサイズ
-	UINT sizeVB;
+	UINT sizeVB_;
 
-	HRESULT result;
+	HRESULT result_;
 
 	//頂点バッファ用変数
-	D3D12_HEAP_PROPERTIES heapprop{};//ヒープ設定
-	D3D12_RESOURCE_DESC resDesc{};//リソース設定
-	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff = nullptr;
-	Vertex* vertMap = nullptr;
+	D3D12_HEAP_PROPERTIES heapprop_{};//ヒープ設定
+	D3D12_RESOURCE_DESC resDesc_{};//リソース設定
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_ = nullptr;
+	Vertex* vertMap_ = nullptr;
 	//頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 
 	//インデックスデータ
-	std::vector< unsigned short> indices;
+	std::vector< unsigned short> indices_;
 	//インデックスデータ全体のサイズ
-	UINT sizeIB;
+	UINT sizeIB_;
 	//インデックスバッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	//インデックスビュー
-	D3D12_INDEX_BUFFER_VIEW ibView{};
+	D3D12_INDEX_BUFFER_VIEW ibView_{};
 
 	//頂点法線スムージング用データ
-	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 
 	//テクスチャ
-	static Texture* texture;
+	static Texture* texture_;
 
 	//マテリアル
-	Material material;
+	Material material_;
 
 };
 

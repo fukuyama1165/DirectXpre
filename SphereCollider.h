@@ -8,11 +8,11 @@ class SphereCollider:public BaseCollider,public Sphere
 {
 
 public:
-	SphereCollider(Vector3 Offset = { 0,0,0 }, float Radius = 1.0f) :offset(Offset), radius(Radius)
+	SphereCollider(Vector3 Offset = { 0,0,0 }, float Radius = 1.0f) :offset_(Offset), radius_(Radius)
 	{
 
 		//球形状をセット
-		shapeType = COLLISIONSHAPE_SPHERE;
+		shapeType_ = COLLISIONSHAPE_SPHERE;
 
 	}
 
@@ -21,14 +21,14 @@ public:
 	/// </summary>
 	void Update()override;
 
-	inline void SetRadius(float Radius) { radius = Radius; };
+	inline void SetRadius(float Radius) { radius_ = Radius; };
 
 public:
 
 	//オブジェクト中心からのオフセット
-	Vector3 offset;
+	Vector3 offset_;
 
 	//半径
-	float radius;
+	float radius_;
 };
 

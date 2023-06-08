@@ -12,7 +12,7 @@ WinApp::~WinApp()
 {
 
 	// ウィンドウクラスを登録解除
-	UnregisterClass(w.lpszClassName, w.hInstance);
+	UnregisterClass(w_.lpszClassName, w_.hInstance);
 
 }
 
@@ -22,34 +22,34 @@ void WinApp::initialize()
 #pragma region ウィンドウの初期化部分
 
 
-	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = static_cast<WNDPROC>(windowProc);//ウィンドウプロシージャ
-	w.lpszClassName = L"DirectXGame";//ウィンドウクラス名
-	w.hInstance = GetModuleHandle(nullptr);//ウィンドウハンドル
-	w.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
+	w_.cbSize = sizeof(WNDCLASSEX);
+	w_.lpfnWndProc = static_cast<WNDPROC>(windowProc);//ウィンドウプロシージャ
+	w_.lpszClassName = L"DirectXGame";//ウィンドウクラス名
+	w_.hInstance = GetModuleHandle(nullptr);//ウィンドウハンドル
+	w_.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
 
 	//ウィンドウクラスをOSに登録
-	RegisterClassEx(&w);
+	RegisterClassEx(&w_);
 
 	//ウィンドウのサイズの構造体{x座標,y座標,横幅,縦幅}
-	wrc = { 0,0,windowWidth,windowHeight };
-	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);//自動でサイズ補正
+	wrc_ = { 0,0,SWindowWidth_,SWindowHeight_ };
+	AdjustWindowRect(&wrc_, WS_OVERLAPPEDWINDOW, false);//自動でサイズ補正
 
 	//ウィンドウの構成要素？
-	hwnd = CreateWindow(w.lpszClassName,//クラス名
+	hwnd_ = CreateWindow(w_.lpszClassName,//クラス名
 		L"DirectXGame",//タイトルバーの名前
 		WS_OVERLAPPEDWINDOW,//標準的なウインドウスタイル
 		CW_USEDEFAULT,//x座標(OSに任せる)
 		CW_USEDEFAULT,//y座標(OSに任せる)
-		wrc.right - wrc.left,//ウィンドウ横幅
-		wrc.bottom - wrc.top,//ウィンドウ縦幅
+		wrc_.right - wrc_.left,//ウィンドウ横幅
+		wrc_.bottom - wrc_.top,//ウィンドウ縦幅
 		nullptr,//親ウィンドウハンドル
 		nullptr,//メニューハンドル
-		w.hInstance,//呼び出しアプリケーションハンドル
+		w_.hInstance,//呼び出しアプリケーションハンドル
 		nullptr);//オプション
 
 	//ウィンドウ表示部分
-	ShowWindow(hwnd, SW_SHOW);
+	ShowWindow(hwnd_, SW_SHOW);
 
 	//システムタイマーの分解能を上げる
 	timeBeginPeriod(1);
@@ -80,21 +80,21 @@ bool WinApp::processMassage()
 const WNDCLASSEX& WinApp::getW()const
 {
 
-	return w;
+	return w_;
 
 }
 
 const RECT& WinApp::getWrc() const
 {
 
-	return wrc;
+	return wrc_;
 
 }
 
 HWND WinApp::getHwnd() const
 {
 
-	return hwnd;
+	return hwnd_;
 
 }
 
@@ -102,7 +102,7 @@ HWND WinApp::getHwnd() const
 int WinApp::getWindowSizeWidth()
 {
 
-	return windowWidth;
+	return SWindowWidth_;
 
 }
 
@@ -110,7 +110,7 @@ int WinApp::getWindowSizeWidth()
 int WinApp::getWindowSizeHeight()
 {
 
-	return windowHeight;
+	return SWindowHeight_;
 
 }
 

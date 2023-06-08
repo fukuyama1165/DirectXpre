@@ -1,19 +1,15 @@
 #include "DirectionalLight.h"
+#include "DirectXInit.h"
 
 using namespace DirectX;
 
 //静的メンバ変数の実体
-ID3D12Device* DirectionalLight::dev = nullptr;
+Microsoft::WRL::ComPtr<ID3D12Device> DirectionalLight::dev = nullptr;
 
-void DirectionalLight::StaticInitialize(ID3D12Device* device)
+void DirectionalLight::StaticInitialize()
 {
 
-	//再初期化チェック
-	assert(!DirectionalLight::dev);
-	//nullptrチェック
-	assert(device);
-	//静的メンバ変数のセット
-	DirectionalLight::dev = device;
+	dev = DirectXInit::GetInstance()->Getdev();
 
 }
 
@@ -33,7 +29,7 @@ DirectionalLight* DirectionalLight::Create()
 void DirectionalLight::Init()
 {
 
-	constantBuffGeneration(dev);
+	constantBuffGeneration();
 
 	TransferConstBuffer();
 
@@ -44,55 +40,55 @@ void DirectionalLight::Update()
 
 
 	//値の更新があった時だけ定数バッファに転送する
-	if (dirty)
+	if (dirty_)
 	{
 		TransferConstBuffer();
-		dirty = false;
+		dirty_ = false;
 	}
 
 }
 
-void DirectionalLight::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
+void DirectionalLight::Draw(UINT rootParameterIndex)
 {
 
-	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff->GetGPUVirtualAddress());
+	DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff_->GetGPUVirtualAddress());
 
 }
 
 void DirectionalLight::SetLightDir(const XMVECTOR& lightdir)
 {
 
-	this->lightDir = XMVector3Normalize(lightdir);
-	dirty = true;
+	lightDir_ = XMVector3Normalize(lightdir);
+	dirty_ = true;
 
 }
 
 void DirectionalLight::SetLightColor(const XMFLOAT3& lightcolor)
 {
 
-	this->lightColor = lightcolor;
-	dirty = true;
+	lightColor_ = lightcolor;
+	dirty_ = true;
 
 }
 
-void DirectionalLight::constantBuffGeneration(ID3D12Device* dev)
+void DirectionalLight::constantBuffGeneration()
 {
 #pragma region 定数バッファ
 
 	//定数バッファの生成用の設定
 
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
+	cbHeapProp_.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUへの転送用
 
-	cbResourceDesc = constBuffResourceGeneration(sizeof(ConstBufferData));
+	cbResourceDesc_ = constBuffResourceGeneration(sizeof(ConstBufferData));
 
-	result = dev->CreateCommittedResource(
-		&cbHeapProp,
+	result_ = dev->CreateCommittedResource(
+		&cbHeapProp_,
 		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,
+		&cbResourceDesc_,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&constBuff));
-	assert(SUCCEEDED(result));
+		IID_PPV_ARGS(&constBuff_));
+	assert(SUCCEEDED(result_));
 
 	
 
@@ -119,12 +115,12 @@ void DirectionalLight::TransferConstBuffer()
 	//マッピングするときのポインタ
 	ConstBufferData* constMapData = nullptr;
 
-	result = constBuff->Map(0, nullptr, (void**)&constMapData);
-	if (SUCCEEDED(result))
+	result_ = constBuff_->Map(0, nullptr, (void**)&constMapData);
+	if (SUCCEEDED(result_))
 	{
-		constMapData->lightv = -lightDir;
-		constMapData->lightColor = lightColor;
-		constBuff->Unmap(0, nullptr);
+		constMapData->lightv = -lightDir_;
+		constMapData->lightColor = lightColor_;
+		constBuff_->Unmap(0, nullptr);
 	}
 
 }

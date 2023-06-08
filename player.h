@@ -8,33 +8,33 @@ public:
 	player();
 	~player();
 
-	void Init(ID3D12Device* dev, const std::string directoryPath, const char filename[]);
+	void Init(const std::string directoryPath, const char filename[]);
 	void Update(cameraObj camera);
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 	void Attack();
 
-	bool GetAttackFlag() { return attackFlag; };
+	bool GetAttackFlag() { return attackFlag_; };
 
-	Object3D playerObj;
+	Object3D playerObj_;
 
-	Object3D attackObj;
+	Object3D attackObj_;
 
 private:
 
 	
-	float rotate = 0;
+	float rotate_ = 0;
 	
 
-	Input* input=nullptr;
+	Input* input_ =nullptr;
 
-	Vector3 pos = {};
+	Vector3 pos_ = {};
 
-	Vector3 moveVec;
+	Vector3 moveVec_;
 
-	float moveSpeed = 5;
+	float moveSpeed_ = 5;
 
-	bool attackFlag = false;
+	bool attackFlag_ = false;
 
-	float attackTime = 3;
+	float attackTime_ = 3;
 };
 

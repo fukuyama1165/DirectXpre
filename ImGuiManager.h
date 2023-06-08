@@ -19,9 +19,9 @@ public:
 
 private:
 
-	HRESULT result=S_OK;
+	HRESULT result_ =S_OK;
 
-	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
 
 };
 

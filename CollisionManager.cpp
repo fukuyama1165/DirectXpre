@@ -15,15 +15,15 @@ void CollisionManager::CheckAllCollisions()
 	std::forward_list<BaseCollider*>::iterator itA;
 	std::forward_list<BaseCollider*>::iterator itB;
 
-	itA = colliders.begin();
+	itA = colliders_.begin();
 
 	//総当たりで全てをチェック
-	for (itA = colliders.begin(); itA != colliders.end(); ++itA)
+	for (itA = colliders_.begin(); itA != colliders_.end(); ++itA)
 	{
 
 		itB = itA;
 		
-		for (++itB; itB != colliders.end(); ++itB)
+		for (++itB; itB != colliders_.end(); ++itB)
 		{
 
 			BaseCollider* colA = *itA;

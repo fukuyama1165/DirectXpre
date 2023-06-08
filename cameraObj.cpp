@@ -2,7 +2,7 @@
 
 cameraObj::cameraObj(float win_width, float win_height)
 {
-	camera = Camera(win_width, win_height);
+	camera_ = Camera(win_width, win_height);
 }
 
 cameraObj::~cameraObj()
@@ -12,22 +12,22 @@ cameraObj::~cameraObj()
 
 void cameraObj::upDate()
 {
-	cameobj.SetPos(pos);
-	cameobj.SetRotate(rotate);
-	cameobj.matWorldGeneration();
+	cameobj_.SetPos(pos_);
+	cameobj_.SetRotate(rotate_);
+	cameobj_.matWorldGeneration();
 
-	camera.eye_ = cameobj.GetWorldPos();
+	camera_.eye_ = cameobj_.GetWorldPos();
 
-	forward = { 0.0f, 0.0f, 1.0f };
+	forward_ = { 0.0f, 0.0f, 1.0f };
 
-	forward = VectorMat(forward, cameobj.GetWorldMat());
+	forward_ = VectorMat(forward_, cameobj_.GetWorldMat());
 
-	camera.target_ = camera.eye_ + forward;
+	camera_.target_ = camera_.eye_ + forward_;
 
 	Vector3 up(0, 1, 0);
 
-	camera.up_ = VectorMat(up, cameobj.GetWorldMat());
+	camera_.up_ = VectorMat(up, cameobj_.GetWorldMat());
 
-	camera.upDate();
+	camera_.upDate();
 
 }

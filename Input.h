@@ -54,15 +54,15 @@ private:
 	Input(const Input&) = delete;
 	Input& operator=(const Input&) = delete;
 
-	static Input* instance;
+	static Input* instance_;
 
-	HRESULT result=S_OK;
+	HRESULT result_ =S_OK;
 
 	//全キーの入力情報を取得する為の変数
-	static BYTE key[256];
-	static BYTE oldKey[256];
+	static BYTE key_[256];
+	static BYTE oldKey_[256];
 
 	//キーボードデバイス
-	IDirectInputDevice8* keyboard = nullptr;
+	IDirectInputDevice8* keyboard_ = nullptr;
 
 };

@@ -12,9 +12,9 @@ struct LevelData
 	struct ObjectCollider
 	{
 
-		std::string ColliderType="";
-		Vector3 center;
-		Vector3 size;
+		std::string ColliderType_ ="";
+		Vector3 center_;
+		Vector3 size_;
 
 	};
 
@@ -22,23 +22,23 @@ struct LevelData
 	struct ObjectTransformData
 	{
 		
-		std::string fileName;
+		std::string fileName_;
 
-		Vector4 trans;
+		Vector4 trans_;
 
-		Vector4 rot;
+		Vector4 rot_;
 
-		Vector4 scale;
+		Vector4 scale_;
 
-		ObjectCollider collider;
+		ObjectCollider collider_;
 
 	};
 
 	
 
 	//ここに配置のデータをまとめて一個分にしてる
-	std::vector<ObjectTransformData> objects;
-	std::vector<ObjectCollider> colliders;
+	std::vector<ObjectTransformData> objects_;
+	std::vector<ObjectCollider> colliders_;
 
 };
 
@@ -48,10 +48,10 @@ class JsonLevelLoader
 public:
 	
 	//読み込む際のファイルパス(ファイル名だけで指定するため)
-	static const std::string defaultDataPath;
+	static const std::string SDefaultDataPath_;
 
 	//ファイル拡張子
-	static const std::string extension;
+	static const std::string SExtension_;
 
 private:
 

@@ -12,119 +12,85 @@ player::~player()
 
 
 
-void player::Init(ID3D12Device* dev, const std::string directoryPath, const char filename[])
+void player::Init(const std::string directoryPath, const char filename[])
 {
-	input = input->GetInstance();
-	playerObj.objDrawInit(directoryPath, filename,true);
-	attackObj.objDrawInit(directoryPath, filename);
+	input_ = input_->GetInstance();
+	playerObj_.objDrawInit(directoryPath, filename,true);
+	attackObj_.objDrawInit(directoryPath, filename);
 	
-	//attackObj.SetParent(&playerObj);
-	attackObj.SetPos({ -50,0,0 });
-	playerObj.SetPos({ 50,0,0 });
-	
+	//attackObj.SetParent(&playerObj_);
+	attackObj_.SetPos({ -50,0,0 });
+	playerObj_.SetPos({ 50,0,0 });
+
 }
 
 void player::Update(cameraObj camera)
 {
-	moveVec = { 0,0,0 };
+	moveVec_ = { 0,0,0 };
 
-	
 
-	/*if (input->PushKey(DIK_UP))
+	if (input_->PushKey(DIK_SPACE))
 	{
-		moveVec.z = 1;
-	}
-	if (input->PushKey(DIK_DOWN))
-	{
-		moveVec.z = -1;
-	}
-	if (input->PushKey(DIK_RIGHT))
-	{
-		moveVec.x = 1;
-	}
-	if (input->PushKey(DIK_LEFT))
-	{
-		moveVec.x = -1;
-	}*/
-
-	if (input->PushKey(DIK_SPACE))
-	{
-		attackFlag = true;
+		attackFlag_ = true;
 	}
 
 	//ˆÚ“®
 
-	//playerObj.SetRotate({ 0,rotate,0 });
-	//attackObj.SetRotate({ 0,rotate,0 });
-
-	//rotate+=0.01f;
-
-	/*float pPos = atan2(moveVec.x, moveVec.z);
-	float cVec = atan2(camera.forward.x, camera.forward.z);
-
-	playerObj.SetRotate({playerObj.GetRotate().x, (pPos + cVec),playerObj.GetRotate().z});
-
-	Float3 mae = { 0,0,1.0f };
-
-	mae = VectorMat(mae, playerObj.GetWorldMat());
-
-	mae.normalize();*/
-
-	if (moveVec.x != 0 || moveVec.z != 0)
+	if (moveVec_.x != 0 || moveVec_.z != 0)
 	{
 
-		playerObj.Trans_ += moveVec * moveSpeed;
+		playerObj_.Trans_ += moveVec_ * moveSpeed_;
 	}
 	
-	playerObj.Update(camera.GetCamera());
-	attackObj.Update(camera.GetCamera());
+	playerObj_.Update(camera.GetCamera());
+	attackObj_.Update(camera.GetCamera());
 
 	//Attack();
 
-	if (playerObj.GetWorldPos().x < -1200)
+	if (playerObj_.GetWorldPos().x < -1200)
 	{
-		playerObj.SetPos({ -1200, playerObj.GetWorldPos().y,playerObj.GetWorldPos().z });
+		playerObj_.SetPos({ -1200, playerObj_.GetWorldPos().y,playerObj_.GetWorldPos().z });
 	}
 
-	if (playerObj.GetWorldPos().x > 2000)
+	if (playerObj_.GetWorldPos().x > 2000)
 	{
-		playerObj.SetPos({ 2000, playerObj.GetWorldPos().y, playerObj.GetWorldPos().z });
+		playerObj_.SetPos({ 2000, playerObj_.GetWorldPos().y, playerObj_.GetWorldPos().z });
 	}
 
-	if (playerObj.GetWorldPos().z < -600)
+	if (playerObj_.GetWorldPos().z < -600)
 	{
-		playerObj.SetPos({ playerObj.GetWorldPos().x, playerObj.GetWorldPos().y, -600 });
+		playerObj_.SetPos({ playerObj_.GetWorldPos().x, playerObj_.GetWorldPos().y, -600 });
 	}
 
-	if (playerObj.GetWorldPos().z > 2000)
+	if (playerObj_.GetWorldPos().z > 2000)
 	{
-		playerObj.SetPos({ playerObj.GetWorldPos().x, playerObj.GetWorldPos().y, 2000 });
+		playerObj_.SetPos({ playerObj_.GetWorldPos().x, playerObj_.GetWorldPos().y, 2000 });
 	}
 }
 
-void player::Draw(ID3D12GraphicsCommandList* cmdList)
+void player::Draw()
 {
-	playerObj.Draw();
-	attackObj.Draw();
+	playerObj_.Draw();
+	attackObj_.Draw();
 }
 
 void player::Attack()
 {
 	
-	if (attackFlag)
+	if (attackFlag_)
 	{
 
-		if (attackTime < 9.5)
+		if (attackTime_ < 9.5)
 		{
 
-			attackObj.SetPos({ sinf(attackTime)*120 ,0,cosf(attackTime)*120 });
-			attackTime+=/*0.45*/0.05f;
+			attackObj_.SetPos({ sinf(attackTime_)*120 ,0,cosf(attackTime_)*120 });
+			attackTime_ +=/*0.45*/0.05f;
 		}
 		else
 		{
-			attackObj.SetPos({ 0,0,-120 });
-			attackFlag = false;
-			attackTime = 3;
+			attackObj_.SetPos({ 0,0,-120 });
+			attackFlag_ = false;
+			attackTime_ = 3;
 		}
 
 	}

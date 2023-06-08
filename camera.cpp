@@ -4,15 +4,15 @@
 
 Camera::Camera()
 {
-	Win_width = WinApp::windowWidth;
-	Win_height = WinApp::windowHeight;
+	Win_width_ = WinApp::SWindowWidth_;
+	Win_height_ = WinApp::SWindowHeight_;
 }
 
 Camera::Camera(float win_width, float win_height)
 {
 	
-	Win_width = win_width;
-	Win_height = win_height;
+	Win_width_ = win_width;
+	Win_height_ = win_height;
 }
 
 Camera:: ~Camera()
@@ -22,9 +22,9 @@ Camera:: ~Camera()
 
 void Camera::upDate()
 {
-	matView = matViewGeneration(eye_, target_, up_);
+	matView_ = matViewGeneration(eye_, target_, up_);
 
-	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000000.0f);
+	matProjection_ = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000000.0f);
 }
 
 Matrix4x4 Camera::matViewGeneration(Vector3 eye, Vector3 target, Vector3 up)
@@ -182,7 +182,7 @@ Matrix4x4 Camera::perspectiveProjectionGeneration(float FovAngleY, float NearZ, 
 
 	float SinFov;
 	float CosFov;
-	float AspectRatio = Win_width / Win_height;
+	float AspectRatio = Win_width_ / Win_height_;
 	sinCos(SinFov, CosFov, 0.5f * FovAngleY);
 
 	float fRange = FarZ / (FarZ - NearZ);

@@ -13,6 +13,6 @@ public:
 	void update();
 
 private:
-	std::chrono::steady_clock::time_point reference;
+	std::chrono::steady_clock::time_point reference_;
 };
 

@@ -7,16 +7,16 @@ void XAudio::Init()
 {
 
 	//xaudio2エンジンのインスタンスを作る
-	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
+	result_ = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
 
-	assert(SUCCEEDED(result));
+	assert(SUCCEEDED(result_));
 
 	//masterVoiceについて
 	// 全てのオーディオの宛先
 	// これで音を鳴らすならこれを使うらしい
 	// これは上のインスタンスを解放すると一緒に消えるらしいのでdeleteしないように
 	//マスターボイスを生成
-	result = xAudio2->CreateMasteringVoice(&masterVoice);
+	result_ = xAudio2_->CreateMasteringVoice(&masterVoice_);
 
 }
 
@@ -37,13 +37,13 @@ SoundData XAudio::SoundLoadWave(const char* filename)
 	file.read((char*)&riff, sizeof(riff));
 
 	//ファイルがRIFFかチェック
-	if (strncmp(riff.chunk.id, "RIFF", 4) != 0)
+	if (strncmp(riff.chunk_.id_, "RIFF", 4) != 0)
 	{
 		assert(0);
 	}
 
 	//タイプがWAVEかチェック
-	if (strncmp(riff.type, "WAVE", 4) != 0)
+	if (strncmp(riff.type_, "WAVE", 4) != 0)
 	{
 		assert(0);
 	}
@@ -55,27 +55,27 @@ SoundData XAudio::SoundLoadWave(const char* filename)
 	file.read((char*)&format, sizeof(ChunkHeader));
 
 	//idがfmtかチェック
-	if (strncmp(format.chunk.id, "fmt", 4) != 0)
+	if (strncmp(format.chunk_.id_, "fmt", 4) != 0)
 	{
 		assert(0);
 	}
 
 	//問題ないなら全部読み込む
-	assert(format.chunk.size <= sizeof(format.fmt));
-	file.read((char*)&format.fmt, format.chunk.size);
+	assert(format.chunk_.size_ <= sizeof(format.fmt_));
+	file.read((char*)&format.fmt_, format.chunk_.size_);
 
 	//Dataチャンクの読み込み
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
 
 	//JUNKチャンクを検出した場合
-	if (strncmp(data.id, "JUNK", 4) == 0)
+	if (strncmp(data.id_, "JUNK", 4) == 0)
 	{
 
 		//JUNKチャンクとはデータの開始位置をきりよく配置するためのダミーデータらしい
 
 		//読み取り位置をJUNKチャンクの終わりまで進める
-		file.seekg(data.size, std::ios_base::cur);
+		file.seekg(data.size_, std::ios_base::cur);
 
 		//再読み込み
 		file.read((char*)&data, sizeof(data));
@@ -83,14 +83,14 @@ SoundData XAudio::SoundLoadWave(const char* filename)
 	}
 
 	//dataかどうか判断
-	if (strncmp(data.id, "data", 4) != 0)
+	if (strncmp(data.id_, "data", 4) != 0)
 	{
 		assert(0);
 	}
 
 	//Dataチャンクのデータ部(波形データ)の読み込み
-	char* pBuffer = new char[data.size];
-	file.read(pBuffer, data.size);
+	char* pBuffer = new char[data.size_];
+	file.read(pBuffer, data.size_);
 
 	//waveファイルを閉じる
 	file.close();
