@@ -17,7 +17,7 @@ private:
 public:
 	std::list<std::unique_ptr<enemy>> enemys_;
 
-	int enemyCount_ = 0;
+	uint32_t enemyCount_ = 0;
 
 };
 

@@ -22,9 +22,9 @@ private:
 
 	Vector3 hitVec_;
 
-	int hitTime_ = 0;
+	uint32_t hitTime_ = 0;
 
-	Input* input_;
+	Input* input_=nullptr;
 
 	Vector3 pos_ = {};
 };

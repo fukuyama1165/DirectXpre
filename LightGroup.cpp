@@ -77,7 +77,7 @@ void LightGroup::constantBuffGeneration()
 #pragma endregion
 }
 
-D3D12_RESOURCE_DESC LightGroup::constBuffResourceGeneration(int size)
+D3D12_RESOURCE_DESC LightGroup::constBuffResourceGeneration(uint32_t size)
 {
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -102,7 +102,7 @@ void LightGroup::TransferConstBuffer()
 	{
 		constMapData->ambientColor = ambientColor_;
 
-		for (int i = 0; i < SDirLightNum_; i++)
+		for (uint16_t i = 0; i < SDirLightNum_; i++)
 		{
 
 			if (dirLights_[i].GetIsActive())
@@ -133,7 +133,7 @@ void LightGroup::SetAmbientColor(const XMFLOAT3& color)
 
 }
 
-void LightGroup::SetDirLightActive(int index, bool active)
+void LightGroup::SetDirLightActive(uint32_t index, bool active)
 {
 
 	assert(0 <= index and index < SDirLightNum_);
@@ -142,7 +142,7 @@ void LightGroup::SetDirLightActive(int index, bool active)
 
 }
 
-void LightGroup::SetDirLightDir(int index, const XMVECTOR& lightdir)
+void LightGroup::SetDirLightDir(uint32_t index, const XMVECTOR& lightdir)
 {
 
 	assert(0 <= index and index < SDirLightNum_);
@@ -153,7 +153,7 @@ void LightGroup::SetDirLightDir(int index, const XMVECTOR& lightdir)
 
 }
 
-void LightGroup::SetDirLightColor(int index, const XMFLOAT3& lightcolor)
+void LightGroup::SetDirLightColor(uint32_t index, const XMFLOAT3& lightcolor)
 {
 
 	assert(0 <= index and index < SDirLightNum_);

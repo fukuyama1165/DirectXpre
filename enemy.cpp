@@ -3,7 +3,7 @@
 
 enemy::enemy()
 {
-
+	input_ = input_->GetInstance();
 }
 enemy::~enemy()
 {
@@ -12,7 +12,7 @@ enemy::~enemy()
 
 void enemy::Init(const std::string directoryPath, const char filename[])
 {
-	input_ = input_->GetInstance();
+	
 	enemyObj_.objDrawInit(directoryPath, filename);
 
 }

@@ -20,7 +20,7 @@ void ImGuiManager::Init(WinApp* winApp)
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplWin32_Init(winApp->getHwnd());
-	ImGui_ImplDX12_Init(directXInit->Getdev().Get(), (int)directXInit->GetBackBufferCount(),
+	ImGui_ImplDX12_Init(directXInit->Getdev().Get(), (uint32_t)directXInit->GetBackBufferCount(),
 		DXGI_FORMAT_R8G8B8A8_UNORM, dsvHeap_.Get(),
 		dsvHeap_->GetCPUDescriptorHandleForHeapStart(),
 		dsvHeap_->GetGPUDescriptorHandleForHeapStart());

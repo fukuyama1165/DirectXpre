@@ -65,6 +65,8 @@ using namespace DirectX;
 
 #include <sstream>
 
+#include <cstdint>
+
 #pragma region ウィンドウプロシージャ
 
 
@@ -89,22 +91,10 @@ BOOL CALLBACK DeviceFindCallBack()
 }
 
 
-/// <summary>
-/// 二次元のアフィン変換をする関数
-/// </summary>
-/// <param name="box">頂点データ(X,Y)</param>
-/// <param name="box">図形の中の原点(X,Y)</param>
-/// <param name="moveX">x方向の移動量</param>
-/// <param name="moveY">y方向の移動量</param>
-/// <param name="rotate">回転角度(度数法)</param>
-/// <param name="scaleX">x方向の拡大率</param>
-/// <param name="scaleY">y方向の拡大率</param>
-XMFLOAT3 Afin(XMFLOAT3 box, XMFLOAT3 box2, float moveX, float moveY, float rotate, float scaleX, float scaleY);
-
 bool CollsionSphere(Vector3 posA, float rA, Vector3 posB, float rB);
 
 
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE, _In_ LPSTR,_In_ int)
 {
 	//windowAPI
 	std::unique_ptr<WinApp> winApp = std::make_unique<WinApp>();
@@ -163,7 +153,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	charactorObj3.basicInit();
 	charactorObj2.colorChangeInit();
 
-	int texname = 0;
+	uint32_t texname = 0;
 
 	texname = charactorObj2.loadTexture("Resources/hokehoke.png");
 

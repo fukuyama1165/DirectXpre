@@ -128,7 +128,7 @@ void JsonLevelLoader::objectScanning(LevelData* levelData, nlohmann::json deseri
 	if (object.contains("children"))
 	{
 		nlohmann::json& children = object["children"];
-		for (int i = 0; i < children.size();i++)
+		for (uint16_t i = 0; i < children.size();i++)
 		{
 			objectScanning(levelData, deserialized, children[i]);
 		}

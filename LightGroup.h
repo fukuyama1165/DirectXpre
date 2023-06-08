@@ -38,11 +38,11 @@ public:
 
 	void SetAmbientColor(const XMFLOAT3& color);
 
-	void SetDirLightActive(int index, bool active);
+	void SetDirLightActive(uint32_t index, bool active);
 
-	void SetDirLightDir(int index, const XMVECTOR& lightdir);
+	void SetDirLightDir(uint32_t index, const XMVECTOR& lightdir);
 
-	void SetDirLightColor(int index, const XMFLOAT3& lightcolor);
+	void SetDirLightColor(uint32_t index, const XMFLOAT3& lightcolor);
 
 	void DefaultLightSetting();
 
@@ -52,11 +52,11 @@ private:
 	void constantBuffGeneration();
 
 	//定数バッファ用のリソース設定関数
-	D3D12_RESOURCE_DESC constBuffResourceGeneration(int size);
+	D3D12_RESOURCE_DESC constBuffResourceGeneration(uint32_t size);
 
 public:
 
-	static const int SDirLightNum_ = 3;
+	static const uint16_t SDirLightNum_ = 3;
 
 public:
 
