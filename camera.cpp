@@ -1,13 +1,18 @@
 #include "camera.h"
 
-const float PI = 3.141592653589f;
 
+
+Camera::Camera()
+{
+	Win_width_ = WinApp::SWindowWidth_;
+	Win_height_ = WinApp::SWindowHeight_;
+}
 
 Camera::Camera(float win_width, float win_height)
 {
 	
-	Win_width = win_width;
-	Win_height = win_height;
+	Win_width_ = win_width;
+	Win_height_ = win_height;
 }
 
 Camera:: ~Camera()
@@ -17,23 +22,23 @@ Camera:: ~Camera()
 
 void Camera::upDate()
 {
-	matView = matViewGeneration(eye_, target_, up_);
+	matView_ = matViewGeneration(eye_, target_, up_);
 
-	matProjection = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000.0f);
+	matProjection_ = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000000.0f);
 }
 
-Matrix4x4 Camera::matViewGeneration(Float3 eye, Float3 target, Float3 up)
+Matrix4x4 Camera::matViewGeneration(Vector3 eye, Vector3 target, Vector3 up)
 {
 
-	Float3 zVer = target - eye;
+	Vector3 zVer = target - eye;
 
 	zVer.normalize();
 
-	Float3 xVer = up.cross(zVer);
+	Vector3 xVer = up.cross(zVer);
 
 	xVer.normalize();
 
-	Float3 yVer = zVer.cross(xVer);
+	Vector3 yVer = zVer.cross(xVer);
 
 
 	Matrix4x4 cameraRotateMat = {};
@@ -60,21 +65,21 @@ Matrix4x4 Camera::matViewGeneration(Float3 eye, Float3 target, Float3 up)
 
 	ans = cameraRotateMat.InverseMatrix();
 
-	Float3 eyeDis = {};
+	Vector3 eyeDis = {};
 	eyeDis = { target.x - eye.x,target.y - eye.y,target.z - eye.z };
 
-	Float3 R2 = eyeDis.normalize();
+	Vector3 R2 = eyeDis.normalize();
 
-	Float3 R0 = up.cross(R2);
+	Vector3 R0 = up.cross(R2);
 	R0 = R0.normalize();
 
-	Float3 R1 = R2.cross(R0);
+	Vector3 R1 = R2.cross(R0);
 
-	Float3 NegEyePosition = { -eye.x,-eye.y,-eye.z };
+	Vector3 NegEyePosition = { -eye.x,-eye.y,-eye.z };
 
-	Float3 D0 = float3Dat(R0, NegEyePosition);
-	Float3 D1 = float3Dat(R1, NegEyePosition);
-	Float3 D2 = float3Dat(R2, NegEyePosition);
+	Vector3 D0 = float3Dat(R0, NegEyePosition);
+	Vector3 D1 = float3Dat(R1, NegEyePosition);
+	Vector3 D2 = float3Dat(R2, NegEyePosition);
 
 	Matrix4x4 M;
 	M.m[0][0] = R0.x;
@@ -108,10 +113,10 @@ Matrix4x4 Camera::matViewGeneration(Float3 eye, Float3 target, Float3 up)
 	//// z.z,z.w,w.z,w.w
 	//XMVECTOR vTemp4 = _mm_shuffle_ps(M.r[2], M.r[3], _MM_SHUFFLE(3, 2, 3, 2));
 
-	Float4 vTemp1 = { M.m[0][0],M.m[0][1],M.m[1][0],M.m[1][1] };
-	Float4 vTemp2 = { M.m[0][2],M.m[0][3],M.m[1][2],M.m[1][3] };
-	Float4 vTemp3 = { M.m[2][0],M.m[2][1],M.m[3][0],M.m[3][1] };
-	Float4 vTemp4 = { M.m[2][2],M.m[2][3],M.m[3][2],M.m[3][3] };
+	Vector4 vTemp1 = { M.m[0][0],M.m[0][1],M.m[1][0],M.m[1][1] };
+	Vector4 vTemp2 = { M.m[0][2],M.m[0][3],M.m[1][2],M.m[1][3] };
+	Vector4 vTemp3 = { M.m[2][0],M.m[2][1],M.m[3][0],M.m[3][1] };
+	Vector4 vTemp4 = { M.m[2][2],M.m[2][3],M.m[3][2],M.m[3][3] };
 
 	//XMMATRIX mResult;
 	//// x.x,y.x,z.x,w.x
@@ -177,7 +182,7 @@ Matrix4x4 Camera::perspectiveProjectionGeneration(float FovAngleY, float NearZ, 
 
 	float SinFov;
 	float CosFov;
-	float AspectRatio = Win_width / Win_height;
+	float AspectRatio = Win_width_ / Win_height_;
 	sinCos(SinFov, CosFov, 0.5f * FovAngleY);
 
 	float fRange = FarZ / (FarZ - NearZ);
@@ -204,9 +209,9 @@ void Camera::sinCos(float& Sin, float& Cos, float angle)
 	Cos = cosf(angle);
 }
 
-Float3 Camera::float3Dat(Float3 A, Float3 B)
+Vector3 Camera::float3Dat(Vector3 A, Vector3 B)
 {
-	Float3 num = { A.x * B.x,A.y * B.y,A.z * B.z };
+	Vector3 num = { A.x * B.x,A.y * B.y,A.z * B.z };
 
 	num.x = num.x + num.y + num.z;
 

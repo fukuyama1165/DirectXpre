@@ -69,12 +69,12 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 	calcMat[2][6] = 1;
 	calcMat[3][7] = 1;
 
-	double calcMatTmp[4][8];
+	float calcMatTmp[4][8];
 
 	//‚Ps‚P—ñ‚ð‚P‚É‚·‚é
 
 	{
-		double max = abs(calcMat[0][0]);
+		float max = abs(calcMat[0][0]);
 		int	maxI = 0;
 
 		for (int i = 1; i < 4; i++)
@@ -96,7 +96,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 		if (maxI != 0)
 		{
 			for (int j = 0; j < 8; j++) {
-				double tmp = calcMat[maxI][j];
+				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[0][j];
 				calcMat[0][j] = tmp;
 			}
@@ -143,7 +143,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 		if (maxI != 1)
 		{
 			for (int j = 0; j < 8; j++) {
-				double tmp = calcMat[maxI][j];
+				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[1][j];
 				calcMat[1][j] = tmp;
 			}
@@ -189,7 +189,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 		if (maxI != 2)
 		{
 			for (int j = 0; j < 8; j++) {
-				double tmp = calcMat[maxI][j];
+				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[2][j];
 				calcMat[2][j] = tmp;
 			}
@@ -319,4 +319,85 @@ float Matrix4x4::abs(float num)
 	}
 
 	return num;
+}
+
+Vector3 VectorMat(Vector3 vector, Matrix4x4 mat)
+{
+	Vector3 changeVector = { 0,0,0 };
+
+	changeVector.x = vector.x * mat.m[0][0] + vector.y * mat.m[1][0] + vector.z * mat.m[2][0] + 0.0f * mat.m[3][0];
+	changeVector.y = vector.x * mat.m[0][1] + vector.y * mat.m[1][1] + vector.z * mat.m[2][1] + 0.0f * mat.m[3][1];
+	changeVector.z = vector.x * mat.m[0][2] + vector.y * mat.m[1][2] + vector.z * mat.m[2][2] + 0.0f * mat.m[3][2];
+
+	return changeVector;
+}
+
+Vector3 VectorMat(Matrix4x4 mat, Vector3 vector)
+{
+	Vector3 changeVector = { 0,0,0 };
+
+	changeVector.x = mat.m[0][0] * vector.x + mat.m[0][1] * vector.y + mat.m[0][2] * vector.z + mat.m[0][3] * 0.0f;
+	changeVector.y = mat.m[1][0] * vector.x + mat.m[1][1] * vector.y + mat.m[1][2] * vector.z + mat.m[1][3] * 0.0f;
+	changeVector.z = mat.m[2][0] * vector.x + mat.m[2][1] * vector.y + mat.m[2][2] * vector.z + mat.m[2][3] * 0.0f;
+
+	return changeVector;
+}
+
+Vector4 operator*(Matrix4x4 mat, Vector4 vector)
+{
+	Vector4 changeVector = { 0,0,0,0 };
+
+	changeVector.x = mat.m[0][0] * vector.x + mat.m[0][1] * vector.y + mat.m[0][2] * vector.z + mat.m[0][3] * vector.w;
+	changeVector.y = mat.m[1][0] * vector.x + mat.m[1][1] * vector.y + mat.m[1][2] * vector.z + mat.m[1][3] * vector.w;
+	changeVector.z = mat.m[2][0] * vector.x + mat.m[2][1] * vector.y + mat.m[2][2] * vector.z + mat.m[2][3] * vector.w;
+
+	return changeVector;
+}
+
+Vector4 operator*(Vector4 vector, Matrix4x4 mat)
+{
+	Vector4 changeVector = { 0,0,0,0};
+
+	changeVector.x = vector.x * mat.m[0][0] + vector.y * mat.m[1][0] + vector.z * mat.m[2][0] + vector.w * mat.m[3][0];
+	changeVector.y = vector.x * mat.m[0][1] + vector.y * mat.m[1][1] + vector.z * mat.m[2][1] + vector.w * mat.m[3][1];
+	changeVector.z = vector.x * mat.m[0][2] + vector.y * mat.m[1][2] + vector.z * mat.m[2][2] + vector.w * mat.m[3][2];
+
+	return changeVector;
+}
+
+Vector3 PosMat(Vector3 vector, Matrix4x4 mat)
+{
+
+	Vector3 changeVector = { 0,0,0 };
+
+	changeVector.x = vector.x * mat.m[0][0] + vector.y * mat.m[1][0] + vector.z * mat.m[2][0] + 1.0f * mat.m[3][0];
+	changeVector.y = vector.x * mat.m[0][1] + vector.y * mat.m[1][1] + vector.z * mat.m[2][1] + 1.0f * mat.m[3][1];
+	changeVector.z = vector.x * mat.m[0][2] + vector.y * mat.m[1][2] + vector.z * mat.m[2][2] + 1.0f * mat.m[3][2];
+
+	return changeVector;
+}
+
+Vector3 PosMat(Matrix4x4 mat, Vector3 vector)
+{
+	Vector3 changeVector = { 0,0,0 };
+
+	changeVector.x = mat.m[0][0] * vector.x + mat.m[0][1] * vector.y + mat.m[0][2] * vector.z + mat.m[0][3] * 1.0f;
+	changeVector.y = mat.m[1][0] * vector.x + mat.m[1][1] * vector.y + mat.m[1][2] * vector.z + mat.m[1][3] * 1.0f;
+	changeVector.z = mat.m[2][0] * vector.x + mat.m[2][1] * vector.y + mat.m[2][2] * vector.z + mat.m[2][3] * 1.0f;
+
+	return changeVector;
+}
+
+Vector3 Matrix4x4::VectorMatDivW(Matrix4x4 mat, Vector3 pos)
+{
+	float w = pos.x * mat.m[0][3] + pos.y * mat.m[1][3] + pos.z * mat.m[2][3] + mat.m[3][3];
+
+	Vector3 result =
+	{
+		(pos.x * mat.m[0][0] + pos.y * mat.m[1][0] + pos.z * mat.m[2][0] + mat.m[3][0]) / w,
+		(pos.x * mat.m[0][1] + pos.y * mat.m[1][1] + pos.z * mat.m[2][1] + mat.m[3][1]) / w,
+		(pos.x * mat.m[0][2] + pos.y * mat.m[1][2] + pos.z * mat.m[2][2] + mat.m[3][2]) / w
+	};
+
+	return result;
 }

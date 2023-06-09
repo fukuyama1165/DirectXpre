@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
@@ -29,10 +29,10 @@ using namespace DirectX;
 #include <DirectXTex.h>
 
 #include "matrix4x4.h"
-#include "Float3.h"
+#include "Vector3.h"
 #include "Object3D.h"
 #include "Texture.h"
-#include "Float4.h"
+#include "Vector4.h"
 
 //ComPtr用インクルード
 #include <wrl.h>

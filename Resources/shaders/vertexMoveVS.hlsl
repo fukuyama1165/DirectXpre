@@ -1,7 +1,7 @@
 #include "Basic.hlsli"
 
 
-float4 main( float4 pos : POSITION ) : SV_POSITION
+float4 main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD) : SV_POSITION
 {
-	return mul(mat,pos);
+	return mul(mul(world,viewProj),pos);
 }

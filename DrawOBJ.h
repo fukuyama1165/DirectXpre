@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // D3Dコンパイラ
 #include <d3dcompiler.h>
@@ -32,9 +32,9 @@ using namespace DirectX;
 #include <DirectXTex.h>
 
 #include "matrix4x4.h"
-#include "Float3.h"
+#include "Vector3.h"
 #include "Object3D.h"
-#include "Float4.h"
+#include "Vector4.h"
 #include "Texture.h"
 
 //ComPtr用インクルード
@@ -124,7 +124,7 @@ public:
 
 	//ビュー変換行列更新
 	//void matViewUpdata(Float3 eye, Float3 target, Float3 up);
-	void matViewUpdata(Float3 eye, Float3 target, Float3 up);
+	void matViewUpdata(Vector3 eye, Vector3 target, Vector3 up);
 
 	//定数バッファの行列を更新する関数
 	void constTransformMatUpdata();
@@ -134,26 +134,26 @@ public:
 	void matWorldUpdata();
 	void matWorldUpdata1();
 
-	Matrix4x4 matScaleGeneration(Float3 scale);
+	Matrix4x4 matScaleGeneration(Vector3 scale);
 
 	Matrix4x4 matRotateXGeneration(float rotateX);
 	Matrix4x4 matRotateYGeneration(float rotateY);
 	Matrix4x4 matRotateZGeneration(float rotateZ);
 
-	Matrix4x4 matRotateGeneration(Float3 rotate);
+	Matrix4x4 matRotateGeneration(Vector3 rotate);
 
-	Matrix4x4 matMoveGeneration(Float3 translation);
+	Matrix4x4 matMoveGeneration(Vector3 translation);
 
-	Matrix4x4 matViewGeneration(Float3 eye, Float3 target, Float3 up);
+	Matrix4x4 matViewGeneration(Vector3 eye, Vector3 target, Vector3 up);
 
 	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY, float NearZ, float FarZ);
 
 	//スケール変更行列
-	void SetScale(Float3 scale);
+	void SetScale(Vector3 scale);
 	//角度変更行列
-	void SetRotate(Float3 rotate);
+	void SetRotate(Vector3 rotate);
 	//平行移動行列
-	void SetTrans(Float3 TransForm);
+	void SetTrans(Vector3 TransForm);
 
 	void obj3DUpdate();
 
@@ -165,7 +165,7 @@ public:
 	/// <param name="angle">Θの値</param>
 	void sinCos(float& Sin, float& Cos, float angle);
 
-	Float3 float3Dat(Float3 A, Float3 B);
+	Vector3 Vector3Dat(Vector3 A, Vector3 B);
 
 	void colorMap(float R, float G, float B);
 
@@ -279,9 +279,9 @@ private:
 
 	//ビュー変換行列
 	Matrix4x4 matView;
-	Float3 eye_;//視点座標
-	Float3 target_;//注視点座標
-	Float3 up_;//上方向ベクトル
+	Vector3 eye_;//視点座標
+	Vector3 target_;//注視点座標
+	Vector3 up_;//上方向ベクトル
 
 	Matrix4x4 matWorld;
 
@@ -289,9 +289,9 @@ private:
 	Matrix4x4 matRotate;
 	Matrix4x4 matTrans;
 
-	Float3 Scale_;
-	Float3 Rotate_;
-	Float3 Trans_;
+	Vector3 Scale_;
+	Vector3 Rotate_;
+	Vector3 Trans_;
 
 	////透視投影行列
 	//XMMATRIX matProjection;
