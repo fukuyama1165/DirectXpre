@@ -46,7 +46,7 @@ void LightGroup::Update()
 
 }
 
-void LightGroup::Draw(UINT rootParameterIndex)
+void LightGroup::Draw(uint32_t rootParameterIndex)
 {
 
 	DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff_->GetGPUVirtualAddress());

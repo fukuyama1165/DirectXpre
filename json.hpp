@@ -4277,7 +4277,7 @@ template<typename OutStringType = std::string, typename... Args>
 inline OutStringType concat(Args && ... args)
 {
     OutStringType str;
-    str.reserve(concat_length(std::forward<Args>(args)...));
+    str.reserve(concat_length(static_cast<Args>(args)...));
     concat_into(str, std::forward<Args>(args)...);
     return str;
 }

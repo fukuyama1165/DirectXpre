@@ -2,7 +2,7 @@
 #pragma comment(lib,"winmm.lib")
 #include <imgui_impl_win32.h>
 
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, uint32_t msg, WPARAM wParam, LPARAM lParam);
 
 WinApp::WinApp()
 {
@@ -117,7 +117,7 @@ int WinApp::getWindowSizeHeight()
 #pragma region ウィンドウプロシージャ
 
 
-LRESULT WinApp::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+LRESULT WinApp::windowProc(HWND hwnd, uint32_t msg, WPARAM wparam, LPARAM lparam)
 {
 	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
 	{

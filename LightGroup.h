@@ -31,7 +31,7 @@ public:
 
 	void Update();
 
-	void Draw(UINT rootParameterIndex);
+	void Draw(uint32_t rootParameterIndex);
 
 	//定数バッファ転送
 	void TransferConstBuffer();

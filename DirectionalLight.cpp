@@ -48,7 +48,7 @@ void DirectionalLight::Update()
 
 }
 
-void DirectionalLight::Draw(UINT rootParameterIndex)
+void DirectionalLight::Draw(uint32_t rootParameterIndex)
 {
 
 	DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff_->GetGPUVirtualAddress());

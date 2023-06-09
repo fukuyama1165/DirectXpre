@@ -71,7 +71,7 @@ private:
 	std::vector <Vertex> vertices_;
 
 	//頂点データサイズ
-	UINT sizeVB_;
+	uint32_t sizeVB_;
 
 	HRESULT result_;
 
@@ -86,7 +86,7 @@ private:
 	//インデックスデータ
 	std::vector< unsigned short> indices_;
 	//インデックスデータ全体のサイズ
-	UINT sizeIB_;
+	uint32_t sizeIB_;
 	//インデックスバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	//インデックスビュー
