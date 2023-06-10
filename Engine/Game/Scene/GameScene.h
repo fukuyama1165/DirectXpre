@@ -8,7 +8,6 @@
 
 #include<vector>
 #include<string>
-#include <memory>
 
 #include<d3d12.h>
 #include<dxgi1_6.h>
@@ -29,12 +28,12 @@ using namespace DirectX;
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
-//const float PI = 3.141592653589f;
+
 
 #include <DirectXTex.h>
 #include <imgui.h>
 
-//#include "DrawingObj.h"
+
 
 #include "WinApp.h"
 
@@ -46,7 +45,8 @@ using namespace DirectX;
 
 #include "Input.h"
 
-//#include "DrawOBJ.h"
+#include "IScene.h"
+
 #include "Object3D.h"
 
 #include "Sprite.h"
@@ -69,28 +69,23 @@ using namespace DirectX;
 
 #include <cstdint>
 
-class GameScene
+class GameScene:public IScene
 {
 public:
 
-	void Initialize();
+	void Initialize()override;
 
-	void Finalize();
+	void Finalize()override;
 
-	void Update();
+	void Update()override;
 
-	void Draw();
+	void Draw()override;
 
-	bool IsEndRequst() { return endRequst_; };
-	
 private:
 
 	bool CollsionSphere(Vector3 posA, float rA, Vector3 posB, float rB);
 
 private:
-
-	//ゲームを終わらせるためのフラグ
-	bool endRequst_ = false;
 
 	//windowAPI
 	std::unique_ptr<WinApp> winApp = std::make_unique<WinApp>();

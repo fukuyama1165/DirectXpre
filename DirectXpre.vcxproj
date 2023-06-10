@@ -112,6 +112,7 @@
     <ClCompile Include="Engine\Game\Light\LightGroup.cpp" />
     <ClCompile Include="Engine\Game\object\Object3D.cpp" />
     <ClCompile Include="Engine\Game\Scene\GameScene.cpp" />
+    <ClCompile Include="Engine\Game\Scene\IScene.cpp" />
     <ClCompile Include="Engine\Game\sprite\Sprite.cpp" />
     <ClCompile Include="Engine\Game\sprite\SpriteCommon.cpp" />
     <ClCompile Include="Engine\Game\test\enemy.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Engine\Game\Light\LightGroup.h" />
     <ClInclude Include="Engine\Game\object\Object3D.h" />
     <ClInclude Include="Engine\Game\Scene\GameScene.h" />
+    <ClInclude Include="Engine\Game\Scene\IScene.h" />
     <ClInclude Include="Engine\Game\sprite\Sprite.h" />
     <ClInclude Include="Engine\Game\sprite\SpriteCommon.h" />
     <ClInclude Include="Engine\Game\test\enemy.h" />
