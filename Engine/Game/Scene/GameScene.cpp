@@ -3,7 +3,7 @@
 void GameScene::Initialize()
 {
 	
-	
+	IScene::Initialize();
 
 	winApp->initialize();
 
@@ -117,16 +117,19 @@ void GameScene::Finalize()
 	//delete(levelData);
 
 	imGuiManager.Finalize();
+
+	IScene::Finalize();
 }
 
 void GameScene::Update()
 {
 	
+	IScene::Update();
 
 	if (winApp->processMassage() or input->TriggerKey(DIK_ESCAPE))
 	{
 
-		endRequst_ = true;
+		IScene::endRequst_ = true;
 
 	}
 

@@ -213,6 +213,9 @@
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\IScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game\test\enemy.h">
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\IScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
