@@ -103,213 +103,219 @@
     <Filter Include="ヘッダー ファイル\DirectX\resouse\Loader">
       <UniqueIdentifier>{c9392d09-6117-4ec3-8b45-8e4905123574}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Scene">
+      <UniqueIdentifier>{40a72cdf-9add-4fc1-a808-2ee84e79aba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Scene">
+      <UniqueIdentifier>{3a089aec-f165-4558-88d3-61a5aea80368}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
+      <Filter>ソース ファイル\DirectX\resouse\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXInit.cpp">
-      <Filter>ソース ファイル\DirectX</Filter>
+    <ClCompile Include="Engine\DirectX\resouse\Loader\JsonLevelLoader.cpp">
+      <Filter>ソース ファイル\DirectX\resouse\Loader</Filter>
     </ClCompile>
-    <ClCompile Include="FPS.cpp">
-      <Filter>ソース ファイル\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>ソース ファイル\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>ソース ファイル\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="WinApp.cpp">
-      <Filter>ソース ファイル\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="matrix4x4.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Quaternion.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector4.cpp">
-      <Filter>ソース ファイル\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy.cpp">
-      <Filter>ソース ファイル\debris</Filter>
-    </ClCompile>
-    <ClCompile Include="enemyManager.cpp">
-      <Filter>ソース ファイル\debris</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>ソース ファイル\debris</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="Engine\DirectX\resouse\Model.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>ソース ファイル\Game\sprite</Filter>
+    <ClCompile Include="Engine\DirectX\resouse\XAudio.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteCommon.cpp">
-      <Filter>ソース ファイル\Game\sprite</Filter>
+    <ClCompile Include="Engine\DirectX\resouse\Texture.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCollider.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
+    <ClCompile Include="Engine\DirectX\DirectXInit.cpp">
+      <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionManager.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
+    <ClCompile Include="Engine\DirectX\FPS.cpp">
+      <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionPrimirive.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
+    <ClCompile Include="Engine\DirectX\ImGuiManager.cpp">
+      <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionTypes.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
+    <ClCompile Include="Engine\DirectX\Input.cpp">
+      <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="SphereCollider.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
+    <ClCompile Include="Engine\DirectX\WinApp.cpp">
+      <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionInfo.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
+    <ClCompile Include="Engine\Game\test\enemy.cpp">
+      <Filter>ソース ファイル\debris</Filter>
     </ClCompile>
-    <ClCompile Include="cameraObj.cpp">
+    <ClCompile Include="Engine\Game\test\enemyManager.cpp">
+      <Filter>ソース ファイル\debris</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\test\player.cpp">
+      <Filter>ソース ファイル\debris</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\camera\camera.cpp">
       <Filter>ソース ファイル\Game\camera</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
+    <ClCompile Include="Engine\Game\camera\cameraObj.cpp">
       <Filter>ソース ファイル\Game\camera</Filter>
     </ClCompile>
-    <ClCompile Include="LightGroup.cpp">
+    <ClCompile Include="Engine\Game\collision\BaseCollider.cpp">
+      <Filter>ソース ファイル\Game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Collision.cpp">
+      <Filter>ソース ファイル\Game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\CollisionInfo.cpp">
+      <Filter>ソース ファイル\Game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\CollisionManager.cpp">
+      <Filter>ソース ファイル\Game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\CollisionPrimirive.cpp">
+      <Filter>ソース ファイル\Game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\CollisionTypes.cpp">
+      <Filter>ソース ファイル\Game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\SphereCollider.cpp">
+      <Filter>ソース ファイル\Game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Light\DirectionalLight.cpp">
       <Filter>ソース ファイル\Game\Light</Filter>
     </ClCompile>
-    <ClCompile Include="DirectionalLight.cpp">
+    <ClCompile Include="Engine\Game\Light\LightGroup.cpp">
       <Filter>ソース ファイル\Game\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Object3D.cpp">
+    <ClCompile Include="Engine\Game\object\Object3D.cpp">
       <Filter>ソース ファイル\Game\object</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
+    <ClCompile Include="Engine\main.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="XAudio.cpp">
-      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    <ClCompile Include="Engine\Game\Scene\GameScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    <ClCompile Include="Engine\Game\sprite\Sprite.cpp">
+      <Filter>ソース ファイル\Game\sprite</Filter>
     </ClCompile>
-    <ClCompile Include="FBXLoader.cpp">
-      <Filter>ソース ファイル\DirectX\resouse\Loader</Filter>
+    <ClCompile Include="Engine\Game\sprite\SpriteCommon.cpp">
+      <Filter>ソース ファイル\Game\sprite</Filter>
     </ClCompile>
-    <ClCompile Include="JsonLevelLoader.cpp">
-      <Filter>ソース ファイル\DirectX\resouse\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2.cpp">
+    <ClCompile Include="Engine\Math\matrix4x4.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>ソース ファイル\DirectX</Filter>
+    <ClCompile Include="Engine\Math\Quaternion.cpp">
+      <Filter>ソース ファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector2.cpp">
+      <Filter>ソース ファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector3.cpp">
+      <Filter>ソース ファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\Vector4.cpp">
+      <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WinApp.h">
-      <Filter>ヘッダー ファイル\DirectX</Filter>
+    <ClInclude Include="Engine\Game\test\enemy.h">
+      <Filter>ヘッダー ファイル\debris</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>ヘッダー ファイル\DirectX</Filter>
+    <ClInclude Include="Engine\Game\test\enemyManager.h">
+      <Filter>ヘッダー ファイル\debris</Filter>
     </ClInclude>
-    <ClInclude Include="FPS.h">
-      <Filter>ヘッダー ファイル\DirectX</Filter>
+    <ClInclude Include="Engine\Game\test\player.h">
+      <Filter>ヘッダー ファイル\debris</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXInit.h">
-      <Filter>ヘッダー ファイル\DirectX</Filter>
+    <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>ヘッダー ファイル\DirectX</Filter>
+    <ClInclude Include="Engine\DirectX\resouse\Loader\JsonLevelLoader.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
+    <ClInclude Include="Engine\DirectX\resouse\Model.h">
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCollider.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    <ClInclude Include="Engine\DirectX\resouse\Texture.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionManager.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    <ClInclude Include="Engine\DirectX\resouse\XAudio.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionInfo.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    <ClInclude Include="Engine\DirectX\DirectXInit.h">
+      <Filter>ヘッダー ファイル\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionPrimirive.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    <ClInclude Include="Engine\DirectX\FPS.h">
+      <Filter>ヘッダー ファイル\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionTypes.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    <ClInclude Include="Engine\DirectX\ImGuiManager.h">
+      <Filter>ヘッダー ファイル\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="SphereCollider.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    <ClInclude Include="Engine\DirectX\Input.h">
+      <Filter>ヘッダー ファイル\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="cameraObj.h">
+    <ClInclude Include="Engine\DirectX\WinApp.h">
+      <Filter>ヘッダー ファイル\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\camera\camera.h">
       <Filter>ヘッダー ファイル\Game\camera</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
+    <ClInclude Include="Engine\Game\camera\cameraObj.h">
       <Filter>ヘッダー ファイル\Game\camera</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
+    <ClInclude Include="Engine\Game\collision\BaseCollider.h">
+      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Collision.h">
+      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\CollisionInfo.h">
+      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\CollisionManager.h">
+      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\CollisionPrimirive.h">
+      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\CollisionTypes.h">
+      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\SphereCollider.h">
+      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Light\DirectionalLight.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
     </ClInclude>
-    <ClInclude Include="LightGroup.h">
+    <ClInclude Include="Engine\Game\Light\LightGroup.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteCommon.h">
-      <Filter>ヘッダー ファイル\Game\sprite</Filter>
+    <ClInclude Include="Engine\Game\Scene\GameScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>ヘッダー ファイル\Game\sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Object3D.h">
+    <ClInclude Include="Engine\Game\object\Object3D.h">
       <Filter>ヘッダー ファイル\Game\object</Filter>
     </ClInclude>
-    <ClInclude Include="enemy.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
+    <ClInclude Include="Engine\Game\sprite\Sprite.h">
+      <Filter>ヘッダー ファイル\Game\sprite</Filter>
     </ClInclude>
-    <ClInclude Include="enemyManager.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
+    <ClInclude Include="Engine\Game\sprite\SpriteCommon.h">
+      <Filter>ヘッダー ファイル\Game\sprite</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
-    </ClInclude>
-    <ClInclude Include="matrix4x4.h">
+    <ClInclude Include="Engine\Math\matrix4x4.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="PI.h">
+    <ClInclude Include="Engine\Math\PI.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Quaternion.h">
+    <ClInclude Include="Engine\Math\Quaternion.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h">
+    <ClInclude Include="Engine\Math\Vector2.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Vector4.h">
+    <ClInclude Include="Engine\Math\Vector3.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="XAudio.h">
-      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
-    </ClInclude>
-    <ClInclude Include="JsonLevelLoader.h">
-      <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="FBXLoader.h">
-      <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
+    <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>ヘッダー ファイル\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
