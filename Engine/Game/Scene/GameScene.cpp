@@ -88,7 +88,7 @@ void GameScene::Initialize()
 
 	
 
-	spritecommon.initialize(directXinit->Getdev().Get());
+	spritecommon.initialize();
 
 	sprite.initialize(&spritecommon, 2);
 	sprite2.initialize(&spritecommon, 1);
