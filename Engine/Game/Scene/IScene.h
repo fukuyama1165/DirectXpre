@@ -46,7 +46,7 @@ private:
 	ImGuiManager* imGuiManager = ImGuiManager::GetInstance();
 
 	//“ü—Í‚Ì‰Šú‰»
-	Input* input = input->GetInstance();
+	Input* input = Input::GetInstance();
 	
 
 };
