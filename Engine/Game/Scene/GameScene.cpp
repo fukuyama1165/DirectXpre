@@ -10,11 +10,13 @@ void GameScene::Initialize()
 	LightGroup::Staticlnitialize();
 
 	//ƒ‰ƒCƒg‚Ì¶¬
-	lightGroup = LightGroup::Create();
+	lightManager = LightManager::GetInstance();
+
+	lightManager->CreateLightGroup();
 
 	//lightGroup->SetLightColor({ 1,1,1 });
 
-	Object3D::SetLight(lightGroup);
+	Object3D::SetLight(&lightManager->lightGroups_[0]);
 
 	camera = Camera((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
@@ -105,8 +107,6 @@ void GameScene::Finalize()
 	charactorObj.deleteTexture();
 
 	
-
-	delete(lightGroup);
 	//delete(levelData);
 
 
@@ -227,16 +227,16 @@ void GameScene::Update()
 
 	bool hit = Collision::CheckRay2Sphere(ray, sphere);
 
-	lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
+	lightManager->lightGroups_[0].SetAmbientColor(XMFLOAT3(ambientColor0));
 
-	lightGroup->SetDirLightDir(0, { lightDir0[0],lightDir0[1] ,lightDir0[2],0 });
-	lightGroup->SetDirLightColor(0, { lightColor0[0],lightColor0[1] ,lightColor0[2] });
+	lightManager->lightGroups_[0].SetDirLightDir(0, { lightDir0[0],lightDir0[1] ,lightDir0[2],0 });
+	lightManager->lightGroups_[0].SetDirLightColor(0, { lightColor0[0],lightColor0[1] ,lightColor0[2] });
 
-	lightGroup->SetDirLightDir(1, { lightDir1[0],lightDir1[1] ,lightDir1[2],0 });
-	lightGroup->SetDirLightColor(1, { lightColor1[0],lightColor1[1] ,lightColor1[2] });
+	lightManager->lightGroups_[0].SetDirLightDir(1, { lightDir1[0],lightDir1[1] ,lightDir1[2],0 });
+	lightManager->lightGroups_[0].SetDirLightColor(1, { lightColor1[0],lightColor1[1] ,lightColor1[2] });
 
-	lightGroup->SetDirLightDir(2, { lightDir2[0],lightDir2[1] ,lightDir2[2],0 });
-	lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
+	lightManager->lightGroups_[0].SetDirLightDir(2, { lightDir2[0],lightDir2[1] ,lightDir2[2],0 });
+	lightManager->lightGroups_[0].SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
 	//lightGroup->SetDirLightDir(2,{ lightDir2.x,lightDir2.y ,lightDir2.z });
 
 #pragma region imgui_Light
@@ -499,7 +499,7 @@ void GameScene::Update()
 
 	cameobj.upDate();
 	play.Update(cameobj);
-	lightGroup->Update();
+	lightManager->lightGroups_[0].Update();
 
 	sprite.Update();
 	sprite2.Update();
@@ -604,7 +604,7 @@ void GameScene::Draw()
 	
 }
 
-bool GameScene::CollsionSphere(Vector3 posA, float rA, Vector3 posB, float rB)
+bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, const float& rB)
 {
 	Vector3 AB = posB - posA;
 

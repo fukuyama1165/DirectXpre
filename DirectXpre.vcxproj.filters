@@ -216,6 +216,9 @@
     <ClCompile Include="Engine\Game\Scene\IScene.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\Light\LightManager.cpp">
+      <Filter>ソース ファイル\Game\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game\test\enemy.h">
@@ -322,6 +325,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Scene\IScene.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Light\LightManager.h">
+      <Filter>ヘッダー ファイル\Game\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

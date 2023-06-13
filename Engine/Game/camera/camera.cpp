@@ -8,7 +8,7 @@ Camera::Camera()
 	Win_height_ = WinApp::SWindowHeight_;
 }
 
-Camera::Camera(float win_width, float win_height)
+Camera::Camera(const float& win_width,const float& win_height)
 {
 	
 	Win_width_ = win_width;
@@ -27,14 +27,14 @@ void Camera::upDate()
 	matProjection_ = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000000.0f);
 }
 
-Matrix4x4 Camera::matViewGeneration(Vector3 eye, Vector3 target, Vector3 up)
+Matrix4x4 Camera::matViewGeneration(const Vector3& eye,const Vector3& target,const Vector3& up)
 {
 
 	Vector3 zVer = target - eye;
 
 	zVer.normalize();
 
-	Vector3 xVer = up.cross(zVer);
+	Vector3 xVer = Vector3::cross(up, zVer);
 
 	xVer.normalize();
 
@@ -70,7 +70,7 @@ Matrix4x4 Camera::matViewGeneration(Vector3 eye, Vector3 target, Vector3 up)
 
 	Vector3 R2 = eyeDis.normalize();
 
-	Vector3 R0 = up.cross(R2);
+	Vector3 R0 = Vector3::cross(up, R2);
 	R0 = R0.normalize();
 
 	Vector3 R1 = R2.cross(R0);
@@ -165,7 +165,7 @@ Matrix4x4 Camera::matViewGeneration(Vector3 eye, Vector3 target, Vector3 up)
 	return mResult;
 }
 
-Matrix4x4 Camera::perspectiveProjectionGeneration(float FovAngleY, float NearZ, float FarZ)
+Matrix4x4 Camera::perspectiveProjectionGeneration(const float& FovAngleY,const float& NearZ,const float& FarZ)
 {
 	Matrix4x4 ans = {};
 
@@ -203,13 +203,13 @@ Matrix4x4 Camera::perspectiveProjectionGeneration(float FovAngleY, float NearZ, 
 
 }
 
-void Camera::sinCos(float& Sin, float& Cos, float angle)
+void Camera::sinCos(float& Sin, float& Cos,const float& angle)
 {
 	Sin = sinf(angle);
 	Cos = cosf(angle);
 }
 
-Vector3 Camera::float3Dat(Vector3 A, Vector3 B)
+Vector3 Camera::float3Dat(const Vector3& A,const Vector3& B)
 {
 	Vector3 num = { A.x * B.x,A.y * B.y,A.z * B.z };
 

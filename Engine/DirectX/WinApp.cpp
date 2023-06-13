@@ -102,7 +102,7 @@ HWND WinApp::getHwnd() const
 }
 
 
-int WinApp::getWindowSizeWidth()
+uint32_t WinApp::getWindowSizeWidth()
 {
 
 	return SWindowWidth_;
@@ -110,7 +110,7 @@ int WinApp::getWindowSizeWidth()
 }
 
 
-int WinApp::getWindowSizeHeight()
+uint32_t WinApp::getWindowSizeHeight()
 {
 
 	return SWindowHeight_;

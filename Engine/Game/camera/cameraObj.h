@@ -5,7 +5,7 @@
 class cameraObj
 {
 public:
-	cameraObj(float win_width =(float)WinApp::SWindowWidth_, float win_height = (float)WinApp::SWindowHeight_);
+	cameraObj(const float& win_width =(float)WinApp::SWindowWidth_,const float& win_height = (float)WinApp::SWindowHeight_);
 	~cameraObj();
 
 	void upDate();

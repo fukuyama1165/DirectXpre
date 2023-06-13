@@ -74,7 +74,7 @@ void Model::vertexBuffObjGeneration()
 	result_ = vertBuff_->Map(0, nullptr, (void**)&vertMap_);
 
 	//全頂点に対して
-	for (int i = 0; i < vertices_.size(); i++)
+	for (uint16_t i = 0; i < vertices_.size(); i++)
 	{
 		vertMap_[i] = vertices_[i];//座標をコピー
 	}
@@ -99,7 +99,7 @@ void Model::vertexBuffObjGeneration()
 
 }
 
-void Model::indicesBuffGeneration(ID3D12Device* dev)
+void Model::indicesBuffGeneration()
 {
 #pragma region インデックスバッファ
 
@@ -114,7 +114,7 @@ void Model::indicesBuffGeneration(ID3D12Device* dev)
 
 	//インデックスバッファの生成
 
-	result_ = dev->CreateCommittedResource(
+	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
 		&heapprop_,//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc_,//リソース設定
@@ -127,7 +127,7 @@ void Model::indicesBuffGeneration(ID3D12Device* dev)
 	uint16_t* indexMap = nullptr;
 	result_ = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	//全インデックスに対して
-	for (int i = 0; i < indices_.size(); i++)
+	for (uint16_t i = 0; i < indices_.size(); i++)
 	{
 		indexMap[i] = indices_[i];//インデックスをコピー
 	}

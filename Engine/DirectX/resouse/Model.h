@@ -35,7 +35,7 @@ private:
 	void vertexBuffObjGeneration();
 
 	//インデックスデータ関連(インデックスビューもここ)
-	void indicesBuffGeneration(ID3D12Device* dev);
+	void indicesBuffGeneration();
 
 private:
 

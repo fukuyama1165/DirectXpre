@@ -13,18 +13,18 @@ void DirectionalLight::StaticInitialize()
 
 }
 
-DirectionalLight* DirectionalLight::Create()
-{
-
-	DirectionalLight* instance = new DirectionalLight();
-
-	//初期化
-	instance->Init();
-
-	//生成したインスタンスを返す
-	return instance;
-
-}
+//DirectionalLight* DirectionalLight::Create()
+//{
+//
+//	DirectionalLight* instance = new DirectionalLight();
+//
+//	//初期化
+//	instance->Init();
+//
+//	//生成したインスタンスを返す
+//	return instance;
+//
+//}
 
 void DirectionalLight::Init()
 {
@@ -95,7 +95,7 @@ void DirectionalLight::constantBuffGeneration()
 #pragma endregion
 }
 
-D3D12_RESOURCE_DESC DirectionalLight::constBuffResourceGeneration(int size)
+D3D12_RESOURCE_DESC DirectionalLight::constBuffResourceGeneration(uint32_t size)
 {
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;

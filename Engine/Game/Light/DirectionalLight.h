@@ -32,7 +32,7 @@ public://サブクラス
 
 		XMVECTOR lightv;
 		XMFLOAT3 lightColor;
-		unsigned int active;
+		uint32_t active;
 
 	};
 
@@ -48,7 +48,7 @@ public://静的メンバ関数
 public:
 
 	//インスタンス生成
-	static DirectionalLight* Create();
+	//static DirectionalLight* Create();
 
 	//初期化
 	void Init();
@@ -90,7 +90,7 @@ private://メンバ関数(privete)
 	void constantBuffGeneration();
 
 	//定数バッファ用のリソース設定関数
-	D3D12_RESOURCE_DESC constBuffResourceGeneration(int size);
+	D3D12_RESOURCE_DESC constBuffResourceGeneration(uint32_t size);
 
 
 private://メンバ変数

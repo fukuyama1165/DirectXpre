@@ -12,16 +12,16 @@ void LightGroup::Staticlnitialize()
 
 }
 
-LightGroup* LightGroup::Create()
-{
-
-	LightGroup* instance = new LightGroup();
-
-	instance->Init();
-
-	return instance;
-
-}
+//LightGroup* LightGroup::Create()
+//{
+//
+//	LightGroup* instance = new LightGroup();
+//
+//	instance->Init();
+//
+//	return instance;
+//
+//}
 
 void LightGroup::Init()
 {

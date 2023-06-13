@@ -25,7 +25,7 @@ public:
 	static void Staticlnitialize();
 
 	//インスタンス生成
-	static LightGroup* Create();
+	//static LightGroup* Create();
 
 	void Init();
 

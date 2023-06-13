@@ -1,6 +1,6 @@
 #include "cameraObj.h"
 
-cameraObj::cameraObj(float win_width, float win_height)
+cameraObj::cameraObj(const float& win_width,const float& win_height)
 {
 	camera_ = Camera(win_width, win_height);
 }

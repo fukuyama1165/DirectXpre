@@ -35,15 +35,15 @@ class Input
 public:
 	static Input* GetInstance();
 
-	void init(WNDCLASSEX w, HWND hwnd);
+	void init();
 
 	void update();
 
 	//キーボードのキーを押したら反応する関数(長押しも反応)
-	bool PushKey(BYTE CheckKey);
+	bool PushKey(const BYTE& CheckKey);
 
 	//キーボードのキーを押した瞬間に反応する関数(長押し反応しない)
-	bool TriggerKey(BYTE CheckKey);
+	bool TriggerKey(const BYTE& CheckKey);
 
 
 	void instanceDelete();

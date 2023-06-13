@@ -59,7 +59,7 @@ using namespace DirectX;
 #include "cameraObj.h"
 #include "enemyManager.h"
 
-#include "LightGroup.h"
+#include "LightManager.h"
 #include "CollisionPrimirive.h"
 #include "Collision.h"
 
@@ -83,14 +83,14 @@ public:
 
 private:
 
-	bool CollsionSphere(Vector3 posA, float rA, Vector3 posB, float rB);
+	bool CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, const float& rB);
 
 private:
 
 	
 
 	//ƒ‰ƒCƒg
-	LightGroup* lightGroup = nullptr;
+	LightManager* lightManager;
 
 
 	//obj

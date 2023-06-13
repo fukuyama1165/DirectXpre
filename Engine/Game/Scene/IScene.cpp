@@ -34,11 +34,11 @@ void IScene::Initialize()
 	winApp->initialize();
 
 
-	directXinit->Init(winApp->getW(), winApp->getHwnd(), winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
+	directXinit->Init();
 
 	imGuiManager->Init();
 
-	input->init(winApp->getW(), winApp->getHwnd());
+	input->init();
 
 }
 
