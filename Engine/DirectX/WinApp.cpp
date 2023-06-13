@@ -117,6 +117,43 @@ uint32_t WinApp::getWindowSizeHeight()
 
 }
 
+Vector2 WinApp::GetMousePos()
+{
+
+	//マウス座標を取得
+	POINT p;
+	GetCursorPos(&p);
+
+	ScreenToClient(getHwnd(), &p);
+
+	return Vector2((float)p.x, (float)p.y);
+
+}
+
+void WinApp::SetMousePos(uint32_t posX, uint32_t posY)
+{
+	uint32_t x = 0;
+	uint32_t y = 0;
+
+	WINDOWINFO windowInfo{};
+
+	//ウィンドウの位置を取得
+	windowInfo.cbSize = sizeof(WINDOWINFO);
+	GetWindowInfo(getHwnd(), &windowInfo);
+
+	//マウスの位置をセット(ウインドウの位置を足すことでだいたいウインドウの位置を動かせるように)
+	x = posX + windowInfo.rcWindow.left;
+	y = posY + windowInfo.rcWindow.top + 35;//タイトルバーが35あるらしいのでプラス
+
+	SetCursorPos(x, y);
+
+}
+
+void WinApp::SetMonitorMousePos(uint32_t posX, uint32_t posY)
+{
+	SetCursorPos(posX, posY);
+}
+
 #pragma region ウィンドウプロシージャ
 
 

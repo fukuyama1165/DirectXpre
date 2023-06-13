@@ -239,6 +239,22 @@ void GameScene::Update()
 	lightManager->lightGroups_[0].SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
 	//lightGroup->SetDirLightDir(2,{ lightDir2.x,lightDir2.y ,lightDir2.z });
 
+	if (IsUseCameraMouse)
+	{
+		if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
+		{
+			WinApp::GetInstance()->SetMousePos(WinApp::SWindowWidth_ / 2, WinApp::SWindowHeight_ / 2);
+		}
+
+		cameraRot.y += Input::GetInstance()->GetMouseMove().x / 1000;
+		cameraRot.x += Input::GetInstance()->GetMouseMove().y / 1000;
+	}
+
+	if (Input::GetInstance()->TriggerKey(DIK_F5))
+	{
+		IsUseCameraMouse = !IsUseCameraMouse;
+	}
+
 #pragma region imgui_Light
 
 	ImGui::Begin("Light");
@@ -325,148 +341,77 @@ void GameScene::Update()
 
 #pragma region input
 
-		/*ImGui::SetNextWindowSize(ImVec2(300, 300));
+		ImGui::SetNextWindowSize(ImVec2(300, 300));
 
 		ImGui::Begin("input");
 
-		if (input->PushKey(DIK_A))
+		ImGui::Text("pos x:%f y:%f",Input::GetInstance()->GetMousePos().x, Input::GetInstance()->GetMousePos().y);
+		ImGui::Text("oldpos x:%f y:%f",Input::GetInstance()->GetOldMousePos().x, Input::GetInstance()->GetOldMousePos().y);
+		ImGui::Text("move x:%f y:%f z:%f",Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
+
+		ImGui::Checkbox("useMouseCamera", &IsUseCameraMouse);
+
+		if (Input::GetInstance()->GetMouseButton(0))
 		{
-			ImGui::Text("A");
-		}
-		if (input->PushKey(DIK_B))
-		{
-			ImGui::Text("B");
-		}
-		if (input->PushKey(DIK_C))
-		{
-			ImGui::Text("C");
-		}
-		if (input->PushKey(DIK_D))
-		{
-			ImGui::Text("D");
-		}
-		if (input->PushKey(DIK_E))
-		{
-			ImGui::Text("E");
-		}
-		if (input->PushKey(DIK_F))
-		{
-			ImGui::Text("F");
-		}
-		if (input->PushKey(DIK_G))
-		{
-			ImGui::Text("G");
-		}
-		if (input->PushKey(DIK_H))
-		{
-			ImGui::Text("H");
-		}
-		if (input->PushKey(DIK_I))
-		{
-			ImGui::Text("I");
-		}
-		if (input->PushKey(DIK_J))
-		{
-			ImGui::Text("J");
-		}
-		if (input->PushKey(DIK_K))
-		{
-			ImGui::Text("K");
-		}
-		if (input->PushKey(DIK_L))
-		{
-			ImGui::Text("L");
-		}
-		if (input->PushKey(DIK_M))
-		{
-			ImGui::Text("M");
-		}
-		if (input->PushKey(DIK_N))
-		{
-			ImGui::Text("N");
-		}
-		if (input->PushKey(DIK_O))
-		{
-			ImGui::Text("O");
-		}
-		if (input->PushKey(DIK_P))
-		{
-			ImGui::Text("P");
-		}
-		if (input->PushKey(DIK_Q))
-		{
-			ImGui::Text("Q");
-		}
-		if (input->PushKey(DIK_R))
-		{
-			ImGui::Text("R");
-		}
-		if (input->PushKey(DIK_S))
-		{
-			ImGui::Text("S");
-		}
-		if (input->PushKey(DIK_T))
-		{
-			ImGui::Text("T");
-		}
-		if (input->PushKey(DIK_U))
-		{
-			ImGui::Text("U");
-		}
-		if (input->PushKey(DIK_X))
-		{
-			ImGui::Text("X");
-		}
-		if (input->PushKey(DIK_Y))
-		{
-			ImGui::Text("Y");
-		}
-		if (input->PushKey(DIK_Z))
-		{
-			ImGui::Text("Z");
+			ImGui::Text("LHit");
 		}
 
-		if (input->PushKey(DIK_UP))
+		if (Input::GetInstance()->GetMouseButton(1))
 		{
-			ImGui::Text("Up");
+			ImGui::Text("RHit");
 		}
 
-		if (input->PushKey(DIK_DOWN))
+		if (Input::GetInstance()->GetIsUseGamePad())
 		{
-			ImGui::Text("Down");
+			ImGui::Text("useGamePad");
+
+			ImGui::Text("LStick x:%f y:%f", Input::GetInstance()->GetGamePadLStick().x, Input::GetInstance()->GetGamePadLStick().y);
+			ImGui::Text("RStick x:%f y:%f", Input::GetInstance()->GetGamePadRStick().x, Input::GetInstance()->GetGamePadRStick().y);
+
+			ImGui::Text("LStick(key) x:%f y:%f", Input::GetInstance()->GetLStick(true, true).x, Input::GetInstance()->GetLStick(true, true).y);
+			ImGui::Text("RStick(key) x:%f y:%f", Input::GetInstance()->GetRStick(true, true).x, Input::GetInstance()->GetRStick(true, true).y);
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
+			{
+				ImGui::Text("AButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_B))
+			{
+				ImGui::Text("BButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_X))
+			{
+				ImGui::Text("XButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_Y))
+			{
+				ImGui::Text("YButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_LEFT_SHOULDER))
+			{
+				ImGui::Text("LButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_RIGHT_SHOULDER))
+			{
+				ImGui::Text("RButton");
+			}
+
+		}
+		else
+		{
+			ImGui::Text("UnUseGamePad");
 		}
 
-		if (input->PushKey(DIK_RIGHT))
-		{
-			ImGui::Text("Right");
-		}
 
-		if (input->PushKey(DIK_LEFT))
-		{
-			ImGui::Text("Left");
-		}
 
-		if (input->PushKey(DIK_RETURN))
-		{
-			ImGui::Text("Return");
-		}
+		
 
-		if (input->PushKey(DIK_SPACE))
-		{
-			ImGui::Text("Space");
-		}
-
-		if (input->PushKey(DIK_LSHIFT))
-		{
-			ImGui::Text("Lshift");
-		}
-
-		if (input->PushKey(DIK_LCONTROL))
-		{
-			ImGui::Text("Lcontrol");
-		}
-
-		ImGui::End();*/
+		ImGui::End();
 
 #pragma endregion
 

@@ -23,6 +23,29 @@ float Vector2::length()const
 	return sqrtf(x * x + y * y);
 }
 
+Vector2 Vector2::normalize(const Vector2& v)
+{
+	float len = v.length();
+	Vector2 ans = v;
+	if (len != 0)
+	{
+		return ans /= len;
+	}
+
+	return ans;
+}
+
+Vector2& Vector2::normalize()
+{
+	float len = length();
+	if (len != 0)
+	{
+		return *this /= len;
+	}
+
+	return *this;
+}
+
 Vector2 Vector2::operator+() const
 {
 	return *this;

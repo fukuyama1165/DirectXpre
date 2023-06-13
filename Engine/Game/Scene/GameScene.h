@@ -114,6 +114,7 @@ private:
 	Triangle triangle;
 	Ray ray;
 
+	bool IsUseCameraMouse = false;
 
 	//スプライト
 	SpriteCommon spritecommon;
