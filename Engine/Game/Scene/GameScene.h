@@ -87,18 +87,7 @@ private:
 
 private:
 
-	//windowAPI
-	std::unique_ptr<WinApp> winApp = std::make_unique<WinApp>();
-
 	
-
-	//directX‚Ì‰Šú‰»
-	DirectXInit* directXinit = DirectXInit::GetInstance();
-
-	ImGuiManager imGuiManager;
-
-	//“ü—Í‚Ì‰Šú‰»
-	Input* input = input->GetInstance();
 
 	//ƒ‰ƒCƒg
 	LightGroup* lightGroup = nullptr;

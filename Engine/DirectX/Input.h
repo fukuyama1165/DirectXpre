@@ -54,7 +54,7 @@ private:
 	Input(const Input&) = delete;
 	Input& operator=(const Input&) = delete;
 
-	static Input* instance_;
+	//static Input* instance_;
 
 	HRESULT result_ =S_OK;
 
