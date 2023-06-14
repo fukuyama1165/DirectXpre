@@ -11,6 +11,8 @@
 
 #include <vector>
 
+#include <cstdint>
+
 //音声データ
 struct SoundData
 {
@@ -22,7 +24,7 @@ struct SoundData
 	BYTE* pBuffer_;
 
 	//バッファのサイズ
-	unsigned int BufferSize_;
+	uint32_t BufferSize_;
 
 
 };
