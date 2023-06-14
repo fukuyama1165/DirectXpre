@@ -6,9 +6,9 @@ class enemyManager
 
 public:
 
-	void PopEnemy(Vector3 pos);
+	void PopEnemy(const Vector3& pos);
 
-	void UpDate(Camera camera, Vector3 playerPos);
+	void UpDate(const Camera& camera,const Vector3& playerPos);
 
 	void Draw();
 

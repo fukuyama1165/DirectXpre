@@ -10,14 +10,14 @@ enemy::~enemy()
 
 }
 
-void enemy::Init(const std::string directoryPath, const char filename[])
+void enemy::Init(const std::string& directoryPath, const char filename[])
 {
 	
 	enemyObj_.objDrawInit(directoryPath, filename);
 
 }
 
-void enemy::Update(Camera camera,Vector3 playerPos)
+void enemy::Update(const Camera& camera,const Vector3& playerPos)
 {
 	if (isAlive_)
 	{

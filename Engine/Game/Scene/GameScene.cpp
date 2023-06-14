@@ -549,7 +549,7 @@ void GameScene::Draw()
 	
 }
 
-bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, const float& rB)
+bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB,float rB)
 {
 	Vector3 AB = posB - posA;
 

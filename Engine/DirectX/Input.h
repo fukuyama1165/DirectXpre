@@ -57,21 +57,21 @@ public:
 	/// </summary>
 	/// <param name="button">0なら左1なら右の入力をチェック</param>
 	/// <returns></returns>
-	bool GetMouseButton(const uint32_t& button);
+	bool GetMouseButton(uint32_t button);
 
 	/// <summary>
 	/// クリックした瞬間を取得
 	/// </summary>
 	/// <param name="button">0なら左1なら右の入力をチェック</param>
 	/// <returns></returns>
-	bool GetMouseButtonDown(const uint32_t& button);
+	bool GetMouseButtonDown(uint32_t button);
 
 	/// <summary>
 	/// クリックを離した瞬間を取得
 	/// </summary>
 	/// <param name="button">0なら左1なら右の入力をチェック</param>
 	/// <returns></returns>
-	bool GetMouseButtonUp(const uint32_t& button);
+	bool GetMouseButtonUp(uint32_t button);
 
 	//マウスの位置取得
 	Vector2 GetMousePos();
@@ -83,13 +83,13 @@ public:
 	Vector3 GetMouseMove();
 
 	//ゲームパッドのボタンを押したかどうか
-	bool GetGamePadButton(const uint32_t& button);
+	bool GetGamePadButton(uint32_t button);
 
 	//ゲームパッドのボタンが押された瞬間かどうか
-	bool GetGamePadButtonDown(const uint32_t& button);
+	bool GetGamePadButtonDown(uint32_t button);
 
 	//ゲームパッドのボタンが離された瞬間かどうか
-	bool GetGamePadButtonUp(const uint32_t& button);
+	bool GetGamePadButtonUp(uint32_t button);
 
 	//現在ゲームパッドがつながっているか
 	bool GetIsUseGamePad();

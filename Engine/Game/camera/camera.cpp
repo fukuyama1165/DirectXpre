@@ -8,7 +8,7 @@ Camera::Camera()
 	Win_height_ = WinApp::SWindowHeight_;
 }
 
-Camera::Camera(const float& win_width,const float& win_height)
+Camera::Camera(float win_width,float win_height)
 {
 	
 	Win_width_ = win_width;
@@ -165,7 +165,7 @@ Matrix4x4 Camera::matViewGeneration(const Vector3& eye,const Vector3& target,con
 	return mResult;
 }
 
-Matrix4x4 Camera::perspectiveProjectionGeneration(const float& FovAngleY,const float& NearZ,const float& FarZ)
+Matrix4x4 Camera::perspectiveProjectionGeneration(float FovAngleY,float NearZ,float FarZ)
 {
 	Matrix4x4 ans = {};
 

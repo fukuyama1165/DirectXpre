@@ -12,7 +12,7 @@ player::~player()
 
 
 
-void player::Init(const std::string directoryPath, const char filename[])
+void player::Init(const std::string& directoryPath, const char filename[])
 {
 	input_ = input_->GetInstance();
 	playerObj_.objDrawInit(directoryPath, filename,true);
@@ -24,7 +24,7 @@ void player::Init(const std::string directoryPath, const char filename[])
 
 }
 
-void player::Update(cameraObj camera)
+void player::Update(const cameraObj& camera)
 {
 	moveVec_ = { 0,0,0 };
 
@@ -41,9 +41,12 @@ void player::Update(cameraObj camera)
 
 		playerObj_.Trans_ += moveVec_ * moveSpeed_;
 	}
+
+	//Ç»ÇÒÇ©íºÇ≈ÉJÉÅÉâÇ™éÊÇ¡ÇƒÇ±ÇÍÇ»Ç©Ç¡ÇΩÇΩÇﬂ
+	cameraObj came = camera;
 	
-	playerObj_.Update(camera.GetCamera());
-	attackObj_.Update(camera.GetCamera());
+	playerObj_.Update(came.GetCamera());
+	attackObj_.Update(came.GetCamera());
 
 	//Attack();
 

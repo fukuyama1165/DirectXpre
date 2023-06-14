@@ -130,10 +130,10 @@ Vector2 WinApp::GetMousePos()
 
 }
 
-void WinApp::SetMousePos(uint32_t posX, uint32_t posY)
+void WinApp::SetMousePos(int32_t posX, int32_t posY)
 {
-	uint32_t x = 0;
-	uint32_t y = 0;
+	int32_t x = 0;
+	int32_t y = 0;
 
 	WINDOWINFO windowInfo{};
 
@@ -149,7 +149,7 @@ void WinApp::SetMousePos(uint32_t posX, uint32_t posY)
 
 }
 
-void WinApp::SetMonitorMousePos(uint32_t posX, uint32_t posY)
+void WinApp::SetMonitorMousePos(int32_t posX, int32_t posY)
 {
 	SetCursorPos(posX, posY);
 }

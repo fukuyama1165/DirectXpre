@@ -322,7 +322,7 @@ float Matrix4x4::abs(float num)
 	return num;
 }
 
-Vector3 VectorMat(Vector3 vector, Matrix4x4 mat)
+Vector3 VectorMat(const Vector3& vector, const Matrix4x4& mat)
 {
 	Vector3 changeVector = { 0,0,0 };
 
@@ -333,7 +333,7 @@ Vector3 VectorMat(Vector3 vector, Matrix4x4 mat)
 	return changeVector;
 }
 
-Vector3 VectorMat(Matrix4x4 mat, Vector3 vector)
+Vector3 VectorMat(const Matrix4x4& mat, const Vector3& vector)
 {
 	Vector3 changeVector = { 0,0,0 };
 
@@ -344,7 +344,7 @@ Vector3 VectorMat(Matrix4x4 mat, Vector3 vector)
 	return changeVector;
 }
 
-Vector4 operator*(Matrix4x4 mat, Vector4 vector)
+Vector4 operator*(const Matrix4x4& mat, const Vector4& vector)
 {
 	Vector4 changeVector = { 0,0,0,0 };
 
@@ -355,7 +355,7 @@ Vector4 operator*(Matrix4x4 mat, Vector4 vector)
 	return changeVector;
 }
 
-Vector4 operator*(Vector4 vector, Matrix4x4 mat)
+Vector4 operator*(const Vector4& vector, const Matrix4x4& mat)
 {
 	Vector4 changeVector = { 0,0,0,0};
 
@@ -366,7 +366,7 @@ Vector4 operator*(Vector4 vector, Matrix4x4 mat)
 	return changeVector;
 }
 
-Vector3 PosMat(Vector3 vector, Matrix4x4 mat)
+Vector3 PosMat(const Vector3& vector, const Matrix4x4& mat)
 {
 
 	Vector3 changeVector = { 0,0,0 };
@@ -378,7 +378,7 @@ Vector3 PosMat(Vector3 vector, Matrix4x4 mat)
 	return changeVector;
 }
 
-Vector3 PosMat(Matrix4x4 mat, Vector3 vector)
+Vector3 PosMat(const Matrix4x4& mat, const Vector3& vector)
 {
 	Vector3 changeVector = { 0,0,0 };
 
@@ -389,7 +389,7 @@ Vector3 PosMat(Matrix4x4 mat, Vector3 vector)
 	return changeVector;
 }
 
-Vector3 Matrix4x4::VectorMatDivW(Matrix4x4 mat, Vector3 pos)
+Vector3 Matrix4x4::VectorMatDivW(const Matrix4x4& mat, const Vector3& pos)
 {
 	float w = pos.x * mat.m[0][3] + pos.y * mat.m[1][3] + pos.z * mat.m[2][3] + mat.m[3][3];
 

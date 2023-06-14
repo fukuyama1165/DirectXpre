@@ -11,7 +11,7 @@ class Camera
 {
 public:
 	Camera();
-	Camera(const float& win_width,const float& win_height);
+	Camera(float win_width,float win_height);
 	~Camera();
 
 	void upDate();
@@ -19,7 +19,7 @@ public:
 private:
 	Matrix4x4 matViewGeneration(const Vector3& eye,const Vector3& target,const Vector3& up);
 
-	Matrix4x4 perspectiveProjectionGeneration(const float& FovAngleY,const float& NearZ,const float& FarZ);
+	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY,float NearZ,float FarZ);
 
 	/// <summary>
 	/// sin‚Æcos‚ğ•Ô‚·ŠÖ”

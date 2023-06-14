@@ -7,8 +7,8 @@ public:
 	enemy();
 	~enemy();
 
-	void Init(const std::string directoryPath, const char filename[]);
-	void Update(Camera camera,Vector3 playerPos);
+	void Init(const std::string& directoryPath, const char filename[]);
+	void Update(const Camera& camera,const Vector3& playerPos);
 	void Draw();
 
 	Object3D enemyObj_;
