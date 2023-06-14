@@ -10,19 +10,19 @@ void GameScene::Initialize()
 	LightGroup::Staticlnitialize();
 
 	//ƒ‰ƒCƒg‚Ì¶¬
-	lightManager = LightManager::GetInstance();
+	lightManager_ = LightManager::GetInstance();
 
-	lightManager->CreateLightGroup();
+	lightManager_->CreateLightGroup();
 
 	//lightGroup->SetLightColor({ 1,1,1 });
 
-	Object3D::SetLight(&lightManager->lightGroups_[0]);
+	Object3D::SetLight(&lightManager_->lightGroups_[0]);
 
-	camera = Camera((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
+	camera_ = Camera((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
-	camera.eye_ = { 0.0f,0.0f,-1000.0f };
+	camera_.eye_ = { 0.0f,0.0f,-1000.0f };
 
-	cameobj = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
+	cameobj_ = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
 	//cameobj.cameobj.SetParent(&objobj);
 
@@ -31,31 +31,31 @@ void GameScene::Initialize()
 	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
 
-	charactorObj.colorChangeInit();
-	charactorObj3.basicInit();
-	charactorObj2.colorChangeInit();
+	charactorObj_.colorChangeInit();
+	charactorObj3_.basicInit();
+	charactorObj2_.colorChangeInit();
 
 	
 
-	texname = charactorObj2.loadTexture("Resources/hokehoke.png");
+	texname_ = charactorObj2_.loadTexture("Resources/hokehoke.png");
 
-	play.Init("Resources/obj/karaage/", "karaage.obj");
+	play_.Init("Resources/obj/karaage/", "karaage.obj");
 
 	
-	sphere.center_ = { 0,0,0 };
-	sphere.radius_ = 1.0f;
+	sphere_.center_ = { 0,0,0 };
+	sphere_.radius_ = 1.0f;
 
-	plane.normal_ = { 0,1,0 };
-	plane.distance_ = 0.0f;
+	plane_.normal_ = { 0,1,0 };
+	plane_.distance_ = 0.0f;
 
-	triangle.p0_ = { -50.0f,-50.0f,50.0f };
-	triangle.p1_ = { 50.0f,-50.0f,50.0f };
-	triangle.p2_ = { -50.0f, 50.0f,50.0f };
-	triangle.ComputeNormal();
+	triangle_.p0_ = { -50.0f,-50.0f,50.0f };
+	triangle_.p1_ = { 50.0f,-50.0f,50.0f };
+	triangle_.p2_ = { -50.0f, 50.0f,50.0f };
+	triangle_.ComputeNormal();
 	//triangle.normal = { 0.0f,0.0f,-1.0f,0 };
 
-	ray.start_ = { 0.0f,0.0f,0.0f };
-	ray.dir_ = { 0.0f,0.0f,-1.0f };
+	ray_.start_ = { 0.0f,0.0f,0.0f };
+	ray_.dir_ = { 0.0f,0.0f,-1.0f };
 
 	/*LevelData* levelData = JsonLevelLoader::LoadJsonFile("scenetest3");
 
@@ -74,37 +74,37 @@ void GameScene::Initialize()
 
 	}*/
 
-	objobj.objDrawInit("Resources/obj/testBall/", "testBall.obj", true);
-	objobj2.objDrawInit("Resources/obj/collHittest/", "collHitTest.obj");
-	objobj3.objDrawInit("Resources/obj/skydome/", "skydome.obj");
+	objobj_.objDrawInit("Resources/obj/testBall/", "testBall.obj", true);
+	objobj2_.objDrawInit("Resources/obj/collHittest/", "collHitTest.obj");
+	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 
-	objobj.Scale_ = { 0.95f,0.95f,0.95f };
-	objobj2.Scale_ = { 0.95f,0.95f,0.95f };
-
-	
-
-	spritecommon.initialize();
-
-	sprite.initialize(&spritecommon, 2);
-	sprite2.initialize(&spritecommon, 1);
-
-	sprite.posX_ = 100;
-	sprite.posY_ = 200;
-
-	sprite2.posX_ = 50;
-	sprite2.posY_ = 200;
-
-	objobj.SetPos({ -100,0,0 });
-	objobj3.SetScale({ 1000,1000,1000 });
+	objobj_.Scale_ = { 0.95f,0.95f,0.95f };
+	objobj2_.Scale_ = { 0.95f,0.95f,0.95f };
 
 	
-	charactorObj3.SetScale({ 0.001f,0.001f,100.0f });
+
+	spritecommon_.initialize();
+
+	sprite_.initialize(&spritecommon_, 2);
+	sprite2_.initialize(&spritecommon_, 1);
+
+	sprite_.posX_ = 100;
+	sprite_.posY_ = 200;
+
+	sprite2_.posX_ = 50;
+	sprite2_.posY_ = 200;
+
+	objobj_.SetPos({ -100,0,0 });
+	objobj3_.SetScale({ 1000,1000,1000 });
+
+	
+	charactorObj3_.SetScale({ 0.001f,0.001f,100.0f });
 
 }
 
 void GameScene::Finalize()
 {
-	charactorObj.deleteTexture();
+	charactorObj_.deleteTexture();
 
 	
 	//delete(levelData);
@@ -157,19 +157,19 @@ void GameScene::Update()
 
 	if (Input::GetInstance()->PushKey(DIK_UP))
 	{
-		lightDir.z = 1;
+		lightDir_.z = 1;
 	}
 	if (Input::GetInstance()->PushKey(DIK_DOWN))
 	{
-		lightDir.z = -1;
+		lightDir_.z = -1;
 	}
 	if (Input::GetInstance()->PushKey(DIK_RIGHT))
 	{
-		lightDir.x = 1;
+		lightDir_.x = 1;
 	}
 	if (Input::GetInstance()->PushKey(DIK_LEFT))
 	{
-		lightDir.x = -1;
+		lightDir_.x = -1;
 	}
 
 	/*if (input->PushKey(DIK_W))
@@ -192,67 +192,67 @@ void GameScene::Update()
 	Vector4 moveY(0, 0.01f, 0, 0);
 	if (Input::GetInstance()->PushKey(DIK_W))
 	{
-		movecoll.y += moveY.y;
+		movecoll_.y += moveY.y;
 	}
 	if (Input::GetInstance()->PushKey(DIK_S))
 	{
-		movecoll.y -= moveY.y;
+		movecoll_.y -= moveY.y;
 	}
 	Vector4 moveX(0.01f, 0, 0, 0);
 	if (Input::GetInstance()->PushKey(DIK_D))
 	{
-		movecoll.x += moveX.x;
+		movecoll_.x += moveX.x;
 	}
 	if (Input::GetInstance()->PushKey(DIK_A))
 	{
-		movecoll.x -= moveX.x;
+		movecoll_.x -= moveX.x;
 	}
 
 	if (Input::GetInstance()->PushKey(DIK_Z))
 	{
-		movecoll.z += 0.01f;
+		movecoll_.z += 0.01f;
 	}
 
 	if (Input::GetInstance()->PushKey(DIK_X))
 	{
-		movecoll.z -= 0.01f;
+		movecoll_.z -= 0.01f;
 	}
 
-	sphere.center_ = { movecoll.x ,movecoll.y,movecoll.z };
+	sphere_.center_ = { movecoll_.x ,movecoll_.y,movecoll_.z };
 
 	//ray.start = { movecoll.x ,movecoll.y,movecoll.z};
 
-	sprite2.posX_ = spriteMove.x;
-	sprite2.posY_ = spriteMove.y;
+	sprite2_.posX_ = spriteMove_.x;
+	sprite2_.posY_ = spriteMove_.y;
 
-	bool hit = Collision::CheckRay2Sphere(ray, sphere);
+	bool hit = Collision::CheckRay2Sphere(ray_, sphere_);
 
-	lightManager->lightGroups_[0].SetAmbientColor(XMFLOAT3(ambientColor0));
+	lightManager_->lightGroups_[0].SetAmbientColor(XMFLOAT3(ambientColor0_));
 
-	lightManager->lightGroups_[0].SetDirLightDir(0, { lightDir0[0],lightDir0[1] ,lightDir0[2],0 });
-	lightManager->lightGroups_[0].SetDirLightColor(0, { lightColor0[0],lightColor0[1] ,lightColor0[2] });
+	lightManager_->lightGroups_[0].SetDirLightDir(0, { lightDir0_[0],lightDir0_[1] ,lightDir0_[2],0 });
+	lightManager_->lightGroups_[0].SetDirLightColor(0, { lightColor0_[0],lightColor0_[1] ,lightColor0_[2] });
 
-	lightManager->lightGroups_[0].SetDirLightDir(1, { lightDir1[0],lightDir1[1] ,lightDir1[2],0 });
-	lightManager->lightGroups_[0].SetDirLightColor(1, { lightColor1[0],lightColor1[1] ,lightColor1[2] });
+	lightManager_->lightGroups_[0].SetDirLightDir(1, { lightDir1_[0],lightDir1_[1] ,lightDir1_[2],0 });
+	lightManager_->lightGroups_[0].SetDirLightColor(1, { lightColor1_[0],lightColor1_[1] ,lightColor1_[2] });
 
-	lightManager->lightGroups_[0].SetDirLightDir(2, { lightDir2[0],lightDir2[1] ,lightDir2[2],0 });
-	lightManager->lightGroups_[0].SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
+	lightManager_->lightGroups_[0].SetDirLightDir(2, { lightDir2_[0],lightDir2_[1] ,lightDir2_[2],0 });
+	lightManager_->lightGroups_[0].SetDirLightColor(2, { lightColor2_[0],lightColor2_[1] ,lightColor2_[2] });
 	//lightGroup->SetDirLightDir(2,{ lightDir2.x,lightDir2.y ,lightDir2.z });
 
-	if (IsUseCameraMouse)
+	if (IsUseCameraMouse_)
 	{
 		if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
 		{
 			WinApp::GetInstance()->SetMousePos(WinApp::SWindowWidth_ / 2, WinApp::SWindowHeight_ / 2);
 		}
 
-		cameraRot.y += Input::GetInstance()->GetMouseMove().x / 1000;
-		cameraRot.x += Input::GetInstance()->GetMouseMove().y / 1000;
+		cameraRot_.y += Input::GetInstance()->GetMouseMove().x / 1000;
+		cameraRot_.x += Input::GetInstance()->GetMouseMove().y / 1000;
 	}
 
 	if (Input::GetInstance()->TriggerKey(DIK_F5))
 	{
-		IsUseCameraMouse = !IsUseCameraMouse;
+		IsUseCameraMouse_ = !IsUseCameraMouse_;
 	}
 
 #pragma region imgui_Light
@@ -261,13 +261,13 @@ void GameScene::Update()
 	//ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 200));
 
-	ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("lightDir0", lightDir0);
-	ImGui::ColorEdit3("lightColor0", lightColor0, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("lightDir1", lightDir1);
-	ImGui::ColorEdit3("lightColor1", lightColor1, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("lightDir2", lightDir2);
-	ImGui::ColorEdit3("lightColor2", lightColor2, ImGuiColorEditFlags_Float);
+	ImGui::ColorEdit3("ambientColor", ambientColor0_, ImGuiColorEditFlags_Float);
+	ImGui::InputFloat3("lightDir0", lightDir0_);
+	ImGui::ColorEdit3("lightColor0", lightColor0_, ImGuiColorEditFlags_Float);
+	ImGui::InputFloat3("lightDir1", lightDir1_);
+	ImGui::ColorEdit3("lightColor1", lightColor1_, ImGuiColorEditFlags_Float);
+	ImGui::InputFloat3("lightDir2", lightDir2_);
+	ImGui::ColorEdit3("lightColor2", lightColor2_, ImGuiColorEditFlags_Float);
 
 	ImGui::End();
 
@@ -281,11 +281,11 @@ void GameScene::Update()
 
 	ImGui::Text("move:WASDZX");
 
-	ImGui::SliderFloat("movecollx", &movecoll.x, -200.0f, 200.0f, "%.3f");
-	ImGui::SliderFloat("movecolly", &movecoll.y, -200.0f, 200.0f, "%.3f");
-	ImGui::SliderFloat("movecollz", &movecoll.z, -200.0f, 200.0f, "%.3f");
+	ImGui::SliderFloat("movecollx", &movecoll_.x, -200.0f, 200.0f, "%.3f");
+	ImGui::SliderFloat("movecolly", &movecoll_.y, -200.0f, 200.0f, "%.3f");
+	ImGui::SliderFloat("movecollz", &movecoll_.z, -200.0f, 200.0f, "%.3f");
 
-	ImGui::Text("x:%f y:%f z:%f", ray.start_.x, ray.start_.y, ray.start_.z);
+	ImGui::Text("x:%f y:%f z:%f", ray_.start_.x, ray_.start_.y, ray_.start_.z);
 
 	if (hit)
 	{
@@ -294,43 +294,43 @@ void GameScene::Update()
 	if (ImGui::CollapsingHeader("camera"))
 	{
 
-		ImGui::SliderFloat("cameraX", &cameraPos.x, -500.0f, 500.0f, "%.3f");
-		ImGui::SliderFloat("cameraY", &cameraPos.y, -500.0f, 500.0f, "%.3f");
-		ImGui::SliderFloat("cameraZ", &cameraPos.z, -500.0f, 500.0f, "%.3f");
+		ImGui::SliderFloat("cameraX", &cameraPos_.x, -500.0f, 500.0f, "%.3f");
+		ImGui::SliderFloat("cameraY", &cameraPos_.y, -500.0f, 500.0f, "%.3f");
+		ImGui::SliderFloat("cameraZ", &cameraPos_.z, -500.0f, 500.0f, "%.3f");
 
-		ImGui::SliderFloat("cameraRotX", &cameraRot.x, -5.0f, 5.0f, "%.3f");
-		ImGui::SliderFloat("cameraRotY", &cameraRot.y, -5.0f, 5.0f, "%.3f");
-		ImGui::SliderFloat("cameraRotZ", &cameraRot.z, -5.0f, 5.0f, "%.3f");
+		ImGui::SliderFloat("cameraRotX", &cameraRot_.x, -5.0f, 5.0f, "%.3f");
+		ImGui::SliderFloat("cameraRotY", &cameraRot_.y, -5.0f, 5.0f, "%.3f");
+		ImGui::SliderFloat("cameraRotZ", &cameraRot_.z, -5.0f, 5.0f, "%.3f");
 
 		ImGui::Text("reset");
 
 		if (ImGui::Button("posX"))
 		{
-			cameraPos.x = 0;
+			cameraPos_.x = 0;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("posY"))
 		{
-			cameraPos.y = 0;
+			cameraPos_.y = 0;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("posZ"))
 		{
-			cameraPos.z = -200;
+			cameraPos_.z = -200;
 		}
 		if (ImGui::Button("rotX"))
 		{
-			cameraRot.x = 0;
+			cameraRot_.x = 0;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("rotY"))
 		{
-			cameraRot.y = 0;
+			cameraRot_.y = 0;
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("rotZ"))
 		{
-			cameraRot.z = 0;
+			cameraRot_.z = 0;
 		}
 
 	}
@@ -349,7 +349,7 @@ void GameScene::Update()
 		ImGui::Text("oldpos x:%f y:%f",Input::GetInstance()->GetOldMousePos().x, Input::GetInstance()->GetOldMousePos().y);
 		ImGui::Text("move x:%f y:%f z:%f",Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
 
-		ImGui::Checkbox("useMouseCamera(F5)", &IsUseCameraMouse);
+		ImGui::Checkbox("useMouseCamera(F5)", &IsUseCameraMouse_);
 
 		if (Input::GetInstance()->GetMouseButton(0))
 		{
@@ -436,26 +436,26 @@ void GameScene::Update()
 	ImGui::ShowDemoWindow();
 #endif
 
-	cameobj.pos_ = cameraPos;
-	cameobj.rotate_ = cameraRot;
+	cameobj_.pos_ = cameraPos_;
+	cameobj_.rotate_ = cameraRot_;
 
-	objobj.SetPos(movecoll);
-	objobj2.SetPos(movecoll);
+	objobj_.SetPos(movecoll_);
+	objobj2_.SetPos(movecoll_);
 
-	cameobj.upDate();
-	play.Update(cameobj);
-	lightManager->lightGroups_[0].Update();
+	cameobj_.upDate();
+	play_.Update(cameobj_);
+	lightManager_->lightGroups_[0].Update();
 
-	sprite.Update();
-	sprite2.Update();
+	sprite_.Update();
+	sprite2_.Update();
 
-	charactorObj.Update(cameobj.GetCamera());
-	charactorObj2.Update(cameobj.GetCamera());
-	charactorObj3.Update(cameobj.GetCamera());
+	charactorObj_.Update(cameobj_.GetCamera());
+	charactorObj2_.Update(cameobj_.GetCamera());
+	charactorObj3_.Update(cameobj_.GetCamera());
 
-	objobj.Update(cameobj.GetCamera());
-	objobj2.Update(cameobj.GetCamera());
-	objobj3.Update(cameobj.GetCamera());
+	objobj_.Update(cameobj_.GetCamera());
+	objobj2_.Update(cameobj_.GetCamera());
+	objobj3_.Update(cameobj_.GetCamera());
 
 	/*for (Object3D a : levelObj)
 	{
@@ -507,14 +507,14 @@ void GameScene::Draw()
 	//charactorObj2.Draw(4, 1,0);
 	/*if (hit == false)
 	{*/
-	objobj.Draw();
+	objobj_.Draw();
 	/*}
 	else
 	{
 		objobj2.Draw();
 	}*/
 
-	objobj3.Draw();
+	objobj3_.Draw();
 
 	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
