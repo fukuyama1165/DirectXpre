@@ -90,59 +90,59 @@ private:
 	
 
 	//ライト
-	LightManager* lightManager;
+	LightManager* lightManager_;
 
 
 	//obj
-	Object3D charactorObj;
-	Object3D charactorObj2;
-	Object3D charactorObj3;
+	Object3D charactorObj_;
+	Object3D charactorObj2_;
+	Object3D charactorObj3_;
 
-	Object3D objobj;
-	Object3D objobj2;
-	Object3D objobj3;
+	Object3D objobj_;
+	Object3D objobj2_;
+	Object3D objobj3_;
 
 	//カメラ
-	Camera camera;
-	cameraObj cameobj;
+	Camera camera_;
+	cameraObj cameobj_;
 
-	uint32_t texname = 0;
+	uint32_t texname_ = 0;
 
 	//当たり判定チェック
-	Sphere sphere;
-	Plane plane;
-	Triangle triangle;
-	Ray ray;
+	Sphere sphere_;
+	Plane plane_;
+	Triangle triangle_;
+	Ray ray_;
 
-	bool IsUseCameraMouse = false;
+	bool IsUseCameraMouse_ = false;
 
 	//スプライト
-	SpriteCommon spritecommon;
+	SpriteCommon spritecommon_;
 
-	Sprite sprite;
-	Sprite sprite2;
+	Sprite sprite_;
+	Sprite sprite2_;
 
 
-	Vector3 lightDir;
+	Vector3 lightDir_;
 
-	float ambientColor0[3] = { 1,1,1 };
+	float ambientColor0_[3] = { 1,1,1 };
 
-	float lightDir0[3] = { 1,0,0 };
-	float lightColor0[3] = { 0.9f,0.7f,0.7f };
+	float lightDir0_[3] = { 1,0,0 };
+	float lightColor0_[3] = { 0.9f,0.7f,0.7f };
 
-	float lightDir1[3] = { 1,0,0 };
-	float lightColor1[3] = { 0,0,0 };
+	float lightDir1_[3] = { 1,0,0 };
+	float lightColor1_[3] = { 0,0,0 };
 
-	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,0 };
+	float lightDir2_[3] = { 1,0,0 };
+	float lightColor2_[3] = { 0,0,0 };
 
-	Vector3 movecoll;
+	Vector3 movecoll_;
 
-	Vector3 cameraPos = { 0,20,-200 };
-	Vector3 cameraRot;
+	Vector3 cameraPos_ = { 0,20,-200 };
+	Vector3 cameraRot_;
 
-	Vector3 spriteMove = { 50 ,200 ,0 };
+	Vector3 spriteMove_ = { 50 ,200 ,0 };
 
-	player play;
+	player play_;
 };
 
