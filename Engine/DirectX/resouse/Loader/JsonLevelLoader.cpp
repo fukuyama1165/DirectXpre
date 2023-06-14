@@ -5,7 +5,7 @@
 const std::string JsonLevelLoader::SDefaultDataPath_ = "Resources/json/";
 const std::string JsonLevelLoader::SExtension_ = ".json";
 
-LevelData* JsonLevelLoader::LoadJsonFile(const std::string& fileName)
+std::unique_ptr<LevelData> JsonLevelLoader::LoadJsonFile(const std::string& fileName)
 {
 	//元から用意していたパスをくっつけて完全に通るパスにする
 	const std::string fullPath =SDefaultDataPath_ + fileName + SExtension_;
@@ -40,15 +40,15 @@ LevelData* JsonLevelLoader::LoadJsonFile(const std::string& fileName)
 	assert(name.compare("scene") == 0);
 
 	//レベルデータ格納用インスタンスを生成
-	LevelData* levelData = new LevelData();
+	std::unique_ptr<LevelData> levelData = std::make_unique<LevelData>();
 	//"object"の全オブジェクトを走査
 	for (nlohmann::json& object : deserialized["objects"])
 	{
 		
-		JsonLevelLoader::objectScanning(levelData, deserialized, object);
+		JsonLevelLoader::objectScanning(levelData.get(), deserialized, object);
 	}
 
-	return levelData;
+	return std::move(levelData);
 
 }
 

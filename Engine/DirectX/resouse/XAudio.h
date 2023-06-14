@@ -9,6 +9,8 @@
 //ComPtr用インクルード
 #include <wrl.h>
 
+#include <vector>
+
 //音声データ
 struct SoundData
 {
