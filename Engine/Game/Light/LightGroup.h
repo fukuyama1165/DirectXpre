@@ -74,7 +74,7 @@ private:
 
 	HRESULT result_;
 
-	static Microsoft::WRL::ComPtr<ID3D12Device> dev;
+	//static Microsoft::WRL::ComPtr<ID3D12Device> dev;
 
 
 	

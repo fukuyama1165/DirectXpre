@@ -4,12 +4,12 @@
 using namespace DirectX;
 
 //Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
-Microsoft::WRL::ComPtr<ID3D12Device> DirectionalLight::dev = nullptr;
+//Microsoft::WRL::ComPtr<ID3D12Device> DirectionalLight::dev = nullptr;
 
 void DirectionalLight::StaticInitialize()
 {
 
-	dev = DirectXInit::GetInstance()->Getdev();
+	//dev = DirectXInit::GetInstance()->Getdev();
 
 }
 
@@ -81,7 +81,7 @@ void DirectionalLight::constantBuffGeneration()
 
 	cbResourceDesc_ = constBuffResourceGeneration(sizeof(ConstBufferData));
 
-	result_ = dev->CreateCommittedResource(
+	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
 		&cbHeapProp_,
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc_,

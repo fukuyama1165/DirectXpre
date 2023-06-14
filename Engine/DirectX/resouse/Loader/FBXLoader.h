@@ -89,10 +89,10 @@ struct Node
 };
 
 //一か所に持てる最大ボーン数?
-static const uint32_t NUM_BONES_PER_VERTEX = 4;
+static const uint32_t SNUM_BONES_PER_VERTEX = 4;
 
 //最大ボーン数
-static const uint32_t MAX_BONE = 128;
+static const uint32_t SMAX_BONE = 128;
 
 //頂点データ
 struct AnimationVertex
@@ -101,15 +101,15 @@ struct AnimationVertex
 	Vector3 pos_;
 	Vector3 normal_;
 	Vector2 uv_;
-	uint32_t ids_[NUM_BONES_PER_VERTEX] = {};
-	float weights_[NUM_BONES_PER_VERTEX] = {};
+	uint32_t ids_[SNUM_BONES_PER_VERTEX] = {};
+	float weights_[SNUM_BONES_PER_VERTEX] = {};
 
 };
 
 //定数バッファ用
 struct ConstBuffSkin
 {
-	Matrix4x4 boneMats_[MAX_BONE] = {};
+	Matrix4x4 boneMats_[SMAX_BONE] = {};
 };
 
 //ウエイトの情報

@@ -96,7 +96,7 @@ private:
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 
 	//テクスチャ
-	static Texture* texture_;
+	static Texture* STexture_;
 
 	//マテリアル
 	Material material_;

@@ -39,7 +39,7 @@ public://サブクラス
 private://静的メンバ変数
 
 	//デバイス
-	static Microsoft::WRL::ComPtr<ID3D12Device> dev;
+	//static Microsoft::WRL::ComPtr<ID3D12Device> dev;
 
 public://静的メンバ関数
 

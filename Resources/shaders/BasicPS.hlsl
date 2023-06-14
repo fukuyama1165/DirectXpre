@@ -37,7 +37,7 @@ float4 main(VSOutput input) : SV_TARGET
 
 	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
-	for (uint i = 0; i < DIR_LIGHT_NUM; i++)
+	for (uint i = 0; i < SDIR_LIGHT_NUM; i++)
 	{
 
 		if (dirLights[i].active)
