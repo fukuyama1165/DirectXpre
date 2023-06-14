@@ -79,7 +79,7 @@ public:
 	//マウスの一フレーム前の位置取得
 	Vector2 GetOldMousePos();
 
-	//マウスの移動量取得
+	//マウスの移動量取得(zはホイールの移動量)
 	Vector3 GetMouseMove();
 
 	//ゲームパッドのボタンを押したかどうか
