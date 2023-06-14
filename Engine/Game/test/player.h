@@ -8,8 +8,8 @@ public:
 	player();
 	~player();
 
-	void Init(const std::string directoryPath, const char filename[]);
-	void Update(cameraObj camera);
+	void Init(const std::string& directoryPath, const char filename[]);
+	void Update(const cameraObj& camera);
 	void Draw();
 	void Attack();
 

@@ -3,25 +3,25 @@
 
 using namespace DirectX;
 
-Microsoft::WRL::ComPtr<ID3D12Device> LightGroup::dev = nullptr;
+//Microsoft::WRL::ComPtr<ID3D12Device> LightGroup::dev = nullptr;
 
 void LightGroup::Staticlnitialize()
 {
 
-	LightGroup::dev = DirectXInit::GetInstance()->Getdev();
+	//LightGroup::dev = DirectXInit::GetInstance()->Getdev();
 
 }
 
-LightGroup* LightGroup::Create()
-{
-
-	LightGroup* instance = new LightGroup();
-
-	instance->Init();
-
-	return instance;
-
-}
+//LightGroup* LightGroup::Create()
+//{
+//
+//	LightGroup* instance = new LightGroup();
+//
+//	instance->Init();
+//
+//	return instance;
+//
+//}
 
 void LightGroup::Init()
 {
@@ -63,7 +63,7 @@ void LightGroup::constantBuffGeneration()
 
 	cbResourceDesc_ = constBuffResourceGeneration(sizeof(ConstBufferData));
 
-	result_ = dev->CreateCommittedResource(
+	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
 		&cbHeapProp_,
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc_,

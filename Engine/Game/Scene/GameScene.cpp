@@ -5,29 +5,24 @@ void GameScene::Initialize()
 	
 	IScene::Initialize();
 
-	winApp->initialize();
-
-
-	directXinit->Init(winApp->getW(), winApp->getHwnd(), winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
-
-	imGuiManager.Init(winApp.get());
-
-	input->init(winApp->getW(), winApp->getHwnd());
+	
 
 	LightGroup::Staticlnitialize();
 
 	//ライトの生成
-	lightGroup = LightGroup::Create();
+	lightManager = LightManager::GetInstance();
+
+	lightManager->CreateLightGroup();
 
 	//lightGroup->SetLightColor({ 1,1,1 });
 
-	Object3D::SetLight(lightGroup);
+	Object3D::SetLight(&lightManager->lightGroups_[0]);
 
-	camera = Camera((float)winApp->getWindowSizeWidth(), (float)winApp->getWindowSizeHeight());
+	camera = Camera((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
 	camera.eye_ = { 0.0f,0.0f,-1000.0f };
 
-	cameobj = cameraObj((float)winApp->getWindowSizeWidth(), (float)winApp->getWindowSizeHeight());
+	cameobj = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
 	//cameobj.cameobj.SetParent(&objobj);
 
@@ -111,12 +106,9 @@ void GameScene::Finalize()
 {
 	charactorObj.deleteTexture();
 
-	input->instanceDelete();
-
-	delete(lightGroup);
+	
 	//delete(levelData);
 
-	imGuiManager.Finalize();
 
 	IScene::Finalize();
 }
@@ -126,12 +118,7 @@ void GameScene::Update()
 	
 	IScene::Update();
 
-	if (winApp->processMassage() or input->TriggerKey(DIK_ESCAPE))
-	{
-
-		IScene::endRequst_ = true;
-
-	}
+	
 
 #pragma region DirectX毎フレーム処理
 
@@ -139,13 +126,13 @@ void GameScene::Update()
 
 #pragma region キーボード情報の取得
 
-	input->update();
+	
 
 #pragma endregion
 
 #pragma region 更新処理
 
-	imGuiManager.Begin();
+	
 
 
 
@@ -168,19 +155,19 @@ void GameScene::Update()
 
 
 
-	if (input->PushKey(DIK_UP))
+	if (Input::GetInstance()->PushKey(DIK_UP))
 	{
 		lightDir.z = 1;
 	}
-	if (input->PushKey(DIK_DOWN))
+	if (Input::GetInstance()->PushKey(DIK_DOWN))
 	{
 		lightDir.z = -1;
 	}
-	if (input->PushKey(DIK_RIGHT))
+	if (Input::GetInstance()->PushKey(DIK_RIGHT))
 	{
 		lightDir.x = 1;
 	}
-	if (input->PushKey(DIK_LEFT))
+	if (Input::GetInstance()->PushKey(DIK_LEFT))
 	{
 		lightDir.x = -1;
 	}
@@ -203,30 +190,30 @@ void GameScene::Update()
 	}*/
 
 	Vector4 moveY(0, 0.01f, 0, 0);
-	if (input->PushKey(DIK_W))
+	if (Input::GetInstance()->PushKey(DIK_W))
 	{
 		movecoll.y += moveY.y;
 	}
-	if (input->PushKey(DIK_S))
+	if (Input::GetInstance()->PushKey(DIK_S))
 	{
 		movecoll.y -= moveY.y;
 	}
 	Vector4 moveX(0.01f, 0, 0, 0);
-	if (input->PushKey(DIK_D))
+	if (Input::GetInstance()->PushKey(DIK_D))
 	{
 		movecoll.x += moveX.x;
 	}
-	if (input->PushKey(DIK_A))
+	if (Input::GetInstance()->PushKey(DIK_A))
 	{
 		movecoll.x -= moveX.x;
 	}
 
-	if (input->PushKey(DIK_Z))
+	if (Input::GetInstance()->PushKey(DIK_Z))
 	{
 		movecoll.z += 0.01f;
 	}
 
-	if (input->PushKey(DIK_X))
+	if (Input::GetInstance()->PushKey(DIK_X))
 	{
 		movecoll.z -= 0.01f;
 	}
@@ -240,17 +227,33 @@ void GameScene::Update()
 
 	bool hit = Collision::CheckRay2Sphere(ray, sphere);
 
-	lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
+	lightManager->lightGroups_[0].SetAmbientColor(XMFLOAT3(ambientColor0));
 
-	lightGroup->SetDirLightDir(0, { lightDir0[0],lightDir0[1] ,lightDir0[2],0 });
-	lightGroup->SetDirLightColor(0, { lightColor0[0],lightColor0[1] ,lightColor0[2] });
+	lightManager->lightGroups_[0].SetDirLightDir(0, { lightDir0[0],lightDir0[1] ,lightDir0[2],0 });
+	lightManager->lightGroups_[0].SetDirLightColor(0, { lightColor0[0],lightColor0[1] ,lightColor0[2] });
 
-	lightGroup->SetDirLightDir(1, { lightDir1[0],lightDir1[1] ,lightDir1[2],0 });
-	lightGroup->SetDirLightColor(1, { lightColor1[0],lightColor1[1] ,lightColor1[2] });
+	lightManager->lightGroups_[0].SetDirLightDir(1, { lightDir1[0],lightDir1[1] ,lightDir1[2],0 });
+	lightManager->lightGroups_[0].SetDirLightColor(1, { lightColor1[0],lightColor1[1] ,lightColor1[2] });
 
-	lightGroup->SetDirLightDir(2, { lightDir2[0],lightDir2[1] ,lightDir2[2],0 });
-	lightGroup->SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
+	lightManager->lightGroups_[0].SetDirLightDir(2, { lightDir2[0],lightDir2[1] ,lightDir2[2],0 });
+	lightManager->lightGroups_[0].SetDirLightColor(2, { lightColor2[0],lightColor2[1] ,lightColor2[2] });
 	//lightGroup->SetDirLightDir(2,{ lightDir2.x,lightDir2.y ,lightDir2.z });
+
+	if (IsUseCameraMouse)
+	{
+		if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
+		{
+			WinApp::GetInstance()->SetMousePos(WinApp::SWindowWidth_ / 2, WinApp::SWindowHeight_ / 2);
+		}
+
+		cameraRot.y += Input::GetInstance()->GetMouseMove().x / 1000;
+		cameraRot.x += Input::GetInstance()->GetMouseMove().y / 1000;
+	}
+
+	if (Input::GetInstance()->TriggerKey(DIK_F5))
+	{
+		IsUseCameraMouse = !IsUseCameraMouse;
+	}
 
 #pragma region imgui_Light
 
@@ -338,148 +341,77 @@ void GameScene::Update()
 
 #pragma region input
 
-		/*ImGui::SetNextWindowSize(ImVec2(300, 300));
+		ImGui::SetNextWindowSize(ImVec2(300, 300));
 
 		ImGui::Begin("input");
 
-		if (input->PushKey(DIK_A))
+		ImGui::Text("pos x:%f y:%f",Input::GetInstance()->GetMousePos().x, Input::GetInstance()->GetMousePos().y);
+		ImGui::Text("oldpos x:%f y:%f",Input::GetInstance()->GetOldMousePos().x, Input::GetInstance()->GetOldMousePos().y);
+		ImGui::Text("move x:%f y:%f z:%f",Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
+
+		ImGui::Checkbox("useMouseCamera", &IsUseCameraMouse);
+
+		if (Input::GetInstance()->GetMouseButton(0))
 		{
-			ImGui::Text("A");
-		}
-		if (input->PushKey(DIK_B))
-		{
-			ImGui::Text("B");
-		}
-		if (input->PushKey(DIK_C))
-		{
-			ImGui::Text("C");
-		}
-		if (input->PushKey(DIK_D))
-		{
-			ImGui::Text("D");
-		}
-		if (input->PushKey(DIK_E))
-		{
-			ImGui::Text("E");
-		}
-		if (input->PushKey(DIK_F))
-		{
-			ImGui::Text("F");
-		}
-		if (input->PushKey(DIK_G))
-		{
-			ImGui::Text("G");
-		}
-		if (input->PushKey(DIK_H))
-		{
-			ImGui::Text("H");
-		}
-		if (input->PushKey(DIK_I))
-		{
-			ImGui::Text("I");
-		}
-		if (input->PushKey(DIK_J))
-		{
-			ImGui::Text("J");
-		}
-		if (input->PushKey(DIK_K))
-		{
-			ImGui::Text("K");
-		}
-		if (input->PushKey(DIK_L))
-		{
-			ImGui::Text("L");
-		}
-		if (input->PushKey(DIK_M))
-		{
-			ImGui::Text("M");
-		}
-		if (input->PushKey(DIK_N))
-		{
-			ImGui::Text("N");
-		}
-		if (input->PushKey(DIK_O))
-		{
-			ImGui::Text("O");
-		}
-		if (input->PushKey(DIK_P))
-		{
-			ImGui::Text("P");
-		}
-		if (input->PushKey(DIK_Q))
-		{
-			ImGui::Text("Q");
-		}
-		if (input->PushKey(DIK_R))
-		{
-			ImGui::Text("R");
-		}
-		if (input->PushKey(DIK_S))
-		{
-			ImGui::Text("S");
-		}
-		if (input->PushKey(DIK_T))
-		{
-			ImGui::Text("T");
-		}
-		if (input->PushKey(DIK_U))
-		{
-			ImGui::Text("U");
-		}
-		if (input->PushKey(DIK_X))
-		{
-			ImGui::Text("X");
-		}
-		if (input->PushKey(DIK_Y))
-		{
-			ImGui::Text("Y");
-		}
-		if (input->PushKey(DIK_Z))
-		{
-			ImGui::Text("Z");
+			ImGui::Text("LHit");
 		}
 
-		if (input->PushKey(DIK_UP))
+		if (Input::GetInstance()->GetMouseButton(1))
 		{
-			ImGui::Text("Up");
+			ImGui::Text("RHit");
 		}
 
-		if (input->PushKey(DIK_DOWN))
+		if (Input::GetInstance()->GetIsUseGamePad())
 		{
-			ImGui::Text("Down");
+			ImGui::Text("useGamePad");
+
+			ImGui::Text("LStick x:%f y:%f", Input::GetInstance()->GetGamePadLStick().x, Input::GetInstance()->GetGamePadLStick().y);
+			ImGui::Text("RStick x:%f y:%f", Input::GetInstance()->GetGamePadRStick().x, Input::GetInstance()->GetGamePadRStick().y);
+
+			ImGui::Text("LStick(key) x:%f y:%f", Input::GetInstance()->GetLStick(true, true).x, Input::GetInstance()->GetLStick(true, true).y);
+			ImGui::Text("RStick(key) x:%f y:%f", Input::GetInstance()->GetRStick(true, true).x, Input::GetInstance()->GetRStick(true, true).y);
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
+			{
+				ImGui::Text("AButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_B))
+			{
+				ImGui::Text("BButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_X))
+			{
+				ImGui::Text("XButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_Y))
+			{
+				ImGui::Text("YButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_LEFT_SHOULDER))
+			{
+				ImGui::Text("LButton");
+			}
+
+			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_RIGHT_SHOULDER))
+			{
+				ImGui::Text("RButton");
+			}
+
+		}
+		else
+		{
+			ImGui::Text("UnUseGamePad");
 		}
 
-		if (input->PushKey(DIK_RIGHT))
-		{
-			ImGui::Text("Right");
-		}
 
-		if (input->PushKey(DIK_LEFT))
-		{
-			ImGui::Text("Left");
-		}
 
-		if (input->PushKey(DIK_RETURN))
-		{
-			ImGui::Text("Return");
-		}
+		
 
-		if (input->PushKey(DIK_SPACE))
-		{
-			ImGui::Text("Space");
-		}
-
-		if (input->PushKey(DIK_LSHIFT))
-		{
-			ImGui::Text("Lshift");
-		}
-
-		if (input->PushKey(DIK_LCONTROL))
-		{
-			ImGui::Text("Lcontrol");
-		}
-
-		ImGui::End();*/
+		ImGui::End();
 
 #pragma endregion
 
@@ -512,7 +444,7 @@ void GameScene::Update()
 
 	cameobj.upDate();
 	play.Update(cameobj);
-	lightGroup->Update();
+	lightManager->lightGroups_[0].Update();
 
 	sprite.Update();
 	sprite2.Update();
@@ -530,7 +462,7 @@ void GameScene::Update()
 		a.Update(cameobj.GetCamera());
 	}*/
 
-	imGuiManager.End();
+	ImGuiManager::GetInstance()->End();
 	
 }
 
@@ -538,36 +470,36 @@ void GameScene::Draw()
 {
 #pragma region 描画コマンド
 
-	directXinit->DrawStart();
+	DirectXInit::GetInstance()->DrawStart();
 	// 4.描画コマンドここから
 
 	//ビューポート設定
 	//分割分のビューポートを用意(見にくいので減らした)
 	D3D12_VIEWPORT viewport{};
 
-	viewport.Width = (float)winApp->getWindowSizeWidth();//横幅
-	viewport.Height = (float)winApp->getWindowSizeHeight();//縦幅
+	viewport.Width = (float)WinApp::GetInstance()->getWindowSizeWidth();//横幅
+	viewport.Height = (float)WinApp::GetInstance()->getWindowSizeHeight();//縦幅
 	viewport.TopLeftX = 0;//左上X
 	viewport.TopLeftY = 0;//左上Y
 	viewport.MinDepth = 0.1f;//最少深度(0でよい)
 	viewport.MaxDepth = 1.0f;//最大深度(１でよい)
 
 	//コマンドリストに追加
-	directXinit->GetcmdList()->RSSetViewports(1, &viewport);
+	DirectXInit::GetInstance()->GetcmdList()->RSSetViewports(1, &viewport);
 
 
 	//シザー矩形設定
 	D3D12_RECT scissorrect{};
 
 	scissorrect.left = 0;//切り抜き座標左
-	scissorrect.right = scissorrect.left + winApp->getWindowSizeWidth();//切り抜き座標右
+	scissorrect.right = scissorrect.left + WinApp::GetInstance()->getWindowSizeWidth();//切り抜き座標右
 	scissorrect.top = 0;//切り抜き座標上
-	scissorrect.bottom = scissorrect.top + winApp->getWindowSizeHeight();//切り抜き座標下
+	scissorrect.bottom = scissorrect.top + WinApp::GetInstance()->getWindowSizeHeight();//切り抜き座標下
 
-	directXinit->GetcmdList()->RSSetScissorRects(1, &scissorrect);
+	DirectXInit::GetInstance()->GetcmdList()->RSSetScissorRects(1, &scissorrect);
 
 	//プリミティブ形状(三角形リスト)
-	directXinit->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DirectXInit::GetInstance()->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
 	//charactorObj.Draw(0,1,0);
@@ -601,11 +533,11 @@ void GameScene::Draw()
 
 	// 4.描画コマンドここまで
 
-	imGuiManager.Draw();
+	ImGuiManager::GetInstance()->Draw();
 
 #pragma endregion
 
-	directXinit->DrawEnd();
+	DirectXInit::GetInstance()->DrawEnd();
 
 	//DirectX毎フレーム処理　ここまで
 
@@ -617,7 +549,7 @@ void GameScene::Draw()
 	
 }
 
-bool GameScene::CollsionSphere(Vector3 posA, float rA, Vector3 posB, float rB)
+bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB,float rB)
 {
 	Vector3 AB = posB - posA;
 

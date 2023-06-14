@@ -23,7 +23,7 @@ cbuffer cbuff1 : register(b1)//定数バッファの番号をbの後ろにつけ
 //
 //}
 
-static const uint DIR_LIGHT_NUM = 3;
+static const uint SDIR_LIGHT_NUM = 3;
 
 struct DirLight
 {
@@ -38,7 +38,7 @@ cbuffer cbuff2 : register(b2)
 {
 
 	float3 ambientColor;
-	DirLight dirLights[DIR_LIGHT_NUM];
+	DirLight dirLights[SDIR_LIGHT_NUM];
 
 }
 

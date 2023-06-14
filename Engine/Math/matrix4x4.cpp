@@ -1,4 +1,5 @@
 #include "matrix4x4.h"
+#include <cstdint>
 
 Matrix4x4::Matrix4x4()
 {
@@ -34,9 +35,9 @@ Matrix4x4::~Matrix4x4()
 
 void Matrix4x4::IdentityMatrix()
 {
-	for (int i = 0; i < 4; i++)
+	for (uint16_t i = 0; i < 4; i++)
 	{
-		for (int j = 0; j < 4; j++)
+		for (uint16_t j = 0; j < 4; j++)
 		{
 			if (i != j)
 			{
@@ -56,9 +57,9 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 	Matrix4x4 inverse = {};
 	float calcMat[4][8] = {};
 
-	for (int i = 0; i < 4; i++)
+	for (uint16_t i = 0; i < 4; i++)
 	{
-		for (int j = 0; j < 4; j++)
+		for (uint16_t j = 0; j < 4; j++)
 		{
 			calcMat[i][j] = m[i][j];
 		}
@@ -75,9 +76,9 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	{
 		float max = abs(calcMat[0][0]);
-		int	maxI = 0;
+		uint32_t	maxI = 0;
 
-		for (int i = 1; i < 4; i++)
+		for (uint16_t i = 1; i < 4; i++)
 		{
 			if (abs(calcMat[i][0]) > max)
 			{
@@ -95,7 +96,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 		if (maxI != 0)
 		{
-			for (int j = 0; j < 8; j++) {
+			for (uint16_t j = 0; j < 8; j++) {
 				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[0][j];
 				calcMat[0][j] = tmp;
@@ -105,13 +106,13 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	}
 
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (uint16_t i = 0; i < 4; i++) {
+		for (uint16_t j = 0; j < 8; j++) {
 			calcMatTmp[i][j] = calcMat[i][j];
 		}
 	}
 
-	for (int j = 0; j < 8; j++) {
+	for (uint16_t j = 0; j < 8; j++) {
 		calcMat[0][j] /= calcMatTmp[0][0];
 		calcMat[1][j] += (-1) * calcMatTmp[1][0] * calcMat[0][j];
 		calcMat[2][j] += (-1) * calcMatTmp[2][0] * calcMat[0][j];
@@ -122,9 +123,9 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	{
 		double max = abs(calcMat[1][1]);
-		int	maxI = 1;
+		uint32_t maxI = 1;
 
-		for (int i = 2; i < 4; i++)
+		for (uint16_t i = 2; i < 4; i++)
 		{
 			if (abs(calcMat[i][1]) > max)
 			{
@@ -142,7 +143,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 		if (maxI != 1)
 		{
-			for (int j = 0; j < 8; j++) {
+			for (uint16_t j = 0; j < 8; j++) {
 				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[1][j];
 				calcMat[1][j] = tmp;
@@ -152,13 +153,13 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	}
 
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (uint16_t i = 0; i < 4; i++) {
+		for (uint16_t j = 0; j < 8; j++) {
 			calcMatTmp[i][j] = calcMat[i][j];
 		}
 	}
 
-	for (int j = 0; j < 8; j++) {
+	for (uint16_t j = 0; j < 8; j++) {
 		calcMat[1][j] /= calcMatTmp[1][1];
 		calcMat[0][j] += (-1) * calcMatTmp[0][1] * calcMat[1][j];
 		calcMat[2][j] += (-1) * calcMatTmp[2][1] * calcMat[1][j];
@@ -168,9 +169,9 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	{
 		double max = abs(calcMat[2][2]);
-		int	maxI = 2;
+		uint32_t	maxI = 2;
 
-		for (int i = 3; i < 4; i++)
+		for (uint16_t i = 3; i < 4; i++)
 		{
 			if (abs(calcMat[i][2]) > max)
 			{
@@ -188,7 +189,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 		if (maxI != 2)
 		{
-			for (int j = 0; j < 8; j++) {
+			for (uint16_t j = 0; j < 8; j++) {
 				float tmp = calcMat[maxI][j];
 				calcMat[maxI][j] = calcMat[2][j];
 				calcMat[2][j] = tmp;
@@ -198,15 +199,15 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	}
 
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (uint16_t i = 0; i < 4; i++) {
+		for (uint16_t j = 0; j < 8; j++) {
 			calcMatTmp[i][j] = calcMat[i][j];
 		}
 	}
 
 
 
-	for (int j = 0; j < 8; j++) {
+	for (uint16_t j = 0; j < 8; j++) {
 		calcMat[2][j] /= calcMatTmp[2][2];
 		calcMat[0][j] += (-1) * calcMatTmp[0][2] * calcMat[2][j];
 		calcMat[1][j] += (-1) * calcMatTmp[1][2] * calcMat[2][j];
@@ -227,14 +228,14 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 	}
 
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (uint16_t i = 0; i < 4; i++) {
+		for (uint16_t j = 0; j < 8; j++) {
 			calcMatTmp[i][j] = calcMat[i][j];
 		}
 	}
 
 
-	for (int j = 0; j < 8; j++) {
+	for (uint16_t j = 0; j < 8; j++) {
 		calcMat[3][j] /= calcMatTmp[3][3];
 		calcMat[0][j] += (-1) * calcMatTmp[0][3] * calcMat[3][j];
 		calcMat[1][j] += (-1) * calcMatTmp[1][3] * calcMat[3][j];
@@ -244,8 +245,8 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 
 
 
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
+	for (uint16_t i = 0; i < 4; i++) {
+		for (uint16_t j = 0; j < 4; j++) {
 			inverse.m[i][j] = calcMat[i][j + 4];
 		}
 	}
@@ -254,7 +255,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 }
 
 
-Matrix4x4 Matrix4x4::operator*(Matrix4x4& mat)
+Matrix4x4 Matrix4x4::operator*(const Matrix4x4& mat)
 {
 	Matrix4x4 ansMat = Matrix4x4();
 
@@ -321,7 +322,7 @@ float Matrix4x4::abs(float num)
 	return num;
 }
 
-Vector3 VectorMat(Vector3 vector, Matrix4x4 mat)
+Vector3 VectorMat(const Vector3& vector, const Matrix4x4& mat)
 {
 	Vector3 changeVector = { 0,0,0 };
 
@@ -332,7 +333,7 @@ Vector3 VectorMat(Vector3 vector, Matrix4x4 mat)
 	return changeVector;
 }
 
-Vector3 VectorMat(Matrix4x4 mat, Vector3 vector)
+Vector3 VectorMat(const Matrix4x4& mat, const Vector3& vector)
 {
 	Vector3 changeVector = { 0,0,0 };
 
@@ -343,7 +344,7 @@ Vector3 VectorMat(Matrix4x4 mat, Vector3 vector)
 	return changeVector;
 }
 
-Vector4 operator*(Matrix4x4 mat, Vector4 vector)
+Vector4 operator*(const Matrix4x4& mat, const Vector4& vector)
 {
 	Vector4 changeVector = { 0,0,0,0 };
 
@@ -354,7 +355,7 @@ Vector4 operator*(Matrix4x4 mat, Vector4 vector)
 	return changeVector;
 }
 
-Vector4 operator*(Vector4 vector, Matrix4x4 mat)
+Vector4 operator*(const Vector4& vector, const Matrix4x4& mat)
 {
 	Vector4 changeVector = { 0,0,0,0};
 
@@ -365,7 +366,7 @@ Vector4 operator*(Vector4 vector, Matrix4x4 mat)
 	return changeVector;
 }
 
-Vector3 PosMat(Vector3 vector, Matrix4x4 mat)
+Vector3 PosMat(const Vector3& vector, const Matrix4x4& mat)
 {
 
 	Vector3 changeVector = { 0,0,0 };
@@ -377,7 +378,7 @@ Vector3 PosMat(Vector3 vector, Matrix4x4 mat)
 	return changeVector;
 }
 
-Vector3 PosMat(Matrix4x4 mat, Vector3 vector)
+Vector3 PosMat(const Matrix4x4& mat, const Vector3& vector)
 {
 	Vector3 changeVector = { 0,0,0 };
 
@@ -388,7 +389,7 @@ Vector3 PosMat(Matrix4x4 mat, Vector3 vector)
 	return changeVector;
 }
 
-Vector3 Matrix4x4::VectorMatDivW(Matrix4x4 mat, Vector3 pos)
+Vector3 Matrix4x4::VectorMatDivW(const Matrix4x4& mat, const Vector3& pos)
 {
 	float w = pos.x * mat.m[0][3] + pos.y * mat.m[1][3] + pos.z * mat.m[2][3] + mat.m[3][3];
 

@@ -35,7 +35,7 @@ private:
 	void vertexBuffObjGeneration();
 
 	//インデックスデータ関連(インデックスビューもここ)
-	void indicesBuffGeneration(ID3D12Device* dev);
+	void indicesBuffGeneration();
 
 private:
 
@@ -96,7 +96,7 @@ private:
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 
 	//テクスチャ
-	static Texture* texture_;
+	static Texture* STexture_;
 
 	//マテリアル
 	Material material_;

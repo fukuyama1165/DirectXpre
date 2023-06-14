@@ -17,9 +17,9 @@ public:
 	void upDate();
 
 private:
-	Matrix4x4 matViewGeneration(Vector3 eye, Vector3 target, Vector3 up);
+	Matrix4x4 matViewGeneration(const Vector3& eye,const Vector3& target,const Vector3& up);
 
-	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY, float NearZ, float FarZ);
+	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY,float NearZ,float FarZ);
 
 	/// <summary>
 	/// sin‚Æcos‚ğ•Ô‚·ŠÖ”
@@ -27,9 +27,9 @@ private:
 	/// <param name="Sin">sin‚Ì’l‚ª“ü‚éˆø”</param>
 	/// <param name="Cos">cos‚Ì’l‚ª“ü‚éˆø”</param>
 	/// <param name="angle">ƒ¦‚Ì’l</param>
-	void sinCos(float& Sin, float& Cos, float angle);
+	void sinCos(float& Sin, float& Cos,const float& angle);
 
-	Vector3 float3Dat(Vector3 A, Vector3 B);
+	Vector3 float3Dat(const Vector3& A, const Vector3& B);
 
 public:
 

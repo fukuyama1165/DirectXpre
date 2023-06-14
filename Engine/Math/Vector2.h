@@ -8,6 +8,10 @@ public:
 	~Vector2();
 
 	float length()const;
+	//“n‚µ‚½‚à‚Ì‚ğ³‹K‰»‚µ‚Ä•Ô‚·
+	static Vector2 normalize(const Vector2& v);
+	//©•ª‚ğ³‹K‰»‚·‚é(©•ª‘‚«Š·‚¦‚é)
+	Vector2& normalize();
 
 	Vector2 operator+() const;
 	Vector2 operator-() const;

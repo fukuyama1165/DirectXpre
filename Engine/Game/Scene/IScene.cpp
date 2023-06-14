@@ -31,16 +31,37 @@ void IScene::Ran()
 void IScene::Initialize()
 {
 
+	winApp->initialize();
+
+
+	directXinit->Init();
+
+	imGuiManager->Init();
+
+	input->init();
+
 }
 
 //終了処理
 void IScene::Finalize()
 {
 
+	imGuiManager->Finalize();
 }
 
 //毎フレーム更新
 void IScene::Update()
 {
+
+	if (winApp->processMassage() or input->TriggerKey(DIK_ESCAPE))
+	{
+
+		endRequst_ = true;
+
+	}
+
+	input->update();
+
+	imGuiManager->Begin();
 
 }

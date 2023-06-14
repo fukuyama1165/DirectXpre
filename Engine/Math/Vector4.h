@@ -15,10 +15,6 @@ public:
 	static float dot(const Vector4& v, const Vector4& v2);
 	//©•ª‚Æ“n‚µ‚½‚à‚Ì‚Å“àÏ‚ğŒvZ‚µ‚Ä•Ô‚·(©•ªæ)
 	float dot(const Vector4& v);
-	//“n‚µ‚½‚à‚Ì‚ÅŠOÏ‚ğŒvZ‚µ‚Ä•Ô‚·
-	static Vector4 cross(const Vector4& v, const Vector4& v2);
-	//©•ª‚Æ“n‚µ‚½‚à‚Ì‚ÅŠOÏ‚ğŒvZ‚µ‚Ä•Ô‚·(©•ªæ)
-	Vector4 cross(const Vector4& v);
 
 	
 

@@ -4,27 +4,27 @@
 using namespace DirectX;
 
 //静的メンバ変数の実体
-Microsoft::WRL::ComPtr<ID3D12Device> DirectionalLight::dev = nullptr;
+//Microsoft::WRL::ComPtr<ID3D12Device> DirectionalLight::dev = nullptr;
 
 void DirectionalLight::StaticInitialize()
 {
 
-	dev = DirectXInit::GetInstance()->Getdev();
+	//dev = DirectXInit::GetInstance()->Getdev();
 
 }
 
-DirectionalLight* DirectionalLight::Create()
-{
-
-	DirectionalLight* instance = new DirectionalLight();
-
-	//初期化
-	instance->Init();
-
-	//生成したインスタンスを返す
-	return instance;
-
-}
+//DirectionalLight* DirectionalLight::Create()
+//{
+//
+//	DirectionalLight* instance = new DirectionalLight();
+//
+//	//初期化
+//	instance->Init();
+//
+//	//生成したインスタンスを返す
+//	return instance;
+//
+//}
 
 void DirectionalLight::Init()
 {
@@ -81,7 +81,7 @@ void DirectionalLight::constantBuffGeneration()
 
 	cbResourceDesc_ = constBuffResourceGeneration(sizeof(ConstBufferData));
 
-	result_ = dev->CreateCommittedResource(
+	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
 		&cbHeapProp_,
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc_,
@@ -95,7 +95,7 @@ void DirectionalLight::constantBuffGeneration()
 #pragma endregion
 }
 
-D3D12_RESOURCE_DESC DirectionalLight::constBuffResourceGeneration(int size)
+D3D12_RESOURCE_DESC DirectionalLight::constBuffResourceGeneration(uint32_t size)
 {
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;

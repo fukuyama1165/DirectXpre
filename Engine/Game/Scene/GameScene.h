@@ -59,7 +59,7 @@ using namespace DirectX;
 #include "cameraObj.h"
 #include "enemyManager.h"
 
-#include "LightGroup.h"
+#include "LightManager.h"
 #include "CollisionPrimirive.h"
 #include "Collision.h"
 
@@ -83,25 +83,14 @@ public:
 
 private:
 
-	bool CollsionSphere(Vector3 posA, float rA, Vector3 posB, float rB);
+	bool CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, float rB);
 
 private:
 
-	//windowAPI
-	std::unique_ptr<WinApp> winApp = std::make_unique<WinApp>();
-
 	
 
-	//directXの初期化
-	DirectXInit* directXinit = DirectXInit::GetInstance();
-
-	ImGuiManager imGuiManager;
-
-	//入力の初期化
-	Input* input = input->GetInstance();
-
 	//ライト
-	LightGroup* lightGroup = nullptr;
+	LightManager* lightManager;
 
 
 	//obj
@@ -125,6 +114,7 @@ private:
 	Triangle triangle;
 	Ray ray;
 
+	bool IsUseCameraMouse = false;
 
 	//スプライト
 	SpriteCommon spritecommon;

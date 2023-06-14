@@ -1,12 +1,15 @@
 #pragma once
-#include "WinApp.h"
+
 #include "DirectXInit.h"
 
 class ImGuiManager
 {
 public:
+
+	static ImGuiManager* GetInstance();
+
 	//‰Šú‰»
-	void Init(WinApp* winApp);
+	void Init();
 
 	//I—¹
 	void Finalize();
@@ -16,6 +19,14 @@ public:
 	void End();
 
 	void Draw();
+
+private:
+
+	ImGuiManager() = default;
+	~ImGuiManager();
+
+	ImGuiManager(const ImGuiManager&) = delete;
+	ImGuiManager& operator=(const ImGuiManager&) = delete;
 
 private:
 

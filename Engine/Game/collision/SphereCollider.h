@@ -8,7 +8,7 @@ class SphereCollider:public BaseCollider,public Sphere
 {
 
 public:
-	SphereCollider(Vector3 Offset = { 0,0,0 }, float Radius = 1.0f) :offset_(Offset), radius_(Radius)
+	SphereCollider(const Vector3& Offset = { 0,0,0 },float Radius = 1.0f) :offset_(Offset), radius_(Radius)
 	{
 
 		//球形状をセット

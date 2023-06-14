@@ -1,5 +1,9 @@
 #pragma once
 #include <memory>
+#include "WinApp.h"
+#include "DirectXInit.h"
+#include "ImGuiManager.h"
+#include "Input.h"
 
 class IScene
 {
@@ -26,11 +30,23 @@ public:
 	void Ran();
 
 
-	//ゲームを終わらせるためのフラグ
-	bool endRequst_ = false;
+	
 
 private:
 
+	//ゲームを終わらせるためのフラグ
+	bool endRequst_ = false;
+
+	//windowAPI
+	WinApp* winApp = WinApp::GetInstance();
+
+	//directXの初期化
+	DirectXInit* directXinit = DirectXInit::GetInstance();
+
+	ImGuiManager* imGuiManager = ImGuiManager::GetInstance();
+
+	//入力の初期化
+	Input* input = Input::GetInstance();
 	
 
 };

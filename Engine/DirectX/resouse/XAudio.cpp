@@ -89,7 +89,7 @@ SoundData XAudio::SoundLoadWave(const char* filename)
 	}
 
 	//Dataチャンクのデータ部(波形データ)の読み込み
-	char* pBuffer = new char[data.size_];
+	char* pBuffer = nullptr;
 	file.read(pBuffer, data.size_);
 
 	//waveファイルを閉じる

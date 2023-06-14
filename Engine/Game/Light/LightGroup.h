@@ -25,7 +25,7 @@ public:
 	static void Staticlnitialize();
 
 	//インスタンス生成
-	static LightGroup* Create();
+	//static LightGroup* Create();
 
 	void Init();
 
@@ -74,7 +74,7 @@ private:
 
 	HRESULT result_;
 
-	static Microsoft::WRL::ComPtr<ID3D12Device> dev;
+	//static Microsoft::WRL::ComPtr<ID3D12Device> dev;
 
 
 	

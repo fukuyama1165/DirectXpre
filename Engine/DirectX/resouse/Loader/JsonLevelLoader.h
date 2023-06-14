@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "Vector3.h"
 #include "Vector4.h"
 #include "json.hpp"
@@ -58,7 +59,7 @@ private:
 
 public:
 
-	static LevelData* LoadJsonFile(const std::string& fileName);
+	static std::unique_ptr<LevelData> LoadJsonFile(const std::string& fileName);
 
 
 
