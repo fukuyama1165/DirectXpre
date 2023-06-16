@@ -44,6 +44,7 @@ using namespace DirectX;
 #include <dxgidebug.h>
 
 #include "Input.h"
+#include "XAudio.h"
 
 #include "IScene.h"
 
@@ -144,5 +145,9 @@ private:
 	Vector3 spriteMove_ = { 50 ,200 ,0 };
 
 	player play_;
+
+	XAudio xAudio_;
+
+	SoundData test_;
 };
 

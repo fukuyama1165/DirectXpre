@@ -3,6 +3,8 @@
 //asssert使うだけならこれ
 #include <cassert>
 
+Microsoft::WRL::ComPtr<IXAudio2> XAudio::xAudio2_ = nullptr;
+
 void XAudio::Init()
 {
 
@@ -55,7 +57,7 @@ SoundData XAudio::SoundLoadWave(const char* filename)
 	file.read((char*)&format, sizeof(ChunkHeader));
 
 	//idがfmtかチェック
-	if (strncmp(format.chunk_.id_, "fmt", 4) != 0)
+	if (strncmp(format.chunk_.id_, "fmt ", 4) != 0)
 	{
 		assert(0);
 	}
@@ -68,35 +70,98 @@ SoundData XAudio::SoundLoadWave(const char* filename)
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
 
-	//JUNKチャンクを検出した場合
-	if (strncmp(data.id_, "JUNK", 4) == 0)
-	{
+	////JUNKチャンクを検出した場合
+	//if (strncmp(data.id_, "JUNK", 4) == 0)
+	//{
 
-		//JUNKチャンクとはデータの開始位置をきりよく配置するためのダミーデータらしい
+	//	//JUNKチャンクとはデータの開始位置をきりよく配置するためのダミーデータらしい
 
-		//読み取り位置をJUNKチャンクの終わりまで進める
+	//	//読み取り位置をJUNKチャンクの終わりまで進める
+	//	file.seekg(data.size_, std::ios_base::cur);
+
+	//	//再読み込み
+	//	file.read((char*)&data, sizeof(data));
+
+	//}
+
+	//if (strncmp(data.id_, "LIST", 4) == 0)
+	//{
+	//	//再読み込み
+	//	file.read((char*)&data, sizeof(data));
+	//}
+	//if (strncmp(data.id_, "INFO", 4) == 0)
+	//{
+	//	//再読み込み
+	//	file.read((char*)&data, sizeof(data));
+	//}
+
+
+	////dataかどうか判断
+	//if (strncmp(data.id_, "data", 4) != 0)
+	//{
+	//	assert(0);
+	//}
+
+	while (!file.fail() && strncmp(data.id_, "data", 4) != 0) {
 		file.seekg(data.size_, std::ios_base::cur);
-
-		//再読み込み
 		file.read((char*)&data, sizeof(data));
-
 	}
 
-	//dataかどうか判断
-	if (strncmp(data.id_, "data", 4) != 0)
-	{
+	if (file.fail()) {
 		assert(0);
 	}
 
 	//Dataチャンクのデータ部(波形データ)の読み込み
-	char* pBuffer = nullptr;
+	char* pBuffer = new char[data.size_];
 	file.read(pBuffer, data.size_);
 
 	//waveファイルを閉じる
 	file.close();
 
-	SoundData a;
+	SoundData soundData = {};
 
-	return a;
+	soundData.wfex_ = format.fmt_;
+	soundData.pBuffer_ = reinterpret_cast<BYTE*>(pBuffer);
+	soundData.BufferSize_ = data.size_;
 
+	return soundData;
+
+}
+
+void XAudio::deleteSound(SoundData* soundData)
+{
+	delete[] soundData->pBuffer_;
+
+	soundData->BufferSize_ = uint32_t(0);
+	soundData->pBuffer_ = 0;
+	soundData->wfex_ = {};
+
+}
+
+void XAudio::PlaySoundData(const SoundData& soundData)
+{
+	HRESULT result;
+
+	//波形フォーマットをもとにsourceVoiceのせいせい
+	IXAudio2SourceVoice* pSourceVoice = nullptr;
+	result = xAudio2_->CreateSourceVoice(&pSourceVoice, &soundData.wfex_);
+	assert(SUCCEEDED(result));
+
+	//再生する波形データの設定
+	XAUDIO2_BUFFER buf{};
+	buf.pAudioData = soundData.pBuffer_;
+	buf.AudioBytes = soundData.BufferSize_;
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+
+	//波形データの再生
+	result = pSourceVoice->SubmitSourceBuffer(&buf);
+	result = pSourceVoice->Start();
+	result = pSourceVoice->Stop();
+
+
+}
+
+void XAudio::StapSoundData(const SoundData& soundData)
+{
+	soundData;
 }

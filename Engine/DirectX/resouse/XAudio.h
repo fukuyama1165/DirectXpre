@@ -10,6 +10,7 @@
 #include <wrl.h>
 
 #include <vector>
+#include <memory>
 
 #include <cstdint>
 
@@ -88,9 +89,11 @@ private:
 	//変数
 public:
 
+	static Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
+
 private:
 
-	Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
+	
 
 	IXAudio2MasteringVoice* masterVoice_;
 
@@ -101,7 +104,15 @@ public:
 
 	void Init();
 
-	SoundData SoundLoadWave(const char* filename);
+	static SoundData SoundLoadWave(const char* filename);
+
+	//渡したサウンドデータの中身を無くす
+	static void deleteSound(SoundData* soundData);
+
+	//音をだす
+	static void PlaySoundData(const SoundData& soundData);
+
+	static void StapSoundData(const SoundData& soundData);
 
 private:
 
