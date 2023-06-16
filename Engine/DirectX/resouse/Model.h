@@ -14,14 +14,8 @@
 #include "Vector3.h"
 #include "Texture.h"
 
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
 #include <unordered_map>
 
-
-bool DoTheImportThing(const std::string& pFile);
 
 class Model
 {
@@ -103,10 +97,3 @@ private:
 
 };
 
-Model::Model()
-{
-}
-
-Model::~Model()
-{
-}

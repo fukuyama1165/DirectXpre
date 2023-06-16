@@ -1,36 +1,13 @@
 #include "Model.h"
 
-bool DoTheImportThing(const std::string& pFile)
+Model::Model()
 {
-	//インスタンスを取得
-	Assimp::Importer importer;
-
-	//指定したファイルの読み込みらしい
-	const aiScene* scene = importer.ReadFile(pFile, 
-		aiProcess_CalcTangentSpace | 
-		aiProcess_Triangulate | 
-		aiProcess_JoinIdenticalVertices | 
-		aiProcess_SortByPType|
-		aiProcess_MakeLeftHanded //左手座標系に
-	);
-
-	//読み込みに失敗したらエラーをはいて止まる?
-	if (nullptr != scene)
-	{
-		DoTheImportThing(importer.GetErrorString());
-		return false;
-	}
-
-	//中身に触れるらしい
-
-	//ボーンの情報の部分らしい
-	//aiNode* a = scene->mRootNode;
-
-	//データのよみこみ
-	
-	
-	return false;
 }
+
+Model::~Model()
+{
+}
+
 
 void Model::vertexBuffObjGeneration()
 {

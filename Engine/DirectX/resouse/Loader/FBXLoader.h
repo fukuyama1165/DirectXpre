@@ -28,6 +28,12 @@
 
 //人のコード見て作った
 
+//一か所に持てる最大ボーン数?
+static const uint32_t SNUM_BONES_PER_VERTEX = 4;
+
+//最大ボーン数
+static const uint32_t SMAX_BONE = 128;
+
 //部位のtransformだと思う
 struct NodeUnit
 {
@@ -53,7 +59,9 @@ struct Animation
 };
 
 //一単位だと思う(頂点みたいの？)
-struct Node
+#pragma warning(push)
+#pragma warning(disable: 4324)
+typedef struct Node
 {
 	//名前(たぶん動かす際にこの部分のやつ動かすために必要になる？)
 	std::string name_;
@@ -86,13 +94,10 @@ struct Node
 	//親オブジェクト
 	Node* parent_ = nullptr;
 
-};
+}Node;
+#pragma warning(pop)
 
-//一か所に持てる最大ボーン数?
-static const uint32_t SNUM_BONES_PER_VERTEX = 4;
 
-//最大ボーン数
-static const uint32_t SMAX_BONE = 128;
 
 //頂点データ
 struct AnimationVertex
@@ -165,6 +170,6 @@ public:
 	/// <param name="targetParent">親子関係があるなら入れる</param>
 	void CopyNodeMesh(const aiNode* node,const aiScene* scene,const Node* targetParent = nullptr);
 
-	void MeshAssignment(const aiMesh* mesh,const aiScene* scene)
+	//void MeshAssignment(const aiMesh* mesh, const aiScene* scene);
 
 };
