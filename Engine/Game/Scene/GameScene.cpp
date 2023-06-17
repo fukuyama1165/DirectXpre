@@ -115,7 +115,7 @@ void GameScene::Finalize()
 	
 	//delete(levelData);
 
-	//XAudio::StapSoundData(test_);
+	XAudio::StapSoundData(test_);
 
 	XAudio::Final();
 
