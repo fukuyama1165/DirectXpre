@@ -11,11 +11,25 @@
 
 #include <vector>
 #include <memory>
+#include <map>
 
 #include <cstdint>
 
+
+enum class AudioType {
+	Wave, Other
+};
+
+//
+struct AudioData {
+	//同じやつ読み込み防ぎ用
+	std::string filepath;
+	AudioType type;
+};
+
+
 //音声データ
-struct SoundData
+struct SoundData:public AudioData
 {
 
 	//波形フォーマット
@@ -27,6 +41,11 @@ struct SoundData
 	//バッファのサイズ
 	uint32_t BufferSize_;
 
+	~SoundData() {
+		if (pBuffer_ != nullptr) {
+			delete[] pBuffer_;
+		}
+	}
 
 };
 
@@ -89,31 +108,61 @@ private:
 	//変数
 public:
 
-	static Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
+	
 
 private:
 
-	
+	static Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
 
-	IXAudio2MasteringVoice* masterVoice_;
+	//サウンドデータの連想配列
+	std::map<std::string, std::shared_ptr<SoundData>> soundDatas_;
 
-	HRESULT result_;
+	//shared_ptrについて
+	//unique_ptrと違い所有者が一人ではないやつ
+	// 同じリソースをみんなで使ってくれる
+	// リソースを使っているやつが誰もいなくなるとdeleteしてくれる
+	//
+
+	IXAudio2MasteringVoice* masterVoice_ = nullptr;
+
+	HRESULT result_=S_OK;
+
+	//人のコードを参考にする
+	struct PlayingInfo {
+		std::string handle;
+		IXAudio2SourceVoice* pSource;
+	};
+	std::vector<PlayingInfo> playingList;
 
 	//関数
 public:
 
+	static XAudio* GetInstance() {
+		static XAudio instance;
+		return &instance;
+	}
+
 	void Init();
 
-	static SoundData SoundLoadWave(const char* filename);
-
-	//渡したサウンドデータの中身を無くす
-	static void deleteSound(SoundData* soundData);
+	static std::string SoundLoadWave(const char* filename,std::string handle="");
 
 	//音をだす
-	static void PlaySoundData(const SoundData& soundData);
+	static void PlaySoundData(const std::string handle, const float& volume = 1.0f, const bool loop = false);
 
-	static void StapSoundData(const SoundData& soundData);
+	static void StapSoundData(const std::string handle);
+
+	static void Final() {
+		GetInstance()->Finalize();
+	}
 
 private:
+
+	XAudio() = default;
+	~XAudio();
+
+	XAudio(const XAudio&) = delete;
+	XAudio& operator=(const XAudio&) = delete;
+
+	void Finalize();
 
 };

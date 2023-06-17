@@ -5,9 +5,11 @@ void GameScene::Initialize()
 	
 	IScene::Initialize();
 
-	xAudio_.Init();
+	xAudio_ = XAudio::GetInstance();
 
-	test_= XAudio::SoundLoadWave("Resources/sound/music_InGame.wav");
+	xAudio_->Init();
+
+	test_= xAudio_->SoundLoadWave("Resources/sound/music_InGame.wav");
 
 	LightGroup::Staticlnitialize();
 
@@ -102,7 +104,7 @@ void GameScene::Initialize()
 	
 	charactorObj3_.SetScale({ 0.001f,0.001f,100.0f });
 
-	XAudio::PlaySoundData(test_);
+	XAudio::PlaySoundData(test_,0.3f,true);
 
 }
 
@@ -113,7 +115,9 @@ void GameScene::Finalize()
 	
 	//delete(levelData);
 
-	XAudio::deleteSound(&test_);
+	//XAudio::StapSoundData(test_);
+
+	XAudio::Final();
 
 
 	IScene::Finalize();

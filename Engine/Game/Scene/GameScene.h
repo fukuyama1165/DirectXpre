@@ -146,8 +146,8 @@ private:
 
 	player play_;
 
-	XAudio xAudio_;
+	XAudio* xAudio_;
 
-	SoundData test_;
+	std::string test_;
 };
 
