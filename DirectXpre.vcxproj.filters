@@ -219,6 +219,9 @@
     <ClCompile Include="Engine\Game\Light\LightManager.cpp">
       <Filter>ソース ファイル\Game\Light</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\Material.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game\test\enemy.h">
@@ -328,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Light\LightManager.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\Material.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

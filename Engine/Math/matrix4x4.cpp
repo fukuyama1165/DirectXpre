@@ -33,6 +33,15 @@ Matrix4x4::~Matrix4x4()
 {
 }
 
+Matrix4x4 Matrix4x4::Identity()
+{
+	Matrix4x4 ans;
+
+	ans.IdentityMatrix();
+
+	return ans;
+}
+
 void Matrix4x4::IdentityMatrix()
 {
 	for (uint16_t i = 0; i < 4; i++)
@@ -254,6 +263,15 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 	return inverse;
 }
 
+
+Matrix4x4 Matrix4x4::Inverse(const Matrix4x4& mat)
+{
+	Matrix4x4 ans = mat;
+
+	ans.InverseMatrix();
+
+	return ans;
+}
 
 Matrix4x4 Matrix4x4::TransposeMatrix()
 {

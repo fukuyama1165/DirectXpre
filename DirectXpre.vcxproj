@@ -95,6 +95,7 @@
     <ClCompile Include="Engine\DirectX\Input.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Loader\JsonLevelLoader.cpp" />
+    <ClCompile Include="Engine\DirectX\resouse\Material.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Model.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Texture.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\XAudio.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="Engine\DirectX\Input.h" />
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h" />
     <ClInclude Include="Engine\DirectX\resouse\Loader\JsonLevelLoader.h" />
+    <ClInclude Include="Engine\DirectX\resouse\Material.h" />
     <ClInclude Include="Engine\DirectX\resouse\Model.h" />
     <ClInclude Include="Engine\DirectX\resouse\Texture.h" />
     <ClInclude Include="Engine\DirectX\resouse\XAudio.h" />

@@ -9,6 +9,8 @@ bool AnimationModel::Load(std::string filename, std::string fileType)
 	//インスタンスを取得
 	Assimp::Importer importer;
 
+	//ファイル名を保存
+	filename_ = filename;
 	//ファイルパスをつくるよ～
 	std::string baseDirectory = "Resources\\";
 	std::string extend = "." + fileType;
@@ -26,19 +28,300 @@ bool AnimationModel::Load(std::string filename, std::string fileType)
 	);
 
 	//読み込みに失敗したらエラーをはいて止まる?
-	if (nullptr != scene)
+	if (nullptr == scene)
 	{
 		//DoTheImportThing(importer.GetErrorString());
 		return false;
 	}
 
-	//中身に触れるらしい
 
-	//ボーンの情報の部分らしい
-	//aiNode* a = scene->mRootNode;
+	
+	//情報を入れる
+	if (scene != nullptr)
+	{
+		CopyNodeMesh(scene->mRootNode, scene);
+	}
 
-	//データのよみこみ
+	
 
 
 	return false;
+}
+
+void AnimationModel::Draw()
+{
+
+}
+
+
+void AnimationModel::CopyNodeMesh(const aiNode* node, const aiScene* scene, Node* targetParent)
+{
+	Node* parent;
+
+	std::unique_ptr<Node> newNode = std::make_unique<Node>();
+
+	//部位の名前を入れる
+	newNode->name_ = node->mName.C_Str();
+
+	//メッシュの数だけ回す
+	for (uint16_t i = 0; i < node->mNumMeshes; i++)
+	{
+		//情報を入れる入れ物を作る
+		std::unique_ptr<AnimationMesh> model = std::make_unique<AnimationMesh>();
+
+		//メッシュの情報を書き込み
+		ProcessMesh(scene->mMeshes[node->mMeshes[i]], scene, *model.get());
+		newNode->meshes_.push_back(std::move(model));
+	}
+
+	//持ってる位置を入れる
+	newNode->transform_.m[0][0] = node->mTransformation.a1;
+	newNode->transform_.m[0][1] = node->mTransformation.a2;
+	newNode->transform_.m[0][2] = node->mTransformation.a3;
+	newNode->transform_.m[0][3] = node->mTransformation.a4;
+
+	newNode->transform_.m[1][0] = node->mTransformation.b1;
+	newNode->transform_.m[1][1] = node->mTransformation.b2;
+	newNode->transform_.m[1][2] = node->mTransformation.b3;
+	newNode->transform_.m[1][3] = node->mTransformation.b4;
+
+	newNode->transform_.m[2][0] = node->mTransformation.c1;
+	newNode->transform_.m[2][1] = node->mTransformation.c2;
+	newNode->transform_.m[2][2] = node->mTransformation.c3;
+	newNode->transform_.m[2][3] = node->mTransformation.c4;
+
+	newNode->transform_.m[3][0] = node->mTransformation.d1;
+	newNode->transform_.m[3][1] = node->mTransformation.d2;
+	newNode->transform_.m[3][2] = node->mTransformation.d3;
+	newNode->transform_.m[3][3] = node->mTransformation.d4;
+
+	newNode->transform_ = newNode->transform_.TransposeMatrix();
+	newNode->globalTransform_ = newNode->transform_;
+	newNode->globalInverseTransform_ = Matrix4x4::Inverse(newNode->transform_);
+
+	nodes_.push_back(std::move(newNode));
+	parent = nodes_.back().get();
+
+	//親が設定されているなら
+	if (targetParent)
+	{
+
+		parent->parent_ = targetParent;
+		targetParent->globalTransform_ *= parent->globalTransform_;
+
+	}
+	for (uint16_t i = 0; i < node->mNumChildren; i++)
+	{
+		CopyNodeMesh(node->mChildren[i], scene, parent);
+	}
+
+}
+
+void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMesh& model)
+{
+
+	for (uint16_t i = 0; i < mesh->mNumVertices; i++)
+	{
+
+		AnimationVertex vertex;
+
+		vertex.pos_.x = mesh->mVertices[i].x;
+		vertex.pos_.y = mesh->mVertices[i].y;
+		vertex.pos_.z = mesh->mVertices[i].z;
+
+		vertex.normal_.x = mesh->mNormals[i].x;
+		vertex.normal_.y = mesh->mNormals[i].y;
+		vertex.normal_.z = mesh->mNormals[i].z;
+
+		if (mesh->mTextureCoords[0])
+		{
+			vertex.uv_.x = (float)mesh->mTextureCoords[0][i].x;
+			vertex.uv_.y = (float)mesh->mTextureCoords[0][i].y;
+		}
+
+		model.vertices_.push_back(vertex);
+
+	}
+
+	//おそらく最小単位の形がfaceに該当してその中にインデックスがある
+	for (uint16_t i = 0; i < mesh->mNumFaces; i++)
+	{
+		aiFace face = mesh->mFaces[i];
+
+		//インデックスを入れる
+		for (uint16_t j = 0; j < face.mNumIndices; j++)
+		{
+			model.indices_.push_back((unsigned short)face.mIndices[j]);
+		}
+	}
+
+	//マテリアルを入れる
+	if (mesh->mMaterialIndex >= 0)
+	{
+		aiColor3D color;
+		Material material;
+		aiString name;
+
+		//diffuse
+		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+		material.material_.diffuse_.x = color.r;
+		material.material_.diffuse_.y = color.g;
+		material.material_.diffuse_.z = color.b;
+
+		//specular
+		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_COLOR_SPECULAR, color);
+		material.material_.specular_.x = color.r;
+		material.material_.specular_.y = color.g;
+		material.material_.specular_.z = color.b;
+
+		//ambient
+		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		material.material_.ambient_.x = color.r;
+		material.material_.ambient_.y = color.g;
+		material.material_.ambient_.z = color.b;
+
+		//ファイル名
+		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_NAME, name);
+		material.material_.name_ = name.C_Str();
+
+		//α値
+		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_OPACITY, material.material_.alpha_);
+		
+		material.MaterialConstBuffInit();
+
+		model.material_.push_back(material);
+
+		LoadMaterialTextures(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_DIFFUSE, model);
+
+	}
+
+
+	//ウエイトの保存場所
+	std::vector<std::list<SetWeight>> weightList(model.vertices_.size());
+	//ボーンの読み込み
+	for (uint16_t i = 0; i < mesh->mNumBones; i++)
+	{
+
+		Bone temp;
+		//名前
+		temp.name_ = mesh->mBones[i]->mName.C_Str();
+
+		//ボーンの位置を代入
+		temp.offsetMatrix_.m[0][0] = mesh->mBones[i]->mOffsetMatrix.a1;
+		temp.offsetMatrix_.m[0][1] = mesh->mBones[i]->mOffsetMatrix.a2;
+		temp.offsetMatrix_.m[0][2] = mesh->mBones[i]->mOffsetMatrix.a3;
+		temp.offsetMatrix_.m[0][3] = mesh->mBones[i]->mOffsetMatrix.a4;
+
+		temp.offsetMatrix_.m[1][0] = mesh->mBones[i]->mOffsetMatrix.b1;
+		temp.offsetMatrix_.m[1][1] = mesh->mBones[i]->mOffsetMatrix.b2;
+		temp.offsetMatrix_.m[1][2] = mesh->mBones[i]->mOffsetMatrix.b3;
+		temp.offsetMatrix_.m[1][3] = mesh->mBones[i]->mOffsetMatrix.b4;
+
+		temp.offsetMatrix_.m[2][0] = mesh->mBones[i]->mOffsetMatrix.c1;
+		temp.offsetMatrix_.m[2][1] = mesh->mBones[i]->mOffsetMatrix.c2;
+		temp.offsetMatrix_.m[2][2] = mesh->mBones[i]->mOffsetMatrix.c3;
+		temp.offsetMatrix_.m[2][3] = mesh->mBones[i]->mOffsetMatrix.c4;
+
+		temp.offsetMatrix_.m[3][0] = mesh->mBones[i]->mOffsetMatrix.d1;
+		temp.offsetMatrix_.m[3][1] = mesh->mBones[i]->mOffsetMatrix.d2;
+		temp.offsetMatrix_.m[3][2] = mesh->mBones[i]->mOffsetMatrix.d3;
+		temp.offsetMatrix_.m[3][3] = mesh->mBones[i]->mOffsetMatrix.d4;
+
+		//逆行列として使いたいが転置しないと使えない？
+		//転置させる
+		temp.offsetMatrix_ = temp.offsetMatrix_.TransposeMatrix();
+		temp.finalMatrix_ = temp.offsetMatrix_;
+
+		//ウエイトを入れる
+		for (uint16_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
+		{
+
+			SetWeight tempVer;
+			tempVer.id_ = i;
+			tempVer.weight_ = mesh->mBones[i]->mWeights[j].mWeight;
+			//特定の頂点の位置に入れる感じだと思う
+			weightList[mesh->mBones[i]->mWeights[j].mVertexId].push_back(tempVer);
+
+		}
+
+		bones.push_back(temp);
+
+	}
+
+	//ウエイトの本格代入
+	for (uint16_t i = 0; i < model.vertices_.size(); i++)
+	{
+		//頂点のウエイトから最も大きい4つを選択
+		auto& weightL = weightList[i];
+
+		//順番にする
+		weightL.sort([](auto const& lhs, auto const& rhs){ return lhs.weight_ > rhs.weight_; });
+
+		uint32_t weightArrayIndex = 0;
+		for (auto& weightSet : weightL)
+		{
+			//頂点にウエイトとidを渡す
+			model.vertices_[i].ids_[weightArrayIndex] = weightSet.id_;
+			model.vertices_[i].weights_[weightArrayIndex] = weightSet.weight_;
+
+			//もしインデックスを増やした際に最大値を超えてしまった場合
+			if (++weightArrayIndex >= SNUM_BONES_PER_VERTEX)
+			{
+				//この頂点に対して影響を受けるボーンの数が最大値(SNUM_BONES_PER_VERTEX)を超えてしまった場合
+				//普通のやり方だとウエイトの合計が100%にならなくなってしまうため
+				//最初の値にオーバーした分のウエイトを足すことで100%になるように
+				float weight = 0.0f;
+
+				//残す方のウエイトの合計を作る
+				for (uint16_t j = 1; j < SNUM_BONES_PER_VERTEX; j++)
+				{
+					//全部まとめる
+					weight += model.vertices_[i].weights_[j];
+				}
+
+				//最大値から残す方のウエイトを引くことで 最も大きいウエイト+あふれた分のウエイトになる
+				model.vertices_[i].weights_[0] = 1.0f - weight;
+				break;
+
+			}
+
+
+		}
+
+	}
+
+	model.Init();
+
+}
+
+void AnimationModel::LoadMaterialTextures(aiMaterial* material, aiTextureType type, AnimationMesh& model)
+{
+	
+	//条件に該当するテクスチャ分回す?
+	for (uint16_t i = 0; i < material->GetTextureCount(type); i++)
+	{
+
+		aiString str;
+		std::string path;
+
+		//パスを取得
+		material->GetTexture(type, i, &str);
+
+		path = str.C_Str();
+
+		while (path.find("\\")!=std::string::npos)
+		{
+			//末尾の部分を取得
+			path = path.substr(path.find("\\") + 1);
+
+		}
+
+		//合体させてパスを完成させる
+		path = "Resources\\" + filename_ + "\\" + path;
+
+		
+		//読み込んでハンドルを保存
+		model.textureHandle.push_back(Texture::GetInstance()->loadTexture(path));
+
+	}
 }
