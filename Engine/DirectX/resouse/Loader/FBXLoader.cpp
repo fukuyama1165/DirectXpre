@@ -72,7 +72,7 @@ void AnimationModel::Draw()const
 
 			for (uint16_t i = 0; i < jtr->textureHandle.size(); i++)
 			{
-				Texture::GetInstance()->Draw(jtr->textureHandle[i]-4);
+				Texture::GetInstance()->Draw(jtr->textureHandle[i]);
 			}
 
 			DirectXInit::GetInstance()->GetcmdList()->DrawIndexedInstanced((uint32_t)jtr->indices_.size(), 1, 0, 0, 0);
