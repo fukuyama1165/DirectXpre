@@ -146,6 +146,7 @@ void AnimationMesh::Init()
 	{
 		itr.VertexBuffObjSetting(D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_DIMENSION_BUFFER, sizeVB_, 1, 1, 1, 1, D3D12_TEXTURE_LAYOUT_ROW_MAJOR);
 		VertexBuffObjGeneration(itr.heapprop_, D3D12_HEAP_FLAG_NONE, itr.resDesc_, D3D12_RESOURCE_STATE_GENERIC_READ);
+		
 	}
 	VertexBuffMap();
 	VertexBuffViewGeneration();

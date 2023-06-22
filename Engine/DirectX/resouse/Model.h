@@ -192,15 +192,14 @@ private:
 	
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	AnimationVertex* vertMap_ = nullptr;
-	//頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView_{};
+	
+	
 
 	//インデックスデータ全体のサイズ
 	uint32_t sizeIB_;
 	//インデックスバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_ = nullptr;
-	//インデックスビュー
-	D3D12_INDEX_BUFFER_VIEW ibView_{};
+	
 
 	//頂点法線スムージング用データ
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
@@ -213,16 +212,22 @@ public:
 
 	//頂点データ(増やしたいならここも増やしておく)
 	std::vector <AnimationVertex> vertices_;
+	//頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
+
 
 
 	//インデックスデータ
 	std::vector< unsigned short> indices_;
 
+	//インデックスビュー
+	D3D12_INDEX_BUFFER_VIEW ibView_{};
+
 	//テクスチャ
 	static Texture* STexture_;
 
 	//どのテクスチャか判断するための値(後でやり方を変える)
-	std::vector <uint32_t> textureHandle = {1};
+	std::vector <uint32_t> textureHandle = {};
 
 	//マテリアル(複数に対応するため)
 	std::vector<Material> material_;

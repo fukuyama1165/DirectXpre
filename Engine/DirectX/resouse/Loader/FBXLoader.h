@@ -63,7 +63,7 @@ typedef struct Node
 	//名前(たぶん動かす際にこの部分のやつ動かすために必要になる？)
 	std::string name_;
 
-	//モデルって書いてあるけど単位的にメッシュになる
+	//メッシュ
 	std::vector<std::unique_ptr<AnimationMesh>> meshes_;
 
 	//ここから単体の行列やローカル座標
@@ -116,12 +116,13 @@ public:
 
 	//ファイル名
 	std::string filename_;
+	std::string materialName_;
 
 	//aisceneを持ってくる
-	//読み込み
-	bool Load(std::string filename, std::string fileType);
+	
+	bool Load(std::string filename, std::string fileType, std::string materialName = "", std::string materialType = "png");
 
-	void Draw();
+	void Draw()const;
 
 	/// <summary>
 	/// aisceneに入ってるノードの情報をコピーする

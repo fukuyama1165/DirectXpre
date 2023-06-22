@@ -4,15 +4,26 @@ AnimationModel::~AnimationModel()
 {
 }
 
-bool AnimationModel::Load(std::string filename, std::string fileType)
+bool AnimationModel::Load(std::string filename, std::string fileType, std::string materialName, std::string materialType)
 {
 	//インスタンスを取得
 	Assimp::Importer importer;
 
 	//ファイル名を保存
 	filename_ = filename;
+
+	//マテリアル名を保存
+	if (materialName != "")
+	{
+		materialName_ = "Resources\\obj\\" + filename + "\\" + materialName + "." + materialType;
+	}
+	else
+	{
+		materialName_ = materialName;
+	}
+
 	//ファイルパスをつくるよ～
-	std::string baseDirectory = "Resources\\";
+	std::string baseDirectory = "Resources\\obj\\";
 	std::string extend = "." + fileType;
 	filename = baseDirectory + filename + "\\" + filename + extend;
 
@@ -42,14 +53,34 @@ bool AnimationModel::Load(std::string filename, std::string fileType)
 		CopyNodeMesh(scene->mRootNode, scene);
 	}
 
-	
+	//ここからアニメーションの予定
 
 
-	return false;
+	return true;
 }
 
-void AnimationModel::Draw()
+void AnimationModel::Draw()const
 {
+	
+	for (auto& itr : nodes_)
+	{
+		for (auto& jtr : itr->meshes_)
+		{
+			DirectXInit::GetInstance()->GetcmdList()->IASetVertexBuffers(0, 1, &jtr->vbView_);
+
+			DirectXInit::GetInstance()->GetcmdList()->IASetIndexBuffer(&jtr->ibView_);
+
+			for (uint16_t i = 0; i < jtr->textureHandle.size(); i++)
+			{
+				Texture::GetInstance()->Draw(jtr->textureHandle[i]-4);
+			}
+
+			DirectXInit::GetInstance()->GetcmdList()->DrawIndexedInstanced((uint32_t)jtr->indices_.size(), 1, 0, 0, 0);
+
+			
+
+		}
+	}
 
 }
 
@@ -71,7 +102,7 @@ void AnimationModel::CopyNodeMesh(const aiNode* node, const aiScene* scene, Node
 
 		//メッシュの情報を書き込み
 		ProcessMesh(scene->mMeshes[node->mMeshes[i]], scene, *model.get());
-		newNode->meshes_.push_back(std::move(model));
+		newNode->meshes_.emplace_back(std::move(model));
 	}
 
 	//持ってる位置を入れる
@@ -99,7 +130,7 @@ void AnimationModel::CopyNodeMesh(const aiNode* node, const aiScene* scene, Node
 	newNode->globalTransform_ = newNode->transform_;
 	newNode->globalInverseTransform_ = Matrix4x4::Inverse(newNode->transform_);
 
-	nodes_.push_back(std::move(newNode));
+	nodes_.emplace_back(std::move(newNode));
 	parent = nodes_.back().get();
 
 	//親が設定されているなら
@@ -139,7 +170,7 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 			vertex.uv_.y = (float)mesh->mTextureCoords[0][i].y;
 		}
 
-		model.vertices_.push_back(vertex);
+		model.vertices_.emplace_back(vertex);
 
 	}
 
@@ -151,7 +182,7 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 		//インデックスを入れる
 		for (uint16_t j = 0; j < face.mNumIndices; j++)
 		{
-			model.indices_.push_back((unsigned short)face.mIndices[j]);
+			model.indices_.emplace_back((unsigned short)face.mIndices[j]);
 		}
 	}
 
@@ -189,7 +220,7 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 		
 		material.MaterialConstBuffInit();
 
-		model.material_.push_back(material);
+		model.material_.emplace_back(material);
 
 		LoadMaterialTextures(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_DIFFUSE, model);
 
@@ -240,11 +271,11 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 			tempVer.id_ = i;
 			tempVer.weight_ = mesh->mBones[i]->mWeights[j].mWeight;
 			//特定の頂点の位置に入れる感じだと思う
-			weightList[mesh->mBones[i]->mWeights[j].mVertexId].push_back(tempVer);
+			weightList[mesh->mBones[i]->mWeights[j].mVertexId].emplace_back(tempVer);
 
 		}
 
-		bones.push_back(temp);
+		bones.emplace_back(temp);
 
 	}
 
@@ -296,7 +327,8 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 
 void AnimationModel::LoadMaterialTextures(aiMaterial* material, aiTextureType type, AnimationMesh& model)
 {
-	
+	uint32_t hoge = material->GetTextureCount(type);
+	hoge;
 	//条件に該当するテクスチャ分回す?
 	for (uint16_t i = 0; i < material->GetTextureCount(type); i++)
 	{
@@ -309,19 +341,36 @@ void AnimationModel::LoadMaterialTextures(aiMaterial* material, aiTextureType ty
 
 		path = str.C_Str();
 
-		while (path.find("\\")!=std::string::npos)
+		if (path.size()<5)
 		{
-			//末尾の部分を取得
-			path = path.substr(path.find("\\") + 1);
-
+			if (materialName_ != "")
+			{
+				//読み込んでハンドルを保存
+				model.textureHandle.emplace_back(Texture::GetInstance()->loadTexture(materialName_));
+			}
+			else
+			{
+				//読み込んでハンドルを保存
+				model.textureHandle.emplace_back(Texture::GetInstance()->loadTexture("Resources\\white1x1.png"));
+			}
 		}
+		else
+		{
 
-		//合体させてパスを完成させる
-		path = "Resources\\" + filename_ + "\\" + path;
+			while (path.find("\\") != std::string::npos)
+			{
+				//末尾の部分を取得
+				path = path.substr(path.find("\\") + 1);
 
-		
-		//読み込んでハンドルを保存
-		model.textureHandle.push_back(Texture::GetInstance()->loadTexture(path));
+			}
+
+			//合体させてパスを完成させる
+			path = "Resources\\obj" + filename_ + "\\" + path;
+
+
+			//読み込んでハンドルを保存
+			model.textureHandle.emplace_back(Texture::GetInstance()->loadTexture(path));
+		}
 
 	}
 }

@@ -43,7 +43,7 @@ void GameScene::Initialize()
 
 	texname_ = charactorObj2_.loadTexture("Resources/hokehoke.png");
 
-	play_.Init("Resources/obj/karaage/", "karaage.obj");
+	//play_.Init("Resources/obj/karaage/", "karaage.obj");
 
 	
 	sphere_.center_ = { 0,0,0 };
@@ -85,7 +85,11 @@ void GameScene::Initialize()
 	objobj_.Scale_ = { 0.95f,0.95f,0.95f };
 	objobj2_.Scale_ = { 0.95f,0.95f,0.95f };
 
-	
+	testFBX_.FBXInit();
+
+	testModel_ = std::make_unique<AnimationModel>();
+
+	testModel_->Load("testFBX", "gltf","white1x1");
 
 	spritecommon_.initialize();
 
@@ -105,6 +109,8 @@ void GameScene::Initialize()
 	charactorObj3_.SetScale({ 0.001f,0.001f,100.0f });
 
 	XAudio::PlaySoundData(test_,0.3f,true);
+
+	XAudio::StapSoundData(test_);
 
 }
 
@@ -453,7 +459,7 @@ void GameScene::Update()
 	objobj2_.SetPos(movecoll_);
 
 	cameobj_.upDate();
-	play_.Update(cameobj_);
+	//play_.Update(cameobj_);
 	lightManager_->lightGroups_[0].Update();
 
 	sprite_.Update();
@@ -466,6 +472,8 @@ void GameScene::Update()
 	objobj_.Update(cameobj_.GetCamera());
 	objobj2_.Update(cameobj_.GetCamera());
 	objobj3_.Update(cameobj_.GetCamera());
+
+	testFBX_.Update(cameobj_.GetCamera());
 
 	/*for (Object3D a : levelObj)
 	{
@@ -513,7 +521,7 @@ void GameScene::Draw()
 
 
 	//charactorObj.Draw(0,1,0);
-	//charactorObj3.Draw(4,1,1);
+	//charactorObj3_.Draw(6,1,1);
 	//charactorObj2.Draw(4, 1,0);
 	/*if (hit == false)
 	{*/
@@ -525,6 +533,8 @@ void GameScene::Draw()
 	}*/
 
 	objobj3_.Draw();
+
+	testFBX_.FBXDraw(*testModel_.get());
 
 	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 

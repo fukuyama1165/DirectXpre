@@ -103,6 +103,10 @@ private:
 	Object3D objobj2_;
 	Object3D objobj3_;
 
+	Object3D testFBX_;
+
+	std::unique_ptr<AnimationModel> testModel_;
+
 	//ÉJÉÅÉâ
 	Camera camera_;
 	cameraObj cameobj_;
