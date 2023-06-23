@@ -2,14 +2,12 @@
 
 void GameScene::Initialize()
 {
-	
-	IScene::Initialize();
 
 	xAudio_ = XAudio::GetInstance();
 
 	xAudio_->Init();
 
-	test_= xAudio_->SoundLoadWave("Resources/sound/music_InGame.wav");
+	test_ = xAudio_->SoundLoadWave("Resources/sound/music_InGame.wav");
 
 	LightGroup::Staticlnitialize();
 
@@ -30,7 +28,7 @@ void GameScene::Initialize()
 
 	//cameobj.cameobj.SetParent(&objobj);
 
-	
+
 	//.objのオブジェクト
 	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
@@ -39,13 +37,13 @@ void GameScene::Initialize()
 	charactorObj3_.basicInit();
 	charactorObj2_.colorChangeInit();
 
-	
+
 
 	texname_ = charactorObj2_.loadTexture("Resources/hokehoke.png");
 
 	//play_.Init("Resources/obj/karaage/", "karaage.obj");
 
-	
+
 	sphere_.center_ = { 0,0,0 };
 	sphere_.radius_ = 1.0f;
 
@@ -89,7 +87,7 @@ void GameScene::Initialize()
 
 	testModel_ = std::make_unique<AnimationModel>();
 
-	testModel_->Load("testFBX", "gltf","basketballman2");
+	testModel_->Load("testFBX", "gltf", "basketballman2");
 
 	spritecommon_.initialize();
 
@@ -105,10 +103,10 @@ void GameScene::Initialize()
 	objobj_.SetPos({ -100,0,0 });
 	objobj3_.SetScale({ 1000,1000,1000 });
 
-	
+
 	charactorObj3_.SetScale({ 0.001f,0.001f,100.0f });
 
-	XAudio::PlaySoundData(test_,0.3f,true);
+	XAudio::PlaySoundData(test_, 0.3f, true);
 
 	XAudio::StapSoundData(test_);
 
@@ -118,23 +116,18 @@ void GameScene::Finalize()
 {
 	charactorObj_.deleteTexture();
 
-	
+
 	//delete(levelData);
 
 	XAudio::StapSoundData(test_);
 
 	XAudio::Final();
 
-
-	IScene::Finalize();
 }
 
 void GameScene::Update()
 {
-	
-	IScene::Update();
 
-	
 
 #pragma region DirectX毎フレーム処理
 
@@ -142,13 +135,13 @@ void GameScene::Update()
 
 #pragma region キーボード情報の取得
 
-	
+
 
 #pragma endregion
 
 #pragma region 更新処理
 
-	
+
 
 
 
@@ -357,77 +350,77 @@ void GameScene::Update()
 
 #pragma region input
 
-		ImGui::SetNextWindowSize(ImVec2(300, 300));
+	ImGui::SetNextWindowSize(ImVec2(300, 300));
 
-		ImGui::Begin("input");
+	ImGui::Begin("input");
 
-		ImGui::Text("pos x:%f y:%f",Input::GetInstance()->GetMousePos().x, Input::GetInstance()->GetMousePos().y);
-		ImGui::Text("oldpos x:%f y:%f",Input::GetInstance()->GetOldMousePos().x, Input::GetInstance()->GetOldMousePos().y);
-		ImGui::Text("move x:%f y:%f z:%f",Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
+	ImGui::Text("pos x:%f y:%f", Input::GetInstance()->GetMousePos().x, Input::GetInstance()->GetMousePos().y);
+	ImGui::Text("oldpos x:%f y:%f", Input::GetInstance()->GetOldMousePos().x, Input::GetInstance()->GetOldMousePos().y);
+	ImGui::Text("move x:%f y:%f z:%f", Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
 
-		ImGui::Checkbox("useMouseCamera(F5)", &IsUseCameraMouse_);
+	ImGui::Checkbox("useMouseCamera(F5)", &IsUseCameraMouse_);
 
-		if (Input::GetInstance()->GetMouseButton(0))
+	if (Input::GetInstance()->GetMouseButton(0))
+	{
+		ImGui::Text("LHit");
+	}
+
+	if (Input::GetInstance()->GetMouseButton(1))
+	{
+		ImGui::Text("RHit");
+	}
+
+	if (Input::GetInstance()->GetIsUseGamePad())
+	{
+		ImGui::Text("useGamePad");
+
+		ImGui::Text("LStick x:%f y:%f", Input::GetInstance()->GetGamePadLStick().x, Input::GetInstance()->GetGamePadLStick().y);
+		ImGui::Text("RStick x:%f y:%f", Input::GetInstance()->GetGamePadRStick().x, Input::GetInstance()->GetGamePadRStick().y);
+
+		ImGui::Text("LStick(key) x:%f y:%f", Input::GetInstance()->GetLStick(true, true).x, Input::GetInstance()->GetLStick(true, true).y);
+		ImGui::Text("RStick(key) x:%f y:%f", Input::GetInstance()->GetRStick(true, true).x, Input::GetInstance()->GetRStick(true, true).y);
+
+		if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
 		{
-			ImGui::Text("LHit");
+			ImGui::Text("AButton");
 		}
 
-		if (Input::GetInstance()->GetMouseButton(1))
+		if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_B))
 		{
-			ImGui::Text("RHit");
+			ImGui::Text("BButton");
 		}
 
-		if (Input::GetInstance()->GetIsUseGamePad())
+		if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_X))
 		{
-			ImGui::Text("useGamePad");
-
-			ImGui::Text("LStick x:%f y:%f", Input::GetInstance()->GetGamePadLStick().x, Input::GetInstance()->GetGamePadLStick().y);
-			ImGui::Text("RStick x:%f y:%f", Input::GetInstance()->GetGamePadRStick().x, Input::GetInstance()->GetGamePadRStick().y);
-
-			ImGui::Text("LStick(key) x:%f y:%f", Input::GetInstance()->GetLStick(true, true).x, Input::GetInstance()->GetLStick(true, true).y);
-			ImGui::Text("RStick(key) x:%f y:%f", Input::GetInstance()->GetRStick(true, true).x, Input::GetInstance()->GetRStick(true, true).y);
-
-			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
-			{
-				ImGui::Text("AButton");
-			}
-
-			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_B))
-			{
-				ImGui::Text("BButton");
-			}
-
-			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_X))
-			{
-				ImGui::Text("XButton");
-			}
-
-			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_Y))
-			{
-				ImGui::Text("YButton");
-			}
-
-			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_LEFT_SHOULDER))
-			{
-				ImGui::Text("LButton");
-			}
-
-			if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_RIGHT_SHOULDER))
-			{
-				ImGui::Text("RButton");
-			}
-
-		}
-		else
-		{
-			ImGui::Text("UnUseGamePad");
+			ImGui::Text("XButton");
 		}
 
+		if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_Y))
+		{
+			ImGui::Text("YButton");
+		}
+
+		if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_LEFT_SHOULDER))
+		{
+			ImGui::Text("LButton");
+		}
+
+		if (Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_RIGHT_SHOULDER))
+		{
+			ImGui::Text("RButton");
+		}
+
+	}
+	else
+	{
+		ImGui::Text("UnUseGamePad");
+	}
 
 
-		
 
-		ImGui::End();
+
+
+	ImGui::End();
 
 #pragma endregion
 
@@ -481,14 +474,14 @@ void GameScene::Update()
 	}*/
 
 	ImGuiManager::GetInstance()->End();
-	
+
 }
 
 void GameScene::Draw()
 {
 #pragma region 描画コマンド
 
-	DirectXInit::GetInstance()->DrawStart();
+	
 	// 4.描画コマンドここから
 
 	//ビューポート設定
@@ -557,7 +550,7 @@ void GameScene::Draw()
 
 #pragma endregion
 
-	DirectXInit::GetInstance()->DrawEnd();
+	
 
 	//DirectX毎フレーム処理　ここまで
 
@@ -566,10 +559,10 @@ void GameScene::Draw()
 
 
 #pragma region 描画処理
-	
+
 }
 
-bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB,float rB)
+bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, float rB)
 {
 	Vector3 AB = posB - posA;
 

@@ -189,7 +189,7 @@
     <ClCompile Include="Engine\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\GameScene.cpp">
+    <ClCompile Include="Engine\Game\Scene\App.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\sprite\Sprite.cpp">
@@ -213,7 +213,7 @@
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\IScene.cpp">
+    <ClCompile Include="Engine\Game\Scene\Framework.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\Light\LightManager.cpp">
@@ -221,6 +221,12 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\resouse\Material.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\GameScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,7 +302,7 @@
     <ClInclude Include="Engine\Game\Light\LightGroup.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\GameScene.h">
+    <ClInclude Include="Engine\Game\Scene\App.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\object\Object3D.h">
@@ -326,7 +332,7 @@
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\IScene.h">
+    <ClInclude Include="Engine\Game\Scene\Framework.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\Light\LightManager.h">
@@ -334,6 +340,15 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\Material.h">
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\GameScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\IScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

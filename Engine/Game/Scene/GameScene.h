@@ -1,4 +1,6 @@
 #pragma once
+#include "IScene.h"
+
 
 #include<Windows.h>
 
@@ -46,7 +48,7 @@ using namespace DirectX;
 #include "Input.h"
 #include "XAudio.h"
 
-#include "IScene.h"
+#include "Framework.h"
 
 #include "Object3D.h"
 
@@ -88,7 +90,7 @@ private:
 
 private:
 
-	
+
 
 	//ƒ‰ƒCƒg
 	LightManager* lightManager_;
@@ -154,4 +156,5 @@ private:
 
 	std::string test_;
 };
+
 
