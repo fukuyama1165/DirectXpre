@@ -89,7 +89,7 @@ void GameScene::Initialize()
 
 	testModel_ = std::make_unique<AnimationModel>();
 
-	testModel_->Load("testFBX", "gltf","white1x1");
+	testModel_->Load("testFBX", "gltf","basketballman2");
 
 	spritecommon_.initialize();
 

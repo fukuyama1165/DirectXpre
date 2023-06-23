@@ -211,6 +211,14 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 		material.material_.ambient_.y = color.g;
 		material.material_.ambient_.z = color.b;
 
+		//テストで読み込んだやつのアンビエントがなくてテクスチャが見えなくなってしまっていたので追加
+		if (material.material_.ambient_.x == 0 && material.material_.ambient_.y == 0 && material.material_.ambient_.z == 0)
+		{
+			material.material_.ambient_.x = 1;
+			material.material_.ambient_.y = 1;
+			material.material_.ambient_.z = 1;
+		}
+
 		//ファイル名
 		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_NAME, name);
 		material.material_.name_ = name.C_Str();
@@ -327,15 +335,13 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 
 void AnimationModel::LoadMaterialTextures(aiMaterial* material, aiTextureType type, AnimationMesh& model)
 {
-	uint32_t hoge = material->GetTextureCount(type);
-	hoge;
 	//条件に該当するテクスチャ分回す?
 	for (uint16_t i = 0; i < material->GetTextureCount(type); i++)
 	{
 
 		aiString str;
 		std::string path;
-
+		
 		//パスを取得
 		material->GetTexture(type, i, &str);
 
