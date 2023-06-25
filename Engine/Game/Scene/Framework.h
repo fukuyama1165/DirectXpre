@@ -5,6 +5,7 @@
 #include "ImGuiManager.h"
 #include "Input.h"
 #include "SceneManager.h"
+#include "PostEffect.h"
 
 class Framework
 {
@@ -22,7 +23,7 @@ public:
 	virtual void Update();
 
 	//描画
-	virtual void Draw() = 0;
+	virtual void Draw();
 
 	//終了チェック
 	virtual bool IsEndRequst() { return endRequst_; };
@@ -39,17 +40,18 @@ private:
 	bool endRequst_ = false;
 
 	//windowAPI
-	WinApp* winApp = WinApp::GetInstance();
+	WinApp* winApp_ = WinApp::GetInstance();
 
 	//directXの初期化
-	DirectXInit* directXinit = DirectXInit::GetInstance();
+	DirectXInit* directXinit_ = DirectXInit::GetInstance();
 
-	ImGuiManager* imGuiManager = ImGuiManager::GetInstance();
+	ImGuiManager* imGuiManager_ = ImGuiManager::GetInstance();
 
-	SceneManager* sceneManager = SceneManager::GetInstance();
+	SceneManager* sceneManager_ = SceneManager::GetInstance();
 
 	//入力の初期化
-	Input* input = Input::GetInstance();
+	Input* input_ = Input::GetInstance();
 	
+	std::shared_ptr<PostEffect> postEffect_ = nullptr;
 
 };

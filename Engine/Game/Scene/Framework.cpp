@@ -31,14 +31,26 @@ void Framework::Ran()
 void Framework::Initialize()
 {
 
-	winApp->initialize();
+	winApp_->initialize();
 
 
-	directXinit->Init();
+	directXinit_->Init();
 
-	imGuiManager->Init();
+	imGuiManager_->Init();
 
-	input->init();
+	input_->init();
+
+	SpriteCommon::GetInstance()->initialize();
+	Texture::GetInstance()->loadTexture("Resources/white1x1.png");
+
+	postEffect_ = std::make_shared<PostEffect>();
+
+	postEffect_->initialize(SpriteCommon::GetInstance(),1);
+
+	postEffect_->scaleX_ = 100.0f;
+	postEffect_->scaleY_ = 100.0f;
+	postEffect_->posX_ = 500;
+	postEffect_->posY_ = 200;
 
 }
 
@@ -46,24 +58,32 @@ void Framework::Initialize()
 void Framework::Finalize()
 {
 
-	imGuiManager->Finalize();
+	imGuiManager_->Finalize();
 }
 
 //毎フレーム更新
 void Framework::Update()
 {
 
-	if (winApp->processMassage() or input->TriggerKey(DIK_ESCAPE))
+	if (winApp_->processMassage() or input_->TriggerKey(DIK_ESCAPE))
 	{
 
 		endRequst_ = true;
 
 	}
 
-	input->update();
+	input_->update();
 
-	imGuiManager->Begin();
+	imGuiManager_->Begin();
 
-	sceneManager->Update();
+	sceneManager_->Update();
 
+	postEffect_->Update();
+
+	imGuiManager_->End();
+}
+
+void Framework::Draw()
+{
+	postEffect_->Draw();
 }

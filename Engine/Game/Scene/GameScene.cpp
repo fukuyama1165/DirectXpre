@@ -89,16 +89,24 @@ void GameScene::Initialize()
 
 	testModel_->Load("testFBX", "gltf", "basketballman2");
 
-	spritecommon_.initialize();
+	spritecommon_ = spritecommon_->GetInstance();
 
-	sprite_.initialize(&spritecommon_, 2);
-	sprite2_.initialize(&spritecommon_, 1);
+	//spritecommon_->initialize();
 
-	sprite_.posX_ = 100;
+	sprite_.initialize(spritecommon_, 2);
+	sprite2_.initialize(spritecommon_, 1);
+
+	sprite_.posX_ = 500;
 	sprite_.posY_ = 200;
 
-	sprite2_.posX_ = 50;
+	sprite2_.posX_ = 700;
 	sprite2_.posY_ = 200;
+
+	sprite2_.scaleX_ = 10;
+	sprite2_.scaleY_ = 10;
+
+	sprite_.scaleX_ = 10;
+	sprite_.scaleY_ = 10;
 
 	objobj_.SetPos({ -100,0,0 });
 	objobj3_.SetScale({ 1000,1000,1000 });
@@ -230,9 +238,6 @@ void GameScene::Update()
 	sphere_.center_ = { movecoll_.x ,movecoll_.y,movecoll_.z };
 
 	//ray.start = { movecoll.x ,movecoll.y,movecoll.z};
-
-	sprite2_.posX_ = spriteMove_.x;
-	sprite2_.posY_ = spriteMove_.y;
 
 	bool hit = Collision::CheckRay2Sphere(ray_, sphere_);
 
@@ -473,7 +478,7 @@ void GameScene::Update()
 		a.Update(cameobj.GetCamera());
 	}*/
 
-	ImGuiManager::GetInstance()->End();
+	
 
 }
 
@@ -484,33 +489,7 @@ void GameScene::Draw()
 	
 	// 4.描画コマンドここから
 
-	//ビューポート設定
-	//分割分のビューポートを用意(見にくいので減らした)
-	D3D12_VIEWPORT viewport{};
-
-	viewport.Width = (float)WinApp::GetInstance()->getWindowSizeWidth();//横幅
-	viewport.Height = (float)WinApp::GetInstance()->getWindowSizeHeight();//縦幅
-	viewport.TopLeftX = 0;//左上X
-	viewport.TopLeftY = 0;//左上Y
-	viewport.MinDepth = 0.1f;//最少深度(0でよい)
-	viewport.MaxDepth = 1.0f;//最大深度(１でよい)
-
-	//コマンドリストに追加
-	DirectXInit::GetInstance()->GetcmdList()->RSSetViewports(1, &viewport);
-
-
-	//シザー矩形設定
-	D3D12_RECT scissorrect{};
-
-	scissorrect.left = 0;//切り抜き座標左
-	scissorrect.right = scissorrect.left + WinApp::GetInstance()->getWindowSizeWidth();//切り抜き座標右
-	scissorrect.top = 0;//切り抜き座標上
-	scissorrect.bottom = scissorrect.top + WinApp::GetInstance()->getWindowSizeHeight();//切り抜き座標下
-
-	DirectXInit::GetInstance()->GetcmdList()->RSSetScissorRects(1, &scissorrect);
-
-	//プリミティブ形状(三角形リスト)
-	DirectXInit::GetInstance()->GetcmdList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
 
 
 	//charactorObj.Draw(0,1,0);
@@ -540,8 +519,8 @@ void GameScene::Draw()
 
 	//play.Draw(directXinit->GetcmdList().Get());
 
-	//sprite.Draw(directXinit->GetcmdList().Get(), 2);
-	//sprite2.Draw(directXinit->GetcmdList().Get());
+	sprite_.Draw();
+	sprite2_.Draw();
 
 
 	// 4.描画コマンドここまで

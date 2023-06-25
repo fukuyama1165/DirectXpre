@@ -5,6 +5,7 @@ void App::Initialize()
 	
 	Framework::Initialize();
 
+	//最初のシーンをセット
 	SceneManager::GetInstance()->SetNextScene(std::make_unique<GameScene>());
 
 }
@@ -29,7 +30,7 @@ void App::Draw()
 
 	DirectXInit::GetInstance()->DrawStart();
 	
-	
+	//Framework::Draw();
 
 	SceneManager::GetInstance()->Draw();
 

@@ -124,7 +124,7 @@ private:
 	bool IsUseCameraMouse_ = false;
 
 	//スプライト
-	SpriteCommon spritecommon_;
+	SpriteCommon* spritecommon_;
 
 	Sprite sprite_;
 	Sprite sprite2_;

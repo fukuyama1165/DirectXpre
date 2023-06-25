@@ -109,6 +109,12 @@
     <Filter Include="ヘッダー ファイル\Game\Scene">
       <UniqueIdentifier>{3a089aec-f165-4558-88d3-61a5aea80368}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\PostEffect">
+      <UniqueIdentifier>{af4ecce0-b1a6-47ff-b424-3c221de4f4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\PostEffect">
+      <UniqueIdentifier>{d1503c13-3258-4323-9b76-472c991620ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -227,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\Scene\GameScene.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect.cpp">
+      <Filter>ソース ファイル\Game\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Scene\IScene.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\PostEffect\PostEffect.h">
+      <Filter>ヘッダー ファイル\Game\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
