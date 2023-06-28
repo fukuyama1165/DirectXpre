@@ -16,9 +16,9 @@ float4 main(VSOutput input) : SV_TARGET
     float totalWeight = 0;
     float _Sigma = 0.005;//固定だけどUVで大きさを変えると画面の外側だけに掛けることができるらしい
     float _StepWidth = 0.001;
-    float4 col = float4(0,0,0,0);
+    float4 col = float4(1,1,1,1);
     
-    [loop]
+    /*[loop]
     for (float py = -_Sigma * 2; py <= _Sigma * 2; py += _StepWidth)
     {
         [unroll]
@@ -37,7 +37,7 @@ float4 main(VSOutput input) : SV_TARGET
 
 
     col.rgb = col.rgb / totalWeight;
-    col.a = 1;
+    col.a = 1;*/
 
-	return col;
+	return col* tex.Sample(smp, input.uv);
 }

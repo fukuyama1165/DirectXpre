@@ -237,7 +237,7 @@
     <ClCompile Include="Engine\Game\Scene\GameScene.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="PostEffect.cpp">
+    <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp">
       <Filter>ソース ファイル\Game\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>

@@ -4,8 +4,10 @@ Texture2D<float4> tex : register(t0);//０番スロットの設定されたテ�
 SamplerState smp :register(s0);//０番スロットに設定されたサンプラー
 
 
-float4 main(VSOutput input) : SV_TARGET
+PSOutput main(VSOutput input)
 {
+
+	PSOutput output;
 
 	float4 texcolor = tex.Sample(smp, input.uv);
 
@@ -68,7 +70,8 @@ float4 main(VSOutput input) : SV_TARGET
 	//float3 reflect = normalize(-lightV + 2 * dot(lightV, wnormal.xyz) * wnormal.xyz);
 
 	
-	
+	output.target0 = shadecolor * texcolor;
+	output.target1 = float4(1 - (shadecolor * texcolor).rgb, 1);
 
-	return shadecolor *texcolor;
+	return output;
 }

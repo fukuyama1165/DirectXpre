@@ -56,3 +56,10 @@ struct VSOutput
 	//uv値
 	float2 uv:TEXCOORD;
 };
+
+//マルチレンダリングの為の構造体
+struct PSOutput
+{
+	float4 target0:SV_TARGET0;
+	float4 target1:SV_TARGET1;
+};

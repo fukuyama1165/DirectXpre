@@ -96,7 +96,7 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 
 	//テクスチャバッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff_;
+	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff_[2];
 
 	//シェーダーリソースビュー
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapSRV_;

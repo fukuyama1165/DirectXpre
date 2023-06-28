@@ -113,6 +113,7 @@
     <ClCompile Include="Engine\Game\Light\LightGroup.cpp" />
     <ClCompile Include="Engine\Game\Light\LightManager.cpp" />
     <ClCompile Include="Engine\Game\object\Object3D.cpp" />
+    <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp" />
     <ClCompile Include="Engine\Game\Scene\App.cpp" />
     <ClCompile Include="Engine\Game\Scene\Framework.cpp" />
     <ClCompile Include="Engine\Game\Scene\GameScene.cpp" />
@@ -128,7 +129,6 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
-    <ClCompile Include="PostEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="assimp\code\assimp.vcxproj">
