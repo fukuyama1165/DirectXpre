@@ -128,6 +128,7 @@ private:
 
 	//デスクリプタレンジ
 	D3D12_DESCRIPTOR_RANGE descriptorRange_{};
+	D3D12_DESCRIPTOR_RANGE descriptorRange2_{};
 
 	//グラフィックスパイプラインの各ステージの設定をする構造体を用意
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline_{};
@@ -137,7 +138,7 @@ private:
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline5_{};//色反転
 
 	//ルートパラメータ(定数バッファの数が増えたら配列の要素数を増やして設定をしている関数の中身にも追加すること)
-	D3D12_ROOT_PARAMETER rootParam_[3] = {};
+	D3D12_ROOT_PARAMETER rootParam_[4] = {};
 
 	//ルートシグネチャ
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature_;

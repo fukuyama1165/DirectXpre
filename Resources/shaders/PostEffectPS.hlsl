@@ -1,6 +1,7 @@
 #include "PostEffect.hlsli"
 
 Texture2D<float4> tex : register(t0);//０番スロットの設定されたテクスチャ
+Texture2D<float4> tex1 : register(t1);//1番スロットの設定されたテクスチャ
 SamplerState smp :register(s0);//０番スロットに設定されたサンプラー
 
 float Gaussian(float2 drawUV, float2 pickUV, float sigma)
@@ -39,5 +40,14 @@ float4 main(VSOutput input) : SV_TARGET
     col.rgb = col.rgb / totalWeight;
     col.a = 1;*/
 
-	return col* tex.Sample(smp, input.uv);
+    float4 colortex = tex.Sample(smp, input.uv);
+    float4 colortex1 = tex1.Sample(smp, input.uv);
+
+    float4 color = colortex;
+    if (fmod(input.uv.y, 0.1f) < 0.005f)
+    {
+        color = colortex1;
+    }
+
+    return float4(color.rgb,1);
 }

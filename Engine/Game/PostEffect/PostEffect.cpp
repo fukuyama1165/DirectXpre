@@ -138,26 +138,6 @@ void PostEffect::Draw(uint16_t PipeLineRuleFlag)
 	}
 
 
-	if (Input::GetInstance()->TriggerKey(DIK_0))
-	{
-		static int tex = 0;
-
-		tex = (tex + 1) % 2;
-
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
-		srvDesc.Texture2D.MipLevels = 1;
-
-		DirectXInit::GetInstance()->Getdev()->CreateShaderResourceView(texBuff_[tex].Get(),
-			&srvDesc,
-			descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
-		);
-
-	}
-
-
 	DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootSignature(rootsignature_.Get());
 
 
@@ -171,7 +151,7 @@ void PostEffect::Draw(uint16_t PipeLineRuleFlag)
 
 	
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
-	uint32_t incremantSize_ = DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	//uint32_t incremantSize_ = DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	//SRVヒープの設定コマンド
 	DirectXInit::GetInstance()->GetcmdList()->SetDescriptorHeaps(1, descHeapSRV_.GetAddressOf());
@@ -181,8 +161,11 @@ void PostEffect::Draw(uint16_t PipeLineRuleFlag)
 
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	{
-		srvGpuHandle.ptr += incremantSize_ * (0);
-		DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+		
+		DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootDescriptorTable(1, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(),0,
+			DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+		DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 1,
+			DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	}
 	
 
@@ -336,7 +319,7 @@ void PostEffect::SRVDescHeapGeneraion()
 
 	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvDescHeapDesc.NumDescriptors = 1;
+	srvDescHeapDesc.NumDescriptors = 2;
 
 	//SRV用デスクリプタヒープを生成
 	result = DirectXInit::GetInstance()->Getdev()->CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV_));
@@ -349,10 +332,16 @@ void PostEffect::SRVDescHeapGeneraion()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = 1;
 
-	DirectXInit::GetInstance()->Getdev()->CreateShaderResourceView(texBuff_[0].Get(),
-		&srvDesc,
-		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
-	);
+	for (uint16_t i = 0; i < _countof(texBuff_); i++)
+	{
+		DirectXInit::GetInstance()->Getdev()->CreateShaderResourceView(texBuff_[i].Get(),
+			&srvDesc,			
+			CD3DX12_CPU_DESCRIPTOR_HANDLE(
+				descHeapSRV_->GetCPUDescriptorHandleForHeapStart(), i,
+				DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)
+			)
+		);
+	}
 
 
 }
@@ -1059,6 +1048,12 @@ void PostEffect::rootParamGeneration()
 	rootParam_[2].Descriptor.RegisterSpace = 0;//デフォルト値
 	rootParam_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
+	//画像データ用
+	rootParam_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;//種類
+	rootParam_[3].DescriptorTable.pDescriptorRanges = &descriptorRange2_;//デスクリプタレンジ
+	rootParam_[3].DescriptorTable.NumDescriptorRanges = 1;//デスクリプタレンジ数
+	rootParam_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダから見える
+
 #pragma endregion 
 }
 
@@ -1214,6 +1209,11 @@ void PostEffect::descriptorRangeGeneration()
 	descriptorRange_.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	descriptorRange_.BaseShaderRegister = 0;//テクスチャレジスタ0番
 	descriptorRange_.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	descriptorRange2_.NumDescriptors = 1;//一度の描画に使うテクスチャが１枚なので1
+	descriptorRange2_.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange2_.BaseShaderRegister = 1;//テクスチャレジスタ1番
+	descriptorRange2_.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 #pragma endregion
 }
