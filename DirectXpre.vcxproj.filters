@@ -115,6 +115,9 @@
     <Filter Include="ヘッダー ファイル\Game\PostEffect">
       <UniqueIdentifier>{d1503c13-3258-4323-9b76-472c991620ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="シェーダーファイル\PostEffect\normal">
+      <UniqueIdentifier>{08e3538d-b002-4e83-ad1d-7535bcc41098}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -379,6 +382,9 @@
     <None Include="Resources\shaders\GaussianBlur.hlsli">
       <Filter>シェーダーファイル\PostEffect\GaussianBlur</Filter>
     </None>
+    <None Include="Resources\shaders\PostEffect.hlsli">
+      <Filter>シェーダーファイル\PostEffect\normal</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\OBJPS.hlsl">
@@ -416,6 +422,12 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\GaussianBlurVS.hlsl">
       <Filter>シェーダーファイル\PostEffect\GaussianBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectPS.hlsl">
+      <Filter>シェーダーファイル\PostEffect\normal</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
+      <Filter>シェーダーファイル\PostEffect\normal</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

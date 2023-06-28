@@ -28,14 +28,9 @@ void App::Draw()
 {
 #pragma region •`‰æƒRƒ}ƒ“ƒh
 
-	DirectXInit::GetInstance()->DrawStart();
 	
-	//Framework::Draw();
-
-	SceneManager::GetInstance()->Draw();
-
-
-	DirectXInit::GetInstance()->DrawEnd();
+	
+	Framework::Draw();
 
 	
 

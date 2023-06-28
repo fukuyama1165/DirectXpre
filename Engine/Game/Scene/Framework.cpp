@@ -40,17 +40,12 @@ void Framework::Initialize()
 
 	input_->init();
 
-	SpriteCommon::GetInstance()->initialize();
+	
 	Texture::GetInstance()->loadTexture("Resources/white1x1.png");
 
 	postEffect_ = std::make_shared<PostEffect>();
 
-	postEffect_->initialize(SpriteCommon::GetInstance(),1);
-
-	postEffect_->scaleX_ = 100.0f;
-	postEffect_->scaleY_ = 100.0f;
-	postEffect_->posX_ = 500;
-	postEffect_->posY_ = 200;
+	postEffect_->Initialize();
 
 }
 
@@ -85,5 +80,20 @@ void Framework::Update()
 
 void Framework::Draw()
 {
+
+	postEffect_->PreDrawScene();
+
+	sceneManager_->Draw();
+
+	postEffect_->PostDrawScene();
+
+	DirectXInit::GetInstance()->DrawStart();
+
 	postEffect_->Draw();
+
+	ImGuiManager::GetInstance()->Draw();
+
+	DirectXInit::GetInstance()->DrawEnd();
+
+
 }

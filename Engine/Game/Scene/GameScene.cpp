@@ -519,13 +519,13 @@ void GameScene::Draw()
 
 	//play.Draw(directXinit->GetcmdList().Get());
 
-	sprite_.Draw();
-	sprite2_.Draw();
+	//sprite_.Draw();
+	//sprite2_.Draw();
 
 
 	// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚Ü‚Å
 
-	ImGuiManager::GetInstance()->Draw();
+	
 
 #pragma endregion
 
