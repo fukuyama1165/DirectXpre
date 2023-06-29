@@ -3,6 +3,30 @@
 Texture2D<float4> tex : register(t0);//０番スロットの設定されたテクスチャ
 SamplerState smp :register(s0);//０番スロットに設定されたサンプラー
 
+float4 averagBlur(VSOutput input)
+{
+	float shiftWidth = 0.005;
+	float shiftNum = 3;
+
+	float4 col = float4(0, 0, 0, 0);
+	float num = 0;
+
+	[loop]
+	for (float py = -shiftNum / 2; py <= shiftNum / 2; py++)
+	{
+		for (float px = -shiftNum / 2; px <= shiftNum / 2; px++)
+		{
+			col += tex.Sample(smp, input.uv + float2(px, py) * shiftWidth);
+			num++;
+		}
+	}
+
+	col = col / num;
+	col.w = 1;
+	return col;
+
+}
+
 
 PSOutput main(VSOutput input)
 {
@@ -70,8 +94,8 @@ PSOutput main(VSOutput input)
 	//float3 reflect = normalize(-lightV + 2 * dot(lightV, wnormal.xyz) * wnormal.xyz);
 
 	
+	output.target1 = averagBlur(input);
 	output.target0 = shadecolor * texcolor;
-	output.target1 = float4(1 - (shadecolor * texcolor).rgb, 1);
 
 	return output;
 }

@@ -182,5 +182,7 @@ private:
 	//•½s“Š‰e
 	Matrix4x4 matProjection_;
 
+	bool cheng_ = true;
+
 };
 

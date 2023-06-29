@@ -59,22 +59,23 @@ void GameScene::Initialize()
 	ray_.start_ = { 0.0f,0.0f,0.0f };
 	ray_.dir_ = { 0.0f,0.0f,-1.0f };
 
-	/*LevelData* levelData = JsonLevelLoader::LoadJsonFile("scenetest3");
+	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile("scenetest4");
 
-	std::vector<Object3D> levelObj;
+	
 
-	for (auto& objData : levelData->objects)
+	for (auto& objData : levelData->objects_)
 	{
-		Object3D newObject;
-		newObject.objDrawInit("Resources/obj/testBox/", "testBox.obj");
-		newObject.Trans_ = Vector3{objData.trans.x,objData.trans.y ,objData.trans.z };
-		newObject.Rotate_ = Vector3{objData.rot.x,objData.rot.y ,objData.rot.z };
-		newObject.Scale_ = Vector3{objData.scale.x,objData.scale.y ,objData.scale.z };
-		newObject.matWorldGeneration();
+		LevelObj newObject;
+		newObject.obj.FBXInit();
+		newObject.obj.Trans_ = Vector3{objData.trans_.x,objData.trans_.y ,objData.trans_.z };
+		newObject.obj.Rotate_ = Vector3{objData.rot_.x,objData.rot_.y ,objData.rot_.z };
+		newObject.obj.Scale_ = Vector3{objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+		newObject.obj.matWorldGeneration();
+		newObject.name = objData.name_;
 
 		levelObj.emplace_back(newObject);
 
-	}*/
+	}
 
 	objobj_.objDrawInit("Resources/obj/testBall/", "testBall.obj", true);
 	objobj2_.objDrawInit("Resources/obj/collHittest/", "collHitTest.obj");
@@ -86,8 +87,12 @@ void GameScene::Initialize()
 	testFBX_.FBXInit();
 
 	testModel_ = std::make_unique<AnimationModel>();
+	levelModel_ = std::make_unique<AnimationModel>();
+	levelBallModel_ = std::make_unique<AnimationModel>();
 
 	testModel_->Load("testFBX", "gltf", "basketballman2");
+	levelModel_->Load("testFBX", "gltf", "white1x1");
+	levelBallModel_->Load("testGLTFBall", "gltf", "white1x1");
 
 	spritecommon_ = spritecommon_->GetInstance();
 
@@ -429,6 +434,16 @@ void GameScene::Update()
 
 #pragma endregion
 
+#pragma region check
+
+	ImGui::Begin("check");
+
+	
+
+	ImGui::End();
+
+#pragma endregion
+
 #pragma region sprite
 
 	/*ImGui::Begin("spriteMove");
@@ -449,6 +464,8 @@ void GameScene::Update()
 
 	ImGui::ShowDemoWindow();
 #endif
+
+	reloadLevel(DIK_K, "scenetest4");
 
 	cameobj_.pos_ = cameraPos_;
 	cameobj_.rotate_ = cameraRot_;
@@ -473,10 +490,10 @@ void GameScene::Update()
 
 	testFBX_.Update(cameobj_.GetCamera());
 
-	/*for (Object3D a : levelObj)
+	for (LevelObj a : levelObj)
 	{
-		a.Update(cameobj.GetCamera());
-	}*/
+		a.obj.Update(cameobj_.GetCamera());
+	}
 
 	
 
@@ -497,7 +514,7 @@ void GameScene::Draw()
 	//charactorObj2.Draw(4, 1,0);
 	/*if (hit == false)
 	{*/
-	objobj_.Draw();
+	//objobj_.Draw();
 	/*}
 	else
 	{
@@ -506,15 +523,26 @@ void GameScene::Draw()
 
 	objobj3_.Draw();
 
-	testFBX_.FBXDraw(*testModel_.get());
+	//testFBX_.FBXDraw(*testModel_.get());
 
 	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
 
-	/*for (Object3D a : levelObj)
+	for (LevelObj a : levelObj)
 	{
-		a.Draw();
-	}*/
+		if (a.name.find("box1")!= std::string::npos)
+		{
+			a.obj.FBXDraw(*levelModel_.get());
+		}
+		else if (a.name.find("ball") != std::string::npos)
+		{
+			a.obj.FBXDraw(*levelBallModel_.get());
+		}
+		else
+		{
+			a.obj.FBXDraw(*levelModel_.get());
+		}
+	}
 
 
 	//play.Draw(directXinit->GetcmdList().Get());
@@ -557,4 +585,27 @@ bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vecto
 	}
 
 
+}
+
+void GameScene::reloadLevel(const BYTE& CheckKey, std::string filename)
+{
+	if (Input::GetInstance()->TriggerKey(CheckKey))
+	{
+		levelObj.clear();
+		std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile(filename);
+
+		for (auto& objData : levelData->objects_)
+		{
+			LevelObj newObject;
+			newObject.obj.FBXInit();
+			newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
+			newObject.obj.Rotate_ = Vector3{ objData.rot_.x,objData.rot_.y ,objData.rot_.z };
+			newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+			newObject.obj.matWorldGeneration();
+			newObject.name = objData.name_;
+
+			levelObj.emplace_back(newObject);
+
+		}
+	}
 }

@@ -78,6 +78,8 @@ void JsonLevelLoader::objectScanning(LevelData* levelData, nlohmann::json deseri
 			objectData.fileName_ = object["file_name"];
 		}
 
+		objectData.name_ = object["name"].get<std::string>();
+
 		//トランスフォームのパラメータ読み込み
 		nlohmann::json& transform = object["transform"];
 
