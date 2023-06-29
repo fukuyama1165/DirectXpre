@@ -34,31 +34,35 @@ public:
 	/// <param name="ShaderModelName">シェーダモデル名</param>
 	Shader(std::string ShaderName,std::string EntryPoint,std::string ShaderModelName);
 
+	static Shader ShaderLoad(std::string id, std::string ShaderName, std::string EntryPoint, std::string ShaderModelName);
+
+	static Shader SearchShaderData(std::string id);
+
+	static void RegisterShader(std::string id, Shader shader);
+
 private:
 
 	
 
-	class ShaderDate
+	class ShaderData
 	{
 	public:
 
-		static ShaderDate* GetInstance() {
-			static ShaderDate instance;
+		static ShaderData* GetInstance() {
+			static ShaderData instance;
 			return &instance;
 		};
-
-	private:
 
 		//サウンドデータの連想配列
 		std::map<std::string, Shader> Shaders_;
 
 
 	private:
-		ShaderDate() = default;
-		~ShaderDate() {};
+		ShaderData() = default;
+		~ShaderData() {};
 
-		ShaderDate(const ShaderDate&) = delete;
-		ShaderDate& operator=(const ShaderDate&) = delete;
+		ShaderData(const ShaderData&) = delete;
+		ShaderData& operator=(const ShaderData&) = delete;
 		
 
 	};

@@ -40,8 +40,41 @@ Shader::Shader(std::string ShaderName, std::string EntryPoint, std::string Shade
 		exit(1);
 	}
 
-	Roadsuccess = result;
+	Roadsuccess = SUCCEEDED(result);
 
 #pragma endregion
+}
+
+void Shader::RegisterShader(std::string id, Shader shader)
+{
+	ShaderData::GetInstance()->Shaders_[id] = shader;
+}
+
+Shader Shader::ShaderLoad(std::string id, std::string ShaderName, std::string EntryPoint, std::string ShaderModelName)
+{
+
+	Shader newShader = SearchShaderData(id);
+
+	if (!newShader.Roadsuccess)
+	{
+		newShader = Shader(ShaderName, EntryPoint, ShaderModelName);
+	}
+
+	RegisterShader(id, newShader);
+
+}
+
+Shader Shader::SearchShaderData(std::string id)
+{
+	//ˆê‰ñ“Ç‚İ‚ñ‚¾‚±‚Æ‚ª‚ ‚éƒtƒ@ƒCƒ‹‚Í‚»‚Ì‚Ü‚Ü•Ô‚·
+	auto itr = std::find_if(ShaderData::GetInstance()->Shaders_.begin(), ShaderData::GetInstance()->Shaders_.end(), [&](const std::pair<std::string, Shader>& p) {
+		return p.first == id;//ğŒ
+		});
+	//Œ©‚Â‚©‚Á‚½‚ç‚»‚ê‚ğ•Ô‚·
+	if (itr != ShaderData::GetInstance()->Shaders_.end()) {
+		return ShaderData::GetInstance()->Shaders_[id];
+	}
+
+	return Shader();
 }
 
