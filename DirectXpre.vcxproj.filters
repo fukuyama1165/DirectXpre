@@ -240,6 +240,9 @@
     <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp">
       <Filter>ソース ファイル\Game\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\Shader.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game\test\enemy.h">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\PostEffect\PostEffect.h">
       <Filter>ヘッダー ファイル\Game\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\Shader.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

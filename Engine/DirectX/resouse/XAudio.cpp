@@ -84,6 +84,7 @@ std::string XAudio::SoundLoadWave(const char* filename, std::string handle)
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
 
+	//data‚Ì‚Æ‚±‚Ü‚Å”ò‚Î‚·Š
 	while (!file.fail() && strncmp(data.id_, "data", 4) != 0) {
 		file.seekg(data.size_, std::ios_base::cur);
 		file.read((char*)&data, sizeof(data));
