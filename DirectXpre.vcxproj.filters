@@ -243,6 +243,9 @@
     <ClCompile Include="Engine\DirectX\resouse\Shader.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\PipeLine.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game\test\enemy.h">
@@ -369,6 +372,9 @@
       <Filter>ヘッダー ファイル\Game\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\Shader.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\PipeLine.h">
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
   </ItemGroup>

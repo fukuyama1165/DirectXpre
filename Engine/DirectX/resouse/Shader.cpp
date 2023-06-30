@@ -62,6 +62,7 @@ Shader Shader::ShaderLoad(std::string id, std::string ShaderName, std::string En
 
 	RegisterShader(id, newShader);
 
+	return newShader;
 }
 
 Shader Shader::SearchShaderData(std::string id)

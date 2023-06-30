@@ -1,1 +1,90 @@
 #pragma once
+#include "Shader.h"
+#include<d3d12.h>
+#include<dxgi1_6.h>
+
+#pragma comment(lib,"d3d12.lib")
+#pragma comment(lib,"dxgi.lib")
+
+#include <dxgiformat.h>
+
+struct PipeLineSeting
+{
+	Shader vShader;
+	Shader pShader;
+
+	uint32_t sampleMask;
+
+	D3D12_RASTERIZER_DESC rasterizerState;
+
+	std::vector<D3D12_RENDER_TARGET_BLEND_DESC> blendDescs;
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayouts;
+
+	D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType;
+
+	uint32_t NumRenderTargets;
+
+	std::vector <DXGI_FORMAT> RTVFormats;
+
+	DXGI_SAMPLE_DESC SampleDesc;
+
+};
+
+class PipeLine
+{
+public:
+
+	PipeLineSeting seting;
+
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline_;
+
+	bool Roadsuccess = false;
+
+	PipeLine() {};
+	/// <summary>
+	/// 指定して読み込み
+	/// </summary>
+	/// <param name="pipeLineSeting">作りたい設定</param>
+	PipeLine(PipeLineSeting pipeLineSeting);
+
+	//パイプラインを作る
+	static PipeLine CreatePipeLine(std::string id, PipeLineSeting pipeLineSeting);
+
+	//指定したidのパイプラインを探す(なければ空のパイプラインを返すので注意)
+	static PipeLine SearchPipeLines(std::string id);
+
+	//登録
+	static void RegisterPipeLine(std::string id, PipeLine pipeLine);
+
+private:
+
+
+
+	class PipeLines
+	{
+	public:
+
+		static PipeLines* GetInstance() {
+			static PipeLines instance;
+			return &instance;
+		};
+
+		//パイプラインのデータの連想配列
+		std::map<std::string, PipeLine> pipeLines_;
+
+
+	private:
+		PipeLines() = default;
+		~PipeLines() {};
+
+		PipeLines(const PipeLines&) = delete;
+		PipeLines& operator=(const PipeLines&) = delete;
+
+
+	};
+
+
+
+
+};
