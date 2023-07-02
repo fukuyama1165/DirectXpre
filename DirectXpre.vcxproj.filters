@@ -109,6 +109,18 @@
     <Filter Include="ヘッダー ファイル\Game\Scene">
       <UniqueIdentifier>{3a089aec-f165-4558-88d3-61a5aea80368}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\PostEffect">
+      <UniqueIdentifier>{af4ecce0-b1a6-47ff-b424-3c221de4f4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\PostEffect">
+      <UniqueIdentifier>{d1503c13-3258-4323-9b76-472c991620ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\PostEffect\normal">
+      <UniqueIdentifier>{08e3538d-b002-4e83-ad1d-7535bcc41098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="シェーダーファイル\PostEffect\Bloom">
+      <UniqueIdentifier>{262383bf-9965-4410-94b4-4621be93f472}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -189,7 +201,7 @@
     <ClCompile Include="Engine\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\GameScene.cpp">
+    <ClCompile Include="Engine\Game\Scene\App.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\sprite\Sprite.cpp">
@@ -213,11 +225,38 @@
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\IScene.cpp">
+    <ClCompile Include="Engine\Game\Scene\Framework.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\Light\LightManager.cpp">
       <Filter>ソース ファイル\Game\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\Material.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\GameScene.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp">
+      <Filter>ソース ファイル\Game\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\Shader.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\PipeLine.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Light\PointLight.cpp">
+      <Filter>ソース ファイル\Game\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Light\SpotLight.cpp">
+      <Filter>ソース ファイル\Game\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\PI.cpp">
+      <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,7 +332,7 @@
     <ClInclude Include="Engine\Game\Light\LightGroup.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\GameScene.h">
+    <ClInclude Include="Engine\Game\Scene\App.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\object\Object3D.h">
@@ -323,10 +362,37 @@
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\IScene.h">
+    <ClInclude Include="Engine\Game\Scene\Framework.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\Light\LightManager.h">
+      <Filter>ヘッダー ファイル\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\Material.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\GameScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\IScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\PostEffect\PostEffect.h">
+      <Filter>ヘッダー ファイル\Game\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\Shader.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\PipeLine.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Light\PointLight.h">
+      <Filter>ヘッダー ファイル\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Light\SpotLight.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
     </ClInclude>
   </ItemGroup>
@@ -345,6 +411,12 @@
     </None>
     <None Include="Resources\shaders\GaussianBlur.hlsli">
       <Filter>シェーダーファイル\PostEffect\GaussianBlur</Filter>
+    </None>
+    <None Include="Resources\shaders\PostEffect.hlsli">
+      <Filter>シェーダーファイル\PostEffect\normal</Filter>
+    </None>
+    <None Include="Resources\shaders\Bloom.hlsli">
+      <Filter>シェーダーファイル\PostEffect\Bloom</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +455,18 @@
     </FxCompile>
     <FxCompile Include="Resources\shaders\GaussianBlurVS.hlsl">
       <Filter>シェーダーファイル\PostEffect\GaussianBlur</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectPS.hlsl">
+      <Filter>シェーダーファイル\PostEffect\normal</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
+      <Filter>シェーダーファイル\PostEffect\normal</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BloomVS.hlsl">
+      <Filter>シェーダーファイル\PostEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BloomPS.hlsl">
+      <Filter>シェーダーファイル\PostEffect\Bloom</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

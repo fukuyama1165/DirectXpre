@@ -1,22 +1,10 @@
 #include "GaussianBlur.hlsli"
 
-VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD)
+VSOutput main(float4 pos : POSITION, float2 uv : TEXCOORD)
 {
-	/*float3 light = normalize(float3(1, -1, 1));
-
-	float3 lightcolor = float3(1, 1, 1);*/
-
-	float4 wnormal = normalize(mul(world, float4(normal, 0)));
-	float4 wpos = mul(world, pos);
-
-
-
-	VSOutput output;//ピクセルシェーダーに渡す値
-	output.svpos = mul(mul(viewProj, world), pos);
-	/*output.color.rgb = (ambient + diffuse + specular) * lightColor;
-	output.color.a = m_alpha;*/
-	output.worldpos = wpos;
-	output.normal = wnormal.xyz;
+	VSOutput output;
+	output.svpos = mul(mat, pos);
 	output.uv = uv;
+
 	return output;
 }

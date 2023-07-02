@@ -17,6 +17,7 @@
 #include "Vector2.h"
 #include "matrix4x4.h"
 #include "Texture.h"
+#include "Material.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -27,6 +28,8 @@
 #include "Model.h"
 
 //人のコード見て作った
+
+
 
 //部位のtransformだと思う
 struct NodeUnit
@@ -53,13 +56,15 @@ struct Animation
 };
 
 //一単位だと思う(頂点みたいの？)
-struct Node
+#pragma warning(push)
+#pragma warning(disable: 4324)
+typedef struct Node
 {
 	//名前(たぶん動かす際にこの部分のやつ動かすために必要になる？)
 	std::string name_;
 
-	//モデルって書いてあるけど単位的にメッシュになる
-	std::vector<std::unique_ptr<Model>> meshes_;
+	//メッシュ
+	std::vector<std::unique_ptr<AnimationMesh>> meshes_;
 
 	//ここから単体の行列やローカル座標
 
@@ -72,66 +77,25 @@ struct Node
 	DirectX::XMVECTOR translation_ = { 0,0,0,1 };
 
 	//ローカル座標行列
-	DirectX::XMMATRIX transform_ = DirectX::XMMatrixIdentity();
+	Matrix4x4 transform_ = Matrix4x4::Identity();
 
 	//グローバル(ワールド)座標行列?
-	DirectX::XMMATRIX globalTransform_ = DirectX::XMMatrixIdentity();
+	Matrix4x4 globalTransform_ = Matrix4x4::Identity();
 
 	//グローバル(ワールド)座標の逆行列
-	DirectX::XMMATRIX globalInverseTransform_ = DirectX::XMMatrixIdentity();
+	Matrix4x4 globalInverseTransform_ = Matrix4x4::Identity();
 
 	//親のアニメーション行列?
-	DirectX::XMMATRIX animaetionParentMat_ = DirectX::XMMatrixIdentity();
+	Matrix4x4 animaetionParentMat_ = Matrix4x4::Identity();
 
 	//親オブジェクト
 	Node* parent_ = nullptr;
 
-};
+}Node;
+#pragma warning(pop)
 
-//一か所に持てる最大ボーン数?
-static const uint32_t SNUM_BONES_PER_VERTEX = 4;
 
-//最大ボーン数
-static const uint32_t SMAX_BONE = 128;
 
-//頂点データ
-struct AnimationVertex
-{
-
-	Vector3 pos_;
-	Vector3 normal_;
-	Vector2 uv_;
-	uint32_t ids_[SNUM_BONES_PER_VERTEX] = {};
-	float weights_[SNUM_BONES_PER_VERTEX] = {};
-
-};
-
-//定数バッファ用
-struct ConstBuffSkin
-{
-	Matrix4x4 boneMats_[SMAX_BONE] = {};
-};
-
-//ウエイトの情報
-struct SetWeight
-{
-	uint32_t id_;
-	float weight_;
-};
-
-//ボーンの情報
-struct Bone
-{
-	//どこのやつか
-	std::string name_;
-
-	//初期位置
-	Matrix4x4 offsetMatrix_;
-
-	//最終位置?
-	Matrix4x4 finalMatrix_;
-
-};
 
 //これをobject3Dに持たせることで位置を移動させたりする
 class AnimationModel
@@ -152,10 +116,13 @@ public:
 
 	//ファイル名
 	std::string filename_;
+	std::string materialName_;
 
 	//aisceneを持ってくる
-	//読み込み
-	bool Load(std::string filename, std::string fileType);
+	
+	bool Load(std::string filename, std::string fileType, std::string materialName = "", std::string materialType = "png");
+
+	void Draw()const;
 
 	/// <summary>
 	/// aisceneに入ってるノードの情報をコピーする
@@ -163,8 +130,26 @@ public:
 	/// <param name="node">ノード(追加したいやつ)</param>
 	/// <param name="scene">全体(どの位置にいるか判断するため?)</param>
 	/// <param name="targetParent">親子関係があるなら入れる</param>
-	void CopyNodeMesh(const aiNode* node,const aiScene* scene,const Node* targetParent = nullptr);
+	void CopyNodeMesh(const aiNode* node,const aiScene* scene, Node* targetParent = nullptr);
 
-	void MeshAssignment(const aiMesh* mesh,const aiScene* scene)
+	/// <summary>
+	/// メッシュの情報を入れる
+	/// </summary>
+	/// <param name="mesh">入れたいメッシュ</param>
+	/// <param name="scene">読み込んだaiScene</param>
+	/// <param name="model">保存する場所</param>
+	void ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMesh& model);
+
+	/// <summary>
+	/// マテリアルにあるテクスチャを読み込むやつ
+	/// </summary>
+	/// <param name="material">該当するマテリアル</param>
+	/// <param name="type">受け取りたいやつの条件?</param>
+	/// <param name="model">保存する場所</param>
+	void LoadMaterialTextures(aiMaterial* material, aiTextureType type, AnimationMesh& model);
+
+	//void MeshAssignment(const aiMesh* mesh, const aiScene* scene);
+
+
 
 };

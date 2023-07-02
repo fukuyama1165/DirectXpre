@@ -33,6 +33,15 @@ Matrix4x4::~Matrix4x4()
 {
 }
 
+Matrix4x4 Matrix4x4::Identity()
+{
+	Matrix4x4 ans;
+
+	ans.IdentityMatrix();
+
+	return ans;
+}
+
 void Matrix4x4::IdentityMatrix()
 {
 	for (uint16_t i = 0; i < 4; i++)
@@ -254,6 +263,43 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 	return inverse;
 }
 
+
+Matrix4x4 Matrix4x4::Inverse(const Matrix4x4& mat)
+{
+	Matrix4x4 ans = mat;
+
+	ans.InverseMatrix();
+
+	return ans;
+}
+
+Matrix4x4 Matrix4x4::TransposeMatrix()
+{
+
+	Matrix4x4 ansMat = {};
+
+	ansMat.m[0][0] = m[0][0];
+	ansMat.m[0][1] = m[1][0];
+	ansMat.m[0][2] = m[2][0];
+	ansMat.m[0][3] = m[3][0];
+
+	ansMat.m[1][0] = m[0][1];
+	ansMat.m[1][1] = m[1][1];
+	ansMat.m[1][2] = m[2][1];
+	ansMat.m[1][3] = m[3][1];
+
+	ansMat.m[2][0] = m[0][2];
+	ansMat.m[2][1] = m[1][2];
+	ansMat.m[2][2] = m[2][2];
+	ansMat.m[2][3] = m[3][2];
+
+	ansMat.m[3][0] = m[0][3];
+	ansMat.m[3][1] = m[1][3];
+	ansMat.m[3][2] = m[2][3];
+	ansMat.m[3][3] = m[3][3];
+
+	return ansMat;
+}
 
 Matrix4x4 Matrix4x4::operator*(const Matrix4x4& mat)
 {

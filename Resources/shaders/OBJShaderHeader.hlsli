@@ -24,6 +24,10 @@ cbuffer cbuff1 : register(b1)//定数バッファの番号をbの後ろにつけ
 //}
 
 static const uint DIR_LIGHT_NUM = 3;
+//天光源の数
+static const uint POINTLIGHT_NUM = 3;
+//スポットライトの数
+static const uint SPOTLIGHT_NUM = 3;
 
 struct DirLight
 {
@@ -34,12 +38,34 @@ struct DirLight
 
 };
 
+struct PointLight
+{
+
+	float3 lightPos;
+	float3 lightColor;
+	float3 lightAtten;
+	uint active;
+
+};
+
+struct SpotLight
+{
+	float3 lightV;//ライトの光線方向の逆ベクトル
+	float3 lightPos;
+	float3 lightColor;
+	float3 lightAtten;
+	float2 lightFactorAngle;//ライト減衰角度のコサイン
+	uint active;
+
+};
+
 cbuffer cbuff2 : register(b2)
 {
 
 	float3 ambientColor;
 	DirLight dirLights[DIR_LIGHT_NUM];
-
+	PointLight pointLights[POINTLIGHT_NUM];
+	SpotLight spotLights[SPOTLIGHT_NUM];
 }
 
 
@@ -55,4 +81,11 @@ struct VSOutput
 	//float4 color:COLOR;
 	//uv値
 	float2 uv:TEXCOORD;
+};
+
+//マルチレンダリングの為の構造体
+struct PSOutput
+{
+	float4 target0:SV_TARGET0;
+	float4 target1:SV_TARGET1;
 };

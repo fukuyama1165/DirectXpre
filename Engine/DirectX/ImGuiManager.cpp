@@ -34,7 +34,7 @@ void ImGuiManager::Init()
 
 	ImGui_ImplWin32_Init(WinApp::GetInstance()->getHwnd());
 	ImGui_ImplDX12_Init(DirectXInit::GetInstance()->Getdev().Get(), (uint32_t)DirectXInit::GetInstance()->GetBackBufferCount(),
-		DXGI_FORMAT_R8G8B8A8_UNORM, dsvHeap_.Get(),
+		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, dsvHeap_.Get(),
 		dsvHeap_->GetCPUDescriptorHandleForHeapStart(),
 		dsvHeap_->GetGPUDescriptorHandleForHeapStart());
 	

@@ -24,6 +24,7 @@ struct LevelData
 	{
 		
 		std::string fileName_;
+		std::string name_;
 
 		Vector4 trans_;
 

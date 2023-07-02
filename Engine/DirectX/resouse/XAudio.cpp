@@ -3,6 +3,13 @@
 //asssert使うだけならこれ
 #include <cassert>
 
+Microsoft::WRL::ComPtr<IXAudio2> XAudio::xAudio2_ = nullptr;
+
+XAudio::~XAudio()
+{
+
+}
+
 void XAudio::Init()
 {
 
@@ -20,8 +27,17 @@ void XAudio::Init()
 
 }
 
-SoundData XAudio::SoundLoadWave(const char* filename)
+std::string XAudio::SoundLoadWave(const char* filename, std::string handle)
 {
+
+	//一回読み込んだことがあるファイルはそのまま返す
+	auto itr = std::find_if(GetInstance()->soundDatas_.begin(), GetInstance()->soundDatas_.end(), [&](const std::pair<std::string, std::shared_ptr<AudioData>>& p) {
+		return p.second->filepath == filename;//条件
+		});
+	//見つかったらそれを返す
+	if (itr != GetInstance()->soundDatas_.end()) {
+		return itr->first;
+	}
 
 	//ファイル入力ストリームのインスタンス
 	std::ifstream file;
@@ -55,7 +71,7 @@ SoundData XAudio::SoundLoadWave(const char* filename)
 	file.read((char*)&format, sizeof(ChunkHeader));
 
 	//idがfmtかチェック
-	if (strncmp(format.chunk_.id_, "fmt", 4) != 0)
+	if (strncmp(format.chunk_.id_, "fmt ", 4) != 0)
 	{
 		assert(0);
 	}
@@ -68,35 +84,108 @@ SoundData XAudio::SoundLoadWave(const char* filename)
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
 
-	//JUNKチャンクを検出した場合
-	if (strncmp(data.id_, "JUNK", 4) == 0)
-	{
-
-		//JUNKチャンクとはデータの開始位置をきりよく配置するためのダミーデータらしい
-
-		//読み取り位置をJUNKチャンクの終わりまで進める
+	//dataのとこまで飛ばす所
+	while (!file.fail() && strncmp(data.id_, "data", 4) != 0) {
 		file.seekg(data.size_, std::ios_base::cur);
-
-		//再読み込み
 		file.read((char*)&data, sizeof(data));
-
 	}
 
-	//dataかどうか判断
-	if (strncmp(data.id_, "data", 4) != 0)
-	{
+	if (file.fail()) {
 		assert(0);
 	}
 
 	//Dataチャンクのデータ部(波形データ)の読み込み
-	char* pBuffer = nullptr;
+	char* pBuffer = new char[data.size_];
 	file.read(pBuffer, data.size_);
 
 	//waveファイルを閉じる
 	file.close();
 
-	SoundData a;
+	std::shared_ptr<SoundData> soundData = std::make_shared<SoundData>();
 
-	return a;
+	soundData->filepath = filename;
+	soundData->wfex_ = format.fmt_;
+	soundData->pBuffer_ = reinterpret_cast<BYTE*>(pBuffer);
+	soundData->BufferSize_ = data.size_;
+	
 
+	if (handle.empty())
+	{
+		handle = filename;
+	}
+
+	GetInstance()->soundDatas_[handle] = soundData;
+
+	return handle;
+
+}
+
+void XAudio::PlaySoundData(const std::string handle, const float& volume, const bool loop)
+{
+	HRESULT result;
+	XAudio* instance = GetInstance();
+
+	//波形フォーマットをもとにsourceVoiceを生成
+
+	if (instance->soundDatas_.find(handle) == instance->soundDatas_.end()) {
+		return;
+	}
+
+	std::shared_ptr<SoundData> data = instance->soundDatas_[handle];
+
+	if (data->type == AudioType::Wave)
+	{
+		std::shared_ptr<SoundData> waveData = std::static_pointer_cast<SoundData>(data);
+
+		IXAudio2SourceVoice* pSourceVoice = nullptr;
+		result = xAudio2_->CreateSourceVoice(&pSourceVoice, &waveData->wfex_);
+		assert(SUCCEEDED(result));
+
+		//再生する波形データの設定
+		XAUDIO2_BUFFER buf{};
+		buf.pAudioData = waveData->pBuffer_;
+		buf.AudioBytes = waveData->BufferSize_;
+		buf.LoopCount = loop ? XAUDIO2_LOOP_INFINITE : 0;
+		buf.Flags = XAUDIO2_END_OF_STREAM;
+
+		//波形データの再生
+		result = pSourceVoice->SubmitSourceBuffer(&buf);
+		assert(SUCCEEDED(result));
+		result = pSourceVoice->SetVolume(volume);
+		assert(SUCCEEDED(result));
+		result = pSourceVoice->Start();
+		assert(SUCCEEDED(result));
+
+		if (loop)
+		{
+			instance->playingList.push_back({ handle,pSourceVoice });
+		}
+
+	}
+	
+	
+
+
+}
+
+void XAudio::StapSoundData(const std::string handle)
+{
+	XAudio* instance = GetInstance();
+	for (auto itr = instance->playingList.begin(); itr != instance->playingList.end();) {
+		PlayingInfo info = *itr;
+		if (info.handle == handle) {
+			info.pSource->Stop();
+			info.pSource->DestroyVoice();
+			itr = instance->playingList.erase(itr);
+			continue;
+		}
+		itr++;
+	}
+}
+
+void XAudio::Finalize()
+{
+	masterVoice_->DestroyVoice();
+	xAudio2_.Reset();
+	soundDatas_.clear();
 }

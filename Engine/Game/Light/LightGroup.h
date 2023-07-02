@@ -5,6 +5,8 @@
 
 #include <DirectXMath.h>
 #include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
 
 class LightGroup
 {
@@ -44,6 +46,26 @@ public:
 
 	void SetDirLightColor(uint32_t index, const XMFLOAT3& lightcolor);
 
+	void SetPointLightActive(uint32_t index, bool active);
+
+	void SetPointLightPos(uint32_t index, const Vector3& lightPos);
+
+	void SetPointLightColor(uint32_t index, const Vector3& lightcolor);
+	
+	void SetPointLightAtten(uint32_t index, const Vector3& lightAtten);
+
+	void SetSpotLightActive(uint32_t index, bool active);
+
+	void SetSpotLightDir(uint32_t index, const Vector3& lightdir);
+
+	void SetSpotLightPos(uint32_t index, const Vector3& lightPos);
+
+	void SetSpotLightColor(uint32_t index, const Vector3& lightColor);
+
+	void SetSpotLightAtten(uint32_t index, const Vector3& lightAtten);
+
+	void SetSpotLightFactorAngle(uint32_t index, const Vector2& lightFactorAngle);
+
 	void DefaultLightSetting();
 
 private:
@@ -58,6 +80,10 @@ public:
 
 	static const uint16_t SDirLightNum_ = 3;
 
+	static const uint16_t SPointLightNum_ = 3;
+
+	static const uint16_t SSpotLightNum_ = 3;
+
 public:
 
 	struct ConstBufferData
@@ -67,6 +93,10 @@ public:
 		float pad1;
 		//平行光源用
 		DirectionalLight::ConstBufferData dirLights[SDirLightNum_];
+		//点光源用
+		PointLight::ConstBufferData pointLights[SPointLightNum_];
+
+		SpotLight::ConstBufferData spotLights[SSpotLightNum_];
 
 	}; 
 
@@ -84,6 +114,10 @@ private:
 	XMFLOAT3 ambientColor_ = { 1,1,1 };
 
 	DirectionalLight dirLights_[SDirLightNum_];
+
+	PointLight pointLights_[SPointLightNum_];
+
+	SpotLight SpotLights_[SSpotLightNum_];
 
 	bool dirty_ = false;
 
