@@ -120,6 +120,40 @@ void LightGroup::TransferConstBuffer()
 
 		}
 
+		for (uint16_t i = 0; i < SPointLightNum_; i++)
+		{
+			//有効ならデータを送る
+			if (pointLights_[i].IsActive())
+			{
+				constMapData->pointLights[i].active = 1;
+				constMapData->pointLights[i].lightPos = pointLights_[i].GetLightPos();
+				constMapData->pointLights[i].lightColor = pointLights_[i].GetLightColor();
+				constMapData->pointLights[i].lightAtten = pointLights_[i].GetLightAtten();
+			}
+			else
+			{
+				constMapData->pointLights[i].active = 0;
+			}
+		}
+
+		for (uint16_t i = 0; i < SSpotLightNum_; i++)
+		{
+			//有効ならデータを送る
+			if (SpotLights_[i].IsActive())
+			{
+				constMapData->spotLights[i].active = 1;
+				constMapData->spotLights[i].lightV = SpotLights_[i].GetLightDir();
+				constMapData->spotLights[i].lightPos = SpotLights_[i].GetLightPos();
+				constMapData->spotLights[i].lightColor = SpotLights_[i].GetLightColor();
+				constMapData->spotLights[i].lightAtten = SpotLights_[i].GetLightAtten();
+				constMapData->spotLights[i].lightFactorAhgleCos = SpotLights_[i].GetLightFactorAhgleCos();
+			}
+			else
+			{
+				constMapData->spotLights[i].active = 0;
+			}
+		}
+
 		constBuff_->Unmap(0, nullptr);
 	}
 
@@ -159,6 +193,113 @@ void LightGroup::SetDirLightColor(uint32_t index, const XMFLOAT3& lightcolor)
 	assert(0 <= index and index < SDirLightNum_);
 
 	dirLights_[index].SetLightColor(lightcolor);
+
+	dirty_ = true;
+
+}
+
+void LightGroup::SetPointLightActive(uint32_t index, bool active)
+{
+
+	assert(0 <= index and index < SPointLightNum_);
+
+	pointLights_[index].SetIsActive(active);
+
+}
+
+void LightGroup::SetPointLightPos(uint32_t index, const Vector3& lightPos)
+{
+
+	assert(0 <= index and index < SPointLightNum_);
+
+	pointLights_[index].SetLightPos(lightPos);
+
+	dirty_ = true;
+
+}
+
+void LightGroup::SetPointLightColor(uint32_t index, const Vector3& lightColor)
+{
+
+	assert(0 <= index and index < SPointLightNum_);
+
+	pointLights_[index].SetLightColor(lightColor);
+
+	dirty_ = true;
+
+}
+
+void LightGroup::SetPointLightAtten(uint32_t index, const Vector3& lightAtten)
+{
+
+	assert(0 <= index and index < SPointLightNum_);
+
+	pointLights_[index].SetLightAtten(lightAtten);
+
+	dirty_ = true;
+
+}
+
+
+void LightGroup::SetSpotLightActive(uint32_t index, bool active)
+{
+
+	assert(0 <= index and index < SSpotLightNum_);
+
+	SpotLights_[index].SetIsActive(active);
+
+}
+
+void LightGroup::SetSpotLightDir(uint32_t index, const Vector3& lightdir)
+{
+
+	assert(0 <= index and index < SSpotLightNum_);
+
+	SpotLights_[index].SetLightDir(lightdir);
+
+	dirty_ = true;
+
+}
+
+void LightGroup::SetSpotLightPos(uint32_t index, const Vector3& lightPos)
+{
+
+	assert(0 <= index and index < SSpotLightNum_);
+
+	SpotLights_[index].SetLightPos(lightPos);
+
+	dirty_ = true;
+
+}
+
+void LightGroup::SetSpotLightColor(uint32_t index, const Vector3& lightColor)
+{
+
+	assert(0 <= index and index < SSpotLightNum_);
+
+	SpotLights_[index].SetLightColor(lightColor);
+
+	dirty_ = true;
+
+}
+
+void LightGroup::SetSpotLightAtten(uint32_t index, const Vector3& lightAtten)
+{
+
+	assert(0 <= index and index < SSpotLightNum_);
+
+	SpotLights_[index].SetLightAtten(lightAtten);
+
+	dirty_ = true;
+
+}
+
+void LightGroup::SetSpotLightFactorAngle(uint32_t index, const Vector2& lightFactorAngle)
+{
+
+	assert(0 <= index and index < SSpotLightNum_);
+
+	SpotLights_[index].SetLightFactorAhgle(lightFactorAngle);
 
 	dirty_ = true;
 

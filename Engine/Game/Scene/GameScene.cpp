@@ -16,6 +16,16 @@ void GameScene::Initialize()
 
 	lightManager_->CreateLightGroup();
 
+	lightManager_->lightGroups_[0].SetDirLightActive(0, false);
+	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
+	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
+
+	lightManager_->lightGroups_[0].SetPointLightActive(0, true);
+	lightManager_->lightGroups_[0].SetPointLightActive(1, false);
+	lightManager_->lightGroups_[0].SetPointLightActive(2, false);
+
+	lightManager_->lightGroups_[0].SetSpotLightActive(0, false);
+
 	//lightGroup->SetLightColor({ 1,1,1 });
 
 	Object3D::SetLight(&lightManager_->lightGroups_[0]);
@@ -123,6 +133,7 @@ void GameScene::Initialize()
 
 	XAudio::StapSoundData(test_);
 
+	
 }
 
 void GameScene::Finalize()
@@ -258,6 +269,16 @@ void GameScene::Update()
 	lightManager_->lightGroups_[0].SetDirLightColor(2, { lightColor2_[0],lightColor2_[1] ,lightColor2_[2] });
 	//lightGroup->SetDirLightDir(2,{ lightDir2.x,lightDir2.y ,lightDir2.z });
 
+	lightManager_->lightGroups_[0].SetPointLightPos(0, pointLightPos_);
+	lightManager_->lightGroups_[0].SetPointLightColor(0, { pointLightColor_[0],pointLightColor_[1] ,pointLightColor_[2] });
+	lightManager_->lightGroups_[0].SetPointLightAtten(0, { pointLightAtten_[0],pointLightAtten_[1] ,pointLightAtten_[2] });
+
+	lightManager_->lightGroups_[0].SetSpotLightPos(0, spotLightPos_);
+	lightManager_->lightGroups_[0].SetSpotLightDir(0, { spotDir_[0],spotDir_[1] ,spotDir_[2] });
+	lightManager_->lightGroups_[0].SetSpotLightColor(0, { spotLightColor_[0],spotLightColor_[1] ,spotLightColor_[2] });
+	lightManager_->lightGroups_[0].SetSpotLightAtten(0, { spotLightAtten_[0],spotLightAtten_[1] ,spotLightAtten_[2] });
+	lightManager_->lightGroups_[0].SetSpotLightFactorAngle(0, { spotLightFactorAngle_[0],spotLightFactorAngle_[1]});
+
 	if (IsUseCameraMouse_)
 	{
 		if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
@@ -287,6 +308,20 @@ void GameScene::Update()
 	ImGui::ColorEdit3("lightColor1", lightColor1_, ImGuiColorEditFlags_Float);
 	ImGui::InputFloat3("lightDir2", lightDir2_);
 	ImGui::ColorEdit3("lightColor2", lightColor2_, ImGuiColorEditFlags_Float);
+
+	
+	ImGui::ColorEdit3("pointLightColor", pointLightColor_, ImGuiColorEditFlags_Float);
+	ImGui::SliderFloat3("pointLightPos", pointPos, -50.0f, 50.0f, "%.3f");
+	ImGui::InputFloat3("pointLightAtten", pointLightAtten_);
+
+	ImGui::ColorEdit3("spotLightColor", spotLightColor_, ImGuiColorEditFlags_Float);
+	ImGui::SliderFloat3("spotLightPos", spotPos_, -50.0f, 50.0f, "%.3f");
+	ImGui::InputFloat3("spotLightDir", spotDir_);
+	ImGui::InputFloat3("spotLightAtten", spotLightAtten_);
+	ImGui::InputFloat2("spotLightFactorAngle", spotLightFactorAngle_);
+
+	pointLightPos_ = Vector3{ pointPos[0],pointPos[1] ,pointPos[2] };
+	spotLightPos_ = Vector3{ spotPos_[0],spotPos_[1] ,spotPos_[2] };
 
 	ImGui::End();
 

@@ -520,7 +520,7 @@ void PostEffect::vertexShaderGeneration()
 	//頂点シェーダファイルの読み込み辺
 	//頂点シェーダの読み込みとコンパイル
 	result_ = D3DCompileFromFile(
-		L"Resources/shaders/PostEffectVS.hlsl",//シェーダファイル名
+		L"Resources/shaders/BloomVS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名
@@ -562,7 +562,7 @@ void PostEffect::pixelShaderGeneration()
 
 	//ピクセルシェーダの読み込みとコンパイル
 	result_ = D3DCompileFromFile(
-		L"Resources/shaders/PostEffectPS.hlsl",//シェーダファイル名
+		L"Resources/shaders/BloomPS.hlsl",//シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
 		"main",//エントリーポイント名

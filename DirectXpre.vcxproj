@@ -114,6 +114,8 @@
     <ClCompile Include="Engine\Game\Light\DirectionalLight.cpp" />
     <ClCompile Include="Engine\Game\Light\LightGroup.cpp" />
     <ClCompile Include="Engine\Game\Light\LightManager.cpp" />
+    <ClCompile Include="Engine\Game\Light\PointLight.cpp" />
+    <ClCompile Include="Engine\Game\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\Game\object\Object3D.cpp" />
     <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp" />
     <ClCompile Include="Engine\Game\Scene\App.cpp" />
@@ -127,6 +129,7 @@
     <ClCompile Include="Engine\Game\test\player.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\Math\matrix4x4.cpp" />
+    <ClCompile Include="Engine\Math\PI.cpp" />
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
@@ -169,6 +172,8 @@
     <ClInclude Include="Engine\Game\Light\DirectionalLight.h" />
     <ClInclude Include="Engine\Game\Light\LightGroup.h" />
     <ClInclude Include="Engine\Game\Light\LightManager.h" />
+    <ClInclude Include="Engine\Game\Light\PointLight.h" />
+    <ClInclude Include="Engine\Game\Light\SpotLight.h" />
     <ClInclude Include="Engine\Game\object\Object3D.h" />
     <ClInclude Include="Engine\Game\PostEffect\PostEffect.h" />
     <ClInclude Include="Engine\Game\Scene\App.h" />
@@ -190,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli" />
+    <None Include="Resources\shaders\Bloom.hlsli" />
     <None Include="Resources\shaders\GaussianBlur.hlsli" />
     <None Include="Resources\shaders\OBJShaderHeader.hlsli" />
     <None Include="Resources\shaders\Phong_toon_rim.hlsli" />
@@ -208,6 +214,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BloomPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\BloomVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\shaders\colorChangePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
