@@ -15,6 +15,8 @@ public:
 
 	struct ConstBufferData
 	{
+		//GPU‚É‘—‚é‚½‚ß‚É‚±‚Ì‡”Ô‚É‚È‚è
+		//ŠÔ‚Épad‚ª“ü‚Á‚Ä‚¢‚é
 		float active;
 		
 		Vector3 lightV;
