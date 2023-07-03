@@ -178,6 +178,48 @@ PSOutput main(VSOutput input)
 
 		}
 
+		//if (spotLights[0].active==0)
+		//{
+
+		//	//ライトへのベクトル
+		//	float3 lightV = spotLights[0].lightPos - input.worldpos.xyz;
+
+		//	//ベクトルの長さ
+		//	float d = length(lightV);
+
+		//	//正規化し、単位ベクトルにする
+		//	lightV = normalize(lightV);
+
+		//	//距離減衰係数
+		//	float atten = saturate(1.0f / (spotLights[0].lightAtten.x + spotLights[0].lightAtten.y * d + spotLights[0].lightAtten.z * d * d));
+
+		//	//角度減衰
+		//	float cos = dot(lightV, spotLights[n].lightV);
+
+		//	//減衰開始角度から、減衰終了角度に掛けて減衰
+		//	//減衰開始角度の内側は1倍減衰終了角度の外側は0倍の輝度
+		//	float angleAtten = smoothstep(spotLights[0].lightFactorAngle.y, spotLights[0].lightFactorAngle.x, cos);
+
+		//	//角度減衰を乗算
+		//	atten *= angleAtten;
+
+		//	//ライトに向かうベクトルと法線の内積
+		//	float3 dotlightnormal = dot(lightV, input.normal);
+
+		//	//反射光ベクトル
+		//	float3 reflect = normalize(-lightV + 2 * dotlightnormal * input.normal);
+
+		//	//拡散反射光
+		//	float3 diffuse = dotlightnormal * m_diffuse;
+
+		//	//鏡面反射光
+		//	float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
+
+		//	//全て加算する
+		//	shadecolor.rgb += atten * (diffuse + specular) * spotLights[0].lightColor;
+
+		//}
+
 	}
 
 

@@ -20,11 +20,12 @@ void GameScene::Initialize()
 	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
 
-	lightManager_->lightGroups_[0].SetPointLightActive(0, true);
+	lightManager_->lightGroups_[0].SetPointLightActive(0, false);
 	lightManager_->lightGroups_[0].SetPointLightActive(1, false);
 	lightManager_->lightGroups_[0].SetPointLightActive(2, false);
 
-	lightManager_->lightGroups_[0].SetSpotLightActive(0, false);
+	lightManager_->lightGroups_[0].SetSpotLightActive(0, true);
+	lightManager_->lightGroups_[0].SetSpotLightActive(1, false);
 
 	//lightGroup->SetLightColor({ 1,1,1 });
 
@@ -278,6 +279,12 @@ void GameScene::Update()
 	lightManager_->lightGroups_[0].SetSpotLightColor(0, { spotLightColor_[0],spotLightColor_[1] ,spotLightColor_[2] });
 	lightManager_->lightGroups_[0].SetSpotLightAtten(0, { spotLightAtten_[0],spotLightAtten_[1] ,spotLightAtten_[2] });
 	lightManager_->lightGroups_[0].SetSpotLightFactorAngle(0, { spotLightFactorAngle_[0],spotLightFactorAngle_[1]});
+
+	lightManager_->lightGroups_[0].SetSpotLightPos(1, spotLightPos_);
+	lightManager_->lightGroups_[0].SetSpotLightDir(1, { spotDir_[0],spotDir_[1] ,spotDir_[2] });
+	lightManager_->lightGroups_[0].SetSpotLightColor(1, { spotLightColor_[0],spotLightColor_[1] ,spotLightColor_[2] });
+	lightManager_->lightGroups_[0].SetSpotLightAtten(1, { spotLightAtten_[0],spotLightAtten_[1] ,spotLightAtten_[2] });
+	lightManager_->lightGroups_[0].SetSpotLightFactorAngle(1, { spotLightFactorAngle_[0],spotLightFactorAngle_[1] });
 
 	if (IsUseCameraMouse_)
 	{

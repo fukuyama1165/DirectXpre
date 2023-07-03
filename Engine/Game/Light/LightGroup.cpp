@@ -141,12 +141,12 @@ void LightGroup::TransferConstBuffer()
 			//有効ならデータを送る
 			if (SpotLights_[i].IsActive())
 			{
-				constMapData->spotLights[i].active = 1;
+				constMapData->spotLights[i].active = 1000;
 				constMapData->spotLights[i].lightV = SpotLights_[i].GetLightDir();
 				constMapData->spotLights[i].lightPos = SpotLights_[i].GetLightPos();
 				constMapData->spotLights[i].lightColor = SpotLights_[i].GetLightColor();
 				constMapData->spotLights[i].lightAtten = SpotLights_[i].GetLightAtten();
-				constMapData->spotLights[i].lightFactorAhgleCos = SpotLights_[i].GetLightFactorAhgleCos();
+				constMapData->spotLights[i].lightFactorAhgleCos = { SpotLights_[i].GetLightFactorAhgleCos().x, SpotLights_[i].GetLightFactorAhgleCos().y,0 };
 			}
 			else
 			{

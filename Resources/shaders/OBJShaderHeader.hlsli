@@ -44,18 +44,19 @@ struct PointLight
 	float3 lightPos;
 	float3 lightColor;
 	float3 lightAtten;
-	uint active;
+	float active;
 
 };
 
 struct SpotLight
 {
-	float3 lightV;//ライトの光線方向の逆ベクトル
+	float active;
+	float3 lightV;
 	float3 lightPos;
 	float3 lightColor;
 	float3 lightAtten;
-	float2 lightFactorAngle;//ライト減衰角度のコサイン
-	uint active;
+	float2 lightFactorAngle;
+	
 
 };
 

@@ -157,7 +157,7 @@ private:
 	float spotDir_[3] = { 0.0f,5.0f,0.0f };
 	Vector3 spotLightPos_ = { 0.5f,1.0f,2.0f };
 	float spotLightColor_[3] = { 1.0f,1.0f,1.0f };
-	float spotLightAtten_[3] = { 0.0f,0.0f,0.0f };
+	float spotLightAtten_[3] = { 1.0f,2.0f,4.0f };
 	float spotLightFactorAngle_[2] = { 20.0f,30.0f};
 
 	Vector3 movecoll_;

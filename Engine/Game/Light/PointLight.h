@@ -22,7 +22,7 @@ public:
 		//‹——£Œ¸ŠŒW”
 		Vector3 lightAtten;
 
-		uint16_t active;
+		float active;
 
 	};
 

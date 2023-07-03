@@ -15,17 +15,20 @@ public:
 
 	struct ConstBufferData
 	{
-
+		float active;
+		
 		Vector3 lightV;
 		Vector3 lightPos;
 		float pad1;
 		Vector3 lightColor;
 		float pad2;
 		Vector3 lightAtten;
-		float pad3;
-		Vector2 lightFactorAhgleCos;
-		uint32_t active;
+		float pad3;	
+		Vector3 lightFactorAhgleCos;
 		float pad4;
+		
+		
+		
 
 	};
 
