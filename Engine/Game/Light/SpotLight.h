@@ -18,8 +18,11 @@ public:
 		//GPU‚É‘—‚é‚½‚ß‚É‚±‚Ì‡”Ô‚É‚È‚è
 		//ŠÔ‚Épad‚ª“ü‚Á‚Ä‚¢‚é
 		float active;
-		
+		float pad01;
+		float pad02;
+		float pad03;
 		Vector3 lightV;
+		float pad0;
 		Vector3 lightPos;
 		float pad1;
 		Vector3 lightColor;

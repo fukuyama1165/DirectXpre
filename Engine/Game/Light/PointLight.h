@@ -24,6 +24,13 @@ public:
 
 		float active;
 
+		float pad;
+		float pad00;
+		float pad01;
+		float pad02;
+		
+		
+
 	};
 
 	inline void SetLightPos(const Vector3& LightPos) { lightPos_ = LightPos; }

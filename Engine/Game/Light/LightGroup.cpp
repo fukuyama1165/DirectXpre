@@ -159,7 +159,7 @@ void LightGroup::TransferConstBuffer()
 
 }
 
-void LightGroup::SetAmbientColor(const XMFLOAT3& color)
+void LightGroup::SetAmbientColor(const Vector3& color)
 {
 
 	ambientColor_ = color;
@@ -176,7 +176,7 @@ void LightGroup::SetDirLightActive(uint32_t index, bool active)
 
 }
 
-void LightGroup::SetDirLightDir(uint32_t index, const XMVECTOR& lightdir)
+void LightGroup::SetDirLightDir(uint32_t index, const Vector4& lightdir)
 {
 
 	assert(0 <= index and index < SDirLightNum_);
@@ -187,7 +187,7 @@ void LightGroup::SetDirLightDir(uint32_t index, const XMVECTOR& lightdir)
 
 }
 
-void LightGroup::SetDirLightColor(uint32_t index, const XMFLOAT3& lightcolor)
+void LightGroup::SetDirLightColor(uint32_t index, const Vector3& lightcolor)
 {
 
 	assert(0 <= index and index < SDirLightNum_);

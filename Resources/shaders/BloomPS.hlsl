@@ -52,29 +52,29 @@ float4 main(VSOutput input) : SV_TARGET
     float totalWeight = 0;
     float _Sigma = 0.005;//ŒÅ’è‚¾‚¯‚ÇUV‚Å‘å‚«‚³‚ð•Ï‚¦‚é‚Æ‰æ–Ê‚ÌŠO‘¤‚¾‚¯‚ÉŠ|‚¯‚é‚±‚Æ‚ª‚Å‚«‚é‚ç‚µ‚¢
     float _StepWidth = 0.001;
-    float4 colTex = float4(1, 1, 1, 1);
+    float4 colTex = float4(0, 0, 0, 0);
 
     [loop]
-    for (float py = -_Sigma * 2; py <= _Sigma * 2; py += _StepWidth)
+    for (float py = -_Sigma * 3; py <= _Sigma * 3; py += _StepWidth)
     {
         [unroll]
-        for (float px = -_Sigma * 2; px <= _Sigma * 2; px += _StepWidth)
+        for (float px = -_Sigma * 3; px <= _Sigma * 3; px += _StepWidth)
         {
             float2 pickUV = input.uv + float2(px, py);
             if ((pickUV.x < 0 || pickUV.x > 1) || (pickUV.y < 0 || pickUV.y > 1))continue;
 
             float weight = Gaussian(input.uv, pickUV, _Sigma);
             float4 texcolor = tex.Sample(smp, pickUV);
-            colTex += texcolor * weight;
+            colTex += texcolor * weight/* * extract*/;
             totalWeight += weight;
 
         }
     }
 
 
-    colTex.rgb = col.rgb / totalWeight;
+    colTex.rgb = colTex.rgb / totalWeight;
     colTex.a = 1;
     
-    float4 highLumi = (col * extract) + colTex;
-    return col + highLumi;
+    float4 highLumi = (col * extract)/* + colTex*/;
+    return col /*+ (colTex * extract)*/;
 }

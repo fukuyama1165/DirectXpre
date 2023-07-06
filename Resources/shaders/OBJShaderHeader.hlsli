@@ -32,30 +32,30 @@ static const uint SPOTLIGHT_NUM = 3;
 struct DirLight
 {
 
-	float3 lightV;
-	float3 lightColor;
-	uint active;
+	float4 lightV;
+	float4 lightColor;
+	float4 active;
 
 };
 
 struct PointLight
 {
 
-	float3 lightPos;
-	float3 lightColor;
-	float3 lightAtten;
-	float active;
+	float4 lightPos;
+	float4 lightColor;
+	float4 lightAtten;
+	float4 active;
 
 };
 
 struct SpotLight
 {
-	float active;
-	float3 lightV;
-	float3 lightPos;
-	float3 lightColor;
-	float3 lightAtten;
-	float2 lightFactorAngle;
+	float4 active;
+	float4 lightV;
+	float4 lightPos;
+	float4 lightColor;
+	float4 lightAtten;
+	float4 lightFactorAngle;
 	
 
 };

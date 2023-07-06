@@ -1,7 +1,6 @@
 #pragma once
 #include "IScene.h"
 
-
 #include<Windows.h>
 
 //D3Dコンパイラ
@@ -14,28 +13,13 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//数学ライブラリ(最適化されすぎて使いにくいらしいのであとで自作しろって)
-#include<DirectXMath.h>
-using namespace DirectX;
-
 //#pragma commentとは、オブジェクトファイルに、
 //リンカでリンクするライブラリの名前を記述するもの
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-//キーボードやコントローラーなどの入力するヘッダとライブラリのリンク
-#define DIRECTINPUT_VERSION 0x0800
-#include <dinput.h>
-
-#pragma comment(lib,"dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
-
-
-
 #include <DirectXTex.h>
 #include <imgui.h>
-
-
 
 #include "WinApp.h"
 
@@ -117,6 +101,8 @@ private:
 	//カメラ
 	Camera camera_;
 	cameraObj cameobj_;
+	cameraObj debugCameobj_;
+	cameraObj playerCameobj_;
 
 	uint32_t texname_ = 0;
 
@@ -180,6 +166,8 @@ private:
 	};
 
 	std::vector<LevelObj> levelObj;
+
+	bool chengCamera_ = false;
 
 	
 

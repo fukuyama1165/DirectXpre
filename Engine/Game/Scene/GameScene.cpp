@@ -37,6 +37,8 @@ void GameScene::Initialize()
 
 	cameobj_ = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
+	playerCameobj_.pos_.z = -200;
+
 	//cameobj.cameobj.SetParent(&objobj);
 
 
@@ -52,7 +54,9 @@ void GameScene::Initialize()
 
 	texname_ = charactorObj2_.loadTexture("Resources/hokehoke.png");
 
-	//play_.Init("Resources/obj/karaage/", "karaage.obj");
+	play_.Init("Resources/obj/karaage/", "karaage.obj");
+
+	
 
 
 	sphere_.center_ = { 0,0,0 };
@@ -258,7 +262,7 @@ void GameScene::Update()
 
 	bool hit = Collision::CheckRay2Sphere(ray_, sphere_);
 
-	lightManager_->lightGroups_[0].SetAmbientColor(XMFLOAT3(ambientColor0_));
+	lightManager_->lightGroups_[0].SetAmbientColor(Vector3(ambientColor0_[0], ambientColor0_[1], ambientColor0_[2]));
 
 	lightManager_->lightGroups_[0].SetDirLightDir(0, { lightDir0_[0],lightDir0_[1] ,lightDir0_[2],0 });
 	lightManager_->lightGroups_[0].SetDirLightColor(0, { lightColor0_[0],lightColor0_[1] ,lightColor0_[2] });
@@ -355,9 +359,9 @@ void GameScene::Update()
 	if (ImGui::CollapsingHeader("camera"))
 	{
 
-		ImGui::SliderFloat("cameraX", &cameraPos_.x, -500.0f, 500.0f, "%.3f");
-		ImGui::SliderFloat("cameraY", &cameraPos_.y, -500.0f, 500.0f, "%.3f");
-		ImGui::SliderFloat("cameraZ", &cameraPos_.z, -500.0f, 500.0f, "%.3f");
+		ImGui::SliderFloat("cameraX", &cameraPos_.x, -1000.0f, 1000.0f, "%.3f");
+		ImGui::SliderFloat("cameraY", &cameraPos_.y, -1000.0f, 1000.0f, "%.3f");
+		ImGui::SliderFloat("cameraZ", &cameraPos_.z, -1000.0f, 1000.0f, "%.3f");
 
 		ImGui::SliderFloat("cameraRotX", &cameraRot_.x, -5.0f, 5.0f, "%.3f");
 		ImGui::SliderFloat("cameraRotY", &cameraRot_.y, -5.0f, 5.0f, "%.3f");
@@ -480,7 +484,7 @@ void GameScene::Update()
 
 	ImGui::Begin("check");
 
-	
+	ImGui::Checkbox("chengCamera", &chengCamera_);
 
 	ImGui::End();
 
@@ -506,17 +510,30 @@ void GameScene::Update()
 
 	ImGui::ShowDemoWindow();
 #endif
+	if (chengCamera_)
+	{
+		
+		play_.playerCamera_.upDate();
+		cameobj_ = play_.playerCamera_;
+	}
+	else
+	{
+		debugCameobj_.pos_ = cameraPos_;
+		debugCameobj_.rotate_ = cameraRot_;
+		debugCameobj_.upDate();
+		cameobj_ = debugCameobj_;
+		
+	}
 
 	reloadLevel(DIK_K, "scenetest4");
 
-	cameobj_.pos_ = cameraPos_;
-	cameobj_.rotate_ = cameraRot_;
+	
 
 	objobj_.SetPos(movecoll_);
 	objobj2_.SetPos(movecoll_);
 
-	cameobj_.upDate();
-	//play_.Update(cameobj_);
+	
+	play_.Update(cameobj_.GetCamera());
 	lightManager_->lightGroups_[0].Update();
 
 	sprite_.Update();
@@ -587,7 +604,7 @@ void GameScene::Draw()
 	}
 
 
-	//play.Draw(directXinit->GetcmdList().Get());
+	play_.Draw();
 
 	//sprite_.Draw();
 	//sprite2_.Draw();

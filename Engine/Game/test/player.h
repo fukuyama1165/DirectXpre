@@ -9,7 +9,7 @@ public:
 	~player();
 
 	void Init(const std::string& directoryPath, const char filename[]);
-	void Update(const cameraObj& camera);
+	void Update(const Camera& camera);
 	void Draw();
 	void Attack();
 
@@ -17,7 +17,7 @@ public:
 
 	Object3D playerObj_;
 
-	Object3D attackObj_;
+	cameraObj playerCamera_;
 
 private:
 
@@ -31,7 +31,7 @@ private:
 
 	Vector3 moveVec_;
 
-	float moveSpeed_ = 5;
+	float moveSpeed_ = 0.1f;
 
 	bool attackFlag_ = false;
 
