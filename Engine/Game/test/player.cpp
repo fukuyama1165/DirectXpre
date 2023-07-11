@@ -17,12 +17,16 @@ void player::Init(const std::string& directoryPath, const char filename[])
 {
 	input_ = input_->GetInstance();
 	playerObj_.objDrawInit(directoryPath, filename,true);
+	reticle3DObj_.objDrawInit(directoryPath, filename,true);
+	reticle_.initialize(SpriteCommon::GetInstance(), 1);
 	
 	playerObj_.SetPos({ -20,0,0 });
 	playerObj_.SetScale({ 0.05f,0.05f,0.05f });
 
 	playerCamera_.pos_ = { 0,0,-200 };
 	hogeca.eye_ = { 0,0,-3 };
+
+	reticle_.scale_ = { 0.5f,0.5f };
 }
 
 void player::Update(const Camera& camera)
@@ -39,11 +43,7 @@ void player::Update(const Camera& camera)
 	if (input_->ReleaseKey(DIK_SPACE))
 	{
 		attackFlag_ = false;
-		//すぐ振り向くのを防止
-		/*if (time_ <= 20 && time_>15)
-		{
-			time_ += 20;
-		}*/
+		
 
 		
 	}
@@ -80,12 +80,18 @@ void player::Update(const Camera& camera)
 
 	//Attack();
 
+	/*reticle_.pos_ = input_->GetMousePos();
+	reticle_.Update();*/
+
+	Reticle2DMouseAttack(camera);
 	
 }
 
 void player::Draw()
 {
 	playerObj_.Draw();
+	reticle3DObj_.Draw();
+	reticle_.Draw();
 }
 
 void player::Attack()
@@ -154,4 +160,75 @@ void player::HideDownWall()
 	forward = VectorMat(forward, playerObj_.GetWorldMat());
 
 	hogeca.target_ = hogeca.eye_ + forward;
+}
+
+void player::Reticle2DMouseAttack(Camera camera)
+{
+	
+
+	POINT mousePosition = {};
+	Vector2 spritePosition = reticle_.pos_;
+
+	if (!Input::GetInstance()->GetIsUseGamePad())
+	{
+		//スクリーン座標を取得
+		GetCursorPos(&mousePosition);
+
+		//クライアントエリア座標に変換する
+		HWND hwnd = WinApp::GetInstance()->getHwnd();
+		ScreenToClient(hwnd, &mousePosition);
+
+		reticle_.pos_=(Vector2((float)mousePosition.x, (float)mousePosition.y));
+		//reticle_.pos_=Input::GetInstance()->GetMousePos();
+	}
+	else
+	{
+		spritePosition.x += (float)Input::GetInstance()->GetGamePadLStick().x / SHRT_MAX * 7.0f;
+		spritePosition.y -= (float)Input::GetInstance()->GetGamePadLStick().y / SHRT_MAX * 7.0f;
+
+		//reticle_.pos_ = spritePosition;
+	}
+
+
+
+	Matrix4x4 matViewport = {
+			640,0,0,0,
+			0,-360,0,0,
+			0,0,1,0,
+			640 + 0,360 + 0,0,1
+	};
+
+	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
+	Matrix4x4 matVPV;
+	matVPV = camera.matView_;
+	matVPV *= camera.matProjection_;
+	matVPV *= matViewport;
+	//合成行列の逆行列を計算する
+	Matrix4x4 matInverseVPV =matVPV.InverseMatrix();
+
+	//スクリーン座標
+	Vector3 posNear = Vector3(reticle_.pos_.x, reticle_.pos_.y, 0);
+	Vector3 posFar = Vector3(reticle_.pos_.x, reticle_.pos_.y, 1);
+
+	//スクリーン座標系からワールド座標系へ
+	posNear = Matrix4x4::VectorMatDivW(matInverseVPV, posNear);
+	posFar = Matrix4x4::VectorMatDivW(matInverseVPV, posFar);
+
+	//マウスレイの方向
+	Vector3 mouseDirection = nainavec3(posFar, posNear);
+	mouseDirection = mouseDirection.normalize();
+
+	//カメラから照準オブジェクトの距離
+	const float kDistanceTestObject = 10;
+
+	Vector3 A = posNear;
+	A += Vector3(mouseDirection.x * kDistanceTestObject, mouseDirection.y * kDistanceTestObject, mouseDirection.z * kDistanceTestObject);
+	reticle3DObj_.Trans_ = A;
+	reticle3DObj_.Scale_ = { 0.05f,0.05f,0.05f };
+
+
+	reticle_.Update();
+	reticle3DObj_.Update(camera);
+
+
 }

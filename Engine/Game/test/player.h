@@ -2,6 +2,7 @@
 #include "Object3D.h"
 #include"Input.h"
 #include "cameraObj.h"
+#include "Sprite.h"
 class player
 {
 public:
@@ -15,11 +16,17 @@ public:
 
 	bool GetAttackFlag() { return attackFlag_; };
 
+	void Reticle2DMouseAttack(Camera camera);
+
 	Object3D playerObj_;
+
+	Object3D reticle3DObj_;
 
 	cameraObj playerCamera_;
 
 	Camera hogeca;
+
+	Sprite reticle_;
 
 	float time_ = 0;
 

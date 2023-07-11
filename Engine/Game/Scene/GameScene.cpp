@@ -116,17 +116,13 @@ void GameScene::Initialize()
 	sprite_.initialize(spritecommon_, 2);
 	sprite2_.initialize(spritecommon_, 1);
 
-	sprite_.posX_ = 500;
-	sprite_.posY_ = 200;
+	sprite_.pos_ = { 500,200 };
 
-	sprite2_.posX_ = 700;
-	sprite2_.posY_ = 200;
+	sprite2_.pos_ = { 700,200 };
 
-	sprite2_.scaleX_ = 10;
-	sprite2_.scaleY_ = 10;
+	sprite2_.scale_ = { 10,10 };
 
-	sprite_.scaleX_ = 10;
-	sprite_.scaleY_ = 10;
+	sprite_.scale_ = { 10 ,10 };
 
 	objobj_.SetPos({ -100,0,0 });
 	objobj3_.SetScale({ 1000,1000,1000 });

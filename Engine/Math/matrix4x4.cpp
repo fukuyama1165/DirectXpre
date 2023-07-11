@@ -268,7 +268,7 @@ Matrix4x4 Matrix4x4::Inverse(const Matrix4x4& mat)
 {
 	Matrix4x4 ans = mat;
 
-	ans.InverseMatrix();
+	ans=ans.InverseMatrix();
 
 	return ans;
 }
