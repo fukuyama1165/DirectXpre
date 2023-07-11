@@ -258,6 +258,9 @@
     <ClCompile Include="Engine\Math\PI.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Math\Easing.cpp">
+      <Filter>ソース ファイル\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game\test\enemy.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Light\SpotLight.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\Easing.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

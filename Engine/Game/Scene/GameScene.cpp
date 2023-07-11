@@ -313,23 +313,32 @@ void GameScene::Update()
 	ImGui::SetWindowSize(ImVec2(500, 200));
 
 	ImGui::ColorEdit3("ambientColor", ambientColor0_, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("lightDir0", lightDir0_);
-	ImGui::ColorEdit3("lightColor0", lightColor0_, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("lightDir1", lightDir1_);
-	ImGui::ColorEdit3("lightColor1", lightColor1_, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("lightDir2", lightDir2_);
-	ImGui::ColorEdit3("lightColor2", lightColor2_, ImGuiColorEditFlags_Float);
+	if (ImGui::CollapsingHeader("Directional"))
+	{
 
-	
-	ImGui::ColorEdit3("pointLightColor", pointLightColor_, ImGuiColorEditFlags_Float);
-	ImGui::SliderFloat3("pointLightPos", pointPos, -50.0f, 50.0f, "%.3f");
-	ImGui::InputFloat3("pointLightAtten", pointLightAtten_);
+		ImGui::InputFloat3("lightDir0", lightDir0_);
+		ImGui::ColorEdit3("lightColor0", lightColor0_, ImGuiColorEditFlags_Float);
+		ImGui::InputFloat3("lightDir1", lightDir1_);
+		ImGui::ColorEdit3("lightColor1", lightColor1_, ImGuiColorEditFlags_Float);
+		ImGui::InputFloat3("lightDir2", lightDir2_);
+		ImGui::ColorEdit3("lightColor2", lightColor2_, ImGuiColorEditFlags_Float);
+	}
 
-	ImGui::ColorEdit3("spotLightColor", spotLightColor_, ImGuiColorEditFlags_Float);
-	ImGui::SliderFloat3("spotLightPos", spotPos_, -50.0f, 50.0f, "%.3f");
-	ImGui::InputFloat3("spotLightDir", spotDir_);
-	ImGui::InputFloat3("spotLightAtten", spotLightAtten_);
-	ImGui::InputFloat2("spotLightFactorAngle", spotLightFactorAngle_);
+	if (ImGui::CollapsingHeader("point"))
+	{
+		ImGui::ColorEdit3("pointLightColor", pointLightColor_, ImGuiColorEditFlags_Float);
+		ImGui::SliderFloat3("pointLightPos", pointPos, -50.0f, 50.0f, "%.3f");
+		ImGui::InputFloat3("pointLightAtten", pointLightAtten_);
+	}
+
+	if (ImGui::CollapsingHeader("Spot"))
+	{
+		ImGui::ColorEdit3("spotLightColor", spotLightColor_, ImGuiColorEditFlags_Float);
+		ImGui::SliderFloat3("spotLightPos", spotPos_, -50.0f, 50.0f, "%.3f");
+		ImGui::InputFloat3("spotLightDir", spotDir_);
+		ImGui::InputFloat3("spotLightAtten", spotLightAtten_);
+		ImGui::InputFloat2("spotLightFactorAngle", spotLightFactorAngle_);
+	}
 
 	pointLightPos_ = Vector3{ pointPos[0],pointPos[1] ,pointPos[2] };
 	spotLightPos_ = Vector3{ spotPos_[0],spotPos_[1] ,spotPos_[2] };
@@ -338,7 +347,7 @@ void GameScene::Update()
 
 #pragma endregion
 
-#pragma region Collision_camera
+#pragma region Collision
 
 	ImGui::Begin("Collision");
 
@@ -356,53 +365,62 @@ void GameScene::Update()
 	{
 		ImGui::Text("hit");
 	}
-	if (ImGui::CollapsingHeader("camera"))
-	{
-
-		ImGui::SliderFloat("cameraX", &cameraPos_.x, -1000.0f, 1000.0f, "%.3f");
-		ImGui::SliderFloat("cameraY", &cameraPos_.y, -1000.0f, 1000.0f, "%.3f");
-		ImGui::SliderFloat("cameraZ", &cameraPos_.z, -1000.0f, 1000.0f, "%.3f");
-
-		ImGui::SliderFloat("cameraRotX", &cameraRot_.x, -5.0f, 5.0f, "%.3f");
-		ImGui::SliderFloat("cameraRotY", &cameraRot_.y, -5.0f, 5.0f, "%.3f");
-		ImGui::SliderFloat("cameraRotZ", &cameraRot_.z, -5.0f, 5.0f, "%.3f");
-
-		ImGui::Text("reset");
-
-		if (ImGui::Button("posX"))
-		{
-			cameraPos_.x = 0;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("posY"))
-		{
-			cameraPos_.y = 0;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("posZ"))
-		{
-			cameraPos_.z = -200;
-		}
-		if (ImGui::Button("rotX"))
-		{
-			cameraRot_.x = 0;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("rotY"))
-		{
-			cameraRot_.y = 0;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("rotZ"))
-		{
-			cameraRot_.z = 0;
-		}
-
-	}
+	
 
 	ImGui::End();
 
 #pragma endregion
+
+#pragma region camera
+
+	ImGui::Begin("camera");
+
+	
+	ImGui::SliderFloat("cameraX", &cameraPos_.x, -1000.0f, 1000.0f, "%.3f");
+	ImGui::SliderFloat("cameraY", &cameraPos_.y, -1000.0f, 1000.0f, "%.3f");
+	ImGui::SliderFloat("cameraZ", &cameraPos_.z, -1000.0f, 1000.0f, "%.3f");
+
+	ImGui::SliderFloat("cameraRotX", &cameraRot_.x, -5.0f, 5.0f, "%.3f");
+	ImGui::SliderFloat("cameraRotY", &cameraRot_.y, -5.0f, 5.0f, "%.3f");
+	ImGui::SliderFloat("cameraRotZ", &cameraRot_.z, -5.0f, 5.0f, "%.3f");
+
+	ImGui::Text("reset");
+
+	if (ImGui::Button("posX"))
+	{
+		cameraPos_.x = 0;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("posY"))
+	{
+		cameraPos_.y = 0;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("posZ"))
+	{
+		cameraPos_.z = -200;
+	}
+	if (ImGui::Button("rotX"))
+	{
+		cameraRot_.x = 0;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("rotY"))
+	{
+		cameraRot_.y = 0;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("rotZ"))
+	{
+		cameraRot_.z = 0;
+	}
+
+	
+	
+	ImGui::End();
+
+#pragma endregion
+
 
 #pragma region input
 
@@ -485,6 +503,10 @@ void GameScene::Update()
 	ImGui::Begin("check");
 
 	ImGui::Checkbox("chengCamera", &chengCamera_);
+	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
+	ImGui::Text("%0.0f", play_.time_);
+
+	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
 	ImGui::End();
 
@@ -513,7 +535,8 @@ void GameScene::Update()
 	if (chengCamera_)
 	{
 		
-		play_.playerCamera_.upDate();
+		//play_.playerCamera_.upDate();
+		play_.playerCamera_.pos_ = cameraPos_;
 		cameobj_ = play_.playerCamera_;
 	}
 	else

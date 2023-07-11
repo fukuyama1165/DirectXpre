@@ -12,6 +12,8 @@ public:
 
 	Camera GetCamera() { return camera_; };
 
+	void SetCamera(Camera camera) { camera_ = camera; };
+
 public:
 
 	Vector3 pos_ = {};

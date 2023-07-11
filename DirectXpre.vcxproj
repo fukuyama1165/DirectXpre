@@ -128,6 +128,7 @@
     <ClCompile Include="Engine\Game\test\enemyManager.cpp" />
     <ClCompile Include="Engine\Game\test\player.cpp" />
     <ClCompile Include="Engine\main.cpp" />
+    <ClCompile Include="Engine\Math\Easing.cpp" />
     <ClCompile Include="Engine\Math\matrix4x4.cpp" />
     <ClCompile Include="Engine\Math\PI.cpp" />
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Engine\Game\test\enemy.h" />
     <ClInclude Include="Engine\Game\test\enemyManager.h" />
     <ClInclude Include="Engine\Game\test\player.h" />
+    <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\Math\matrix4x4.h" />
     <ClInclude Include="Engine\Math\PI.h" />
     <ClInclude Include="Engine\Math\Quaternion.h" />

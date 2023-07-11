@@ -75,6 +75,6 @@ float4 main(VSOutput input) : SV_TARGET
     colTex.rgb = colTex.rgb / totalWeight;
     colTex.a = 1;
     
-    float4 highLumi = (col * extract)/* + colTex*/;
-    return col /*+ (colTex * extract)*/;
+    float4 highLumi = (/*col * */extract) + colTex;
+    return highLumi + col;
 }

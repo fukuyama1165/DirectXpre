@@ -19,8 +19,21 @@ public:
 
 	cameraObj playerCamera_;
 
+	Camera hogeca;
+
+	float time_ = 0;
+
+	bool cameraCheng_ = false;
+
 private:
 
+	void HideRightWall();
+
+	void HideDownWall();
+
+private:
+
+	
 	
 	float rotate_ = 0;
 	
@@ -32,6 +45,10 @@ private:
 	Vector3 moveVec_;
 
 	float moveSpeed_ = 0.1f;
+
+	
+	float maxTime_ = 500;
+	float maxMoveTime_ = maxTime_/15;
 
 	bool attackFlag_ = false;
 

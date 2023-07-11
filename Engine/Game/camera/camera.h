@@ -43,6 +43,8 @@ public:
 	Vector3 target_ = {};//注視点座標
 	Vector3 up_= { 0, 1, 0 };//上方向ベクトル
 
+	Vector3 forward_ = { 0,0,1 };//正面
+
 private:
 	//画面サイズ
 	float Win_width_;
