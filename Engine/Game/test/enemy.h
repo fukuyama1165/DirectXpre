@@ -24,7 +24,6 @@ private:
 
 	uint32_t hitTime_ = 0;
 
-	Input* input_=nullptr;
 
 	Vector3 pos_ = {};
 };

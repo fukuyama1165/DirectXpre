@@ -1,13 +1,5 @@
 #pragma once
 
-//D3DƒRƒ“ƒpƒCƒ‰
-#include<d3dcompiler.h>
-#pragma comment(lib,"d3dcompiler.lib")
-
-#include<d3d12.h>
-#pragma comment(lib,"d3d12.lib")
-
-#include <vector>
 #include <memory>
 
 #include "DirectXInit.h"

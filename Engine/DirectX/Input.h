@@ -1,7 +1,6 @@
 ﻿#pragma once
 //D3Dコンパイラ
 #include<d3dcompiler.h>
-#pragma comment(lib,"d3dcompiler.lib")
 
 #include<vector>
 #include<string>
@@ -16,23 +15,12 @@
 
 #include <cstdint>
 
-
-//#pragma commentとは、オブジェクトファイルに、
-//リンカでリンクするライブラリの名前を記述するもの
-#pragma comment(lib,"d3d12.lib")
-#pragma comment(lib,"dxgi.lib")
-
-
 //キーボードやコントローラーなどの入力するヘッダとライブラリのリンク
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
-#pragma comment(lib,"dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
-
 //コントローラーを使うならこれが簡単らしい
 #include <Xinput.h>
-#pragma comment(lib,"Xinput.lib")
 
 #include "Vector2.h"
 #include "Vector3.h"

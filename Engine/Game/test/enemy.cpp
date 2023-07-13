@@ -3,7 +3,6 @@
 
 enemy::enemy()
 {
-	input_ = input_->GetInstance();
 }
 enemy::~enemy()
 {
