@@ -5,7 +5,6 @@
 
 //D3Dコンパイラ
 #include<d3dcompiler.h>
-#pragma comment(lib,"d3dcompiler.lib")
 
 #include<vector>
 #include<string>
@@ -13,17 +12,7 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//#pragma commentとは、オブジェクトファイルに、
-//リンカでリンクするライブラリの名前を記述するもの
-#pragma comment(lib,"d3d12.lib")
-#pragma comment(lib,"dxgi.lib")
-
-#include <DirectXTex.h>
 #include <imgui.h>
-
-#include "WinApp.h"
-
-#include "DirectXInit.h"
 
 #include "ImGuiManager.h"
 
@@ -32,8 +21,6 @@
 #include "Input.h"
 #include "XAudio.h"
 
-#include "Framework.h"
-
 #include "Object3D.h"
 
 #include "Sprite.h"
@@ -41,7 +28,6 @@
 #include "camera.h"
 #include "Texture.h"
 #include "player.h"
-#include "enemy.h"
 
 #include "cameraObj.h"
 #include "enemyManager.h"

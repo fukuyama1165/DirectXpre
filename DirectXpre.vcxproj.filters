@@ -264,6 +264,9 @@
     <ClCompile Include="Engine\Game\test\PlayerBullet.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\test\EnemyBullet.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game\test\enemy.h">
@@ -405,6 +408,9 @@
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\test\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\test\EnemyBullet.h">
       <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,8 +1,6 @@
 #pragma once
 //D3Dコンパイラ
 #include<d3dcompiler.h>
-#pragma comment(lib,"d3dcompiler.lib")
-
 //ComPtr用インクルード
 #include <wrl.h>
 

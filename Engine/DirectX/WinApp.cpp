@@ -1,5 +1,7 @@
 ﻿#include "WinApp.h"
 #pragma comment(lib,"winmm.lib")
+#pragma comment(lib,"xaudio2.lib")
+
 #include <imgui_impl_win32.h>
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, uint32_t msg, WPARAM wParam, LPARAM lParam);

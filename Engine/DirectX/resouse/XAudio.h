@@ -1,8 +1,6 @@
 #pragma once
 #include <xaudio2.h>
 
-#pragma comment(lib,"xaudio2.lib")
-
 //ファイル読み込みに必要らしい
 #include <fstream>
 
