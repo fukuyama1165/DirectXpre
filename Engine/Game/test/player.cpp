@@ -1,19 +1,19 @@
-#include "player.h"
+#include "Player.h"
 #include <imgui.h>
 #include "Easing.h"
 
-player::player()
+Player::Player()
 {
 
 }
-player::~player()
+Player::~Player()
 {
 
 }
 
 
 
-void player::Init(const std::string& directoryPath, const char filename[])
+void Player::Init(const std::string& directoryPath, const char filename[])
 {
 	input_ = input_->GetInstance();
 	playerObj_.objDrawInit(directoryPath, filename,true);
@@ -34,7 +34,7 @@ void player::Init(const std::string& directoryPath, const char filename[])
 	reticle_.scale_ = { 0.5f,0.5f };
 }
 
-void player::Update(const Camera& camera)
+void Player::Update(const Camera& camera)
 {
 	moveVec_ = { 0,0,0 };
 
@@ -94,7 +94,7 @@ void player::Update(const Camera& camera)
 	/*reticle_.pos_ = input_->GetMousePos();
 	reticle_.Update();*/
 
-	Reticle2DMouseAttack(camera);
+	Reticle2DMouse(camera);
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
@@ -103,7 +103,7 @@ void player::Update(const Camera& camera)
 	
 }
 
-void player::Draw()
+void Player::Draw()
 {
 	playerObj_.Draw();
 	reticle3DObj_.Draw();
@@ -114,7 +114,7 @@ void player::Draw()
 	}
 }
 
-void player::Attack()
+void Player::Attack()
 {
 	
 	if (input_->TriggerKey(DIK_N) and bulletCT_ <= 0)
@@ -139,7 +139,7 @@ void player::Attack()
 		//’e‚ð“o˜^
 		bullets_.emplace_back(std::move(newBullet));
 
-		bulletCT_ = 5;
+		bulletCT_ = bulletMaxCT_;
 	}
 
 	if (bulletCT_ > 0)
@@ -176,14 +176,14 @@ void player::Attack()
 		//’e‚ð“o˜^
 		bullets_.emplace_back(std::move(newBullet));
 
-		bulletCT_ = 5;
+		bulletCT_ = bulletMaxCT_;
 	}
 
 
 
 }
 
-void player::HideRightWall()
+void Player::HideRightWall()
 {
 	if (attackFlag_)
 	{
@@ -208,7 +208,7 @@ void player::HideRightWall()
 	}
 }
 
-void player::HideDownWall()
+void Player::HideDownWall()
 {
 	if (attackFlag_)
 	{
@@ -235,7 +235,7 @@ void player::HideDownWall()
 	playCamera_.target_ = playCamera_.eye_ + forward;
 }
 
-void player::Reticle2DMouse(Camera camera)
+void Player::Reticle2DMouse(Camera camera)
 {
 	
 

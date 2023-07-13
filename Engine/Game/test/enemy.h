@@ -3,15 +3,21 @@
 #include"Input.h"
 #include "EnemyBullet.h"
 #include <list>
-class enemy
+class Enemy
 {
 public:
-	enemy();
-	~enemy();
+	Enemy();
+	~Enemy();
 
-	void Init(const std::string& directoryPath, const char filename[]);
-	void Update(const Camera& camera,const Vector3& playerPos);
+	void Init();
+	void Update(const Camera& camera);
 	void Draw(AnimationModel* model);
+
+	void Attack();
+
+	Vector3 GetObjWorldPos() { return enemyObj_.GetWorldPos(); };
+
+	uint32_t GetCT() { return bulletCT_; };
 
 	Object3D enemyObj_;
 
@@ -20,16 +26,12 @@ public:
 
 private:
 
-	bool isHitSet_ = false;
+	uint32_t bulletCT_ = 0;
 
-	Vector3 hitVec_;
-
-	uint32_t hitTime_ = 0;
-
-	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	uint32_t bulletMaxCT_ = 100;
 
 	AnimationModel* bulletModel_=nullptr;
 
-	Vector3 pos_ = {};
+	
 };
 

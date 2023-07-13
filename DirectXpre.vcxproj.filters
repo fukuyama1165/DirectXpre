@@ -153,13 +153,13 @@
     <ClCompile Include="Engine\DirectX\WinApp.cpp">
       <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\test\enemy.cpp">
+    <ClCompile Include="Engine\Game\test\Enemy.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\test\enemyManager.cpp">
+    <ClCompile Include="Engine\Game\test\EnemyManager.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\test\player.cpp">
+    <ClCompile Include="Engine\Game\test\Player.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\camera\camera.cpp">
@@ -269,13 +269,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Game\test\enemy.h">
+    <ClInclude Include="Engine\Game\test\Enemy.h">
       <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\test\enemyManager.h">
+    <ClInclude Include="Engine\Game\test\EnemyManager.h">
       <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\test\player.h">
+    <ClInclude Include="Engine\Game\test\Player.h">
       <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">

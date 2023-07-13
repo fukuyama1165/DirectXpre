@@ -6,11 +6,11 @@
 #include "PlayerBullet.h"
 #include <list>
 
-class player
+class Player
 {
 public:
-	player();
-	~player();
+	Player();
+	~Player();
 
 	void Init(const std::string& directoryPath, const char filename[]);
 	void Update(const Camera& camera);
@@ -71,7 +71,9 @@ private:
 
 	std::unique_ptr<AnimationModel> bulletModel_;
 
-	uint32_t bulletCT_;
+	uint32_t bulletCT_ = 0;
+
+	uint32_t bulletMaxCT_ = 5;
 
 };
 

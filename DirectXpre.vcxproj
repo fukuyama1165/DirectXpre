@@ -124,10 +124,10 @@
     <ClCompile Include="Engine\Game\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Game\sprite\Sprite.cpp" />
     <ClCompile Include="Engine\Game\sprite\SpriteCommon.cpp" />
-    <ClCompile Include="Engine\Game\test\enemy.cpp" />
+    <ClCompile Include="Engine\Game\test\Enemy.cpp" />
     <ClCompile Include="Engine\Game\test\EnemyBullet.cpp" />
-    <ClCompile Include="Engine\Game\test\enemyManager.cpp" />
-    <ClCompile Include="Engine\Game\test\player.cpp" />
+    <ClCompile Include="Engine\Game\test\EnemyManager.cpp" />
+    <ClCompile Include="Engine\Game\test\Player.cpp" />
     <ClCompile Include="Engine\Game\test\PlayerBullet.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\Math\Easing.cpp" />
@@ -186,10 +186,10 @@
     <ClInclude Include="Engine\Game\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Game\sprite\Sprite.h" />
     <ClInclude Include="Engine\Game\sprite\SpriteCommon.h" />
-    <ClInclude Include="Engine\Game\test\enemy.h" />
+    <ClInclude Include="Engine\Game\test\Enemy.h" />
     <ClInclude Include="Engine\Game\test\EnemyBullet.h" />
-    <ClInclude Include="Engine\Game\test\enemyManager.h" />
-    <ClInclude Include="Engine\Game\test\player.h" />
+    <ClInclude Include="Engine\Game\test\EnemyManager.h" />
+    <ClInclude Include="Engine\Game\test\Player.h" />
     <ClInclude Include="Engine\Game\test\PlayerBullet.h" />
     <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\Math\matrix4x4.h" />

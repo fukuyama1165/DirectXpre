@@ -1,7 +1,7 @@
 #pragma once
-#include "enemy.h"
+#include "Enemy.h"
 #include <list>
-class enemyManager
+class EnemyManager
 {
 
 public:
@@ -12,14 +12,19 @@ public:
 
 	void UpDate(const Camera& camera,const Vector3& playerPos);
 
+	void EnemyAttack(Enemy enemy, const Vector3& playerPos);
+
 	void Draw();
 
 private:
 
 public:
-	std::list<std::unique_ptr<enemy>> enemys_;
+	std::list<std::unique_ptr<Enemy>> enemys_;
 
 	std::unique_ptr<AnimationModel> bulletModel_;
+	std::unique_ptr<AnimationModel> enemyModel_;
+
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 
 	uint32_t enemyCount_ = 0;
 

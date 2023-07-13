@@ -27,10 +27,10 @@
 
 #include "camera.h"
 #include "Texture.h"
-#include "player.h"
+#include "Player.h"
 
 #include "cameraObj.h"
-#include "enemyManager.h"
+#include "EnemyManager.h"
 
 #include "LightManager.h"
 #include "CollisionPrimirive.h"
@@ -139,7 +139,9 @@ private:
 
 	Vector3 spriteMove_ = { 50 ,200 ,0 };
 
-	player play_;
+	Player play_;
+
+	EnemyManager enemys_;
 
 	XAudio* xAudio_;
 

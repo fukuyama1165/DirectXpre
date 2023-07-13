@@ -134,6 +134,9 @@ void GameScene::Initialize()
 
 	XAudio::StapSoundData(test_);
 
+	enemys_.Init();
+
+	enemys_.PopEnemy(Vector3(0, 0, -100));
 	
 }
 
@@ -573,7 +576,7 @@ void GameScene::Update()
 		a.obj.Update(cameobj_.GetCamera());
 	}
 
-	
+	enemys_.UpDate(cameobj_.GetCamera(), play_.playerObj_.GetWorldPos());
 
 }
 
@@ -624,6 +627,8 @@ void GameScene::Draw()
 
 
 	play_.Draw();
+
+	enemys_.Draw();
 
 	//sprite_.Draw();
 	//sprite2_.Draw();
