@@ -14,6 +14,13 @@ void enemyManager::PopEnemy(const Vector3& pos)
 	enemys_.push_back(std::move(newEnemy));
 }
 
+void enemyManager::Init()
+{
+	bulletModel_ = std::make_unique<AnimationModel>();
+
+	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
+}
+
 void enemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
 {
 	for (std::unique_ptr<enemy>& enem : enemys_)
@@ -41,7 +48,7 @@ void enemyManager::Draw()
 
 	for (std::unique_ptr<enemy>& enem : enemys_)
 	{
-		enem->Draw();
+		enem->Draw(bulletModel_.get());
 	}
 
 }

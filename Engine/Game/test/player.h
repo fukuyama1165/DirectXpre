@@ -19,15 +19,18 @@ public:
 
 	bool GetAttackFlag() { return attackFlag_; };
 
-	void Reticle2DMouseAttack(Camera camera);
+	//マウスの位置を取得してその位置をレティクル用のオブジェクト等に入れる関数
+	void Reticle2DMouse(Camera camera);
 
 	Object3D playerObj_;
 
 	Object3D reticle3DObj_;
 
+	//オブジェクトとしてのカメラ
 	cameraObj playerCamera_;
 
-	Camera hogeca;
+	//かめら本体
+	Camera playCamera_;
 
 	Sprite reticle_;
 

@@ -53,7 +53,12 @@ void enemy::Update(const Camera& camera,const Vector3& playerPos)
 	}
 }
 
-void enemy::Draw()
+void enemy::Draw(AnimationModel* model)
 {
 	enemyObj_.Draw();
+
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
+	{
+		bullet->Draw(model);
+	}
 }

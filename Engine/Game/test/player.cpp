@@ -29,7 +29,7 @@ void player::Init(const std::string& directoryPath, const char filename[])
 	playerObj_.SetScale({ 0.05f,0.05f,0.05f });
 
 	playerCamera_.pos_ = { 0,0,-200 };
-	hogeca.eye_ = { 0,0,-3 };
+	playCamera_.eye_ = { 0,0,-3 };
 
 	reticle_.scale_ = { 0.5f,0.5f };
 }
@@ -67,8 +67,8 @@ void player::Update(const Camera& camera)
 		HideDownWall();
 	}
 
-	hogeca.upDate();
-	playerCamera_.SetCamera(hogeca);
+	playCamera_.upDate();
+	playerCamera_.SetCamera(playCamera_);
 
 	
 
@@ -191,8 +191,8 @@ void player::HideRightWall()
 		{
 			time_++;
 		}
-		hogeca.eye_ = easeOutQuint(Vector3{playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z}, Vector3{ playerCamera_.pos_.x+5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
-		hogeca.target_ = easeOutQuint(Vector3{ hogeca.eye_.x,hogeca.eye_.y,hogeca.eye_.z+1 }, Vector3{ hogeca.eye_.x-100,hogeca.eye_.y,hogeca.eye_.z}, time_ / maxTime_);
+		playCamera_.eye_ = easeOutQuint(Vector3{playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z}, Vector3{ playerCamera_.pos_.x+5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z+1 }, Vector3{ playCamera_.eye_.x-100,playCamera_.eye_.y,playCamera_.eye_.z}, time_ / maxTime_);
 		
 	}
 	else
@@ -201,11 +201,9 @@ void player::HideRightWall()
 		{
 			time_--;
 		}
-		/*hogeca.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x + 5, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, 1.0f - (time_ / maxTime_));
-		hogeca.target_ = easeOutQuint(Vector3{ hogeca.eye_.x - 100,hogeca.eye_.y,hogeca.eye_.z }, Vector3{ hogeca.eye_.x,hogeca.eye_.y,hogeca.eye_.z + 1 }, 1.0f - (time_ / maxTime_));*/
 		
-		hogeca.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x + 5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
-		hogeca.target_ = easeOutQuint(Vector3{ hogeca.eye_.x,hogeca.eye_.y,hogeca.eye_.z + 1 }, Vector3{ hogeca.eye_.x - 100,hogeca.eye_.y,hogeca.eye_.z }, time_ / maxTime_);
+		playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x + 5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z + 1 }, Vector3{ playCamera_.eye_.x - 100,playCamera_.eye_.y,playCamera_.eye_.z }, time_ / maxTime_);
 
 	}
 }
@@ -225,8 +223,8 @@ void player::HideDownWall()
 		time_ = 0;
 	}
 
-	//hogeca.target_ = easeOutQuint(Vector3{ 0,0,1 }, Vector3{ 0,0,1 }, time_ / maxTime_);
-	hogeca.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-10, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+	
+	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-10, playerCamera_.pos_.z }, time_ / maxMoveTime_);
 
 	playerCamera_.cameobj_.matWorldGeneration();
 
@@ -234,10 +232,10 @@ void player::HideDownWall()
 
 	forward = VectorMat(forward, playerObj_.GetWorldMat());
 
-	hogeca.target_ = hogeca.eye_ + forward;
+	playCamera_.target_ = playCamera_.eye_ + forward;
 }
 
-void player::Reticle2DMouseAttack(Camera camera)
+void player::Reticle2DMouse(Camera camera)
 {
 	
 
