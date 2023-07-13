@@ -17,6 +17,7 @@ class Shader
 {
 public:
 	
+	std::string name_ = "";
 
 	Microsoft::WRL::ComPtr<ID3DBlob> blob_ = nullptr;
 
@@ -29,10 +30,11 @@ public:
 	/// <summary>
 	/// 指定して読み込み
 	/// </summary>
+	/// <param name="id">呼び出すとき使用するid</param>
 	/// <param name="ShaderName">読み込みたいシェーダ名(パス)</param>
 	/// <param name="EntryPoint">エントリーポイント</param>
 	/// <param name="ShaderModelName">シェーダモデル名</param>
-	Shader(std::string ShaderName,std::string EntryPoint,std::string ShaderModelName);
+	Shader(std::string id, std::string ShaderName,std::string EntryPoint,std::string ShaderModelName);
 
 	/// <summary>
 	/// 指定した物を生成してデータに登録(コンストラクタとの違いは配列に入れるかどうか基本的にこっちを呼び出す)

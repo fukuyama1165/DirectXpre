@@ -15,17 +15,25 @@ public:
 
 	struct ConstBufferData
 	{
-
+		//GPU‚É‘—‚é‚½‚ß‚É‚±‚Ì‡”Ô‚É‚È‚è
+		//ŠÔ‚Épad‚ª“ü‚Á‚Ä‚¢‚é
+		float active;
+		float pad01;
+		float pad02;
+		float pad03;
 		Vector3 lightV;
+		float pad0;
 		Vector3 lightPos;
 		float pad1;
 		Vector3 lightColor;
 		float pad2;
 		Vector3 lightAtten;
-		float pad3;
-		Vector2 lightFactorAhgleCos;
-		uint32_t active;
+		float pad3;	
+		Vector3 lightFactorAhgleCos;
 		float pad4;
+		
+		
+		
 
 	};
 

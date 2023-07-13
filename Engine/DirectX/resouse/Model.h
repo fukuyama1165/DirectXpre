@@ -92,9 +92,9 @@ private:
 	struct Material
 	{
 		std::string name_;//マテリアル名
-		XMFLOAT3 ambient_;//アンビエント影響度
-		XMFLOAT3 diffuse_;//ディフューズ影響度
-		XMFLOAT3 specular_;//スペキュラー影響度
+		Vector3 ambient_;//アンビエント影響度
+		Vector3 diffuse_;//ディフューズ影響度
+		Vector3 specular_;//スペキュラー影響度
 		float alpha_;//アルファ
 		std::string textureFilename_;//テクスチャファイル名
 

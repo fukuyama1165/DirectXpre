@@ -70,8 +70,8 @@ private:
 	//頂点データ構造体
 	struct Vertex
 	{
-		XMFLOAT3 pos;//xyz座標
-		XMFLOAT2 uv;
+		Vector3 pos;//xyz座標
+		Vector2 uv;
 	};
 
 
@@ -153,7 +153,7 @@ private:
 	struct  ConstBufferMaterial
 	{
 
-		XMFLOAT4 color;
+		Vector4 color;
 
 	};
 

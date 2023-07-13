@@ -52,6 +52,9 @@ public:
 	//キーボードのキーを押した瞬間に反応する関数(長押し反応しない)
 	bool TriggerKey(const BYTE& CheckKey);
 
+	//キーボードのキーを離した瞬間に反応する関数(長押し反応しない)
+	bool ReleaseKey(const BYTE& CheckKey);
+
 	/// <summary>
 	/// クリックしているかどうかを取得
 	/// </summary>

@@ -1,7 +1,6 @@
 #pragma once
 #include "IScene.h"
 
-
 #include<Windows.h>
 
 //D3Dコンパイラ
@@ -14,28 +13,13 @@
 #include<d3d12.h>
 #include<dxgi1_6.h>
 
-//数学ライブラリ(最適化されすぎて使いにくいらしいのであとで自作しろって)
-#include<DirectXMath.h>
-using namespace DirectX;
-
 //#pragma commentとは、オブジェクトファイルに、
 //リンカでリンクするライブラリの名前を記述するもの
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 
-//キーボードやコントローラーなどの入力するヘッダとライブラリのリンク
-#define DIRECTINPUT_VERSION 0x0800
-#include <dinput.h>
-
-#pragma comment(lib,"dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
-
-
-
 #include <DirectXTex.h>
 #include <imgui.h>
-
-
 
 #include "WinApp.h"
 
@@ -117,6 +101,8 @@ private:
 	//カメラ
 	Camera camera_;
 	cameraObj cameobj_;
+	cameraObj debugCameobj_;
+	cameraObj playerCameobj_;
 
 	uint32_t texname_ = 0;
 
@@ -157,7 +143,7 @@ private:
 	float spotDir_[3] = { 0.0f,5.0f,0.0f };
 	Vector3 spotLightPos_ = { 0.5f,1.0f,2.0f };
 	float spotLightColor_[3] = { 1.0f,1.0f,1.0f };
-	float spotLightAtten_[3] = { 0.0f,0.0f,0.0f };
+	float spotLightAtten_[3] = { 1.0f,2.0f,4.0f };
 	float spotLightFactorAngle_[2] = { 20.0f,30.0f};
 
 	Vector3 movecoll_;
@@ -180,6 +166,8 @@ private:
 	};
 
 	std::vector<LevelObj> levelObj;
+
+	bool chengCamera_ = false;
 
 	
 

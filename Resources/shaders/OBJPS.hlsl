@@ -74,14 +74,14 @@ PSOutput main(VSOutput input)
 	for (uint i = 0; i < DIR_LIGHT_NUM; i++)
 	{
 
-		if (dirLights[i].active)
+		if (dirLights[i].active.x)
 		{
 
 			//ライトに向かうベクトルと法線の内積
-			float3 dotlightnormal = dot(dirLights[i].lightV, input.normal);
+			float3 dotlightnormal = dot(dirLights[i].lightV.xyz, input.normal);
 
 			//反射光ベクトル
-			float3 reflect = normalize(-dirLights[i].lightV + 2 * dotlightnormal * input.normal);
+			float3 reflect = normalize(-dirLights[i].lightV.xyz + 2 * dotlightnormal * input.normal);
 
 			//拡散反射光
 			float3 diffuse = dotlightnormal * m_diffuse;
@@ -90,7 +90,7 @@ PSOutput main(VSOutput input)
 			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
 			//全て加算する
-			shadecolor.rgb += (diffuse + specular) * dirLights[i].lightColor;
+			shadecolor.rgb += (diffuse + specular) * dirLights[i].lightColor.xyz;
 
 		}
 
@@ -99,11 +99,11 @@ PSOutput main(VSOutput input)
 	for (uint j = 0; j < POINTLIGHT_NUM; j++)
 	{
 
-		if (pointLights[j].active)
+		if (pointLights[j].active.x)
 		{
 
 			//ライトへのベクトル
-			float3 lightV = pointLights[j].lightPos - input.worldpos.xyz;
+			float3 lightV = pointLights[j].lightPos.xyz - input.worldpos.xyz;
 
 			//ベクトルの長さ
 			float d = length(lightV);
@@ -127,7 +127,7 @@ PSOutput main(VSOutput input)
 			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
 			//全て加算する
-			shadecolor.rgb +=atten* (diffuse + specular) * pointLights[j].lightColor;
+			shadecolor.rgb +=atten* (diffuse + specular) * pointLights[j].lightColor.xyz;
 
 		}
 
@@ -136,11 +136,11 @@ PSOutput main(VSOutput input)
 	for (uint n = 0; n < SPOTLIGHT_NUM; n++)
 	{
 
-		if (spotLights[n].active)
+		if (spotLights[n].active.x)
 		{
 
 			//ライトへのベクトル
-			float3 lightV = spotLights[n].lightPos - input.worldpos.xyz;
+			float3 lightV = spotLights[n].lightPos.xyz - input.worldpos.xyz;
 
 			//ベクトルの長さ
 			float d = length(lightV);
@@ -152,7 +152,7 @@ PSOutput main(VSOutput input)
 			float atten = saturate(1.0f / (spotLights[n].lightAtten.x + spotLights[n].lightAtten.y * d + spotLights[n].lightAtten.z * d * d));
 
 			//角度減衰
-			float cos = dot(lightV, spotLights[n].lightV);
+			float cos = dot(lightV, spotLights[n].lightV.xyz);
 
 			//減衰開始角度から、減衰終了角度に掛けて減衰
 			//減衰開始角度の内側は1倍減衰終了角度の外側は0倍の輝度
@@ -174,7 +174,7 @@ PSOutput main(VSOutput input)
 			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
 			//全て加算する
-			shadecolor.rgb += atten * (diffuse + specular) * spotLights[n].lightColor;
+			shadecolor.rgb += atten * (diffuse + specular) * spotLights[n].lightColor.xyz;
 
 		}
 
@@ -192,7 +192,7 @@ PSOutput main(VSOutput input)
 	float totalWeight = 0;
 	float _Sigma = 0.005;//固定だけどUVで大きさを変えると画面の外側だけに掛けることができるらしい
 	float _StepWidth = 0.001;
-	float4 colTex = float4(1, 1, 1, 1);
+	float4 colTex = float4(0, 0, 0, 0);
 
 	[loop]
 	for (float py = -_Sigma * 2; py <= _Sigma * 2; py += _StepWidth)
@@ -205,7 +205,7 @@ PSOutput main(VSOutput input)
 
 			float weight = Gaussian(input.uv, pickUV, _Sigma);
 			float4 texcolor = tex.Sample(smp, pickUV);
-			colTex += texcolor * weight;
+			colTex += tex.Sample(smp, pickUV * weight);
 			totalWeight += weight;
 
 		}

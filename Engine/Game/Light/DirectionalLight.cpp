@@ -1,7 +1,7 @@
 #include "DirectionalLight.h"
 #include "DirectXInit.h"
 
-using namespace DirectX;
+//using namespace DirectX;
 
 //ê√ìIÉÅÉìÉoïœêîÇÃé¿ëÃ
 //Microsoft::WRL::ComPtr<ID3D12Device> DirectionalLight::dev = nullptr;
@@ -55,15 +55,18 @@ void DirectionalLight::Draw(uint32_t rootParameterIndex)
 
 }
 
-void DirectionalLight::SetLightDir(const XMVECTOR& lightdir)
+void DirectionalLight::SetLightDir(const Vector4& lightdir)
 {
+	Vector3 temp(lightdir.x, lightdir.y, lightdir.z);
 
-	lightDir_ = XMVector3Normalize(lightdir);
+	temp.normalize();
+
+	lightDir_ = Vector4{ temp.x,temp.y,temp.z,lightdir.w };
 	dirty_ = true;
 
 }
 
-void DirectionalLight::SetLightColor(const XMFLOAT3& lightcolor)
+void DirectionalLight::SetLightColor(const Vector3& lightcolor)
 {
 
 	lightColor_ = lightcolor;

@@ -141,12 +141,12 @@ void LightGroup::TransferConstBuffer()
 			//有効ならデータを送る
 			if (SpotLights_[i].IsActive())
 			{
-				constMapData->spotLights[i].active = 1;
+				constMapData->spotLights[i].active = 1000;
 				constMapData->spotLights[i].lightV = SpotLights_[i].GetLightDir();
 				constMapData->spotLights[i].lightPos = SpotLights_[i].GetLightPos();
 				constMapData->spotLights[i].lightColor = SpotLights_[i].GetLightColor();
 				constMapData->spotLights[i].lightAtten = SpotLights_[i].GetLightAtten();
-				constMapData->spotLights[i].lightFactorAhgleCos = SpotLights_[i].GetLightFactorAhgleCos();
+				constMapData->spotLights[i].lightFactorAhgleCos = { SpotLights_[i].GetLightFactorAhgleCos().x, SpotLights_[i].GetLightFactorAhgleCos().y,0 };
 			}
 			else
 			{
@@ -159,7 +159,7 @@ void LightGroup::TransferConstBuffer()
 
 }
 
-void LightGroup::SetAmbientColor(const XMFLOAT3& color)
+void LightGroup::SetAmbientColor(const Vector3& color)
 {
 
 	ambientColor_ = color;
@@ -176,7 +176,7 @@ void LightGroup::SetDirLightActive(uint32_t index, bool active)
 
 }
 
-void LightGroup::SetDirLightDir(uint32_t index, const XMVECTOR& lightdir)
+void LightGroup::SetDirLightDir(uint32_t index, const Vector4& lightdir)
 {
 
 	assert(0 <= index and index < SDirLightNum_);
@@ -187,7 +187,7 @@ void LightGroup::SetDirLightDir(uint32_t index, const XMVECTOR& lightdir)
 
 }
 
-void LightGroup::SetDirLightColor(uint32_t index, const XMFLOAT3& lightcolor)
+void LightGroup::SetDirLightColor(uint32_t index, const Vector3& lightcolor)
 {
 
 	assert(0 <= index and index < SDirLightNum_);

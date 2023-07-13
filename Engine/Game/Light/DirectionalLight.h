@@ -11,6 +11,9 @@
 #include<DirectXMath.h>
 #include <wrl.h>
 
+#include "Vector3.h"
+#include "Vector4.h"
+
 class DirectionalLight
 {
 private://エイリアス
@@ -18,21 +21,20 @@ private://エイリアス
 	//Microsoft::WRL::を省略
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	//DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMVECTOR = DirectX::XMVECTOR;
-	using XMMATRIX = DirectX::XMMATRIX;
+	
 
 public://サブクラス
 	//定数バッファ用データ構造体
 	struct ConstBufferData
 	{
 
-		XMVECTOR lightv;
-		XMFLOAT3 lightColor;
-		uint32_t active;
+		Vector4 lightv;
+		Vector3 lightColor;
+		float pad;
+		float active;
+		float pad1;
+		float pad2;
+		float pad3;
 
 	};
 
@@ -66,13 +68,13 @@ public:
 	/// ライト方向をセット
 	/// </summary>
 	/// <param name="lightdir">ライト方向</param>
-	void SetLightDir(const XMVECTOR& lightdir);
+	void SetLightDir(const Vector4& lightdir);
 
 	/// <summary>
 	/// ライト色をセット
 	/// </summary>
 	/// <param name="lightcolor">ライト色</param>
-	void SetLightColor(const XMFLOAT3& lightcolor);
+	void SetLightColor(const Vector3& lightcolor);
 
 	//有効フラグをセット
 	inline void SetIsActive(bool flag) { isActive_ = flag; };
@@ -80,9 +82,9 @@ public:
 	//有効フラグを取得
 	inline bool GetIsActive() { return isActive_; };
 
-	XMVECTOR GetLightDir() { return lightDir_; };
+	Vector4 GetLightDir() { return lightDir_; };
 
-	XMFLOAT3 GetLightColor() { return lightColor_; };
+	Vector3 GetLightColor() { return lightColor_; };
 
 private://メンバ関数(privete)
 
@@ -109,10 +111,10 @@ private://メンバ変数
 	D3D12_RESOURCE_DESC cbResourceDesc_{};
 
 	//ライト光線方向(単位ベクトル)
-	XMVECTOR lightDir_ = { 1,0,0,0 };
+	Vector4 lightDir_ = { 1,0,0,0 };
 
 	//ライト色
-	XMFLOAT3 lightColor_ = { 1,1,1 };
+	Vector3 lightColor_ = { 1,1,1 };
 
 	//ダーティフラグ
 	bool dirty_ = false;
