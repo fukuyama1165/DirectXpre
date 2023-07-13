@@ -25,9 +25,6 @@
     <Filter Include="ソース ファイル\Math">
       <UniqueIdentifier>{be8b1ae2-e95c-4ad9-bb92-ae3aad3dd677}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\debris">
-      <UniqueIdentifier>{35cc3346-5640-4bc9-a88f-597a28d18a4e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\DirectX\resouse">
       <UniqueIdentifier>{5435532e-2ad1-4bc7-9382-1d7cdbf22e3c}</UniqueIdentifier>
     </Filter>
@@ -66,9 +63,6 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Math">
       <UniqueIdentifier>{d4766296-80f9-4890-a0bf-23271127ba5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\debris">
-      <UniqueIdentifier>{6563b612-7b9e-4f85-be66-2e5885e9d708}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\DirectX\resouse">
       <UniqueIdentifier>{cb87468e-e8f7-4d37-97ef-84a1d205483f}</UniqueIdentifier>
@@ -121,6 +115,12 @@
     <Filter Include="シェーダーファイル\PostEffect\Bloom">
       <UniqueIdentifier>{262383bf-9965-4410-94b4-4621be93f472}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\App">
+      <UniqueIdentifier>{35cc3346-5640-4bc9-a88f-597a28d18a4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\App">
+      <UniqueIdentifier>{6563b612-7b9e-4f85-be66-2e5885e9d708}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -154,13 +154,13 @@
       <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\test\enemy.cpp">
-      <Filter>ソース ファイル\debris</Filter>
+      <Filter>ソース ファイル\App</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\test\enemyManager.cpp">
-      <Filter>ソース ファイル\debris</Filter>
+      <Filter>ソース ファイル\App</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\test\player.cpp">
-      <Filter>ソース ファイル\debris</Filter>
+      <Filter>ソース ファイル\App</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\camera\camera.cpp">
       <Filter>ソース ファイル\Game\camera</Filter>
@@ -261,16 +261,19 @@
     <ClCompile Include="Engine\Math\Easing.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\test\PlayerBullet.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Game\test\enemy.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
+      <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\test\enemyManager.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
+      <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\test\player.h">
-      <Filter>ヘッダー ファイル\debris</Filter>
+      <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
       <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\Easing.h">
       <Filter>ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\test\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

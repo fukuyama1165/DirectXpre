@@ -3,6 +3,9 @@
 #include"Input.h"
 #include "cameraObj.h"
 #include "Sprite.h"
+#include "PlayerBullet.h"
+#include <list>
+
 class player
 {
 public:
@@ -60,5 +63,12 @@ private:
 	bool attackFlag_ = false;
 
 	float attackTime_ = 3;
+
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+
+	std::unique_ptr<AnimationModel> bulletModel_;
+
+	uint32_t bulletCT_;
+
 };
 

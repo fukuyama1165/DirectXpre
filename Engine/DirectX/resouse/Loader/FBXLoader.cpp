@@ -275,7 +275,7 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 		for (uint16_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
 		{
 
-			SetWeight tempVer;
+			SetWeight tempVer{};
 			tempVer.id_ = i;
 			tempVer.weight_ = mesh->mBones[i]->mWeights[j].mWeight;
 			//“Á’è‚Ì’¸“_‚ÌˆÊ’u‚É“ü‚ê‚éŠ´‚¶‚¾‚ÆŽv‚¤

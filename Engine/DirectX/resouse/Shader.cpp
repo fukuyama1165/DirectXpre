@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-Shader::Shader(std::string ShaderName, std::string EntryPoint, std::string ShaderModelName)
+Shader::Shader(std::string id,std::string ShaderName, std::string EntryPoint, std::string ShaderModelName)
 {
 	
 #pragma region 
@@ -42,6 +42,8 @@ Shader::Shader(std::string ShaderName, std::string EntryPoint, std::string Shade
 
 	Roadsuccess = SUCCEEDED(result);
 
+	name_ = id;
+
 #pragma endregion
 }
 
@@ -57,7 +59,7 @@ Shader Shader::ShaderLoad(std::string id, std::string ShaderName, std::string En
 
 	if (!newShader.Roadsuccess)
 	{
-		newShader = Shader(ShaderName, EntryPoint, ShaderModelName);
+		newShader = Shader(id,ShaderName, EntryPoint, ShaderModelName);
 	}
 
 	RegisterShader(id, newShader);

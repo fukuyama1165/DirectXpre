@@ -19,6 +19,11 @@ void player::Init(const std::string& directoryPath, const char filename[])
 	playerObj_.objDrawInit(directoryPath, filename,true);
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
 	reticle_.initialize(SpriteCommon::GetInstance(), 1);
+
+	bulletModel_ = std::make_unique<AnimationModel>();
+
+	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
+
 	
 	playerObj_.SetPos({ -20,0,0 });
 	playerObj_.SetScale({ 0.05f,0.05f,0.05f });
@@ -32,6 +37,12 @@ void player::Init(const std::string& directoryPath, const char filename[])
 void player::Update(const Camera& camera)
 {
 	moveVec_ = { 0,0,0 };
+
+	//デスフラグの立った弾を削除(remove_if->条件一致を全て削除)
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)//ifの中で簡易的な関数を生成してる->[](引数)
+	{
+		return bullet->IsDead();
+	});
 	
 
 	if (input_->PushKey(DIK_SPACE) && time_<=20)
@@ -78,12 +89,17 @@ void player::Update(const Camera& camera)
 		moveSpeed_ = -moveSpeed_;
 	}
 
-	//Attack();
+	Attack();
 
 	/*reticle_.pos_ = input_->GetMousePos();
 	reticle_.Update();*/
 
 	Reticle2DMouseAttack(camera);
+
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		bullet->Update(camera);
+	}
 	
 }
 
@@ -92,16 +108,75 @@ void player::Draw()
 	playerObj_.Draw();
 	reticle3DObj_.Draw();
 	reticle_.Draw();
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	{
+		bullet->Draw(bulletModel_.get());
+	}
 }
 
 void player::Attack()
 {
 	
-	if (attackFlag_)
+	if (input_->TriggerKey(DIK_N) and bulletCT_ <= 0)
 	{
+		//発射地点の為に自キャラの座標をコピー
+		Vector3 position = playerObj_.GetWorldPos();
+		position.z += 2;
 
+		//移動量を追加
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, 0);
+		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
+		velocity = velocity.normalize() * kBulletSpeed;
 
+		//速度ベクトルを自機の向きに合わせて回転する
+		velocity = VectorMat(velocity, playerObj_.GetWorldMat());
 
+		//弾の生成と初期化
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		newBullet->Initlize(position, velocity);
+
+		//弾を登録
+		bullets_.emplace_back(std::move(newBullet));
+
+		bulletCT_ = 5;
+	}
+
+	if (bulletCT_ > 0)
+	{
+		bulletCT_--;
+	}
+
+	//ゲームパッド未接続なら何もせず抜ける
+	if (!Input::GetInstance()->GetIsUseGamePad())
+	{
+		return;
+	}
+
+	//Rトリガーを押していたら
+	if (Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0)
+	{
+		//発射地点の為に自キャラの座標をコピー
+		Vector3 position = playerObj_.GetWorldPos();
+		position.z += 2;
+
+		//移動量を追加
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, 0);
+		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
+		velocity = velocity.normalize() * kBulletSpeed;
+
+		//速度ベクトルを自機の向きに合わせて回転する
+		velocity = VectorMat(velocity, playerObj_.GetWorldMat());
+
+		//弾の生成と初期化
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		newBullet->Initlize(position, velocity);
+
+		//弾を登録
+		bullets_.emplace_back(std::move(newBullet));
+
+		bulletCT_ = 5;
 	}
 
 
@@ -219,7 +294,7 @@ void player::Reticle2DMouseAttack(Camera camera)
 	mouseDirection = mouseDirection.normalize();
 
 	//カメラから照準オブジェクトの距離
-	const float kDistanceTestObject = 10;
+	const float kDistanceTestObject = 100;
 
 	Vector3 A = posNear;
 	A += Vector3(mouseDirection.x * kDistanceTestObject, mouseDirection.y * kDistanceTestObject, mouseDirection.z * kDistanceTestObject);
