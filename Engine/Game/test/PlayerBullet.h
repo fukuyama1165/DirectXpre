@@ -40,17 +40,11 @@ private:
 	//弾の本体
 	Object3D obj_;
 	
-
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0;
-
-	
-
 	//速度
 	Vector3	Velocity_;
 
 	//寿命<frm>
-	static const int32_t kLifeTime = 60 * 100;
+	static const int32_t kLifeTime = 60 * 5;
 
 	//デスタイマー
 	int32_t deathTimer_ = kLifeTime;

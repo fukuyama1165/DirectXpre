@@ -40,12 +40,6 @@ private:
 	//弾の本体
 	Object3D obj_;
 
-
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0;
-
-
-
 	//速度
 	Vector3	Velocity_;
 

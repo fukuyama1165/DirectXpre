@@ -21,7 +21,7 @@ void FPS::initialize()
 void FPS::update()
 {
 
-	const std::chrono::microseconds kMinTime(uint16_t(1000000.0f / 60.0f));
+	const std::chrono::microseconds kMinTime(uint16_t(1000000.0f / 65.0f));
 
 	const std::chrono::microseconds kMinCheckTime(uint16_t(1000000.0f / 65.0f));
 

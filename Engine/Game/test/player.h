@@ -38,6 +38,12 @@ public:
 
 	bool cameraCheng_ = false;
 
+	float bulletMaxCT_ = 10;
+
+	float bulletSpeed_ = 1.0f;
+
+	bool isDebugShot_ = false;
+
 private:
 
 	void HideRightWall();
@@ -71,9 +77,9 @@ private:
 
 	std::unique_ptr<AnimationModel> bulletModel_;
 
-	uint32_t bulletCT_ = 0;
+	float bulletCT_ = 0;
 
-	uint32_t bulletMaxCT_ = 5;
+	
 
 };
 

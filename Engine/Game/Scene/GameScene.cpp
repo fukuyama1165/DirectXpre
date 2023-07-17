@@ -503,13 +503,38 @@ void GameScene::Update()
 
 	ImGui::Checkbox("chengCamera", &chengCamera_);
 	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
-	ImGui::Text("%0.0f", play_.time_);
-
+	
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
 	ImGui::End();
 
 #pragma endregion
+
+#pragma region player
+
+	ImGui::Begin("player");
+
+	ImGui::Text("movetimer:%0.0f", play_.time_);
+	ImGui::Checkbox("playerDebugShot", &play_.isDebugShot_);
+	ImGui::InputFloat("playerShotCT", &play_.bulletMaxCT_, 1, 5);
+	ImGui::InputFloat("playerShotSpeed", &play_.bulletSpeed_, 1, 5);
+
+	ImGui::End();
+
+#pragma endregion
+
+#pragma region enemy
+
+	ImGui::Begin("enemy");
+
+	ImGui::Checkbox("enemyDebugShot", &enemys_.isDebugShot_);
+	ImGui::InputFloat("enemyShotSpeed", &enemys_.bulletSpeed_, 0.1f, 5);
+
+	ImGui::End();
+
+
+#pragma endregion
+
 
 #pragma region sprite
 

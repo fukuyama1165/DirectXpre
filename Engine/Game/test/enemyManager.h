@@ -28,5 +28,10 @@ public:
 
 	uint32_t enemyCount_ = 0;
 
+	bool isDebugShot_ = false;
+
+	//ˆÚ“®—Ê‚ð’Ç‰Á
+	float bulletSpeed_ = 1.0f;
+
 };
 

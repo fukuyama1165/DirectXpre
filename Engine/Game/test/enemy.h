@@ -28,7 +28,7 @@ private:
 
 	uint32_t bulletCT_ = 0;
 
-	uint32_t bulletMaxCT_ = 100;
+	uint32_t bulletMaxCT_ = 10;
 
 	AnimationModel* bulletModel_=nullptr;
 

@@ -16,7 +16,7 @@ Player::~Player()
 void Player::Init(const std::string& directoryPath, const char filename[])
 {
 	input_ = input_->GetInstance();
-	playerObj_.objDrawInit(directoryPath, filename,true);
+	playerObj_.FBXInit();
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
 	reticle_.initialize(SpriteCommon::GetInstance(), 1);
 
@@ -26,12 +26,15 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	
 	playerObj_.SetPos({ -20,0,0 });
-	playerObj_.SetScale({ 0.05f,0.05f,0.05f });
+	//playerObj_.SetScale({ 0.05f,0.05f,0.05f });
 
 	playerCamera_.pos_ = { 0,0,-200 };
 	playCamera_.eye_ = { 0,0,-3 };
 
 	reticle_.scale_ = { 0.5f,0.5f };
+
+	reticle3DObj_.SetPos({ 0,0,-100 });
+	reticle3DObj_.SetScale({ 0.05f,0.05f,0.05f });
 }
 
 void Player::Update(const Camera& camera)
@@ -89,12 +92,16 @@ void Player::Update(const Camera& camera)
 		moveSpeed_ = -moveSpeed_;
 	}
 
+	reticle3DObj_.Update(camera);
+
+
 	Attack();
 
 	/*reticle_.pos_ = input_->GetMousePos();
 	reticle_.Update();*/
 
-	Reticle2DMouse(camera);
+	//Reticle2DMouse(camera);
+	
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
@@ -105,7 +112,7 @@ void Player::Update(const Camera& camera)
 
 void Player::Draw()
 {
-	playerObj_.Draw();
+	playerObj_.FBXDraw(*bulletModel_.get());
 	reticle3DObj_.Draw();
 	reticle_.Draw();
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
@@ -117,20 +124,27 @@ void Player::Draw()
 void Player::Attack()
 {
 	
-	if (input_->TriggerKey(DIK_N) and bulletCT_ <= 0)
+	if ((input_->TriggerKey(DIK_N) and bulletCT_ <= 0) or (isDebugShot_ and bulletCT_ <= 0))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
 		position.z += 2;
 
 		//移動量を追加
-		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, 0);
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
-		velocity = velocity.normalize() * kBulletSpeed;
+		velocity = velocity.normalize() * bulletSpeed_;
+
+		
 
 		//速度ベクトルを自機の向きに合わせて回転する
 		velocity = VectorMat(velocity, playerObj_.GetWorldMat());
+
+		ImGui::Begin("player");
+
+		ImGui::Text("velocity:%0.5f,%0.5f,%0.5f", velocity.x, velocity.y, velocity.z);
+
+		ImGui::End();
 
 		//弾の生成と初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -160,11 +174,10 @@ void Player::Attack()
 		Vector3 position = playerObj_.GetWorldPos();
 		position.z += 2;
 
-		//移動量を追加
-		const float kBulletSpeed = 1.0f;
+		//移動量を追加		
 		Vector3 velocity(0, 0, 0);
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
-		velocity = velocity.normalize() * kBulletSpeed;
+		velocity = velocity.normalize() * bulletSpeed_;
 
 		//速度ベクトルを自機の向きに合わせて回転する
 		velocity = VectorMat(velocity, playerObj_.GetWorldMat());

@@ -1,4 +1,6 @@
 #include "EnemyManager.h"
+#include <imgui.h>
+
 
 
 void EnemyManager::PopEnemy(const Vector3& pos)
@@ -42,9 +44,10 @@ void EnemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
 	{
 		enem->Update(camera);
 
-		if (enem->GetCT() <= 0)
+		if (enem->GetCT() <= 0 and isDebugShot_)
 		{
 			EnemyAttack(*enem, playerPos);
+			//playerPos;
 		}
 	}
 
@@ -53,7 +56,7 @@ void EnemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
 		bullet->Update(camera);
 	}
 
-
+	
 }
 
 void EnemyManager::Draw()
@@ -77,14 +80,21 @@ void EnemyManager::EnemyAttack(Enemy enemy, const Vector3& playerPos)
 	Vector3 position = enemy.GetObjWorldPos();
 	position.z += 2;
 
-	//移動量を追加
-	const float kBulletSpeed = 1.0f;
+	
 	Vector3 velocity(0, 0, 0);
 	velocity = playerPos - enemy.GetObjWorldPos();
-	velocity = velocity.normalize() * kBulletSpeed;
+	velocity = velocity.normalize() * bulletSpeed_;
+
+	
 
 	//速度ベクトルを自機の向きに合わせて回転する
 	velocity = VectorMat(velocity, enemy.enemyObj_.GetWorldMat());
+
+	ImGui::Begin("enemy");
+
+	ImGui::Text("velocity:%0.5f,%0.5f,%0.5f", velocity.x, velocity.y, velocity.z);
+
+	ImGui::End();
 
 	//弾の生成と初期化
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
