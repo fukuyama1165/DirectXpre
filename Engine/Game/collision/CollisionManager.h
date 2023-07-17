@@ -16,7 +16,7 @@ public:
 	/// コライダーの追加
 	/// </summary>
 	/// <param name="Collider">コライダー</param>
-	inline void AddCollider(BaseCollider* Collider)
+	void AddCollider(BaseCollider* Collider)
 	{
 		colliders_.push_front(Collider);
 	}
@@ -25,7 +25,7 @@ public:
 	/// コライダーの削除
 	/// </summary>
 	/// <param name="Collider">コライダー</param>
-	inline void RemoveCollider(BaseCollider* Collider)
+	void RemoveCollider(BaseCollider* Collider)
 	{
 		colliders_.remove(Collider);
 	}

@@ -33,21 +33,21 @@ public:
 
 	};
 
-	inline void SetLightPos(const Vector3& LightPos) { lightPos_ = LightPos; }
+	void SetLightPos(const Vector3& LightPos) { lightPos_ = LightPos; }
 
-	inline const Vector3& GetLightPos() { return lightPos_; }
+	const Vector3& GetLightPos() { return lightPos_; }
 
-	inline void SetLightColor(const Vector3& LightColor) { lightColor_ = LightColor; }
+	void SetLightColor(const Vector3& LightColor) { lightColor_ = LightColor; }
 
-	inline const Vector3& GetLightColor() { return lightColor_; }
+	const Vector3& GetLightColor() { return lightColor_; }
 
-	inline void SetLightAtten(const Vector3& LightAtten) { lightAtten_ = LightAtten; }
+	void SetLightAtten(const Vector3& LightAtten) { lightAtten_ = LightAtten; }
 
-	inline const Vector3& GetLightAtten() { return lightAtten_; }
+	const Vector3& GetLightAtten() { return lightAtten_; }
 
-	inline void SetIsActive(bool IsActive) { active_ = IsActive; }
+	void SetIsActive(bool IsActive) { active_ = IsActive; }
 
-	inline bool IsActive() { return active_; }
+	bool IsActive() { return active_; }
 
 private:
 

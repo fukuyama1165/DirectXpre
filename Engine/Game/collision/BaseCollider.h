@@ -16,12 +16,12 @@ public:
 	//仮想デストラクタ
 	virtual ~BaseCollider() = default;
 
-	inline void SetObject(Object3D* object)
+	void SetObject(Object3D* object)
 	{
 		object3d_ = object;
 	}
 
-	inline Object3D* GetObject3D() { return object3d_; };
+	Object3D* GetObject3D() { return object3d_; };
 
 	/// <summary>
 	/// 更新
@@ -29,9 +29,9 @@ public:
 	virtual void Update() = 0;
 
 	//形状タイプ取得
-	inline CollisionShapeType GetShapeType() { return shapeType_; };
+	CollisionShapeType GetShapeType() { return shapeType_; };
 
-	inline void OnCollision(const CollisionInfo& Info) { object3d_->OnCollision(Info); };
+	void OnCollision(const CollisionInfo& Info) { object3d_->OnCollision(Info); };
 
 protected:
 

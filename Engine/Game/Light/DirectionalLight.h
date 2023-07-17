@@ -74,10 +74,10 @@ public:
 	void SetLightColor(const Vector3& lightcolor);
 
 	//有効フラグをセット
-	inline void SetIsActive(bool flag) { isActive_ = flag; };
+	void SetIsActive(bool flag) { isActive_ = flag; };
 
 	//有効フラグを取得
-	inline bool GetIsActive() { return isActive_; };
+	bool GetIsActive() { return isActive_; };
 
 	Vector4 GetLightDir() { return lightDir_; };
 

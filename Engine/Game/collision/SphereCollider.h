@@ -21,7 +21,7 @@ public:
 	/// </summary>
 	void Update()override;
 
-	inline void SetRadius(float Radius) { radius_ = Radius; };
+	void SetRadius(float Radius) { radius_ = Radius; };
 
 public:
 
