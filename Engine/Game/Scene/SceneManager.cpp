@@ -31,6 +31,7 @@ void SceneManager::Update()
 		{
 			//現在のシーンを終わらせる
 			nowScene_->Finalize();
+			//unique_ptrのreleaseはここで使おうとするとメモリリークが起きるので気を付けよう
 			//nowScene_.release();
 		}
 
