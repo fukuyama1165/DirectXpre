@@ -1,5 +1,7 @@
 #pragma once
 #include "Object3D.h"
+#include "BulletCollision.h"
+#include "SphereCollider.h"
 
 /// <summary>
 /// ©ƒLƒƒƒ‰‚Ì’e
@@ -42,6 +44,12 @@ private:
 	
 	//‘¬“x
 	Vector3	Velocity_;
+
+	//“–‚½‚è”»’è‚Ìˆ—
+	BulletCollision collision;
+
+	//“–‚½‚è”»’è‚Ì–{‘Ì
+	SphereCollider Collider;
 
 	//õ–½<frm>
 	static const int32_t kLifeTime = 60 * 5;

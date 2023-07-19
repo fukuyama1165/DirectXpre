@@ -44,6 +44,10 @@ public:
 
 	bool isDebugShot_ = false;
 
+	float muzzleFlashTime_ = 2.0f;
+
+	float muzzleFlashMaxTime_ = 2.0f;
+
 private:
 
 	void HideRightWall();

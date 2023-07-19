@@ -5,8 +5,6 @@ void GameScene::Initialize()
 
 	xAudio_ = XAudio::GetInstance();
 
-	xAudio_->Init();
-
 	test_ = xAudio_->SoundLoadWave("Resources/sound/music_InGame.wav");
 
 	LightGroup::Staticlnitialize();
@@ -20,7 +18,7 @@ void GameScene::Initialize()
 	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
 
-	lightManager_->lightGroups_[0].SetPointLightActive(0, false);
+	lightManager_->lightGroups_[0].SetPointLightActive(0, true);
 	lightManager_->lightGroups_[0].SetPointLightActive(1, false);
 	lightManager_->lightGroups_[0].SetPointLightActive(2, false);
 
@@ -142,14 +140,10 @@ void GameScene::Initialize()
 
 void GameScene::Finalize()
 {
-	charactorObj_.deleteTexture();
 
+	//XAudio::StapSoundData(test_);
 
-	//delete(levelData);
-
-	XAudio::StapSoundData(test_);
-
-	XAudio::Final();
+	
 
 }
 

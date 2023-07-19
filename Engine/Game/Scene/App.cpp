@@ -1,4 +1,5 @@
 #include "App.h"
+#include "SceneFactory.h"
 
 void App::Initialize()
 {
@@ -6,8 +7,9 @@ void App::Initialize()
 	Framework::Initialize();
 
 	//最初のシーンをセット
-	SceneManager::GetInstance()->SetNextScene(std::make_unique<GameScene>());
-
+	
+	//SceneManager::GetInstance()->SetNextScene(std::make_unique<GameScene>());
+	SceneManager::GetInstance()->ChangeScene("TITLE");
 }
 
 void App::Finalize()

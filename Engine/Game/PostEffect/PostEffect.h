@@ -82,7 +82,7 @@ private:
 	HRESULT result_;
 
 	//頂点レイアウト(要素を増やすなら配列数を増やす)
-	D3D12_INPUT_ELEMENT_DESC inputLayout_[2];
+	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayouts_;
 
 	//エラーオブジェクト
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob_ = nullptr;

@@ -25,7 +25,7 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
 
 	
-	playerObj_.SetPos({ -20,0,0 });
+	playerObj_.SetPos({ 0,5,0 });
 	//playerObj_.SetScale({ 0.05f,0.05f,0.05f });
 
 	playerCamera_.pos_ = { 0,0,-200 };
@@ -97,6 +97,17 @@ void Player::Update(const Camera& camera)
 
 	Attack();
 
+	if (muzzleFlashTime_ > 0)
+	{
+		playerObj_.SLightGroup_->SetPointLightActive(1, true);
+		
+
+	}
+	else
+	{
+		playerObj_.SLightGroup_->SetPointLightActive(1, false);
+	}
+
 	/*reticle_.pos_ = input_->GetMousePos();
 	reticle_.Update();*/
 
@@ -154,11 +165,21 @@ void Player::Attack()
 		bullets_.emplace_back(std::move(newBullet));
 
 		bulletCT_ = bulletMaxCT_;
+		muzzleFlashTime_ = muzzleFlashMaxTime_;
+		playerObj_.SLightGroup_->SetPointLightPos(1, position);
+		playerObj_.SLightGroup_->SetPointLightAtten(1, {0.1f,0.1f,0.1f});
+
+		
 	}
 
 	if (bulletCT_ > 0)
 	{
 		bulletCT_--;
+	}
+
+	if (muzzleFlashTime_ > 0)
+	{
+		muzzleFlashTime_--;
 	}
 
 	//ゲームパッド未接続なら何もせず抜ける
@@ -190,6 +211,7 @@ void Player::Attack()
 		bullets_.emplace_back(std::move(newBullet));
 
 		bulletCT_ = bulletMaxCT_;
+		muzzleFlashTime_ = muzzleFlashMaxTime_;
 	}
 
 

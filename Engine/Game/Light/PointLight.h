@@ -21,10 +21,9 @@ public:
 		float pad2;
 		//‹——£Œ¸ŠŒW”
 		Vector3 lightAtten;
-
+		float pad3;
 		float active;
 
-		float pad;
 		float pad00;
 		float pad01;
 		float pad02;

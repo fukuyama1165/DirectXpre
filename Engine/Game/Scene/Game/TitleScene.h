@@ -1,13 +1,11 @@
 #pragma once
+#include "IScene.h"
 
-#include "Framework.h"
-
-
-
-
-class App:public Framework
+class TitleScene : public IScene
 {
 public:
+	TitleScene();
+	~TitleScene();
 
 	void Initialize()override;
 
@@ -19,12 +17,4 @@ public:
 
 private:
 
-	
-
-private:
-
-	
-
-	
 };
-

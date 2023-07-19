@@ -40,8 +40,8 @@ void CollisionManager::CheckAllCollisions()
 				Vector3 inter;
 				if (Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter))
 				{
-					colA->OnCollision(CollisionInfo(colB->GetObject3D(), colB, inter));
-					colB->OnCollision(CollisionInfo(colA->GetObject3D(), colA, inter));
+					colA->OnCollision(CollisionInfo(colB->GetCollisionObj(), colB, inter));
+					colB->OnCollision(CollisionInfo(colA->GetCollisionObj(), colA, inter));
 
 				}
 

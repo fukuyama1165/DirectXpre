@@ -2,7 +2,7 @@
 
 #include "Vector3.h"
 
-class Object3D;
+class ICollisionObj;
 class BaseCollider;
 
 
@@ -13,7 +13,7 @@ struct CollisionInfo
 {
 	
 public:
-	CollisionInfo(Object3D* Object, BaseCollider* Collider, const Vector3& Inter)
+	CollisionInfo(ICollisionObj* Object, BaseCollider* Collider, const Vector3& Inter)
 	{
 
 		object_ = Object;
@@ -26,7 +26,7 @@ public:
 	}
 
 	//衝突相手のオブジェクト(コライダーから引っ張ってこれるのでめんどくさくなったら消してもいい)
-	Object3D* object_ = nullptr;
+	ICollisionObj* object_ = nullptr;
 
 	//衝突相手のコライダー
 	BaseCollider* collider_ = nullptr;

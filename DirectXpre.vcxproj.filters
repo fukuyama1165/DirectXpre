@@ -121,6 +121,21 @@
     <Filter Include="ヘッダー ファイル\App">
       <UniqueIdentifier>{6563b612-7b9e-4f85-be66-2e5885e9d708}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Scene\Game">
+      <UniqueIdentifier>{a5cf916e-3d37-4b63-ae54-3242d07cf47a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Scene\Game">
+      <UniqueIdentifier>{12da02f5-2e78-4c87-a605-c1f41fdcdadd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Scene\SceneChange">
+      <UniqueIdentifier>{fe6d7f81-09a9-4f15-80d2-0d0811fdd9bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\collision\Game">
+      <UniqueIdentifier>{4cf9a401-2c21-4369-8550-f38fd9e86ac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\collision\Game">
+      <UniqueIdentifier>{d5765729-8d18-4963-a12c-9957a20b1343}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -237,9 +252,6 @@
     <ClCompile Include="Engine\Game\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\GameScene.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp">
       <Filter>ソース ファイル\Game\PostEffect</Filter>
     </ClCompile>
@@ -266,6 +278,18 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\test\EnemyBullet.cpp">
       <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\game\TitleScene.cpp">
+      <Filter>ソース ファイル\Game\Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\game\GameScene.cpp">
+      <Filter>ソース ファイル\Game\Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\SceneFactory.cpp">
+      <Filter>ソース ファイル\Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\BulletCollision.cpp">
+      <Filter>ソース ファイル\Game\collision\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -383,9 +407,6 @@
     <ClInclude Include="Engine\Game\Scene\SceneManager.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\GameScene.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\Scene\IScene.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
@@ -412,6 +433,30 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\test\EnemyBullet.h">
       <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\game\GameScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\Game\TitleScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\ISceneFactory.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\SceneFactory.h">
+      <Filter>ヘッダー ファイル\Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\ISceneChange.h">
+      <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\ISceneChengeFactory.h">
+      <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\ICollisionObj.h">
+      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\BulletCollision.h">
+      <Filter>ヘッダー ファイル\Game\collision\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

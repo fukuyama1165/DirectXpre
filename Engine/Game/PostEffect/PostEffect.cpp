@@ -98,10 +98,7 @@ void PostEffect::Initialize()
 
 void PostEffect::Update()
 {
-	if (Input::GetInstance()->TriggerKey(DIK_0))
-	{
-		cheng_ = !cheng_;
-	}
+	
 }
 
 void PostEffect::Draw(uint16_t PipeLineRuleFlag)
@@ -167,16 +164,10 @@ void PostEffect::Draw(uint16_t PipeLineRuleFlag)
 		
 		DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootDescriptorTable(1, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(),0,
 			DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
-		if (cheng_)
-		{
-			DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 1,
-				DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
-		}
-		else
-		{
-			DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 0,
-				DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
-		}
+
+		DirectXInit::GetInstance()->GetcmdList()->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 1,
+			DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+		
 	}
 	
 
@@ -197,10 +188,6 @@ void  PostEffect::PreDrawScene()
 		directXinit->GetcmdList()->ResourceBarrier(1, &barrierDesc_);
 	}
 
-	//リソースバリアを変更(シェーダーリソース描画可能)
-	/*directXinit->GetcmdList()->ResourceBarrier(1,
-		&CD3DX12_RESOURCE_BARRIER::Transition(texBuff_.Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET)
-	);*/
 
 	//レンダーターゲットビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[2];
@@ -605,7 +592,8 @@ void PostEffect::vertexLayout()
 	//頂点レイアウト
 	//グラフィックパイプラインで頂点一つ分のデータに何を持たせるか決める
 	//これは最低限の3D座標だけ持たせているらしい
-	inputLayout_[0] =
+	D3D12_INPUT_ELEMENT_DESC inputLayout;
+	inputLayout =
 	{
 		"POSITION",//セマンティック名
 		0,//同じセマンティック名が複数あるときのインデックス
@@ -615,8 +603,9 @@ void PostEffect::vertexLayout()
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,//入力データ識別(標準はD3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA)
 		0,//一度に描画するインスタンス数
 	};
+	inputLayouts_.push_back(inputLayout);
 	//座標以外に　色、テクスチャUVなどを渡す場合はさらに続ける
-	inputLayout_[1] =
+	inputLayout =
 	{
 		"TEXCOORD",//セマンティック名
 		0,//同じセマンティック名が複数あるときのインデックス
@@ -626,7 +615,7 @@ void PostEffect::vertexLayout()
 		D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,//入力データ識別(標準はD3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA)
 		0,//一度に描画するインスタンス数
 	};
-
+	inputLayouts_.push_back(inputLayout);
 
 #pragma endregion
 }
@@ -704,8 +693,8 @@ void PostEffect::graphicPipelineGeneration()
 
 
 	//頂点レイアウトの設定
-	gpipeline_.InputLayout.pInputElementDescs = inputLayout_;
-	gpipeline_.InputLayout.NumElements = _countof(inputLayout_);
+	gpipeline_.InputLayout.pInputElementDescs = inputLayouts_.data();
+	gpipeline_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
 
 	//図形の形状を三角形に設定
 	gpipeline_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -716,6 +705,8 @@ void PostEffect::graphicPipelineGeneration()
 	gpipeline_.SampleDesc.Count = 1;//１ピクセルにつき１回サンプリング
 
 #pragma endregion 通常描画ポリゴン内を塗りつぶし(三角形)
+
+	
 
 	//通常描画ワイヤーフレーム描画(三角形)
 #pragma region グラフィックスパイプライン２の設定
@@ -763,8 +754,8 @@ void PostEffect::graphicPipelineGeneration()
 #pragma endregion
 
 	//頂点レイアウトの設定
-	gpipeline2_.InputLayout.pInputElementDescs = inputLayout_;
-	gpipeline2_.InputLayout.NumElements = _countof(inputLayout_);
+	gpipeline2_.InputLayout.pInputElementDescs = inputLayouts_.data();
+	gpipeline2_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
 
 	//図形の形状を三角形に設定
 	gpipeline2_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -849,8 +840,8 @@ void PostEffect::graphicPipelineGeneration()
 
 
 	//頂点レイアウトの設定
-	gpipeline3_.InputLayout.pInputElementDescs = inputLayout_;
-	gpipeline3_.InputLayout.NumElements = _countof(inputLayout_);
+	gpipeline3_.InputLayout.pInputElementDescs = inputLayouts_.data();
+	gpipeline3_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
 
 	//図形の形状を三角形に設定
 	gpipeline3_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -934,8 +925,8 @@ void PostEffect::graphicPipelineGeneration()
 
 
 	//頂点レイアウトの設定
-	gpipeline4_.InputLayout.pInputElementDescs = inputLayout_;
-	gpipeline4_.InputLayout.NumElements = _countof(inputLayout_);
+	gpipeline4_.InputLayout.pInputElementDescs = inputLayouts_.data();
+	gpipeline4_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
 
 	//図形の形状を三角形に設定
 	gpipeline4_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -1019,8 +1010,8 @@ void PostEffect::graphicPipelineGeneration()
 
 
 	//頂点レイアウトの設定
-	gpipeline5_.InputLayout.pInputElementDescs = inputLayout_;
-	gpipeline5_.InputLayout.NumElements = _countof(inputLayout_);
+	gpipeline5_.InputLayout.pInputElementDescs = inputLayouts_.data();
+	gpipeline5_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
 
 	//図形の形状を三角形に設定
 	gpipeline5_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
