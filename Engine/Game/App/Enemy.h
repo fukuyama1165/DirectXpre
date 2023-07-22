@@ -3,6 +3,15 @@
 #include"Input.h"
 #include "EnemyBullet.h"
 #include <list>
+#include "MobCollision.h"
+
+enum EnemyType
+{
+	moveOnly,
+	moveAttack,
+	Attack
+};
+
 class Enemy
 {
 public:
@@ -19,6 +28,8 @@ public:
 
 	uint32_t GetCT() { return bulletCT_; };
 
+	void OnCollision();
+
 	Object3D enemyObj_;
 
 	bool isAlive_ = true;
@@ -31,6 +42,12 @@ private:
 	uint32_t bulletMaxCT_ = 10;
 
 	AnimationModel* bulletModel_=nullptr;
+
+	//“–‚½‚è”»’è‚Ìˆ—
+	MobCollision collision;
+
+	//“–‚½‚è”»’è‚Ì–{‘Ì
+	SphereCollider Collider;
 
 	
 };

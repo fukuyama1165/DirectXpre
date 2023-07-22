@@ -24,7 +24,11 @@ void PlayerBullet::Initlize(const Vector3& position, const Vector3& velocity)
 
 	collision = BulletCollision("playerBullet");
 
+	
+
 	Collider.SetObject(&collision);
+
+	Collider.Initialize();
 
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
@@ -40,6 +44,7 @@ void PlayerBullet::Update(const Camera& camera)
 	if (--deathTimer_ <= 0)
 	{
 		isDead_ = true;
+		CollisionManager::GetInstance()->RemoveCollider(&Collider);
 	}
 
 	Collider.Update(camera, obj_.GetWorldPos());
@@ -63,6 +68,7 @@ void PlayerBullet::Draw(AnimationModel* model)
 void PlayerBullet::OnCollision()
 {
 	isDead_ = true;
+	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 }
 
 Vector3 PlayerBullet::GetWorldPosition()

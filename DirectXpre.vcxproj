@@ -59,7 +59,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\test;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -77,7 +77,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\test;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -102,6 +102,13 @@
     <ClCompile Include="Engine\DirectX\resouse\Texture.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\XAudio.cpp" />
     <ClCompile Include="Engine\DirectX\WinApp.cpp" />
+    <ClCompile Include="Engine\Game\App\Enemy.cpp" />
+    <ClCompile Include="Engine\Game\App\EnemyBullet.cpp" />
+    <ClCompile Include="Engine\Game\App\EnemyManager.cpp" />
+    <ClCompile Include="Engine\Game\App\EventPoint.cpp" />
+    <ClCompile Include="Engine\Game\App\EventPointManager.cpp" />
+    <ClCompile Include="Engine\Game\App\Player.cpp" />
+    <ClCompile Include="Engine\Game\App\PlayerBullet.cpp" />
     <ClCompile Include="Engine\Game\camera\camera.cpp" />
     <ClCompile Include="Engine\Game\camera\cameraObj.cpp" />
     <ClCompile Include="Engine\Game\collision\BaseCollider.cpp" />
@@ -111,6 +118,7 @@
     <ClCompile Include="Engine\Game\collision\CollisionManager.cpp" />
     <ClCompile Include="Engine\Game\collision\CollisionPrimirive.cpp" />
     <ClCompile Include="Engine\Game\collision\CollisionTypes.cpp" />
+    <ClCompile Include="Engine\Game\collision\MobCollision.cpp" />
     <ClCompile Include="Engine\Game\collision\SphereCollider.cpp" />
     <ClCompile Include="Engine\Game\Light\DirectionalLight.cpp" />
     <ClCompile Include="Engine\Game\Light\LightGroup.cpp" />
@@ -127,11 +135,6 @@
     <ClCompile Include="Engine\Game\Scene\SceneManager.cpp" />
     <ClCompile Include="Engine\Game\sprite\Sprite.cpp" />
     <ClCompile Include="Engine\Game\sprite\SpriteCommon.cpp" />
-    <ClCompile Include="Engine\Game\test\Enemy.cpp" />
-    <ClCompile Include="Engine\Game\test\EnemyBullet.cpp" />
-    <ClCompile Include="Engine\Game\test\EnemyManager.cpp" />
-    <ClCompile Include="Engine\Game\test\Player.cpp" />
-    <ClCompile Include="Engine\Game\test\PlayerBullet.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\Math\Easing.cpp" />
     <ClCompile Include="Engine\Math\matrix4x4.cpp" />
@@ -166,6 +169,13 @@
     <ClInclude Include="Engine\DirectX\resouse\Texture.h" />
     <ClInclude Include="Engine\DirectX\resouse\XAudio.h" />
     <ClInclude Include="Engine\DirectX\WinApp.h" />
+    <ClInclude Include="Engine\Game\App\Enemy.h" />
+    <ClInclude Include="Engine\Game\App\EnemyBullet.h" />
+    <ClInclude Include="Engine\Game\App\EnemyManager.h" />
+    <ClInclude Include="Engine\Game\App\EventPoint.h" />
+    <ClInclude Include="Engine\Game\App\EventPointManager.h" />
+    <ClInclude Include="Engine\Game\App\Player.h" />
+    <ClInclude Include="Engine\Game\App\PlayerBullet.h" />
     <ClInclude Include="Engine\Game\camera\camera.h" />
     <ClInclude Include="Engine\Game\camera\cameraObj.h" />
     <ClInclude Include="Engine\Game\collision\BaseCollider.h" />
@@ -176,6 +186,7 @@
     <ClInclude Include="Engine\Game\collision\ICollisionObj.h" />
     <ClInclude Include="Engine\Game\collision\CollisionPrimirive.h" />
     <ClInclude Include="Engine\Game\collision\CollisionTypes.h" />
+    <ClInclude Include="Engine\Game\collision\MobCollision.h" />
     <ClInclude Include="Engine\Game\collision\SphereCollider.h" />
     <ClInclude Include="Engine\Game\Light\DirectionalLight.h" />
     <ClInclude Include="Engine\Game\Light\LightGroup.h" />
@@ -196,11 +207,6 @@
     <ClInclude Include="Engine\Game\Scene\SceneManager.h" />
     <ClInclude Include="Engine\Game\sprite\Sprite.h" />
     <ClInclude Include="Engine\Game\sprite\SpriteCommon.h" />
-    <ClInclude Include="Engine\Game\test\Enemy.h" />
-    <ClInclude Include="Engine\Game\test\EnemyBullet.h" />
-    <ClInclude Include="Engine\Game\test\EnemyManager.h" />
-    <ClInclude Include="Engine\Game\test\Player.h" />
-    <ClInclude Include="Engine\Game\test\PlayerBullet.h" />
     <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\Math\matrix4x4.h" />
     <ClInclude Include="Engine\Math\PI.h" />

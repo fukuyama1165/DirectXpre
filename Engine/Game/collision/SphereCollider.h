@@ -13,6 +13,7 @@ public:
 
 		//球形状をセット
 		shapeType_ = COLLISIONSHAPE_SPHERE;
+		
 
 	}
 
@@ -20,6 +21,8 @@ public:
 	{
 		collisionObject_->Finalize();
 	}
+
+	void Initialize();
 
 	/// <summary>
 	/// 更新

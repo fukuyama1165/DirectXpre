@@ -72,7 +72,7 @@ void GameScene::Initialize()
 	ray_.start_ = { 0.0f,0.0f,0.0f };
 	ray_.dir_ = { 0.0f,0.0f,-1.0f };
 
-	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile("scenetest4");
+	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile("wallTest");
 
 	
 
@@ -132,9 +132,13 @@ void GameScene::Initialize()
 
 	XAudio::StapSoundData(test_);
 
-	enemys_.Init();
+	enemys_ = EnemyManager::GetInstance();
 
-	enemys_.PopEnemy(Vector3(0, 0, -100));
+	enemys_->PopEnemy(Vector3(0, 0, -100));
+
+	eventManager = EventPointManager::GetInstance();
+
+	eventManager->SetDebugMoveEvent();
 	
 }
 
@@ -283,17 +287,6 @@ void GameScene::Update()
 	lightManager_->lightGroups_[0].SetSpotLightAtten(1, { spotLightAtten_[0],spotLightAtten_[1] ,spotLightAtten_[2] });
 	lightManager_->lightGroups_[0].SetSpotLightFactorAngle(1, { spotLightFactorAngle_[0],spotLightFactorAngle_[1] });
 
-	if (IsUseCameraMouse_)
-	{
-		if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
-		{
-			WinApp::GetInstance()->SetMousePos(WinApp::SWindowWidth_ / 2, WinApp::SWindowHeight_ / 2);
-		}
-
-		cameraRot_.y += Input::GetInstance()->GetMouseMove().x / 1000;
-		cameraRot_.x += Input::GetInstance()->GetMouseMove().y / 1000;
-	}
-
 	if (Input::GetInstance()->TriggerKey(DIK_F5))
 	{
 		IsUseCameraMouse_ = !IsUseCameraMouse_;
@@ -369,13 +362,13 @@ void GameScene::Update()
 	ImGui::Begin("camera");
 
 	
-	ImGui::SliderFloat("cameraX", &cameraPos_.x, -1000.0f, 1000.0f, "%.3f");
-	ImGui::SliderFloat("cameraY", &cameraPos_.y, -1000.0f, 1000.0f, "%.3f");
-	ImGui::SliderFloat("cameraZ", &cameraPos_.z, -1000.0f, 1000.0f, "%.3f");
+	ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
+	ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
+	ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
 
-	ImGui::SliderFloat("cameraRotX", &cameraRot_.x, -5.0f, 5.0f, "%.3f");
-	ImGui::SliderFloat("cameraRotY", &cameraRot_.y, -5.0f, 5.0f, "%.3f");
-	ImGui::SliderFloat("cameraRotZ", &cameraRot_.z, -5.0f, 5.0f, "%.3f");
+	ImGui::DragFloat("cameraRotX", &cameraRot_.x, 0.1f, -5.0f, 5.0f);
+	ImGui::DragFloat("cameraRotY", &cameraRot_.y, 0.1f, -5.0f, 5.0f);
+	ImGui::DragFloat("cameraRotZ", &cameraRot_.z, 0.1f, -5.0f, 5.0f);
 
 	ImGui::Text("reset");
 
@@ -500,6 +493,11 @@ void GameScene::Update()
 	
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
+	ImGui::Text("cameratarget:%0.3f,%0.3f,%0.3f", debugCamera_.target_.x, debugCamera_.target_.y, debugCamera_.target_.z);
+
+	ImGui::Text("playCameraEye:%0.3f,%0.3f,%0.3f", play_.playCamera_.eye_.x, play_.playCamera_.eye_.y, play_.playCamera_.eye_.z);
+	
+
 	ImGui::End();
 
 #pragma endregion
@@ -521,8 +519,18 @@ void GameScene::Update()
 
 	ImGui::Begin("enemy");
 
-	ImGui::Checkbox("enemyDebugShot", &enemys_.isDebugShot_);
-	ImGui::InputFloat("enemyShotSpeed", &enemys_.bulletSpeed_, 0.1f, 5);
+	ImGui::Text("enemyNum:%d", enemys_->enemyCount_);
+
+	ImGui::Checkbox("enemyDebugShot", &enemys_->isDebugShot_);
+	ImGui::InputFloat("enemyShotSpeed", &enemys_->bulletSpeed_, 0.1f, 5);
+
+	ImGui::DragFloat3("popEnemyPos", PopPos);
+	enemyPopPos = { PopPos[0],PopPos[1],PopPos[2] };
+
+	if (ImGui::Button("popEnemy"))
+	{
+		enemys_->PopEnemy(enemyPopPos);
+	}
 
 	ImGui::End();
 
@@ -554,15 +562,76 @@ void GameScene::Update()
 	{
 		
 		//play_.playerCamera_.upDate();
-		play_.playerCamera_.pos_ = cameraPos_;
+		//play_.playerCamera_.pos_ = cameraPos_;
 		cameobj_ = play_.playerCamera_;
 	}
 	else
 	{
-		debugCameobj_.pos_ = cameraPos_;
-		debugCameobj_.rotate_ = cameraRot_;
-		debugCameobj_.upDate();
-		cameobj_ = debugCameobj_;
+		debugCamera_.eye_ = cameraPos_;
+		
+		if (IsUseCameraMouse_)
+		{
+			if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
+			{
+				WinApp::GetInstance()->SetMousePos(WinApp::SWindowWidth_ / 2, WinApp::SWindowHeight_ / 2);
+			}
+
+			Camera mouseCamera = debugCamera_;
+
+			Vector3 mouseMove = Input::GetInstance()->GetMouseMove() / 1000;
+
+			mouseCameraRot += {0, mouseMove.x, 0};
+
+			Object3D cameobj;
+
+			cameobj.SetPos(cameraPos_);
+			cameobj.SetRotate(mouseCameraRot);
+			cameobj.matWorldGeneration();
+
+			mouseCamera.eye_ = cameobj.GetWorldPos();
+
+			Vector3 forward = { 0.0f, 0.0f, 1.0f };
+
+			forward = VectorMat(forward, cameobj.GetWorldMat());
+
+			mouseCamera.target_.x = mouseCamera.eye_.x + forward.x;
+			mouseCamera.target_.z = mouseCamera.eye_.z + forward.z;
+			mouseCamera.target_.y -= mouseMove.y;
+
+
+
+			Vector3 up(0, 1, 0);
+
+			mouseCamera.up_ = VectorMat(up, cameobj.GetWorldMat());
+
+			debugCamera_ = mouseCamera;
+		}
+		else
+		{
+			Object3D cameobj;
+
+			cameobj.SetPos(cameraPos_);
+			cameobj.SetRotate(cameraRot_);
+			cameobj.matWorldGeneration();
+
+			debugCamera_.eye_ = cameobj.GetWorldPos();
+
+			Vector3 forward = { 0.0f, 0.0f, 1.0f };
+
+			forward = VectorMat(forward, cameobj.GetWorldMat());
+
+			debugCamera_.target_ = debugCamera_.eye_ + forward;
+
+			Vector3 up(0, 1, 0);
+
+			debugCamera_.up_ = VectorMat(up, cameobj.GetWorldMat());
+
+		}
+
+		debugCamera_.upDate();
+
+		
+		cameobj_.SetCamera(debugCamera_);
 		
 	}
 
@@ -595,7 +664,11 @@ void GameScene::Update()
 		a.obj.Update(cameobj_.GetCamera());
 	}
 
-	enemys_.UpDate(cameobj_.GetCamera(), play_.playerObj_.GetWorldPos());
+	enemys_->UpDate(cameobj_.GetCamera(), play_.playerObj_.GetWorldPos());
+
+	CollisionManager::GetInstance()->CheckAllCollisions();
+
+	eventManager->Update();
 
 }
 
@@ -647,7 +720,7 @@ void GameScene::Draw()
 
 	play_.Draw();
 
-	enemys_.Draw();
+	enemys_->Draw();
 
 	//sprite_.Draw();
 	//sprite2_.Draw();

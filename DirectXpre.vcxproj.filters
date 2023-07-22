@@ -168,15 +168,6 @@
     <ClCompile Include="Engine\DirectX\WinApp.cpp">
       <Filter>ソース ファイル\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\test\Enemy.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\test\EnemyManager.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\test\Player.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Game\camera\camera.cpp">
       <Filter>ソース ファイル\Game\camera</Filter>
     </ClCompile>
@@ -273,12 +264,6 @@
     <ClCompile Include="Engine\Math\Easing.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\test\PlayerBullet.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\test\EnemyBullet.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Game\Scene\game\TitleScene.cpp">
       <Filter>ソース ファイル\Game\Scene\Game</Filter>
     </ClCompile>
@@ -291,17 +276,32 @@
     <ClCompile Include="Engine\Game\collision\BulletCollision.cpp">
       <Filter>ソース ファイル\Game\collision\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\collision\MobCollision.cpp">
+      <Filter>ソース ファイル\Game\collision\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\Enemy.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\EnemyBullet.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\EnemyManager.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\EventPoint.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\Player.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\PlayerBullet.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\EventPointManager.cpp">
+      <Filter>ソース ファイル\App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Game\test\Enemy.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\test\EnemyManager.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\test\Player.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
       <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
     </ClInclude>
@@ -428,12 +428,6 @@
     <ClInclude Include="Engine\Math\Easing.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\test\PlayerBullet.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\test\EnemyBullet.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\Scene\game\GameScene.h">
       <Filter>ヘッダー ファイル\Game\Scene\Game</Filter>
     </ClInclude>
@@ -457,6 +451,30 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\collision\BulletCollision.h">
       <Filter>ヘッダー ファイル\Game\collision\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\MobCollision.h">
+      <Filter>ヘッダー ファイル\Game\collision\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Enemy.h">
+      <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\EnemyBullet.h">
+      <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\EnemyManager.h">
+      <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\EventPoint.h">
+      <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Player.h">
+      <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\EventPointManager.h">
+      <Filter>ヘッダー ファイル\App</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

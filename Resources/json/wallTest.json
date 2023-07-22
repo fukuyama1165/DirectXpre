@@ -1,0 +1,47 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "box1",
+            "transform": {
+                "translation": [
+                    -4.2142346501350403e-07,
+                    -2.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    2.0
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "box12",
+            "transform": {
+                "translation": [
+                    4.2142346501350403e-07,
+                    1.9999996423721313,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    2.0
+                ]
+            }
+        }
+    ]
+}

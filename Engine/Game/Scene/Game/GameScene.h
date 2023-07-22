@@ -38,6 +38,8 @@
 
 #include "JsonLevelLoader.h"
 
+#include "EventPointManager.h"
+
 #include <sstream>
 
 #include <cstdint>
@@ -87,7 +89,7 @@ private:
 	//ÉJÉÅÉâ
 	Camera camera_;
 	cameraObj cameobj_;
-	cameraObj debugCameobj_;
+	Camera debugCamera_;
 	cameraObj playerCameobj_;
 
 	uint32_t texname_ = 0;
@@ -141,7 +143,7 @@ private:
 
 	Player play_;
 
-	EnemyManager enemys_;
+	EnemyManager* enemys_;
 
 	XAudio* xAudio_;
 
@@ -157,7 +159,12 @@ private:
 
 	bool chengCamera_ = false;
 
-	
+	Vector3 enemyPopPos = { 0,0,0 };
+	float PopPos[3] = {0,0,0};
+
+	Vector3 mouseCameraRot = {};
+
+	EventPointManager* eventManager;
 
 };
 

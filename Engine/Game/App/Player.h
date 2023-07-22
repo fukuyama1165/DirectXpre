@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "PlayerBullet.h"
 #include <list>
+#include "MobCollision.h"
 
 class Player
 {
@@ -67,10 +68,13 @@ private:
 
 	Vector3 moveVec_;
 
+	bool moveEventStart_ = false;
+
 	float moveSpeed_ = 0.1f;
 
-	
+	//注視点滑らかな移動のため
 	float maxTime_ = 500;
+	//カメラの始点の移動するときの時間
 	float maxMoveTime_ = maxTime_/15;
 
 	bool attackFlag_ = false;
@@ -83,6 +87,11 @@ private:
 
 	float bulletCT_ = 0;
 
+	//当たり判定の処理
+	MobCollision collision;
+
+	//当たり判定の本体
+	SphereCollider Collider;
 	
 
 };

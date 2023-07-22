@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <imgui.h>
 #include "Easing.h"
+#include "EventPointManager.h"
 
 Player::Player()
 {
@@ -26,7 +27,6 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	
 	playerObj_.SetPos({ 0,5,0 });
-	//playerObj_.SetScale({ 0.05f,0.05f,0.05f });
 
 	playerCamera_.pos_ = { 0,0,-200 };
 	playCamera_.eye_ = { 0,0,-3 };
@@ -35,14 +35,23 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	reticle3DObj_.SetPos({ 0,0,-100 });
 	reticle3DObj_.SetScale({ 0.05f,0.05f,0.05f });
+
+	collision = MobCollision("player");
+
+	Collider.SetObject(&collision);
+
+	Collider.Initialize();
+
+	CollisionManager::GetInstance()->AddCollider(&Collider);
+
 }
 
 void Player::Update(const Camera& camera)
 {
-	moveVec_ = { 0,0,0 };
 
-	//デスフラグの立った弾を削除(remove_if->条件一致を全て削除)
-	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)//ifの中で簡易的な関数を生成してる->[](引数)
+
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
 	{
 		return bullet->IsDead();
 	});
@@ -70,22 +79,37 @@ void Player::Update(const Camera& camera)
 		HideDownWall();
 	}
 
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
+	{
+		if (moveEventStart_ == false)
+		{
+			pos_ = playerCamera_.pos_;
+			moveVec_ = nainavec3(EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint(), pos_).normalize();
+			moveEventStart_ = true;
+		}
+		playerCamera_.pos_ += moveVec_;
+
+		if (EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint() == playerCamera_.pos_)
+		{
+			moveVec_ = { 0,0,0 };
+			EventPointManager::GetInstance()->GetPEventPoint()->SetIsFinished(true);
+			moveEventStart_ = false;
+		}
+
+	}
+
 	playCamera_.upDate();
 	playerCamera_.SetCamera(playCamera_);
 
 	
 
-	//移動
+	//移動(基本的にカメラを基準に)	
+	Vector3 playerPos = { playCamera_.eye_.x,playCamera_.eye_.y - 2 ,playCamera_.eye_.z };
 
-	if (moveVec_.x != 0 || moveVec_.z != 0)
-	{
-
-		playerObj_.Trans_ += moveVec_ * moveSpeed_;
-		//playerCamera_.pos_ += moveVec_ * moveSpeed_;
-	}
-	
+	playerObj_.SetPos(playerPos + (playCamera_.forward_ * 5));
 	
 	playerObj_.Update(camera);
+	Collider.Update(camera, playerObj_.GetWorldPos());
 
 	if (playerObj_.GetWorldPos().x > 50 || playerObj_.GetWorldPos().x < -50)
 	{
@@ -111,7 +135,7 @@ void Player::Update(const Camera& camera)
 	/*reticle_.pos_ = input_->GetMousePos();
 	reticle_.Update();*/
 
-	//Reticle2DMouse(camera);
+	Reticle2DMouse(camera);
 	
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
@@ -148,7 +172,7 @@ void Player::Attack()
 
 		
 
-		//速度ベクトルを自機の向きに合わせて回転する
+		//速度ベクトルを自機の向きの方向に合わせて回転する
 		velocity = VectorMat(velocity, playerObj_.GetWorldMat());
 
 		ImGui::Begin("player");
@@ -222,7 +246,7 @@ void Player::HideRightWall()
 {
 	if (attackFlag_)
 	{
-		if (time_ < maxTime_/15)
+		if (time_ < maxMoveTime_)
 		{
 			time_++;
 		}
@@ -247,7 +271,7 @@ void Player::HideDownWall()
 {
 	if (attackFlag_)
 	{
-		if (time_ < maxTime_)
+		if (time_ < maxMoveTime_)
 		{
 			time_++;
 		}

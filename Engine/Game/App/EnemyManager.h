@@ -6,6 +6,8 @@ class EnemyManager
 
 public:
 
+	static EnemyManager* GetInstance();
+
 	void PopEnemy(const Vector3& pos);
 
 	void Init();
@@ -18,11 +20,16 @@ public:
 
 private:
 
+	EnemyManager() = default;
+	~EnemyManager();
+
+	EnemyManager(const EnemyManager&) = delete;
+	EnemyManager& operator=(const EnemyManager&) = delete;
 public:
 	std::list<std::unique_ptr<Enemy>> enemys_;
 
-	std::unique_ptr<AnimationModel> bulletModel_;
-	std::unique_ptr<AnimationModel> enemyModel_;
+	std::unique_ptr<AnimationModel> bulletModel_ = nullptr;
+	std::unique_ptr<AnimationModel> enemyModel_ = nullptr;
 
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 

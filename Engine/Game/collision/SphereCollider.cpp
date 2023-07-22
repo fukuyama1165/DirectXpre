@@ -1,5 +1,9 @@
 #include "SphereCollider.h"
 
+void SphereCollider::Initialize()
+{
+	collisionObject_->Initialize();
+}
 
 void SphereCollider::Update(const Camera& camera, const Vector3 pos)
 {

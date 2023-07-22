@@ -2,6 +2,22 @@
 #include <imgui.h>
 
 
+EnemyManager* EnemyManager::GetInstance()
+{
+	static EnemyManager instance;
+
+	if (instance.enemyModel_ == nullptr and instance.bulletModel_ == nullptr)
+	{
+		instance.Init();
+	}
+
+	return &instance;
+}
+
+EnemyManager::~EnemyManager()
+{
+
+}
 
 void EnemyManager::PopEnemy(const Vector3& pos)
 {
@@ -56,6 +72,7 @@ void EnemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
 		bullet->Update(camera);
 	}
 
+	enemyCount_ = (uint32_t)enemys_.size();
 	
 }
 

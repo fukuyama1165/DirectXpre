@@ -1,5 +1,7 @@
 #pragma once
 #include "Object3D.h"
+#include "BulletCollision.h"
+#include "SphereCollider.h"
 
 /// <summary>
 /// 自キャラの弾
@@ -51,5 +53,11 @@ private:
 
 	//デスフラグ
 	bool isDead_ = false;
+
+	//当たり判定の処理
+	BulletCollision collision;
+
+	//当たり判定の本体
+	SphereCollider Collider;
 
 };
