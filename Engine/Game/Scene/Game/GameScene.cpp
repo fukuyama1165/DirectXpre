@@ -138,8 +138,9 @@ void GameScene::Initialize()
 
 	eventManager = EventPointManager::GetInstance();
 
-	eventManager->SetDebugMoveEvent();
+	//eventManager->SetDebugMoveEvent();
 	
+	eventManager->SetDebugBattleEvent();
 }
 
 void GameScene::Finalize()
@@ -496,6 +497,8 @@ void GameScene::Update()
 	ImGui::Text("cameratarget:%0.3f,%0.3f,%0.3f", debugCamera_.target_.x, debugCamera_.target_.y, debugCamera_.target_.z);
 
 	ImGui::Text("playCameraEye:%0.3f,%0.3f,%0.3f", play_.playCamera_.eye_.x, play_.playCamera_.eye_.y, play_.playCamera_.eye_.z);
+
+	ImGui::Text("eventEnd:%d", eventManager->GetInstance()->GetPEventPoint()->GetIsFinished());
 	
 
 	ImGui::End();

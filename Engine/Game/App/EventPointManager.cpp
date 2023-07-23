@@ -52,6 +52,31 @@ void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector
 
 }
 
+void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vector3 point2, float interval2, Vector3 point3, float interval3, Vector3 point4)
+{
+
+	EventSeting debugPoint;
+
+	debugPoint.enemyMaxSpawn = 5;
+	debugPoint.enemyNum = 4;
+	debugPoint.eventType = BattleEvent;
+
+	debugPoint.enemySpawnPos.push_back(point1);
+	debugPoint.enemySpawnPos.push_back(point2);
+	debugPoint.enemySpawnPos.push_back(point3);
+	debugPoint.enemySpawnPos.push_back(point4);
+
+	debugPoint.enemySpawnInterval.push_back(0);
+	debugPoint.enemySpawnInterval.push_back(interval1);
+	debugPoint.enemySpawnInterval.push_back(interval2);
+	debugPoint.enemySpawnInterval.push_back(interval3);
+
+	
+	eventSetings_.push_back(debugPoint);
+
+
+}
+
 void EventPointManager::Initlize()
 {
 	eventModel_ = std::make_unique<AnimationModel>();

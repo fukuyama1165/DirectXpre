@@ -315,13 +315,17 @@ void Player::Reticle2DMouse(Camera camera)
 	}
 	else
 	{
-		spritePosition.x += (float)Input::GetInstance()->GetGamePadLStick().x / SHRT_MAX * 7.0f;
-		spritePosition.y -= (float)Input::GetInstance()->GetGamePadLStick().y / SHRT_MAX * 7.0f;
+		spritePosition.x += (float)Input::GetInstance()->GetGamePadLStick().x*10;
+		spritePosition.y -= (float)Input::GetInstance()->GetGamePadLStick().y * 10;
 
-		//reticle_.pos_ = spritePosition;
+		reticle_.pos_ = spritePosition;
 	}
 
+	ImGui::Begin("check");
 
+	ImGui::Text("reticlePos:%0.3f,%0.3f", reticle_.pos_.x, reticle_.pos_.y);
+
+	ImGui::End();
 
 	Matrix4x4 matViewport = {
 			640,0,0,0,

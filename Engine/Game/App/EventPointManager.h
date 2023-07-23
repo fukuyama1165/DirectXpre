@@ -19,6 +19,7 @@ public:
 	void Draw();
 
 	void SetDebugMoveEvent(Vector3 point1 = { 0,0,50 }, Vector3 point2 = { 50,0,50 }, Vector3 point3 = { 50,0,0 }, Vector3 point4 = { 0,0,0 });
+	void SetDebugBattleEvent(Vector3 point1 = { 0,0,50 },float interval1=50, Vector3 point2 = { 50,0,50 }, float interval2=50, Vector3 point3 = { 50,0,0 }, float interval3=50, Vector3 point4 = { 0,0,0 });
 
 	EventPoint* GetPEventPoint() { return &eventPoint_; };
 
