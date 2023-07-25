@@ -138,7 +138,7 @@ void GameScene::Initialize()
 
 	eventManager = EventPointManager::GetInstance();
 
-	//eventManager->SetDebugMoveEvent();
+	eventManager->SetDebugMoveEvent();
 	
 	eventManager->SetDebugBattleEvent();
 }

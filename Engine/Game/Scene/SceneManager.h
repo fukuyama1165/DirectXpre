@@ -1,6 +1,8 @@
 #pragma once
 #include "IScene.h"
+#include "ISceneChange.h"
 #include "ISceneFactory.h"
+#include "ISceneChangeFactory.h"
 #include <memory>
 
 class SceneManager
@@ -22,7 +24,7 @@ public:
 	//シーンファクトリーセット
 	void SetSceneFactory(std::unique_ptr<ISceneFactory> sceneFactory) { sceneFactory_ = std::move(sceneFactory); };
 
-	void ChangeScene(const std::string& sceneName);
+	void ChangeScene(const std::string& sceneName, const std::string& sceneChangeName = "BASIC");
 
 private:
 
@@ -38,6 +40,10 @@ private:
 
 	std::unique_ptr<IScene> nextScene_ = nullptr;
 
+	std::unique_ptr<ISceneChange> SceneChange_ = nullptr;
+
 	std::unique_ptr<ISceneFactory> sceneFactory_ = nullptr;
+
+	std::unique_ptr<ISceneChangeFactory> sceneChangeFactory_ = nullptr;
 
 };

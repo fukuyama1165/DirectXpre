@@ -9,7 +9,7 @@ void App::Initialize()
 	//最初のシーンをセット
 	
 	//SceneManager::GetInstance()->SetNextScene(std::make_unique<GameScene>());
-	SceneManager::GetInstance()->ChangeScene("TITLE");
+	SceneManager::GetInstance()->ChangeScene("TITLE","NONE");
 }
 
 void App::Finalize()

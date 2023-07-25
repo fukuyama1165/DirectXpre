@@ -136,6 +136,9 @@
     <Filter Include="ソース ファイル\Game\collision\Game">
       <UniqueIdentifier>{d5765729-8d18-4963-a12c-9957a20b1343}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Scene\SceneChange">
+      <UniqueIdentifier>{0c4cae70-b576-4031-9564-57211aea7cc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -300,6 +303,12 @@
     <ClCompile Include="Engine\Game\App\EventPointManager.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\SceneChange\BasicSceneChange.cpp">
+      <Filter>ソース ファイル\Game\Scene\SceneChange</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\SceneChange\SceneChangeFactory.cpp">
+      <Filter>ソース ファイル\Game\Scene\SceneChange</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
@@ -440,12 +449,6 @@
     <ClInclude Include="Engine\Game\Scene\SceneFactory.h">
       <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\ISceneChange.h">
-      <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\ISceneChengeFactory.h">
-      <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\collision\ICollisionObj.h">
       <Filter>ヘッダー ファイル\Game\collision</Filter>
     </ClInclude>
@@ -475,6 +478,18 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\App\EventPointManager.h">
       <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\SceneChange\ISceneChange.h">
+      <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\SceneChange\ISceneChangeFactory.h">
+      <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\SceneChange\BasicSceneChange.h">
+      <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\SceneChange\SceneChangeFactory.h">
+      <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
