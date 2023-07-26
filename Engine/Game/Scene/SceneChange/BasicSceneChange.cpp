@@ -53,7 +53,7 @@ void BasicSceneChange::Update()
 			else
 			{
 				isClose_ = true;
-				chengSprite_.rotate_ = 50.3f;
+				
 			}
 			
 

@@ -1,5 +1,5 @@
 #include "Enemy.h"
-
+#include "EmitterManager.h"
 
 Enemy::Enemy()
 {
@@ -72,5 +72,7 @@ void Enemy::OnCollision()
 	isAlive_ = false;
 
 	CollisionManager::GetInstance()->RemoveCollider(&Collider);
+
+	EmitterManager::GetInstance()->AddEmitter(enemyObj_.GetWorldPos(),20);
 
 }

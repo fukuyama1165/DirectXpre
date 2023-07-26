@@ -52,12 +52,12 @@ private:
 	float scale_ = 0;
 
 	float scaleTimer_ = 0;
-	float scaleMaxTime_ = 100;
+	float scaleMaxTime_ = 30;
 
-	float rotSpeed_ = 0.508f;
+	float rotSpeed_ = 0.3f;
 
 	float afterTimer = 0;
-	float afterMaxTime = 100;
+	float afterMaxTime = 20;
 
 	float alpha_ = 1.0f;
 

@@ -60,7 +60,7 @@ void EnemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
 	{
 		enem->Update(camera);
 
-		if (enem->GetCT() <= 0 and isDebugShot_)
+		if (enem->GetCT() <= 0 or isDebugShot_)
 		{
 			EnemyAttack(*enem, playerPos);
 			//playerPos;

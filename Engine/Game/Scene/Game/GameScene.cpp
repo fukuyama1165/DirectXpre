@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "EmitterManager.h"
 
 void GameScene::Initialize()
 {
@@ -193,37 +194,22 @@ void GameScene::Update()
 
 	if (Input::GetInstance()->PushKey(DIK_UP))
 	{
-		lightDir_.z = 1;
+		cameraPos_.x += Vector3::normalize(debugCamera_.forward_).x;
+		cameraPos_.z += Vector3::normalize(debugCamera_.forward_).z;
 	}
 	if (Input::GetInstance()->PushKey(DIK_DOWN))
 	{
-		lightDir_.z = -1;
+		cameraPos_.x += -Vector3::normalize(debugCamera_.forward_).x;
+		cameraPos_.z += -Vector3::normalize(debugCamera_.forward_).z;
 	}
 	if (Input::GetInstance()->PushKey(DIK_RIGHT))
 	{
-		lightDir_.x = 1;
+		cameraPos_.x += 1;
 	}
 	if (Input::GetInstance()->PushKey(DIK_LEFT))
 	{
-		lightDir_.x = -1;
+		cameraPos_.x += -1;
 	}
-
-	/*if (input->PushKey(DIK_W))
-	{
-		lightDir2.z = 1;
-	}
-	if (input->PushKey(DIK_S))
-	{
-		lightDir2.z = -1;
-	}
-	if (input->PushKey(DIK_D))
-	{
-		lightDir2.x = 1;
-	}
-	if (input->PushKey(DIK_A))
-	{
-		lightDir2.x = -1;
-	}*/
 
 	Vector4 moveY(0, 0.01f, 0, 0);
 	if (Input::GetInstance()->PushKey(DIK_W))
@@ -288,7 +274,7 @@ void GameScene::Update()
 	lightManager_->lightGroups_[0].SetSpotLightAtten(1, { spotLightAtten_[0],spotLightAtten_[1] ,spotLightAtten_[2] });
 	lightManager_->lightGroups_[0].SetSpotLightFactorAngle(1, { spotLightFactorAngle_[0],spotLightFactorAngle_[1] });
 
-	if (Input::GetInstance()->TriggerKey(DIK_F5))
+	if (Input::GetInstance()->TriggerKey(DIK_B))
 	{
 		IsUseCameraMouse_ = !IsUseCameraMouse_;
 	}
@@ -419,7 +405,7 @@ void GameScene::Update()
 	ImGui::Text("oldpos x:%f y:%f", Input::GetInstance()->GetOldMousePos().x, Input::GetInstance()->GetOldMousePos().y);
 	ImGui::Text("move x:%f y:%f z:%f", Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
 
-	ImGui::Checkbox("useMouseCamera(F5)", &IsUseCameraMouse_);
+	ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
 
 	if (Input::GetInstance()->GetMouseButton(0))
 	{
@@ -490,16 +476,10 @@ void GameScene::Update()
 	ImGui::Begin("check");
 
 	ImGui::Checkbox("chengCamera", &chengCamera_);
-	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
 	
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
-	ImGui::Text("cameratarget:%0.3f,%0.3f,%0.3f", debugCamera_.target_.x, debugCamera_.target_.y, debugCamera_.target_.z);
-
-	ImGui::Text("playCameraEye:%0.3f,%0.3f,%0.3f", play_.playCamera_.eye_.x, play_.playCamera_.eye_.y, play_.playCamera_.eye_.z);
-
-	ImGui::Text("eventEnd:%d", eventManager->GetInstance()->GetPEventPoint()->GetIsFinished());
-	
+	ImGui::Text("eventEnd:%d", eventManager->GetInstance()->GetPEventPoint()->GetIsFinished());	
 
 	ImGui::End();
 
@@ -509,10 +489,12 @@ void GameScene::Update()
 
 	ImGui::Begin("player");
 
+	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
 	ImGui::Text("movetimer:%0.0f", play_.time_);
 	ImGui::Checkbox("playerDebugShot", &play_.isDebugShot_);
 	ImGui::InputFloat("playerShotCT", &play_.bulletMaxCT_, 1, 5);
 	ImGui::InputFloat("playerShotSpeed", &play_.bulletSpeed_, 1, 5);
+	ImGui::Text("playCameraEye:%0.3f,%0.3f,%0.3f", play_.playCamera_.eye_.x, play_.playCamera_.eye_.y, play_.playCamera_.eye_.z);
 
 	ImGui::End();
 
@@ -599,7 +581,7 @@ void GameScene::Update()
 
 			mouseCamera.target_.x = mouseCamera.eye_.x + forward.x;
 			mouseCamera.target_.z = mouseCamera.eye_.z + forward.z;
-			mouseCamera.target_.y -= mouseMove.y;
+			mouseCamera.target_.y -= mouseMove.y + forward.y;
 
 
 
@@ -673,6 +655,8 @@ void GameScene::Update()
 
 	eventManager->Update();
 
+	EmitterManager::GetInstance()->Update(cameobj_.GetCamera());
+
 }
 
 void GameScene::Draw()
@@ -727,6 +711,8 @@ void GameScene::Draw()
 
 	//sprite_.Draw();
 	//sprite2_.Draw();
+
+	EmitterManager::GetInstance()->Draw();
 
 
 	// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚Ü‚Å
