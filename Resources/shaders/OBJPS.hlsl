@@ -184,39 +184,7 @@ PSOutput main(VSOutput input)
 	////float3 reflect = normalize(-light + 2 * dot(light, normal) * normal);
 	//float3 reflect = normalize(-lightV + 2 * dot(lightV, wnormal.xyz) * wnormal.xyz);
 
-	//グレースケール
-	float4 col = tex.Sample(smp, input.uv);
-	float grayScale = col.r * 0.299 + col.g * 0.587 + col.b * 0.114;
-	float extract = smoothstep(0.6, 0.9, grayScale);
-
-	float totalWeight = 0;
-	float _Sigma = 0.005;//固定だけどUVで大きさを変えると画面の外側だけに掛けることができるらしい
-	float _StepWidth = 0.001;
-	float4 colTex = float4(0, 0, 0, 0);
-
-	[loop]
-	for (float py = -_Sigma * 2; py <= _Sigma * 2; py += _StepWidth)
-	{
-		[unroll]
-		for (float px = -_Sigma * 2; px <= _Sigma * 2; px += _StepWidth)
-		{
-			float2 pickUV = input.uv + float2(px, py);
-			if ((pickUV.x < 0 || pickUV.x > 1) || (pickUV.y < 0 || pickUV.y > 1))continue;
-
-			float weight = Gaussian(input.uv, pickUV, _Sigma);
-			float4 texcolor = tex.Sample(smp, pickUV);
-			colTex += tex.Sample(smp, pickUV * weight);
-			totalWeight += weight;
-
-		}
-	}
-
-
-	colTex.rgb = col.rgb / totalWeight;
-	colTex.a = 1;
-
-	float4 highLumi = (col * extract) * colTex;
-
+	float4 col = tex.Sample(smp, input.uv) * Icolor;
 	
 	output.target1 = averagBlur(input);
 	output.target0 = col * shadecolor;

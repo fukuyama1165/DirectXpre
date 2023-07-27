@@ -2,7 +2,7 @@
 
 #include "Framework.h"
 
-#include "GameScene.h"
+
 
 
 class App:public Framework

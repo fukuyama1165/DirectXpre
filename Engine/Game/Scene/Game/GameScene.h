@@ -27,16 +27,18 @@
 
 #include "camera.h"
 #include "Texture.h"
-#include "player.h"
+#include "Player.h"
 
 #include "cameraObj.h"
-#include "enemyManager.h"
+#include "EnemyManager.h"
 
 #include "LightManager.h"
 #include "CollisionPrimirive.h"
 #include "Collision.h"
 
 #include "JsonLevelLoader.h"
+
+#include "EventPointManager.h"
 
 #include <sstream>
 
@@ -87,7 +89,7 @@ private:
 	//ÉJÉÅÉâ
 	Camera camera_;
 	cameraObj cameobj_;
-	cameraObj debugCameobj_;
+	Camera debugCamera_;
 	cameraObj playerCameobj_;
 
 	uint32_t texname_ = 0;
@@ -139,7 +141,9 @@ private:
 
 	Vector3 spriteMove_ = { 50 ,200 ,0 };
 
-	player play_;
+	Player play_;
+
+	EnemyManager* enemys_;
 
 	XAudio* xAudio_;
 
@@ -155,7 +159,12 @@ private:
 
 	bool chengCamera_ = false;
 
-	
+	Vector3 enemyPopPos = { 0,0,0 };
+	float PopPos[3] = {0,0,0};
+
+	Vector3 mouseCameraRot = {};
+
+	EventPointManager* eventManager;
 
 };
 

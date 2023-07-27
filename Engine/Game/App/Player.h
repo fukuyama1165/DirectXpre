@@ -5,12 +5,13 @@
 #include "Sprite.h"
 #include "PlayerBullet.h"
 #include <list>
+#include "MobCollision.h"
 
-class player
+class Player
 {
 public:
-	player();
-	~player();
+	Player();
+	~Player();
 
 	void Init(const std::string& directoryPath, const char filename[]);
 	void Update(const Camera& camera);
@@ -19,21 +20,34 @@ public:
 
 	bool GetAttackFlag() { return attackFlag_; };
 
-	void Reticle2DMouseAttack(Camera camera);
+	//マウスの位置を取得してその位置をレティクル用のオブジェクト等に入れる関数
+	void Reticle2DMouse(Camera camera);
 
 	Object3D playerObj_;
 
 	Object3D reticle3DObj_;
 
+	//オブジェクトとしてのカメラ
 	cameraObj playerCamera_;
 
-	Camera hogeca;
+	//かめら本体
+	Camera playCamera_;
 
 	Sprite reticle_;
 
 	float time_ = 0;
 
 	bool cameraCheng_ = false;
+
+	float bulletMaxCT_ = 10;
+
+	float bulletSpeed_ = 1.0f;
+
+	bool isDebugShot_ = false;
+
+	float muzzleFlashTime_ = 2.0f;
+
+	float muzzleFlashMaxTime_ = 2.0f;
 
 private:
 
@@ -54,10 +68,13 @@ private:
 
 	Vector3 moveVec_;
 
+	bool moveEventStart_ = false;
+
 	float moveSpeed_ = 0.1f;
 
-	
+	//注視点滑らかな移動のため
 	float maxTime_ = 500;
+	//カメラの始点の移動するときの時間
 	float maxMoveTime_ = maxTime_/15;
 
 	bool attackFlag_ = false;
@@ -68,7 +85,14 @@ private:
 
 	std::unique_ptr<AnimationModel> bulletModel_;
 
-	uint32_t bulletCT_;
+	float bulletCT_ = 0;
+
+	//当たり判定の処理
+	MobCollision collision;
+
+	//当たり判定の本体
+	SphereCollider Collider;
+	
 
 };
 

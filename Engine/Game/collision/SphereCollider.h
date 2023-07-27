@@ -13,15 +13,23 @@ public:
 
 		//球形状をセット
 		shapeType_ = COLLISIONSHAPE_SPHERE;
+		
 
 	}
+
+	~SphereCollider()
+	{
+		collisionObject_->Finalize();
+	}
+
+	void Initialize();
 
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update()override;
+	void Update(const Camera& camera, const Vector3 pos)override;
 
-	inline void SetRadius(float Radius) { radius_ = Radius; };
+	void SetRadius(float Radius) { radius_ = Radius; };
 
 public:
 

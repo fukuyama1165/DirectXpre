@@ -1,5 +1,6 @@
 #include "PlayerBullet.h"
 #include <cassert>
+#include "CollisionManager.h"
 
 PlayerBullet::PlayerBullet()
 {
@@ -21,6 +22,15 @@ void PlayerBullet::Initlize(const Vector3& position, const Vector3& velocity)
 
 	Velocity_ = velocity;
 
+	collision = BulletCollision("playerBullet");
+
+	
+
+	Collider.SetObject(&collision);
+
+	Collider.Initialize();
+
+	CollisionManager::GetInstance()->AddCollider(&Collider);
 
 }
 
@@ -34,6 +44,14 @@ void PlayerBullet::Update(const Camera& camera)
 	if (--deathTimer_ <= 0)
 	{
 		isDead_ = true;
+		CollisionManager::GetInstance()->RemoveCollider(&Collider);
+	}
+
+	Collider.Update(camera, obj_.GetWorldPos());
+
+	if (collision.isHit)
+	{
+		OnCollision();
 	}
 
 }
@@ -43,11 +61,14 @@ void PlayerBullet::Draw(AnimationModel* model)
 	//ヌルポチェック
 	assert(model);
 	obj_.FBXDraw(*model);
+
+	collision.Draw(model);
 }
 
 void PlayerBullet::OnCollision()
 {
 	isDead_ = true;
+	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 }
 
 Vector3 PlayerBullet::GetWorldPosition()

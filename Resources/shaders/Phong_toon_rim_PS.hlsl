@@ -70,7 +70,7 @@ float4 main(VSOutput input) : SV_TARGET
 			float4 rimcolor = { 0,1,0,0 };
 
 			//ƒŠƒ€ƒ‰ƒCƒg‚Ì‹­‚³
-			float3 rimfi = rimcolor * pow(rim, 3);
+			float3 rimfi = rimcolor.xyz * pow(rim, 3);
 
 			//‚Ü‚Æ‚ß‚é
 			float3 ads = (ambient + diffuse + specular) + rimfi;

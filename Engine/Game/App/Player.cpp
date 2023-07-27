@@ -1,22 +1,23 @@
-#include "player.h"
+#include "Player.h"
 #include <imgui.h>
 #include "Easing.h"
+#include "EventPointManager.h"
 
-player::player()
+Player::Player()
 {
 
 }
-player::~player()
+Player::~Player()
 {
 
 }
 
 
 
-void player::Init(const std::string& directoryPath, const char filename[])
+void Player::Init(const std::string& directoryPath, const char filename[])
 {
 	input_ = input_->GetInstance();
-	playerObj_.objDrawInit(directoryPath, filename,true);
+	playerObj_.FBXInit();
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
 	reticle_.initialize(SpriteCommon::GetInstance(), 1);
 
@@ -25,21 +26,32 @@ void player::Init(const std::string& directoryPath, const char filename[])
 	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
 
 	
-	playerObj_.SetPos({ -20,0,0 });
-	playerObj_.SetScale({ 0.05f,0.05f,0.05f });
+	playerObj_.SetPos({ 0,5,0 });
 
 	playerCamera_.pos_ = { 0,0,-200 };
-	hogeca.eye_ = { 0,0,-3 };
+	playCamera_.eye_ = { 0,0,-3 };
 
 	reticle_.scale_ = { 0.5f,0.5f };
+
+	reticle3DObj_.SetPos({ 0,0,-100 });
+	reticle3DObj_.SetScale({ 0.05f,0.05f,0.05f });
+
+	collision = MobCollision("player");
+
+	Collider.SetObject(&collision);
+
+	Collider.Initialize();
+
+	CollisionManager::GetInstance()->AddCollider(&Collider);
+
 }
 
-void player::Update(const Camera& camera)
+void Player::Update(const Camera& camera)
 {
-	moveVec_ = { 0,0,0 };
 
-	//デスフラグの立った弾を削除(remove_if->条件一致を全て削除)
-	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)//ifの中で簡易的な関数を生成してる->[](引数)
+
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
 	{
 		return bullet->IsDead();
 	});
@@ -67,34 +79,64 @@ void player::Update(const Camera& camera)
 		HideDownWall();
 	}
 
-	hogeca.upDate();
-	playerCamera_.SetCamera(hogeca);
-
-	
-
-	//移動
-
-	if (moveVec_.x != 0 || moveVec_.z != 0)
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
 	{
+		if (moveEventStart_ == false)
+		{
+			pos_ = playerCamera_.pos_;
+			moveVec_ = nainavec3(EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint(), pos_).normalize();
+			moveEventStart_ = true;
+		}
+		playerCamera_.pos_ += moveVec_;
 
-		playerObj_.Trans_ += moveVec_ * moveSpeed_;
-		//playerCamera_.pos_ += moveVec_ * moveSpeed_;
+		if (EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint() == playerCamera_.pos_)
+		{
+			moveVec_ = { 0,0,0 };
+			EventPointManager::GetInstance()->GetPEventPoint()->SetIsFinished(true);
+			moveEventStart_ = false;
+		}
+
 	}
+
+	playCamera_.upDate();
+	playerCamera_.SetCamera(playCamera_);
+
 	
+
+	//移動(基本的にカメラを基準に)	
+	Vector3 playerPos = { playCamera_.eye_.x,playCamera_.eye_.y - 2 ,playCamera_.eye_.z };
+
+	playerObj_.SetPos(playerPos + (playCamera_.forward_ * 5));
 	
 	playerObj_.Update(camera);
+	Collider.Update(camera, playerObj_.GetWorldPos());
 
 	if (playerObj_.GetWorldPos().x > 50 || playerObj_.GetWorldPos().x < -50)
 	{
 		moveSpeed_ = -moveSpeed_;
 	}
 
+	reticle3DObj_.Update(camera);
+
+
 	Attack();
+
+	if (muzzleFlashTime_ > 0)
+	{
+		playerObj_.SLightGroup_->SetPointLightActive(1, true);
+		
+
+	}
+	else
+	{
+		playerObj_.SLightGroup_->SetPointLightActive(1, false);
+	}
 
 	/*reticle_.pos_ = input_->GetMousePos();
 	reticle_.Update();*/
 
-	Reticle2DMouseAttack(camera);
+	Reticle2DMouse(camera);
+	
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
@@ -103,9 +145,9 @@ void player::Update(const Camera& camera)
 	
 }
 
-void player::Draw()
+void Player::Draw()
 {
-	playerObj_.Draw();
+	playerObj_.FBXDraw(*bulletModel_.get());
 	reticle3DObj_.Draw();
 	reticle_.Draw();
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
@@ -114,23 +156,30 @@ void player::Draw()
 	}
 }
 
-void player::Attack()
+void Player::Attack()
 {
 	
-	if (input_->TriggerKey(DIK_N) and bulletCT_ <= 0)
+	if ((input_->TriggerKey(DIK_N) and bulletCT_ <= 0) or (isDebugShot_ and bulletCT_ <= 0))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
 		position.z += 2;
 
 		//移動量を追加
-		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, 0);
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
-		velocity = velocity.normalize() * kBulletSpeed;
+		velocity = velocity.normalize() * bulletSpeed_;
 
-		//速度ベクトルを自機の向きに合わせて回転する
+		
+
+		//速度ベクトルを自機の向きの方向に合わせて回転する
 		velocity = VectorMat(velocity, playerObj_.GetWorldMat());
+
+		ImGui::Begin("player");
+
+		ImGui::Text("velocity:%0.5f,%0.5f,%0.5f", velocity.x, velocity.y, velocity.z);
+
+		ImGui::End();
 
 		//弾の生成と初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -139,12 +188,22 @@ void player::Attack()
 		//弾を登録
 		bullets_.emplace_back(std::move(newBullet));
 
-		bulletCT_ = 5;
+		bulletCT_ = bulletMaxCT_;
+		muzzleFlashTime_ = muzzleFlashMaxTime_;
+		playerObj_.SLightGroup_->SetPointLightPos(1, position);
+		playerObj_.SLightGroup_->SetPointLightAtten(1, {0.1f,0.1f,0.1f});
+
+		
 	}
 
 	if (bulletCT_ > 0)
 	{
 		bulletCT_--;
+	}
+
+	if (muzzleFlashTime_ > 0)
+	{
+		muzzleFlashTime_--;
 	}
 
 	//ゲームパッド未接続なら何もせず抜ける
@@ -160,11 +219,10 @@ void player::Attack()
 		Vector3 position = playerObj_.GetWorldPos();
 		position.z += 2;
 
-		//移動量を追加
-		const float kBulletSpeed = 1.0f;
+		//移動量を追加		
 		Vector3 velocity(0, 0, 0);
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
-		velocity = velocity.normalize() * kBulletSpeed;
+		velocity = velocity.normalize() * bulletSpeed_;
 
 		//速度ベクトルを自機の向きに合わせて回転する
 		velocity = VectorMat(velocity, playerObj_.GetWorldMat());
@@ -176,23 +234,24 @@ void player::Attack()
 		//弾を登録
 		bullets_.emplace_back(std::move(newBullet));
 
-		bulletCT_ = 5;
+		bulletCT_ = bulletMaxCT_;
+		muzzleFlashTime_ = muzzleFlashMaxTime_;
 	}
 
 
 
 }
 
-void player::HideRightWall()
+void Player::HideRightWall()
 {
 	if (attackFlag_)
 	{
-		if (time_ < maxTime_/15)
+		if (time_ < maxMoveTime_)
 		{
 			time_++;
 		}
-		hogeca.eye_ = easeOutQuint(Vector3{playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z}, Vector3{ playerCamera_.pos_.x+5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
-		hogeca.target_ = easeOutQuint(Vector3{ hogeca.eye_.x,hogeca.eye_.y,hogeca.eye_.z+1 }, Vector3{ hogeca.eye_.x-100,hogeca.eye_.y,hogeca.eye_.z}, time_ / maxTime_);
+		playCamera_.eye_ = easeOutQuint(Vector3{playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z}, Vector3{ playerCamera_.pos_.x+5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z+1 }, Vector3{ playCamera_.eye_.x-100,playCamera_.eye_.y,playCamera_.eye_.z}, time_ / maxTime_);
 		
 	}
 	else
@@ -201,20 +260,18 @@ void player::HideRightWall()
 		{
 			time_--;
 		}
-		/*hogeca.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x + 5, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, 1.0f - (time_ / maxTime_));
-		hogeca.target_ = easeOutQuint(Vector3{ hogeca.eye_.x - 100,hogeca.eye_.y,hogeca.eye_.z }, Vector3{ hogeca.eye_.x,hogeca.eye_.y,hogeca.eye_.z + 1 }, 1.0f - (time_ / maxTime_));*/
 		
-		hogeca.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x + 5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
-		hogeca.target_ = easeOutQuint(Vector3{ hogeca.eye_.x,hogeca.eye_.y,hogeca.eye_.z + 1 }, Vector3{ hogeca.eye_.x - 100,hogeca.eye_.y,hogeca.eye_.z }, time_ / maxTime_);
+		playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x + 5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z + 1 }, Vector3{ playCamera_.eye_.x - 100,playCamera_.eye_.y,playCamera_.eye_.z }, time_ / maxTime_);
 
 	}
 }
 
-void player::HideDownWall()
+void Player::HideDownWall()
 {
 	if (attackFlag_)
 	{
-		if (time_ < maxTime_)
+		if (time_ < maxMoveTime_)
 		{
 			time_++;
 		}
@@ -225,8 +282,8 @@ void player::HideDownWall()
 		time_ = 0;
 	}
 
-	//hogeca.target_ = easeOutQuint(Vector3{ 0,0,1 }, Vector3{ 0,0,1 }, time_ / maxTime_);
-	hogeca.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-10, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+	
+	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-10, playerCamera_.pos_.z }, time_ / maxMoveTime_);
 
 	playerCamera_.cameobj_.matWorldGeneration();
 
@@ -234,10 +291,10 @@ void player::HideDownWall()
 
 	forward = VectorMat(forward, playerObj_.GetWorldMat());
 
-	hogeca.target_ = hogeca.eye_ + forward;
+	playCamera_.target_ = playCamera_.eye_ + forward;
 }
 
-void player::Reticle2DMouseAttack(Camera camera)
+void Player::Reticle2DMouse(Camera camera)
 {
 	
 
@@ -258,13 +315,17 @@ void player::Reticle2DMouseAttack(Camera camera)
 	}
 	else
 	{
-		spritePosition.x += (float)Input::GetInstance()->GetGamePadLStick().x / SHRT_MAX * 7.0f;
-		spritePosition.y -= (float)Input::GetInstance()->GetGamePadLStick().y / SHRT_MAX * 7.0f;
+		spritePosition.x += (float)Input::GetInstance()->GetGamePadLStick().x*10;
+		spritePosition.y -= (float)Input::GetInstance()->GetGamePadLStick().y * 10;
 
-		//reticle_.pos_ = spritePosition;
+		reticle_.pos_ = spritePosition;
 	}
 
+	ImGui::Begin("check");
 
+	ImGui::Text("reticlePos:%0.3f,%0.3f", reticle_.pos_.x, reticle_.pos_.y);
+
+	ImGui::End();
 
 	Matrix4x4 matViewport = {
 			640,0,0,0,

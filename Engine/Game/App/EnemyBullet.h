@@ -1,5 +1,7 @@
 #pragma once
 #include "Object3D.h"
+#include "BulletCollision.h"
+#include "SphereCollider.h"
 
 /// <summary>
 /// 自キャラの弾
@@ -40,22 +42,22 @@ private:
 	//弾の本体
 	Object3D obj_;
 
-
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0;
-
-
-
 	//速度
 	Vector3	Velocity_;
 
 	//寿命<frm>
-	static const int32_t kLifeTime = 60 * 100;
+	static const int32_t kLifeTime = 60 * 5;
 
 	//デスタイマー
 	int32_t deathTimer_ = kLifeTime;
 
 	//デスフラグ
 	bool isDead_ = false;
+
+	//当たり判定の処理
+	BulletCollision collision;
+
+	//当たり判定の本体
+	SphereCollider Collider;
 
 };

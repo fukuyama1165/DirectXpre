@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "SceneManager.h"
 #include "PostEffect.h"
+#include "XAudio.h"
 
 class Framework
 {
@@ -53,5 +54,8 @@ private:
 	Input* input_ = Input::GetInstance();
 	
 	std::shared_ptr<PostEffect> postEffect_ = nullptr;
+
+	XAudio* xAudio_ = XAudio::GetInstance();
+
 
 };

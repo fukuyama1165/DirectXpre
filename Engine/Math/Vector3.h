@@ -43,6 +43,8 @@ const Vector3 operator*(const Vector3& v, float s);
 const Vector3 operator*(float s, const Vector3& v);
 const Vector3 operator/(const Vector3& v, float s);
 
+const bool operator==(const Vector3& v1, const Vector3& v2);
+
 Vector3 nainavec3(Vector3 a, Vector3 b);
 
 //ï‚ä‘ä÷êî

@@ -5,6 +5,8 @@ cbuffer cbuff0:register(b0)
 	matrix world;//ワールド行列
 	float3 cameraPos;//カメラ座標(ワールド座標)
 
+	float4 Icolor;
+
 }
 
 cbuffer cbuff1 : register(b1)//定数バッファの番号をbの後ろにつける

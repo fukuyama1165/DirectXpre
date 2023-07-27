@@ -1,11 +1,17 @@
 #include "SphereCollider.h"
 
+void SphereCollider::Initialize()
+{
+	collisionObject_->Initialize();
+}
 
-void SphereCollider::Update()
+void SphereCollider::Update(const Camera& camera, const Vector3 pos)
 {
 
+	collisionObject_->Update(camera, pos);
+
 	//ワールド行列から座標を抽出
-	const Matrix4x4& matWorld = object3d_->GetWorldMat();
+	const Matrix4x4& matWorld = collisionObject_->collisionObj_.GetWorldMat();
 
 	//球のメンバ変数を更新
 	Sphere::center_.x = matWorld.m[3][0] + offset_.x;
@@ -14,5 +20,6 @@ void SphereCollider::Update()
 
 	Sphere::radius_ = radius_;
 
+	
 
 }

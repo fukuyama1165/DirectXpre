@@ -1,0 +1,67 @@
+#include "MobCollision.h"
+
+MobCollision::MobCollision()
+{
+	tag_ = "Mob";
+}
+
+MobCollision::MobCollision(std::string tag)
+{
+	tag_ = tag;
+}
+
+MobCollision::~MobCollision()
+{
+}
+
+
+//初期化
+void MobCollision::Initialize()
+{
+	collisionObj_.FBXInit();
+}
+
+//終了処理
+void MobCollision::Finalize()
+{
+
+}
+
+//毎フレーム更新
+void MobCollision::Update(const Camera& camera, const Vector3 pos)
+{
+
+	collisionObj_.SetPos(pos);
+	collisionObj_.Update(camera);
+
+}
+
+//描画
+void MobCollision::Draw(AnimationModel* model)
+{
+	//ヌルポチェック
+	assert(model);
+	if (isDraw_)
+	{
+		collisionObj_.FBXDraw(*model, false);
+	}
+
+}
+
+void MobCollision::OnCollision(const CollisionInfo& info)
+{
+
+	if ((info.object_->tag_ != "playerBullet" && info.object_->tag_ != "player") && tag_ == "player")
+	{
+		isHit = true;
+	}
+	else if ((info.object_->tag_ != "enemyBullet" && info.object_->tag_ != "enemy") && tag_ == "enemy")
+	{
+		isHit = true;
+	}
+	else if (info.object_->tag_ == "")
+	{
+		isHit = true;
+	}
+
+}

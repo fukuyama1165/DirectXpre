@@ -40,6 +40,7 @@ void Framework::Initialize()
 
 	input_->init();
 
+	xAudio_->Init();
 	
 	Texture::GetInstance()->loadTexture("Resources/white1x1.png");
 
@@ -52,7 +53,8 @@ void Framework::Initialize()
 //I—¹ˆ—
 void Framework::Finalize()
 {
-
+	sceneManager_->Finalize();
+	XAudio::GetInstance()->Final();
 	imGuiManager_->Finalize();
 }
 
