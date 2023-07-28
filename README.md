@@ -7,12 +7,12 @@ DirectX12を用いた2D3D描画エンジン
 テクスチャ読み込みと描画
 
 ## 使用ライブラリ
-- asiimp  
+- [assimp](https://github.com/assimp/assimp)  
   モデルの読み込みと描画に使用
-- DirectXTex  
+- [DirectXTex](https://github.com/microsoft/DirectXTex)  
   テクスチャ読み込みと描画に使用
-- imgui  
-  debug時のウインドウ描画、実行中の変数の変更
+- [imgui](https://github.com/ocornut/imgui)  
+  debug時のデバックウインドウ描画、実行中の変数の変更
 
 ## 推奨環境
 Windows10
