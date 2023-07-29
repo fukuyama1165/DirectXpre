@@ -43,6 +43,7 @@
 #include <sstream>
 
 #include <cstdint>
+#include "Wall.h"
 
 class GameScene:public IScene
 {
@@ -85,6 +86,8 @@ private:
 
 	std::unique_ptr<AnimationModel> levelModel_;
 	std::unique_ptr<AnimationModel> levelBallModel_;
+	std::unique_ptr<AnimationModel> levelGroundModel_;
+	std::unique_ptr<AnimationModel> levelBuildingModel_;
 
 	//ÉJÉÅÉâ
 	Camera camera_;
@@ -155,7 +158,16 @@ private:
 		std::string name;
 	};
 
+	struct LevelWallObj
+	{
+		WallObj obj;
+		std::string name;
+	};
+
 	std::vector<LevelObj> levelObj;
+	std::vector<std::unique_ptr<LevelWallObj>> wallObj_;
+
+	WallObj obj;
 
 	bool chengCamera_ = false;
 

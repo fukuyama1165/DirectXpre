@@ -109,6 +109,7 @@
     <ClCompile Include="Engine\Game\App\EventPointManager.cpp" />
     <ClCompile Include="Engine\Game\App\Player.cpp" />
     <ClCompile Include="Engine\Game\App\PlayerBullet.cpp" />
+    <ClCompile Include="Engine\Game\App\Wall.cpp" />
     <ClCompile Include="Engine\Game\camera\camera.cpp" />
     <ClCompile Include="Engine\Game\camera\cameraObj.cpp" />
     <ClCompile Include="Engine\Game\collision\BaseCollider.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Engine\Game\App\EventPointManager.h" />
     <ClInclude Include="Engine\Game\App\Player.h" />
     <ClInclude Include="Engine\Game\App\PlayerBullet.h" />
+    <ClInclude Include="Engine\Game\App\Wall.h" />
     <ClInclude Include="Engine\Game\camera\camera.h" />
     <ClInclude Include="Engine\Game\camera\cameraObj.h" />
     <ClInclude Include="Engine\Game\collision\BaseCollider.h" />

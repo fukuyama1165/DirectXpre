@@ -93,6 +93,8 @@ void SceneManager::Finalize()
 
 void SceneManager::ChangeScene(const std::string& sceneName, const std::string& sceneChangeName)
 {
+	if (nextScene_ != nullptr) return;
+
 	assert(sceneFactory_);
 	assert(nextScene_ == nullptr);
 

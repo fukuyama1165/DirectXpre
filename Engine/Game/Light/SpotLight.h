@@ -53,7 +53,7 @@ public:
 
 	const Vector3& GetLightAtten() { return lightAtten_; }
 
-	void SetLightFactorAhgle(const Vector2& LightFactorAhgle) { lightFactorAngleCos_.x = cosf(AngleToRadian(LightFactorAhgle.x)), lightFactorAngleCos_.y = cosf(AngleToRadian(LightFactorAhgle.y)); };
+	void SetLightFactorAhgle(const Vector2& LightFactorAhgle) { lightFactorAngleCos_.x = cosf(Util::AngleToRadian(LightFactorAhgle.x)), lightFactorAngleCos_.y = cosf(Util::AngleToRadian(LightFactorAhgle.y)); };
 
 	const Vector2& GetLightFactorAhgleCos() { return lightFactorAngleCos_; }
 

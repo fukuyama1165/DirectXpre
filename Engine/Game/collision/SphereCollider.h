@@ -19,7 +19,10 @@ public:
 
 	~SphereCollider()
 	{
-		collisionObject_->Finalize();
+		if (collisionObject_ != nullptr)
+		{
+			collisionObject_->Finalize();
+		}
 	}
 
 	void Initialize();
