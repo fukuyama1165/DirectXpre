@@ -1,7 +1,6 @@
 #include "DirectionalLight.h"
 #include "DirectXInit.h"
 
-//using namespace DirectX;
 
 //Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
 //Microsoft::WRL::ComPtr<ID3D12Device> DirectionalLight::dev = nullptr;
