@@ -45,13 +45,6 @@ void GameScene::Initialize()
 	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
 
-	charactorObj_.colorChangeInit();
-	charactorObj3_.basicInit();
-	charactorObj2_.colorChangeInit();
-
-
-
-	texname_ = charactorObj2_.loadTexture("Resources/hokehoke.png");
 
 	play_.Init("Resources/obj/karaage/", "karaage.obj");
 
@@ -73,61 +66,65 @@ void GameScene::Initialize()
 	ray_.start_ = { 0.0f,0.0f,0.0f };
 	ray_.dir_ = { 0.0f,0.0f,-1.0f };
 
-	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile("wallTest");
+	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile("MapTest");
 
 	
 
 	for (auto& objData : levelData->objects_)
 	{
-		LevelObj newObject;
-		newObject.obj.FBXInit();
-		newObject.obj.Trans_ = Vector3{objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-		newObject.obj.Rotate_ = Vector3{objData.rot_.x,objData.rot_.y ,objData.rot_.z };
-		newObject.obj.Scale_ = Vector3{objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-		newObject.obj.matWorldGeneration();
-		newObject.name = objData.name_;
+		if (objData.name_.find("Wall") == std::string::npos)
+		{
+			LevelObj newObject;
+			newObject.obj.FBXInit();
+			newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
+			newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+			newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+			newObject.obj.matWorldGeneration();
+			newObject.name = objData.name_;
 
-		levelObj.emplace_back(newObject);
+			levelObj.emplace_back(newObject);
+		}
+		else
+		{
+			std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
+			newWall->obj.Init();
+			newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
+			newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+			newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+			newWall->obj.obj_.matWorldGeneration();
+			newWall->name = objData.name_;
+
+			wallObj_.emplace_back(std::move(newWall));
+		}
 
 	}
+	/*LevelWallObj newWall;
+	obj.Init();
+	newWall.obj = obj;
+	wallObj_.push_back(newWall);*/
 
-	objobj_.objDrawInit("Resources/obj/testBall/", "testBall.obj", true);
-	objobj2_.objDrawInit("Resources/obj/collHittest/", "collHitTest.obj");
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
-
-	objobj_.Scale_ = { 0.95f,0.95f,0.95f };
-	objobj2_.Scale_ = { 0.95f,0.95f,0.95f };
 
 	testFBX_.FBXInit();
 
 	testModel_ = std::make_unique<AnimationModel>();
 	levelModel_ = std::make_unique<AnimationModel>();
 	levelBallModel_ = std::make_unique<AnimationModel>();
+	levelGroundModel_ = std::make_unique<AnimationModel>();
+	levelBuildingModel_ = std::make_unique<AnimationModel>();
 
 	testModel_->Load("testFBX", "gltf", "basketballman2");
 	levelModel_->Load("testFBX", "gltf", "white1x1");
 	levelBallModel_->Load("testGLTFBall", "gltf", "white1x1");
+	levelGroundModel_->Load("testFBX", "gltf", "Dirt", "jpg");
+	levelBuildingModel_->Load("testFBX", "gltf", "Biru2");
 
-	spritecommon_ = spritecommon_->GetInstance();
 
 	//spritecommon_->initialize();
-
-	sprite_.initialize(spritecommon_, 2);
-	sprite2_.initialize(spritecommon_, 1);
-
-	sprite_.pos_ = { 500,200 };
-
-	sprite2_.pos_ = { 700,200 };
-
-	sprite2_.scale_ = { 10,10 };
-
-	sprite_.scale_ = { 10 ,10 };
-
-	objobj_.SetPos({ -100,0,0 });
+	
+	
 	objobj3_.SetScale({ 1000,1000,1000 });
 
-
-	charactorObj3_.SetScale({ 0.001f,0.001f,100.0f });
 
 	XAudio::PlaySoundData(test_, 0.3f, true);
 
@@ -168,27 +165,6 @@ void GameScene::Update()
 #pragma endregion
 
 #pragma region XVˆ—
-
-
-
-
-
-	/*if (input->PushKey(DIK_I))
-	{
-		sprite.rotate += 1;
-	}
-	if (input->PushKey(DIK_K))
-	{
-		sprite.rotate += -1;
-	}
-	if (input->PushKey(DIK_L))
-	{
-		sprite.posX = 1;
-	}
-	if (input->PushKey(DIK_J))
-	{
-		sprite.posX = -1;
-	}*/
 
 
 
@@ -489,8 +465,9 @@ void GameScene::Update()
 
 	ImGui::Begin("player");
 
+	ImGui::Text("pos:%0.2f,%0.2f,%0.2f", play_.playerObj_.GetWorldPos().x, play_.playerObj_.GetWorldPos().y, play_.playerObj_.GetWorldPos().z);
 	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
-	ImGui::Text("movetimer:%0.0f", play_.time_);
+	ImGui::Text("movetimer:%0.0f", play_.time_);	
 	ImGui::Checkbox("playerDebugShot", &play_.isDebugShot_);
 	ImGui::InputFloat("playerShotCT", &play_.bulletMaxCT_, 1, 5);
 	ImGui::InputFloat("playerShotSpeed", &play_.bulletSpeed_, 1, 5);
@@ -519,22 +496,6 @@ void GameScene::Update()
 
 	ImGui::End();
 
-
-#pragma endregion
-
-
-#pragma region sprite
-
-	/*ImGui::Begin("spriteMove");
-
-	ImGui::SetWindowSize(ImVec2(300, 300));
-
-	ImGui::Text("spriteMove");
-
-	ImGui::SliderFloat("X", &spriteMove.x, -500.0f, 500.0f, "%.3f");
-	ImGui::SliderFloat("Y", &spriteMove.y, 0.0f, 500.0f, "%.3f");
-
-	ImGui::End();*/
 
 #pragma endregion
 
@@ -620,26 +581,13 @@ void GameScene::Update()
 		
 	}
 
-	reloadLevel(DIK_K, "scenetest4");
-
-	
-
-	objobj_.SetPos(movecoll_);
-	objobj2_.SetPos(movecoll_);
+	reloadLevel(DIK_K, "MapTest");
 
 	
 	play_.Update(cameobj_.GetCamera());
 	lightManager_->lightGroups_[0].Update();
 
-	sprite_.Update();
-	sprite2_.Update();
 
-	charactorObj_.Update(cameobj_.GetCamera());
-	charactorObj2_.Update(cameobj_.GetCamera());
-	charactorObj3_.Update(cameobj_.GetCamera());
-
-	objobj_.Update(cameobj_.GetCamera());
-	objobj2_.Update(cameobj_.GetCamera());
 	objobj3_.Update(cameobj_.GetCamera());
 
 	testFBX_.Update(cameobj_.GetCamera());
@@ -647,6 +595,11 @@ void GameScene::Update()
 	for (LevelObj a : levelObj)
 	{
 		a.obj.Update(cameobj_.GetCamera());
+	}
+
+	for (uint16_t b = 0; b < wallObj_.size(); b++)
+	{
+		wallObj_[b]->obj.Update(cameobj_.GetCamera());
 	}
 
 	enemys_->UpDate(cameobj_.GetCamera(), play_.playerObj_.GetWorldPos());
@@ -669,17 +622,6 @@ void GameScene::Draw()
 	
 
 
-	//charactorObj.Draw(0,1,0);
-	//charactorObj3_.Draw(6,1,1);
-	//charactorObj2.Draw(4, 1,0);
-	/*if (hit == false)
-	{*/
-	//objobj_.Draw();
-	/*}
-	else
-	{
-		objobj2.Draw();
-	}*/
 
 	objobj3_.Draw();
 
@@ -698,19 +640,29 @@ void GameScene::Draw()
 		{
 			a.obj.FBXDraw(*levelBallModel_.get());
 		}
+		else if(a.name.find("Ground")!=std::string::npos)
+		{
+			a.obj.FBXDraw(*levelGroundModel_.get());
+		}
+		else if (a.name.find("building") != std::string::npos)
+		{
+			a.obj.FBXDraw(*levelBuildingModel_.get());
+		}
 		else
 		{
 			a.obj.FBXDraw(*levelModel_.get());
 		}
 	}
 
+	for (uint16_t b = 0; b < wallObj_.size(); b++)
+	{
+		wallObj_[b]->obj.Draw(levelModel_.get());
+	}
 
 	play_.Draw();
 
 	enemys_->Draw();
 
-	//sprite_.Draw();
-	//sprite2_.Draw();
 
 	EmitterManager::GetInstance()->Draw();
 
@@ -760,15 +712,30 @@ void GameScene::reloadLevel(const BYTE& CheckKey, std::string filename)
 
 		for (auto& objData : levelData->objects_)
 		{
-			LevelObj newObject;
-			newObject.obj.FBXInit();
-			newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-			newObject.obj.Rotate_ = Vector3{ objData.rot_.x,objData.rot_.y ,objData.rot_.z };
-			newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-			newObject.obj.matWorldGeneration();
-			newObject.name = objData.name_;
+			if (objData.name_.find("Wall") == std::string::npos)
+			{
+				LevelObj newObject;
+				newObject.obj.FBXInit();
+				newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
+				newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+				newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+				newObject.obj.matWorldGeneration();
+				newObject.name = objData.name_;
 
-			levelObj.emplace_back(newObject);
+				levelObj.emplace_back(newObject);
+			}
+			else
+			{
+				std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
+				newWall->obj.Init();
+				newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
+				newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+				newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+				newWall->obj.obj_.matWorldGeneration();
+				newWall->name = objData.name_;
+
+				wallObj_.emplace_back(std::move(newWall));
+			}
 
 		}
 	}

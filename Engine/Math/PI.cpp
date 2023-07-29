@@ -2,13 +2,13 @@
 #include <random>
 
 //ラジアンから角度
-float RadianToAngle(float Radian)
+float Util::RadianToAngle(float Radian)
 {
 	return Radian * (180 / PI);
 }
 
 //角度からラジアン
-float AngleToRadian(float Angle)
+float Util::AngleToRadian(float Angle)
 {
 	return Angle * (PI / 180);
 }

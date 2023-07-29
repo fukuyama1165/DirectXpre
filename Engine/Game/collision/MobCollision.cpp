@@ -51,11 +51,11 @@ void MobCollision::Draw(AnimationModel* model)
 void MobCollision::OnCollision(const CollisionInfo& info)
 {
 
-	if ((info.object_->tag_ != "playerBullet" && info.object_->tag_ != "player") && tag_ == "player")
+	if ((info.object_->tag_ == "enemyBullet" ) && tag_ == "player")
 	{
 		isHit = true;
 	}
-	else if ((info.object_->tag_ != "enemyBullet" && info.object_->tag_ != "enemy") && tag_ == "enemy")
+	else if ((info.object_->tag_ == "playerBullet") && tag_ == "enemy")
 	{
 		isHit = true;
 	}

@@ -14,7 +14,7 @@ struct Sphere
 
 };
 
-//•½–Ê
+//–³ŒÀ•½–Ê
 struct Plane
 {
 
