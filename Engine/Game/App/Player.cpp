@@ -283,7 +283,7 @@ void Player::HideDownWall()
 	}
 
 	
-	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-10, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-4, playerCamera_.pos_.z }, time_ / maxMoveTime_);
 
 	playerCamera_.cameobj_.matWorldGeneration();
 

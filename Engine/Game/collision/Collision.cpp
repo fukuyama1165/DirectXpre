@@ -21,7 +21,7 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 	float r = sphereA.radius_ + sphereB.radius_;
 
 	//ğŒ‚ÉŠY“–‚µ‚Ä‚È‚¢‚È‚ç“–‚½‚Á‚Ä‚È‚¢
-	if ((x * x) + (y * y) + (z * z) > r * r)
+	if ((x * x) + (y * y) + (z * z) > (r * r))
 	{
 		return false;
 	}

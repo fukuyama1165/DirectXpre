@@ -87,11 +87,12 @@ void GameScene::Initialize()
 		else
 		{
 			std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
-			newWall->obj.Init();
+			
 			newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
 			newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
 			newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
 			newWall->obj.obj_.matWorldGeneration();
+			newWall->obj.Init();
 			newWall->name = objData.name_;
 
 			wallObj_.emplace_back(std::move(newWall));
@@ -656,7 +657,7 @@ void GameScene::Draw()
 
 	for (uint16_t b = 0; b < wallObj_.size(); b++)
 	{
-		wallObj_[b]->obj.Draw(levelModel_.get());
+		wallObj_[b]->obj.Draw(levelBuildingModel_.get());
 	}
 
 	play_.Draw();
@@ -708,6 +709,7 @@ void GameScene::reloadLevel(const BYTE& CheckKey, std::string filename)
 	if (Input::GetInstance()->TriggerKey(CheckKey))
 	{
 		levelObj.clear();
+		wallObj_.clear();
 		std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile(filename);
 
 		for (auto& objData : levelData->objects_)

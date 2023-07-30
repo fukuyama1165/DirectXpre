@@ -17,6 +17,7 @@ void WallObj::Init()
 	collision_ = MobCollision("Wall");
 
 	collider_.SetObject(&collision_);
+	collider_.radius_ = obj_.Scale_.x;
 
 	collider_.Initialize();
 
@@ -35,7 +36,7 @@ void WallObj::Update(const Camera& camera)
 
 	ImGui::End();
 
-	//collider_.Update(camera, obj_.GetWorldPos());
+	collider_.Update(camera, obj_.GetWorldPos());
 
 }
 
