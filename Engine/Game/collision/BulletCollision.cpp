@@ -63,7 +63,7 @@ void BulletCollision::OnCollision(const CollisionInfo& info)
 	{
 		isHit = true;
 	}
-	else if (info.object_->tag_ == "Wall" && (tag_ == "playerBullet" || tag_ == "enemyBullet"))
+	else if (info.object_->tag_ == "Wall" && (tag_ == "enemyBullet"))
 	{
 		isHit = true;
 	}

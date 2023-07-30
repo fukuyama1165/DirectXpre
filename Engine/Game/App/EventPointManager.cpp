@@ -102,6 +102,10 @@ void EventPointManager::Update()
 		eventPoint_ = EventPoint(eventSetings_[eventCount_]);
 		eventCount_++;
 	}
+	else if (eventPoint_.GetIsFinished())
+	{
+		eventAllEnd_ = true;
+	}
 
 	eventPoint_.Update();
 

@@ -104,7 +104,7 @@ void Player::Update(const Camera& camera)
 	
 
 	//ˆÚ“®(Šî–{“I‚ÉƒJƒƒ‰‚ðŠî€‚É)	
-	Vector3 playerPos = { playCamera_.eye_.x,playCamera_.eye_.y - 2 ,playCamera_.eye_.z };
+	Vector3 playerPos = { playCamera_.eye_.x,playCamera_.eye_.y - 1 ,playCamera_.eye_.z };
 
 	playerObj_.SetPos(playerPos + (playCamera_.forward_ * 5));
 	
@@ -118,8 +118,10 @@ void Player::Update(const Camera& camera)
 
 	reticle3DObj_.Update(camera);
 
-
-	Attack();
+	if (!attackFlag_)
+	{
+		Attack();
+	}
 
 	if (muzzleFlashTime_ > 0)
 	{
@@ -283,7 +285,7 @@ void Player::HideDownWall()
 	}
 
 	
-	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-4, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-2, playerCamera_.pos_.z }, time_ / maxMoveTime_);
 
 	playerCamera_.cameobj_.matWorldGeneration();
 

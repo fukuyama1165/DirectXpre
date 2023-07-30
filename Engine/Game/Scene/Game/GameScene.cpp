@@ -140,6 +140,8 @@ void GameScene::Initialize()
 	eventManager->SetDebugMoveEvent();
 	
 	eventManager->SetDebugBattleEvent();
+
+	eventManager->SetDebugMoveEvent();
 }
 
 void GameScene::Finalize()
@@ -457,6 +459,7 @@ void GameScene::Update()
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
 	ImGui::Text("eventEnd:%d", eventManager->GetInstance()->GetPEventPoint()->GetIsFinished());	
+	ImGui::Text("eventAllEnd:%d", eventManager->GetInstance()->GetEventAllEnd());	
 
 	ImGui::End();
 
@@ -603,7 +606,7 @@ void GameScene::Update()
 		wallObj_[b]->obj.Update(cameobj_.GetCamera());
 	}
 
-	enemys_->UpDate(cameobj_.GetCamera(), play_.playerObj_.GetWorldPos());
+	enemys_->UpDate(cameobj_.GetCamera(), play_.playerCamera_.GetCamera().eye_);
 
 	CollisionManager::GetInstance()->CheckAllCollisions();
 
@@ -611,6 +614,7 @@ void GameScene::Update()
 
 	EmitterManager::GetInstance()->Update(cameobj_.GetCamera());
 
+	eventManager;
 }
 
 void GameScene::Draw()
@@ -729,12 +733,13 @@ void GameScene::reloadLevel(const BYTE& CheckKey, std::string filename)
 			else
 			{
 				std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
-				newWall->obj.Init();
+				
 				newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
 				newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
 				newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
 				newWall->obj.obj_.matWorldGeneration();
 				newWall->name = objData.name_;
+				newWall->obj.Init();
 
 				wallObj_.emplace_back(std::move(newWall));
 			}
