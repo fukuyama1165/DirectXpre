@@ -69,13 +69,13 @@ void Player::Update(const Camera& camera)
 	});
 	
 
-	if (input_->PushKey(DIK_SPACE) && time_<=20 and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+	if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_<=20 and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
 		attackFlag_ = true;
 		
 	}
 
-	if (input_->ReleaseKey(DIK_SPACE))
+	if (input_->ReleaseKey(DIK_SPACE) || input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A))
 	{
 		attackFlag_ = false;
 		
