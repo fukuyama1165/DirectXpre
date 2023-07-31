@@ -49,6 +49,8 @@ public:
 
 	float muzzleFlashMaxTime_ = 2.0f;
 
+	float hp_ = 3;
+
 private:
 
 	void HideRightWall();
@@ -84,6 +86,7 @@ private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 	std::unique_ptr<AnimationModel> bulletModel_;
+	std::unique_ptr<AnimationModel> gunModel_;
 
 	float bulletCT_ = 0;
 
@@ -92,6 +95,10 @@ private:
 
 	//“–‚½‚è”»’è‚Ì–{‘Ì
 	SphereCollider Collider;
+
+	Sprite hp1Sprote_;
+	Sprite hp2Sprote_;
+	Sprite hp3Sprote_;
 	
 
 };

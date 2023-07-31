@@ -169,7 +169,7 @@ private:
 
 	WallObj obj;
 
-	bool chengCamera_ = false;
+	bool chengCamera_ = true;
 
 	Vector3 enemyPopPos = { 0,0,0 };
 	float PopPos[3] = {0,0,0};

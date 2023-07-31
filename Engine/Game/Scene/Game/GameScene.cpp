@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "EmitterManager.h"
+#include "SceneManager.h"
 
 void GameScene::Initialize()
 {
@@ -8,22 +9,18 @@ void GameScene::Initialize()
 
 	test_ = xAudio_->SoundLoadWave("Resources/sound/music_InGame.wav");
 
-	LightGroup::Staticlnitialize();
-
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
-
-	lightManager_->CreateLightGroup();
 
 	lightManager_->lightGroups_[0].SetDirLightActive(0, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
 
-	lightManager_->lightGroups_[0].SetPointLightActive(0, true);
+	lightManager_->lightGroups_[0].SetPointLightActive(0, false);
 	lightManager_->lightGroups_[0].SetPointLightActive(1, false);
 	lightManager_->lightGroups_[0].SetPointLightActive(2, false);
 
-	lightManager_->lightGroups_[0].SetSpotLightActive(0, true);
+	lightManager_->lightGroups_[0].SetSpotLightActive(0, false);
 	lightManager_->lightGroups_[0].SetSpotLightActive(1, false);
 
 	//lightGroup->SetLightColor({ 1,1,1 });
@@ -87,21 +84,18 @@ void GameScene::Initialize()
 		else
 		{
 			std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
-			newWall->obj.Init();
+			
 			newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
 			newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
 			newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
 			newWall->obj.obj_.matWorldGeneration();
+			newWall->obj.Init();
 			newWall->name = objData.name_;
 
 			wallObj_.emplace_back(std::move(newWall));
 		}
 
 	}
-	/*LevelWallObj newWall;
-	obj.Init();
-	newWall.obj = obj;
-	wallObj_.push_back(newWall);*/
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 
@@ -128,24 +122,28 @@ void GameScene::Initialize()
 
 	XAudio::PlaySoundData(test_, 0.3f, true);
 
-	XAudio::StapSoundData(test_);
+	//XAudio::StapSoundData(test_);
 
 	enemys_ = EnemyManager::GetInstance();
 
-	enemys_->PopEnemy(Vector3(0, 0, -100));
+	//enemys_->PopEnemy(Vector3(0, 0, -100));
 
 	eventManager = EventPointManager::GetInstance();
 
-	eventManager->SetDebugMoveEvent();
+	eventManager->SetDebugMoveEvent({ 0,0,0 }, { 0,0,0 }, { 0,0,0 });
 	
-	eventManager->SetDebugBattleEvent();
+	eventManager->SetDebugBattleEvent({ 0,0,50 }, 100, { 10,0,50 }, 20, { -10,0,50 }, 100, { 0,10,50 });
+
+	//eventManager->SetDebugMoveEvent();
 }
 
 void GameScene::Finalize()
 {
 
-	//XAudio::StapSoundData(test_);
-
+	XAudio::StapSoundData(test_);
+	CollisionManager::GetInstance()->AllRemoveCollider();
+	eventManager->reset();
+	enemys_->Reset();
 	
 
 }
@@ -167,7 +165,7 @@ void GameScene::Update()
 #pragma region 更新処理
 
 
-
+#ifdef _DEBUG
 	if (Input::GetInstance()->PushKey(DIK_UP))
 	{
 		cameraPos_.x += Vector3::normalize(debugCamera_.forward_).x;
@@ -456,6 +454,9 @@ void GameScene::Update()
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
 	ImGui::Text("eventEnd:%d", eventManager->GetInstance()->GetPEventPoint()->GetIsFinished());	
+	ImGui::Text("eventAllEnd:%d", eventManager->GetInstance()->GetEventAllEnd());	
+
+	//ImGui::Text("pos:%0.2f,%0.2f,%0.2f", wallObj_[0]->obj.obj_.GetWorldPos().x, wallObj_[0]->obj.obj_.GetWorldPos().y, wallObj_[0]->obj.obj_.GetWorldPos().z);
 
 	ImGui::End();
 
@@ -466,6 +467,7 @@ void GameScene::Update()
 	ImGui::Begin("player");
 
 	ImGui::Text("pos:%0.2f,%0.2f,%0.2f", play_.playerObj_.GetWorldPos().x, play_.playerObj_.GetWorldPos().y, play_.playerObj_.GetWorldPos().z);
+	ImGui::Text("hp:%0.0f", play_.hp_);
 	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
 	ImGui::Text("movetimer:%0.0f", play_.time_);	
 	ImGui::Checkbox("playerDebugShot", &play_.isDebugShot_);
@@ -484,6 +486,7 @@ void GameScene::Update()
 	ImGui::Text("enemyNum:%d", enemys_->enemyCount_);
 
 	ImGui::Checkbox("enemyDebugShot", &enemys_->isDebugShot_);
+	ImGui::Checkbox("ShotStop", &enemys_->isDebugShotStop_);
 	ImGui::InputFloat("enemyShotSpeed", &enemys_->bulletSpeed_, 0.1f, 5);
 
 	ImGui::DragFloat3("popEnemyPos", PopPos);
@@ -504,9 +507,14 @@ void GameScene::Update()
 
 	ImGui::ShowDemoWindow();
 #endif
+	
+
+	reloadLevel(DIK_K, "MapTest");
+#endif
+
 	if (chengCamera_)
 	{
-		
+
 		//play_.playerCamera_.upDate();
 		//play_.playerCamera_.pos_ = cameraPos_;
 		cameobj_ = play_.playerCamera_;
@@ -514,7 +522,7 @@ void GameScene::Update()
 	else
 	{
 		debugCamera_.eye_ = cameraPos_;
-		
+
 		if (IsUseCameraMouse_)
 		{
 			if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
@@ -576,13 +584,10 @@ void GameScene::Update()
 
 		debugCamera_.upDate();
 
-		
+
 		cameobj_.SetCamera(debugCamera_);
-		
+
 	}
-
-	reloadLevel(DIK_K, "MapTest");
-
 	
 	play_.Update(cameobj_.GetCamera());
 	lightManager_->lightGroups_[0].Update();
@@ -602,7 +607,7 @@ void GameScene::Update()
 		wallObj_[b]->obj.Update(cameobj_.GetCamera());
 	}
 
-	enemys_->UpDate(cameobj_.GetCamera(), play_.playerObj_.GetWorldPos());
+	enemys_->UpDate(cameobj_.GetCamera(), play_.playerCamera_.GetCamera().eye_);
 
 	CollisionManager::GetInstance()->CheckAllCollisions();
 
@@ -610,6 +615,13 @@ void GameScene::Update()
 
 	EmitterManager::GetInstance()->Update(cameobj_.GetCamera());
 
+	
+
+	if (play_.hp_<=0 or eventManager->GetEventAllEnd())
+	{
+		
+		SceneManager::GetInstance()->ChangeScene("TITLE");
+	}
 }
 
 void GameScene::Draw()
@@ -656,7 +668,7 @@ void GameScene::Draw()
 
 	for (uint16_t b = 0; b < wallObj_.size(); b++)
 	{
-		wallObj_[b]->obj.Draw(levelModel_.get());
+		wallObj_[b]->obj.Draw(levelBuildingModel_.get());
 	}
 
 	play_.Draw();
@@ -708,6 +720,7 @@ void GameScene::reloadLevel(const BYTE& CheckKey, std::string filename)
 	if (Input::GetInstance()->TriggerKey(CheckKey))
 	{
 		levelObj.clear();
+		wallObj_.clear();
 		std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile(filename);
 
 		for (auto& objData : levelData->objects_)
@@ -727,12 +740,13 @@ void GameScene::reloadLevel(const BYTE& CheckKey, std::string filename)
 			else
 			{
 				std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
-				newWall->obj.Init();
+				
 				newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
 				newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
 				newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
 				newWall->obj.obj_.matWorldGeneration();
 				newWall->name = objData.name_;
+				newWall->obj.Init();
 
 				wallObj_.emplace_back(std::move(newWall));
 			}

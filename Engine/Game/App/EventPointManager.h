@@ -23,6 +23,12 @@ public:
 
 	EventPoint* GetPEventPoint() { return &eventPoint_; };
 
+	bool GetEventAllEnd() { return eventAllEnd_; };
+
+	void SetEventAllEnd(bool flag) { eventAllEnd_ = flag; };
+
+	void reset() { eventSetings_.clear(); eventCount_ = 0; eventPoint_ = EventPoint(); }
+
 private:
 
 	EventPointManager() = default;
@@ -43,6 +49,8 @@ private:
 	bool isActive = false;
 
 	uint32_t eventCount_ = 0;
+
+	bool eventAllEnd_ = false;
 
 };
 

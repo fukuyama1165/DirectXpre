@@ -15,6 +15,8 @@ public:
 
 	Object3D obj_;
 
+	float collisionSize_ = 5;
+
 private:
 
 	

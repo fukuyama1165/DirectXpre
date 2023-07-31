@@ -1,4 +1,5 @@
 #include "Framework.h"
+#include "LightManager.h"
 
 void Framework::Ran()
 {
@@ -47,6 +48,10 @@ void Framework::Initialize()
 	postEffect_ = std::make_shared<PostEffect>();
 
 	postEffect_->Initialize();
+
+	LightGroup::Staticlnitialize();
+
+	LightManager::GetInstance()->CreateLightGroup();
 
 }
 

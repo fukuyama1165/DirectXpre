@@ -27,6 +27,8 @@ void EventPointManager::LoadEventData(std::string fileName)
 	}
 
 	eventPoint_ = EventPoint(eventSetings_[0]);
+
+	eventAllEnd_ = false;
 	
 }
 
@@ -49,6 +51,8 @@ void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector
 	debugPoint.movePoint = point4;
 
 	eventSetings_.push_back(debugPoint);
+
+	eventAllEnd_ = false;
 
 }
 
@@ -74,6 +78,8 @@ void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vec
 	
 	eventSetings_.push_back(debugPoint);
 
+	eventAllEnd_ = false;
+
 
 }
 
@@ -84,6 +90,8 @@ void EventPointManager::Initlize()
 	eventModel_->Load("testGLTFBall", "gltf", "white1x1");
 
 	eventPoint_.SetIsFinished(true);
+
+	eventAllEnd_ = false;
 
 
 }
@@ -101,6 +109,10 @@ void EventPointManager::Update()
 		
 		eventPoint_ = EventPoint(eventSetings_[eventCount_]);
 		eventCount_++;
+	}
+	else if (eventPoint_.GetIsFinished())
+	{
+		eventAllEnd_ = true;
 	}
 
 	eventPoint_.Update();

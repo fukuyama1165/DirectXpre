@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include "Easing.h"
 #include "EventPointManager.h"
+#include "Quaternion.h"
 
 Player::Player()
 {
@@ -22,11 +23,13 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	reticle_.initialize(SpriteCommon::GetInstance(), 1);
 
 	bulletModel_ = std::make_unique<AnimationModel>();
+	gunModel_ = std::make_unique<AnimationModel>();
 
 	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
-
+	gunModel_->Load("Gun", "gltf", "gray2x2");
 	
 	playerObj_.SetPos({ 0,5,0 });
+	playerObj_.SetScale({ 0.13f,0.21f,0.17f });
 
 	playerCamera_.pos_ = { 0,0,-200 };
 	playCamera_.eye_ = { 0,0,-3 };
@@ -44,6 +47,15 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
+	hp1Sprote_.initialize(SpriteCommon::GetInstance(), 1);
+	hp2Sprote_.initialize(SpriteCommon::GetInstance(), 1);
+	hp3Sprote_.initialize(SpriteCommon::GetInstance(), 1);
+
+	hp1Sprote_.pos_ = { 8,64 };
+	hp2Sprote_.pos_ = { 15*2,64 };
+	hp3Sprote_.pos_ = { 17*3,64 };
+
+
 }
 
 void Player::Update(const Camera& camera)
@@ -57,13 +69,13 @@ void Player::Update(const Camera& camera)
 	});
 	
 
-	if (input_->PushKey(DIK_SPACE) && time_<=20)
+	if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_<=20 and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
 		attackFlag_ = true;
 		
 	}
 
-	if (input_->ReleaseKey(DIK_SPACE))
+	if (input_->ReleaseKey(DIK_SPACE) || input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A))
 	{
 		attackFlag_ = false;
 		
@@ -104,7 +116,7 @@ void Player::Update(const Camera& camera)
 	
 
 	//移動(基本的にカメラを基準に)	
-	Vector3 playerPos = { playCamera_.eye_.x,playCamera_.eye_.y - 2 ,playCamera_.eye_.z };
+	Vector3 playerPos = { playCamera_.eye_.x,playCamera_.eye_.y - 1 ,playCamera_.eye_.z };
 
 	playerObj_.SetPos(playerPos + (playCamera_.forward_ * 5));
 	
@@ -118,8 +130,10 @@ void Player::Update(const Camera& camera)
 
 	reticle3DObj_.Update(camera);
 
-
-	Attack();
+	if (!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+	{
+		Attack();
+	}
 
 	if (muzzleFlashTime_ > 0)
 	{
@@ -142,24 +156,47 @@ void Player::Update(const Camera& camera)
 	{
 		bullet->Update(camera);
 	}
+
+	if (collision.isHit)
+	{
+		hp_--;
+		collision.isHit = false;
+	}
+
+	hp1Sprote_.Update();
+	hp2Sprote_.Update();
+	hp3Sprote_.Update();
 	
 }
 
 void Player::Draw()
 {
-	playerObj_.FBXDraw(*bulletModel_.get());
-	reticle3DObj_.Draw();
+	playerObj_.FBXDraw(*gunModel_.get());
+	//reticle3DObj_.Draw();
 	reticle_.Draw();
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
 		bullet->Draw(bulletModel_.get());
+	}
+
+	if (hp_ > 0)
+	{
+		hp1Sprote_.Draw();
+	}
+	if (hp_ > 1)
+	{
+		hp2Sprote_.Draw();
+	}
+	if (hp_ > 2)
+	{
+		hp3Sprote_.Draw();
 	}
 }
 
 void Player::Attack()
 {
 	
-	if ((input_->TriggerKey(DIK_N) and bulletCT_ <= 0) or (isDebugShot_ and bulletCT_ <= 0))
+	if ((input_->GetMouseButtonDown(0) and bulletCT_ <= 0) or (isDebugShot_ and bulletCT_ <= 0))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -170,16 +207,16 @@ void Player::Attack()
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
 		velocity = velocity.normalize() * bulletSpeed_;
 
-		
+		Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration(playerObj_.GetRotate()) * matMoveGeneration(playerObj_.GetPos());
 
 		//速度ベクトルを自機の向きの方向に合わせて回転する
-		velocity = VectorMat(velocity, playerObj_.GetWorldMat());
+		velocity = VectorMat(velocity, playermat);
 
-		ImGui::Begin("player");
+		/*ImGui::Begin("player");
 
 		ImGui::Text("velocity:%0.5f,%0.5f,%0.5f", velocity.x, velocity.y, velocity.z);
 
-		ImGui::End();
+		ImGui::End();*/
 
 		//弾の生成と初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -224,8 +261,10 @@ void Player::Attack()
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
 		velocity = velocity.normalize() * bulletSpeed_;
 
+		Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration(playerObj_.GetRotate()) * matMoveGeneration(playerObj_.GetPos());
+
 		//速度ベクトルを自機の向きに合わせて回転する
-		velocity = VectorMat(velocity, playerObj_.GetWorldMat());
+		velocity = VectorMat(velocity, playermat);
 
 		//弾の生成と初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -283,7 +322,7 @@ void Player::HideDownWall()
 	}
 
 	
-	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-10, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-2, playerCamera_.pos_.z }, time_ / maxMoveTime_);
 
 	playerCamera_.cameobj_.matWorldGeneration();
 
@@ -321,11 +360,11 @@ void Player::Reticle2DMouse(Camera camera)
 		reticle_.pos_ = spritePosition;
 	}
 
-	ImGui::Begin("check");
+	/*ImGui::Begin("check");
 
 	ImGui::Text("reticlePos:%0.3f,%0.3f", reticle_.pos_.x, reticle_.pos_.y);
 
-	ImGui::End();
+	ImGui::End();*/
 
 	Matrix4x4 matViewport = {
 			640,0,0,0,

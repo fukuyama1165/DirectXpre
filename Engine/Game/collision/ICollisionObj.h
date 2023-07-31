@@ -22,11 +22,15 @@ public:
 
 	virtual void OnCollision(const CollisionInfo& info) { info; };
 
+	virtual void SetIsHit(bool flag) { isHit = flag; };
+
 	Object3D collisionObj_;
 
 	std::string tag_ = "";
 
 	bool isDraw_ = false;
+
+	bool isHit = false;
 
 };
 
