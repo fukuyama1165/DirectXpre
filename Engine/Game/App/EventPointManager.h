@@ -27,6 +27,8 @@ public:
 
 	void SetEventAllEnd(bool flag) { eventAllEnd_ = flag; };
 
+	void reset() { eventSetings_.clear(); eventCount_ = 0; eventPoint_ = EventPoint(); }
+
 private:
 
 	EventPointManager() = default;

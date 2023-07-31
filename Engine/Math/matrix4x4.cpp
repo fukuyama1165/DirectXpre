@@ -1,5 +1,7 @@
-#include "matrix4x4.h"
+﻿#include "matrix4x4.h"
 #include <cstdint>
+#include <math.h>
+#include "Quaternion.h"
 
 Matrix4x4::Matrix4x4()
 {
@@ -447,4 +449,123 @@ Vector3 Matrix4x4::VectorMatDivW(const Matrix4x4& mat, const Vector3& pos)
 	};
 
 	return result;
+}
+
+Matrix4x4 matScaleGeneration(const Vector3& scale)
+{
+	//スケーリング行列を宣言
+	Matrix4x4 matScale;
+	matScale.IdentityMatrix();
+
+	//スケーリング倍率を行列に設定
+	matScale.m[0][0] = scale.x;
+	matScale.m[1][1] = scale.y;
+	matScale.m[2][2] = scale.z;
+	matScale.m[3][3] = 1;
+
+	return matScale;
+}
+
+Matrix4x4 matRotateXGeneration(float rotateX)
+{
+	//X軸回転行列を宣言
+	Matrix4x4 matRotateX;
+	matRotateX.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateX.m[0][0] = 1;
+	matRotateX.m[1][1] = cosf(rotateX);
+	matRotateX.m[1][2] = sinf(rotateX);
+	matRotateX.m[2][1] = -sinf(rotateX);
+	matRotateX.m[2][2] = cosf(rotateX);
+	matRotateX.m[3][3] = 1;
+
+	return matRotateX;
+}
+
+Matrix4x4 matRotateYGeneration(float rotateY)
+{
+	//Y軸回転行列を宣言
+	Matrix4x4 matRotateY;
+	matRotateY.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateY.m[0][0] = cosf(rotateY);
+	matRotateY.m[0][2] = -sinf(rotateY);
+	matRotateY.m[1][1] = 1;
+	matRotateY.m[2][0] = sinf(rotateY);
+	matRotateY.m[2][2] = cosf(rotateY);
+	matRotateY.m[3][3] = 1;
+
+	return matRotateY;
+}
+
+Matrix4x4 matRotateZGeneration(float rotateZ)
+{
+	//Z軸回転行列を宣言
+	Matrix4x4 matRotateZ;
+	matRotateZ.IdentityMatrix();
+
+	//回転角を行列に設定(ラジアン)
+	matRotateZ.m[0][0] = cosf(rotateZ);
+	matRotateZ.m[0][1] = sinf(rotateZ);
+	matRotateZ.m[1][0] = -sinf(rotateZ);
+	matRotateZ.m[1][1] = cosf(rotateZ);
+	matRotateZ.m[2][2] = 1;
+	matRotateZ.m[3][3] = 1;
+
+	return matRotateZ;
+}
+
+Matrix4x4 matRotateGeneration(const Vector3& rotate)
+{
+	//X軸回転行列を宣言
+	Matrix4x4 matRotateX = matRotateXGeneration(rotate.x);
+
+	//Y軸回転行列を宣言
+	Matrix4x4 matRotateY = matRotateYGeneration(rotate.y);
+
+	//Z軸回転行列を宣言
+	Matrix4x4 matRotateZ = matRotateZGeneration(rotate.z);
+
+	//回転軸合成行列を宣言
+	Matrix4x4 matRotate;
+	matRotate.IdentityMatrix();
+
+	//計算した角度を計算(順番は回転させるモデルによって変える)
+	matRotate = matRotateZ * matRotateX * matRotateY;
+
+	return matRotate;
+
+
+
+}
+
+Matrix4x4 matMoveGeneration(const Vector3& translation)
+{
+	//移動するための行列を用意
+	Matrix4x4 matMove;
+	matMove.IdentityMatrix();
+
+	//行列に移動量を代入
+	matMove.m[3][0] = translation.x;
+	matMove.m[3][1] = translation.y;
+	matMove.m[3][2] = translation.z;
+
+	return matMove;
+}
+
+Matrix4x4 QuaternionMatRotateGeneration(const Vector3& rotate)
+{
+	Quaternion ans;
+
+	Quaternion rotaX = Quaternion::MakeAxisAngle({ 1.0f,0.0f,0.0f }, rotate.x);
+	Quaternion rotaY = Quaternion::MakeAxisAngle({ 0.0f,1.0f,0.0f }, rotate.y);
+	Quaternion rotaZ = Quaternion::MakeAxisAngle({ 0.0f,0.0f,1.0f }, rotate.z);
+
+	ans = rotaX * rotaY * rotaZ;
+
+
+	return Quaternion::MakeRotateMatrix(Quaternion::Normalize(ans));
+
 }

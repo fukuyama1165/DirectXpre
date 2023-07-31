@@ -18,6 +18,8 @@ public:
 
 	void Draw();
 
+	void Reset() { enemys_.clear(); bullets_.clear(); };
+
 private:
 
 	EnemyManager() = default;
@@ -36,6 +38,8 @@ public:
 	uint32_t enemyCount_ = 0;
 
 	bool isDebugShot_ = false;
+
+	bool isDebugShotStop_ = false;
 
 	//ˆÚ“®—Ê‚ð’Ç‰Á
 	float bulletSpeed_ = 1.0f;

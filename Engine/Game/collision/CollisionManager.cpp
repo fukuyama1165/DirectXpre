@@ -44,6 +44,11 @@ void CollisionManager::CheckAllCollisions()
 					colB->OnCollision(CollisionInfo(colA->GetCollisionObj(), colA, inter));
 
 				}
+				else if(!Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter))
+				{
+					//colA->GetCollisionObj()->SetIsHit(false);
+					//colB->GetCollisionObj()->SetIsHit(false);
+				}
 
 			}
 

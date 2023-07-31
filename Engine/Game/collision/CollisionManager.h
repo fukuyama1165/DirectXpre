@@ -33,6 +33,8 @@ public:
 	//すべての衝突チェック
 	void CheckAllCollisions();
 
+	void AllRemoveCollider() { colliders_.clear(); };
+
 private:
 
 	CollisionManager() = default;

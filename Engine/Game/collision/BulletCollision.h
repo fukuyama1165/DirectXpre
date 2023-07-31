@@ -24,6 +24,8 @@ public:
 
 	void OnCollision(const CollisionInfo& info);
 
+	void SetIsHit(bool flag) { isHit = flag; };
+
 	bool isHit = false;
 
 private:

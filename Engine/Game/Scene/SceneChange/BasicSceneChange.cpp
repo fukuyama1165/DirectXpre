@@ -78,11 +78,11 @@ void BasicSceneChange::Update()
 
 	}
 
-	ImGui::Begin("check");
+	/*ImGui::Begin("check");
 
 	ImGui::Text("alpha:%0.1f", chengSprite_.rotate_);
 
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void BasicSceneChange::Draw()
