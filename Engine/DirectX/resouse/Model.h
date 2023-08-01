@@ -225,7 +225,7 @@ public:
 	static Texture* STexture_;
 
 	//どのテクスチャか判断するための値(後でやり方を変える)
-	std::vector <uint32_t> textureHandle = {};
+	std::vector <std::string> textureHandle = {};
 
 	//マテリアル(複数に対応するため)
 	std::vector<Material> material_;

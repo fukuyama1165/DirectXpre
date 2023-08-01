@@ -13,7 +13,7 @@ BasicSceneChange::~BasicSceneChange()
 
 void BasicSceneChange::Initialize()
 {
-	chengSprite_.initialize(SpriteCommon::GetInstance(),1);
+	chengSprite_.initialize(SpriteCommon::GetInstance(),"basketballMan");
 	chengSprite_.pos_ = WinApp::GetInstance()->GetWindowCenter();
 
 	isStart_ = false;

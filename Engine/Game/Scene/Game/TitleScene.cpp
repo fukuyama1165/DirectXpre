@@ -24,7 +24,7 @@ void TitleScene::Initialize()
 
 	cameobj_.pos_ = { 0,0,-50 };
 
-	textureNum_ = Texture::GetInstance()->loadTexture("Resources/titleText.png");
+	textureNum_ = Texture::GetInstance()->loadTexture("Resources/titleText.png","titleText");
 
 	title_.initialize(SpriteCommon::GetInstance(), textureNum_);
 

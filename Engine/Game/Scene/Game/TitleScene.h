@@ -23,7 +23,7 @@ private:
 
 	cameraObj cameobj_;
 
-	uint32_t textureNum_ = 0;
+	std::string textureNum_ = "";
 
 	Sprite title_;
 

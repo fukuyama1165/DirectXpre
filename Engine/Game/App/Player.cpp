@@ -20,7 +20,7 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	input_ = input_->GetInstance();
 	playerObj_.FBXInit();
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
-	reticle_.initialize(SpriteCommon::GetInstance(), 1);
+	reticle_.initialize(SpriteCommon::GetInstance(), "basketballMan");
 
 	bulletModel_ = std::make_unique<AnimationModel>();
 	gunModel_ = std::make_unique<AnimationModel>();
@@ -47,9 +47,9 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
-	hp1Sprote_.initialize(SpriteCommon::GetInstance(), 1);
-	hp2Sprote_.initialize(SpriteCommon::GetInstance(), 1);
-	hp3Sprote_.initialize(SpriteCommon::GetInstance(), 1);
+	hp1Sprote_.initialize(SpriteCommon::GetInstance(), "basketballMan");
+	hp2Sprote_.initialize(SpriteCommon::GetInstance(), "basketballMan");
+	hp3Sprote_.initialize(SpriteCommon::GetInstance(), "basketballMan");
 
 	hp1Sprote_.pos_ = { 8,64 };
 	hp2Sprote_.pos_ = { 15*2,64 };

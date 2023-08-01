@@ -112,21 +112,15 @@ void GameScene::Initialize()
 	levelBallModel_->Load("testGLTFBall", "gltf", "white1x1");
 	levelGroundModel_->Load("testFBX", "gltf", "Dirt", "jpg");
 	levelBuildingModel_->Load("testFBX", "gltf", "Biru2");
-
-
-	//spritecommon_->initialize();
-	
 	
 	objobj3_.SetScale({ 1000,1000,1000 });
 
 
 	XAudio::PlaySoundData(test_, 0.3f, true);
 
-	//XAudio::StapSoundData(test_);
 
 	enemys_ = EnemyManager::GetInstance();
 
-	//enemys_->PopEnemy(Vector3(0, 0, -100));
 
 	eventManager = EventPointManager::GetInstance();
 
@@ -134,7 +128,6 @@ void GameScene::Initialize()
 	
 	eventManager->SetDebugBattleEvent({ 0,0,50 }, 100, { 10,0,50 }, 20, { -10,0,50 }, 100, { 0,10,50 });
 
-	//eventManager->SetDebugMoveEvent();
 }
 
 void GameScene::Finalize()
@@ -619,8 +612,12 @@ void GameScene::Update()
 
 	if (play_.hp_<=0 or eventManager->GetEventAllEnd())
 	{
-		
+#ifdef _DEBUG
+
+#else
 		SceneManager::GetInstance()->ChangeScene("TITLE");
+
+#endif
 	}
 }
 

@@ -94,19 +94,21 @@ std::string XAudio::SoundLoadWave(const char* filename, std::string handle)
 		assert(0);
 	}
 
-	//Dataチャンクのデータ部(波形データ)の読み込み
-	char* pBuffer = new char[data.size_];
-	file.read(pBuffer, data.size_);
-
-	//waveファイルを閉じる
-	file.close();
-
 	std::shared_ptr<SoundData> soundData = std::make_shared<SoundData>();
 
 	soundData->filepath = filename;
 	soundData->wfex_ = format.fmt_;
-	soundData->pBuffer_ = reinterpret_cast<BYTE*>(pBuffer);
 	soundData->BufferSize_ = data.size_;
+
+	//Dataチャンクのデータ部(波形データ)の読み込み
+	//読み込みたいデータ分大きさを変える
+	soundData->buffer_.resize(data.size_);
+	file.read(reinterpret_cast<char*>(&soundData->buffer_[0]), data.size_);
+
+	//waveファイルを閉じる
+	file.close();
+
+	
 	
 
 	if (handle.empty())
@@ -143,7 +145,7 @@ void XAudio::PlaySoundData(const std::string handle, const float& volume, const 
 
 		//再生する波形データの設定
 		XAUDIO2_BUFFER buf{};
-		buf.pAudioData = waveData->pBuffer_;
+		buf.pAudioData = &waveData->buffer_[0];
 		buf.AudioBytes = waveData->BufferSize_;
 		buf.LoopCount = loop ? XAUDIO2_LOOP_INFINITE : 0;
 		buf.Flags = XAUDIO2_END_OF_STREAM;

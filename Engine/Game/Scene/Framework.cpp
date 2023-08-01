@@ -43,7 +43,7 @@ void Framework::Initialize()
 
 	xAudio_->Init();
 	
-	Texture::GetInstance()->loadTexture("Resources/white1x1.png");
+	Texture::GetInstance()->loadTexture("Resources/white1x1.png", "white1x1");
 
 	postEffect_ = std::make_shared<PostEffect>();
 

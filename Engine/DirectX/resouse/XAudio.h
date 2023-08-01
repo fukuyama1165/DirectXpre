@@ -21,8 +21,8 @@ enum class AudioType {
 //
 struct AudioData {
 	//同じやつ読み込み防ぎ用
-	std::string filepath;
-	AudioType type;
+	std::string filepath = "";
+	AudioType type= AudioType::Wave;
 };
 
 
@@ -31,19 +31,13 @@ struct SoundData:public AudioData
 {
 
 	//波形フォーマット
-	WAVEFORMATEX wfex_;
+	WAVEFORMATEX wfex_{};
 
 	//バッファの先頭アドレス
-	BYTE* pBuffer_;
+	std::vector<BYTE> buffer_;
 
 	//バッファのサイズ
-	uint32_t BufferSize_;
-
-	~SoundData() {
-		if (pBuffer_ != nullptr) {
-			delete[] pBuffer_;
-		}
-	}
+	uint32_t BufferSize_ = 0;
 
 };
 
@@ -125,7 +119,7 @@ private:
 
 	HRESULT result_=S_OK;
 
-	//人のコードを参考にする
+	//人のコードを参考にした
 	struct PlayingInfo {
 		std::string handle;
 		IXAudio2SourceVoice* pSource;
@@ -144,9 +138,10 @@ public:
 
 	static std::string SoundLoadWave(const char* filename,std::string handle="");
 
-	//音をだす
+	//指定したハンドルの音をだす
 	static void PlaySoundData(const std::string handle, const float& volume = 1.0f, const bool loop = false);
 
+	//指定したハンドルの音を止める
 	static void StapSoundData(const std::string handle);
 
 	static void Final() {
