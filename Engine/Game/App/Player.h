@@ -85,8 +85,8 @@ private:
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
-	std::unique_ptr<AnimationModel> bulletModel_;
-	std::unique_ptr<AnimationModel> gunModel_;
+	AnimationModel* bulletModel_;
+	AnimationModel* gunModel_;
 
 	float bulletCT_ = 0;
 

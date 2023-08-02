@@ -30,8 +30,8 @@ private:
 public:
 	std::list<std::unique_ptr<Enemy>> enemys_;
 
-	std::unique_ptr<AnimationModel> bulletModel_ = nullptr;
-	std::unique_ptr<AnimationModel> enemyModel_ = nullptr;
+	AnimationModel* bulletModel_ = nullptr;
+	AnimationModel* enemyModel_ = nullptr;
 
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 

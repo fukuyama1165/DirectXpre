@@ -99,6 +99,7 @@
     <ClCompile Include="Engine\DirectX\resouse\Loader\JsonLevelLoader.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Material.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Model.cpp" />
+    <ClCompile Include="Engine\DirectX\resouse\ModelManager.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\PipeLine.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Shader.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Texture.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Engine\DirectX\resouse\Loader\JsonLevelLoader.h" />
     <ClInclude Include="Engine\DirectX\resouse\Material.h" />
     <ClInclude Include="Engine\DirectX\resouse\Model.h" />
+    <ClInclude Include="Engine\DirectX\resouse\ModelManager.h" />
     <ClInclude Include="Engine\DirectX\resouse\PipeLine.h" />
     <ClInclude Include="Engine\DirectX\resouse\Shader.h" />
     <ClInclude Include="Engine\DirectX\resouse\Texture.h" />

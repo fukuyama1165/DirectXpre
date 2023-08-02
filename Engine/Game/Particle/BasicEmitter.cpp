@@ -1,5 +1,6 @@
 #include "BasicEmitter.h"
 #include "PI.h"
+#include "ModelManager.h"
 
 BasicEmitter::BasicEmitter()
 {
@@ -11,13 +12,17 @@ BasicEmitter::~BasicEmitter()
 
 void BasicEmitter::Initialize(const Vector3& pos, float ActiveTime)
 {
-	particleModel_ = std::make_unique<AnimationModel>();
+	/*particleModel_ = std::make_unique<AnimationModel>();
 
 	particleModel_->Load("testFBX", "gltf", "white1x1");
 
 	emitterModel_ = std::make_unique<AnimationModel>();
 
-	emitterModel_->Load("testFBX", "gltf", "white1x1");
+	emitterModel_->Load("testFBX", "gltf", "white1x1");*/
+
+	particleModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
+
+	emitterModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
 
 	obj_.FBXInit();
 
@@ -89,13 +94,13 @@ void BasicEmitter::Draw()
 
 	if (isDraw)
 	{
-		obj_.FBXDraw(*emitterModel_.get());
+		obj_.FBXDraw(*emitterModel_);
 	}
 
 	if (!isActive_)return;
 
 	for (std::unique_ptr<BasicParticle>& particle : particles_)
 	{
-		particle->Draw(particleModel_.get());
+		particle->Draw(particleModel_);
 	}
 }

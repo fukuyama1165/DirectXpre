@@ -101,7 +101,18 @@ void GameScene::Initialize()
 
 	testFBX_.FBXInit();
 
-	testModel_ = std::make_unique<AnimationModel>();
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "basketballmanBox", "basketballman2");
+	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "Ground", "Dirt", "jpg");
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");
+
+	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
+	levelModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	levelBallModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	levelGroundModel_ = ModelManager::GetInstance()->SearchModelData("Ground");
+	levelBuildingModel_ = ModelManager::GetInstance()->SearchModelData("Building");
+
+	/*testModel_ = std::make_unique<AnimationModel>();
 	levelModel_ = std::make_unique<AnimationModel>();
 	levelBallModel_ = std::make_unique<AnimationModel>();
 	levelGroundModel_ = std::make_unique<AnimationModel>();
@@ -111,7 +122,7 @@ void GameScene::Initialize()
 	levelModel_->Load("testFBX", "gltf", "white1x1");
 	levelBallModel_->Load("testGLTFBall", "gltf", "white1x1");
 	levelGroundModel_->Load("testFBX", "gltf", "Dirt", "jpg");
-	levelBuildingModel_->Load("testFBX", "gltf", "Biru2");
+	levelBuildingModel_->Load("testFBX", "gltf", "Biru2");*/
 	
 	objobj3_.SetScale({ 1000,1000,1000 });
 
@@ -643,29 +654,29 @@ void GameScene::Draw()
 	{
 		if (a.name.find("box1")!= std::string::npos)
 		{
-			a.obj.FBXDraw(*levelModel_.get());
+			a.obj.FBXDraw(*levelModel_);
 		}
 		else if (a.name.find("ball") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelBallModel_.get());
+			a.obj.FBXDraw(*levelBallModel_);
 		}
 		else if(a.name.find("Ground")!=std::string::npos)
 		{
-			a.obj.FBXDraw(*levelGroundModel_.get());
+			a.obj.FBXDraw(*levelGroundModel_);
 		}
 		else if (a.name.find("building") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelBuildingModel_.get());
+			a.obj.FBXDraw(*levelBuildingModel_);
 		}
 		else
 		{
-			a.obj.FBXDraw(*levelModel_.get());
+			a.obj.FBXDraw(*levelModel_);
 		}
 	}
 
 	for (uint16_t b = 0; b < wallObj_.size(); b++)
 	{
-		wallObj_[b]->obj.Draw(levelBuildingModel_.get());
+		wallObj_[b]->obj.Draw(levelBuildingModel_);
 	}
 
 	play_.Draw();

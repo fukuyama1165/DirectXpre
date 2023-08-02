@@ -44,7 +44,7 @@ private:
 
 	EventPoint eventPoint_;
 
-	std::unique_ptr<AnimationModel> eventModel_ = nullptr;
+	AnimationModel* eventModel_ = nullptr;
 
 	bool isActive = false;
 

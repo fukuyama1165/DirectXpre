@@ -41,6 +41,7 @@
 #include "EventPointManager.h"
 
 #include <sstream>
+#include "ModelManager.h"
 
 #include <cstdint>
 #include "Wall.h"
@@ -82,12 +83,12 @@ private:
 
 	Object3D testFBX_;
 
-	std::unique_ptr<AnimationModel> testModel_;
+	AnimationModel* testModel_;
 
-	std::unique_ptr<AnimationModel> levelModel_;
-	std::unique_ptr<AnimationModel> levelBallModel_;
-	std::unique_ptr<AnimationModel> levelGroundModel_;
-	std::unique_ptr<AnimationModel> levelBuildingModel_;
+	AnimationModel* levelModel_;
+	AnimationModel* levelBallModel_;
+	AnimationModel* levelGroundModel_;
+	AnimationModel* levelBuildingModel_;
 
 	//ÉJÉÅÉâ
 	Camera camera_;

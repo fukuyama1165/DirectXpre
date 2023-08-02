@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include <imgui.h>
+#include "ModelManager.h"
 
 
 EnemyManager* EnemyManager::GetInstance()
@@ -34,13 +35,18 @@ void EnemyManager::PopEnemy(const Vector3& pos)
 
 void EnemyManager::Init()
 {
-	bulletModel_ = std::make_unique<AnimationModel>();
+	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
+
+	/*bulletModel_ = std::make_unique<AnimationModel>();
 
 	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
 
 	enemyModel_ = std::make_unique<AnimationModel>();
 
-	enemyModel_->Load("testGLTFBall", "gltf", "white1x1");
+	enemyModel_->Load("testGLTFBall", "gltf", "white1x1");*/
+
+	bulletModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	enemyModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 }
 
 void EnemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
@@ -81,12 +87,12 @@ void EnemyManager::Draw()
 
 	for (std::unique_ptr<Enemy>& enem : enemys_)
 	{
-		enem->Draw(enemyModel_.get());
+		enem->Draw(enemyModel_);
 	}
 
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
 	{
-		bullet->Draw(bulletModel_.get());
+		bullet->Draw(bulletModel_);
 	}
 
 }

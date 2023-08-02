@@ -327,6 +327,9 @@
     <ClCompile Include="Engine\Game\App\Wall.cpp">
       <Filter>ソース ファイル\App</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\ModelManager.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
@@ -532,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\App\Wall.h">
       <Filter>ヘッダー ファイル\App</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\ModelManager.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

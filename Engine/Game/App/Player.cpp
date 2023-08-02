@@ -3,6 +3,7 @@
 #include "Easing.h"
 #include "EventPointManager.h"
 #include "Quaternion.h"
+#include "ModelManager.h"
 
 Player::Player()
 {
@@ -22,11 +23,17 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
 	reticle_.initialize(SpriteCommon::GetInstance(), "basketballMan");
 
-	bulletModel_ = std::make_unique<AnimationModel>();
+	/*bulletModel_ = std::make_unique<AnimationModel>();
 	gunModel_ = std::make_unique<AnimationModel>();
 
 	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
-	gunModel_->Load("Gun", "gltf", "gray2x2");
+	gunModel_->Load("Gun", "gltf", "gray2x2");*/
+
+	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
+	ModelManager::GetInstance()->Load("Gun", "gltf", "Gun", "gray2x2");
+
+	bulletModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	gunModel_ = ModelManager::GetInstance()->SearchModelData("Gun");
 	
 	playerObj_.SetPos({ 0,5,0 });
 	playerObj_.SetScale({ 0.13f,0.21f,0.17f });
@@ -171,12 +178,12 @@ void Player::Update(const Camera& camera)
 
 void Player::Draw()
 {
-	playerObj_.FBXDraw(*gunModel_.get());
+	playerObj_.FBXDraw(*gunModel_);
 	//reticle3DObj_.Draw();
 	reticle_.Draw();
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
-		bullet->Draw(bulletModel_.get());
+		bullet->Draw(bulletModel_);
 	}
 
 	if (hp_ > 0)

@@ -37,7 +37,7 @@ private:
 
 	bool isActive_ = true;
 
-	std::unique_ptr<AnimationModel> particleModel_ = nullptr;
+	AnimationModel* particleModel_ = nullptr;
 
 	std::list<std::unique_ptr<BasicParticle>> particles_;
 
@@ -49,7 +49,7 @@ private:
 
 	Object3D obj_;
 
-	std::unique_ptr<AnimationModel> emitterModel_ = nullptr;
+	AnimationModel* emitterModel_ = nullptr;
 
 	bool isDraw = false;
 

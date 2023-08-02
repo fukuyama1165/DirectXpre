@@ -1,4 +1,5 @@
 #include "EventPointManager.h"
+#include "ModelManager.h"
 
 EventPointManager* EventPointManager::GetInstance()
 {
@@ -85,9 +86,11 @@ void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vec
 
 void EventPointManager::Initlize()
 {
-	eventModel_ = std::make_unique<AnimationModel>();
+	/*eventModel_ = std::make_unique<AnimationModel>();
 
-	eventModel_->Load("testGLTFBall", "gltf", "white1x1");
+	eventModel_->Load("testGLTFBall", "gltf", "white1x1");*/
+
+	eventModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
 
 	eventPoint_.SetIsFinished(true);
 
@@ -122,5 +125,5 @@ void EventPointManager::Update()
 
 void EventPointManager::Draw()
 {
-	eventPoint_.Draw(eventModel_.get());
+	eventPoint_.Draw(eventModel_);
 }
