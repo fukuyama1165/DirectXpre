@@ -15,7 +15,7 @@ public:
 	virtual void Finalize() {};
 
 	//毎フレーム更新
-	virtual void Update(const Camera& camera, const Vector3 pos) { camera; pos; };
+	virtual void Update(const Vector3 pos) { pos; };
 
 	//描画
 	virtual void Draw() {};

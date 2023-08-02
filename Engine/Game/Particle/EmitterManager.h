@@ -9,7 +9,7 @@ public:
 	void AddEmitter(const Vector3& pos, float ActiveTime = -1);
 
 	//毎フレーム更新
-	void Update(const Camera& camera);
+	void Update();
 
 	//描画
 	void Draw();

@@ -32,18 +32,19 @@ void BasicParticle::Finalize()
 
 }
 
-void BasicParticle::Update(const Camera& camera)
+void BasicParticle::Update()
 {
 	//ˆÚ“®‚·‚é‚Æ‚±‚ë
 	obj_.Trans_ += Velocity_;
 	obj_.Scale_ = easeInQuint(Vector3(0,0,0), Vector3(1, 1, 1), liveTime_ / liveMaxTime_);
 
-	obj_.Update(camera);
+	obj_.Update();
 
 	if (liveTime_ > 0)
 	{
 		liveTime_--;
 	}
+
 
 }
 

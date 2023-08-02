@@ -1,5 +1,6 @@
 #include "Framework.h"
 #include "LightManager.h"
+#include "camera.h"
 
 void Framework::Ran()
 {
@@ -78,7 +79,11 @@ void Framework::Update()
 
 	imGuiManager_->Begin();
 
+	
+
 	sceneManager_->Update();
+
+	Camera::nowCamera->upDate();
 
 	postEffect_->Update();
 

@@ -12,7 +12,7 @@ public:
 
 	void Init();
 
-	void UpDate(const Camera& camera,const Vector3& playerPos);
+	void UpDate(const Vector3& playerPos);
 
 	void EnemyAttack(Enemy enemy, const Vector3& playerPos);
 

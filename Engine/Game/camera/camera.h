@@ -16,6 +16,8 @@ public:
 
 	void upDate();
 
+	void setDefCamera();
+
 private:
 	Matrix4x4 matViewGeneration(const Vector3& eye,const Vector3& target,const Vector3& up);
 
@@ -45,9 +47,14 @@ public:
 
 	Vector3 forward_ = { 0,0,1 };//ê≥ñ 
 
+	Vector3 rightDirection = { 1,0,0 };
+
+	static Camera* nowCamera;
+
 private:
 	//âÊñ ÉTÉCÉY
 	float Win_width_;
 	float Win_height_;
+
 };
 

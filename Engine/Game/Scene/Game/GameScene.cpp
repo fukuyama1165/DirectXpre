@@ -138,6 +138,8 @@ void GameScene::Initialize()
 	eventManager->SetDebugMoveEvent({ 0,0,0 }, { 0,0,0 }, { 0,0,0 });
 	
 	eventManager->SetDebugBattleEvent({ 0,0,50 }, 100, { 10,0,50 }, 20, { -10,0,50 }, 100, { 0,10,50 });
+	eventManager->SetDebugBattleEvent({ 0,0,50 }, 100, { 10,0,50 }, 20, { -10,0,50 }, 100, { 0,10,50 });
+	eventManager->SetDebugMoveEvent({ 0,0,100 }, { 0,0,100 }, { 0,0,100 });
 
 }
 
@@ -182,11 +184,11 @@ void GameScene::Update()
 	}
 	if (Input::GetInstance()->PushKey(DIK_RIGHT))
 	{
-		cameraPos_.x += 1;
+		cameraPos_ += debugCamera_.rightDirection;
 	}
 	if (Input::GetInstance()->PushKey(DIK_LEFT))
 	{
-		cameraPos_.x += -1;
+		cameraPos_ += -debugCamera_.rightDirection;
 	}
 
 	Vector4 moveY(0, 0.01f, 0, 0);
@@ -366,7 +368,12 @@ void GameScene::Update()
 		cameraRot_.z = 0;
 	}
 
+	ImGui::Text("eye:%0.2f,%0.2f,%0.2f", debugCamera_.eye_.x, debugCamera_.eye_.y, debugCamera_.eye_.z);
+	ImGui::Text("target:%0.2f,%0.2f,%0.2f", debugCamera_.target_.x, debugCamera_.target_.y, debugCamera_.target_.z);
+	ImGui::Text("up:%0.2f,%0.2f,%0.2f", debugCamera_.up_.x, debugCamera_.up_.y, debugCamera_.up_.z);
 	
+	ImGui::Text("forward:%0.2f,%0.2f,%0.2f", debugCamera_.forward_.x, debugCamera_.forward_.y, debugCamera_.forward_.z);
+	ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", debugCamera_.rightDirection.x, debugCamera_.rightDirection.y, debugCamera_.rightDirection.z);
 	
 	ImGui::End();
 
@@ -518,10 +525,11 @@ void GameScene::Update()
 
 	if (chengCamera_)
 	{
-
+		
 		//play_.playerCamera_.upDate();
 		//play_.playerCamera_.pos_ = cameraPos_;
 		cameobj_ = play_.playerCamera_;
+		Camera::nowCamera = &play_.playCamera_;
 	}
 	else
 	{
@@ -588,36 +596,36 @@ void GameScene::Update()
 
 		debugCamera_.upDate();
 
-
+		Camera::nowCamera = &debugCamera_;
 		cameobj_.SetCamera(debugCamera_);
 
 	}
 	
-	play_.Update(cameobj_.GetCamera());
+	play_.Update();
 	lightManager_->lightGroups_[0].Update();
 
 
-	objobj3_.Update(cameobj_.GetCamera());
+	objobj3_.Update();
 
-	testFBX_.Update(cameobj_.GetCamera());
+	testFBX_.Update();
 
 	for (LevelObj a : levelObj)
 	{
-		a.obj.Update(cameobj_.GetCamera());
+		a.obj.Update();
 	}
 
 	for (uint16_t b = 0; b < wallObj_.size(); b++)
 	{
-		wallObj_[b]->obj.Update(cameobj_.GetCamera());
+		wallObj_[b]->obj.Update();
 	}
 
-	enemys_->UpDate(cameobj_.GetCamera(), play_.playerCamera_.GetCamera().eye_);
+	enemys_->UpDate(play_.playerCamera_.GetCamera().eye_);
 
 	CollisionManager::GetInstance()->CheckAllCollisions();
 
 	eventManager->Update();
 
-	EmitterManager::GetInstance()->Update(cameobj_.GetCamera());
+	EmitterManager::GetInstance()->Update();
 
 	
 

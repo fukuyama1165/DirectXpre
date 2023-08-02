@@ -19,11 +19,11 @@ void EmitterManager::AddEmitter(const Vector3& pos, float ActiveTime)
 	emitters_.push_back(std::move(newEmitter));
 }
 
-void EmitterManager::Update(const Camera& camera)
+void EmitterManager::Update()
 {
 	for (std::unique_ptr<BasicEmitter>& emitter : emitters_)
 	{
-		emitter->Update(camera);
+		emitter->Update();
 	}
 }
 

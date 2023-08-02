@@ -28,12 +28,12 @@ void BulletCollision::Finalize()
 }
 
 //毎フレーム更新
-void BulletCollision::Update(const Camera& camera, const Vector3 pos)
+void BulletCollision::Update(const Vector3 pos)
 {
 
 	collisionObj_.SetPos(pos);
-	collisionObj_.Update(camera);
-
+	collisionObj_.Update();
+	
 }
 
 //描画

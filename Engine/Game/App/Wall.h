@@ -10,7 +10,7 @@ public:
 	~WallObj();
 
 	void Init();
-	void Update(const Camera& camera);
+	void Update();
 	void Draw(AnimationModel* model);
 
 	Object3D obj_;

@@ -17,7 +17,7 @@ public:
 	void Finalize()override;
 
 	//毎フレーム更新
-	void Update(const Camera& camera, const Vector3 pos)override;
+	void Update(const Vector3 pos)override;
 
 	//描画
 	void Draw(AnimationModel* model);

@@ -31,6 +31,9 @@ void TitleScene::Initialize()
 	title_.pos_ = { WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 };
 	title_.scale_ = { 10,5 };
 
+	
+	Camera::nowCamera = cameobj_.GetCameraP();
+
 }
 
 void TitleScene::Finalize()
@@ -54,7 +57,7 @@ void TitleScene::Update()
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
 
-	objobj3_.Update(cameobj_.GetCamera());
+	objobj3_.Update(/*cameobj_.GetCamera()*/);
 
 	title_.Update();
 

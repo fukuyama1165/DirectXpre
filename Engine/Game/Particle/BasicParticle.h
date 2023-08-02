@@ -17,7 +17,7 @@ public:
 	void Finalize();
 
 	//毎フレーム更新
-	void Update(const Camera& camera);
+	void Update();
 
 	//描画
 	void Draw(AnimationModel* model);

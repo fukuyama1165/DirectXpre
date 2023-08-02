@@ -34,11 +34,11 @@ void PlayerBullet::Initlize(const Vector3& position, const Vector3& velocity)
 
 }
 
-void PlayerBullet::Update(const Camera& camera)
+void PlayerBullet::Update()
 {
 	//移動するところ
 	obj_.Trans_ += Velocity_;
-	obj_.Update(camera);
+	obj_.Update();
 
 	//デスタイマーをひいて0以下になったらフラグを立てる
 	if (--deathTimer_ <= 0)
@@ -47,7 +47,7 @@ void PlayerBullet::Update(const Camera& camera)
 		CollisionManager::GetInstance()->RemoveCollider(&Collider);
 	}
 
-	Collider.Update(camera, obj_.GetWorldPos());
+	Collider.Update(obj_.GetWorldPos());
 
 	if (collision.isHit)
 	{

@@ -37,7 +37,7 @@ void BasicEmitter::Finalize()
 
 }
 
-void BasicEmitter::Update(const Camera& camera)
+void BasicEmitter::Update()
 {
 	
 
@@ -66,10 +66,10 @@ void BasicEmitter::Update(const Camera& camera)
 
 	for (std::unique_ptr<BasicParticle>& particle : particles_)
 	{
-		particle->Update(camera);
+		particle->Update();
 	}
 
-	obj_.Update(camera);
+	obj_.Update();
 
 	if (CT_ > 0)
 	{

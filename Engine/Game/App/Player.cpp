@@ -65,7 +65,7 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 }
 
-void Player::Update(const Camera& camera)
+void Player::Update()
 {
 
 
@@ -127,15 +127,15 @@ void Player::Update(const Camera& camera)
 
 	playerObj_.SetPos(playerPos + (playCamera_.forward_ * 5));
 	
-	playerObj_.Update(camera);
-	Collider.Update(camera, playerObj_.GetWorldPos());
+	playerObj_.Update(/*camera*/);
+	Collider.Update(playerObj_.GetWorldPos());
 
 	if (playerObj_.GetWorldPos().x > 50 || playerObj_.GetWorldPos().x < -50)
 	{
 		moveSpeed_ = -moveSpeed_;
 	}
 
-	reticle3DObj_.Update(camera);
+	reticle3DObj_.Update(/*camera*/);
 
 	if (!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
@@ -156,12 +156,12 @@ void Player::Update(const Camera& camera)
 	/*reticle_.pos_ = input_->GetMousePos();
 	reticle_.Update();*/
 
-	Reticle2DMouse(camera);
+	Reticle2DMouse();
 	
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
-		bullet->Update(camera);
+		bullet->Update();
 	}
 
 	if (collision.isHit)
@@ -340,7 +340,7 @@ void Player::HideDownWall()
 	playCamera_.target_ = playCamera_.eye_ + forward;
 }
 
-void Player::Reticle2DMouse(Camera camera)
+void Player::Reticle2DMouse()
 {
 	
 
@@ -382,8 +382,8 @@ void Player::Reticle2DMouse(Camera camera)
 
 	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
 	Matrix4x4 matVPV;
-	matVPV = camera.matView_;
-	matVPV *= camera.matProjection_;
+	matVPV = Camera::nowCamera->matView_;
+	matVPV *= Camera::nowCamera->matProjection_;
 	matVPV *= matViewport;
 	//合成行列の逆行列を計算する
 	Matrix4x4 matInverseVPV =matVPV.InverseMatrix();
@@ -410,7 +410,7 @@ void Player::Reticle2DMouse(Camera camera)
 
 
 	reticle_.Update();
-	reticle3DObj_.Update(camera);
+	reticle3DObj_.Update(/*camera*/);
 
 
 }

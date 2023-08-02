@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// XV
 	/// </summary>
-	void Update(const Camera& camera);
+	void Update();
 
 	/// <summary>
 	/// •`‰æ

@@ -14,14 +14,14 @@ public:
 	~Player();
 
 	void Init(const std::string& directoryPath, const char filename[]);
-	void Update(const Camera& camera);
+	void Update();
 	void Draw();
 	void Attack();
 
 	bool GetAttackFlag() { return attackFlag_; };
 
 	//マウスの位置を取得してその位置をレティクル用のオブジェクト等に入れる関数
-	void Reticle2DMouse(Camera camera);
+	void Reticle2DMouse();
 
 	Object3D playerObj_;
 
@@ -85,8 +85,8 @@ private:
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
-	AnimationModel* bulletModel_;
-	AnimationModel* gunModel_;
+	AnimationModel* bulletModel_=nullptr;
+	AnimationModel* gunModel_=nullptr;
 
 	float bulletCT_ = 0;
 

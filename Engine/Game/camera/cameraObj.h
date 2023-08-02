@@ -11,6 +11,7 @@ public:
 	void upDate();
 
 	Camera GetCamera() { return camera_; };
+	Camera* GetCameraP() { return &camera_; };
 
 	void SetCamera(Camera camera) { camera_ = camera; };
 

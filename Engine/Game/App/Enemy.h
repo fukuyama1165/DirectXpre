@@ -19,7 +19,7 @@ public:
 	~Enemy();
 
 	void Init();
-	void Update(const Camera& camera);
+	void Update();
 	void Draw(AnimationModel* model);
 
 	void Attack();

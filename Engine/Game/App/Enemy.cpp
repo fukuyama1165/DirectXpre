@@ -24,17 +24,17 @@ void Enemy::Init()
 
 }
 
-void Enemy::Update(const Camera& camera)
+void Enemy::Update()
 {
 	if (isAlive_)
 	{
 		
 
-		enemyObj_.Update(camera);
+		enemyObj_.Update();
 
 		Attack();
 
-		Collider.Update(camera, enemyObj_.GetWorldPos());
+		Collider.Update(enemyObj_.GetWorldPos());
 
 		if (collision.isHit)
 		{

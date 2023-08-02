@@ -24,10 +24,10 @@ void WallObj::Init()
 	CollisionManager::GetInstance()->AddCollider(&collider_);
 }
 
-void WallObj::Update(const Camera& camera)
+void WallObj::Update()
 {
 
-	obj_.Update(camera);
+	obj_.Update();
 
 	/*ImGui::Begin("check");
 
@@ -36,7 +36,7 @@ void WallObj::Update(const Camera& camera)
 
 	ImGui::End();*/
 
-	collider_.Update(camera, obj_.GetWorldPos());
+	collider_.Update(obj_.GetWorldPos());
 
 }
 

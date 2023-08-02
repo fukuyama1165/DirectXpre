@@ -5,10 +5,10 @@ void SphereCollider::Initialize()
 	collisionObject_->Initialize();
 }
 
-void SphereCollider::Update(const Camera& camera, const Vector3 pos)
+void SphereCollider::Update(const Vector3 pos)
 {
 
-	collisionObject_->Update(camera, pos);
+	collisionObject_->Update(pos);
 
 	//ワールド行列から座標を抽出
 	const Matrix4x4& matWorld = collisionObject_->collisionObj_.GetWorldMat();

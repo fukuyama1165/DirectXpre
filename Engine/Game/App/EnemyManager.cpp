@@ -49,7 +49,7 @@ void EnemyManager::Init()
 	enemyModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 }
 
-void EnemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
+void EnemyManager::UpDate(const Vector3& playerPos)
 {
 	
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enem)
@@ -64,7 +64,7 @@ void EnemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
 	
 	for (std::unique_ptr<Enemy>& enem : enemys_)
 	{
-		enem->Update(camera);
+		enem->Update();
 
 		if ((enem->GetCT() <= 0 or isDebugShot_)and !isDebugShotStop_)
 		{
@@ -75,7 +75,7 @@ void EnemyManager::UpDate(const Camera& camera,const Vector3& playerPos)
 
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_)
 	{
-		bullet->Update(camera);
+		bullet->Update();
 	}
 
 	enemyCount_ = (uint32_t)enemys_.size();

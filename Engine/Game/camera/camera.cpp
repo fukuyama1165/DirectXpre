@@ -1,6 +1,6 @@
 #include "camera.h"
 
-
+Camera* Camera::nowCamera = nullptr;
 
 Camera::Camera()
 {
@@ -24,11 +24,15 @@ void Camera::upDate()
 {
 	matView_ = matViewGeneration(eye_, target_, up_);
 
-	forward_ = target_ - eye_;
-
-	forward_.normalize();
-
 	matProjection_ = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000000.0f);
+}
+
+void Camera::setDefCamera()
+{
+	nowCamera->eye_ = { 0,0,0 };
+	nowCamera->target_ = { 0,0,1 };
+	nowCamera->up_ = { 0,1,0 };
+
 }
 
 Matrix4x4 Camera::matViewGeneration(const Vector3& eye,const Vector3& target,const Vector3& up)
@@ -38,12 +42,17 @@ Matrix4x4 Camera::matViewGeneration(const Vector3& eye,const Vector3& target,con
 
 	zVer.normalize();
 
+	forward_ = zVer;
+
 	Vector3 xVer = Vector3::cross(up, zVer);
 
 	xVer.normalize();
 
+	rightDirection = xVer;
+
 	Vector3 yVer = zVer.cross(xVer);
 
+	yVer.normalize();
 
 	Matrix4x4 cameraRotateMat = {};
 

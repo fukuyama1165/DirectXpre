@@ -30,7 +30,7 @@ public:
 	/// <summary>
 	/// XV
 	/// </summary>
-	void Update(const Camera& camera, const Vector3 pos)override;
+	void Update(const Vector3 pos)override;
 
 	void SetRadius(float Radius) { radius_ = Radius; };
 

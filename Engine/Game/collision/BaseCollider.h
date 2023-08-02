@@ -26,7 +26,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update(const Camera& camera, const Vector3 pos) = 0;
+	virtual void Update(const Vector3 pos) = 0;
 
 	//形状タイプ取得
 	CollisionShapeType GetShapeType() { return shapeType_; };
