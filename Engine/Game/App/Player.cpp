@@ -4,6 +4,7 @@
 #include "EventPointManager.h"
 #include "Quaternion.h"
 #include "ModelManager.h"
+#include "WinApp.h"
 
 Player::Player()
 {
@@ -21,7 +22,7 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	input_ = input_->GetInstance();
 	playerObj_.FBXInit();
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
-	reticle_.initialize(SpriteCommon::GetInstance(), "basketballMan");
+	reticle_.initialize("basketballMan");
 
 	/*bulletModel_ = std::make_unique<AnimationModel>();
 	gunModel_ = std::make_unique<AnimationModel>();
@@ -54,13 +55,22 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
-	hp1Sprote_.initialize(SpriteCommon::GetInstance(), "basketballMan");
-	hp2Sprote_.initialize(SpriteCommon::GetInstance(), "basketballMan");
-	hp3Sprote_.initialize(SpriteCommon::GetInstance(), "basketballMan");
+	hp1Sprote_.initialize("basketballMan");
+	hp2Sprote_.initialize("basketballMan");
+	hp3Sprote_.initialize("basketballMan");
 
 	hp1Sprote_.pos_ = { 8,64 };
 	hp2Sprote_.pos_ = { 15*2,64 };
 	hp3Sprote_.pos_ = { 17*3,64 };
+
+	for (uint16_t i = 0; i < bulletMaxNum_; i++)
+	{
+		Sprite newBulletSprite;
+		newBulletSprite.initialize("basketballMan");
+		newBulletSprite.pos_ = { WinApp::SWindowWidth_/2 + newBulletSprite.GetTextureSize().x/5 * i,WinApp::SWindowHeight_/2 };
+		bulletSprite_.push_back(newBulletSprite);
+	}
+
 
 
 }
@@ -79,6 +89,7 @@ void Player::Update()
 	if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_<=20 and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
 		attackFlag_ = true;
+		bulletNum_ = bulletMaxNum_;
 		
 	}
 
@@ -137,7 +148,7 @@ void Player::Update()
 
 	reticle3DObj_.Update(/*camera*/);
 
-	if (!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+	if (!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_>0)
 	{
 		Attack();
 	}
@@ -174,6 +185,13 @@ void Player::Update()
 	hp2Sprote_.Update();
 	hp3Sprote_.Update();
 	
+	for (uint16_t i = 0; i < bulletMaxNum_; i++)
+	{
+		bulletSprite_[i].Update();
+	}
+
+
+
 }
 
 void Player::Draw()
@@ -198,6 +216,15 @@ void Player::Draw()
 	{
 		hp3Sprote_.Draw();
 	}
+
+	for (uint16_t i = 0; i < bulletMaxNum_; i++)
+	{
+		if (bulletNum_ > i)
+		{
+			bulletSprite_[i].Draw();
+		}
+	}
+
 }
 
 void Player::Attack()
@@ -237,6 +264,7 @@ void Player::Attack()
 		playerObj_.SLightGroup_->SetPointLightPos(1, position);
 		playerObj_.SLightGroup_->SetPointLightAtten(1, {0.1f,0.1f,0.1f});
 
+		bulletNum_--;
 		
 	}
 
@@ -282,6 +310,8 @@ void Player::Attack()
 
 		bulletCT_ = bulletMaxCT_;
 		muzzleFlashTime_ = muzzleFlashMaxTime_;
+
+		bulletNum_--;
 	}
 
 

@@ -26,10 +26,10 @@ void TitleScene::Initialize()
 
 	textureNum_ = Texture::GetInstance()->loadTexture("Resources/titleText.png","titleText");
 
-	title_.initialize(SpriteCommon::GetInstance(), textureNum_);
+	title_.initialize(textureNum_);
 
 	title_.pos_ = { WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 };
-	title_.scale_ = { 10,5 };
+	title_.scale_ = { 1,1 };
 
 	
 	Camera::nowCamera = cameobj_.GetCameraP();

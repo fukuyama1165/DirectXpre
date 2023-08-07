@@ -90,6 +90,9 @@ private:
 
 	float bulletCT_ = 0;
 
+	const float bulletMaxNum_ = 6;
+	float bulletNum_ = 6;
+
 	//“–‚½‚è”»’è‚Ìˆ—
 	MobCollision collision;
 
@@ -99,7 +102,9 @@ private:
 	Sprite hp1Sprote_;
 	Sprite hp2Sprote_;
 	Sprite hp3Sprote_;
-	
 
+	std::vector<Sprite>bulletSprite_;
+	
+	
 };
 
