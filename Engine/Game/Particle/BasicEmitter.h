@@ -1,6 +1,7 @@
 #pragma once
 #include "IObjEmitter.h"
 #include "BasicParticle.h"
+#include "ObjParticleFactory.h"
 #include <list>
 
 class BasicEmitter:public IObjEmitter
@@ -10,28 +11,29 @@ public:
 	~BasicEmitter();
 
 	//初期化
-	void Initialize(const Vector3& pos, float ActiveTime = -1);
+	void Initialize()override;
+	void Initialize(const Vector3& pos,std::string particleType, float ActiveTime = -1)override;
 
 	//終了処理
-	void Finalize();
+	void Finalize()override;
 
 	//毎フレーム更新
-	void Update();
+	void Update()override;
 
 	//描画
-	void Draw();
+	void Draw()override;
 
-	void SetIsActive(bool flag) { isActive_ = flag; };
+	void SetIsActive(bool flag)override { isActive_ = flag; };
 
-	bool GetIsActive() { return isActive_; };
+	bool GetIsActive()override { return isActive_; };
 
-	uint32_t GetParticleNum() { return (uint32_t)particles_.size(); };
+	uint32_t GetParticleNum(){ return (uint32_t)particles_.size(); };
 
-	void SetCT(float ct) { maxCT_ = ct; };
+	void SetCT(float ct)override { maxCT_ = ct; };
 
-	void SetParticleLiveTime(float livetime) { particleLiveTime_ = livetime; };
+	void SetParticleLiveTime(float livetime){ particleLiveTime_ = livetime; };
 
-	void SetIsDraw(bool flag) { isDraw = flag; };
+	void SetIsDraw(bool flag){ isDraw = flag; };
 
 private:
 
@@ -39,7 +41,7 @@ private:
 
 	AnimationModel* particleModel_ = nullptr;
 
-	std::list<std::unique_ptr<BasicParticle>> particles_;
+	std::list<std::unique_ptr<IObjParticle>> particles_;
 
 	float particleLiveTime_ = 10;
 
@@ -54,6 +56,10 @@ private:
 	bool isDraw = false;
 
 	float activeTime_ = 0;
+
+	std::unique_ptr<ObjParticleFactory> particleFactory_ = nullptr;
+
+	std::string particleType_ = "";
 
 };
 

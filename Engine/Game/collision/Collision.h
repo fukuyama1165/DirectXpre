@@ -43,6 +43,38 @@ public:
 	static bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, Vector3* inter = nullptr);
 
 	/// <summary>
+	/// —§•û‘Ì‚Æ—§•û‘Ì‚Ì“–‚½‚è”»’è(AABB)
+	/// </summary>
+	/// <param name="cube1">—§•û‘Ì</param>
+	/// <param name="cube2">—§•û‘Ì</param>
+	/// <returns>“–‚½‚Á‚Ä‚¢‚é‚©</returns>
+	static bool CheckCube2CubeAABB(const Cube& cube1, const Cube& cube2);
+
+	/// <summary>
+	/// —§•û‘Ì‚Æ’¼•û‘Ì‚Ì“–‚½‚è”»’è
+	/// </summary>
+	/// <param name="cube">—§•û‘Ì</param>
+	/// <param name="Box">’¼•û‘Ì</param>
+	/// <returns>‚ ‚½‚Á‚Ä‚¢‚é‚©</returns>
+	static bool CheckCube2BoxAABB(const Cube& cube, const Rectangular& Box);
+
+	/// <summary>
+	/// —§•û‘Ì‚Æ’¼•û‘Ì‚Ì“–‚½‚è”»’è
+	/// </summary>	
+	/// <param name="Box">’¼•û‘Ì</param>
+	/// <param name="cube">—§•û‘Ì</param>
+	/// <returns>‚ ‚½‚Á‚Ä‚¢‚é‚©</returns>
+	static bool CheckCube2BoxAABB(const Rectangular& Box, const Cube& cube);
+
+	/// <summary>
+	/// ’¼•û‘Ì‚Æ’¼•û‘Ì‚Ì“–‚½‚è”»’è
+	/// </summary>
+	/// <param name="Box1">’¼•û‘Ì</param>
+	/// <param name="Box2">’¼•û‘Ì</param>
+	/// <returns>“–‚½‚Á‚Ä‚¢‚é‚©</returns>
+	static bool CheckBox2BoxAABB(const Rectangular& Box1, const Rectangular& Box2);
+
+	/// <summary>
 	/// ƒŒƒC‚Æ•½–Ê‚Ì“–‚½‚è”»’è
 	/// </summary>
 	/// <param name="ray">ƒŒƒC</param>

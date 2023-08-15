@@ -213,6 +213,70 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 	return true;
 }
 
+bool Collision::CheckCube2CubeAABB(const Cube& cube1, const Cube& cube2)
+{
+
+	Vector3 min1 = cube1.center_ - cube1.size_ / 2;
+	Vector3 max1 = cube1.center_ + cube1.size_ / 2;
+
+	Vector3 min2 = cube2.center_ - cube2.size_ * 0.5f;
+	Vector3 max2 = cube2.center_ + cube2.size_ * 0.5f;
+
+	//中央からサイズ分の位置内にもう片方があるか
+	if ((min1 <= max2) and (max1 >= min2))
+	{
+		//当たってますよ
+		return true;
+	}
+
+	//当たってないよ
+	return false;
+
+}
+
+bool Collision::CheckCube2BoxAABB(const Cube& cube, const Rectangular& Box)
+{
+	Vector3 min1 = cube.center_ - cube.size_ / 2;
+	Vector3 max1 = cube.center_ + cube.size_ / 2;
+
+	Vector3 min2 = Box.center_ - Box.sizeMin_;
+	Vector3 max2 = Box.center_ + Box.sizeMax_;
+
+	//中央からサイズ分の位置内にもう片方があるか
+	if ((min1 <= max2) and (max1 >= min2))
+	{
+		//当たってますよ
+		return true;
+	}
+
+	//当たってないよ
+	return false;
+}
+
+bool Collision::CheckCube2BoxAABB(const Rectangular& Box, const Cube& cube)
+{
+	return CheckCube2BoxAABB(cube, Box);
+}
+
+bool Collision::CheckBox2BoxAABB(const Rectangular& Box1, const Rectangular& Box2)
+{
+	Vector3 min1 = Box1.center_ - Box1.sizeMin_;
+	Vector3 max1 = Box1.center_ + Box1.sizeMax_;
+
+	Vector3 min2 = Box2.center_ - Box2.sizeMin_;
+	Vector3 max2 = Box2.center_ + Box2.sizeMax_;
+
+	//中央からサイズ分の位置内にもう片方があるか
+	if ((min1 <= max2) and (max1 >= min2))
+	{
+		//当たってますよ
+		return true;
+	}
+
+	//当たってないよ
+	return false;
+}
+
 bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector3* inter)
 {
 

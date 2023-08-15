@@ -57,6 +57,29 @@ struct Ray
 
 };
 
+//立方体
+struct Cube
+{
+	//中心座標
+	Vector3 center_ = { 0,0,0 };
+
+	//中央からの距離
+	Vector3 size_ = { 1,1,1 };
+};
+
+//直方体
+struct Rectangular
+{
+	//中心座標
+	Vector3 center_ = { 0,0,0 };
+
+	//中央からの最小距離
+	Vector3 sizeMin_ = { 1,1,1 };
+
+	//中央からの最大距離
+	Vector3 sizeMax_ = { 1,1,1 };
+};
+
 
 //一応で用意したやつ
 class CollisionPrimirive

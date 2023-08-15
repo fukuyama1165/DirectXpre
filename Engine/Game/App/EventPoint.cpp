@@ -40,7 +40,7 @@ void EventPoint::Update()
 		{
 			timeCount_ = seting_.enemySpawnInterval[count_];
 
-			EnemyManager::GetInstance()->PopEnemy(seting_.enemySpawnPos[count_]);
+			EnemyManager::GetInstance()->PopEnemy(seting_.enemyTypes[count_], seting_.enemySpawnPos[count_], seting_.enemyMovePos[count_]);
 			count_++;
 
 		}

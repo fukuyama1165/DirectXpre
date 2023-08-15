@@ -10,15 +10,25 @@ BasicEmitter::~BasicEmitter()
 {
 }
 
-void BasicEmitter::Initialize(const Vector3& pos, float ActiveTime)
+void BasicEmitter::Initialize()
 {
-	/*particleModel_ = std::make_unique<AnimationModel>();
+	particleModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
 
-	particleModel_->Load("testFBX", "gltf", "white1x1");
+	emitterModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
 
-	emitterModel_ = std::make_unique<AnimationModel>();
+	obj_.FBXInit();
 
-	emitterModel_->Load("testFBX", "gltf", "white1x1");*/
+	obj_.SetPos({0,0,0});
+
+	activeTime_ = -1;
+
+	particleFactory_ = std::make_unique<ObjParticleFactory>();
+
+	particleType_ = "BASIC";
+}
+
+void BasicEmitter::Initialize(const Vector3& pos,std::string particleType, float ActiveTime)
+{
 
 	particleModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
 
@@ -29,6 +39,10 @@ void BasicEmitter::Initialize(const Vector3& pos, float ActiveTime)
 	obj_.SetPos(pos);
 
 	activeTime_ = ActiveTime;
+
+	particleFactory_ = std::make_unique<ObjParticleFactory>();
+
+	particleType_ = particleType;
 
 }
 
@@ -41,7 +55,7 @@ void BasicEmitter::Update()
 {
 	
 
-	particles_.remove_if([](std::unique_ptr<BasicParticle>& particle)
+	particles_.remove_if([](std::unique_ptr<IObjParticle>& particle)
 	{
 			return particle->GetliveTime() <= 0;
 	});
@@ -54,7 +68,7 @@ void BasicEmitter::Update()
 
 		velo.normalize();
 
-		std::unique_ptr<BasicParticle> newParticle = std::make_unique<BasicParticle>();
+		std::unique_ptr<IObjParticle> newParticle = std::move(particleFactory_->CreateObjParticle(particleType_));
 
 		newParticle->Initialize(obj_.GetWorldPos(), velo, particleLiveTime_);
 
@@ -64,7 +78,7 @@ void BasicEmitter::Update()
 
 	}
 
-	for (std::unique_ptr<BasicParticle>& particle : particles_)
+	for (std::unique_ptr<IObjParticle>& particle : particles_)
 	{
 		particle->Update();
 	}
@@ -99,7 +113,7 @@ void BasicEmitter::Draw()
 
 	if (!isActive_)return;
 
-	for (std::unique_ptr<BasicParticle>& particle : particles_)
+	for (std::unique_ptr<IObjParticle>& particle : particles_)
 	{
 		particle->Draw(particleModel_);
 	}

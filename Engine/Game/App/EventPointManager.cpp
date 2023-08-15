@@ -1,5 +1,6 @@
 #include "EventPointManager.h"
 #include "ModelManager.h"
+#include "Enemy.h"
 
 EventPointManager* EventPointManager::GetInstance()
 {
@@ -64,6 +65,7 @@ void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vec
 
 	debugPoint.enemyMaxSpawn = 5;
 	debugPoint.enemyNum = 4;
+	
 	debugPoint.eventType = BattleEvent;
 
 	debugPoint.enemySpawnPos.push_back(point1);
@@ -75,6 +77,16 @@ void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vec
 	debugPoint.enemySpawnInterval.push_back(interval1);
 	debugPoint.enemySpawnInterval.push_back(interval2);
 	debugPoint.enemySpawnInterval.push_back(interval3);
+
+	debugPoint.enemyTypes.push_back(EnemyType::Attack);
+	debugPoint.enemyTypes.push_back(EnemyType::moveOnly);
+	debugPoint.enemyTypes.push_back(EnemyType::Attack);
+	debugPoint.enemyTypes.push_back(EnemyType::moveAttack);
+
+	debugPoint.enemyMovePos.push_back({ 10, 10, 50 });
+	debugPoint.enemyMovePos.push_back({ -10, 10, 50 });
+	debugPoint.enemyMovePos.push_back({ 0, 10, 50 });
+	debugPoint.enemyMovePos.push_back({ 20, 10, 50 });
 
 	
 	eventSetings_.push_back(debugPoint);

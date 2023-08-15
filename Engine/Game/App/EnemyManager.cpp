@@ -20,15 +20,11 @@ EnemyManager::~EnemyManager()
 
 }
 
-void EnemyManager::PopEnemy(const Vector3& pos)
+void EnemyManager::PopEnemy(uint16_t enemyType, Vector3 pos, Vector3 movePoint)
 {
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
-	newEnemy->Init();
-
-	newEnemy->enemyObj_.SetPos(pos);
-
-
+	newEnemy->Init(enemyType, pos, movePoint);
 	//“GƒLƒƒƒ‰‚ð“o˜^
 	enemys_.push_back(std::move(newEnemy));
 }
@@ -36,14 +32,6 @@ void EnemyManager::PopEnemy(const Vector3& pos)
 void EnemyManager::Init()
 {
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
-
-	/*bulletModel_ = std::make_unique<AnimationModel>();
-
-	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
-
-	enemyModel_ = std::make_unique<AnimationModel>();
-
-	enemyModel_->Load("testGLTFBall", "gltf", "white1x1");*/
 
 	bulletModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 	enemyModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");

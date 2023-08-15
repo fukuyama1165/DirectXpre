@@ -145,6 +145,12 @@
     <Filter Include="ヘッダー ファイル\Game\Particle">
       <UniqueIdentifier>{57d102a4-083f-41e2-a099-137573d1a688}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Particle\Emitter">
+      <UniqueIdentifier>{ca7eab61-e6b0-44ee-af75-6cb495dd88d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Particle\Particle">
+      <UniqueIdentifier>{fe2b5581-e61b-4d4c-8f2b-9a636721e08e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -330,6 +336,12 @@
     <ClCompile Include="Engine\DirectX\resouse\ModelManager.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\ObjParticleFactory.cpp">
+      <Filter>ソース ファイル\Game\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\EmitterFactory.cpp">
+      <Filter>ソース ファイル\Game\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
@@ -512,25 +524,7 @@
     <ClInclude Include="Engine\Game\Scene\SceneChange\SceneChangeFactory.h">
       <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\BasicParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IEmitter.h">
-      <Filter>ヘッダー ファイル\Game\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\BasicEmitter.h">
-      <Filter>ヘッダー ファイル\Game\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\Particle\EmitterManager.h">
-      <Filter>ヘッダー ファイル\Game\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IObjParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IObjEmitter.h">
       <Filter>ヘッダー ファイル\Game\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\App\Wall.h">
@@ -538,6 +532,36 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\ModelManager.h">
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\BasicEmitter.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\BasicParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\IEmitter.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\IObjEmitter.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\IObjParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\IObjParticleFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\IParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\ObjParticleFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\IEmitterFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\EmitterFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

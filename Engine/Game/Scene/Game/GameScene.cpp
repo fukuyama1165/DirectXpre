@@ -505,7 +505,7 @@ void GameScene::Update()
 
 	if (ImGui::Button("popEnemy"))
 	{
-		enemys_->PopEnemy(enemyPopPos);
+		enemys_->PopEnemy(EnemyType::Attack,enemyPopPos);
 	}
 
 	ImGui::End();

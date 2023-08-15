@@ -132,7 +132,9 @@
     <ClCompile Include="Engine\Game\object\Object3D.cpp" />
     <ClCompile Include="Engine\Game\Particle\BasicEmitter.cpp" />
     <ClCompile Include="Engine\Game\Particle\BasicParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\EmitterFactory.cpp" />
     <ClCompile Include="Engine\Game\Particle\EmitterManager.cpp" />
+    <ClCompile Include="Engine\Game\Particle\ObjParticleFactory.cpp" />
     <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp" />
     <ClCompile Include="Engine\Game\Scene\App.cpp" />
     <ClCompile Include="Engine\Game\Scene\Framework.cpp" />
@@ -207,11 +209,15 @@
     <ClInclude Include="Engine\Game\object\Object3D.h" />
     <ClInclude Include="Engine\Game\Particle\BasicEmitter.h" />
     <ClInclude Include="Engine\Game\Particle\BasicParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\EmitterFactory.h" />
     <ClInclude Include="Engine\Game\Particle\EmitterManager.h" />
     <ClInclude Include="Engine\Game\Particle\IEmitter.h" />
+    <ClInclude Include="Engine\Game\Particle\IEmitterFactory.h" />
     <ClInclude Include="Engine\Game\Particle\IObjEmitter.h" />
     <ClInclude Include="Engine\Game\Particle\IObjParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\IObjParticleFactory.h" />
     <ClInclude Include="Engine\Game\Particle\IParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\ObjParticleFactory.h" />
     <ClInclude Include="Engine\Game\PostEffect\PostEffect.h" />
     <ClInclude Include="Engine\Game\Scene\App.h" />
     <ClInclude Include="Engine\Game\Scene\Framework.h" />

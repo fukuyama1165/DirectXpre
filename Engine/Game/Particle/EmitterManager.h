@@ -1,12 +1,15 @@
 #pragma once
-#include "BasicEmitter.h"
+#include "IEmitter.h"
+#include "IObjEmitter.h"
+#include "IEmitterFactory.h"
+
 
 class EmitterManager
 {
 public:
 	static EmitterManager* GetInstance();
 
-	void AddEmitter(const Vector3& pos, float ActiveTime = -1);
+	void AddObjEmitter(const Vector3& pos,std::string emitterType,std::string particleType, float ActiveTime = -1);
 
 	//毎フレーム更新
 	void Update();
@@ -24,7 +27,10 @@ private:
 
 
 private:
-	std::list<std::unique_ptr<BasicEmitter>> emitters_;
+	std::list<std::unique_ptr<IObjEmitter>> objEmitters_;
+	std::list<std::unique_ptr<IEmitter>> emitters_;
+
+	std::unique_ptr<IEmitterFactory> emitterFactory_ = nullptr;
 
 };
 

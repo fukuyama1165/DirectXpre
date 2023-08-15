@@ -18,10 +18,11 @@ public:
 	Enemy();
 	~Enemy();
 
-	void Init();
+	void Init(uint16_t enemyType,Vector3 pos,Vector3 movePointPos);
 	void Update();
 	void Draw(AnimationModel* model);
 
+	void Move();
 	void Attack();
 
 	Vector3 GetObjWorldPos() { return enemyObj_.GetWorldPos(); };
@@ -37,7 +38,7 @@ public:
 
 private:
 
-	uint32_t bulletCT_ = 0;
+	uint32_t bulletCT_ = 200;
 
 	uint32_t bulletMaxCT_ = 200;
 
@@ -49,6 +50,13 @@ private:
 	//“–‚½‚è”»’è‚Ì–{‘Ì
 	SphereCollider Collider;
 
+	uint16_t enemyType_ = moveOnly;
+
+	bool moveEnd_ = false;
+
+	Vector3 moveStartPos_ = { 0,0,0 };
+
+	Vector3 movePoint_ = { 0,0,0 };
 	
 };
 

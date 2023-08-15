@@ -44,12 +44,65 @@ void CollisionManager::CheckAllCollisions()
 					colB->OnCollision(CollisionInfo(colA->GetCollisionObj(), colA, inter));
 
 				}
-				else if(!Collision::CheckSphere2Sphere(*SphereA, *SphereB, &inter))
+
+			}
+
+			//‚Æ‚à‚É—§•û‘Ì
+			if (colA->GetShapeType() == COLLISIONSHAPE_CUBE and colB->GetShapeType() == COLLISIONSHAPE_CUBE)
+			{
+
+				Cube* CubeA = dynamic_cast<Cube*>(colA);
+				Cube* CubeB = dynamic_cast<Cube*>(colB);
+				Vector3 inter;
+				if (Collision::CheckCube2CubeAABB(*CubeA, *CubeB))
 				{
-					//colA->GetCollisionObj()->SetIsHit(false);
-					//colB->GetCollisionObj()->SetIsHit(false);
+					colA->OnCollision(CollisionInfo(colB->GetCollisionObj(), colB, inter));
+					colB->OnCollision(CollisionInfo(colA->GetCollisionObj(), colA, inter));
+
 				}
 
+			}
+
+			//•Ð•û‚ª’¼•û‘Ì‚Å‚à‚¤•Ð•û‚ª—§•û‘Ì
+			if (colA->GetShapeType() == COLLISIONSHAPE_BOX and colB->GetShapeType() == COLLISIONSHAPE_CUBE)
+			{
+
+				Rectangular* CubeA = dynamic_cast<Rectangular*>(colA);
+				Cube* CubeB = dynamic_cast<Cube*>(colB);
+				Vector3 inter;
+				if (Collision::CheckCube2BoxAABB(*CubeA, *CubeB))
+				{
+					colA->OnCollision(CollisionInfo(colB->GetCollisionObj(), colB, inter));
+					colB->OnCollision(CollisionInfo(colA->GetCollisionObj(), colA, inter));
+
+				}
+
+			}
+			else if (colA->GetShapeType() == COLLISIONSHAPE_CUBE and colB->GetShapeType() == COLLISIONSHAPE_BOX)
+			{
+				Cube* CubeA = dynamic_cast<Cube*>(colA);
+				Rectangular* CubeB = dynamic_cast<Rectangular*>(colB);
+				Vector3 inter;
+				if (Collision::CheckCube2BoxAABB(*CubeA, *CubeB))
+				{
+					colA->OnCollision(CollisionInfo(colB->GetCollisionObj(), colB, inter));
+					colB->OnCollision(CollisionInfo(colA->GetCollisionObj(), colA, inter));
+
+				}
+			}
+
+			//‚Æ‚à‚É’¼•û‘Ì
+			if (colA->GetShapeType() == COLLISIONSHAPE_BOX and colB->GetShapeType() == COLLISIONSHAPE_BOX)
+			{
+				Rectangular* CubeA = dynamic_cast<Rectangular*>(colA);
+				Rectangular* CubeB = dynamic_cast<Rectangular*>(colB);
+				Vector3 inter;
+				if (Collision::CheckBox2BoxAABB(*CubeA, *CubeB))
+				{
+					colA->OnCollision(CollisionInfo(colB->GetCollisionObj(), colB, inter));
+					colB->OnCollision(CollisionInfo(colA->GetCollisionObj(), colA, inter));
+
+				}
 			}
 
 		}

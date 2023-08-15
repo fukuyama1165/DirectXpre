@@ -67,7 +67,8 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	{
 		Sprite newBulletSprite;
 		newBulletSprite.initialize("basketballMan");
-		newBulletSprite.pos_ = { WinApp::SWindowWidth_/2 + newBulletSprite.GetTextureSize().x/5 * i,WinApp::SWindowHeight_/2 };
+		newBulletSprite.pos_ = { WinApp::SWindowWidth_/2 + newBulletSprite.GetTextureSize().x/2 * i,WinApp::SWindowHeight_- newBulletSprite.GetTextureSize().y/4 };
+		newBulletSprite.scale_ = { 0.5f,0.5f };
 		bulletSprite_.push_back(newBulletSprite);
 	}
 
