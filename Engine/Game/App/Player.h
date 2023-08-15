@@ -6,6 +6,7 @@
 #include "PlayerBullet.h"
 #include <list>
 #include "MobCollision.h"
+#include "CubeCollider.h"
 
 class Player
 {
@@ -97,7 +98,7 @@ private:
 	MobCollision collision;
 
 	//“–‚½‚è”»’è‚Ì–{‘Ì
-	SphereCollider Collider;
+	CubeCollider Collider;
 
 	Sprite hp1Sprote_;
 	Sprite hp2Sprote_;

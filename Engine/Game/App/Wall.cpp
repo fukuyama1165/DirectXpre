@@ -17,9 +17,10 @@ void WallObj::Init()
 	collision_ = MobCollision("Wall");
 
 	collider_.SetObject(&collision_);
-	collider_.radius_ = collisionSize_;
 
 	collider_.Initialize();
+
+	collider_.size_ = obj_.Scale_;
 
 	CollisionManager::GetInstance()->AddCollider(&collider_);
 }

@@ -139,7 +139,7 @@ void Player::Update()
 
 	playerObj_.SetPos(playerPos + (playCamera_.forward_ * 5));
 	
-	playerObj_.Update(/*camera*/);
+	playerObj_.Update();
 	Collider.Update(playerObj_.GetWorldPos());
 
 	if (playerObj_.GetWorldPos().x > 50 || playerObj_.GetWorldPos().x < -50)
@@ -147,7 +147,7 @@ void Player::Update()
 		moveSpeed_ = -moveSpeed_;
 	}
 
-	reticle3DObj_.Update(/*camera*/);
+	reticle3DObj_.Update();
 
 	if (!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_>0)
 	{
@@ -164,9 +164,6 @@ void Player::Update()
 	{
 		playerObj_.SLightGroup_->SetPointLightActive(1, false);
 	}
-
-	/*reticle_.pos_ = input_->GetMousePos();
-	reticle_.Update();*/
 
 	Reticle2DMouse();
 	

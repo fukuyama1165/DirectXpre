@@ -4,6 +4,7 @@
 #include "EnemyBullet.h"
 #include <list>
 #include "MobCollision.h"
+#include "CubeCollider.h"
 
 enum EnemyType
 {
@@ -48,7 +49,7 @@ private:
 	MobCollision collision;
 
 	//“–‚½‚è”»’è‚Ì–{‘Ì
-	SphereCollider Collider;
+	CubeCollider Collider;
 
 	uint16_t enemyType_ = moveOnly;
 

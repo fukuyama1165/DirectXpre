@@ -20,6 +20,8 @@ void Enemy::Init(uint16_t enemyType, Vector3 pos, Vector3 movePointPos)
 
 	Collider.Initialize();
 
+	Collider.size_ = { 2,2,2 };
+
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
 	enemyType_ = enemyType;

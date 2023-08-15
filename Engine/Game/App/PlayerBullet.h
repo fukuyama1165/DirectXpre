@@ -2,6 +2,7 @@
 #include "Object3D.h"
 #include "BulletCollision.h"
 #include "SphereCollider.h"
+#include "CubeCollider.h"
 
 /// <summary>
 /// Ž©ƒLƒƒƒ‰‚Ì’e
@@ -49,7 +50,7 @@ private:
 	BulletCollision collision;
 
 	//“–‚½‚è”»’è‚Ì–{‘Ì
-	SphereCollider Collider;
+	CubeCollider Collider;
 
 	//Žõ–½<frm>
 	static const int32_t kLifeTime = 60 * 5;

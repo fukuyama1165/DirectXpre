@@ -122,6 +122,7 @@
     <ClCompile Include="Engine\Game\collision\CollisionManager.cpp" />
     <ClCompile Include="Engine\Game\collision\CollisionPrimirive.cpp" />
     <ClCompile Include="Engine\Game\collision\CollisionTypes.cpp" />
+    <ClCompile Include="Engine\Game\collision\CubeCollider.cpp" />
     <ClCompile Include="Engine\Game\collision\MobCollision.cpp" />
     <ClCompile Include="Engine\Game\collision\SphereCollider.cpp" />
     <ClCompile Include="Engine\Game\Light\DirectionalLight.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Engine\Game\collision\Collision.h" />
     <ClInclude Include="Engine\Game\collision\CollisionInfo.h" />
     <ClInclude Include="Engine\Game\collision\CollisionManager.h" />
+    <ClInclude Include="Engine\Game\collision\CubeCollider.h" />
     <ClInclude Include="Engine\Game\collision\ICollisionObj.h" />
     <ClInclude Include="Engine\Game\collision\CollisionPrimirive.h" />
     <ClInclude Include="Engine\Game\collision\CollisionTypes.h" />

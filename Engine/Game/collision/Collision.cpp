@@ -216,11 +216,11 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 bool Collision::CheckCube2CubeAABB(const Cube& cube1, const Cube& cube2)
 {
 
-	Vector3 min1 = cube1.center_ - cube1.size_ / 2;
-	Vector3 max1 = cube1.center_ + cube1.size_ / 2;
+	Vector3 min1 = cube1.center_ - cube1.size_;
+	Vector3 max1 = cube1.center_ + cube1.size_;
 
-	Vector3 min2 = cube2.center_ - cube2.size_ * 0.5f;
-	Vector3 max2 = cube2.center_ + cube2.size_ * 0.5f;
+	Vector3 min2 = cube2.center_ - cube2.size_;
+	Vector3 max2 = cube2.center_ + cube2.size_;
 
 	//中央からサイズ分の位置内にもう片方があるか
 	if ((min1 <= max2) and (max1 >= min2))

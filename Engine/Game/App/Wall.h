@@ -2,6 +2,7 @@
 #include "Object3D.h"
 #include "MobCollision.h"
 #include "SphereCollider.h"
+#include "CubeCollider.h"
 
 class WallObj
 {
@@ -15,8 +16,6 @@ public:
 
 	Object3D obj_;
 
-	float collisionSize_ = 5;
-
 private:
 
 	
@@ -25,7 +24,7 @@ private:
 	MobCollision collision_;
 
 	//“–‚½‚è”»’è‚Ì–{‘Ì
-	SphereCollider collider_;
+	CubeCollider collider_;
 
 };
 
