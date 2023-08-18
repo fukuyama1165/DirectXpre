@@ -236,8 +236,8 @@ bool Collision::CheckCube2CubeAABB(const Cube& cube1, const Cube& cube2)
 
 bool Collision::CheckCube2BoxAABB(const Cube& cube, const Rectangular& Box)
 {
-	Vector3 min1 = cube.center_ - cube.size_ / 2;
-	Vector3 max1 = cube.center_ + cube.size_ / 2;
+	Vector3 min1 = cube.center_ - cube.size_ ;
+	Vector3 max1 = cube.center_ + cube.size_ ;
 
 	Vector3 min2 = Box.center_ - Box.sizeMin_;
 	Vector3 max2 = Box.center_ + Box.sizeMax_;
@@ -298,7 +298,7 @@ bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distan
 	//Žn“_‚Æ•½–Ê‚Ì‹——£
 	float dist = d2 - plane.distance_;
 
-	float t = dist / -d1/*(-Vector3::dot(plane.normal, ray.dir))*/;
+	float t = dist / -d1;
 
 	if (t < 0)
 	{

@@ -105,6 +105,9 @@ private:
 	Sprite hp3Sprote_;
 
 	std::vector<Sprite>bulletSprite_;
+
+	std::string gunShotSount_;
+	std::string gunReloadSount_;
 	
 	
 };

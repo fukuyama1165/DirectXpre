@@ -9,7 +9,7 @@ class EmitterManager
 public:
 	static EmitterManager* GetInstance();
 
-	void AddObjEmitter(const Vector3& pos,std::string emitterType,std::string particleType, float ActiveTime = -1);
+	void AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, float ActiveTime = -1, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox");
 
 	//毎フレーム更新
 	void Update();

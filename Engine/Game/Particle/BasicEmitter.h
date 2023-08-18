@@ -12,7 +12,7 @@ public:
 
 	//‰Šú‰»
 	void Initialize()override;
-	void Initialize(const Vector3& pos,std::string particleType, float ActiveTime = -1)override;
+	void Initialize(const Vector3& pos,std::string particleType, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox",  float ActiveTime = -1)override;
 
 	//I—¹ˆ—
 	void Finalize()override;
@@ -27,7 +27,7 @@ public:
 
 	bool GetIsActive()override { return isActive_; };
 
-	uint32_t GetParticleNum(){ return (uint32_t)particles_.size(); };
+	uint32_t GetParticleNum()override { return (uint32_t)particles_.size(); };
 
 	void SetCT(float ct)override { maxCT_ = ct; };
 

@@ -27,12 +27,12 @@ void BasicEmitter::Initialize()
 	particleType_ = "BASIC";
 }
 
-void BasicEmitter::Initialize(const Vector3& pos,std::string particleType, float ActiveTime)
+void BasicEmitter::Initialize(const Vector3& pos,std::string particleType, std::string particleModel, std::string emitterModel, float ActiveTime)
 {
 
-	particleModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
+	particleModel_ = ModelManager::GetInstance()->SearchModelData(particleModel);
 
-	emitterModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
+	emitterModel_ = ModelManager::GetInstance()->SearchModelData(emitterModel);
 
 	obj_.FBXInit();
 
@@ -60,6 +60,11 @@ void BasicEmitter::Update()
 			return particle->GetliveTime() <= 0;
 	});
 
+	for (std::unique_ptr<IObjParticle>& particle : particles_)
+	{
+		particle->Update();
+	}
+
 	if (!isActive_)return;
 
 	if (CT_ <= 0)
@@ -78,10 +83,7 @@ void BasicEmitter::Update()
 
 	}
 
-	for (std::unique_ptr<IObjParticle>& particle : particles_)
-	{
-		particle->Update();
-	}
+	
 
 	obj_.Update();
 
@@ -110,8 +112,6 @@ void BasicEmitter::Draw()
 	{
 		obj_.FBXDraw(*emitterModel_);
 	}
-
-	if (!isActive_)return;
 
 	for (std::unique_ptr<IObjParticle>& particle : particles_)
 	{

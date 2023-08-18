@@ -151,6 +151,12 @@
     <Filter Include="ヘッダー ファイル\Game\Particle\Particle">
       <UniqueIdentifier>{fe2b5581-e61b-4d4c-8f2b-9a636721e08e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Particle\Particle\Game">
+      <UniqueIdentifier>{ecdd6e8e-ebb0-4c1a-95a2-1f0556f9c345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Particle\Game">
+      <UniqueIdentifier>{659fb624-8aef-4cec-91b4-db21733a4b37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -344,6 +350,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\collision\CubeCollider.cpp">
       <Filter>ソース ファイル\Game\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\CartridgeParticle.cpp">
+      <Filter>ソース ファイル\Game\Particle\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -568,6 +577,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\collision\CubeCollider.h">
       <Filter>ヘッダー ファイル\Game\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\CartridgeParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

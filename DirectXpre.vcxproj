@@ -133,6 +133,7 @@
     <ClCompile Include="Engine\Game\object\Object3D.cpp" />
     <ClCompile Include="Engine\Game\Particle\BasicEmitter.cpp" />
     <ClCompile Include="Engine\Game\Particle\BasicParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\CartridgeParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\EmitterFactory.cpp" />
     <ClCompile Include="Engine\Game\Particle\EmitterManager.cpp" />
     <ClCompile Include="Engine\Game\Particle\ObjParticleFactory.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Engine\Game\object\Object3D.h" />
     <ClInclude Include="Engine\Game\Particle\BasicEmitter.h" />
     <ClInclude Include="Engine\Game\Particle\BasicParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\CartridgeParticle.h" />
     <ClInclude Include="Engine\Game\Particle\EmitterFactory.h" />
     <ClInclude Include="Engine\Game\Particle\EmitterManager.h" />
     <ClInclude Include="Engine\Game\Particle\IEmitter.h" />

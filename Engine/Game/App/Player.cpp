@@ -5,6 +5,8 @@
 #include "Quaternion.h"
 #include "ModelManager.h"
 #include "WinApp.h"
+#include "EmitterManager.h"
+#include "XAudio.h"
 
 Player::Player()
 {
@@ -72,7 +74,8 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 		bulletSprite_.push_back(newBulletSprite);
 	}
 
-
+	gunShotSount_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/GunShot.wav");
+	gunReloadSount_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/GunReload.wav");
 
 }
 
@@ -87,11 +90,17 @@ void Player::Update()
 	});
 	
 
-	if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_<=20 and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+	if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_<=20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
 		attackFlag_ = true;
 		bulletNum_ = bulletMaxNum_;
 		
+		
+	}
+
+	if (input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A))
+	{
+		XAudio::PlaySoundData(gunReloadSount_, 1.0f);
 	}
 
 	if (input_->ReleaseKey(DIK_SPACE) || input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A))
@@ -263,6 +272,10 @@ void Player::Attack()
 		playerObj_.SLightGroup_->SetPointLightAtten(1, {0.1f,0.1f,0.1f});
 
 		bulletNum_--;
+
+		EmitterManager::GetInstance()->AddObjEmitter(position, "BASIC", "Cartridge", 1.0f, "Building");
+
+		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 		
 	}
 

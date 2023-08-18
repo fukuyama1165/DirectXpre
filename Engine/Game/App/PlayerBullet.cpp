@@ -24,8 +24,6 @@ void PlayerBullet::Initlize(const Vector3& position, const Vector3& velocity)
 
 	collision = BulletCollision("playerBullet");
 
-	
-
 	Collider.SetObject(&collision);
 
 	Collider.Initialize();

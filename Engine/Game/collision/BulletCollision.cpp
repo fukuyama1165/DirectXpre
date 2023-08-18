@@ -51,7 +51,7 @@ void BulletCollision::Draw(AnimationModel* model)
 void BulletCollision::OnCollision(const CollisionInfo& info)
 {
 
-	if ((info.object_->tag_ == "enemy" ) && tag_ == "playerBullet")
+	if ((info.object_->tag_ == "enemy") && tag_ == "playerBullet")
 	{
 		isHit = true;
 	}
@@ -64,6 +64,10 @@ void BulletCollision::OnCollision(const CollisionInfo& info)
 		isHit = true;
 	}
 	else if (info.object_->tag_ == "Wall" && (tag_ == "enemyBullet"))
+	{
+		isHit = true;
+	}
+	else if (info.object_->tag_ == "Wall" && tag_ == "Cartridge")
 	{
 		isHit = true;
 	}

@@ -20,7 +20,7 @@ public:
 	std::unique_ptr<IObjEmitter> CreateObjEmitter(const std::string& emitterName)override;
 
 	/// <summary>
-	/// エミッター生成
+	/// エミッター生成(まだ何もないので呼び出しても使えないよ)
 	/// </summary>
 	/// <param name="sceneName">生成したいエミッター</param>
 	/// <returns>生成したエミッター</returns>

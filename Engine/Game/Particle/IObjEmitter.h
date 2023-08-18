@@ -13,7 +13,7 @@ public:
 
 	//‰Šú‰»
 	virtual void Initialize() = 0;
-	virtual void Initialize(const Vector3& pos, std::string particleType, float ActiveTime = -1) = 0;
+	virtual void Initialize(const Vector3& pos, std::string particleType,std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox", float ActiveTime = -1) = 0;
 
 	//I—¹ˆ—
 	virtual void Finalize() = 0;
@@ -28,6 +28,7 @@ public:
 
 	virtual bool GetIsActive() = 0;
 
+	virtual uint32_t GetParticleNum() = 0;
 
 	virtual void SetCT(float ct) = 0;
 
