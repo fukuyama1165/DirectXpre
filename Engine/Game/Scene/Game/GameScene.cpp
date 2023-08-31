@@ -135,11 +135,12 @@ void GameScene::Initialize()
 
 	eventManager = EventPointManager::GetInstance();
 
-	eventManager->SetDebugMoveEvent({ 0,0,0 }, { 0,0,0 }, { 0,0,0 });
+	eventManager->SetDebug1MoveEvent({ 0,0,0 });
 	
 	eventManager->SetDebugBattleEvent({ 0,0,50 }, 100, { 10,0,50 }, 20, { -10,0,50 }, 100, { 0,10,50 });
 	eventManager->SetDebugBattleEvent({ 0,0,50 }, 100, { 10,0,50 }, 20, { -10,0,50 }, 100, { 0,10,50 });
-	eventManager->SetDebugMoveEvent({ 0,0,100 }, { 0,0,100 }, { 0,0,100 });
+	eventManager->SetDebug1MoveEvent({ 0,0,100 });
+	eventManager->SetDebug1MoveEvent({ 0,0,0 });
 
 }
 
@@ -690,7 +691,7 @@ void GameScene::Draw()
 	play_.Draw();
 
 	enemys_->Draw();
-
+	eventManager->Draw();
 
 	EmitterManager::GetInstance()->Draw();
 

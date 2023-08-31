@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "EmitterManager.h"
+#include "XAudio.h"
 
 Enemy::Enemy()
 {
@@ -34,7 +35,7 @@ void Enemy::Init(uint16_t enemyType, Vector3 pos, Vector3 movePointPos)
 
 }
 
-void Enemy::Update()
+void Enemy::Update(std::string soundH)
 {
 	if (isAlive_)
 	{
@@ -61,6 +62,7 @@ void Enemy::Update()
 		if (collision.isHit)
 		{
 			OnCollision();
+			XAudio::GetInstance()->PlaySoundData(soundH);
 		}
 
 		if (enemyType_ == moveOnly and moveEnd_)

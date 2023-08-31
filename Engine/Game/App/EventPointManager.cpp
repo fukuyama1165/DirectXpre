@@ -1,6 +1,8 @@
 #include "EventPointManager.h"
 #include "ModelManager.h"
 #include "Enemy.h"
+#include "Easing.h"
+#include "WinApp.h"
 
 EventPointManager* EventPointManager::GetInstance()
 {
@@ -58,6 +60,18 @@ void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector
 
 }
 
+void EventPointManager::SetDebug1MoveEvent(Vector3 point1)
+{
+	EventSeting debugPoint;
+
+	debugPoint.movePoint = point1;
+
+	eventSetings_.push_back(debugPoint);
+
+	eventAllEnd_ = false;
+
+}
+
 void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vector3 point2, float interval2, Vector3 point3, float interval3, Vector3 point4)
 {
 
@@ -98,15 +112,16 @@ void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vec
 
 void EventPointManager::Initlize()
 {
-	/*eventModel_ = std::make_unique<AnimationModel>();
-
-	eventModel_->Load("testGLTFBall", "gltf", "white1x1");*/
 
 	eventModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
 
 	eventPoint_.SetIsFinished(true);
 
 	eventAllEnd_ = false;
+
+	Texture::GetInstance()->loadTexture("Resources/NEXT.png", "NEXT");
+
+	nextSprite_.initialize("NEXT");
 
 
 }
@@ -119,23 +134,72 @@ void EventPointManager::Update()
 		return;
 	}
 
-	if (eventPoint_.GetIsFinished() and eventSetings_.size() > eventCount_)
+	if (!nextTime_)
 	{
+
+		if (eventPoint_.GetIsFinished() and eventSetings_.size() > eventCount_)
+		{
+
+			eventPoint_ = EventPoint(eventSetings_[eventCount_]);
+			eventCount_++;
+			if (eventCount_ > 1)
+			{
+				nextTime_ = true;
+				nextMoveTime_ = 0;
+				nextMoveTime2_ = 0;
+			}
+		}
+		else if (eventPoint_.GetIsFinished())
+		{
+			eventAllEnd_ = true;
+		}
+
+		if (!nextTime_)
+		{
+			eventPoint_.Update();
+		}
+	}
+	else
+	{
+		//nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2}, Vector2{WinApp::SWindowWidth_+ nextSprite_.GetTextureSize().x/2 ,WinApp::SWindowHeight_ / 2}, nextMoveTime_ / nextMoveMaxTime_);
 		
-		eventPoint_ = EventPoint(eventSetings_[eventCount_]);
-		eventCount_++;
-	}
-	else if (eventPoint_.GetIsFinished())
-	{
-		eventAllEnd_ = true;
-	}
+		//イベントの違いで変更
+		if (eventPoint_.GetEventType() == EventType::moveEvent)
+		{
+			nextSprite_.setColor({ 1,0,0,1 });
+		}
+		else
+		{
+			nextSprite_.setColor({ 1,1,1,1 });
+		}
 
-	eventPoint_.Update();
+		if (nextMoveTime_ < nextMoveMaxTime_)
+		{
+			nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2 }, Vector2{ WinApp::SWindowWidth_/2,WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
+			nextMoveTime_++;
+		}
+		else if(nextMoveTime2_ < nextMoveMaxTime2_)
+		{
+			nextSprite_.pos_ = easeInQuint(Vector2{ WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 }, Vector2{ WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
+			nextMoveTime2_++;
+			
+		}
+		else
+		{
+			nextTime_ = false;
+		}
 
+		nextSprite_.Update();
+	}
 
 }
 
 void EventPointManager::Draw()
 {
-	eventPoint_.Draw(eventModel_);
+	//eventPoint_.Draw(eventModel_);
+
+	if (nextTime_)
+	{
+		nextSprite_.Draw();
+	}
 }

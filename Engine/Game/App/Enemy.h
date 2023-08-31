@@ -20,7 +20,7 @@ public:
 	~Enemy();
 
 	void Init(uint16_t enemyType,Vector3 pos,Vector3 movePointPos);
-	void Update();
+	void Update(std::string soundH);
 	void Draw(AnimationModel* model);
 
 	void Move();

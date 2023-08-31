@@ -44,5 +44,7 @@ public:
 	//ˆÚ“®—Ê‚ð’Ç‰Á
 	float bulletSpeed_ = 1.0f;
 
+	std::string enemyDownSound_;
+
 };
 

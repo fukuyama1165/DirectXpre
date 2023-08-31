@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include <imgui.h>
 #include "ModelManager.h"
+#include "XAudio.h"
 
 
 EnemyManager* EnemyManager::GetInstance()
@@ -32,9 +33,12 @@ void EnemyManager::PopEnemy(uint16_t enemyType, Vector3 pos, Vector3 movePoint)
 void EnemyManager::Init()
 {
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
+	ModelManager::GetInstance()->Load("enemy", "gltf", "Enemy", "white1x1");
+
+	enemyDownSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
 
 	bulletModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
-	enemyModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	enemyModel_ = ModelManager::GetInstance()->SearchModelData("Enemy");
 }
 
 void EnemyManager::UpDate(const Vector3& playerPos)
@@ -52,7 +56,7 @@ void EnemyManager::UpDate(const Vector3& playerPos)
 	
 	for (std::unique_ptr<Enemy>& enem : enemys_)
 	{
-		enem->Update();
+		enem->Update(enemyDownSound_);
 
 		if ((enem->GetCT() <= 0 or isDebugShot_)and !isDebugShotStop_)
 		{

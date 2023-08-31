@@ -10,6 +10,7 @@ EventPoint::EventPoint()
 EventPoint::EventPoint(EventSeting seting)
 {
 	seting_ = seting;
+	movePoint_ = seting_.movePoint;
 }
 
 

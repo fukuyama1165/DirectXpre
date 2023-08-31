@@ -98,7 +98,7 @@ void Player::Update()
 		
 	}
 
-	if (input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A))
+	if ((input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A)) && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
 		XAudio::PlaySoundData(gunReloadSount_, 1.0f);
 	}
@@ -119,7 +119,7 @@ void Player::Update()
 		HideDownWall();
 	}
 
-	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished() and !EventPointManager::GetInstance()->GetNextTime())
 	{
 		if (moveEventStart_ == false)
 		{
@@ -273,7 +273,7 @@ void Player::Attack()
 
 		bulletNum_--;
 
-		EmitterManager::GetInstance()->AddObjEmitter(position, "BASIC", "Cartridge", 1.0f, "Building");
+		//EmitterManager::GetInstance()->AddObjEmitter(position, "BASIC", "Cartridge", 1.0f, "Building");
 
 		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 		
