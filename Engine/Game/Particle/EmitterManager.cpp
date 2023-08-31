@@ -39,11 +39,11 @@ void EmitterManager::Update()
 	});
 
 
-	ImGui::Begin("check");
+	//ImGui::Begin("check");
 
-	ImGui::Text("emittersize:%0.0f", (float)objEmitters_.size());
+	//ImGui::Text("emittersize:%0.0f", (float)objEmitters_.size());
 
-	ImGui::End();
+	//ImGui::End();
 }
 
 void EmitterManager::Draw()

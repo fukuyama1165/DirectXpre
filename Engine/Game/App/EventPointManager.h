@@ -57,6 +57,7 @@ private:
 	bool eventAllEnd_ = false;
 
 	Sprite nextSprite_;
+	Sprite waitSprite_;
 
 	bool nextTime_ = false;
 

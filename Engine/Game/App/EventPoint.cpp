@@ -1,5 +1,6 @@
 #include "EventPoint.h"
 #include "EnemyManager.h"
+#include <imgui.h>
 
 EventPoint::EventPoint()
 {	
@@ -51,10 +52,21 @@ void EventPoint::Update()
 			timeCount_--;
 		}
 		
-		if (count_ >= seting_.enemyNum and EnemyManager::GetInstance()->enemyCount_<=0)
+		if (timeCount_ == 0 and count_ >= seting_.enemyNum and EnemyManager::GetInstance()->enemyCount_<=0)
 		{
 			IsFinished_ = true;
 		}
+
+#ifdef _DEBUG
+
+		ImGui::Begin("check");
+
+		ImGui::Text("count:%d", count_);
+
+		ImGui::End();
+
+#endif
+
 
 		break;
 

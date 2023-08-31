@@ -120,9 +120,12 @@ void EventPointManager::Initlize()
 	eventAllEnd_ = false;
 
 	Texture::GetInstance()->loadTexture("Resources/NEXT.png", "NEXT");
+	Texture::GetInstance()->loadTexture("Resources/wait.png", "WAIT");
 
 	nextSprite_.initialize("NEXT");
+	waitSprite_.initialize("WAIT");
 
+	waitSprite_.pos_ = { WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 };
 
 }
 
@@ -173,23 +176,43 @@ void EventPointManager::Update()
 			nextSprite_.setColor({ 1,1,1,1 });
 		}
 
-		if (nextMoveTime_ < nextMoveMaxTime_)
+		if (eventPoint_.GetEventType() == EventType::BattleEvent)
 		{
-			nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2 }, Vector2{ WinApp::SWindowWidth_/2,WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
-			nextMoveTime_++;
-		}
-		else if(nextMoveTime2_ < nextMoveMaxTime2_)
-		{
-			nextSprite_.pos_ = easeInQuint(Vector2{ WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 }, Vector2{ WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
-			nextMoveTime2_++;
-			
-		}
-		else
-		{
-			nextTime_ = false;
-		}
 
-		nextSprite_.Update();
+			if (nextMoveTime_ < nextMoveMaxTime_)
+			{
+				nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2 }, Vector2{ WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
+				nextMoveTime_++;
+			}
+			else if (nextMoveTime2_ < nextMoveMaxTime2_)
+			{
+				nextSprite_.pos_ = easeInQuint(Vector2{ WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 }, Vector2{ WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
+				nextMoveTime2_++;
+
+			}
+			else
+			{
+				nextTime_ = false;
+			}
+
+			nextSprite_.Update();
+		}
+		else if(eventPoint_.GetEventType() == EventType::moveEvent)
+		{
+			if (nextMoveTime_ < nextMoveMaxTime_)
+			{
+				float a = easeOutQuad(0.0f, 20.0f, nextMoveTime_ / nextMoveMaxTime_);
+
+				waitSprite_.setColor({ 1,1,1,sinf(a) });
+				nextMoveTime_++;
+			}
+			else
+			{
+				nextTime_ = false;
+			}
+
+			waitSprite_.Update();
+		}
 	}
 
 }
@@ -198,8 +221,12 @@ void EventPointManager::Draw()
 {
 	//eventPoint_.Draw(eventModel_);
 
-	if (nextTime_)
+	if (nextTime_ && eventPoint_.GetEventType() == EventType::BattleEvent)
 	{
 		nextSprite_.Draw();
+	}
+	else if(nextTime_ && eventPoint_.GetEventType() == EventType::moveEvent)
+	{
+		waitSprite_.Draw();
 	}
 }

@@ -107,8 +107,6 @@ void Player::Update()
 	{
 		attackFlag_ = false;
 		
-
-		
 	}
 	if (cameraCheng_)
 	{
@@ -323,6 +321,8 @@ void Player::Attack()
 		muzzleFlashTime_ = muzzleFlashMaxTime_;
 
 		bulletNum_--;
+
+		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 	}
 
 
