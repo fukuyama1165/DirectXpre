@@ -10,7 +10,7 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Init(uint16_t enemyType, Vector3 pos, Vector3 movePointPos)
+void Enemy::Init(uint16_t enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed)
 {
 	
 	enemyObj_.FBXInit();
@@ -32,6 +32,8 @@ void Enemy::Init(uint16_t enemyType, Vector3 pos, Vector3 movePointPos)
 	movePoint_ = movePointPos;
 
 	moveStartPos_ = pos;
+
+	speed_ = moveSpeed;
 
 }
 
@@ -115,15 +117,15 @@ void Enemy::Move()
 	Vector3 moveVec = { 0,0,0 };
 	moveVec = nainavec3(movePoint_, moveStartPos_).normalize();
 
-	enemyObj_.Trans_ += moveVec;
+	enemyObj_.Trans_ += moveVec*speed_;
 
 	//ˆÊ’u‚Ìî•ñ‚ÅˆÚ“®‚Ìˆ×‚Ì‘å‚«‚³‚É‚æ‚Á‚Ä‚Í‚½‚Ç‚è’…‚¯‚È‚¢ê‡‚ª‚ ‚é‚Ì‚Å•‚ğ‚½‚¹‚é‚½‚ß
-	if (((enemyObj_.GetPos().x <= movePoint_.x + 1) and 
-		(enemyObj_.GetPos().x >= movePoint_.x - 1)) and 
-		((enemyObj_.GetPos().y <= movePoint_.y + 1) and
-		(enemyObj_.GetPos().y >= movePoint_.y - 1)) and
-		((enemyObj_.GetPos().z <= movePoint_.z + 1) and
-		(enemyObj_.GetPos().z >= movePoint_.z - 1)))
+	if (((enemyObj_.GetPos().x <= movePoint_.x + speed_) and
+		(enemyObj_.GetPos().x >= movePoint_.x - speed_)) and
+		((enemyObj_.GetPos().y <= movePoint_.y + speed_) and
+		(enemyObj_.GetPos().y >= movePoint_.y - speed_)) and
+		((enemyObj_.GetPos().z <= movePoint_.z + speed_) and
+		(enemyObj_.GetPos().z >= movePoint_.z - speed_)))
 	{
 		moveEnd_ = true;
 	}

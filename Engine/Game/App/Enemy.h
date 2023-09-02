@@ -19,7 +19,7 @@ public:
 	Enemy();
 	~Enemy();
 
-	void Init(uint16_t enemyType,Vector3 pos,Vector3 movePointPos);
+	void Init(uint16_t enemyType,Vector3 pos,Vector3 movePointPos,float moveSpeed);
 	void Update(std::string soundH);
 	void Draw(AnimationModel* model);
 
@@ -58,6 +58,8 @@ private:
 	Vector3 moveStartPos_ = { 0,0,0 };
 
 	Vector3 movePoint_ = { 0,0,0 };
+
+	float speed_ = 1.0f;
 	
 };
 

@@ -60,11 +60,13 @@ void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector
 
 }
 
-void EventPointManager::SetDebug1MoveEvent(Vector3 point1)
+void EventPointManager::SetDebug1MoveEvent(Vector3 point1, float Speed1)
 {
 	EventSeting debugPoint;
 
 	debugPoint.movePoint = point1;
+
+	debugPoint.moveSpeed = Speed1;
 
 	eventSetings_.push_back(debugPoint);
 
@@ -72,7 +74,7 @@ void EventPointManager::SetDebug1MoveEvent(Vector3 point1)
 
 }
 
-void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vector3 point2, float interval2, Vector3 point3, float interval3, Vector3 point4)
+void EventPointManager::SetDebugBattleEvent(Vector3 point1, float Speed1, float interval1, Vector3 point2, float Speed2, float interval2, Vector3 point3, float Speed3, float interval3, Vector3 point4, float Speed4)
 {
 
 	EventSeting debugPoint;
@@ -96,6 +98,12 @@ void EventPointManager::SetDebugBattleEvent(Vector3 point1, float interval1, Vec
 	debugPoint.enemyTypes.push_back(EnemyType::moveOnly);
 	debugPoint.enemyTypes.push_back(EnemyType::Attack);
 	debugPoint.enemyTypes.push_back(EnemyType::moveAttack);
+
+	debugPoint.enemyMoveSpeed.push_back(Speed1);
+	debugPoint.enemyMoveSpeed.push_back(0.1f);
+	debugPoint.enemyMoveSpeed.push_back(Speed3);
+	debugPoint.enemyMoveSpeed.push_back(Speed4);
+	Speed2;
 
 	debugPoint.enemyMovePos.push_back({ 10, 10, 50 });
 	debugPoint.enemyMovePos.push_back({ -10, 10, 50 });

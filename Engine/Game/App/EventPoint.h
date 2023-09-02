@@ -14,10 +14,12 @@ struct EventSeting
 {
 	uint16_t eventType = moveEvent;
 	Vector3 movePoint = { 0,0,0 };
+	float moveSpeed = 1;
 	uint16_t enemyNum = 0;
 	uint16_t enemyMaxSpawn = 0;
 	std::vector<Vector3> enemySpawnPos;
 	std::vector<Vector3> enemyMovePos;
+	std::vector<float> enemyMoveSpeed;
 	std::vector<float> enemySpawnInterval;
 	std::vector<uint16_t> enemyTypes;
 

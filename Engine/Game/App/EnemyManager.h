@@ -8,7 +8,7 @@ public:
 
 	static EnemyManager* GetInstance();
 
-	void PopEnemy(uint16_t enemyType, Vector3 pos, Vector3 movePoint = { 0,0,0 });
+	void PopEnemy(uint16_t enemyType, Vector3 pos, Vector3 movePoint = { 0,0,0 }, float moveSpeed=1.0f);
 
 	void Init();
 

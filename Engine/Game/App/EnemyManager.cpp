@@ -21,11 +21,11 @@ EnemyManager::~EnemyManager()
 
 }
 
-void EnemyManager::PopEnemy(uint16_t enemyType, Vector3 pos, Vector3 movePoint)
+void EnemyManager::PopEnemy(uint16_t enemyType, Vector3 pos, Vector3 movePoint, float moveSpeed)
 {
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
-	newEnemy->Init(enemyType, pos, movePoint);
+	newEnemy->Init(enemyType, pos, movePoint,moveSpeed);
 	//“GƒLƒƒƒ‰‚ð“o˜^
 	enemys_.push_back(std::move(newEnemy));
 }
