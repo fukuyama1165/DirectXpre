@@ -29,6 +29,8 @@ void EnemyBullet::Initlize(const Vector3& position, const Vector3& velocity)
 
 	Collider.Initialize();
 
+	Collider.size_ = { 0.8f,0.8f,0.8f };
+
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
 

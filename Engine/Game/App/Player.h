@@ -108,6 +108,7 @@ private:
 
 	std::string gunShotSount_;
 	std::string gunReloadSount_;
+	std::string damageSound_;
 	
 	
 };

@@ -26,11 +26,8 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
 	reticle_.initialize("basketballMan");
 
-	/*bulletModel_ = std::make_unique<AnimationModel>();
-	gunModel_ = std::make_unique<AnimationModel>();
-
-	bulletModel_->Load("testGLTFBall", "gltf", "white1x1");
-	gunModel_->Load("Gun", "gltf", "gray2x2");*/
+	Texture::GetInstance()->loadTexture("Resources/life.png", "Life");
+	Texture::GetInstance()->loadTexture("Resources/ammunition.png", "Ammo");
 
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
 	ModelManager::GetInstance()->Load("Gun", "gltf", "Gun", "gray2x2");
@@ -57,25 +54,26 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
-	hp1Sprote_.initialize("basketballMan");
-	hp2Sprote_.initialize("basketballMan");
-	hp3Sprote_.initialize("basketballMan");
+	hp1Sprote_.initialize("Life");
+	hp2Sprote_.initialize("Life");
+	hp3Sprote_.initialize("Life");
 
-	hp1Sprote_.pos_ = { 8,64 };
-	hp2Sprote_.pos_ = { 15*2,64 };
-	hp3Sprote_.pos_ = { 17*3,64 };
+	hp1Sprote_.pos_ = { hp1Sprote_.GetTextureSize().x/2,32 };
+	hp2Sprote_.pos_ = { hp1Sprote_.GetTextureSize().x*1.5f,32};
+	hp3Sprote_.pos_ = { hp1Sprote_.GetTextureSize().x*2.5f,32 };
 
 	for (uint16_t i = 0; i < bulletMaxNum_; i++)
 	{
 		Sprite newBulletSprite;
-		newBulletSprite.initialize("basketballMan");
+		newBulletSprite.initialize("Ammo");
 		newBulletSprite.pos_ = { WinApp::SWindowWidth_/2 + newBulletSprite.GetTextureSize().x/2 * i,WinApp::SWindowHeight_- newBulletSprite.GetTextureSize().y/4 };
-		newBulletSprite.scale_ = { 0.5f,0.5f };
+		//newBulletSprite.scale_ = { 0.5f,0.5f };
 		bulletSprite_.push_back(newBulletSprite);
 	}
 
 	gunShotSount_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/GunShot.wav");
 	gunReloadSount_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/GunReload.wav");
+	damageSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
 
 }
 
@@ -184,6 +182,7 @@ void Player::Update()
 	{
 		hp_--;
 		collision.isHit = false;
+		XAudio::GetInstance()->PlaySoundData(damageSound_);
 	}
 
 	hp1Sprote_.Update();
