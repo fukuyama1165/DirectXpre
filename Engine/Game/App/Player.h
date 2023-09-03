@@ -110,6 +110,8 @@ private:
 	std::string gunReloadSount_;
 	std::string damageSound_;
 	
+
+	bool isUseKeybord_ = true;
 	
 };
 

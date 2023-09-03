@@ -391,6 +391,8 @@ void GameScene::Update()
 	ImGui::Text("oldpos x:%f y:%f", Input::GetInstance()->GetOldMousePos().x, Input::GetInstance()->GetOldMousePos().y);
 	ImGui::Text("move x:%f y:%f z:%f", Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
 
+	ImGui::Text("use KEY:%d pad:%d Mouse:%d", Input::GetInstance()->AllKeyCheck(), Input::GetInstance()->GetGamePadInput(), Input::GetInstance()->GetMouseInput());
+
 	ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
 
 	if (Input::GetInstance()->GetMouseButton(0))

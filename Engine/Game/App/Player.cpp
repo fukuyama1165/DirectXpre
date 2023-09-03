@@ -80,6 +80,14 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 void Player::Update()
 {
 
+	if (input_->AllKeyCheck() or input_->GetMouseInput())
+	{
+		isUseKeybord_ = true;
+	}
+	else if(input_->GetGamePadInput())
+	{
+		isUseKeybord_ = false;
+	}
 
 	//デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
@@ -234,7 +242,7 @@ void Player::Draw()
 void Player::Attack()
 {
 	
-	if ((input_->GetMouseButtonDown(0) and bulletCT_ <= 0) or (isDebugShot_ and bulletCT_ <= 0))
+	if (((input_->GetMouseButtonDown(0) and bulletCT_ <= 0) or (isDebugShot_ and bulletCT_ <= 0))and isUseKeybord_)
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -249,12 +257,6 @@ void Player::Attack()
 
 		//速度ベクトルを自機の向きの方向に合わせて回転する
 		velocity = VectorMat(velocity, playermat);
-
-		/*ImGui::Begin("player");
-
-		ImGui::Text("velocity:%0.5f,%0.5f,%0.5f", velocity.x, velocity.y, velocity.z);
-
-		ImGui::End();*/
 
 		//弾の生成と初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
@@ -293,7 +295,7 @@ void Player::Attack()
 	}
 
 	//Rトリガーを押していたら
-	if (Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0)
+	if (Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0 and !isUseKeybord_)
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -387,7 +389,7 @@ void Player::Reticle2DMouse()
 	POINT mousePosition = {};
 	Vector2 spritePosition = reticle_.pos_;
 
-	if (!Input::GetInstance()->GetIsUseGamePad())
+	if (isUseKeybord_)
 	{
 		//スクリーン座標を取得
 		GetCursorPos(&mousePosition);
@@ -399,7 +401,7 @@ void Player::Reticle2DMouse()
 		reticle_.pos_=(Vector2((float)mousePosition.x, (float)mousePosition.y));
 		//reticle_.pos_=Input::GetInstance()->GetMousePos();
 	}
-	else
+	else if(!isUseKeybord_)
 	{
 		spritePosition.x += (float)Input::GetInstance()->GetGamePadLStick().x*10;
 		spritePosition.y -= (float)Input::GetInstance()->GetGamePadLStick().y * 10;
