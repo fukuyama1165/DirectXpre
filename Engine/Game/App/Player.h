@@ -18,6 +18,7 @@ public:
 	void Update();
 	void Draw();
 	void Attack();
+	void Damage();
 
 	bool GetAttackFlag() { return attackFlag_; };
 
@@ -117,6 +118,19 @@ private:
 	Vector3 originalPos_ = {};
 
 	Vector3 test = {};
+
+	//ダメージを受けたか
+	bool isDamage_ = false;
+
+	//ダメージを受けた時の揺れる範囲
+	Vector3 shakeVecSize_ = {10,0,0};
+
+	//揺れる強さ
+	Vector3 shakePow_ = { 1.0f,1.0f,1.0f };
+
+	//ダメージを受けた時のシェイク用タイマー
+	float damageTimer_ = 0;
+	float damageMaxTimer_ = 10;
 	
 };
 

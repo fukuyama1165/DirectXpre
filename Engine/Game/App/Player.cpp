@@ -151,11 +151,11 @@ void Player::Update()
 	playCamera_.upDate();
 	//playerCamera_.SetCamera(playCamera_);
 
-	playerCamera_.CameraShake(test,{10,0.01f,0.01f});
+	//playerCamera_.CameraShake(test,{0.01f,0.01f,0.01f});
 
 	playerCamera_.upDate();
 
-	test += {1, 1, 1};
+	test += {1, 0, 0};
 
 	//ˆÚ“®(Šî–{“I‚ÉƒJƒƒ‰‚ğŠî€‚É)	
 	Vector3 playerPos = { playerCamera_.pos_.x,playerCamera_.pos_.y - 1 ,playerCamera_.pos_.z };
@@ -186,6 +186,7 @@ void Player::Update()
 
 	Reticle2DMouse();
 	
+	Damage();
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
@@ -197,6 +198,7 @@ void Player::Update()
 		hp_--;
 		collision.isHit = false;
 		XAudio::GetInstance()->PlaySoundData(damageSound_);
+		isDamage_ = true;
 	}
 
 	hp1Sprote_.Update();
@@ -463,4 +465,26 @@ void Player::Reticle2DMouse()
 	reticle3DObj_.Update(/*camera*/);
 
 
+}
+
+void Player::Damage()
+{
+	if (isDamage_)
+	{
+
+		Vector3 shakevec = easeInQuint(Vector3{ 0,0,0 }, shakeVecSize_, damageTimer_ / damageMaxTimer_);
+
+		playerCamera_.CameraShake(shakevec, shakePow_);
+
+		if (damageTimer_ < damageMaxTimer_)
+		{
+			damageTimer_++;
+		}
+		else
+		{
+			damageTimer_ = 0;
+			isDamage_ = false;
+			playerCamera_.CameraShake({0,0,0});
+		}
+	}
 }
