@@ -481,6 +481,7 @@ void GameScene::Update()
 	ImGui::Begin("player");
 
 	ImGui::Text("pos:%0.2f,%0.2f,%0.2f", play_.playerObj_.GetWorldPos().x, play_.playerObj_.GetWorldPos().y, play_.playerObj_.GetWorldPos().z);
+	ImGui::Text("camerapos:%0.2f,%0.2f,%0.2f", play_.playerCamera_.pos_.x, play_.playerCamera_.pos_.y, play_.playerCamera_.pos_.z);
 	ImGui::Text("hp:%0.0f", play_.hp_);
 	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
 	ImGui::Text("movetimer:%0.0f", play_.time_);	
@@ -524,7 +525,7 @@ void GameScene::Update()
 	
 
 	reloadLevel(DIK_K, "MapTest");
-#endif
+#endif	
 
 	if (chengCamera_)
 	{
@@ -532,75 +533,16 @@ void GameScene::Update()
 		//play_.playerCamera_.upDate();
 		//play_.playerCamera_.pos_ = cameraPos_;
 		cameobj_ = play_.playerCamera_;
-		Camera::nowCamera = &play_.playCamera_;
+		Camera::nowCamera = play_.playerCamera_.GetCameraP();
 	}
 	else
 	{
-		debugCamera_.eye_ = cameraPos_;
-
-		if (IsUseCameraMouse_)
-		{
-			if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
-			{
-				WinApp::GetInstance()->SetMousePos(WinApp::SWindowWidth_ / 2, WinApp::SWindowHeight_ / 2);
-			}
-
-			Camera mouseCamera = debugCamera_;
-
-			Vector3 mouseMove = Input::GetInstance()->GetMouseMove() / 1000;
-
-			mouseCameraRot += {0, mouseMove.x, 0};
-
-			Object3D cameobj;
-
-			cameobj.SetPos(cameraPos_);
-			cameobj.SetRotate(mouseCameraRot);
-			cameobj.matWorldGeneration();
-
-			mouseCamera.eye_ = cameobj.GetWorldPos();
-
-			Vector3 forward = { 0.0f, 0.0f, 1.0f };
-
-			forward = VectorMat(forward, cameobj.GetWorldMat());
-
-			mouseCamera.target_.x = mouseCamera.eye_.x + forward.x;
-			mouseCamera.target_.z = mouseCamera.eye_.z + forward.z;
-			mouseCamera.target_.y -= mouseMove.y + forward.y;
-
-
-
-			Vector3 up(0, 1, 0);
-
-			mouseCamera.up_ = VectorMat(up, cameobj.GetWorldMat());
-
-			debugCamera_ = mouseCamera;
-		}
-		else
-		{
-			Object3D cameobj;
-
-			cameobj.SetPos(cameraPos_);
-			cameobj.SetRotate(cameraRot_);
-			cameobj.matWorldGeneration();
-
-			debugCamera_.eye_ = cameobj.GetWorldPos();
-
-			Vector3 forward = { 0.0f, 0.0f, 1.0f };
-
-			forward = VectorMat(forward, cameobj.GetWorldMat());
-
-			debugCamera_.target_ = debugCamera_.eye_ + forward;
-
-			Vector3 up(0, 1, 0);
-
-			debugCamera_.up_ = VectorMat(up, cameobj.GetWorldMat());
-
-		}
-
-		debugCamera_.upDate();
-
-		Camera::nowCamera = &debugCamera_;
-		cameobj_.SetCamera(debugCamera_);
+		cameobj_.IsUseCameraMouse_ = IsUseCameraMouse_;
+		cameobj_.pos_ = cameraPos_;
+		
+		cameobj_.upDate();
+		Camera::nowCamera = cameobj_.GetCameraP();
+		
 
 	}
 	

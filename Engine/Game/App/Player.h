@@ -112,6 +112,11 @@ private:
 	
 
 	bool isUseKeybord_ = true;
+
+	//•Ç‚É‰B‚ê‚½‚è‚·‚é—p‚ÌŠî€ˆÊ’u
+	Vector3 originalPos_ = {};
+
+	Vector3 test = {};
 	
 };
 

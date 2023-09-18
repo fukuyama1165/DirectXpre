@@ -15,6 +15,9 @@ public:
 
 	void SetCamera(Camera camera) { camera_ = camera; };
 
+	//カメラシェイクを起こす
+	void CameraShake(Vector3 vec,Vector3 power={1,1,1});
+
 public:
 
 	Vector3 pos_ = {};
@@ -25,10 +28,22 @@ public:
 	//本体(単純に位置としてしか使ってないのでこいつ自体はinit等使うことはないはず)
 	Object3D cameobj_;
 
+	//マウスをの方向にカメラを剥けるかどうか
+	bool IsUseCameraMouse_ = false;
+
 private:
+
+	//いろいろ処理をした後の位置
+	Vector3 afterPos_ = {};
+
+	//シェイク用のベクトル
+	Vector3 shakeVec = {};
 
 	//カメラとしての機能
 	Camera camera_;
+
+	//マウスカーソルをカメラで使っているときの角度
+	Vector3 mouseCameraRot = {};
 
 };
 

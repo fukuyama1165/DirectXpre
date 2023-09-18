@@ -114,13 +114,18 @@ void Player::Update()
 		attackFlag_ = false;
 		
 	}
-	if (cameraCheng_)
+
+	//ˆÚ“®’†‚Å‚Í‚È‚¢‚È‚ç
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
-		HideRightWall();
-	}
-	else
-	{
-		HideDownWall();
+		if (cameraCheng_)
+		{
+			HideRightWall();
+		}
+		else
+		{
+			HideDownWall();
+		}
 	}
 
 	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished() and !EventPointManager::GetInstance()->GetNextTime())
@@ -136,6 +141,7 @@ void Player::Update()
 		if (EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint() == playerCamera_.pos_)
 		{
 			moveVec_ = { 0,0,0 };
+			originalPos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint();
 			EventPointManager::GetInstance()->GetPEventPoint()->SetIsFinished(true);
 			moveEventStart_ = false;
 		}
@@ -143,22 +149,22 @@ void Player::Update()
 	}
 
 	playCamera_.upDate();
-	playerCamera_.SetCamera(playCamera_);
+	//playerCamera_.SetCamera(playCamera_);
 
-	
+	playerCamera_.CameraShake(test,{10,0.01f,0.01f});
+
+	playerCamera_.upDate();
+
+	test += {1, 1, 1};
 
 	//ˆÚ“®(Šî–{“I‚ÉƒJƒƒ‰‚ðŠî€‚É)	
-	Vector3 playerPos = { playCamera_.eye_.x,playCamera_.eye_.y - 1 ,playCamera_.eye_.z };
+	Vector3 playerPos = { playerCamera_.pos_.x,playerCamera_.pos_.y - 1 ,playerCamera_.pos_.z };
 
-	playerObj_.SetPos(playerPos + (playCamera_.forward_ * 5));
+	playerObj_.SetPos(playerPos + (playerCamera_.forward_ * 5));
 	
 	playerObj_.Update();
 	Collider.Update(playerObj_.GetWorldPos());
 
-	if (playerObj_.GetWorldPos().x > 50 || playerObj_.GetWorldPos().x < -50)
-	{
-		moveSpeed_ = -moveSpeed_;
-	}
 
 	reticle3DObj_.Update();
 
@@ -370,16 +376,18 @@ void Player::HideDownWall()
 		time_ = 0;
 	}
 
+	Vector3 camerapos = {};
 	
-	playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y-2, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x, originalPos_.y-2, originalPos_.z }, time_ / maxMoveTime_);
 
-	playerCamera_.cameobj_.matWorldGeneration();
+	//playerCamera_.cameobj_.matWorldGeneration();
 
-	Vector3 forward = { 0.0f, 0.0f, 1.0f };
+	/*Vector3 forward = { 0.0f, 0.0f, 1.0f };
 
-	forward = VectorMat(forward, playerObj_.GetWorldMat());
+	forward = VectorMat(forward, playerObj_.GetWorldMat());*/
 
-	playCamera_.target_ = playCamera_.eye_ + forward;
+	//playCamera_.target_ = playCamera_.eye_ + forward;
+	playerCamera_.pos_ = camerapos;
 }
 
 void Player::Reticle2DMouse()
