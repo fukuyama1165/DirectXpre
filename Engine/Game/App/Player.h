@@ -123,14 +123,14 @@ private:
 	bool isDamage_ = false;
 
 	//ダメージを受けた時の揺れる範囲
-	Vector3 shakeVecSize_ = {10,0,0};
+	Vector3 shakeVecSize_ = {90,0,0};
 
 	//揺れる強さ
-	Vector3 shakePow_ = { 1.0f,1.0f,1.0f };
+	Vector3 shakePow_ = { 0.2f,1.0f,1.0f };
 
 	//ダメージを受けた時のシェイク用タイマー
 	float damageTimer_ = 0;
-	float damageMaxTimer_ = 10;
+	float damageMaxTimer_ = 20;
 	
 };
 

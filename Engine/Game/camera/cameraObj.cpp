@@ -82,23 +82,14 @@ void cameraObj::upDate()
 
 void cameraObj::CameraShake(Vector3 vec, Vector3 power)
 {
-	
+	shekeSinNum += vec;
 
-	shakeVec = { (sinf(vec.x) - 0.5f) * power.x, (sinf(vec.y) - 0.5f) * power.y, (sinf(vec.z) - 0.5f) * power.z };
-
-	if (vec.x == 0)
+	if (vec == Vector3{ 0,0,0 })
 	{
-		shakeVec.x = 0;
+		shekeSinNum = { 0,0,0 };
 	}
 
-	if (vec.y == 0)
-	{
-		shakeVec.y = 0;
-	}
+	shakeVec = { (sinf(shekeSinNum.x)) * power.x, (sinf(shekeSinNum.y)) * power.y, (sinf(shekeSinNum.z)) * power.z };
 
-	if (vec.z == 0)
-	{
-		shakeVec.z = 0;
-	}
 
 }

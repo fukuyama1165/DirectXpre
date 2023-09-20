@@ -155,7 +155,9 @@ void Player::Update()
 
 	playerCamera_.upDate();
 
-	test += {1, 0, 0};
+	test += {0.1f, 0, 0};
+
+	hp3Sprote_.pos_.y = sinf(test.x)*10;
 
 	//ˆÚ“®(Šî–{“I‚ÉƒJƒƒ‰‚ğŠî€‚É)	
 	Vector3 playerPos = { playerCamera_.pos_.x,playerCamera_.pos_.y - 1 ,playerCamera_.pos_.z };
@@ -210,7 +212,13 @@ void Player::Update()
 		bulletSprite_[i].Update();
 	}
 
+#ifdef _DEBUG
+	ImGui::Begin("player");
 
+	ImGui::Text("hppos:%0.2ff", hp3Sprote_.pos_.y);
+
+	ImGui::End();
+#endif
 
 }
 
@@ -472,7 +480,7 @@ void Player::Damage()
 	if (isDamage_)
 	{
 
-		Vector3 shakevec = easeInQuint(Vector3{ 0,0,0 }, shakeVecSize_, damageTimer_ / damageMaxTimer_);
+		Vector3 shakevec = lerp(Vector3{ 0,0,0 }, shakeVecSize_, damageTimer_ / damageMaxTimer_);
 
 		playerCamera_.CameraShake(shakevec, shakePow_);
 

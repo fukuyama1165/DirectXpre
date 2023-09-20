@@ -45,5 +45,8 @@ private:
 	//マウスカーソルをカメラで使っているときの角度
 	Vector3 mouseCameraRot = {};
 
+	//シェイク用の一時保存用変数
+	Vector3 shekeSinNum = {};
+
 };
 
