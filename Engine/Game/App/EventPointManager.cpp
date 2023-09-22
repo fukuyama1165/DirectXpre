@@ -133,7 +133,7 @@ void EventPointManager::Initlize()
 	nextSprite_.initialize("NEXT");
 	waitSprite_.initialize("WAIT");
 
-	waitSprite_.pos_ = { WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 };
+	waitSprite_.pos_ = { (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 };
 
 }
 
@@ -189,12 +189,12 @@ void EventPointManager::Update()
 
 			if (nextMoveTime_ < nextMoveMaxTime_)
 			{
-				nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2 }, Vector2{ WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
+				nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
 				nextMoveTime_++;
 			}
 			else if (nextMoveTime2_ < nextMoveMaxTime2_)
 			{
-				nextSprite_.pos_ = easeInQuint(Vector2{ WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 }, Vector2{ WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
+				nextSprite_.pos_ = easeInQuint(Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
 				nextMoveTime2_++;
 
 			}

@@ -28,7 +28,7 @@ void TitleScene::Initialize()
 
 	title_.initialize(textureNum_);
 
-	title_.pos_ = { WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 };
+	title_.pos_ = { (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 };
 	title_.scale_ = { 1,1 };
 
 	

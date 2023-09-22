@@ -35,7 +35,7 @@ void WinApp::initialize()
 	RegisterClassEx(&w_);
 
 	//ウィンドウのサイズの構造体{x座標,y座標,横幅,縦幅}
-	wrc_ = { 0,0,SWindowWidth_,SWindowHeight_ };
+	wrc_ = { 0,0,(LONG)SWindowWidth_,(LONG)SWindowHeight_ };
 	AdjustWindowRect(&wrc_, WS_OVERLAPPEDWINDOW, false);//自動でサイズ補正
 
 	//ウィンドウの構成要素？
@@ -109,11 +109,25 @@ uint32_t WinApp::getWindowSizeWidth()
 
 }
 
+float WinApp::getWindowSizeWidthF()
+{
+
+	return SWindowWidthF_;
+
+}
+
 
 uint32_t WinApp::getWindowSizeHeight()
 {
 
 	return SWindowHeight_;
+
+}
+
+float WinApp::getWindowSizeHeightF()
+{
+
+	return SWindowHeightF_;
 
 }
 

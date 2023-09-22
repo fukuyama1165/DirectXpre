@@ -104,6 +104,7 @@ private:
 	Sprite hp1Sprote_;
 	Sprite hp2Sprote_;
 	Sprite hp3Sprote_;
+	Sprite damageSprote_;
 
 	std::vector<Sprite>bulletSprite_;
 
@@ -126,11 +127,15 @@ private:
 	Vector3 shakeVecSize_ = {90,0,0};
 
 	//揺れる強さ
-	Vector3 shakePow_ = { 0.2f,1.0f,1.0f };
+	Vector3 shakePow_ = { 0.1f,1.0f,1.0f };
 
 	//ダメージを受けた時のシェイク用タイマー
 	float damageTimer_ = 0;
-	float damageMaxTimer_ = 20;
+	float damageMaxTimer_ = 10;
 	
+	//ダメージを受けた時の演出用のタイマー
+	float damageEffectMaxTime_ = 90;
+	float damageEffectTimer_ = damageEffectMaxTime_;
+
 };
 

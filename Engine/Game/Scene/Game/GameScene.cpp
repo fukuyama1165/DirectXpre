@@ -632,9 +632,13 @@ void GameScene::Draw()
 		wallObj_[b]->obj.Draw(levelBuildingModel_);
 	}
 
-	play_.Draw();
+	
 
 	enemys_->Draw();
+	
+
+	play_.Draw();
+
 	eventManager->Draw();
 
 	EmitterManager::GetInstance()->Draw();

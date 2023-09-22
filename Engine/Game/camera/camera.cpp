@@ -4,8 +4,8 @@ Camera* Camera::nowCamera = nullptr;
 
 Camera::Camera()
 {
-	Win_width_ = WinApp::SWindowWidth_;
-	Win_height_ = WinApp::SWindowHeight_;
+	Win_width_ = (float)WinApp::SWindowWidth_;
+	Win_height_ = (float)WinApp::SWindowHeight_;
 }
 
 Camera::Camera(float win_width,float win_height)

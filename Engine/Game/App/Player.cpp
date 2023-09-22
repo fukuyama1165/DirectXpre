@@ -57,10 +57,14 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	hp1Sprote_.initialize("Life");
 	hp2Sprote_.initialize("Life");
 	hp3Sprote_.initialize("Life");
+	damageSprote_.initialize("white1x1");
 
 	hp1Sprote_.pos_ = { hp1Sprote_.GetTextureSize().x/2,32 };
 	hp2Sprote_.pos_ = { hp1Sprote_.GetTextureSize().x*1.5f,32};
 	hp3Sprote_.pos_ = { hp1Sprote_.GetTextureSize().x*2.5f,32 };
+
+	damageSprote_.pos_ = { WinApp::SWindowWidthF_/2,WinApp::SWindowHeightF_/2 };
+	damageSprote_.scale_ = { WinApp::SWindowWidthF_,WinApp::SWindowHeightF_ };
 
 	for (uint16_t i = 0; i < bulletMaxNum_; i++)
 	{
@@ -201,11 +205,13 @@ void Player::Update()
 		collision.isHit = false;
 		XAudio::GetInstance()->PlaySoundData(damageSound_);
 		isDamage_ = true;
+		damageEffectTimer_ = 0;
 	}
 
 	hp1Sprote_.Update();
 	hp2Sprote_.Update();
 	hp3Sprote_.Update();
+	damageSprote_.Update();
 	
 	for (uint16_t i = 0; i < bulletMaxNum_; i++)
 	{
@@ -252,6 +258,10 @@ void Player::Draw()
 			bulletSprite_[i].Draw();
 		}
 	}
+
+	
+	damageSprote_.Draw();
+
 
 }
 
@@ -484,6 +494,7 @@ void Player::Damage()
 
 		playerCamera_.CameraShake(shakevec, shakePow_);
 
+
 		if (damageTimer_ < damageMaxTimer_)
 		{
 			damageTimer_++;
@@ -495,4 +506,14 @@ void Player::Damage()
 			playerCamera_.CameraShake({0,0,0});
 		}
 	}
+
+	float effectT = lerp(1.0f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
+
+	if (damageEffectTimer_ < damageEffectMaxTime_)
+	{
+		damageEffectTimer_++;
+	}
+
+	damageSprote_.setColor({ 1,0,0,effectT });
+
 }
