@@ -145,15 +145,17 @@ void EventPointManager::Update()
 		return;
 	}
 
+	
+
 	if (!nextTime_)
 	{
 
 		if (eventPoint_.GetIsFinished() and eventSetings_.size() > eventCount_)
 		{
-
+			beforeEventPointType_ = eventPoint_.GetEventType();
 			eventPoint_ = EventPoint(eventSetings_[eventCount_]);
 			eventCount_++;
-			if (eventCount_ > 1)
+			if (eventCount_ > 1 and (beforeEventPointType_!=eventPoint_.GetEventType() or (beforeEventPointType_==EventType::moveEvent and eventPoint_.GetEventType()==EventType::moveEvent)))
 			{
 				nextTime_ = true;
 				nextMoveTime_ = 0;
@@ -164,25 +166,17 @@ void EventPointManager::Update()
 		{
 			eventAllEnd_ = true;
 		}
-
-		if (!nextTime_)
-		{
-			eventPoint_.Update();
-		}
+	
 	}
-	else
+
+	if (!nextTime_ or eventPoint_.GetEventType() == EventType::moveEvent)
+	{
+		eventPoint_.Update();
+	}
+
+	if(nextTime_)
 	{
 		//nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2}, Vector2{WinApp::SWindowWidth_+ nextSprite_.GetTextureSize().x/2 ,WinApp::SWindowHeight_ / 2}, nextMoveTime_ / nextMoveMaxTime_);
-		
-		//イベントの違いで変更
-		if (eventPoint_.GetEventType() == EventType::moveEvent)
-		{
-			nextSprite_.setColor({ 1,0,0,1 });
-		}
-		else
-		{
-			nextSprite_.setColor({ 1,1,1,1 });
-		}
 
 		if (eventPoint_.GetEventType() == EventType::BattleEvent)
 		{
@@ -207,11 +201,11 @@ void EventPointManager::Update()
 		}
 		else if(eventPoint_.GetEventType() == EventType::moveEvent)
 		{
-			if (nextMoveTime_ < nextMoveMaxTime_)
+			if (!eventPoint_.GetIsFinished())
 			{
-				float a = easeOutQuad(0.0f, 20.0f, nextMoveTime_ / nextMoveMaxTime_);
+				//float a = easeOutQuad(0.0f, 20.0f, nextMoveTime_ / nextMoveMaxTime_);
 
-				waitSprite_.setColor({ 1,1,1,sinf(a) });
+				waitSprite_.setColor({ 1,1,1,sinf(nextMoveTime_) });
 				nextMoveTime_++;
 			}
 			else

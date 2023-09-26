@@ -48,6 +48,9 @@ private:
 
 	EventPoint eventPoint_;
 
+	//前回のイベントを参照
+	uint16_t beforeEventPointType_ = 0;
+
 	AnimationModel* eventModel_ = nullptr;
 
 	bool isActive = false;

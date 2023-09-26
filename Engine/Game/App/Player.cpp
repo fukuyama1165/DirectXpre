@@ -132,7 +132,7 @@ void Player::Update()
 		}
 	}
 
-	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished() and !EventPointManager::GetInstance()->GetNextTime())
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
 	{
 		if (moveEventStart_ == false)
 		{

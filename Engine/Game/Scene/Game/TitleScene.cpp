@@ -61,6 +61,16 @@ void TitleScene::Update()
 
 	title_.Update();
 
+#pragma region check
+
+	ImGui::Begin("check");
+
+	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);;
+
+	ImGui::End();
+
+#pragma endregion
+
 }
 
 void TitleScene::Draw()

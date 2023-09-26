@@ -1,4 +1,5 @@
 #include "EnemyBullet.h"
+#include "EventPointManager.h"
 #include <cassert>
 
 EnemyBullet::EnemyBullet()
@@ -42,8 +43,8 @@ void EnemyBullet::Update()
 	obj_.Trans_ += Velocity_;
 	obj_.Update();
 
-	//デスタイマーをひいて0以下になったらフラグを立てる
-	if (--deathTimer_ <= 0)
+	//デスタイマーをひいて0以下になったらフラグを立てるのと自機が移動中なら弾を殺す
+	if (--deathTimer_ <= 0 or EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==EventType::moveEvent)
 	{
 		isDead_ = true;
 		CollisionManager::GetInstance()->RemoveCollider(&Collider);
