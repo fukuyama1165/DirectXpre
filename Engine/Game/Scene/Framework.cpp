@@ -11,7 +11,7 @@ void Framework::Ran()
 	//ゲームループ
 	while (true)
 	{
-
+		imGuiManager_->Begin();
 		//毎フレーム更新
 		Update();
 
@@ -21,7 +21,10 @@ void Framework::Ran()
 			break;
 		}
 
+		
 		Draw();
+		
+		
 
 	}
 
@@ -77,7 +80,7 @@ void Framework::Update()
 
 	input_->update();
 
-	imGuiManager_->Begin();
+	
 
 	
 
@@ -87,7 +90,7 @@ void Framework::Update()
 
 	postEffect_->Update();
 
-	imGuiManager_->End();
+	
 }
 
 void Framework::Draw()
@@ -103,6 +106,7 @@ void Framework::Draw()
 
 	postEffect_->Draw();
 
+	imGuiManager_->End();
 	ImGuiManager::GetInstance()->Draw();
 
 	DirectXInit::GetInstance()->DrawEnd();

@@ -3,6 +3,7 @@
 #include "EventPoint.h"
 #include <sstream>
 #include "Sprite.h"
+#include "json.hpp"
 
 class EventPointManager
 {
@@ -33,6 +34,14 @@ public:
 
 	void reset() { eventSetings_.clear(); eventCount_ = 0; eventPoint_ = EventPoint(); }
 
+public:
+
+	//読み込む際のファイルパス(ファイル名だけで指定するため)
+	static const inline std::string SDefaultEventPath_="Resources/json/";
+
+	//ファイル拡張子
+	static const inline std::string SDefaultEventExtension_= ".json";
+
 private:
 
 	EventPointManager() = default;
@@ -40,6 +49,8 @@ private:
 
 	EventPointManager(const EventPointManager&) = delete;
 	EventPointManager& operator=(const EventPointManager&) = delete;
+
+	void EventScanning(nlohmann::json deserialized, nlohmann::json& Event);
 
 
 private:

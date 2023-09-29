@@ -4,6 +4,7 @@
 #include "Easing.h"
 #include "WinApp.h"
 
+
 EventPointManager* EventPointManager::GetInstance()
 {
 	static EventPointManager instance;
@@ -21,9 +22,49 @@ EventPointManager::~EventPointManager()
 
 void EventPointManager::LoadEventData(std::string fileName)
 {
-	fileName;
 
 	eventSetings_.clear();
+
+	//元から用意していたパスをくっつけて完全に通るパスにする
+	const std::string fullPath = SDefaultEventPath_ + fileName + SDefaultEventExtension_;
+
+	//ファイルストリーム
+	std::ifstream file;
+
+	// ファイルを開く
+	file.open(fullPath);
+
+	//ファイルオープン失敗をチェック
+	if (file.fail())
+	{
+		assert(0);
+	}
+
+	//JSON文字列から解凍したデータ
+	nlohmann::json deserialized;
+
+	//解凍
+	file >> deserialized;
+
+	//正しいイベントファイルかチェック
+	assert(deserialized.is_object());
+	assert(deserialized.contains("name"));
+	assert(deserialized["name"].is_string());
+
+	//"name"を文字列として取得
+	std::string name = deserialized["name"].get<std::string>();
+
+	//正しいかどうかチェック
+	assert(name.compare("event") == 0);
+
+	//"events"の全オブジェクトを走査
+	for (nlohmann::json& events : deserialized["events"])
+	{
+
+		EventScanning(deserialized, events);
+	}
+
+	//return std::move(levelData);
 
 	if (eventSetings_.empty())
 	{
@@ -34,6 +75,87 @@ void EventPointManager::LoadEventData(std::string fileName)
 
 	eventAllEnd_ = false;
 	
+}
+
+void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::json& Event)
+{
+
+
+	//typeがなければ止める
+	assert(Event.contains("type"));
+	//タイプを取得
+	std::string type = Event["type"].get<std::string>();
+
+
+
+	//moveEventなら
+	if (type.compare("moveEvent") == 0)
+	{
+
+
+		
+		EventSeting eventData;
+
+		eventData.eventType = EventType::moveEvent;
+
+		//設定のパラメータ読み込み
+		nlohmann::json& seting = Event["seting"];
+
+		//移動する場所読み込み
+		eventData.movePoint.x = (float)seting["movePoint"][0];
+		eventData.movePoint.y = (float)seting["movePoint"][1];
+		eventData.movePoint.z = (float)seting["movePoint"][2];
+
+		//スピードのセット
+		eventData.moveSpeed = (float)seting["moveSpeed"];
+
+		eventSetings_.push_back(eventData);
+
+
+	}
+	else if (type.compare("BattleEvent") == 0)
+	{
+
+		EventSeting eventData;
+
+		//設定のパラメータ読み込み
+		nlohmann::json& seting = Event["seting"];
+
+		//沸き数と画面内の最大数をセット
+		eventData.enemyMaxSpawn = seting["enemyMaxSpawn"];
+		eventData.enemyNum = seting["enemyNum"];
+
+		//イベントのタイプをセット
+		eventData.eventType = BattleEvent;
+
+		//エネミーの数だけ回す
+		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
+		{
+
+			//湧く場所をセット
+			eventData.enemySpawnPos.push_back({ (float)seting["spawnPoint"][i][0],(float)seting["spawnPoint"][i][1] ,(float)seting["spawnPoint"][i][2] });
+
+			//湧く間隔をセット
+			eventData.enemySpawnInterval.push_back((float)seting["spawnInterval"][i]);
+
+			//エネミーの種類をセット
+			eventData.enemyTypes.push_back(seting["enemyType"][i].get<std::string>());
+
+			//エネミーが動く場合動くときの速度をセット
+			eventData.enemyMoveSpeed.push_back((float)seting["enemySpeed"][i]);
+
+			//エネミーが動く場合の動く位置
+			eventData.enemyMovePos.push_back({ (float)seting["enemyMovePos"][i][0],(float)seting["enemyMovePos"][i][1] ,(float)seting["enemyMovePos"][i][2] });
+
+		}
+
+		eventSetings_.push_back(eventData);
+
+	}
+
+
+
+
 }
 
 void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector3 point3, Vector3 point4)

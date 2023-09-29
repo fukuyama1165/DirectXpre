@@ -21,7 +21,7 @@ struct EventSeting
 	std::vector<Vector3> enemyMovePos;
 	std::vector<float> enemyMoveSpeed;
 	std::vector<float> enemySpawnInterval;
-	std::vector<uint16_t> enemyTypes;
+	std::vector<std::string> enemyTypes;
 
 };
 

@@ -6,11 +6,12 @@
 #include "MobCollision.h"
 #include "CubeCollider.h"
 
-enum EnemyType
+class EnemyType
 {
-	moveOnly,
-	moveAttack,
-	Attack
+public:
+	static inline std::string moveOnly = "moveOnly";
+	static inline std::string moveAttack = "moveAttack";
+	static inline std::string Attack = "Attack";
 };
 
 class Enemy
@@ -19,7 +20,7 @@ public:
 	Enemy();
 	~Enemy();
 
-	void Init(uint16_t enemyType,Vector3 pos,Vector3 movePointPos,float moveSpeed);
+	void Init(std::string enemyType,Vector3 pos,Vector3 movePointPos,float moveSpeed);
 	void Update(std::string soundH);
 	void Draw(AnimationModel* model);
 
@@ -51,7 +52,7 @@ private:
 	//“–‚½‚è”»’è‚Ì–{‘Ì
 	CubeCollider Collider;
 
-	uint16_t enemyType_ = moveOnly;
+	std::string enemyType_ = EnemyType::moveOnly;
 
 	bool moveEnd_ = false;
 

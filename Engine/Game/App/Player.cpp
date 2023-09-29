@@ -507,7 +507,7 @@ void Player::Damage()
 		}
 	}
 
-	float effectT = lerp(1.0f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
+	float effectT = lerp(0.7f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
 
 	if (damageEffectTimer_ < damageEffectMaxTime_)
 	{

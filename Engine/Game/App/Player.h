@@ -134,7 +134,7 @@ private:
 	float damageMaxTimer_ = 10;
 	
 	//ダメージを受けた時の演出用のタイマー
-	float damageEffectMaxTime_ = 90;
+	float damageEffectMaxTime_ = 50;
 	float damageEffectTimer_ = damageEffectMaxTime_;
 
 };

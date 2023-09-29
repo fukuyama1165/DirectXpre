@@ -135,12 +135,14 @@ void GameScene::Initialize()
 
 	eventManager = EventPointManager::GetInstance();
 
-	eventManager->SetDebug1MoveEvent({ 0,0,0 });
+	/*eventManager->SetDebug1MoveEvent({ 0,0,0 });
 	
 	eventManager->SetDebugBattleEvent({ 0,0,50 },1.0f, 100, { 10,0,50 }, 1.0f, 20, { -10,0,50 }, 1.0f, 100, { 0,10,50 });
 	eventManager->SetDebugBattleEvent({ 0,0,50 }, 1.0f, 100, { 10,0,50 }, 1.0f, 20, { -10,0,50 }, 1.0f, 100, { 0,10,50 });
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
-	eventManager->SetDebug1MoveEvent({ 0,0,0 });
+	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
+
+	eventManager->LoadEventData("eventTest");
 
 }
 

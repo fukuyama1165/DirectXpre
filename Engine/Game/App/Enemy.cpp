@@ -10,7 +10,7 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Init(uint16_t enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed)
+void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed)
 {
 	
 	enemyObj_.FBXInit();
@@ -67,7 +67,7 @@ void Enemy::Update(std::string soundH)
 			XAudio::GetInstance()->PlaySoundData(soundH);
 		}
 
-		if (enemyType_ == moveOnly and moveEnd_)
+		if (enemyType_ == EnemyType::moveOnly and moveEnd_)
 		{
 			isAlive_ = false;
 
