@@ -131,6 +131,13 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 		//エネミーの数だけ回す
 		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
 		{
+			//設定されてないやつをみようとしたらそもそもよばないように
+			if ((float)seting["spawnPoint"].size() <= i or
+				(float)seting["spawnInterval"].size() <= i or
+				(float)seting["enemyType"].size() <= i or
+				(float)seting["enemySpeed"].size() <= i or
+				(float)seting["enemyMovePos"] <= i) continue;
+
 
 			//湧く場所をセット
 			eventData.enemySpawnPos.push_back({ (float)seting["spawnPoint"][i][0],(float)seting["spawnPoint"][i][1] ,(float)seting["spawnPoint"][i][2] });
