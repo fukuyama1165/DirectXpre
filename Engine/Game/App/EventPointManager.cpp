@@ -136,7 +136,7 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 				(float)seting["spawnInterval"].size() <= i or
 				(float)seting["enemyType"].size() <= i or
 				(float)seting["enemySpeed"].size() <= i or
-				(float)seting["enemyMovePos"] <= i) continue;
+				(float)seting["enemyMovePos"].size() <= i) continue;
 
 
 			//—N‚­êŠ‚ðƒZƒbƒg
