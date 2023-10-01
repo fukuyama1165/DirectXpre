@@ -27,4 +27,6 @@ private:
 
 	Sprite title_;
 
+	bool debugMenu_ = false;
+
 };

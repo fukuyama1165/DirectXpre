@@ -55,18 +55,24 @@ void TitleScene::Update()
 
 	title_.Update();
 
-#ifdef _DEBUG
+	if (debugMenu_)
+	{
+
 #pragma region check
 
-	ImGui::Begin("check");
+		ImGui::Begin("check");
 
-	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);;
+		ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);;
 
-	ImGui::End();
+		ImGui::End();
 
 #pragma endregion
+	}
 
-#endif
+	if (Input::GetInstance()->TriggerKey(DIK_F3))
+	{
+		debugMenu_ = !debugMenu_;
+	}
 
 }
 
