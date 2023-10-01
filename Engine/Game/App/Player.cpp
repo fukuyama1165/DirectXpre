@@ -24,10 +24,12 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	input_ = input_->GetInstance();
 	playerObj_.FBXInit();
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
-	reticle_.initialize("basketballMan");
+	
 
 	Texture::GetInstance()->loadTexture("Resources/life.png", "Life");
 	Texture::GetInstance()->loadTexture("Resources/ammunition.png", "Ammo");
+	Texture::GetInstance()->loadTexture("Resources/Reticle.png", "Reticle");
+	reticle_.initialize("Reticle");
 
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
 	ModelManager::GetInstance()->Load("Gun", "gltf", "Gun", "gray2x2");
@@ -41,7 +43,7 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	playerCamera_.pos_ = { 0,0,-200 };
 	playCamera_.eye_ = { 0,0,-3 };
 
-	reticle_.scale_ = { 0.5f,0.5f };
+	reticle_.scale_ = { 2,2 };
 
 	reticle3DObj_.SetPos({ 0,0,-100 });
 	reticle3DObj_.SetScale({ 0.05f,0.05f,0.05f });
@@ -159,9 +161,9 @@ void Player::Update()
 
 	playerCamera_.upDate();
 
-	test += {0.1f, 0, 0};
+	/*test += {0.1f, 0, 0};
 
-	hp3Sprote_.pos_.y = sinf(test.x)*10;
+	hp3Sprote_.pos_.y = sinf(test.x)*10;*/
 
 	//ˆÚ“®(Šî–{“I‚ÉƒJƒƒ‰‚ğŠî€‚É)	
 	Vector3 playerPos = { playerCamera_.pos_.x,playerCamera_.pos_.y - 1 ,playerCamera_.pos_.z };
@@ -480,7 +482,7 @@ void Player::Reticle2DMouse()
 
 
 	reticle_.Update();
-	reticle3DObj_.Update(/*camera*/);
+	reticle3DObj_.Update();
 
 
 }

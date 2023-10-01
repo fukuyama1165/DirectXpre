@@ -98,6 +98,17 @@
                 ],
                 "moveSpeed": 1
             }
+        },
+        {
+            "type": "moveEvent",
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    150.0
+                ],
+                "moveSpeed": 2
+            }
         }
         
     ]

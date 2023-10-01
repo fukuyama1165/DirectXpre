@@ -43,12 +43,6 @@ void TitleScene::Finalize()
 
 void TitleScene::Update()
 {
-	/*ImGui::Begin("check");
-
-	ImGui::Text("Title");
-	ImGui::Text("next:m");
-
-	ImGui::End();*/
 
 	cameobj_.upDate();
 
@@ -57,10 +51,11 @@ void TitleScene::Update()
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
 
-	objobj3_.Update(/*cameobj_.GetCamera()*/);
+	objobj3_.Update();
 
 	title_.Update();
 
+#ifdef _DEBUG
 #pragma region check
 
 	ImGui::Begin("check");
@@ -70,6 +65,8 @@ void TitleScene::Update()
 	ImGui::End();
 
 #pragma endregion
+
+#endif
 
 }
 
