@@ -81,6 +81,8 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	gunReloadSount_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/GunReload.wav");
 	damageSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
 
+
+
 }
 
 void Player::Update()
@@ -138,6 +140,11 @@ void Player::Update()
 	{
 		if (moveEventStart_ == false)
 		{
+			if (EventPointManager::GetInstance()->GetEventCount() != 0)
+			{
+				playerCamera_.pos_ = originalPos_;
+				attackFlag_ = false;
+			}
 			pos_ = playerCamera_.pos_;
 			moveVec_ = nainavec3(EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint(), pos_).normalize();
 			moveEventStart_ = true;

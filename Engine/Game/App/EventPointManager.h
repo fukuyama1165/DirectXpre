@@ -32,6 +32,8 @@ public:
 
 	bool GetNextTime() { return nextTime_; };
 
+	uint32_t GetEventCount() { return eventCount_; };
+
 	void reset() { eventSetings_.clear(); eventCount_ = 0; eventPoint_ = EventPoint(); }
 
 public:
