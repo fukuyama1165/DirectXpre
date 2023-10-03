@@ -3,6 +3,8 @@
 #include "WinApp.h"
 #include "Texture.h"
 #include "matrix4x4.h"
+#include "Shader.h"
+#include "PipeLine.h"
 
 class PostEffect
 {
@@ -45,6 +47,7 @@ private:
 	//定数バッファ
 	void constantBuffGeneration();
 
+	//デスクリプタレンジ
 	void descriptorRangeGeneration();
 
 	//テクスチャサンプラーの設定
@@ -118,6 +121,11 @@ private:
 	static Texture* STexture_;
 
 	//頂点シェーダオブジェクト
+	Shader vs;
+	//ピクセルシェーダオブジェクト
+	Shader ps;
+
+	//頂点シェーダオブジェクト
 	Microsoft::WRL::ComPtr<ID3DBlob> vsBlob_ = nullptr;
 
 	//ピクセルシェーダオブジェクト
@@ -131,11 +139,11 @@ private:
 	D3D12_DESCRIPTOR_RANGE descriptorRange2_{};
 
 	//グラフィックスパイプラインの各ステージの設定をする構造体を用意
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline_{};
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline2_{};
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline3_{};//加算
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline4_{};//減算
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline5_{};//色反転
+	PipeLine pipeline_;
+	PipeLine pipeline2_;
+	PipeLine pipeline3_;
+	PipeLine pipeline4_;
+
 
 	//ルートパラメータ(定数バッファの数が増えたら配列の要素数を増やして設定をしている関数の中身にも追加すること)
 	D3D12_ROOT_PARAMETER rootParam_[4] = {};
@@ -143,17 +151,13 @@ private:
 	//ルートシグネチャ
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature_;
 
-	//パイプラインステート
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate2_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate3_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate4_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate5_ = nullptr;
-
+	//パディングの対応の為全てvector4を使っている
 	struct  ConstBufferMaterial
 	{
 
 		Vector4 color;
+		Vector4 sigma;//ブルームを掛けるときのブラー用の値(xのみ)
+		Vector4 grayScaleStep;//ブルーム用のグレースケールのsmoothstep用の大きさ(x,yのみ)
 
 	};
 
@@ -177,7 +181,10 @@ private:
 	//リソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc_{};
 
-	
+	//定数バッファに送るとき用の変数
+	float sigma_ = 0.0025f;
+	float stepWidth_ = 0.001f;
+	float grayScaleStep_[2] = {0.6f,0.9f};
 
 	//平行投影
 	Matrix4x4 matProjection_;

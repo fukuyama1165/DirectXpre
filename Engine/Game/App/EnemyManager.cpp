@@ -33,7 +33,7 @@ void EnemyManager::PopEnemy(std::string enemyType, Vector3 pos, Vector3 movePoin
 void EnemyManager::Init()
 {
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
-	ModelManager::GetInstance()->Load("enemy", "gltf", "Enemy", "white1x1");
+	ModelManager::GetInstance()->Load("enemy", "gltf", "Enemy", "basketballman2");
 
 	enemyDownSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
 

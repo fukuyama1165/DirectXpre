@@ -106,6 +106,11 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 		eventData.movePoint.y = (float)seting["movePoint"][1];
 		eventData.movePoint.z = (float)seting["movePoint"][2];
 
+		//移動するときの角度読み込み
+		eventData.movePointRot.x = (float)seting["movePointRot"][0];
+		eventData.movePointRot.y = (float)seting["movePointRot"][1];
+		eventData.movePointRot.z = (float)seting["movePointRot"][2];
+
 		//スピードのセット
 		eventData.moveSpeed = (float)seting["moveSpeed"];
 

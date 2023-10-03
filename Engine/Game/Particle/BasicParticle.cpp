@@ -36,13 +36,19 @@ void BasicParticle::Update()
 {
 	//ˆÚ“®‚·‚é‚Æ‚±‚ë
 	obj_.Trans_ += Velocity_;
-	obj_.Scale_ = easeInQuint(Vector3(0,0,0), Vector3(1, 1, 1), liveTime_ / liveMaxTime_);
+	obj_.Rotate_ = easeInQuint(Vector3(0,0,0), Vector3(100, 100, 100), actionTime_ / actionMaxTime_);
+	obj_.Scale_ = easeInQuint(Vector3(0,0,0), Vector3(1, 1, 1), actionTime_ / actionMaxTime_);
 
 	obj_.Update();
 
 	if (liveTime_ > 0)
 	{
 		liveTime_--;
+	}
+
+	if (actionTime_ > 0)
+	{
+		actionTime_--;
 	}
 
 

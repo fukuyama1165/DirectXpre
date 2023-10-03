@@ -26,7 +26,11 @@ public:
 
 	virtual void SetliveTime(float time) =0;
 
+	virtual void SetActionTime(float time) =0;
+
 	virtual float GetliveTime() = 0;
+
+	virtual float GetActionTime() = 0;
 
 	virtual void SetObjColor(Vector4 color) =0;
 
@@ -42,6 +46,9 @@ private:
 
 	float liveTime_ = 50;
 	float liveMaxTime_ = liveTime_;
+
+	float actionTime_ = 50;
+	float actionMaxTime_ = liveTime_;
 
 
 

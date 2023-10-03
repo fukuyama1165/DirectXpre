@@ -30,6 +30,10 @@ public:
 
 	float GetliveTime()override { return liveTime_; };
 
+	void SetActionTime(float time)override { actionTime_ = time; };
+
+	float GetActionTime()override { return actionTime_; };
+
 	void SetObjColor(Vector4 color)override { obj_.SetColor(color); };
 
 
@@ -41,6 +45,8 @@ private:
 	Vector3	Velocity_;
 
 	float liveTime_ = 50;
+
+	float actionTime_ = 50;
 
 	float moveSpeed_ = 0;
 	uint16_t hitCount_ = 0;

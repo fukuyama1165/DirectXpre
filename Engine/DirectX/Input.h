@@ -79,6 +79,9 @@ public:
 	//マウスの入力を受け取ったらtrueを返す関数
 	bool GetMouseInput();
 
+	//マウスが画面内にあるか
+	bool GetMouseInWindow();
+
 	//ゲームパッドのボタンを押したかどうか
 	bool GetGamePadButton(uint32_t button);
 

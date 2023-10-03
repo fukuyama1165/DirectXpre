@@ -33,6 +33,7 @@ void EventPoint::Update()
 	case moveEvent:
 
 		movePoint_ = seting_.movePoint;
+		movePointRot_ = seting_.movePointRot;
 
 		break;
 

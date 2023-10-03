@@ -127,7 +127,7 @@ private:
 	Vector3 shakeVecSize_ = {90,0,0};
 
 	//揺れる強さ
-	Vector3 shakePow_ = { 0.1f,1.0f,1.0f };
+	Vector3 shakePow_ = { 0.5f,1.0f,1.0f };
 
 	//ダメージを受けた時のシェイク用タイマー
 	float damageTimer_ = 0;

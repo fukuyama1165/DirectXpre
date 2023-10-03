@@ -28,6 +28,10 @@ public:
 
 	float GetliveTime()override { return liveTime_; };
 
+	void SetActionTime(float time)override { actionMaxTime_ = time; };
+
+	float GetActionTime()override { return actionTime_; };
+
 	void SetObjColor(Vector4 color)override { obj_.SetColor(color); };
 
 
@@ -40,5 +44,8 @@ private:
 
 	float liveTime_ = 50;
 	float liveMaxTime_ = liveTime_;
+
+	float actionTime_ = 100;
+	float actionMaxTime_ = actionTime_;
 
 };

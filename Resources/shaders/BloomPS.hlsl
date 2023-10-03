@@ -47,17 +47,19 @@ float4 main(VSOutput input) : SV_TARGET
     //グレースケール
     float4 col = tex.Sample(smp, input.uv);
     float grayScale = col.r * 0.299 + col.g * 0.587 + col.b * 0.114;
-    float extract = smoothstep(0.6, 0.9, grayScale);
+    float extract = smoothstep(grayScaleStep.x, grayScaleStep.y, grayScale);
 
     float totalWeight = 0;
-    float _Sigma = 0.005;//固定だけどUVで大きさを変えると画面の外側だけに掛けることができるらしい
-    float _StepWidth = 0.001;
+    //float _Sigma = 0.005;
+    float _Sigma = sigma.x;//固定だけどUVで大きさを変えると画面の外側だけに掛けることができるらしい
+    //float _StepWidth = 0.001;
+    float _StepWidth = sigma.y;
     float4 colTex = float4(0, 0, 0, 0);
 
     [loop]
     for (float py = -_Sigma * 3; py <= _Sigma * 3; py += _StepWidth)
     {
-        [unroll]
+        [loop]
         for (float px = -_Sigma * 3; px <= _Sigma * 3; px += _StepWidth)
         {
             float2 pickUV = input.uv + float2(px, py);
@@ -65,7 +67,7 @@ float4 main(VSOutput input) : SV_TARGET
 
             float weight = Gaussian(input.uv, pickUV, _Sigma);
             float4 texcolor = tex.Sample(smp, pickUV);
-            colTex += texcolor * weight/* * extract*/;
+            colTex += texcolor * weight;
             totalWeight += weight;
 
         }
@@ -75,6 +77,6 @@ float4 main(VSOutput input) : SV_TARGET
     colTex.rgb = colTex.rgb / totalWeight;
     colTex.a = 1;
     
-    float4 highLumi = (/*col * */extract) + colTex;
+    float4 highLumi = (extract) + colTex;
     return highLumi + col;
 }

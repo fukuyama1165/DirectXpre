@@ -46,7 +46,7 @@ void TitleScene::Update()
 
 	cameobj_.upDate();
 
-	if (Input::GetInstance()->GetMouseButtonDown(0) or Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
+	if ((Input::GetInstance()->GetMouseButtonDown(0)and Input::GetInstance()->GetMouseInWindow()) or Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
 	{
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}

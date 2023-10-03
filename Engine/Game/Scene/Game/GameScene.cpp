@@ -214,12 +214,10 @@ void GameScene::Update()
 	{
 		movecoll_.x -= moveX.x;
 	}
-
 	if (Input::GetInstance()->PushKey(DIK_Z))
 	{
 		movecoll_.z += 0.01f;
 	}
-
 	if (Input::GetInstance()->PushKey(DIK_X))
 	{
 		movecoll_.z -= 0.01f;
@@ -396,6 +394,7 @@ void GameScene::Update()
 	ImGui::Text("move x:%f y:%f z:%f", Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
 
 	ImGui::Text("use KEY:%d pad:%d Mouse:%d", Input::GetInstance()->AllKeyCheck(), Input::GetInstance()->GetGamePadInput(), Input::GetInstance()->GetMouseInput());
+	ImGui::Text("mouseInWindow:%d", Input::GetInstance()->GetMouseInWindow());
 
 	ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
 
@@ -533,9 +532,6 @@ void GameScene::Update()
 
 	if (chengCamera_)
 	{
-		
-		//play_.playerCamera_.upDate();
-		//play_.playerCamera_.pos_ = cameraPos_;
 		cameobj_ = play_.playerCamera_;
 		Camera::nowCamera = play_.playerCamera_.GetCameraP();
 	}
@@ -640,7 +636,6 @@ void GameScene::Draw()
 
 	enemys_->Draw();
 	
-
 	play_.Draw();
 
 	eventManager->Draw();

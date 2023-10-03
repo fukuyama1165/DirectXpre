@@ -183,7 +183,7 @@ void Player::Update()
 
 	reticle3DObj_.Update();
 
-	if (!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_>0)
+	if ((!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_>0)or isDebugShot_)
 	{
 		Attack();
 	}
@@ -225,6 +225,11 @@ void Player::Update()
 	for (uint16_t i = 0; i < bulletMaxNum_; i++)
 	{
 		bulletSprite_[i].Update();
+	}
+
+	if (isDebugShot_)
+	{
+		bulletNum_ = 6;
 	}
 
 #ifdef _DEBUG
@@ -277,7 +282,7 @@ void Player::Draw()
 void Player::Attack()
 {
 	
-	if (((input_->GetMouseButtonDown(0) and bulletCT_ <= 0) or (isDebugShot_ and bulletCT_ <= 0))and isUseKeybord_)
+	if (((input_->GetMouseButtonDown(0) and bulletCT_ <= 0) or /*(isDebugShot_ and bulletCT_ <= 0)*/0)and isUseKeybord_)
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -373,7 +378,10 @@ void Player::HideRightWall()
 		{
 			time_++;
 		}
-		playCamera_.eye_ = easeOutQuint(Vector3{playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z}, Vector3{ playerCamera_.pos_.x+5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+
+		Vector3 camerapos = {};
+
+		playCamera_.eye_ = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z}, Vector3{ originalPos_.x+5, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
 		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z+1 }, Vector3{ playCamera_.eye_.x-100,playCamera_.eye_.y,playCamera_.eye_.z}, time_ / maxTime_);
 		
 	}

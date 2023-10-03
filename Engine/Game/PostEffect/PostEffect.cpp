@@ -4,6 +4,8 @@
 //ヘルパー構造体使うのに追加した
 #include <d3dx12.h>
 
+#include <imgui.h>
+
 Texture* PostEffect::STexture_ = nullptr;
 
 const float PostEffect::clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
@@ -81,8 +83,6 @@ void PostEffect::Initialize()
 
 	vertexLayout();
 
-	graphicPipelineGeneration();
-
 	descriptorRangeGeneration();
 
 	textureSamplerGeneration();
@@ -91,6 +91,8 @@ void PostEffect::Initialize()
 
 	rootsignatureGeneration();
 
+	graphicPipelineGeneration();
+
 	constantBuffGeneration();
 
 	
@@ -98,7 +100,25 @@ void PostEffect::Initialize()
 
 void PostEffect::Update()
 {
-	
+#ifdef _DEBUG
+	if (ps.name_ == "BloomPS")
+	{
+		ImGui::Begin("Bloom");
+
+		ImGui::DragFloat("sigma", &sigma_,0.00001f,0.0f, 0.01f,"%.5f");
+		ImGui::DragFloat("stepWidth", &stepWidth_,0.0001f,0.0001f, 0.1f,"%.5f");
+		ImGui::DragFloat2("grayScaleStep", &grayScaleStep_[0], 0.001f, 0.0f, 1.0f);
+		ImGui::Text("def(sigma:0.0025\nstepWidth:0.001\ngrayScaleStep:0.6,0.9");
+
+		ImGui::End();
+
+		constMapMaterial_->sigma.x = sigma_;
+		constMapMaterial_->sigma.y = stepWidth_;
+		constMapMaterial_->grayScaleStep.x = grayScaleStep_[0];
+		constMapMaterial_->grayScaleStep.y = grayScaleStep_[1];
+
+	}
+#endif
 }
 
 void PostEffect::Draw(uint16_t PipeLineRuleFlag)
@@ -113,27 +133,23 @@ void PostEffect::Draw(uint16_t PipeLineRuleFlag)
 	switch (PipeLineRuleFlag)
 	{
 	case 0:
-		DirectXInit::GetInstance()->GetcmdList()->SetPipelineState(pipelinestate_.Get());
+		DirectXInit::GetInstance()->GetcmdList().Get()->SetPipelineState(pipeline_.pipelinestate_.Get());
 		break;
 
 	case 1:
-		DirectXInit::GetInstance()->GetcmdList()->SetPipelineState(pipelinestate2_.Get());
+		DirectXInit::GetInstance()->GetcmdList().Get()->SetPipelineState(pipeline2_.pipelinestate_.Get());
 		break;
 
 	case 2:
-		DirectXInit::GetInstance()->GetcmdList()->SetPipelineState(pipelinestate3_.Get());
+		DirectXInit::GetInstance()->GetcmdList().Get()->SetPipelineState(pipeline3_.pipelinestate_.Get());
 		break;
 
 	case 3:
-		DirectXInit::GetInstance()->GetcmdList()->SetPipelineState(pipelinestate4_.Get());
-		break;
-
-	case 4:
-		DirectXInit::GetInstance()->GetcmdList()->SetPipelineState(pipelinestate5_.Get());
+		DirectXInit::GetInstance()->GetcmdList().Get()->SetPipelineState(pipeline4_.pipelinestate_.Get());
 		break;
 
 	default:
-		DirectXInit::GetInstance()->GetcmdList()->SetPipelineState(pipelinestate_.Get());
+		DirectXInit::GetInstance()->GetcmdList().Get()->SetPipelineState(pipeline_.pipelinestate_.Get());
 		break;
 	}
 
@@ -502,87 +518,14 @@ void PostEffect::vertexBuffGeneration()
 void PostEffect::vertexShaderGeneration()
 {
 	//頂点シェーダファイルの読み込みとコンパイル
-#pragma region 
+	vs = vs.ShaderLoad("BloomVS", "Resources/shaders/BloomVS.hlsl", "main", "vs_5_0");
 
-	//頂点シェーダファイルの読み込み辺
-	//頂点シェーダの読み込みとコンパイル
-	result_ = D3DCompileFromFile(
-		L"Resources/shaders/BloomVS.hlsl",//シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
-		"main",//エントリーポイント名
-		"vs_5_0",//シェーダモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバック用設定
-		0,
-		&vsBlob_,
-		&errorBlob_
-	);
-
-#pragma endregion 
-
-	//頂点シェーダの読み込み時のエラーを表示する場所
-#pragma region 
-
-	//頂点シェーダの読み込み時のエラーを表示する場所
-	if (FAILED(result_))
-	{
-		//errorBlobからエラー内容をstring型にコピー
-		std::string errstr;
-		errstr.resize(errorBlob_->GetBufferSize());
-
-		std::copy_n((char*)errorBlob_->GetBufferPointer(),
-			errorBlob_->GetBufferSize(),
-			errstr.begin());
-		errstr += "\n";
-		//エラー内容をウィンドウに表示
-		OutputDebugStringA(errstr.c_str());
-		exit(1);
-	}
-
-#pragma endregion
 }
 
 void PostEffect::pixelShaderGeneration()
 {
 	//ピクセルシェーダの読み込みとコンパイル
-#pragma region 
-
-	//ピクセルシェーダの読み込みとコンパイル
-	result_ = D3DCompileFromFile(
-		L"Resources/shaders/BloomPS.hlsl",//シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE,//インクルード可能にする
-		"main",//エントリーポイント名
-		"ps_5_0",//シェーダモデル指定
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//デバック用設定
-		0,
-		&psBlob_,
-		&errorBlob_
-	);
-
-#pragma endregion
-
-
-	//ピクセルシェーダの読み込み時のエラーを表示する場所
-#pragma region 
-
-	//ピクセルシェーダの読み込み時のエラーを表示する場所
-	if (FAILED(result_))
-	{
-		//errorBlobからエラー内容をstring型にコピー
-		std::string errstr;
-		errstr.resize(errorBlob_->GetBufferSize());
-
-		std::copy_n((char*)errorBlob_->GetBufferPointer(),
-			errorBlob_->GetBufferSize(),
-			errstr.begin());
-		errstr += "\n";
-		//エラー内容をウィンドウに表示
-		OutputDebugStringA(errstr.c_str());
-		exit(1);
-	}
-
-#pragma endregion
+	ps = ps.ShaderLoad("BloomPS", "Resources/shaders/BloomPS.hlsl", "main", "ps_5_0");
 }
 
 void PostEffect::vertexLayout()
@@ -624,404 +567,157 @@ void PostEffect::graphicPipelineGeneration()
 {
 #pragma region グラフィックスパイプライン設定
 
-	//グラフィックスパイプライン辺
+	PipeLineSeting seting;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline_{};
 
-	//頂点シェーダ、ピクセルシェーダをパイプラインに設定
-	gpipeline_.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
-	gpipeline_.VS.BytecodeLength = vsBlob_->GetBufferSize();
+	seting.vShader = vs;
+	seting.pShader = ps;
+	seting.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+	seting.rasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	seting.rasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+	seting.rasterizerState.DepthClipEnable = true;
 
-	/*gpipeline.GS.pShaderBytecode = common->getGsBlob()->GetBufferPointer();
-	gpipeline.GS.BytecodeLength = common->getGsBlob()->GetBufferSize();*/
-
-	gpipeline_.PS.pShaderBytecode =psBlob_->GetBufferPointer();
-	gpipeline_.PS.BytecodeLength = psBlob_->GetBufferSize();
-
-	//サンプルマスクとラスタライザステートの設定
-	gpipeline_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
-	gpipeline_.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
-	gpipeline_.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
-	//gpipeline.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
-
-
-	//ブレンドステートの設定
-	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = gpipeline_.BlendState.RenderTarget[0];
+	D3D12_RENDER_TARGET_BLEND_DESC blenddesc = gpipeline_.BlendState.RenderTarget[0];
+	gpipeline_.BlendState.RenderTarget[1] = blenddesc;
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-
-#pragma region ブレンドステートの共通設定(アルファ値)
-
 	blenddesc.BlendEnable = true;//ブレンドを有効にする
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
-
-#pragma endregion
-
-	//加算合成
-#pragma region 
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
-
-#pragma endregion コメントアウト中
-
-#pragma region 減算合成
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
-
-#pragma endregion コメントアウト中
-
-#pragma region 色反転
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
-	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
-
-#pragma endregion コメントアウト中
-
-	//半透明合成
-#pragma region 
-
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
 
-#pragma endregion
+	seting.blendDescs.push_back(blenddesc);
+	seting.blendDescs.push_back(blenddesc);
 
+	seting.inputLayouts = inputLayouts_;
+	seting.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
+	seting.numRenderTargets = 2;
+	seting.RTVFormats.push_back(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+	seting.RTVFormats.push_back(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
-	//頂点レイアウトの設定
-	gpipeline_.InputLayout.pInputElementDescs = inputLayouts_.data();
-	gpipeline_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
+	seting.sampleDesc.Count = 1;
+	seting.rootsignature = rootsignature_.Get();
 
-	//図形の形状を三角形に設定
-	gpipeline_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	pipeline_ = PipeLine::CreatePipeLine(vs.name_ + ps.name_ + "PostEffectADDAlphaPipeLine", seting);
 
-	//その他の設定
-	gpipeline_.NumRenderTargets = 1;//描画対象は１つ
-	gpipeline_.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
-	gpipeline_.SampleDesc.Count = 1;//１ピクセルにつき１回サンプリング
+#pragma endregion 半透明対応
 
-#pragma endregion 通常描画ポリゴン内を塗りつぶし(三角形)
-
-	
-
-	//通常描画ワイヤーフレーム描画(三角形)
-#pragma region グラフィックスパイプライン２の設定
+#pragma region グラフィックスパイプライン2設定
 
 //グラフィックスパイプライン辺
 
 
-		//頂点シェーダ、ピクセルシェーダをパイプラインに設定
-	gpipeline2_.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
-	gpipeline2_.VS.BytecodeLength = vsBlob_->GetBufferSize();
+	seting.vShader = vs;
+	seting.pShader = ps;
+	seting.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+	seting.rasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	seting.rasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+	seting.rasterizerState.DepthClipEnable = true;
 
-	/*gpipeline2.GS.pShaderBytecode = common->getGsBlob()->GetBufferPointer();
-	gpipeline2.GS.BytecodeLength = common->getGsBlob()->GetBufferSize();*/
+	blenddesc = gpipeline_.BlendState.RenderTarget[0];
+	gpipeline_.BlendState.RenderTarget[1] = blenddesc;
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blenddesc.BlendEnable = true;//ブレンドを有効にする
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
 
-	gpipeline2_.PS.pShaderBytecode = psBlob_->GetBufferPointer();
-	gpipeline2_.PS.BytecodeLength = psBlob_->GetBufferSize();
+	seting.blendDescs.push_back(blenddesc);
+	seting.blendDescs.push_back(blenddesc);
 
-	//サンプルマスクとラスタライザステートの設定
-	gpipeline2_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
-	gpipeline2_.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
-	gpipeline2_.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;//ワイヤーフレーム描画
-	//gpipeline2.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
+	seting.inputLayouts = inputLayouts_;
+	seting.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	//ブレンドステートの設定
-	//gpipeline2.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
-	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc2 = gpipeline2_.BlendState.RenderTarget[0];
-	blenddesc2.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	seting.numRenderTargets = 2;
+	seting.RTVFormats.push_back(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+	seting.RTVFormats.push_back(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
-#pragma region 共通設定(アルファ値)
+	seting.sampleDesc.Count = 1;
+	seting.rootsignature = rootsignature_.Get();
 
-	blenddesc2.BlendEnable = true;//ブレンドを有効にする
-	blenddesc2.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
-	blenddesc2.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc2.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
+	pipeline2_ = PipeLine::CreatePipeLine(vs.name_ + ps.name_ + "PostEffectADDPipeLine", seting);
 
-#pragma endregion
+#pragma endregion 加算合成
 
-	//半透明合成
-#pragma region 
-
-	blenddesc2.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	blenddesc2.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
-	blenddesc2.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
-
-#pragma endregion
-
-	//頂点レイアウトの設定
-	gpipeline2_.InputLayout.pInputElementDescs = inputLayouts_.data();
-	gpipeline2_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
-
-	//図形の形状を三角形に設定
-	gpipeline2_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//その他の設定
-	gpipeline2_.NumRenderTargets = 1;//描画対象は１つ
-	gpipeline2_.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
-	gpipeline2_.SampleDesc.Count = 1;//１ピクセルにつき１回サンプリング
-
-#pragma endregion 
-
-	//通常描画ポリゴン内を塗りつぶし(三角形)加算合成
 #pragma region グラフィックスパイプライン3設定
 
-//グラフィックスパイプライン辺
+	seting.vShader = vs;
+	seting.pShader = ps;
+	seting.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+	seting.rasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	seting.rasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+	seting.rasterizerState.DepthClipEnable = true;
 
-	//頂点シェーダ、ピクセルシェーダをパイプラインに設定
-	gpipeline3_.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
-	gpipeline3_.VS.BytecodeLength = vsBlob_->GetBufferSize();
+	blenddesc = gpipeline_.BlendState.RenderTarget[0];
+	gpipeline_.BlendState.RenderTarget[1] = blenddesc;
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blenddesc.BlendEnable = true;//ブレンドを有効にする
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
+	blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
 
-	/*gpipeline3.GS.pShaderBytecode = common->getGsBlob()->GetBufferPointer();
-	gpipeline3.GS.BytecodeLength = common->getGsBlob()->GetBufferSize();*/
+	seting.blendDescs.push_back(blenddesc);
+	seting.blendDescs.push_back(blenddesc);
 
-	gpipeline3_.PS.pShaderBytecode = psBlob_->GetBufferPointer();
-	gpipeline3_.PS.BytecodeLength = psBlob_->GetBufferSize();
+	seting.inputLayouts = inputLayouts_;
+	seting.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	//サンプルマスクとラスタライザステートの設定
-	gpipeline3_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
-	gpipeline3_.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
-	gpipeline3_.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
-	//gpipeline3.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
+	seting.numRenderTargets = 2;
+	seting.RTVFormats.push_back(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+	seting.RTVFormats.push_back(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
+	seting.sampleDesc.Count = 1;
+	seting.rootsignature = rootsignature_.Get();
 
-	//ブレンドステートの設定
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
-	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc3 = gpipeline3_.BlendState.RenderTarget[0];
-	blenddesc3.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	pipeline3_ = PipeLine::CreatePipeLine(vs.name_ + ps.name_ + "PostEffectSUBTRACTPipeLine", seting);
 
-#pragma region ブレンドステートの共通設定(アルファ値)
-
-	blenddesc3.BlendEnable = true;//ブレンドを有効にする
-	blenddesc3.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
-	blenddesc3.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc3.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
-
-#pragma endregion
-
-	//加算合成
-#pragma region 
-
-	blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc3.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
-
-#pragma endregion 
-
-#pragma region 減算合成
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
-	//blenddesc.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	//blenddesc.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
-
-#pragma endregion コメントアウト中
-
-#pragma region 色反転
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
-	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
-
-#pragma endregion コメントアウト中
-
-	//半透明合成
-#pragma region 
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
-
-#pragma endregion コメントアウト中
-
-
-
-	//頂点レイアウトの設定
-	gpipeline3_.InputLayout.pInputElementDescs = inputLayouts_.data();
-	gpipeline3_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
-
-	//図形の形状を三角形に設定
-	gpipeline3_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//その他の設定
-	gpipeline3_.NumRenderTargets = 1;//描画対象は１つ
-	gpipeline3_.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
-	gpipeline3_.SampleDesc.Count = 1;//１ピクセルにつき１回サンプリング
-
-#pragma endregion 
+#pragma endregion 減算合成
 
 #pragma region グラフィックスパイプライン4設定
 
-	//グラフィックスパイプライン辺
+	seting.vShader = vs;
+	seting.pShader = ps;
+	seting.sampleMask = D3D12_DEFAULT_SAMPLE_MASK;
+	seting.rasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	seting.rasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+	seting.rasterizerState.DepthClipEnable = true;
 
-		//頂点シェーダ、ピクセルシェーダをパイプラインに設定
-	gpipeline4_.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
-	gpipeline4_.VS.BytecodeLength = vsBlob_->GetBufferSize();
+	blenddesc = gpipeline_.BlendState.RenderTarget[0];
+	gpipeline_.BlendState.RenderTarget[1] = blenddesc;
+	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blenddesc.BlendEnable = true;//ブレンドを有効にする
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
+	blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
+	blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
 
-	/*gpipeline4.GS.pShaderBytecode = common->getGsBlob()->GetBufferPointer();
-	gpipeline4.GS.BytecodeLength = common->getGsBlob()->GetBufferSize();*/
+	seting.blendDescs.push_back(blenddesc);
+	seting.blendDescs.push_back(blenddesc);
 
-	gpipeline4_.PS.pShaderBytecode = psBlob_->GetBufferPointer();
-	gpipeline4_.PS.BytecodeLength = psBlob_->GetBufferSize();
+	seting.inputLayouts = inputLayouts_;
+	seting.primitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	//サンプルマスクとラスタライザステートの設定
-	gpipeline4_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
-	gpipeline4_.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
-	gpipeline4_.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
-	//gpipeline4.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
+	seting.numRenderTargets = 2;
+	seting.RTVFormats.push_back(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
+	seting.RTVFormats.push_back(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
+	seting.sampleDesc.Count = 1;
+	seting.rootsignature = rootsignature_.Get();
 
-	//ブレンドステートの設定
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
-	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc4 = gpipeline4_.BlendState.RenderTarget[0];
-	blenddesc4.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	pipeline4_ = PipeLine::CreatePipeLine(vs.name_ + ps.name_ + "PostEffectInversionPipeLine", seting);
 
-#pragma region ブレンドステートの共通設定(アルファ値)
-
-	blenddesc4.BlendEnable = true;//ブレンドを有効にする
-	blenddesc4.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
-	blenddesc4.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc4.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
-
-#pragma endregion
-
-	//加算合成
-#pragma region 
-
-	//blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	//blenddesc3.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
-
-#pragma endregion コメントアウト中
-
-#pragma region 減算合成
-
-	blenddesc4.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
-	blenddesc4.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc4.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
-
-#pragma endregion
-
-#pragma region 色反転
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
-	//blenddesc.DestBlend = D3D12_BLEND_ZERO;//使わない
-
-#pragma endregion コメントアウト中
-
-	//半透明合成
-#pragma region 
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
-
-#pragma endregion コメントアウト中
-
-
-
-	//頂点レイアウトの設定
-	gpipeline4_.InputLayout.pInputElementDescs = inputLayouts_.data();
-	gpipeline4_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
-
-	//図形の形状を三角形に設定
-	gpipeline4_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//その他の設定
-	gpipeline4_.NumRenderTargets = 1;//描画対象は１つ
-	gpipeline4_.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
-	gpipeline4_.SampleDesc.Count = 1;//１ピクセルにつき１回サンプリング
-
-#pragma endregion 通常描画ポリゴン内を塗りつぶし(三角形)減算合成
-
-#pragma region グラフィックスパイプライン5設定
-
-	//グラフィックスパイプライン辺
-
-		//頂点シェーダ、ピクセルシェーダをパイプラインに設定
-	gpipeline5_.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
-	gpipeline5_.VS.BytecodeLength = vsBlob_->GetBufferSize();
-
-	/*gpipeline5.GS.pShaderBytecode = common->getGsBlob()->GetBufferPointer();
-	gpipeline5.GS.BytecodeLength = common->getGsBlob()->GetBufferSize();*/
-
-	gpipeline5_.PS.pShaderBytecode = psBlob_->GetBufferPointer();
-	gpipeline5_.PS.BytecodeLength = psBlob_->GetBufferSize();
-
-	//サンプルマスクとラスタライザステートの設定
-	gpipeline5_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;//標準設定
-	gpipeline5_.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;//カリングしない
-	gpipeline5_.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;//ポリゴン内塗りつぶし
-	//gpipeline5.RasterizerState.DepthClipEnable = true;//深度クリッピングを有効に
-
-
-	//ブレンドステートの設定
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;//RGBA全てのチャンネルを描画
-	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc5 = gpipeline5_.BlendState.RenderTarget[0];
-	blenddesc5.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-
-#pragma region ブレンドステートの共通設定(アルファ値)
-
-	blenddesc5.BlendEnable = true;//ブレンドを有効にする
-	blenddesc5.BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
-	blenddesc5.SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
-	blenddesc5.DestBlendAlpha = D3D12_BLEND_ZERO;//デストの値を0%使う
-
-#pragma endregion
-
-	//加算合成
-#pragma region 
-
-	//blenddesc3.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc3.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	//blenddesc3.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
-
-#pragma endregion コメントアウト中
-
-#pragma region 減算合成
-
-	//blenddesc4.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;//デストからソースを減算
-	//blenddesc4.SrcBlend = D3D12_BLEND_ONE;//ソースの値を100%使う
-	//blenddesc4.DestBlend = D3D12_BLEND_ONE;//デストの値を100%使う
-
-#pragma endregion コメントアウト中
-
-#pragma region 色反転
-
-	blenddesc5.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	blenddesc5.SrcBlend = D3D12_BLEND_INV_DEST_COLOR;//1.0f-デストカラーの値
-	blenddesc5.DestBlend = D3D12_BLEND_ZERO;//使わない
-
-#pragma endregion 
-
-	// 半透明合成
-#pragma region
-
-	//blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//加算
-	//blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ソースのアルファ値
-	//blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ソースのアルファ値
-
-#pragma endregion コメントアウト中
-
-
-
-	//頂点レイアウトの設定
-	gpipeline5_.InputLayout.pInputElementDescs = inputLayouts_.data();
-	gpipeline5_.InputLayout.NumElements = (uint32_t)inputLayouts_.size();
-
-	//図形の形状を三角形に設定
-	gpipeline5_.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-
-	//その他の設定
-	gpipeline5_.NumRenderTargets = 1;//描画対象は１つ
-	gpipeline5_.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;//0～255指定のRGBA
-	gpipeline5_.SampleDesc.Count = 1;//１ピクセルにつき１回サンプリング
-
-#pragma endregion 通常描画ポリゴン内を塗りつぶし(三角形)色反転
+#pragma endregion 色反転
 
 }
 
@@ -1061,7 +757,6 @@ void PostEffect::rootParamGeneration()
 
 void PostEffect::rootsignatureGeneration()
 {
-	//定数バッファを増やしたらルートパラメータを書き換えパラメータ数を書き換える
 #pragma region ルートシグネチャ設定
 
 	//ルートシグネチャの設定
@@ -1079,55 +774,7 @@ void PostEffect::rootsignatureGeneration()
 	result_ = DirectXInit::GetInstance()->Getdev()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature_));
 
 
-	//パイプラインにルートシグネチャをセット
-	gpipeline_.pRootSignature = rootsignature_.Get();
-
-	//パイプライン2にもルートシグネチャをセット
-	gpipeline2_.pRootSignature = rootsignature_.Get();
-
-	gpipeline3_.pRootSignature = rootsignature_.Get();
-
-	gpipeline4_.pRootSignature = rootsignature_.Get();
-
-	gpipeline5_.pRootSignature = rootsignature_.Get();
-
 #pragma endregion 
-
-#pragma region デプスステンシルステート
-
-	////デプスステンシルステートの設定
-	//gpipeline.DepthStencilState.DepthEnable = true;//深度テストを行う
-	//gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
-	//gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
-	//gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
-
-	//gpipeline2.DepthStencilState.DepthEnable = true;//深度テストを行う
-	//gpipeline2.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
-	//gpipeline2.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
-	//gpipeline2.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度値フォーマット
-
-
-
-#pragma endregion
-
-
-#pragma region パイプラインステートの生成
-
-	//パイプラインステートの生成
-
-	result_ = DirectXInit::GetInstance()->Getdev()->CreateGraphicsPipelineState(&gpipeline_, IID_PPV_ARGS(&pipelinestate_));
-
-	//パイプラインステート２の生成
-
-	result_ = DirectXInit::GetInstance()->Getdev()->CreateGraphicsPipelineState(&gpipeline2_, IID_PPV_ARGS(&pipelinestate2_));
-
-	result_ = DirectXInit::GetInstance()->Getdev()->CreateGraphicsPipelineState(&gpipeline3_, IID_PPV_ARGS(&pipelinestate3_));
-
-	result_ = DirectXInit::GetInstance()->Getdev()->CreateGraphicsPipelineState(&gpipeline4_, IID_PPV_ARGS(&pipelinestate4_));
-
-	result_ = DirectXInit::GetInstance()->Getdev()->CreateGraphicsPipelineState(&gpipeline5_, IID_PPV_ARGS(&pipelinestate5_));
-
-#pragma endregion
 
 }
 
@@ -1174,8 +821,10 @@ void PostEffect::constantBuffGeneration()
 	assert(SUCCEEDED(result_));
 
 
-
+	//初期設定
 	constMapMaterial_->color = { 1.0f,1.0f,1.0f,1.0f };
+	constMapMaterial_->sigma = { 0.0025f,1.0f,1.0f,1.0f };
+	constMapMaterial_->grayScaleStep = { 0.6f,0.9f,1.0f,1.0f };
 
 	matProjection_.IdentityMatrix();
 
