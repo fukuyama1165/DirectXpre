@@ -179,6 +179,18 @@ private:
 
 	EventPointManager* eventManager;
 
+	//ƒNƒŠƒA‚µ‚½‚Æ‚«‚Ì•Ï”“™
+
+	float clearEffectTime_ = 0;
+	float clearEffectMaxTime_ = 500;
+
+	Vector2 clearTextStartScale_ = { 1.5f,1.5f };
+	Vector2 clearTextEndScale_ = { 1.0f,1.0f };
+
+	Sprite clearBackSprite_;
+
+	Sprite clearTextSprite_;
+
 };
 
 

@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "EmitterManager.h"
 #include "SceneManager.h"
+#include "Easing.h"
 
 void GameScene::Initialize()
 {
@@ -145,6 +146,18 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
 	eventManager->LoadEventData("eventTest");
+
+
+	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
+
+	clearBackSprite_.initialize("white1x1");
+	clearTextSprite_.initialize("clearText");
+
+	clearBackSprite_.setColor({ 0,0,0,0.7f });
+	clearBackSprite_.pos_ = { WinApp::GetInstance()->GetWindowCenter()};
+	clearBackSprite_.scale_ = { WinApp::SWindowWidthF_,WinApp::SWindowHeightF_ };
+
+	clearTextSprite_.pos_ = { WinApp::SWindowWidthF_/2,(WinApp::SWindowHeightF_/2) - (clearTextSprite_.GetTextureSize().y / 3) };
 
 }
 
@@ -573,8 +586,8 @@ void GameScene::Update()
 	EmitterManager::GetInstance()->Update();
 
 	
-
-	if (play_.hp_<=0 or eventManager->GetEventAllEnd())
+	//ゲームオーバー処理
+	if (play_.hp_<=0)
 	{
 #ifdef _DEBUG
 
@@ -583,6 +596,39 @@ void GameScene::Update()
 
 #endif
 	}
+
+	//ゲームクリア//処理
+	if (eventManager->GetEventAllEnd())
+	{
+		
+		if (clearEffectTime_ >= clearEffectMaxTime_ and Input::GetInstance()->GetMouseButtonDown(0))
+		{
+			SceneManager::GetInstance()->ChangeScene("TITLE");
+		}
+
+		//連打防止したい
+		if (clearEffectTime_ < clearEffectMaxTime_)
+		{
+			clearEffectTime_++;
+		}
+
+		if (clearEffectTime_ < clearEffectMaxTime_ and Input::GetInstance()->GetMouseButtonDown(0))
+		{
+			clearEffectTime_ = clearEffectMaxTime_;
+		}
+
+		clearTextSprite_.scale_ = easeOutQuint(clearTextStartScale_, clearTextEndScale_, clearEffectTime_ / clearEffectMaxTime_);
+
+		float textAlpha = easeInSine(0.1f, 1.0f, clearEffectTime_ / clearEffectMaxTime_);
+
+		clearTextSprite_.setColor({ 1.0f,1.0f,1.0f,textAlpha });
+
+		clearBackSprite_.Update();
+		clearTextSprite_.Update();
+
+
+	} 
+
 }
 
 void GameScene::Draw()
@@ -641,6 +687,15 @@ void GameScene::Draw()
 	eventManager->Draw();
 
 	EmitterManager::GetInstance()->Draw();
+
+	if (eventManager->GetEventAllEnd())
+	{
+
+		clearBackSprite_.Draw();
+		clearTextSprite_.Draw();
+		
+
+	}
 
 
 	// 4.描画コマンドここまで
