@@ -47,7 +47,13 @@ public:
 
 	Vector3 forward_ = { 0,0,1 };//正面
 
-	Vector3 rightDirection = { 1,0,0 };
+	Vector3 rightDirection = { 1,0,0 };//右方向
+
+	Vector3 upDirection = { 0,1,0 };//上方向
+
+	//ビルボード行列
+	Matrix4x4 matBillboard;
+	Matrix4x4 matYBillboard;
 
 	static Camera* nowCamera;
 

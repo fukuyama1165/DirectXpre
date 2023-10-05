@@ -183,8 +183,9 @@ private:
 
 	float clearEffectTime_ = 0;
 	float clearEffectMaxTime_ = 500;
+	float clearEffectAlphaMaxTime_ = 300;
 
-	Vector2 clearTextStartScale_ = { 1.5f,1.5f };
+	Vector2 clearTextStartScale_ = { 2.5f,2.5f };
 	Vector2 clearTextEndScale_ = { 1.0f,1.0f };
 
 	Sprite clearBackSprite_;

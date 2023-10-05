@@ -44,6 +44,8 @@ public:
 	//ファイル拡張子
 	static const inline std::string SDefaultEventExtension_= ".json";
 
+	std::string nowEventDataFileName_;
+
 private:
 
 	EventPointManager() = default;

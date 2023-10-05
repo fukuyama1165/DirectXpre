@@ -25,6 +25,8 @@ void EventPointManager::LoadEventData(std::string fileName)
 
 	eventSetings_.clear();
 
+	nowEventDataFileName_ = fileName;
+
 	//元から用意していたパスをくっつけて完全に通るパスにする
 	const std::string fullPath = SDefaultEventPath_ + fileName + SDefaultEventExtension_;
 

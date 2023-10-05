@@ -54,6 +54,8 @@ Matrix4x4 Camera::matViewGeneration(const Vector3& eye,const Vector3& target,con
 
 	yVer.normalize();
 
+	upDirection = yVer;
+
 	Matrix4x4 cameraRotateMat = {};
 
 	cameraRotateMat.IdentityMatrix();
@@ -162,18 +164,67 @@ Matrix4x4 Camera::matViewGeneration(const Vector3& eye,const Vector3& target,con
 	mResult.m[3][2] = vTemp4.y;
 	mResult.m[3][3] = vTemp4.w;
 
-	//XMMATRIX matvi;
+#pragma region 全方向ビルボード行列の計算
 
-	//XMFLOAT3 eye2;
-	//XMFLOAT3 target2;
-	//XMFLOAT3 up2;
+	//ビルボード行列
+	matBillboard.m[0][0] = xVer.x;
+	matBillboard.m[0][1] = xVer.y;
+	matBillboard.m[0][2] = xVer.z;
+	matBillboard.m[0][3] = 0.0f;
 
-	////ビュー変換行列
-	//eye2 = { eye.x, eye.y, eye.z };//視点座標
-	//target2 = { target.x, target.y, target.z };//注視点座標
-	//up2 = { up.x, up.y, up.z };//上方向ベクトル
+	matBillboard.m[1][0] = yVer.x;
+	matBillboard.m[1][1] = yVer.y;
+	matBillboard.m[1][2] = yVer.z;
+	matBillboard.m[1][3] = 0.0f;
 
-	//matvi = XMMatrixLookAtLH(XMLoadFloat3(&eye2), XMLoadFloat3(&target2), XMLoadFloat3(&up2));
+	matBillboard.m[2][0] = zVer.x;
+	matBillboard.m[2][1] = zVer.y;
+	matBillboard.m[2][2] = zVer.z;
+	matBillboard.m[2][3] = 0.0f;
+
+	matBillboard.m[3][0] = 0.0f;
+	matBillboard.m[3][1] = 0.0f;
+	matBillboard.m[3][2] = 0.0f;
+	matBillboard.m[3][3] = 1.0f;
+
+#pragma endregion
+
+#pragma region Y軸周りビルボード行列の計算
+
+	//カメラX軸、Y軸、Z軸
+	Vector3 ybillCameraAxisX, ybillCameraAxisY, ybillCameraAxisZ;
+
+	//X軸は共通
+	ybillCameraAxisX = xVer;
+
+	//Y軸はワールド座標系のY軸
+	ybillCameraAxisY = Vector3::normalize(up);
+
+	//Z軸はX軸→Y軸の外積で求まる
+	ybillCameraAxisZ = Vector3::cross(ybillCameraAxisX, ybillCameraAxisY);
+
+	//Y軸周りビルボード行列
+	matYBillboard.m[0][0] = ybillCameraAxisX.x;
+	matYBillboard.m[0][1] = ybillCameraAxisX.y;
+	matYBillboard.m[0][2] = ybillCameraAxisX.z;
+	matYBillboard.m[0][3] = 0.0f;
+
+	matYBillboard.m[1][0] = ybillCameraAxisY.x;
+	matYBillboard.m[1][1] = ybillCameraAxisY.y;
+	matYBillboard.m[1][2] = ybillCameraAxisY.z;
+	matYBillboard.m[1][3] = 0.0f;
+
+	matYBillboard.m[2][0] = ybillCameraAxisZ.x;
+	matYBillboard.m[2][1] = ybillCameraAxisZ.y;
+	matYBillboard.m[2][2] = ybillCameraAxisZ.z;
+	matYBillboard.m[2][3] = 0.0f;
+
+	matYBillboard.m[3][0] = 0.0f;
+	matYBillboard.m[3][1] = 0.0f;
+	matYBillboard.m[3][2] = 0.0f;
+	matYBillboard.m[3][3] = 1.0f;
+
+#pragma endregion
 
 	return mResult;
 }

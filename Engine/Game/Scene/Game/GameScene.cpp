@@ -104,6 +104,10 @@ void GameScene::Initialize()
 
 	testFBX_.FBXInit();
 
+	testFBX_.billboardMode_ = BillboardMode::AllBillboard;
+
+	testFBX_.Scale_ = { 0.1f,0.1f,0.1f };
+
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "basketballmanBox", "basketballman2");
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Ground", "Dirt", "jpg");
@@ -145,7 +149,7 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
-	eventManager->LoadEventData("eventTest");
+	eventManager->LoadEventData("testEvent");
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
@@ -598,10 +602,10 @@ void GameScene::Update()
 	}
 
 	//ゲームクリア//処理
-	if (eventManager->GetEventAllEnd())
+	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
 	{
 		
-		if (clearEffectTime_ >= clearEffectMaxTime_ and Input::GetInstance()->GetMouseButtonDown(0))
+		if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A)))
 		{
 			SceneManager::GetInstance()->ChangeScene("TITLE");
 		}
@@ -612,14 +616,14 @@ void GameScene::Update()
 			clearEffectTime_++;
 		}
 
-		if (clearEffectTime_ < clearEffectMaxTime_ and Input::GetInstance()->GetMouseButtonDown(0))
+		if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A)))
 		{
 			clearEffectTime_ = clearEffectMaxTime_;
 		}
 
 		clearTextSprite_.scale_ = easeOutQuint(clearTextStartScale_, clearTextEndScale_, clearEffectTime_ / clearEffectMaxTime_);
 
-		float textAlpha = easeInSine(0.1f, 1.0f, clearEffectTime_ / clearEffectMaxTime_);
+		float textAlpha = easeInSine(0.1f, 1.0f, clearEffectTime_ / clearEffectAlphaMaxTime_);
 
 		clearTextSprite_.setColor({ 1.0f,1.0f,1.0f,textAlpha });
 
@@ -644,7 +648,7 @@ void GameScene::Draw()
 
 	objobj3_.Draw();
 
-	//testFBX_.FBXDraw(*testModel_.get());
+	testFBX_.FBXDraw(*testModel_);
 
 	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
@@ -688,7 +692,7 @@ void GameScene::Draw()
 
 	EmitterManager::GetInstance()->Draw();
 
-	if (eventManager->GetEventAllEnd())
+	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
 	{
 
 		clearBackSprite_.Draw();
