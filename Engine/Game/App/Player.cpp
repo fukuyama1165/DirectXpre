@@ -29,6 +29,7 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	Texture::GetInstance()->loadTexture("Resources/life.png", "Life");
 	Texture::GetInstance()->loadTexture("Resources/ammunition.png", "Ammo");
 	Texture::GetInstance()->loadTexture("Resources/Reticle.png", "Reticle");
+	Texture::GetInstance()->loadTexture("Resources/particle.png", "Particle");
 	reticle_.initialize("Reticle");
 
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
@@ -81,7 +82,7 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	gunReloadSount_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/GunReload.wav");
 	damageSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
 
-
+	flashObj_.boarPolygonInit();
 
 }
 
@@ -176,6 +177,8 @@ void Player::Update()
 	Vector3 playerPos = { playerCamera_.pos_.x,playerCamera_.pos_.y - 1 ,playerCamera_.pos_.z };
 
 	playerObj_.SetPos(playerPos + (playerCamera_.forward_ * 5));
+	flashObj_.SetPos(playerPos + (playerCamera_.forward_ * 6));
+	
 	
 	playerObj_.Update();
 	Collider.Update(playerObj_.GetWorldPos());
@@ -232,6 +235,10 @@ void Player::Update()
 		bulletNum_ = 6;
 	}
 
+	MuzzleFlash();
+
+	flashObj_.Update();
+
 #ifdef _DEBUG
 	ImGui::Begin("player");
 
@@ -273,8 +280,11 @@ void Player::Draw()
 		}
 	}
 
+	flashObj_.Draw("Particle");
 	
 	damageSprote_.Draw();
+
+	
 
 
 }
@@ -282,7 +292,7 @@ void Player::Draw()
 void Player::Attack()
 {
 	
-	if (((input_->GetMouseButtonDown(0) and bulletCT_ <= 0) or /*(isDebugShot_ and bulletCT_ <= 0)*/0)and isUseKeybord_)
+	if (((input_->GetMouseButtonDown(0) and bulletCT_ <= 0))and isUseKeybord_)
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -315,6 +325,9 @@ void Player::Attack()
 		//EmitterManager::GetInstance()->AddObjEmitter(position, "BASIC", "Cartridge", 1.0f, "Building");
 
 		XAudio::PlaySoundData(gunShotSount_, 1.0f);
+
+		//マズルフラッシュ用のタイマーをリセット
+		flashTimer_ = 0;
 		
 	}
 
@@ -532,5 +545,26 @@ void Player::Damage()
 	}
 
 	damageSprote_.setColor({ 1,0,0,effectT });
+
+}
+
+void Player::MuzzleFlash()
+{
+	if (flashTimer_ < flashChengTime_)
+	{
+		flashAlpha_ = easeOutQuad(0.0f, 1.0f, flashTimer_ / flashChengTime_);
+	}
+	else
+	{
+		//光ったので消えるときの動きflashTimerは全体で動いているので統合するために引いている
+		flashAlpha_ = easeInSine(1.0f, 0.0f, (flashTimer_ - flashChengTime_) / flashEndTime_);
+	}
+
+	if (flashTimer_ < flashMaxTime_)
+	{
+		flashTimer_++;
+	}
+
+	flashObj_.SetColor({ 1,1,1,flashAlpha_ });
 
 }

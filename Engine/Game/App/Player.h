@@ -59,6 +59,9 @@ private:
 
 	void HideDownWall();
 
+	//マズルフラッシュして
+	void MuzzleFlash();
+
 private:
 
 	
@@ -112,7 +115,7 @@ private:
 	std::string gunReloadSount_;
 	std::string damageSound_;
 	
-
+	//キーボード使っているかい？
 	bool isUseKeybord_ = true;
 
 	//壁に隠れたりする用の基準位置
@@ -136,6 +139,27 @@ private:
 	//ダメージを受けた時の演出用のタイマー
 	float damageEffectMaxTime_ = 50;
 	float damageEffectTimer_ = damageEffectMaxTime_;
+
+
+	//マズルフラッシュ関連変数
+	Object3D flashObj_;
+
+	float flashAlpha_ = 0;
+
+	
+	
+
+	//動きを切り替えるときの時間
+	float flashChengTime_ = 2;
+
+	//後引き
+	float flashEndTime_ = 5;
+
+	//全体の動きのフレーム数なので切り替えるときの値を足している
+	float flashMaxTime_ = flashEndTime_ + flashChengTime_;
+
+	//現在進捗具合
+	float flashTimer_ = flashMaxTime_;
 
 };
 

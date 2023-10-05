@@ -102,6 +102,10 @@ void GameScene::Initialize()
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 
+	//testObj_.boarPolygonInit();
+
+	testObj_.billboardMode_ = BillboardMode::AllBillboard;
+
 	testFBX_.FBXInit();
 
 	testFBX_.billboardMode_ = BillboardMode::AllBillboard;
@@ -568,6 +572,7 @@ void GameScene::Update()
 
 
 	objobj3_.Update();
+	//testObj_.Update();
 
 	testFBX_.Update();
 
@@ -642,13 +647,10 @@ void GameScene::Draw()
 	
 	// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚©‚ç
 
-	
-
-
-
 	objobj3_.Draw();
+	//testObj_.Draw();
 
-	testFBX_.FBXDraw(*testModel_);
+	//testFBX_.FBXDraw(*testModel_);
 
 	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 

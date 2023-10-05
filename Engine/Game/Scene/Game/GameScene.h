@@ -66,22 +66,15 @@ private:
 
 private:
 
-
-
 	//ƒ‰ƒCƒg
 	LightManager* lightManager_;
 
-
 	//obj
-	Object3D charactorObj_;
-	Object3D charactorObj2_;
-	Object3D charactorObj3_;
-
-	Object3D objobj_;
-	Object3D objobj2_;
 	Object3D objobj3_;
 
 	Object3D testFBX_;
+
+	Object3D testObj_;
 
 	AnimationModel* testModel_;
 
