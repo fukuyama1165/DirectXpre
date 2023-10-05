@@ -823,8 +823,10 @@ void PostEffect::constantBuffGeneration()
 
 	//‰ŠúÝ’è
 	constMapMaterial_->color = { 1.0f,1.0f,1.0f,1.0f };
-	constMapMaterial_->sigma = { 0.0025f,1.0f,1.0f,1.0f };
-	constMapMaterial_->grayScaleStep = { 0.6f,0.9f,1.0f,1.0f };
+	constMapMaterial_->sigma.x = sigma_;
+	constMapMaterial_->sigma.y = stepWidth_;
+	constMapMaterial_->grayScaleStep.x = grayScaleStep_[0];
+	constMapMaterial_->grayScaleStep.y = grayScaleStep_[1];
 
 	matProjection_.IdentityMatrix();
 

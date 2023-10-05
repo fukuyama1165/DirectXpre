@@ -153,7 +153,7 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
-	eventManager->LoadEventData("testEvent");
+	eventManager->LoadEventData("Event");
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
@@ -610,7 +610,7 @@ void GameScene::Update()
 	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
 	{
 		
-		if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A)))
+		if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
 		{
 			SceneManager::GetInstance()->ChangeScene("TITLE");
 		}
@@ -621,7 +621,7 @@ void GameScene::Update()
 			clearEffectTime_++;
 		}
 
-		if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A)))
+		if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
 		{
 			clearEffectTime_ = clearEffectMaxTime_;
 		}

@@ -154,8 +154,62 @@
     <Filter Include="ヘッダー ファイル\Game\Particle\Particle\Game">
       <UniqueIdentifier>{ecdd6e8e-ebb0-4c1a-95a2-1f0556f9c345}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Particle\Game">
+    <Filter Include="ソース ファイル\App\Enemy">
+      <UniqueIdentifier>{daca915b-006d-4603-a70f-83102b47ddf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\App\Event">
+      <UniqueIdentifier>{a92cf6ad-18f7-4c1f-a1e0-aa89a670401b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\App\Playre">
+      <UniqueIdentifier>{b00aed70-7be9-4c3f-8da5-72c02b4835d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\App\Level">
+      <UniqueIdentifier>{5f7b2742-009c-42f0-ba30-34fe3c1db37d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\DirectX\resouse\Model">
+      <UniqueIdentifier>{6ac363f7-6ae9-4f92-ae53-ed3a22a50f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\collision\Base">
+      <UniqueIdentifier>{1ef743aa-5d92-4da0-a361-24f8e7c909fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\collision\Collider">
+      <UniqueIdentifier>{2bc1318d-e1be-4b0b-bd0e-7629f687fbbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Particle\Emitter">
+      <UniqueIdentifier>{bdb9552c-a060-437c-a7c3-b9034fb36c39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Particle\Particle">
+      <UniqueIdentifier>{f9df5158-d242-4915-aed0-5a28bac40585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Particle\Particle\Game">
       <UniqueIdentifier>{659fb624-8aef-4cec-91b4-db21733a4b37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Scene\Base">
+      <UniqueIdentifier>{c1d780d1-4c02-45f7-b52e-34131a940538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\App\Enemy">
+      <UniqueIdentifier>{f1f6372c-abf9-44ee-a61c-665e6df584cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\App\Player">
+      <UniqueIdentifier>{2862e206-746d-41ee-88fc-3b7b41200c35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\App\Event">
+      <UniqueIdentifier>{ed117a61-0e1f-4e1e-930f-f58735a20c29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\App\Level">
+      <UniqueIdentifier>{3f436aa5-14b1-4ae5-a33b-123cc09f3d44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\DirectX\resouse\Model">
+      <UniqueIdentifier>{0afb027c-2bf6-498c-8812-a81682757df7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\collision\Base">
+      <UniqueIdentifier>{11033911-0f14-4492-ba9f-65c3c089fef9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\collision\Collider">
+      <UniqueIdentifier>{c31d1eaa-f027-4a33-a0da-2df3360c0933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Scene\Base">
+      <UniqueIdentifier>{edf07795-5b6b-4fff-abd3-1ee24920191b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -164,9 +218,6 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\resouse\Loader\JsonLevelLoader.cpp">
       <Filter>ソース ファイル\DirectX\resouse\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\resouse\Model.cpp">
-      <Filter>ソース ファイル\DirectX\resouse</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\resouse\XAudio.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
@@ -195,27 +246,6 @@
     <ClCompile Include="Engine\Game\camera\cameraObj.cpp">
       <Filter>ソース ファイル\Game\camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\collision\BaseCollider.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\collision\Collision.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\collision\CollisionInfo.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\collision\CollisionManager.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\collision\CollisionPrimirive.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\collision\CollisionTypes.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\collision\SphereCollider.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Game\Light\DirectionalLight.cpp">
       <Filter>ソース ファイル\Game\Light</Filter>
     </ClCompile>
@@ -227,9 +257,6 @@
     </ClCompile>
     <ClCompile Include="Engine\main.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\App.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\sprite\Sprite.cpp">
       <Filter>ソース ファイル\Game\sprite</Filter>
@@ -252,17 +279,11 @@
     <ClCompile Include="Engine\Math\Vector4.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\Framework.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Game\Light\LightManager.cpp">
       <Filter>ソース ファイル\Game\Light</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\resouse\Material.cpp">
       <Filter>ソース ファイル\DirectX\resouse</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\SceneManager.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp">
       <Filter>ソース ファイル\Game\PostEffect</Filter>
@@ -291,68 +312,104 @@
     <ClCompile Include="Engine\Game\Scene\game\GameScene.cpp">
       <Filter>ソース ファイル\Game\Scene\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Scene\SceneFactory.cpp">
-      <Filter>ソース ファイル\Game\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\collision\BulletCollision.cpp">
-      <Filter>ソース ファイル\Game\collision\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\collision\MobCollision.cpp">
-      <Filter>ソース ファイル\Game\collision\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\App\Enemy.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\App\EnemyBullet.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\App\EnemyManager.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\App\EventPoint.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\App\Player.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\App\PlayerBullet.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\App\EventPointManager.cpp">
-      <Filter>ソース ファイル\App</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Game\Scene\SceneChange\BasicSceneChange.cpp">
       <Filter>ソース ファイル\Game\Scene\SceneChange</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\Scene\SceneChange\SceneChangeFactory.cpp">
       <Filter>ソース ファイル\Game\Scene\SceneChange</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\BasicParticle.cpp">
-      <Filter>ソース ファイル\Game\Particle</Filter>
+    <ClCompile Include="Engine\Game\App\Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\App\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\BasicEmitter.cpp">
-      <Filter>ソース ファイル\Game\Particle</Filter>
+    <ClCompile Include="Engine\Game\App\Enemy\EnemyBullet.cpp">
+      <Filter>ソース ファイル\App\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\EmitterManager.cpp">
-      <Filter>ソース ファイル\Game\Particle</Filter>
+    <ClCompile Include="Engine\Game\App\Enemy\EnemyManager.cpp">
+      <Filter>ソース ファイル\App\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\App\Wall.cpp">
-      <Filter>ソース ファイル\App</Filter>
+    <ClCompile Include="Engine\Game\App\Event\EventPoint.cpp">
+      <Filter>ソース ファイル\App\Event</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\resouse\ModelManager.cpp">
-      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    <ClCompile Include="Engine\Game\App\Event\EventPointManager.cpp">
+      <Filter>ソース ファイル\App\Event</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\ObjParticleFactory.cpp">
-      <Filter>ソース ファイル\Game\Particle</Filter>
+    <ClCompile Include="Engine\Game\App\Level\Wall.cpp">
+      <Filter>ソース ファイル\App\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\EmitterFactory.cpp">
-      <Filter>ソース ファイル\Game\Particle</Filter>
+    <ClCompile Include="Engine\Game\App\Player\Player.cpp">
+      <Filter>ソース ファイル\App\Playre</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\collision\CubeCollider.cpp">
-      <Filter>ソース ファイル\Game\collision</Filter>
+    <ClCompile Include="Engine\Game\App\Player\PlayerBullet.cpp">
+      <Filter>ソース ファイル\App\Playre</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\CartridgeParticle.cpp">
-      <Filter>ソース ファイル\Game\Particle\Game</Filter>
+    <ClCompile Include="Engine\DirectX\resouse\Model\Model.cpp">
+      <Filter>ソース ファイル\DirectX\resouse\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\Model\ModelManager.cpp">
+      <Filter>ソース ファイル\DirectX\resouse\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Game\BulletCollision.cpp">
+      <Filter>ソース ファイル\Game\collision\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Game\MobCollision.cpp">
+      <Filter>ソース ファイル\Game\collision\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Base\Collision.cpp">
+      <Filter>ソース ファイル\Game\collision\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Base\CollisionInfo.cpp">
+      <Filter>ソース ファイル\Game\collision\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Base\CollisionManager.cpp">
+      <Filter>ソース ファイル\Game\collision\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Base\CollisionPrimirive.cpp">
+      <Filter>ソース ファイル\Game\collision\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Base\CollisionTypes.cpp">
+      <Filter>ソース ファイル\Game\collision\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Collider\BaseCollider.cpp">
+      <Filter>ソース ファイル\Game\collision\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Collider\CubeCollider.cpp">
+      <Filter>ソース ファイル\Game\collision\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\collision\Collider\SphereCollider.cpp">
+      <Filter>ソース ファイル\Game\collision\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Emitter\BasicEmitter.cpp">
+      <Filter>ソース ファイル\Game\Particle\Emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Emitter\EmitterFactory.cpp">
+      <Filter>ソース ファイル\Game\Particle\Emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Emitter\EmitterManager.cpp">
+      <Filter>ソース ファイル\Game\Particle\Emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\BasicParticle.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\ObjParticleFactory.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\Base\App.cpp">
+      <Filter>ソース ファイル\Game\Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\Base\Framework.cpp">
+      <Filter>ソース ファイル\Game\Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\Base\IScene.cpp">
+      <Filter>ソース ファイル\Game\Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\Base\SceneFactory.cpp">
+      <Filter>ソース ファイル\Game\Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\Base\SceneManager.cpp">
+      <Filter>ソース ファイル\Game\Scene\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,9 +418,6 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\Loader\JsonLevelLoader.h">
       <Filter>ヘッダー ファイル\DirectX\resouse\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\resouse\Model.h">
-      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\Texture.h">
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
@@ -392,35 +446,11 @@
     <ClInclude Include="Engine\Game\camera\cameraObj.h">
       <Filter>ヘッダー ファイル\Game\camera</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\collision\BaseCollider.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\Collision.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\CollisionInfo.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\CollisionManager.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\CollisionPrimirive.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\CollisionTypes.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\SphereCollider.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\Light\DirectionalLight.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\Light\LightGroup.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\App.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\object\Object3D.h">
       <Filter>ヘッダー ファイル\Game\object</Filter>
@@ -449,20 +479,11 @@
     <ClInclude Include="Engine\Math\Vector4.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\Framework.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\Light\LightManager.h">
       <Filter>ヘッダー ファイル\Game\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\resouse\Material.h">
       <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\SceneManager.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\IScene.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\PostEffect\PostEffect.h">
       <Filter>ヘッダー ファイル\Game\PostEffect</Filter>
@@ -488,42 +509,6 @@
     <ClInclude Include="Engine\Game\Scene\Game\TitleScene.h">
       <Filter>ヘッダー ファイル\Game\Scene\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\ISceneFactory.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Scene\SceneFactory.h">
-      <Filter>ヘッダー ファイル\Game\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\ICollisionObj.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\BulletCollision.h">
-      <Filter>ヘッダー ファイル\Game\collision\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\collision\MobCollision.h">
-      <Filter>ヘッダー ファイル\Game\collision\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\App\Enemy.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\App\EnemyBullet.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\App\EnemyManager.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\App\EventPoint.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\App\Player.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\App\PlayerBullet.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\App\EventPointManager.h">
-      <Filter>ヘッダー ファイル\App</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\Scene\SceneChange\ISceneChange.h">
       <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
     </ClInclude>
@@ -536,50 +521,122 @@
     <ClInclude Include="Engine\Game\Scene\SceneChange\SceneChangeFactory.h">
       <Filter>ヘッダー ファイル\Game\Scene\SceneChange</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\EmitterManager.h">
-      <Filter>ヘッダー ファイル\Game\Particle</Filter>
+    <ClInclude Include="Engine\Game\App\Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\App\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\App\Wall.h">
-      <Filter>ヘッダー ファイル\App</Filter>
+    <ClInclude Include="Engine\Game\App\Enemy\EnemyBullet.h">
+      <Filter>ヘッダー ファイル\App\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\resouse\ModelManager.h">
-      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    <ClInclude Include="Engine\Game\App\Enemy\EnemyManager.h">
+      <Filter>ヘッダー ファイル\App\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\BasicEmitter.h">
+    <ClInclude Include="Engine\Game\App\Event\EventPoint.h">
+      <Filter>ヘッダー ファイル\App\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Event\EventPointManager.h">
+      <Filter>ヘッダー ファイル\App\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Level\Wall.h">
+      <Filter>ヘッダー ファイル\App\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Player\Player.h">
+      <Filter>ヘッダー ファイル\App\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Player\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\App\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\Model\Model.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\Model\ModelManager.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Game\BulletCollision.h">
+      <Filter>ヘッダー ファイル\Game\collision\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Game\MobCollision.h">
+      <Filter>ヘッダー ファイル\Game\collision\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Base\Collision.h">
+      <Filter>ヘッダー ファイル\Game\collision\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Base\CollisionInfo.h">
+      <Filter>ヘッダー ファイル\Game\collision\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Base\CollisionManager.h">
+      <Filter>ヘッダー ファイル\Game\collision\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Base\CollisionPrimirive.h">
+      <Filter>ヘッダー ファイル\Game\collision\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Base\CollisionTypes.h">
+      <Filter>ヘッダー ファイル\Game\collision\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Base\ICollisionObj.h">
+      <Filter>ヘッダー ファイル\Game\collision\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Collider\BaseCollider.h">
+      <Filter>ヘッダー ファイル\Game\collision\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Collider\CubeCollider.h">
+      <Filter>ヘッダー ファイル\Game\collision\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\collision\Collider\SphereCollider.h">
+      <Filter>ヘッダー ファイル\Game\collision\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Emitter\BasicEmitter.h">
       <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\BasicParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IEmitter.h">
+    <ClInclude Include="Engine\Game\Particle\Emitter\EmitterFactory.h">
       <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IObjEmitter.h">
+    <ClInclude Include="Engine\Game\Particle\Emitter\EmitterManager.h">
       <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IObjParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IObjParticleFactory.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\ObjParticleFactory.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\IEmitterFactory.h">
+    <ClInclude Include="Engine\Game\Particle\Emitter\IEmitter.h">
       <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\EmitterFactory.h">
+    <ClInclude Include="Engine\Game\Particle\Emitter\IEmitterFactory.h">
       <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\collision\CubeCollider.h">
-      <Filter>ヘッダー ファイル\Game\collision</Filter>
+    <ClInclude Include="Engine\Game\Particle\Emitter\IObjEmitter.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\CartridgeParticle.h">
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.h">
       <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\BasicParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\IObjParticleFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\IParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\ObjParticleFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\Base\App.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\Base\Framework.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\Base\IScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\Base\ISceneFactory.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\Base\SceneFactory.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\Base\SceneManager.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -604,6 +661,7 @@
     <None Include="Resources\shaders\Bloom.hlsli">
       <Filter>シェーダーファイル\PostEffect\Bloom</Filter>
     </None>
+    <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\OBJPS.hlsl">

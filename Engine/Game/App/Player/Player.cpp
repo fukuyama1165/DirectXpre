@@ -280,7 +280,8 @@ void Player::Draw()
 		}
 	}
 
-	flashObj_.Draw("Particle");
+	//‚Ü‚¾Š®¬‚µ‚Ä‚¢‚È‚¢‚Ì‚Å•`‰æ‚ğ~‚ß‚Ä‚¢‚Ü‚·
+	//flashObj_.Draw("Particle");
 	
 	damageSprote_.Draw();
 
