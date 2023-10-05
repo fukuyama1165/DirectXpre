@@ -150,10 +150,10 @@ private:
 	
 
 	//動きを切り替えるときの時間
-	float flashChengTime_ = 2;
+	float flashChengTime_ = 3;
 
 	//後引き
-	float flashEndTime_ = 5;
+	float flashEndTime_ = 7;
 
 	//全体の動きのフレーム数なので切り替えるときの値を足している
 	float flashMaxTime_ = flashEndTime_ + flashChengTime_;
