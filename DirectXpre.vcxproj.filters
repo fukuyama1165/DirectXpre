@@ -115,9 +115,6 @@
     <Filter Include="シェーダーファイル\PostEffect\Bloom">
       <UniqueIdentifier>{262383bf-9965-4410-94b4-4621be93f472}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\App">
-      <UniqueIdentifier>{35cc3346-5640-4bc9-a88f-597a28d18a4e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\App">
       <UniqueIdentifier>{6563b612-7b9e-4f85-be66-2e5885e9d708}</UniqueIdentifier>
     </Filter>
@@ -153,18 +150,6 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Game\Particle\Particle\Game">
       <UniqueIdentifier>{ecdd6e8e-ebb0-4c1a-95a2-1f0556f9c345}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\App\Enemy">
-      <UniqueIdentifier>{daca915b-006d-4603-a70f-83102b47ddf7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\App\Event">
-      <UniqueIdentifier>{a92cf6ad-18f7-4c1f-a1e0-aa89a670401b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\App\Playre">
-      <UniqueIdentifier>{b00aed70-7be9-4c3f-8da5-72c02b4835d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\App\Level">
-      <UniqueIdentifier>{5f7b2742-009c-42f0-ba30-34fe3c1db37d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\DirectX\resouse\Model">
       <UniqueIdentifier>{6ac363f7-6ae9-4f92-ae53-ed3a22a50f8d}</UniqueIdentifier>
@@ -210,6 +195,21 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Game\Scene\Base">
       <UniqueIdentifier>{edf07795-5b6b-4fff-abd3-1ee24920191b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\App">
+      <UniqueIdentifier>{35cc3346-5640-4bc9-a88f-597a28d18a4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\App\Enemy">
+      <UniqueIdentifier>{daca915b-006d-4603-a70f-83102b47ddf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\App\Event">
+      <UniqueIdentifier>{a92cf6ad-18f7-4c1f-a1e0-aa89a670401b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\App\Playre">
+      <UniqueIdentifier>{b00aed70-7be9-4c3f-8da5-72c02b4835d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\App\Level">
+      <UniqueIdentifier>{5f7b2742-009c-42f0-ba30-34fe3c1db37d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -319,28 +319,28 @@
       <Filter>ソース ファイル\Game\Scene\SceneChange</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル\App\Enemy</Filter>
+      <Filter>ソース ファイル\Game\App\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Enemy\EnemyBullet.cpp">
-      <Filter>ソース ファイル\App\Enemy</Filter>
+      <Filter>ソース ファイル\Game\App\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Enemy\EnemyManager.cpp">
-      <Filter>ソース ファイル\App\Enemy</Filter>
+      <Filter>ソース ファイル\Game\App\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Event\EventPoint.cpp">
-      <Filter>ソース ファイル\App\Event</Filter>
+      <Filter>ソース ファイル\Game\App\Event</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Event\EventPointManager.cpp">
-      <Filter>ソース ファイル\App\Event</Filter>
+      <Filter>ソース ファイル\Game\App\Event</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Level\Wall.cpp">
-      <Filter>ソース ファイル\App\Level</Filter>
+      <Filter>ソース ファイル\Game\App\Level</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Player\Player.cpp">
-      <Filter>ソース ファイル\App\Playre</Filter>
+      <Filter>ソース ファイル\Game\App\Playre</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Player\PlayerBullet.cpp">
-      <Filter>ソース ファイル\App\Playre</Filter>
+      <Filter>ソース ファイル\Game\App\Playre</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\resouse\Model\Model.cpp">
       <Filter>ソース ファイル\DirectX\resouse\Model</Filter>
