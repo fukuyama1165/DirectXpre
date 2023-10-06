@@ -11,17 +11,17 @@ class IObjEmitter
 public:
 	virtual ~IObjEmitter() {};
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	virtual void Initialize() = 0;
 	virtual void Initialize(const Vector3& pos, std::string particleType,std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox", float ActiveTime = -1) = 0;
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	virtual void Finalize() = 0;
 
-	//–ˆƒtƒŒ[ƒ€XV
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	virtual void Update() = 0;
 
-	//•`‰æ
+	//æç”»
 	virtual void Draw() = 0;
 
 	virtual void SetIsActive(bool flag) = 0;

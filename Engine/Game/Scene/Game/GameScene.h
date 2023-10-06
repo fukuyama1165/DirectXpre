@@ -3,7 +3,7 @@
 
 #include<Windows.h>
 
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 
 #include<vector>
@@ -66,7 +66,7 @@ private:
 
 private:
 
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	LightManager* lightManager_;
 
 	//obj
@@ -83,7 +83,7 @@ private:
 	AnimationModel* levelGroundModel_;
 	AnimationModel* levelBuildingModel_;
 
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	Camera camera_;
 	cameraObj cameobj_;
 	Camera debugCamera_;
@@ -91,7 +91,7 @@ private:
 
 	uint32_t texname_ = 0;
 
-	//“–‚½‚è”»’èƒ`ƒFƒbƒN
+	//å½“ãŸã‚Šåˆ¤å®šãƒã‚§ãƒƒã‚¯
 	Sphere sphere_;
 	Plane plane_;
 	Triangle triangle_;
@@ -99,7 +99,7 @@ private:
 
 	bool IsUseCameraMouse_ = false;
 
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	SpriteCommon* spritecommon_;
 
 	Sprite sprite_;
@@ -172,7 +172,7 @@ private:
 
 	EventPointManager* eventManager;
 
-	//ƒNƒŠƒA‚µ‚½‚Æ‚«‚Ì•Ï”“™
+	//ã‚¯ãƒªã‚¢ã—ãŸã¨ãã®å¤‰æ•°ç­‰
 
 	float clearEffectTime_ = 0;
 	float clearEffectMaxTime_ = 500;

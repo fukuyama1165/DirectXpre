@@ -10,17 +10,17 @@ public:
 	BasicEmitter();
 	~BasicEmitter();
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize()override;
 	void Initialize(const Vector3& pos,std::string particleType, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox",  float ActiveTime = -1)override;
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	void Finalize()override;
 
-	//–ˆƒtƒŒ[ƒ€XV
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	void Update()override;
 
-	//•`‰æ
+	//æç”»
 	void Draw()override;
 
 	void SetIsActive(bool flag)override { isActive_ = flag; };

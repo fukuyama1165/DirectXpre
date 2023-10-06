@@ -17,34 +17,34 @@ public:
 	};
 	
 	/// <summary>
-	/// ƒ‚ƒfƒ‹‚Ì“o˜^
+	/// ãƒ¢ãƒ‡ãƒ«ã®ç™»éŒ²
 	/// </summary>
-	/// <param name="filename">“Ç‚İ‚Şƒtƒ@ƒCƒ‹</param>
-	/// <param name="fileType">“Ç‚İ‚Şƒtƒ@ƒCƒ‹ƒ^ƒCƒv</param>
-	/// <param name="handle">ŒÄ‚Ño‚·‚Æ‚«‚Ìƒnƒ“ƒhƒ‹</param>
-	/// <param name="materialName">ƒ}ƒeƒŠƒAƒ‹‚ª“Ç‚İ‚ß‚È‚©‚Á‚½—p‚Ì‰æ‘œ‚Ì–¼‘O(gltf‚ğ“Ç‚İ‚Ş‚Æ‚«‚Í•K{A•K‚¸ƒ‚ƒfƒ‹‚Æ“¯‚¶ˆÊ’u‚É’u‚­‚±‚Æ!!!)</param>
-	/// <param name="materialType">‰æ‘œ‚Ìƒtƒ@ƒCƒ‹ƒ^ƒCƒv</param>
-	/// <returns>ƒnƒ“ƒhƒ‹</returns>
+	/// <param name="filename">èª­ã¿è¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«</param>
+	/// <param name="fileType">èª­ã¿è¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«ã‚¿ã‚¤ãƒ—</param>
+	/// <param name="handle">å‘¼ã³å‡ºã™ã¨ãã®ãƒãƒ³ãƒ‰ãƒ«</param>
+	/// <param name="materialName">ãƒãƒ†ãƒªã‚¢ãƒ«ãŒèª­ã¿è¾¼ã‚ãªã‹ã£ãŸæ™‚ç”¨ã®ç”»åƒã®åå‰(gltfã‚’èª­ã¿è¾¼ã‚€ã¨ãã¯å¿…é ˆã€å¿…ãšãƒ¢ãƒ‡ãƒ«ã¨åŒã˜ä½ç½®ã«ç½®ãã“ã¨!!!)</param>
+	/// <param name="materialType">ç”»åƒã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚¿ã‚¤ãƒ—</param>
+	/// <returns>ãƒãƒ³ãƒ‰ãƒ«</returns>
 	std::string Load(std::string filename, std::string fileType, std::string handle = "", std::string materialName = "", std::string materialType = "png");
 	
 	/// <summary>
-	/// “o˜^‚³‚ê‚½ƒ‚ƒfƒ‹‚ğ’T‚·(‚È‚¯‚ê‚Î”’‚¢ƒ{ƒbƒNƒX•Ô‚·)
+	/// ç™»éŒ²ã•ã‚ŒãŸãƒ¢ãƒ‡ãƒ«ã‚’æ¢ã™(ãªã‘ã‚Œã°ç™½ã„ãƒœãƒƒã‚¯ã‚¹è¿”ã™)
 	/// </summary>
-	/// <param name="handle">“o˜^‚µ‚½‚Æ‚«‚Ìƒnƒ“ƒhƒ‹</param>
-	/// <returns>ƒ‚ƒfƒ‹‚Ìƒf[ƒ^</returns>
+	/// <param name="handle">ç™»éŒ²ã—ãŸã¨ãã®ãƒãƒ³ãƒ‰ãƒ«</param>
+	/// <returns>ãƒ¢ãƒ‡ãƒ«ã®ãƒ‡ãƒ¼ã‚¿</returns>
 	AnimationModel* SearchModelData(std::string handle);
 
 	/// <summary>
-	/// ‚à‚¤‚·‚Å‚É“Ç‚İ‚ñ‚Å‚µ‚Ü‚Á‚½ƒ‚ƒfƒ‹‚Ì“o˜^
+	/// ã‚‚ã†ã™ã§ã«èª­ã¿è¾¼ã‚“ã§ã—ã¾ã£ãŸãƒ¢ãƒ‡ãƒ«ã®ç™»éŒ²
 	/// </summary>
-	/// <param name="handle">ŒÄ‚Ño‚µ—p‚Ìƒnƒ“ƒhƒ‹</param>
-	/// <param name="model">‚à‚¤‚·‚Å‚É‚ ‚éƒ‚ƒfƒ‹</param>
+	/// <param name="handle">å‘¼ã³å‡ºã—ç”¨ã®ãƒãƒ³ãƒ‰ãƒ«</param>
+	/// <param name="model">ã‚‚ã†ã™ã§ã«ã‚ã‚‹ãƒ¢ãƒ‡ãƒ«</param>
 	void RegisterModel(std::string handle, std::shared_ptr<AnimationModel> model);
 
 	/// <summary>
-	/// w’è‚µ‚½“o˜^Ï‚İƒ‚ƒfƒ‹‚Ì“o˜^‰ğœ
+	/// æŒ‡å®šã—ãŸç™»éŒ²æ¸ˆã¿ãƒ¢ãƒ‡ãƒ«ã®ç™»éŒ²è§£é™¤
 	/// </summary>
-	/// <param name="handle">ƒnƒ“ƒhƒ‹</param>
+	/// <param name="handle">ãƒãƒ³ãƒ‰ãƒ«</param>
 	void eraseModel(std::string handle);
 
 private:
@@ -55,7 +55,7 @@ private:
 	ModelManager& operator=(const ModelManager&) = delete;
 
 
-	//“o˜^—p‚Ì\‘¢‘Ì
+	//ç™»éŒ²ç”¨ã®æ§‹é€ ä½“
 	struct ModelData
 	{
 
@@ -69,7 +69,7 @@ private:
 private:
 
 
-	//ƒ‚ƒfƒ‹ƒf[ƒ^‚Ì˜A‘z”z—ñ
+	//ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿ã®é€£æƒ³é…åˆ—
 	std::map<std::string, ModelData> models_;
 
 };

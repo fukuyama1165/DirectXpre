@@ -10,10 +10,10 @@ public:
 	~ObjParticleFactory();
 
 	/// <summary>
-	/// ƒp[ƒeƒBƒNƒ‹¶¬
+	/// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ç”Ÿæˆ
 	/// </summary>
-	/// <param name="sceneName">¶¬‚µ‚½‚¢ƒp[ƒeƒBƒNƒ‹</param>
-	/// <returns>¶¬‚µ‚½ƒp[ƒeƒBƒNƒ‹</returns>
+	/// <param name="sceneName">ç”Ÿæˆã—ãŸã„ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«</param>
+	/// <returns>ç”Ÿæˆã—ãŸãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«</returns>
 	std::unique_ptr<IObjParticle> CreateObjParticle(const std::string& objParticleName)override;
 
 private:

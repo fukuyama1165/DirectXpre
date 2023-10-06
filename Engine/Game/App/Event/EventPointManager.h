@@ -11,7 +11,7 @@ public:
 
 	static EventPointManager* GetInstance();
 
-	//ŠO‚É‚ ‚éƒCƒxƒ“ƒg‚Ìƒf[ƒ^‚ğ‚Âƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“ü‚ê‚½‚¢
+	//å¤–ã«ã‚ã‚‹ã‚¤ãƒ™ãƒ³ãƒˆã®ãƒ‡ãƒ¼ã‚¿ã‚’æŒã¤ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å…¥ã‚ŒãŸã„
 	void LoadEventData(std::string fileName);
 
 	void Initlize();
@@ -38,10 +38,10 @@ public:
 
 public:
 
-	//“Ç‚İ‚ŞÛ‚Ìƒtƒ@ƒCƒ‹ƒpƒX(ƒtƒ@ƒCƒ‹–¼‚¾‚¯‚Åw’è‚·‚é‚½‚ß)
+	//èª­ã¿è¾¼ã‚€éš›ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹(ãƒ•ã‚¡ã‚¤ãƒ«åã ã‘ã§æŒ‡å®šã™ã‚‹ãŸã‚)
 	static const inline std::string SDefaultEventPath_="Resources/json/";
 
-	//ƒtƒ@ƒCƒ‹Šg’£q
+	//ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­
 	static const inline std::string SDefaultEventExtension_= ".json";
 
 	std::string nowEventDataFileName_;
@@ -63,7 +63,7 @@ private:
 
 	EventPoint eventPoint_;
 
-	//‘O‰ñ‚ÌƒCƒxƒ“ƒg‚ğQÆ
+	//å‰å›ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‚ç…§
 	uint16_t beforeEventPointType_ = 0;
 
 	AnimationModel* eventModel_ = nullptr;

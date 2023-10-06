@@ -10,7 +10,7 @@ void GameScene::Initialize()
 
 	test_ = xAudio_->SoundLoadWave("Resources/sound/music_InGame.wav");
 
-	//ƒ‰ƒCƒg‚Ì¶¬
+	//ãƒ©ã‚¤ãƒˆã®ç”Ÿæˆ
 	lightManager_ = LightManager::GetInstance();
 
 	lightManager_->lightGroups_[0].SetDirLightActive(0, false);
@@ -39,13 +39,13 @@ void GameScene::Initialize()
 	//cameobj.cameobj.SetParent(&objobj);
 
 
-	//.obj‚ÌƒIƒuƒWƒFƒNƒg
+	//.objã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
 	
 
 
-	//player‚Ìinit
+	//playerã®init
 	play_.Init("Resources/obj/karaage/", "karaage.obj");
 
 	
@@ -152,7 +152,7 @@ void GameScene::Initialize()
 	eventManager->SetDebugBattleEvent({ 0,0,50 }, 1.0f, 100, { 10,0,50 }, 1.0f, 20, { -10,0,50 }, 1.0f, 100, { 0,10,50 });
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
-	//ƒCƒxƒ“ƒgƒf[ƒ^‚Ì“Ç‚Ýž‚Ý
+	//ã‚¤ãƒ™ãƒ³ãƒˆãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 	eventManager->LoadEventData("Event");
 
 
@@ -184,17 +184,17 @@ void GameScene::Update()
 {
 
 
-#pragma region DirectX–ˆƒtƒŒ[ƒ€ˆ—
+#pragma region DirectXæ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 
-	//DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚©‚ç
+	//DirectXæ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ã€€ã“ã“ã‹ã‚‰
 
-#pragma region ƒL[ƒ{[ƒhî•ñ‚ÌŽæ“¾
+#pragma region ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—
 
 
 
 #pragma endregion
 
-#pragma region XVˆ—
+#pragma region æ›´æ–°å‡¦ç†
 
 
 #ifdef _DEBUG
@@ -595,7 +595,7 @@ void GameScene::Update()
 	EmitterManager::GetInstance()->Update();
 
 	
-	//ƒQ[ƒ€ƒI[ƒo[ˆ—
+	//ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†
 	if (play_.hp_<=0)
 	{
 #ifdef _DEBUG
@@ -606,7 +606,7 @@ void GameScene::Update()
 #endif
 	}
 
-	//ƒQ[ƒ€ƒNƒŠƒA//ˆ—
+	//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢//å‡¦ç†
 	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
 	{
 		
@@ -615,7 +615,7 @@ void GameScene::Update()
 			SceneManager::GetInstance()->ChangeScene("TITLE");
 		}
 
-		//˜A‘Å–hŽ~‚µ‚½‚¢
+		//é€£æ‰“é˜²æ­¢ã—ãŸã„
 		if (clearEffectTime_ < clearEffectMaxTime_)
 		{
 			clearEffectTime_++;
@@ -642,10 +642,10 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-#pragma region •`‰æƒRƒ}ƒ“ƒh
+#pragma region æç”»ã‚³ãƒžãƒ³ãƒ‰
 
 	
-	// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚©‚ç
+	// 4.æç”»ã‚³ãƒžãƒ³ãƒ‰ã“ã“ã‹ã‚‰
 
 	objobj3_.Draw();
 	//testObj_.Draw();
@@ -704,7 +704,7 @@ void GameScene::Draw()
 	}
 
 
-	// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚Ü‚Å
+	// 4.æç”»ã‚³ãƒžãƒ³ãƒ‰ã“ã“ã¾ã§
 
 	
 
@@ -712,13 +712,13 @@ void GameScene::Draw()
 
 	
 
-	//DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚Ü‚Å
+	//DirectXæ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ã€€ã“ã“ã¾ã§
 
 #pragma endregion
 
 
 
-#pragma region •`‰æˆ—
+#pragma region æç”»å‡¦ç†
 
 }
 

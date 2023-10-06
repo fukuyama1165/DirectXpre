@@ -8,7 +8,7 @@ class IObjParticleFactory
 public:
 	virtual ~IObjParticleFactory() = default;
 
-	//ƒV[ƒ“¶¬
+	//ã‚·ãƒ¼ãƒ³ç”Ÿæˆ
 	virtual std::unique_ptr<IObjParticle> CreateObjParticle(const std::string& objParticleName) = 0;
 
 private:

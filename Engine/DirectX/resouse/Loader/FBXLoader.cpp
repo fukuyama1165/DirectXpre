@@ -1,4 +1,4 @@
-﻿#include "FBXLoader.h"
+#include "FBXLoader.h"
 
 AnimationModel::~AnimationModel()
 {
@@ -46,7 +46,7 @@ bool AnimationModel::Load(std::string filename, std::string fileType, std::strin
 	}
 
 
-	
+
 	//情報を入れる
 	if (scene != nullptr)
 	{
@@ -61,7 +61,7 @@ bool AnimationModel::Load(std::string filename, std::string fileType, std::strin
 
 void AnimationModel::Draw()const
 {
-	
+
 	for (auto& itr : nodes_)
 	{
 		for (auto& jtr : itr->meshes_)
@@ -77,7 +77,7 @@ void AnimationModel::Draw()const
 
 			DirectXInit::GetInstance()->GetcmdList()->DrawIndexedInstanced((uint32_t)jtr->indices_.size(), 1, 0, 0, 0);
 
-			
+
 
 		}
 	}
@@ -225,7 +225,7 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 
 		//α値
 		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_OPACITY, material.material_.alpha_);
-		
+
 		material.MaterialConstBuffInit();
 
 		model.material_.emplace_back(material);
@@ -294,7 +294,7 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 		auto& weightL = weightList[i];
 
 		//順番にする
-		weightL.sort([](auto const& lhs, auto const& rhs){ return lhs.weight_ > rhs.weight_; });
+		weightL.sort([](auto const& lhs, auto const& rhs) { return lhs.weight_ > rhs.weight_; });
 
 		uint32_t weightArrayIndex = 0;
 		for (auto& weightSet : weightL)
@@ -341,13 +341,13 @@ void AnimationModel::LoadMaterialTextures(aiMaterial* material, aiTextureType ty
 
 		aiString str;
 		std::string path;
-		
+
 		//パスを取得
 		material->GetTexture(type, i, &str);
 
 		path = str.C_Str();
 
-		if (path.size()<5)
+		if (path.size() < 5)
 		{
 			if (materialName_ != "")
 			{

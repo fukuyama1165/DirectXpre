@@ -26,7 +26,7 @@ void EnemyManager::PopEnemy(std::string enemyType, Vector3 pos, Vector3 movePoin
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
 	newEnemy->Init(enemyType, pos, movePoint,moveSpeed);
-	//“GƒLƒƒƒ‰‚ğ“o˜^
+	//æ•µã‚­ãƒ£ãƒ©ã‚’ç™»éŒ²
 	enemys_.push_back(std::move(newEnemy));
 }
 
@@ -49,7 +49,7 @@ void EnemyManager::UpDate(const Vector3& playerPos)
 		return !enem->isAlive_;
 	});
 
-	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet)//if‚Ì’†‚ÅŠÈˆÕ“I‚ÈŠÖ”‚ğ¶¬‚µ‚Ä‚é->[](ˆø”)
+	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet)//ifã®ä¸­ã§ç°¡æ˜“çš„ãªé–¢æ•°ã‚’ç”Ÿæˆã—ã¦ã‚‹->[](å¼•æ•°)
 	{
 		return bullet->IsDead();
 	});
@@ -91,7 +91,7 @@ void EnemyManager::Draw()
 
 void EnemyManager::EnemyAttack(Enemy enemy, const Vector3& playerPos)
 {
-	//”­Ë’n“_‚Ìˆ×‚É©ƒLƒƒƒ‰‚ÌÀ•W‚ğƒRƒs[
+	//ç™ºå°„åœ°ç‚¹ã®ç‚ºã«è‡ªã‚­ãƒ£ãƒ©ã®åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
 	Vector3 position = enemy.GetObjWorldPos();
 	position.z += 2;
 
@@ -102,7 +102,7 @@ void EnemyManager::EnemyAttack(Enemy enemy, const Vector3& playerPos)
 
 	
 
-	//‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚·‚é
+	//é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è‡ªæ©Ÿã®å‘ãã«åˆã‚ã›ã¦å›è»¢ã™ã‚‹
 	velocity = VectorMat(velocity, enemy.enemyObj_.GetWorldMat());
 
 	/*ImGui::Begin("enemy");
@@ -111,10 +111,10 @@ void EnemyManager::EnemyAttack(Enemy enemy, const Vector3& playerPos)
 
 	ImGui::End();*/
 
-	//’e‚Ì¶¬‚Æ‰Šú‰»
+	//å¼¾ã®ç”Ÿæˆã¨åˆæœŸåŒ–
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 	newBullet->Initlize(position, velocity);
 
-	//’e‚ğ“o˜^
+	//å¼¾ã‚’ç™»éŒ²
 	bullets_.emplace_back(std::move(newBullet));
 }

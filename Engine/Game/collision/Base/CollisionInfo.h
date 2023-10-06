@@ -7,7 +7,7 @@ class BaseCollider;
 
 
 /// <summary>
-/// �Փˏ��
+/// 衝突情報
 /// </summary>
 struct CollisionInfo
 {
@@ -25,13 +25,13 @@ public:
 
 	}
 
-	//�Փˑ���̃I�u�W�F�N�g(�R���C�_�[������������Ă����̂ł߂�ǂ������Ȃ���������Ă�����)
+	//衝突相手のオブジェクト(コライダーから引っ張ってこれるのでめんどくさくなったら消してもいい)
 	ICollisionObj* object_ = nullptr;
 
-	//�Փˑ���̃R���C�_�[
+	//衝突相手のコライダー
 	BaseCollider* collider_ = nullptr;
 
-	//�Փ˓_
+	//衝突点
 	Vector3 inter_;
 
 };

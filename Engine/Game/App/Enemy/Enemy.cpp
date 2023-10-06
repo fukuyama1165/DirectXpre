@@ -79,7 +79,7 @@ void Enemy::Update(std::string soundH)
 
 void Enemy::Draw(AnimationModel* model)
 {
-	//ƒkƒ‹ƒ|ƒ`ƒFƒbƒN
+	//ãƒŒãƒ«ãƒãƒã‚§ãƒƒã‚¯
 	assert(model);
 	enemyObj_.FBXDraw(*model);
 }
@@ -113,13 +113,13 @@ void Enemy::OnCollision()
 void Enemy::Move()
 {
 
-	//‚Æ‚è‚ ‚¦‚¸ƒvƒŒƒCƒ„[‚Æ“¯‚¶‚æ‚¤‚É“®‚©‚·
+	//ã¨ã‚Šã‚ãˆãšãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨åŒã˜ã‚ˆã†ã«å‹•ã‹ã™
 	Vector3 moveVec = { 0,0,0 };
 	moveVec = nainavec3(movePoint_, moveStartPos_).normalize();
 
 	enemyObj_.Trans_ += moveVec*speed_;
 
-	//ˆÊ’u‚Ìî•ñ‚ÅˆÚ“®‚Ìˆ×‚Ì‘å‚«‚³‚É‚æ‚Á‚Ä‚Í‚½‚Ç‚è’…‚¯‚È‚¢ê‡‚ª‚ ‚é‚Ì‚Å•‚ğ‚½‚¹‚é‚½‚ß
+	//ä½ç½®ã®æƒ…å ±ã§ç§»å‹•ã®ç‚ºã®å¤§ãã•ã«ã‚ˆã£ã¦ã¯ãŸã©ã‚Šç€ã‘ãªã„å ´åˆãŒã‚ã‚‹ã®ã§å¹…ã‚’æŒãŸã›ã‚‹ãŸã‚
 	if (((enemyObj_.GetPos().x <= movePoint_.x + speed_) and
 		(enemyObj_.GetPos().x >= movePoint_.x - speed_)) and
 		((enemyObj_.GetPos().y <= movePoint_.y + speed_) and

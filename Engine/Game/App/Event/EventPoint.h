@@ -39,49 +39,49 @@ public:
 
 	void Draw(AnimationModel* model);
 
-	//ŠÔ‚Ìæ“¾
+	//æ™‚é–“ã®å–å¾—
 	float GetTimeCount() { return timeCount_; };
 
-	//I‚í‚Á‚½‚©
+	//çµ‚ã‚ã£ãŸã‹
 	bool GetIsFinished() { return IsFinished_; };
 
-	//I‚í‚éƒtƒ‰ƒO‚ğİ’è
+	//çµ‚ã‚ã‚‹ãƒ•ãƒ©ã‚°ã‚’è¨­å®š
 	void SetIsFinished(bool isFinished) { IsFinished_ = isFinished; };
 
-	//ƒCƒxƒ“ƒg‚Ìƒ^ƒCƒv‚ğæ“¾
+	//ã‚¤ãƒ™ãƒ³ãƒˆã®ã‚¿ã‚¤ãƒ—ã‚’å–å¾—
 	uint16_t GetEventType() { return seting_.eventType; };
 
-	//ˆÚ“®ˆÊ’uæ“¾
+	//ç§»å‹•ä½ç½®å–å¾—
 	Vector3 GetMovePoint() { return movePoint_; };
 
-	//ƒCƒxƒ“ƒg‚ÌŠp“xæ“¾(ƒoƒgƒ‹ƒCƒxƒ“ƒg‚ÌŒü‚«‚Æ‚©)
+	//ã‚¤ãƒ™ãƒ³ãƒˆã®è§’åº¦å–å¾—(ãƒãƒˆãƒ«ã‚¤ãƒ™ãƒ³ãƒˆã®å‘ãã¨ã‹)
 	Vector3 GetMovePointRot() { return movePointRot_; };
 
-	//ƒCƒxƒ“ƒg‚Ìİ’èæ“¾
+	//ã‚¤ãƒ™ãƒ³ãƒˆã®è¨­å®šå–å¾—
 	EventSeting GetEventSeting() { return seting_; };
 
 
 private:
 
-	//ˆÚ“®‚·‚éˆÊ’u
+	//ç§»å‹•ã™ã‚‹ä½ç½®
 	Vector3 movePoint_ = {};
 
-	//“®‚­Šp“x
+	//å‹•ãè§’åº¦
 	Vector3 movePointRot_ = {};
 
-	//‘Ò‚¿ŠÔ
+	//å¾…ã¡æ™‚é–“
 	float timeCount_ = 0;
 
-	//–{‘Ì‚ÌˆÊ’u
+	//æœ¬ä½“ã®ä½ç½®
 	Object3D obj_;
 
-	//I‚í‚Á‚½‚©
+	//çµ‚ã‚ã£ãŸã‹
 	bool IsFinished_ = false;
 
-	//“G‚ÌŒÂ”“™‚ÌƒJƒEƒ“ƒ^[
+	//æ•µã®å€‹æ•°ç­‰ã®ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼
 	uint32_t count_ = 0;
 
-	//ƒCƒxƒ“ƒg‚Ìİ’è
+	//ã‚¤ãƒ™ãƒ³ãƒˆã®è¨­å®š
 	EventSeting seting_;
 
 };

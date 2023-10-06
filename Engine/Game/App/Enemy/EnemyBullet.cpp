@@ -17,7 +17,7 @@ void EnemyBullet::Initlize(const Vector3& position, const Vector3& velocity)
 
 	obj_.FBXInit();
 
-	//ˆø”‚Åó‚¯æ‚Á‚½‰ŠúÀ•W‚ğƒZƒbƒg
+	//å¼•æ•°ã§å—ã‘å–ã£ãŸåˆæœŸåº§æ¨™ã‚’ã‚»ãƒƒãƒˆ
 	obj_.Trans_ = position;
 
 	Velocity_ = velocity;
@@ -39,11 +39,11 @@ void EnemyBullet::Initlize(const Vector3& position, const Vector3& velocity)
 
 void EnemyBullet::Update()
 {
-	//ˆÚ“®‚·‚é‚Æ‚±‚ë
+	//ç§»å‹•ã™ã‚‹ã¨ã“ã‚
 	obj_.Trans_ += Velocity_;
 	obj_.Update();
 
-	//ƒfƒXƒ^ƒCƒ}[‚ğ‚Ğ‚¢‚Ä0ˆÈ‰º‚É‚È‚Á‚½‚çƒtƒ‰ƒO‚ğ—§‚Ä‚é‚Ì‚Æ©‹@‚ªˆÚ“®’†‚È‚ç’e‚ğE‚·
+	//ãƒ‡ã‚¹ã‚¿ã‚¤ãƒãƒ¼ã‚’ã²ã„ã¦0ä»¥ä¸‹ã«ãªã£ãŸã‚‰ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹ã®ã¨è‡ªæ©ŸãŒç§»å‹•ä¸­ãªã‚‰å¼¾ã‚’æ®ºã™
 	if (--deathTimer_ <= 0 or EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==EventType::moveEvent)
 	{
 		isDead_ = true;
@@ -61,7 +61,7 @@ void EnemyBullet::Update()
 
 void EnemyBullet::Draw(AnimationModel* model)
 {
-	//ƒkƒ‹ƒ|ƒ`ƒFƒbƒN
+	//ãƒŒãƒ«ãƒãƒã‚§ãƒƒã‚¯
 	assert(model);
 	obj_.FBXDraw(*model);
 }

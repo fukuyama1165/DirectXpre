@@ -1,5 +1,5 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 
 #include<d3d12.h>
@@ -34,24 +34,24 @@ public:
 
 	struct ConstBufferDataB1
 	{
-		Vector3 ambient_;//ƒAƒ“ƒrƒGƒ“ƒg‰e‹¿“x
-		float pad1_;//ƒpƒfƒBƒ“ƒO
-		Vector3 diffuse_;//ƒfƒBƒtƒ…[ƒY‰e‹¿“x
-		float pad2_;//ƒpƒfƒBƒ“ƒO
-		Vector3 specular_;//ƒXƒyƒLƒ…ƒ‰[‰e‹¿“x
-		float alpha_;//ƒAƒ‹ƒtƒ@
+		Vector3 ambient_;//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆå½±éŸ¿åº¦
+		float pad1_;//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		Vector3 diffuse_;//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºå½±éŸ¿åº¦
+		float pad2_;//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		Vector3 specular_;//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼å½±éŸ¿åº¦
+		float alpha_;//ã‚¢ãƒ«ãƒ•ã‚¡
 	};
 
 	struct MaterialObj
 	{
-		std::string name_;//ƒ}ƒeƒŠƒAƒ‹–¼
-		Vector3 ambient_ = {};//ƒAƒ“ƒrƒGƒ“ƒg‰e‹¿“x
-		Vector3 diffuse_ = {};//ƒfƒBƒtƒ…[ƒY‰e‹¿“x
-		Vector3 specular_ = {};//ƒXƒyƒLƒ…ƒ‰[‰e‹¿“x
-		float alpha_ = 1.0f;//ƒAƒ‹ƒtƒ@
-		std::string textureFilename_;//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹–¼
+		std::string name_;//ãƒãƒ†ãƒªã‚¢ãƒ«å
+		Vector3 ambient_ = {};//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆå½±éŸ¿åº¦
+		Vector3 diffuse_ = {};//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºå½±éŸ¿åº¦
+		Vector3 specular_ = {};//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼å½±éŸ¿åº¦
+		float alpha_ = 1.0f;//ã‚¢ãƒ«ãƒ•ã‚¡
+		std::string textureFilename_;//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«å
 
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		MaterialObj()
 		{
 			ambient_ = { 0.3f, 0.3f, 0.3f };
@@ -62,18 +62,18 @@ public:
 
 	};
 
-	//’è”ƒoƒbƒtƒ@—p
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1_ = nullptr;
 
 	ConstBufferDataB1* constMapB1_ = nullptr;
 
-	D3D12_HEAP_PROPERTIES cbHeapProp_{};//ƒq[ƒvİ’è
+	D3D12_HEAP_PROPERTIES cbHeapProp_{};//ãƒ’ãƒ¼ãƒ—è¨­å®š
 
 	MaterialObj material_;
 
-	//’¸“_ƒoƒbƒtƒ@—p•Ï”
-	D3D12_HEAP_PROPERTIES heapprop_{};//ƒq[ƒvİ’è
-	D3D12_RESOURCE_DESC resDesc_{};//ƒŠƒ\[ƒXİ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”¨å¤‰æ•°
+	D3D12_HEAP_PROPERTIES heapprop_{};//ãƒ’ãƒ¼ãƒ—è¨­å®š
+	D3D12_RESOURCE_DESC resDesc_{};//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 
 private:
 

@@ -24,21 +24,21 @@ public:
 		DirectionalLight directionalLight;
 	};*/
 
-	//XV
+	//æ›´æ–°
 	void ALLLightUpdate();
 
-	//ÅI“I‚É‚Í–¼‘O‚ÅŠÇ—‚µ‚½‚¢
-	//LightGroup‚ğ’Ç‰Á‚·‚é
+	//æœ€çµ‚çš„ã«ã¯åå‰ã§ç®¡ç†ã—ãŸã„
+	//LightGroupã‚’è¿½åŠ ã™ã‚‹
 	void CreateLightGroup(/*const std::string& name*/);
 
-	//DirectionalLight‚ğ’Ç‰Á‚·‚é
+	//DirectionalLightã‚’è¿½åŠ ã™ã‚‹
 	void CreateDirectionalLight(/*const std::string& name*/);
 
 	//LightGroup GetLightGroups(const std::string& name);
 
-	//‚±‚±‚É’Ç‰Á‚·‚é‚Ì‚Å‚Í‚È‚­CreateŠÖ”‚Å’Ç‰Á‚·‚é‚±‚Æ
+	//ã“ã“ã«è¿½åŠ ã™ã‚‹ã®ã§ã¯ãªãCreateé–¢æ•°ã§è¿½åŠ ã™ã‚‹ã“ã¨
 	std::vector<LightGroup> lightGroups_;
-	//‚±‚±‚É’Ç‰Á‚·‚é‚Ì‚Å‚Í‚È‚­CreateŠÖ”‚Å’Ç‰Á‚·‚é‚±‚Æ
+	//ã“ã“ã«è¿½åŠ ã™ã‚‹ã®ã§ã¯ãªãCreateé–¢æ•°ã§è¿½åŠ ã™ã‚‹ã“ã¨
 	std::vector<DirectionalLight> directionalLights_;
 
 private:

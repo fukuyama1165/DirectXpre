@@ -13,17 +13,17 @@ public:
 	~EmitterFactory();
 
 	/// <summary>
-	/// ƒIƒuƒWƒFƒNƒgƒGƒ~ƒbƒ^[¶¬
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¨ãƒŸãƒƒã‚¿ãƒ¼ç”Ÿæˆ
 	/// </summary>
-	/// <param name="sceneName">¶¬‚µ‚½‚¢ƒGƒ~ƒbƒ^[</param>
-	/// <returns>¶¬‚µ‚½ƒGƒ~ƒbƒ^[</returns>
+	/// <param name="sceneName">ç”Ÿæˆã—ãŸã„ã‚¨ãƒŸãƒƒã‚¿ãƒ¼</param>
+	/// <returns>ç”Ÿæˆã—ãŸã‚¨ãƒŸãƒƒã‚¿ãƒ¼</returns>
 	std::unique_ptr<IObjEmitter> CreateObjEmitter(const std::string& emitterName)override;
 
 	/// <summary>
-	/// ƒGƒ~ƒbƒ^[¶¬(‚Ü‚¾‰½‚à‚È‚¢‚Ì‚ÅŒÄ‚Ño‚µ‚Ä‚àŽg‚¦‚È‚¢‚æ)
+	/// ã‚¨ãƒŸãƒƒã‚¿ãƒ¼ç”Ÿæˆ(ã¾ã ä½•ã‚‚ãªã„ã®ã§å‘¼ã³å‡ºã—ã¦ã‚‚ä½¿ãˆãªã„ã‚ˆ)
 	/// </summary>
-	/// <param name="sceneName">¶¬‚µ‚½‚¢ƒGƒ~ƒbƒ^[</param>
-	/// <returns>¶¬‚µ‚½ƒGƒ~ƒbƒ^[</returns>
+	/// <param name="sceneName">ç”Ÿæˆã—ãŸã„ã‚¨ãƒŸãƒƒã‚¿ãƒ¼</param>
+	/// <returns>ç”Ÿæˆã—ãŸã‚¨ãƒŸãƒƒã‚¿ãƒ¼</returns>
 	std::unique_ptr<IEmitter> CreateEmitter(const std::string& emitterName)override;
 private:
 

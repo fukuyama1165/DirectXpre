@@ -22,17 +22,17 @@ public:
 
 	bool GetAttackFlag() { return attackFlag_; };
 
-	//ƒ}ƒEƒX‚ÌˆÊ’u‚ğæ“¾‚µ‚Ä‚»‚ÌˆÊ’u‚ğƒŒƒeƒBƒNƒ‹—p‚ÌƒIƒuƒWƒFƒNƒg“™‚É“ü‚ê‚éŠÖ”
+	//ãƒã‚¦ã‚¹ã®ä½ç½®ã‚’å–å¾—ã—ã¦ãã®ä½ç½®ã‚’ãƒ¬ãƒ†ã‚£ã‚¯ãƒ«ç”¨ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç­‰ã«å…¥ã‚Œã‚‹é–¢æ•°
 	void Reticle2DMouse();
 
 	Object3D playerObj_;
 
 	Object3D reticle3DObj_;
 
-	//ƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä‚ÌƒJƒƒ‰
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦ã®ã‚«ãƒ¡ãƒ©
 	cameraObj playerCamera_;
 
-	//‚©‚ß‚ç–{‘Ì
+	//ã‹ã‚ã‚‰æœ¬ä½“
 	Camera playCamera_;
 
 	Sprite reticle_;
@@ -59,7 +59,7 @@ private:
 
 	void HideDownWall();
 
-	//ƒ}ƒYƒ‹ƒtƒ‰ƒbƒVƒ…‚µ‚Ä
+	//ãƒã‚ºãƒ«ãƒ•ãƒ©ãƒƒã‚·ãƒ¥ã—ã¦
 	void MuzzleFlash();
 
 private:
@@ -79,9 +79,9 @@ private:
 
 	float moveSpeed_ = 0.1f;
 
-	//’‹“_ŠŠ‚ç‚©‚ÈˆÚ“®‚Ì‚½‚ß
+	//æ³¨è¦–ç‚¹æ»‘ã‚‰ã‹ãªç§»å‹•ã®ãŸã‚
 	float maxTime_ = 500;
-	//ƒJƒƒ‰‚Ìn“_‚ÌˆÚ“®‚·‚é‚Æ‚«‚ÌŠÔ
+	//ã‚«ãƒ¡ãƒ©ã®å§‹ç‚¹ã®ç§»å‹•ã™ã‚‹ã¨ãã®æ™‚é–“
 	float maxMoveTime_ = maxTime_/15;
 
 	bool attackFlag_ = false;
@@ -98,10 +98,10 @@ private:
 	const float bulletMaxNum_ = 6;
 	float bulletNum_ = 6;
 
-	//“–‚½‚è”»’è‚Ìˆ—
+	//å½“ãŸã‚Šåˆ¤å®šã®å‡¦ç†
 	MobCollision collision;
 
-	//“–‚½‚è”»’è‚Ì–{‘Ì
+	//å½“ãŸã‚Šåˆ¤å®šã®æœ¬ä½“
 	CubeCollider Collider;
 
 	Sprite hp1Sprote_;
@@ -115,33 +115,33 @@ private:
 	std::string gunReloadSount_;
 	std::string damageSound_;
 	
-	//ƒL[ƒ{[ƒhg‚Á‚Ä‚¢‚é‚©‚¢H
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ä½¿ã£ã¦ã„ã‚‹ã‹ã„ï¼Ÿ
 	bool isUseKeybord_ = true;
 
-	//•Ç‚É‰B‚ê‚½‚è‚·‚é—p‚ÌŠî€ˆÊ’u
+	//å£ã«éš ã‚ŒãŸã‚Šã™ã‚‹ç”¨ã®åŸºæº–ä½ç½®
 	Vector3 originalPos_ = {};
 
 	Vector3 test = {};
 
-	//ƒ_ƒ[ƒW‚ğó‚¯‚½‚©
+	//ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸã‹
 	bool isDamage_ = false;
 
-	//ƒ_ƒ[ƒW‚ğó‚¯‚½‚Ì—h‚ê‚é”ÍˆÍ
+	//ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸæ™‚ã®æºã‚Œã‚‹ç¯„å›²
 	Vector3 shakeVecSize_ = {90,0,0};
 
-	//—h‚ê‚é‹­‚³
+	//æºã‚Œã‚‹å¼·ã•
 	Vector3 shakePow_ = { 0.5f,1.0f,1.0f };
 
-	//ƒ_ƒ[ƒW‚ğó‚¯‚½‚ÌƒVƒFƒCƒN—pƒ^ƒCƒ}[
+	//ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸæ™‚ã®ã‚·ã‚§ã‚¤ã‚¯ç”¨ã‚¿ã‚¤ãƒãƒ¼
 	float damageTimer_ = 0;
 	float damageMaxTimer_ = 10;
 	
-	//ƒ_ƒ[ƒW‚ğó‚¯‚½‚Ì‰‰o—p‚Ìƒ^ƒCƒ}[
+	//ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸæ™‚ã®æ¼”å‡ºç”¨ã®ã‚¿ã‚¤ãƒãƒ¼
 	float damageEffectMaxTime_ = 50;
 	float damageEffectTimer_ = damageEffectMaxTime_;
 
 
-	//ƒ}ƒYƒ‹ƒtƒ‰ƒbƒVƒ…ŠÖ˜A•Ï”
+	//ãƒã‚ºãƒ«ãƒ•ãƒ©ãƒƒã‚·ãƒ¥é–¢é€£å¤‰æ•°
 	Object3D flashObj_;
 
 	float flashAlpha_ = 0;
@@ -149,16 +149,16 @@ private:
 	
 	
 
-	//“®‚«‚ğØ‚è‘Ö‚¦‚é‚Æ‚«‚ÌŠÔ
+	//å‹•ãã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã¨ãã®æ™‚é–“
 	float flashChengTime_ = 3;
 
-	//Œãˆø‚«
+	//å¾Œå¼•ã
 	float flashEndTime_ = 7;
 
-	//‘S‘Ì‚Ì“®‚«‚ÌƒtƒŒ[ƒ€”‚È‚Ì‚ÅØ‚è‘Ö‚¦‚é‚Æ‚«‚Ì’l‚ğ‘«‚µ‚Ä‚¢‚é
+	//å…¨ä½“ã®å‹•ãã®ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ãªã®ã§åˆ‡ã‚Šæ›¿ãˆã‚‹ã¨ãã®å€¤ã‚’è¶³ã—ã¦ã„ã‚‹
 	float flashMaxTime_ = flashEndTime_ + flashChengTime_;
 
-	//Œ»İi’»‹ï‡
+	//ç¾åœ¨é€²æ—å…·åˆ
 	float flashTimer_ = flashMaxTime_;
 
 };

@@ -1,4 +1,4 @@
-﻿#include "ModelManager.h"
+#include "ModelManager.h"
 
 std::string ModelManager::Load(std::string filename, std::string fileType, std::string handle, std::string materialName, std::string materialType)
 {

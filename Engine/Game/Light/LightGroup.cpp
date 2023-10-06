@@ -55,11 +55,11 @@ void LightGroup::Draw(uint32_t rootParameterIndex)
 
 void LightGroup::constantBuffGeneration()
 {
-#pragma region ’è”ƒoƒbƒtƒ@
+#pragma region å®šæ•°ãƒãƒƒãƒ•ã‚¡
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬—p‚ÌÝ’è
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆç”¨ã®è¨­å®š
 
-	cbHeapProp_.Type = D3D12_HEAP_TYPE_UPLOAD;//GPU‚Ö‚Ì“]‘——p
+	cbHeapProp_.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUã¸ã®è»¢é€ç”¨
 
 	cbResourceDesc_ = constBuffResourceGeneration(sizeof(ConstBufferData));
 
@@ -81,7 +81,7 @@ D3D12_RESOURCE_DESC LightGroup::constBuffResourceGeneration(uint32_t size)
 {
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (size + 0xff) & ~0xff;//256ƒoƒCƒgƒAƒ‰ƒCƒ“ƒƒ“ƒg
+	cbResourceDesc.Width = (size + 0xff) & ~0xff;//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ³ãƒ¡ãƒ³ãƒˆ
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
@@ -94,7 +94,7 @@ D3D12_RESOURCE_DESC LightGroup::constBuffResourceGeneration(uint32_t size)
 void LightGroup::TransferConstBuffer()
 {
 
-	//ƒ}ƒbƒsƒ“ƒO‚·‚é‚Æ‚«‚Ìƒ|ƒCƒ“ƒ^
+	//ãƒžãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹ã¨ãã®ãƒã‚¤ãƒ³ã‚¿
 	ConstBufferData* constMapData = nullptr;
 
 	result_ = constBuff_->Map(0, nullptr, (void**)&constMapData);
@@ -122,7 +122,7 @@ void LightGroup::TransferConstBuffer()
 
 		for (uint16_t i = 0; i < SPointLightNum_; i++)
 		{
-			//—LŒø‚È‚çƒf[ƒ^‚ð‘—‚é
+			//æœ‰åŠ¹ãªã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’é€ã‚‹
 			if (pointLights_[i].IsActive())
 			{
 				constMapData->pointLights[i].active = 1;
@@ -138,7 +138,7 @@ void LightGroup::TransferConstBuffer()
 
 		for (uint16_t i = 0; i < SSpotLightNum_; i++)
 		{
-			//—LŒø‚È‚çƒf[ƒ^‚ð‘—‚é
+			//æœ‰åŠ¹ãªã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’é€ã‚‹
 			if (SpotLights_[i].IsActive())
 			{
 				constMapData->spotLights[i].active = 1000;

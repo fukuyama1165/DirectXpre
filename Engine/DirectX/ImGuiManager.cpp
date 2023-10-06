@@ -1,4 +1,4 @@
-﻿#include "ImGuiManager.h"
+#include "ImGuiManager.h"
 #include <imgui.h>
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx12.h"
@@ -37,7 +37,7 @@ void ImGuiManager::Init()
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, dsvHeap_.Get(),
 		dsvHeap_->GetCPUDescriptorHandleForHeapStart(),
 		dsvHeap_->GetGPUDescriptorHandleForHeapStart());
-	
+
 
 
 }

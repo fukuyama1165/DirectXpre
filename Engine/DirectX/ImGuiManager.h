@@ -8,10 +8,10 @@ public:
 
 	static ImGuiManager* GetInstance();
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Init();
 
-	//I—¹
+	//çµ‚äº†
 	void Finalize();
 
 	void Begin();
@@ -30,29 +30,29 @@ private:
 
 private:
 
-	HRESULT result_ =S_OK;
+	HRESULT result_ = S_OK;
 
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
 
 };
 
 
-//ƒTƒ“ƒvƒ‹ƒR[ƒh
+//ã‚µãƒ³ãƒ—ãƒ«ã‚³ãƒ¼ãƒ‰
 //bool flag = true;
 //
 ////Vector4 color;
 //
 //float color[4];
 
-//ƒ^ƒu‚Ì–¼‘O
+//ã‚¿ãƒ–ã®åå‰
 //ImGui::Begin("My First Tool", &flag, ImGuiWindowFlags_MenuBar);
-// ƒEƒBƒ“ƒhƒE‚Ì’†‚Ìƒ^ƒu
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä¸­ã®ã‚¿ãƒ–
 //if (ImGui::BeginMenuBar())
 //{
-//	ƒ^ƒu–¼
+//	ã‚¿ãƒ–å
 //	if (ImGui::BeginMenu("File"))
 //	{
-//		‰Ÿ‚µ‚½‚Æ‚«‚Ì’†g							ˆ—
+//		æŠ¼ã—ãŸã¨ãã®ä¸­èº«							å‡¦ç†
 //		if (ImGui::MenuItem("Open..", "Ctrl+O")) { /* Do stuff */ }
 //		if (ImGui::MenuItem("Save", "Ctrl+S")) { /* Do stuff */ }
 //		if (ImGui::MenuItem("Close", "Ctrl+W")) { flag = false; }
@@ -78,4 +78,3 @@ private:
 //	ImGui::Text("%04d: Some text", n);
 //ImGui::EndChild();
 //ImGui::End();
-

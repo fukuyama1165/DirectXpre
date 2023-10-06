@@ -9,16 +9,16 @@ public:
 	BasicSceneChange();
 	~BasicSceneChange();
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize()override;
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	void Finalize()override;
 
-	//–ˆƒtƒŒ[ƒ€XV
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	void Update()override;
 
-	//•`‰æ
+	//æç”»
 	void Draw()override;
 
 	bool GetIsStart() { return isStart_; };

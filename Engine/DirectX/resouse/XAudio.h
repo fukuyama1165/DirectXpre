@@ -1,10 +1,10 @@
 #pragma once
 #include <xaudio2.h>
 
-//ƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚É•K—v‚ç‚µ‚¢
+//ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã«å¿…è¦ã‚‰ã—ã„
 #include <fstream>
 
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 #include <vector>
@@ -20,23 +20,23 @@ enum class AudioType {
 
 //
 struct AudioData {
-	//“¯‚¶‚â‚Â“Ç‚İ‚İ–h‚¬—p
+	//åŒã˜ã‚„ã¤èª­ã¿è¾¼ã¿é˜²ãç”¨
 	std::string filepath = "";
 	AudioType type= AudioType::Wave;
 };
 
 
-//‰¹ºƒf[ƒ^
+//éŸ³å£°ãƒ‡ãƒ¼ã‚¿
 struct SoundData:public AudioData
 {
 
-	//”gŒ`ƒtƒH[ƒ}ƒbƒg
+	//æ³¢å½¢ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 	WAVEFORMATEX wfex_{};
 
-	//ƒoƒbƒtƒ@‚Ìæ“ªƒAƒhƒŒƒX
+	//ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 	std::vector<BYTE> buffer_;
 
-	//ƒoƒbƒtƒ@‚ÌƒTƒCƒY
+	//ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
 	uint32_t BufferSize_ = 0;
 
 };
@@ -44,52 +44,52 @@ struct SoundData:public AudioData
 class XAudio
 {
 
-	//\‘¢‘Ì
+	//æ§‹é€ ä½“
 public:
 
 
 
 private:
 
-	//.wav ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş‚Æ‚«
-	//ƒoƒCƒiƒŠ‚Å“Ç‚İ‚Ş‚ç‚µ‚¢
-	//‚Ì‚Åƒ`ƒƒƒ“ƒN(ƒf[ƒ^’PˆÊ?)‚²‚Æ‚Éƒf[ƒ^‚ª•ª‚¯‚ç‚ê‚é‚Ì‚Å
-	//’†g‚ğ•ª‚¯‚ç‚ê‚é‚ç‚µ‚¢
+	//.wav ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã¨ã
+	//ãƒã‚¤ãƒŠãƒªã§èª­ã¿è¾¼ã‚€ã‚‰ã—ã„
+	//ã®ã§ãƒãƒ£ãƒ³ã‚¯(ãƒ‡ãƒ¼ã‚¿å˜ä½?)ã”ã¨ã«ãƒ‡ãƒ¼ã‚¿ãŒåˆ†ã‘ã‚‰ã‚Œã‚‹ã®ã§
+	//ä¸­èº«ã‚’åˆ†ã‘ã‚‰ã‚Œã‚‹ã‚‰ã—ã„
 	//
 
-	//ƒ`ƒƒƒ“ƒNƒwƒbƒ^[
+	//ãƒãƒ£ãƒ³ã‚¯ãƒ˜ãƒƒã‚¿ãƒ¼
 	struct ChunkHeader
 	{
 
-		//ƒ`ƒƒƒ“ƒN–ˆ‚ÌID
+		//ãƒãƒ£ãƒ³ã‚¯æ¯ã®ID
 		char id_[4];
 
-		//ƒ`ƒƒƒ“ƒNƒTƒCƒY
+		//ãƒãƒ£ãƒ³ã‚¯ã‚µã‚¤ã‚º
 		int32_t size_;
 
 	};
 
-	//RIFFƒwƒbƒ^ƒ`ƒƒƒ“ƒN
+	//RIFFãƒ˜ãƒƒã‚¿ãƒãƒ£ãƒ³ã‚¯
 	struct RiffHeader
 	{
 
 		//RIFF
 		ChunkHeader chunk_;
 
-		//«Šg’£q‚ÌŠm”F‚µ‚Ä‚é?
+		//â†“æ‹¡å¼µå­ã®ç¢ºèªã—ã¦ã‚‹?
 		//WAVE
 		char type_[4];
 
 	};
 
-	//FMTƒ`ƒƒƒ“ƒN
+	//FMTãƒãƒ£ãƒ³ã‚¯
 	struct FormatChunk
 	{
 
 		//"fmt"
 		ChunkHeader chunk_;
 
-		//”gŒ`ƒtƒH[ƒ}ƒbƒg
+		//æ³¢å½¢ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 		WAVEFORMATEX fmt_;
 
 	};
@@ -97,7 +97,7 @@ private:
 
 
 
-	//•Ï”
+	//å¤‰æ•°
 public:
 
 	
@@ -106,27 +106,27 @@ private:
 
 	static Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
 
-	//ƒTƒEƒ“ƒhƒf[ƒ^‚Ì˜A‘z”z—ñ
+	//ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒ¼ã‚¿ã®é€£æƒ³é…åˆ—
 	std::map<std::string, std::shared_ptr<SoundData>> soundDatas_;
 
-	//shared_ptr‚É‚Â‚¢‚Ä
-	//unique_ptr‚Æˆá‚¢Š—LÒ‚ªˆêl‚Å‚Í‚È‚¢‚â‚Â
-	// “¯‚¶ƒŠƒ\[ƒX‚ğ‚İ‚ñ‚È‚Åg‚Á‚Ä‚­‚ê‚é
-	// ƒŠƒ\[ƒX‚ğg‚Á‚Ä‚¢‚é‚â‚Â‚ª’N‚à‚¢‚È‚­‚È‚é‚Ædelete‚µ‚Ä‚­‚ê‚é
+	//shared_ptrã«ã¤ã„ã¦
+	//unique_ptrã¨é•ã„æ‰€æœ‰è€…ãŒä¸€äººã§ã¯ãªã„ã‚„ã¤
+	// åŒã˜ãƒªã‚½ãƒ¼ã‚¹ã‚’ã¿ã‚“ãªã§ä½¿ã£ã¦ãã‚Œã‚‹
+	// ãƒªã‚½ãƒ¼ã‚¹ã‚’ä½¿ã£ã¦ã„ã‚‹ã‚„ã¤ãŒèª°ã‚‚ã„ãªããªã‚‹ã¨deleteã—ã¦ãã‚Œã‚‹
 	//
 
 	IXAudio2MasteringVoice* masterVoice_ = nullptr;
 
 	HRESULT result_=S_OK;
 
-	//l‚ÌƒR[ƒh‚ğQl‚É‚µ‚½
+	//äººã®ã‚³ãƒ¼ãƒ‰ã‚’å‚è€ƒã«ã—ãŸ
 	struct PlayingInfo {
 		std::string handle;
 		IXAudio2SourceVoice* pSource;
 	};
 	std::vector<PlayingInfo> playingList;
 
-	//ŠÖ”
+	//é–¢æ•°
 public:
 
 	static XAudio* GetInstance() {
@@ -138,10 +138,10 @@ public:
 
 	static std::string SoundLoadWave(const char* filename,std::string handle="");
 
-	//w’è‚µ‚½ƒnƒ“ƒhƒ‹‚Ì‰¹‚ğ‚¾‚·
+	//æŒ‡å®šã—ãŸãƒãƒ³ãƒ‰ãƒ«ã®éŸ³ã‚’ã ã™
 	static void PlaySoundData(const std::string handle, const float& volume = 1.0f, const bool loop = false);
 
-	//w’è‚µ‚½ƒnƒ“ƒhƒ‹‚Ì‰¹‚ğ~‚ß‚é
+	//æŒ‡å®šã—ãŸãƒãƒ³ãƒ‰ãƒ«ã®éŸ³ã‚’æ­¢ã‚ã‚‹
 	static void StapSoundData(const std::string handle);
 
 	static void Final() {

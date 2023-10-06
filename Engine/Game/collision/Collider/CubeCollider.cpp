@@ -10,10 +10,10 @@ void CubeCollider::Update(const Vector3 pos)
 
 	collisionObject_->Update(pos);
 
-	//ワールド行列から座標を抽出
+	//繝ｯ繝ｼ繝ｫ繝芽｡悟�励°繧牙ｺｧ讓吶ｒ謚ｽ蜃ｺ
 	const Matrix4x4& matWorld = collisionObject_->collisionObj_.GetWorldMat();
 
-	//立方体のメンバ変数を更新
+	//遶区婿菴薙�ｮ繝｡繝ｳ繝仙､画焚繧呈峩譁ｰ
 	Cube::center_.x = matWorld.m[3][0];
 	Cube::center_.y = matWorld.m[3][1];
 	Cube::center_.z = matWorld.m[3][2];

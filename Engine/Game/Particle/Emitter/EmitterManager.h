@@ -11,10 +11,10 @@ public:
 
 	void AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, float ActiveTime = -1, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox");
 
-	//毎フレーム更新
+	//豈弱ヵ繝ｬ繝ｼ繝譖ｴ譁ｰ
 	void Update();
 
-	//描画
+	//謠冗判
 	void Draw();
 
 private:

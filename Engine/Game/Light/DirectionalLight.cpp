@@ -2,7 +2,7 @@
 #include "DirectXInit.h"
 
 
-//Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
+//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°ã®å®Ÿä½“
 //Microsoft::WRL::ComPtr<ID3D12Device> DirectionalLight::dev = nullptr;
 
 void DirectionalLight::StaticInitialize()
@@ -17,10 +17,10 @@ void DirectionalLight::StaticInitialize()
 //
 //	DirectionalLight* instance = new DirectionalLight();
 //
-//	//‰Šú‰»
+//	//åˆæœŸåŒ–
 //	instance->Init();
 //
-//	//¶¬‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚·
+//	//ç”Ÿæˆã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™
 //	return instance;
 //
 //}
@@ -38,7 +38,7 @@ void DirectionalLight::Update()
 {
 
 
-	//’l‚ÌXV‚ª‚ ‚Á‚½‚¾‚¯’è”ƒoƒbƒtƒ@‚É“]‘—‚·‚é
+	//å€¤ã®æ›´æ–°ãŒã‚ã£ãŸæ™‚ã ã‘å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«è»¢é€ã™ã‚‹
 	if (dirty_)
 	{
 		TransferConstBuffer();
@@ -75,11 +75,11 @@ void DirectionalLight::SetLightColor(const Vector3& lightcolor)
 
 void DirectionalLight::constantBuffGeneration()
 {
-#pragma region ’è”ƒoƒbƒtƒ@
+#pragma region å®šæ•°ãƒãƒƒãƒ•ã‚¡
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬—p‚Ìİ’è
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆç”¨ã®è¨­å®š
 
-	cbHeapProp_.Type = D3D12_HEAP_TYPE_UPLOAD;//GPU‚Ö‚Ì“]‘——p
+	cbHeapProp_.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUã¸ã®è»¢é€ç”¨
 
 	cbResourceDesc_ = constBuffResourceGeneration(sizeof(ConstBufferData));
 
@@ -101,7 +101,7 @@ D3D12_RESOURCE_DESC DirectionalLight::constBuffResourceGeneration(uint32_t size)
 {
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (size + 0xff) & ~0xff;//256ƒoƒCƒgƒAƒ‰ƒCƒ“ƒƒ“ƒg
+	cbResourceDesc.Width = (size + 0xff) & ~0xff;//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ³ãƒ¡ãƒ³ãƒˆ
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
@@ -114,7 +114,7 @@ D3D12_RESOURCE_DESC DirectionalLight::constBuffResourceGeneration(uint32_t size)
 void DirectionalLight::TransferConstBuffer()
 {
 
-	//ƒ}ƒbƒsƒ“ƒO‚·‚é‚Æ‚«‚Ìƒ|ƒCƒ“ƒ^
+	//ãƒãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹ã¨ãã®ãƒã‚¤ãƒ³ã‚¿
 	ConstBufferData* constMapData = nullptr;
 
 	result_ = constBuff_->Map(0, nullptr, (void**)&constMapData);

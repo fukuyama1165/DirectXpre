@@ -10,10 +10,10 @@ void SphereCollider::Update(const Vector3 pos)
 
 	collisionObject_->Update(pos);
 
-	//ワールド行列から座標を抽出
+	//繝ｯ繝ｼ繝ｫ繝芽｡悟�励°繧牙ｺｧ讓吶ｒ謚ｽ蜃ｺ
 	const Matrix4x4& matWorld = collisionObject_->collisionObj_.GetWorldMat();
 
-	//球のメンバ変数を更新
+	//逅�縺ｮ繝｡繝ｳ繝仙､画焚繧呈峩譁ｰ
 	Sphere::center_.x = matWorld.m[3][0] + offset_.x;
 	Sphere::center_.y = matWorld.m[3][1] + offset_.y;
 	Sphere::center_.z = matWorld.m[3][2] + offset_.z;

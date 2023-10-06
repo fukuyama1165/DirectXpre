@@ -14,22 +14,22 @@ public:
 
 	virtual ~Framework() = default;
 	
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	virtual void Initialize();
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	virtual void Finalize();
 
-	//–ˆƒtƒŒ[ƒ€XV
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	virtual void Update();
 
-	//•`‰æ
+	//æç”»
 	virtual void Draw();
 
-	//I—¹ƒ`ƒFƒbƒN
+	//çµ‚äº†ãƒã‚§ãƒƒã‚¯
 	virtual bool IsEndRequst() { return endRequst_; };
 
-	//ƒV[ƒ“‚Ìˆê˜A‚ğÀs
+	//ã‚·ãƒ¼ãƒ³ã®ä¸€é€£ã‚’å®Ÿè¡Œ
 	void Ran();
 
 
@@ -37,20 +37,20 @@ public:
 
 private:
 
-	//ƒQ[ƒ€‚ğI‚í‚ç‚¹‚é‚½‚ß‚Ìƒtƒ‰ƒO
+	//ã‚²ãƒ¼ãƒ ã‚’çµ‚ã‚ã‚‰ã›ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚°
 	bool endRequst_ = false;
 
 	//windowAPI
 	WinApp* winApp_ = WinApp::GetInstance();
 
-	//directX‚Ì‰Šú‰»
+	//directXã®åˆæœŸåŒ–
 	DirectXInit* directXinit_ = DirectXInit::GetInstance();
 
 	ImGuiManager* imGuiManager_ = ImGuiManager::GetInstance();
 
 	SceneManager* sceneManager_ = SceneManager::GetInstance();
 
-	//“ü—Í‚Ì‰Šú‰»
+	//å…¥åŠ›ã®åˆæœŸåŒ–
 	Input* input_ = Input::GetInstance();
 	
 	std::shared_ptr<PostEffect> postEffect_ = nullptr;

@@ -20,7 +20,7 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 	float z = sphereB.center_.z - sphereA.center_.z;
 	float r = sphereA.radius_ + sphereB.radius_;
 
-	//ğŒ‚ÉŠY“–‚µ‚Ä‚È‚¢‚È‚ç“–‚½‚Á‚Ä‚È‚¢
+	//æ¡ä»¶ã«è©²å½“ã—ã¦ãªã„ãªã‚‰å½“ãŸã£ã¦ãªã„
 	if ((x * x) + (y * y) + (z * z) > (r * r))
 	{
 		return false;
@@ -28,14 +28,14 @@ bool Collision::CheckSphere2Sphere(const Sphere& sphereA, const Sphere& sphereB,
 
 	if (inter)
 	{
-		//Ú“_‚Í’†S‚Æ’†S‚ÌƒxƒNƒgƒ‹‚Ì”¼•ªi‚ñ‚¾‹——£‚É‚µ‚½
+		//æ¥ç‚¹ã¯ä¸­å¿ƒã¨ä¸­å¿ƒã®ãƒ™ã‚¯ãƒˆãƒ«ã®åŠåˆ†é€²ã‚“ã è·é›¢ã«ã—ãŸ
 		Vector3 vec = sphereB.center_ - sphereA.center_;
 
 		*inter = sphereA.center_ + vec / 2;
 
 	}
 
-	//“–‚½‚Á‚½‚ ‚ ‚ ‚ 
+	//å½“ãŸã£ãŸã‚ã‚ã‚ã‚
 	return true;
 
 }
@@ -63,26 +63,26 @@ bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vect
 void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& triangle, Vector3* closest)
 {
 
-	//point‚ªp0‚ÌŠO‘¤‚Ì’¸“_—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//pointãŒp0ã®å¤–å´ã®é ‚ç‚¹é ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
 
-#pragma region p0ƒ`ƒFƒbƒN
+#pragma region p0ãƒã‚§ãƒƒã‚¯
 
-	//triangle‚Ìp0‚Æp1‚ÌƒxƒNƒgƒ‹
+	//triangleã®p0ã¨p1ã®ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 p0p1 = triangle.p1_ - triangle.p0_;
 
-	//triangle‚Ìp0‚Æp2‚ÌƒxƒNƒgƒ‹
+	//triangleã®p0ã¨p2ã®ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 p0p2 = triangle.p2_ - triangle.p0_;
 
-	//triangle‚Ìp0‚ÆPoint‚ÌƒxƒNƒgƒ‹
+	//triangleã®p0ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 p0Po = point - triangle.p0_;
 
-	//triangle‚Ìp0‚Æp1‚ÌƒxƒNƒgƒ‹‚Ætriangle‚Ìp0‚ÆPoint‚ÌƒxƒNƒgƒ‹‚Ì“àÏ
+	//triangleã®p0ã¨p1ã®ãƒ™ã‚¯ãƒˆãƒ«ã¨triangleã®p0ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	float d1 = Vector3::dot(p0p1, p0Po);
 
-	//triangle‚Ìp0‚Æp2‚ÌƒxƒNƒgƒ‹‚Ætriangle‚Ìp0‚ÆPoint‚ÌƒxƒNƒgƒ‹‚Ì“àÏ
+	//triangleã®p0ã¨p2ã®ãƒ™ã‚¯ãƒˆãƒ«ã¨triangleã®p0ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	float d2 = Vector3::dot(p0p2, p0Po);
 
-	//2‚Â‚Ì“àÏ‚ª•‰‚Ì”‚È‚çp0‚ªˆê”Ô‹ß‚¢
+	//2ã¤ã®å†…ç©ãŒè² ã®æ•°ãªã‚‰p0ãŒä¸€ç•ªè¿‘ã„
 	if (d1 <= 0.0f and d2 <= 0.0f)
 	{
 
@@ -93,17 +93,17 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 
 #pragma endregion
 
-	//point‚ªp1‚ÌŠO‘¤‚Ì’¸“_—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//pointãŒp1ã®å¤–å´ã®é ‚ç‚¹é ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
 
-#pragma region p1ƒ`ƒFƒbƒN
+#pragma region p1ãƒã‚§ãƒƒã‚¯
 
-	//triangle‚Ìp1‚ÆPoint‚ÌƒxƒNƒgƒ‹
+	//triangleã®p1ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 p1Po = point - triangle.p1_;
 
-	//triangle‚Ìp0‚Æp1‚ÌƒxƒNƒgƒ‹‚Ætriangle‚Ìp1‚ÆPoint‚ÌƒxƒNƒgƒ‹‚Ì“àÏ
+	//triangleã®p0ã¨p1ã®ãƒ™ã‚¯ãƒˆãƒ«ã¨triangleã®p1ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	float d3 = Vector3::dot(p0p1, p1Po);
 
-	//triangle‚Ìp0‚Æp2‚ÌƒxƒNƒgƒ‹‚Ætriangle‚Ìp1‚ÆPoint‚ÌƒxƒNƒgƒ‹‚Ì“àÏ
+	//triangleã®p0ã¨p2ã®ãƒ™ã‚¯ãƒˆãƒ«ã¨triangleã®p1ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	float d4 = Vector3::dot(p0p2, p1Po);
 
 
@@ -117,9 +117,9 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	}
 
 
-	// point‚ªp0p1‚Ì•Ó—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚µA‚ ‚ê‚Îpoint‚Ìp0p1ã‚É‘Î‚·‚éË‰e‚ğ•Ô‚·
+	// pointãŒp0p1ã®è¾ºé ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ã—ã€ã‚ã‚Œã°pointã®p0p1ä¸Šã«å¯¾ã™ã‚‹å°„å½±ã‚’è¿”ã™
 
-	//—Ìˆæ“àƒ`ƒFƒbƒN‚Ì‚½‚ß‚ÌŒvZ‚±‚ê‚ª•‰‚Ì”‚È‚çOŠpŒ`‚ÌŠO‚É‚¢‚é
+	//é ˜åŸŸå†…ãƒã‚§ãƒƒã‚¯ã®ãŸã‚ã®è¨ˆç®—ã“ã‚ŒãŒè² ã®æ•°ãªã‚‰ä¸‰è§’å½¢ã®å¤–ã«ã„ã‚‹
 	float p0p1Projection = d1 * d4 - d3 * d2;
 
 	if (p0p1Projection <= 0.0f and d1 >= 0.0f and d3 <= 0.0f)
@@ -130,17 +130,17 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 
 #pragma endregion
 
-	//point‚ªp2‚ÌŠO‘¤‚Ì’¸“_—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//pointãŒp2ã®å¤–å´ã®é ‚ç‚¹é ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
 
-#pragma region p2ƒ`ƒFƒbƒN
+#pragma region p2ãƒã‚§ãƒƒã‚¯
 
-	//triangle‚Ìp2‚ÆPoint‚ÌƒxƒNƒgƒ‹
+	//triangleã®p2ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 p2Po = point - triangle.p2_;
 
-	//triangle‚Ìp0‚Æp1‚ÌƒxƒNƒgƒ‹‚Ætriangle‚Ìp2‚ÆPoint‚ÌƒxƒNƒgƒ‹‚Ì“àÏ
+	//triangleã®p0ã¨p1ã®ãƒ™ã‚¯ãƒˆãƒ«ã¨triangleã®p2ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	float d5 = Vector3::dot(p0p1, p2Po);
 
-	//triangle‚Ìp0‚Æp2‚ÌƒxƒNƒgƒ‹‚Ætriangle‚Ìp2‚ÆPoint‚ÌƒxƒNƒgƒ‹‚Ì“àÏ
+	//triangleã®p0ã¨p2ã®ãƒ™ã‚¯ãƒˆãƒ«ã¨triangleã®p2ã¨Pointã®ãƒ™ã‚¯ãƒˆãƒ«ã®å†…ç©
 	float d6 = Vector3::dot(p0p2, p2Po);
 
 
@@ -154,9 +154,9 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	}
 
 
-	// point‚ªp0p2‚Ì•Ó—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚µA‚ ‚ê‚Îpoint‚Ìp0p2ã‚É‘Î‚·‚éË‰e‚ğ•Ô‚·
+	// pointãŒp0p2ã®è¾ºé ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ã—ã€ã‚ã‚Œã°pointã®p0p2ä¸Šã«å¯¾ã™ã‚‹å°„å½±ã‚’è¿”ã™
 
-	//—Ìˆæ“àƒ`ƒFƒbƒN‚Ì‚½‚ß‚ÌŒvZ‚±‚ê‚ª•‰‚Ì”‚È‚çOŠpŒ`‚ÌŠO‚É‚¢‚é
+	//é ˜åŸŸå†…ãƒã‚§ãƒƒã‚¯ã®ãŸã‚ã®è¨ˆç®—ã“ã‚ŒãŒè² ã®æ•°ãªã‚‰ä¸‰è§’å½¢ã®å¤–ã«ã„ã‚‹
 	float p0p2Projection = d2 * d5 - d6 * d1;
 
 	if (p0p2Projection <= 0.0f and d2 >= 0.0f and d6 <= 0.0f)
@@ -165,9 +165,9 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 		return;
 	}
 
-	// point‚ªp1p2‚Ì•Ó—Ìˆæ‚Ì’†‚É‚ ‚é‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN‚µA‚ ‚ê‚Îpoint‚Ìp1p2ã‚É‘Î‚·‚éË‰e‚ğ•Ô‚·
+	// pointãŒp1p2ã®è¾ºé ˜åŸŸã®ä¸­ã«ã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ã—ã€ã‚ã‚Œã°pointã®p1p2ä¸Šã«å¯¾ã™ã‚‹å°„å½±ã‚’è¿”ã™
 
-	//—Ìˆæ“àƒ`ƒFƒbƒN‚Ì‚½‚ß‚ÌŒvZ‚±‚ê‚ª•‰‚Ì”‚È‚çOŠpŒ`‚ÌŠO‚É‚¢‚é
+	//é ˜åŸŸå†…ãƒã‚§ãƒƒã‚¯ã®ãŸã‚ã®è¨ˆç®—ã“ã‚ŒãŒè² ã®æ•°ãªã‚‰ä¸‰è§’å½¢ã®å¤–ã«ã„ã‚‹
 	float p1p2Projection = d3 * d6 - d5 * d4;
 
 	if (p1p2Projection <= 0.0f and (d4-d3) >= 0.0f and (d5-d6) >= 0.0f)
@@ -180,7 +180,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 
 #pragma endregion
 
-	//OŠpŒ`‚Ì’†‚É‚ ‚éê‡
+	//ä¸‰è§’å½¢ã®ä¸­ã«ã‚ã‚‹å ´åˆ
 	float denom = 1.0f / (p1p2Projection + p0p2Projection + p0p1Projection);
 	float v = p0p2Projection * denom;
 	float w = p0p1Projection * denom;
@@ -222,14 +222,14 @@ bool Collision::CheckCube2CubeAABB(const Cube& cube1, const Cube& cube2)
 	Vector3 min2 = cube2.center_ - cube2.size_;
 	Vector3 max2 = cube2.center_ + cube2.size_;
 
-	//’†‰›‚©‚çƒTƒCƒY•ª‚ÌˆÊ’u“à‚É‚à‚¤•Ğ•û‚ª‚ ‚é‚©
+	//ä¸­å¤®ã‹ã‚‰ã‚µã‚¤ã‚ºåˆ†ã®ä½ç½®å†…ã«ã‚‚ã†ç‰‡æ–¹ãŒã‚ã‚‹ã‹
 	if ((min1 <= max2) and (max1 >= min2))
 	{
-		//“–‚½‚Á‚Ä‚Ü‚·‚æ
+		//å½“ãŸã£ã¦ã¾ã™ã‚ˆ
 		return true;
 	}
 
-	//“–‚½‚Á‚Ä‚È‚¢‚æ
+	//å½“ãŸã£ã¦ãªã„ã‚ˆ
 	return false;
 
 }
@@ -242,14 +242,14 @@ bool Collision::CheckCube2BoxAABB(const Cube& cube, const Rectangular& Box)
 	Vector3 min2 = Box.center_ - Box.sizeMin_;
 	Vector3 max2 = Box.center_ + Box.sizeMax_;
 
-	//’†‰›‚©‚çƒTƒCƒY•ª‚ÌˆÊ’u“à‚É‚à‚¤•Ğ•û‚ª‚ ‚é‚©
+	//ä¸­å¤®ã‹ã‚‰ã‚µã‚¤ã‚ºåˆ†ã®ä½ç½®å†…ã«ã‚‚ã†ç‰‡æ–¹ãŒã‚ã‚‹ã‹
 	if ((min1 <= max2) and (max1 >= min2))
 	{
-		//“–‚½‚Á‚Ä‚Ü‚·‚æ
+		//å½“ãŸã£ã¦ã¾ã™ã‚ˆ
 		return true;
 	}
 
-	//“–‚½‚Á‚Ä‚È‚¢‚æ
+	//å½“ãŸã£ã¦ãªã„ã‚ˆ
 	return false;
 }
 
@@ -266,36 +266,36 @@ bool Collision::CheckBox2BoxAABB(const Rectangular& Box1, const Rectangular& Box
 	Vector3 min2 = Box2.center_ - Box2.sizeMin_;
 	Vector3 max2 = Box2.center_ + Box2.sizeMax_;
 
-	//’†‰›‚©‚çƒTƒCƒY•ª‚ÌˆÊ’u“à‚É‚à‚¤•Ğ•û‚ª‚ ‚é‚©
+	//ä¸­å¤®ã‹ã‚‰ã‚µã‚¤ã‚ºåˆ†ã®ä½ç½®å†…ã«ã‚‚ã†ç‰‡æ–¹ãŒã‚ã‚‹ã‹
 	if ((min1 <= max2) and (max1 >= min2))
 	{
-		//“–‚½‚Á‚Ä‚Ü‚·‚æ
+		//å½“ãŸã£ã¦ã¾ã™ã‚ˆ
 		return true;
 	}
 
-	//“–‚½‚Á‚Ä‚È‚¢‚æ
+	//å½“ãŸã£ã¦ãªã„ã‚ˆ
 	return false;
 }
 
 bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector3* inter)
 {
 
-	//Œë·‚ğB‚é‚½‚ß‚Ì‚â‚Â
+	//èª¤å·®ã‚’æ’®ã‚‹ãŸã‚ã®ã‚„ã¤
 	const float epsilon = 1.0e-5f;
 
-	//“àÏ
+	//å†…ç©
 	float d1 = Vector3::dot(plane.normal_, ray.dir_);
 
-	//Œü‚«‚ª“¯‚¶‚È‚Ì‚Å“–‚½‚Á‚Ä‚È‚¢
+	//å‘ããŒåŒã˜ãªã®ã§å½“ãŸã£ã¦ãªã„
 	if (d1 > -epsilon)
 	{
 		return false;
 	}
 
-	//Ë‰e‚ğ‹‚ß‚é
+	//å°„å½±ã‚’æ±‚ã‚ã‚‹
 	float d2 = Vector3::dot(plane.normal_, ray.start_);
 
-	//n“_‚Æ•½–Ê‚Ì‹——£
+	//å§‹ç‚¹ã¨å¹³é¢ã®è·é›¢
 	float dist = d2 - plane.distance_;
 
 	float t = dist / -d1;
@@ -325,24 +325,24 @@ bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distan
 bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector3* inter)
 {
 
-	//‚Ü‚¸OŠpŒ`‚ª‘®‚·‚é•½–Ê‚Æ‚Ì“–‚½‚è”»’è‚ğ‚Æ‚é
+	//ã¾ãšä¸‰è§’å½¢ãŒå±ã™ã‚‹å¹³é¢ã¨ã®å½“ãŸã‚Šåˆ¤å®šã‚’ã¨ã‚‹
 	Plane plane;
 
 	Vector3 planeInter;
 
-	//–@ü‚ÍOŠpŒ`‚Æ“¯‚¶
+	//æ³•ç·šã¯ä¸‰è§’å½¢ã¨åŒã˜
 	plane.normal_ = triangle.normal_;
 
-	//‹——£‚Í‘ã•\‚ÌˆÊ’uƒxƒNƒgƒ‹‚Æ–@ü‚Å‹‚ß‚ç‚ê‚é
+	//è·é›¢ã¯ä»£è¡¨ã®ä½ç½®ãƒ™ã‚¯ãƒˆãƒ«ã¨æ³•ç·šã§æ±‚ã‚ã‚‰ã‚Œã‚‹
 	plane.distance_ = Vector3::dot(triangle.normal_,triangle.p0_);
 
-	//•½–Ê‚É‚·‚ç“–‚½‚Á‚Ä‚¢‚È‚¢‚È‚ç‚»‚à‚»‚à“–‚½‚Á‚Ä‚È‚¢
+	//å¹³é¢ã«ã™ã‚‰å½“ãŸã£ã¦ã„ãªã„ãªã‚‰ãã‚‚ãã‚‚å½“ãŸã£ã¦ãªã„
 	if (!CheckRay2Plane(ray, plane, distance, &planeInter))
 	{
 		return false;
 	}
 
-	//Œë·‚ğB‚é‚½‚ß‚Ì‚â‚Â
+	//èª¤å·®ã‚’æ’®ã‚‹ãŸã‚ã®ã‚„ã¤
 	const float epsilon = 1.0e-5f;
 
 	Vector3 p0p1 = triangle.p1_ - triangle.p0_;
@@ -350,7 +350,7 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 
 	Vector3 m0 = Vector3::cross(interp0, p0p1);
 
-	//“à‘¤‚È‚ç–@ü‚Æ“¯‚¶•ûŒü‚ğŒü‚¢‚Ä‚¢‚é‚Ì‚Å•Ê‚Ì•ûŒü‚È‚ç“–‚½‚Á‚Ä‚È‚¢
+	//å†…å´ãªã‚‰æ³•ç·šã¨åŒã˜æ–¹å‘ã‚’å‘ã„ã¦ã„ã‚‹ã®ã§åˆ¥ã®æ–¹å‘ãªã‚‰å½“ãŸã£ã¦ãªã„
 	if (Vector3::dot(m0, triangle.normal_) <  -epsilon)
 	{
 		return false;
@@ -361,7 +361,7 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 
 	Vector3 m1 = Vector3::cross(interp1, p1p2);
 
-	//–@ü‚Æ‹t•ûŒü‚ğŒü‚¢‚Ä‚¢‚é‚È‚ç“–‚½‚Á‚Ä‚È‚¢
+	//æ³•ç·šã¨é€†æ–¹å‘ã‚’å‘ã„ã¦ã„ã‚‹ãªã‚‰å½“ãŸã£ã¦ãªã„
 	if (Vector3::dot(m1, triangle.normal_) < -epsilon)
 	{
 		return false;
@@ -372,7 +372,7 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 
 	Vector3 m2 = Vector3::cross(interp2, p2p0);
 
-	//–@ü‚Æ‹t•ûŒü‚ğŒü‚¢‚Ä‚¢‚é‚È‚ç“–‚½‚Á‚Ä‚È‚¢
+	//æ³•ç·šã¨é€†æ–¹å‘ã‚’å‘ã„ã¦ã„ã‚‹ãªã‚‰å½“ãŸã£ã¦ãªã„
 	if (Vector3::dot(m2, triangle.normal_) < -epsilon)
 	{
 		return false;
@@ -392,14 +392,14 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, Vector3* inter)
 {
 
-	//‹…‚Ì’†S‚©‚çƒŒƒC‚Ìn“_‚Ö‚ÌƒxƒNƒgƒ‹‚ğì‚é
+	//çƒã®ä¸­å¿ƒã‹ã‚‰ãƒ¬ã‚¤ã®å§‹ç‚¹ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’ä½œã‚‹
 	Vector3 m = ray.start_ - sphere.center_;
 	float b = Vector3::dot(m, ray.dir_);
 	float c = Vector3::dot(m, m) - (sphere.radius_ * sphere.radius_);
 
-	//ray‚Ìn“_‚ªsphere‚ÌŠO‘¤‚É‚ ‚è(c>0)A
-	//ray‚ªsphere‚©‚ç—£‚ê‚Ä‚¢‚­•ûŒü‚ğw‚µ‚Ä‚¢‚éê‡(b>0)A
-	//“–‚½‚ç‚È‚¢
+	//rayã®å§‹ç‚¹ãŒsphereã®å¤–å´ã«ã‚ã‚Š(c>0)ã€
+	//rayãŒsphereã‹ã‚‰é›¢ã‚Œã¦ã„ãæ–¹å‘ã‚’æŒ‡ã—ã¦ã„ã‚‹å ´åˆ(b>0)ã€
+	//å½“ãŸã‚‰ãªã„
 	if (c > 0.0f and b > 0.0f)
 	{
 
@@ -409,16 +409,16 @@ bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* dis
 
 	float d = (b * b) - c;
 
-	//Œğ“_‚ª‘¶İ‚µ‚È‚¢‚Ì‚Å“–‚½‚Á‚Ä‚È‚¢
+	//äº¤ç‚¹ãŒå­˜åœ¨ã—ãªã„ã®ã§å½“ãŸã£ã¦ãªã„
 	if (d < 0.0f)
 	{
 		return false;
 	}
 
-	//Œğ“_‚Ìˆê”Ô‹ß‚¢‚Æ‚±‚ë‚ğŒvZ(•£‚Å‚Í‚È‚¢‚È‚ç2‚Â‚ ‚é‚½‚ß)
+	//äº¤ç‚¹ã®ä¸€ç•ªè¿‘ã„ã¨ã“ã‚ã‚’è¨ˆç®—(æ·µã§ã¯ãªã„ãªã‚‰2ã¤ã‚ã‚‹ãŸã‚)
 	float t = -b - sqrtf(d);
 
-	//t‚ª•‰‚Ì”‚È‚çƒŒƒC‚ª‹…‚Ì“à‘¤‚É‚¢‚é‚ç‚µ‚¢‚Ì‚Å0‚É‚·‚é
+	//tãŒè² ã®æ•°ãªã‚‰ãƒ¬ã‚¤ãŒçƒã®å†…å´ã«ã„ã‚‹ã‚‰ã—ã„ã®ã§0ã«ã™ã‚‹
 	if (t < 0.0f)
 	{
 		t = 0.0f;

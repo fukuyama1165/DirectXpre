@@ -28,7 +28,7 @@ void CartridgeParticle::Initialize()
 void CartridgeParticle::Initialize(const Vector3& position, const Vector3& velocity, float liveTime)
 {
 	obj_.FBXInit();
-	//ˆø”‚ÅŽó‚¯Žæ‚Á‚½‰ŠúÀ•W‚ðƒZƒbƒg
+	//å¼•æ•°ã§å—ã‘å–ã£ãŸåˆæœŸåº§æ¨™ã‚’ã‚»ãƒƒãƒˆ
 	obj_.Trans_ = position;
 
 	velocity;
@@ -58,7 +58,7 @@ void CartridgeParticle::Update()
 {
 	moveSpeed_ -= Velocity_.y;
 
-	//ˆÚ“®‚·‚é‚Æ‚±‚ë
+	//ç§»å‹•ã™ã‚‹ã¨ã“ã‚
 	obj_.Trans_.x += Velocity_.x;
 	obj_.Trans_.x += moveSpeed_;
 	obj_.Trans_.z += Velocity_.z;

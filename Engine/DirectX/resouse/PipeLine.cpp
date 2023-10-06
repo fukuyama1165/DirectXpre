@@ -4,49 +4,49 @@
 
 PipeLine::PipeLine(PipeLineSeting pipeLineSeting)
 {
-#pragma region ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“İ’è
+#pragma region ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³è¨­å®š
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“•Ó
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³è¾º
 
-	//’¸“_ƒVƒF[ƒ_AƒsƒNƒZƒ‹ƒVƒF[ƒ_‚ğƒpƒCƒvƒ‰ƒCƒ“‚Éİ’è
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã€ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚’ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã«è¨­å®š
 	gpipeline_.VS.pShaderBytecode = pipeLineSeting.vShader.blob_->GetBufferPointer();
 	gpipeline_.VS.BytecodeLength = pipeLineSeting.vShader.blob_->GetBufferSize();
 	gpipeline_.PS.pShaderBytecode = pipeLineSeting.pShader.blob_->GetBufferPointer();
 	gpipeline_.PS.BytecodeLength = pipeLineSeting.pShader.blob_->GetBufferSize();
 
-	//ƒTƒ“ƒvƒ‹ƒ}ƒXƒN‚Æƒ‰ƒXƒ^ƒ‰ƒCƒUƒXƒe[ƒg‚Ìİ’è
-	gpipeline_.SampleMask = pipeLineSeting.sampleMask;//•W€İ’è
+	//ã‚µãƒ³ãƒ—ãƒ«ãƒã‚¹ã‚¯ã¨ãƒ©ã‚¹ã‚¿ãƒ©ã‚¤ã‚¶ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
+	gpipeline_.SampleMask = pipeLineSeting.sampleMask;//æ¨™æº–è¨­å®š
 	gpipeline_.RasterizerState = pipeLineSeting.rasterizerState;
 
 
 
-	//ƒuƒŒƒ“ƒhƒXƒe[ƒg‚Ìİ’è
+	//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã®è¨­å®š
 	for (uint16_t i = 0; i < pipeLineSeting.blendDescs.size(); i++)
 	{
 		gpipeline_.BlendState.RenderTarget[i] = pipeLineSeting.blendDescs[i];
 	}
 	
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	gpipeline_.InputLayout.pInputElementDescs = pipeLineSeting.inputLayouts.data();
 	gpipeline_.InputLayout.NumElements = (uint32_t)pipeLineSeting.inputLayouts.size();
 
-	//}Œ`‚ÌŒ`ó‚ğİ’è
+	//å›³å½¢ã®å½¢çŠ¶ã‚’è¨­å®š
 	gpipeline_.PrimitiveTopologyType = pipeLineSeting.primitiveTopologyType;
 
-	//‚»‚Ì‘¼‚Ìİ’è
-	//•`‰æ‘ÎÛ‚Ì”‚ğİ’è
+	//ãã®ä»–ã®è¨­å®š
+	//æç”»å¯¾è±¡ã®æ•°ã‚’è¨­å®š
 	gpipeline_.NumRenderTargets = (uint32_t)pipeLineSeting.RTVFormats.size();
 
-	//•`‰æİ’è‚ğ‰æ–Ê‚Ì”‚¾‚¯—pˆÓ?
+	//æç”»è¨­å®šã‚’ç”»é¢ã®æ•°ã ã‘ç”¨æ„?
 	for (uint16_t i = 0; i < pipeLineSeting.RTVFormats.size(); i++)
 	{
 		gpipeline_.RTVFormats[i] = pipeLineSeting.RTVFormats[i];
 	}
 
-	//‚PƒsƒNƒZƒ‹‚É‚Â‚«‰½‰ñƒTƒ“ƒvƒŠƒ“ƒO‚·‚é‚©
+	//ï¼‘ãƒ”ã‚¯ã‚»ãƒ«ã«ã¤ãä½•å›ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°ã™ã‚‹ã‹
 	gpipeline_.SampleDesc.Count = pipeLineSeting.sampleDesc.Count;
 
-	//ƒfƒuƒXƒXƒeƒ“ƒVƒ‹ƒXƒe[ƒg
+	//ãƒ‡ãƒ–ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆ
 	gpipeline_.DepthStencilState = pipeLineSeting.depthDesc;
 	gpipeline_.DSVFormat = pipeLineSeting.DSVFormat;
 
@@ -79,11 +79,11 @@ PipeLine PipeLine::CreatePipeLine(std::string id, PipeLineSeting pipeLineSeting)
 
 PipeLine PipeLine::SearchPipeLines(std::string id)
 {
-	//ˆê‰ñ“Ç‚İ‚ñ‚¾‚±‚Æ‚ª‚ ‚éƒtƒ@ƒCƒ‹‚Í‚»‚Ì‚Ü‚Ü•Ô‚·
+	//ä¸€å›èª­ã¿è¾¼ã‚“ã ã“ã¨ãŒã‚ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã¯ãã®ã¾ã¾è¿”ã™
 	auto itr = std::find_if(PipeLines::GetInstance()->pipeLines_.begin(), PipeLines::GetInstance()->pipeLines_.end(), [&](const std::pair<std::string, PipeLine>& p) {
-		return p.first == id;//ğŒ
+		return p.first == id;//æ¡ä»¶
 		});
-	//Œ©‚Â‚©‚Á‚½‚ç‚»‚ê‚ğ•Ô‚·
+	//è¦‹ã¤ã‹ã£ãŸã‚‰ãã‚Œã‚’è¿”ã™
 	if (itr != PipeLines::GetInstance()->pipeLines_.end()) {
 		return PipeLines::GetInstance()->pipeLines_[id];
 	}
@@ -111,13 +111,13 @@ PipeLineSeting PipeLine::defCreatePipeLineSeting(const Shader& vs, const Shader&
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc = gpipeline_.BlendState.RenderTarget[0];
 	gpipeline_.BlendState.RenderTarget[1] = blenddesc;
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-	blenddesc.BlendEnable = true;//ƒuƒŒƒ“ƒh‚ğ—LŒø‚É‚·‚é
-	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ƒ\[ƒX‚Ì’l‚ğ100%g‚¤
-	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//ƒfƒXƒg‚Ì’l‚ğ0%g‚¤
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//‰ÁZ
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ƒ\[ƒX‚ÌƒAƒ‹ƒtƒ@’l
+	blenddesc.BlendEnable = true;//ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;//ã‚½ãƒ¼ã‚¹ã®å€¤ã‚’100%ä½¿ã†
+	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;//ãƒ‡ã‚¹ãƒˆã®å€¤ã‚’0%ä½¿ã†
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;//åŠ ç®—
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;//ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;//1.0f-ã‚½ãƒ¼ã‚¹ã®ã‚¢ãƒ«ãƒ•ã‚¡å€¤
 
 	seting1.blendDescs.push_back(blenddesc);
 	seting1.blendDescs.push_back(blenddesc);
@@ -131,10 +131,10 @@ PipeLineSeting PipeLine::defCreatePipeLineSeting(const Shader& vs, const Shader&
 
 	seting1.sampleDesc.Count = 1;
 
-	seting1.depthDesc.DepthEnable = true;//[“xƒeƒXƒg‚ğs‚¤
-	seting1.depthDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//‘‚«‚İ‹–‰Â
-	seting1.depthDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//¬‚³‚¯‚ê‚Î‡Ši
-	seting1.DSVFormat = DXGI_FORMAT_D32_FLOAT;//[“x’lƒtƒH[ƒ}ƒbƒg
+	seting1.depthDesc.DepthEnable = true;//æ·±åº¦ãƒ†ã‚¹ãƒˆã‚’è¡Œã†
+	seting1.depthDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//æ›¸ãè¾¼ã¿è¨±å¯
+	seting1.depthDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//å°ã•ã‘ã‚Œã°åˆæ ¼
+	seting1.DSVFormat = DXGI_FORMAT_D32_FLOAT;//æ·±åº¦å€¤ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 
 	seting1.rootsignature = rootsignature;
 

@@ -48,18 +48,18 @@ public:
 
 	PipeLine() {};
 	/// <summary>
-	/// w’è‚µ‚Ä“Ç‚İ‚İ
+	/// æŒ‡å®šã—ã¦èª­ã¿è¾¼ã¿
 	/// </summary>
-	/// <param name="pipeLineSeting">ì‚è‚½‚¢İ’è</param>
+	/// <param name="pipeLineSeting">ä½œã‚ŠãŸã„è¨­å®š</param>
 	PipeLine(PipeLineSeting pipeLineSeting);
 
-	//ƒpƒCƒvƒ‰ƒCƒ“‚ğì‚é
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚’ä½œã‚‹
 	static PipeLine CreatePipeLine(std::string id, PipeLineSeting pipeLineSeting);
 
-	//w’è‚µ‚½id‚ÌƒpƒCƒvƒ‰ƒCƒ“‚ğ’T‚·(‚È‚¯‚ê‚Î‹ó‚ÌƒpƒCƒvƒ‰ƒCƒ“‚ğ•Ô‚·‚Ì‚Å’ˆÓ)
+	//æŒ‡å®šã—ãŸidã®ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚’æ¢ã™(ãªã‘ã‚Œã°ç©ºã®ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚’è¿”ã™ã®ã§æ³¨æ„)
 	static PipeLine SearchPipeLines(std::string id);
 
-	//“o˜^
+	//ç™»éŒ²
 	static void RegisterPipeLine(std::string id, PipeLine pipeLine);
 
 	static PipeLineSeting defCreatePipeLineSeting(const Shader& vs, const Shader& ps, const std::vector<D3D12_INPUT_ELEMENT_DESC>& inputLayout,ID3D12RootSignature* rootsignature);
@@ -77,7 +77,7 @@ private:
 			return &instance;
 		};
 
-		//ƒpƒCƒvƒ‰ƒCƒ“‚Ìƒf[ƒ^‚Ì˜A‘z”z—ñ
+		//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ãƒ‡ãƒ¼ã‚¿ã®é€£æƒ³é…åˆ—
 		std::map<std::string, PipeLine> pipeLines_;
 
 

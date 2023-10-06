@@ -5,7 +5,7 @@
 #include "CubeCollider.h"
 
 /// <summary>
-/// ©ƒLƒƒƒ‰‚Ì’e
+/// è‡ªã‚­ãƒ£ãƒ©ã®å¼¾
 /// </summary>
 class EnemyBullet
 {
@@ -14,51 +14,51 @@ public:
 	~EnemyBullet();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
-	/// <param name="position">‰ŠúÀ•W</param>
-	/// <param name="velocity">‘¬“x</param>
+	/// <param name="position">åˆæœŸåº§æ¨™</param>
+	/// <param name="velocity">é€Ÿåº¦</param>
 	void Initlize(const Vector3& position, const Vector3& velocity);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
-	/// <param name="model">ƒ‚ƒfƒ‹</param>
+	/// <param name="model">ãƒ¢ãƒ‡ãƒ«</param>
 	void Draw(AnimationModel* model);
 
 	bool IsDead()const { return isDead_; }
 
-	//Õ“Ë‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”
+	//è¡çªã‚’æ¤œå‡ºã—ãŸã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void OnCollision();
 
 	Vector3 GetWorldPosition();
 
 private:
 
-	//’e‚Ì–{‘Ì
+	//å¼¾ã®æœ¬ä½“
 	Object3D obj_;
 
-	//‘¬“x
+	//é€Ÿåº¦
 	Vector3	Velocity_;
 
-	//õ–½<frm>
+	//å¯¿å‘½<frm>
 	static const int32_t kLifeTime = 60 * 5;
 
-	//ƒfƒXƒ^ƒCƒ}[
+	//ãƒ‡ã‚¹ã‚¿ã‚¤ãƒãƒ¼
 	int32_t deathTimer_ = kLifeTime;
 
-	//ƒfƒXƒtƒ‰ƒO
+	//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°
 	bool isDead_ = false;
 
-	//“–‚½‚è”»’è‚Ìˆ—
+	//å½“ãŸã‚Šåˆ¤å®šã®å‡¦ç†
 	BulletCollision collision;
 
-	//“–‚½‚è”»’è‚Ì–{‘Ì
+	//å½“ãŸã‚Šåˆ¤å®šã®æœ¬ä½“
 	CubeCollider Collider;
 
 };

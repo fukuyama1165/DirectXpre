@@ -98,7 +98,7 @@ void Player::Update()
 		isUseKeybord_ = false;
 	}
 
-	//ƒfƒXƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
+	//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°ã®ç«‹ã£ãŸå¼¾ã‚’å‰Šé™¤
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
 	{
 		return bullet->IsDead();
@@ -124,7 +124,7 @@ void Player::Update()
 		
 	}
 
-	//ˆÚ“®’†‚Å‚Í‚È‚¢‚È‚ç
+	//ç§»å‹•ä¸­ã§ã¯ãªã„ãªã‚‰
 	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
 		if (cameraCheng_)
@@ -173,7 +173,7 @@ void Player::Update()
 
 	hp3Sprote_.pos_.y = sinf(test.x)*10;*/
 
-	//ˆÚ“®(Šî–{“I‚ÉƒJƒƒ‰‚ğŠî€‚É)	
+	//ç§»å‹•(åŸºæœ¬çš„ã«ã‚«ãƒ¡ãƒ©ã‚’åŸºæº–ã«)	
 	Vector3 playerPos = { playerCamera_.pos_.x,playerCamera_.pos_.y - 1 ,playerCamera_.pos_.z };
 
 	playerObj_.SetPos(playerPos + (playerCamera_.forward_ * 5));
@@ -280,7 +280,7 @@ void Player::Draw()
 		}
 	}
 
-	//‚Ü‚¾Š®¬‚µ‚Ä‚¢‚È‚¢‚Ì‚Å•`‰æ‚ğ~‚ß‚Ä‚¢‚Ü‚·
+	//ã¾ã å®Œæˆã—ã¦ã„ãªã„ã®ã§æç”»ã‚’æ­¢ã‚ã¦ã„ã¾ã™
 	//flashObj_.Draw("Particle");
 	
 	damageSprote_.Draw();
@@ -295,25 +295,25 @@ void Player::Attack()
 	
 	if (((input_->GetMouseButtonDown(0) and bulletCT_ <= 0))and isUseKeybord_)
 	{
-		//”­Ë’n“_‚Ìˆ×‚É©ƒLƒƒƒ‰‚ÌÀ•W‚ğƒRƒs[
+		//ç™ºå°„åœ°ç‚¹ã®ç‚ºã«è‡ªã‚­ãƒ£ãƒ©ã®åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
 		Vector3 position = playerObj_.GetWorldPos();
 		position.z += 2;
 
-		//ˆÚ“®—Ê‚ğ’Ç‰Á
+		//ç§»å‹•é‡ã‚’è¿½åŠ 
 		Vector3 velocity(0, 0, 0);
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
 		velocity = velocity.normalize() * bulletSpeed_;
 
 		Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration(playerObj_.GetRotate()) * matMoveGeneration(playerObj_.GetPos());
 
-		//‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚Ì•ûŒü‚É‡‚í‚¹‚Ä‰ñ“]‚·‚é
+		//é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è‡ªæ©Ÿã®å‘ãã®æ–¹å‘ã«åˆã‚ã›ã¦å›è»¢ã™ã‚‹
 		velocity = VectorMat(velocity, playermat);
 
-		//’e‚Ì¶¬‚Æ‰Šú‰»
+		//å¼¾ã®ç”Ÿæˆã¨åˆæœŸåŒ–
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initlize(position, velocity);
 
-		//’e‚ğ“o˜^
+		//å¼¾ã‚’ç™»éŒ²
 		bullets_.emplace_back(std::move(newBullet));
 
 		bulletCT_ = bulletMaxCT_;
@@ -327,7 +327,7 @@ void Player::Attack()
 
 		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 
-		//ƒ}ƒYƒ‹ƒtƒ‰ƒbƒVƒ…—p‚Ìƒ^ƒCƒ}[‚ğƒŠƒZƒbƒg
+		//ãƒã‚ºãƒ«ãƒ•ãƒ©ãƒƒã‚·ãƒ¥ç”¨ã®ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆ
 		flashTimer_ = 0;
 		
 	}
@@ -342,34 +342,34 @@ void Player::Attack()
 		muzzleFlashTime_--;
 	}
 
-	//ƒQ[ƒ€ƒpƒbƒh–¢Ú‘±‚È‚ç‰½‚à‚¹‚¸”²‚¯‚é
+	//ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰æœªæ¥ç¶šãªã‚‰ä½•ã‚‚ã›ãšæŠœã‘ã‚‹
 	if (!Input::GetInstance()->GetIsUseGamePad())
 	{
 		return;
 	}
 
-	//RƒgƒŠƒK[‚ğ‰Ÿ‚µ‚Ä‚¢‚½‚ç
+	//Rãƒˆãƒªã‚¬ãƒ¼ã‚’æŠ¼ã—ã¦ã„ãŸã‚‰
 	if (Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0 and !isUseKeybord_)
 	{
-		//”­Ë’n“_‚Ìˆ×‚É©ƒLƒƒƒ‰‚ÌÀ•W‚ğƒRƒs[
+		//ç™ºå°„åœ°ç‚¹ã®ç‚ºã«è‡ªã‚­ãƒ£ãƒ©ã®åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
 		Vector3 position = playerObj_.GetWorldPos();
 		position.z += 2;
 
-		//ˆÚ“®—Ê‚ğ’Ç‰Á		
+		//ç§»å‹•é‡ã‚’è¿½åŠ 		
 		Vector3 velocity(0, 0, 0);
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
 		velocity = velocity.normalize() * bulletSpeed_;
 
 		Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration(playerObj_.GetRotate()) * matMoveGeneration(playerObj_.GetPos());
 
-		//‘¬“xƒxƒNƒgƒ‹‚ğ©‹@‚ÌŒü‚«‚É‡‚í‚¹‚Ä‰ñ“]‚·‚é
+		//é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è‡ªæ©Ÿã®å‘ãã«åˆã‚ã›ã¦å›è»¢ã™ã‚‹
 		velocity = VectorMat(velocity, playermat);
 
-		//’e‚Ì¶¬‚Æ‰Šú‰»
+		//å¼¾ã®ç”Ÿæˆã¨åˆæœŸåŒ–
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initlize(position, velocity);
 
-		//’e‚ğ“o˜^
+		//å¼¾ã‚’ç™»éŒ²
 		bullets_.emplace_back(std::move(newBullet));
 
 		bulletCT_ = bulletMaxCT_;
@@ -450,10 +450,10 @@ void Player::Reticle2DMouse()
 
 	if (isUseKeybord_)
 	{
-		//ƒXƒNƒŠ[ƒ“À•W‚ğæ“¾
+		//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ã‚’å–å¾—
 		GetCursorPos(&mousePosition);
 
-		//ƒNƒ‰ƒCƒAƒ“ƒgƒGƒŠƒAÀ•W‚É•ÏŠ·‚·‚é
+		//ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‚¨ãƒªã‚¢åº§æ¨™ã«å¤‰æ›ã™ã‚‹
 		HWND hwnd = WinApp::GetInstance()->getHwnd();
 		ScreenToClient(hwnd, &mousePosition);
 
@@ -481,27 +481,27 @@ void Player::Reticle2DMouse()
 			640 + 0,360 + 0,0,1
 	};
 
-	//ƒrƒ…[s—ñ‚ÆƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñAƒrƒ…[ƒ|[ƒgs—ñ‚ğ‡¬‚·‚é
+	//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã¨ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã€ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¡Œåˆ—ã‚’åˆæˆã™ã‚‹
 	Matrix4x4 matVPV;
 	matVPV = Camera::nowCamera->matView_;
 	matVPV *= Camera::nowCamera->matProjection_;
 	matVPV *= matViewport;
-	//‡¬s—ñ‚Ì‹ts—ñ‚ğŒvZ‚·‚é
+	//åˆæˆè¡Œåˆ—ã®é€†è¡Œåˆ—ã‚’è¨ˆç®—ã™ã‚‹
 	Matrix4x4 matInverseVPV =matVPV.InverseMatrix();
 
-	//ƒXƒNƒŠ[ƒ“À•W
+	//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™
 	Vector3 posNear = Vector3(reticle_.pos_.x, reticle_.pos_.y, 0);
 	Vector3 posFar = Vector3(reticle_.pos_.x, reticle_.pos_.y, 1);
 
-	//ƒXƒNƒŠ[ƒ“À•WŒn‚©‚çƒ[ƒ‹ƒhÀ•WŒn‚Ö
+	//ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™ç³»ã‹ã‚‰ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ç³»ã¸
 	posNear = Matrix4x4::VectorMatDivW(matInverseVPV, posNear);
 	posFar = Matrix4x4::VectorMatDivW(matInverseVPV, posFar);
 
-	//ƒ}ƒEƒXƒŒƒC‚Ì•ûŒü
+	//ãƒã‚¦ã‚¹ãƒ¬ã‚¤ã®æ–¹å‘
 	Vector3 mouseDirection = nainavec3(posFar, posNear);
 	mouseDirection = mouseDirection.normalize();
 
-	//ƒJƒƒ‰‚©‚çÆ€ƒIƒuƒWƒFƒNƒg‚Ì‹——£
+	//ã‚«ãƒ¡ãƒ©ã‹ã‚‰ç…§æº–ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è·é›¢
 	const float kDistanceTestObject = 100;
 
 	Vector3 A = posNear;
@@ -557,7 +557,7 @@ void Player::MuzzleFlash()
 	}
 	else
 	{
-		//Œõ‚Á‚½‚Ì‚ÅÁ‚¦‚é‚Æ‚«‚Ì“®‚«flashTimer‚Í‘S‘Ì‚Å“®‚¢‚Ä‚¢‚é‚Ì‚Å“‡‚·‚é‚½‚ß‚Éˆø‚¢‚Ä‚¢‚é
+		//å…‰ã£ãŸã®ã§æ¶ˆãˆã‚‹ã¨ãã®å‹•ãflashTimerã¯å…¨ä½“ã§å‹•ã„ã¦ã„ã‚‹ã®ã§çµ±åˆã™ã‚‹ãŸã‚ã«å¼•ã„ã¦ã„ã‚‹
 		flashAlpha_ = easeInSine(1.0f, 0.0f, (flashTimer_ - flashChengTime_) / flashEndTime_);
 	}
 
