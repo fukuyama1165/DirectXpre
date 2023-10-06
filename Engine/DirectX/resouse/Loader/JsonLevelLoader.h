@@ -5,7 +5,11 @@
 #include <memory>
 #include "Vector3.h"
 #include "Vector4.h"
+#pragma warning( push )
+#pragma warning( disable : 26819 )
 #include "json.hpp"
+#pragma warning( pop )
+
 
 struct LevelData
 {
