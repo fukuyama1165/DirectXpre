@@ -1,4 +1,4 @@
-#include "FBXLoader.h"
+ï»¿#include "FBXLoader.h"
 
 AnimationModel::~AnimationModel()
 {
@@ -6,13 +6,13 @@ AnimationModel::~AnimationModel()
 
 bool AnimationModel::Load(std::string filename, std::string fileType, std::string materialName, std::string materialType)
 {
-	//ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 	Assimp::Importer importer;
 
-	//ƒtƒ@ƒCƒ‹–¼‚ğ•Û‘¶
+	//ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ä¿å­˜
 	filename_ = filename;
 
-	//ƒ}ƒeƒŠƒAƒ‹–¼‚ğ•Û‘¶
+	//ãƒãƒ†ãƒªã‚¢ãƒ«åã‚’ä¿å­˜
 	if (materialName != "")
 	{
 		materialName_ = "Resources\\obj\\" + filename + "\\" + materialName + "." + materialType;
@@ -22,23 +22,23 @@ bool AnimationModel::Load(std::string filename, std::string fileType, std::strin
 		materialName_ = materialName;
 	}
 
-	//ƒtƒ@ƒCƒ‹ƒpƒX‚ğ‚Â‚­‚é‚æ`
+	//ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’ã¤ãã‚‹ã‚ˆï½
 	std::string baseDirectory = "Resources\\obj\\";
 	std::string extend = "." + fileType;
 	filename = baseDirectory + filename + "\\" + filename + extend;
 
-	//w’è‚µ‚½ƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İ‚ç‚µ‚¢
+	//æŒ‡å®šã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿ã‚‰ã—ã„
 	const aiScene* scene = importer.ReadFile(filename,
-		aiProcess_CalcTangentSpace |//ƒCƒ“ƒ|[ƒg‚µ‚½ƒƒbƒVƒ…‚Ìƒ^ƒ“ƒWƒFƒ“ƒg‚Æ‚©‚ğŒvZ‚µ‚Ä‚­‚ê‚é‚ç‚µ‚¢
-		aiProcess_Triangulate |//OŠp–Ê‰»‚µ‚Ä‚­‚ê‚é
-		aiProcess_JoinIdenticalVertices |//ƒCƒ“ƒ|[ƒg‚µ‚½ƒƒbƒVƒ…‚Ì“¯ˆê‚Ì’¸“_ƒf[ƒ^ƒZƒbƒg‚ğ¯•ÊAŒ‹‡‚·‚é
-		aiProcess_SortByPType |//2‚ÂˆÈã‚ÌƒvƒŠƒ~ƒeƒBƒuƒ^ƒCƒv‚ğ‚ÂƒƒbƒVƒ…‚ğ‹Ï¿‚ÈƒTƒuƒƒbƒVƒ…‚É•ªŠ„‚·‚é
-		aiProcess_MakeLeftHanded |//¶èÀ•WŒn‚É
-		aiProcess_FlipUVs |//UVÀ•W‚ğ¶ã‚ğŒ´“_‚É‚·‚é
-		aiProcess_FlipWindingOrder//CCWƒJƒŠƒ“ƒO‚É“K‚µ‚½Œv‰ñ‚è‚Ì–Ê‚Ì‡˜‚É‚·‚é
+		aiProcess_CalcTangentSpace |//ã‚¤ãƒ³ãƒãƒ¼ãƒˆã—ãŸãƒ¡ãƒƒã‚·ãƒ¥ã®ã‚¿ãƒ³ã‚¸ã‚§ãƒ³ãƒˆã¨ã‹ã‚’è¨ˆç®—ã—ã¦ãã‚Œã‚‹ã‚‰ã—ã„
+		aiProcess_Triangulate |//ä¸‰è§’é¢åŒ–ã—ã¦ãã‚Œã‚‹
+		aiProcess_JoinIdenticalVertices |//ã‚¤ãƒ³ãƒãƒ¼ãƒˆã—ãŸãƒ¡ãƒƒã‚·ãƒ¥ã®åŒä¸€ã®é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆã‚’è­˜åˆ¥ã€çµåˆã™ã‚‹
+		aiProcess_SortByPType |//2ã¤ä»¥ä¸Šã®ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–ã‚¿ã‚¤ãƒ—ã‚’æŒã¤ãƒ¡ãƒƒã‚·ãƒ¥ã‚’å‡è³ªãªã‚µãƒ–ãƒ¡ãƒƒã‚·ãƒ¥ã«åˆ†å‰²ã™ã‚‹
+		aiProcess_MakeLeftHanded |//å·¦æ‰‹åº§æ¨™ç³»ã«
+		aiProcess_FlipUVs |//UVåº§æ¨™ã‚’å·¦ä¸Šã‚’åŸç‚¹ã«ã™ã‚‹
+		aiProcess_FlipWindingOrder//CCWã‚«ãƒªãƒ³ã‚°ã«é©ã—ãŸæ™‚è¨ˆå›ã‚Šã®é¢ã®é †åºã«ã™ã‚‹
 	);
 
-	//“Ç‚İ‚İ‚É¸”s‚µ‚½‚çƒGƒ‰[‚ğ‚Í‚¢‚Ä~‚Ü‚é?
+	//èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã‚’ã¯ã„ã¦æ­¢ã¾ã‚‹?
 	if (nullptr == scene)
 	{
 		//DoTheImportThing(importer.GetErrorString());
@@ -47,13 +47,13 @@ bool AnimationModel::Load(std::string filename, std::string fileType, std::strin
 
 
 	
-	//î•ñ‚ğ“ü‚ê‚é
+	//æƒ…å ±ã‚’å…¥ã‚Œã‚‹
 	if (scene != nullptr)
 	{
 		CopyNodeMesh(scene->mRootNode, scene);
 	}
 
-	//‚±‚±‚©‚çƒAƒjƒ[ƒVƒ‡ƒ“‚Ì—\’è
+	//ã“ã“ã‹ã‚‰ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®äºˆå®š
 
 
 	return true;
@@ -91,21 +91,21 @@ void AnimationModel::CopyNodeMesh(const aiNode* node, const aiScene* scene, Node
 
 	std::unique_ptr<Node> newNode = std::make_unique<Node>();
 
-	//•”ˆÊ‚Ì–¼‘O‚ğ“ü‚ê‚é
+	//éƒ¨ä½ã®åå‰ã‚’å…¥ã‚Œã‚‹
 	newNode->name_ = node->mName.C_Str();
 
-	//ƒƒbƒVƒ…‚Ì”‚¾‚¯‰ñ‚·
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã®æ•°ã ã‘å›ã™
 	for (uint16_t i = 0; i < node->mNumMeshes; i++)
 	{
-		//î•ñ‚ğ“ü‚ê‚é“ü‚ê•¨‚ğì‚é
+		//æƒ…å ±ã‚’å…¥ã‚Œã‚‹å…¥ã‚Œç‰©ã‚’ä½œã‚‹
 		std::unique_ptr<AnimationMesh> model = std::make_unique<AnimationMesh>();
 
-		//ƒƒbƒVƒ…‚Ìî•ñ‚ğ‘‚«‚İ
+		//ãƒ¡ãƒƒã‚·ãƒ¥ã®æƒ…å ±ã‚’æ›¸ãè¾¼ã¿
 		ProcessMesh(scene->mMeshes[node->mMeshes[i]], scene, *model.get());
 		newNode->meshes_.emplace_back(std::move(model));
 	}
 
-	//‚Á‚Ä‚éˆÊ’u‚ğ“ü‚ê‚é
+	//æŒã£ã¦ã‚‹ä½ç½®ã‚’å…¥ã‚Œã‚‹
 	newNode->transform_.m[0][0] = node->mTransformation.a1;
 	newNode->transform_.m[0][1] = node->mTransformation.a2;
 	newNode->transform_.m[0][2] = node->mTransformation.a3;
@@ -133,7 +133,7 @@ void AnimationModel::CopyNodeMesh(const aiNode* node, const aiScene* scene, Node
 	nodes_.emplace_back(std::move(newNode));
 	parent = nodes_.back().get();
 
-	//e‚ªİ’è‚³‚ê‚Ä‚¢‚é‚È‚ç
+	//è¦ªãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ãªã‚‰
 	if (targetParent)
 	{
 
@@ -174,19 +174,19 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 
 	}
 
-	//‚¨‚»‚ç‚­Å¬’PˆÊ‚ÌŒ`‚ªface‚ÉŠY“–‚µ‚Ä‚»‚Ì’†‚ÉƒCƒ“ƒfƒbƒNƒX‚ª‚ ‚é
+	//ãŠãã‚‰ãæœ€å°å˜ä½ã®å½¢ãŒfaceã«è©²å½“ã—ã¦ãã®ä¸­ã«ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒã‚ã‚‹
 	for (uint16_t i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
 
-		//ƒCƒ“ƒfƒbƒNƒX‚ğ“ü‚ê‚é
+		//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å…¥ã‚Œã‚‹
 		for (uint16_t j = 0; j < face.mNumIndices; j++)
 		{
 			model.indices_.emplace_back((unsigned short)face.mIndices[j]);
 		}
 	}
 
-	//ƒ}ƒeƒŠƒAƒ‹‚ğ“ü‚ê‚é
+	//ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’å…¥ã‚Œã‚‹
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiColor3D color;
@@ -211,7 +211,7 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 		material.material_.ambient_.y = color.g;
 		material.material_.ambient_.z = color.b;
 
-		//ƒeƒXƒg‚Å“Ç‚İ‚ñ‚¾‚â‚Â‚ÌƒAƒ“ƒrƒGƒ“ƒg‚ª‚È‚­‚ÄƒeƒNƒXƒ`ƒƒ‚ªŒ©‚¦‚È‚­‚È‚Á‚Ä‚µ‚Ü‚Á‚Ä‚¢‚½‚Ì‚Å’Ç‰Á
+		//ãƒ†ã‚¹ãƒˆã§èª­ã¿è¾¼ã‚“ã ã‚„ã¤ã®ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆãŒãªãã¦ãƒ†ã‚¯ã‚¹ãƒãƒ£ãŒè¦‹ãˆãªããªã£ã¦ã—ã¾ã£ã¦ã„ãŸã®ã§è¿½åŠ 
 		if (material.material_.ambient_.x == 0 && material.material_.ambient_.y == 0 && material.material_.ambient_.z == 0)
 		{
 			material.material_.ambient_.x = 1;
@@ -219,11 +219,11 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 			material.material_.ambient_.z = 1;
 		}
 
-		//ƒtƒ@ƒCƒ‹–¼
+		//ãƒ•ã‚¡ã‚¤ãƒ«å
 		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_NAME, name);
 		material.material_.name_ = name.C_Str();
 
-		//ƒ¿’l
+		//Î±å€¤
 		scene->mMaterials[mesh->mMaterialIndex]->Get(AI_MATKEY_OPACITY, material.material_.alpha_);
 		
 		material.MaterialConstBuffInit();
@@ -235,17 +235,17 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 	}
 
 
-	//ƒEƒGƒCƒg‚Ì•Û‘¶êŠ
+	//ã‚¦ã‚¨ã‚¤ãƒˆã®ä¿å­˜å ´æ‰€
 	std::vector<std::list<SetWeight>> weightList(model.vertices_.size());
-	//ƒ{[ƒ“‚Ì“Ç‚İ‚İ
+	//ãƒœãƒ¼ãƒ³ã®èª­ã¿è¾¼ã¿
 	for (uint16_t i = 0; i < mesh->mNumBones; i++)
 	{
 
 		Bone temp;
-		//–¼‘O
+		//åå‰
 		temp.name_ = mesh->mBones[i]->mName.C_Str();
 
-		//ƒ{[ƒ“‚ÌˆÊ’u‚ğ‘ã“ü
+		//ãƒœãƒ¼ãƒ³ã®ä½ç½®ã‚’ä»£å…¥
 		temp.offsetMatrix_.m[0][0] = mesh->mBones[i]->mOffsetMatrix.a1;
 		temp.offsetMatrix_.m[0][1] = mesh->mBones[i]->mOffsetMatrix.a2;
 		temp.offsetMatrix_.m[0][2] = mesh->mBones[i]->mOffsetMatrix.a3;
@@ -266,19 +266,19 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 		temp.offsetMatrix_.m[3][2] = mesh->mBones[i]->mOffsetMatrix.d3;
 		temp.offsetMatrix_.m[3][3] = mesh->mBones[i]->mOffsetMatrix.d4;
 
-		//‹ts—ñ‚Æ‚µ‚Äg‚¢‚½‚¢‚ª“]’u‚µ‚È‚¢‚Æg‚¦‚È‚¢H
-		//“]’u‚³‚¹‚é
+		//é€†è¡Œåˆ—ã¨ã—ã¦ä½¿ã„ãŸã„ãŒè»¢ç½®ã—ãªã„ã¨ä½¿ãˆãªã„ï¼Ÿ
+		//è»¢ç½®ã•ã›ã‚‹
 		temp.offsetMatrix_ = temp.offsetMatrix_.TransposeMatrix();
 		temp.finalMatrix_ = temp.offsetMatrix_;
 
-		//ƒEƒGƒCƒg‚ğ“ü‚ê‚é
+		//ã‚¦ã‚¨ã‚¤ãƒˆã‚’å…¥ã‚Œã‚‹
 		for (uint16_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
 		{
 
 			SetWeight tempVer{};
 			tempVer.id_ = i;
 			tempVer.weight_ = mesh->mBones[i]->mWeights[j].mWeight;
-			//“Á’è‚Ì’¸“_‚ÌˆÊ’u‚É“ü‚ê‚éŠ´‚¶‚¾‚Æv‚¤
+			//ç‰¹å®šã®é ‚ç‚¹ã®ä½ç½®ã«å…¥ã‚Œã‚‹æ„Ÿã˜ã ã¨æ€ã†
 			weightList[mesh->mBones[i]->mWeights[j].mVertexId].emplace_back(tempVer);
 
 		}
@@ -287,38 +287,38 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 
 	}
 
-	//ƒEƒGƒCƒg‚Ì–{Ši‘ã“ü
+	//ã‚¦ã‚¨ã‚¤ãƒˆã®æœ¬æ ¼ä»£å…¥
 	for (uint16_t i = 0; i < model.vertices_.size(); i++)
 	{
-		//’¸“_‚ÌƒEƒGƒCƒg‚©‚çÅ‚à‘å‚«‚¢4‚Â‚ğ‘I‘ğ
+		//é ‚ç‚¹ã®ã‚¦ã‚¨ã‚¤ãƒˆã‹ã‚‰æœ€ã‚‚å¤§ãã„4ã¤ã‚’é¸æŠ
 		auto& weightL = weightList[i];
 
-		//‡”Ô‚É‚·‚é
+		//é †ç•ªã«ã™ã‚‹
 		weightL.sort([](auto const& lhs, auto const& rhs){ return lhs.weight_ > rhs.weight_; });
 
 		uint32_t weightArrayIndex = 0;
 		for (auto& weightSet : weightL)
 		{
-			//’¸“_‚ÉƒEƒGƒCƒg‚Æid‚ğ“n‚·
+			//é ‚ç‚¹ã«ã‚¦ã‚¨ã‚¤ãƒˆã¨idã‚’æ¸¡ã™
 			model.vertices_[i].ids_[weightArrayIndex] = weightSet.id_;
 			model.vertices_[i].weights_[weightArrayIndex] = weightSet.weight_;
 
-			//‚à‚µƒCƒ“ƒfƒbƒNƒX‚ğ‘‚â‚µ‚½Û‚ÉÅ‘å’l‚ğ’´‚¦‚Ä‚µ‚Ü‚Á‚½ê‡
+			//ã‚‚ã—ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’å¢—ã‚„ã—ãŸéš›ã«æœ€å¤§å€¤ã‚’è¶…ãˆã¦ã—ã¾ã£ãŸå ´åˆ
 			if (++weightArrayIndex >= SNUM_BONES_PER_VERTEX)
 			{
-				//‚±‚Ì’¸“_‚É‘Î‚µ‚Ä‰e‹¿‚ğó‚¯‚éƒ{[ƒ“‚Ì”‚ªÅ‘å’l(SNUM_BONES_PER_VERTEX)‚ğ’´‚¦‚Ä‚µ‚Ü‚Á‚½ê‡
-				//•’Ê‚Ì‚â‚è•û‚¾‚ÆƒEƒGƒCƒg‚Ì‡Œv‚ª100%‚É‚È‚ç‚È‚­‚È‚Á‚Ä‚µ‚Ü‚¤‚½‚ß
-				//Å‰‚Ì’l‚ÉƒI[ƒo[‚µ‚½•ª‚ÌƒEƒGƒCƒg‚ğ‘«‚·‚±‚Æ‚Å100%‚É‚È‚é‚æ‚¤‚É
+				//ã“ã®é ‚ç‚¹ã«å¯¾ã—ã¦å½±éŸ¿ã‚’å—ã‘ã‚‹ãƒœãƒ¼ãƒ³ã®æ•°ãŒæœ€å¤§å€¤(SNUM_BONES_PER_VERTEX)ã‚’è¶…ãˆã¦ã—ã¾ã£ãŸå ´åˆ
+				//æ™®é€šã®ã‚„ã‚Šæ–¹ã ã¨ã‚¦ã‚¨ã‚¤ãƒˆã®åˆè¨ˆãŒ100%ã«ãªã‚‰ãªããªã£ã¦ã—ã¾ã†ãŸã‚
+				//æœ€åˆã®å€¤ã«ã‚ªãƒ¼ãƒãƒ¼ã—ãŸåˆ†ã®ã‚¦ã‚¨ã‚¤ãƒˆã‚’è¶³ã™ã“ã¨ã§100%ã«ãªã‚‹ã‚ˆã†ã«
 				float weight = 0.0f;
 
-				//c‚·•û‚ÌƒEƒGƒCƒg‚Ì‡Œv‚ğì‚é
+				//æ®‹ã™æ–¹ã®ã‚¦ã‚¨ã‚¤ãƒˆã®åˆè¨ˆã‚’ä½œã‚‹
 				for (uint16_t j = 1; j < SNUM_BONES_PER_VERTEX; j++)
 				{
-					//‘S•”‚Ü‚Æ‚ß‚é
+					//å…¨éƒ¨ã¾ã¨ã‚ã‚‹
 					weight += model.vertices_[i].weights_[j];
 				}
 
-				//Å‘å’l‚©‚çc‚·•û‚ÌƒEƒGƒCƒg‚ğˆø‚­‚±‚Æ‚Å Å‚à‘å‚«‚¢ƒEƒGƒCƒg+‚ ‚Ó‚ê‚½•ª‚ÌƒEƒGƒCƒg‚É‚È‚é
+				//æœ€å¤§å€¤ã‹ã‚‰æ®‹ã™æ–¹ã®ã‚¦ã‚¨ã‚¤ãƒˆã‚’å¼•ãã“ã¨ã§ æœ€ã‚‚å¤§ãã„ã‚¦ã‚¨ã‚¤ãƒˆ+ã‚ãµã‚ŒãŸåˆ†ã®ã‚¦ã‚¨ã‚¤ãƒˆã«ãªã‚‹
 				model.vertices_[i].weights_[0] = 1.0f - weight;
 				break;
 
@@ -335,14 +335,14 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 
 void AnimationModel::LoadMaterialTextures(aiMaterial* material, aiTextureType type, AnimationMesh& model)
 {
-	//ğŒ‚ÉŠY“–‚·‚éƒeƒNƒXƒ`ƒƒ•ª‰ñ‚·?
+	//æ¡ä»¶ã«è©²å½“ã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£åˆ†å›ã™?
 	for (uint16_t i = 0; i < material->GetTextureCount(type); i++)
 	{
 
 		aiString str;
 		std::string path;
 		
-		//ƒpƒX‚ğæ“¾
+		//ãƒ‘ã‚¹ã‚’å–å¾—
 		material->GetTexture(type, i, &str);
 
 		path = str.C_Str();
@@ -351,12 +351,12 @@ void AnimationModel::LoadMaterialTextures(aiMaterial* material, aiTextureType ty
 		{
 			if (materialName_ != "")
 			{
-				//“Ç‚İ‚ñ‚Åƒnƒ“ƒhƒ‹‚ğ•Û‘¶
+				//èª­ã¿è¾¼ã‚“ã§ãƒãƒ³ãƒ‰ãƒ«ã‚’ä¿å­˜
 				model.textureHandle.emplace_back(Texture::GetInstance()->loadTexture(materialName_));
 			}
 			else
 			{
-				//“Ç‚İ‚ñ‚Åƒnƒ“ƒhƒ‹‚ğ•Û‘¶
+				//èª­ã¿è¾¼ã‚“ã§ãƒãƒ³ãƒ‰ãƒ«ã‚’ä¿å­˜
 				model.textureHandle.emplace_back(Texture::GetInstance()->loadTexture("Resources\\white1x1.png"));
 			}
 		}
@@ -365,16 +365,16 @@ void AnimationModel::LoadMaterialTextures(aiMaterial* material, aiTextureType ty
 
 			while (path.find("\\") != std::string::npos)
 			{
-				//––”ö‚Ì•”•ª‚ğæ“¾
+				//æœ«å°¾ã®éƒ¨åˆ†ã‚’å–å¾—
 				path = path.substr(path.find("\\") + 1);
 
 			}
 
-			//‡‘Ì‚³‚¹‚ÄƒpƒX‚ğŠ®¬‚³‚¹‚é
+			//åˆä½“ã•ã›ã¦ãƒ‘ã‚¹ã‚’å®Œæˆã•ã›ã‚‹
 			path = "Resources\\obj" + filename_ + "\\" + path;
 
 
-			//“Ç‚İ‚ñ‚Åƒnƒ“ƒhƒ‹‚ğ•Û‘¶
+			//èª­ã¿è¾¼ã‚“ã§ãƒãƒ³ãƒ‰ãƒ«ã‚’ä¿å­˜
 			model.textureHandle.emplace_back(Texture::GetInstance()->loadTexture(path));
 		}
 

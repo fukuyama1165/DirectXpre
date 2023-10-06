@@ -1,4 +1,4 @@
-#include "Model.h"
+ï»¿#include "Model.h"
 
 Model::Model()
 {
@@ -11,15 +11,15 @@ Model::~Model()
 
 void Model::vertexBuffObjGeneration()
 {
-#pragma region ’¸“_ƒoƒbƒtƒ@‚ÌŠm•Û
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿
 
-	//’¸“_ƒoƒbƒtƒ@‚ÌŠm•Û•Ó
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿è¾º
 
-	heapprop_.Type = D3D12_HEAP_TYPE_UPLOAD;//GPU‚Ö‚Ì“]‘——p
+	heapprop_.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUã¸ã®è»¢é€ç”¨
 
 
 	resDesc_.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc_.Width = sizeVB_;//’¸“_ƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	resDesc_.Width = sizeVB_;//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	resDesc_.Height = 1;
 	resDesc_.DepthOrArraySize = 1;
 	resDesc_.MipLevels = 1;
@@ -28,14 +28,14 @@ void Model::vertexBuffObjGeneration()
 
 #pragma endregion
 
-#pragma region ’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
-	//’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
 	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
-		&heapprop_,//ƒq[ƒvİ’è
+		&heapprop_,//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc_,//ƒŠƒ\[ƒXİ’è
+		&resDesc_,//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff_)
@@ -44,29 +44,29 @@ void Model::vertexBuffObjGeneration()
 #pragma endregion
 
 
-#pragma region ’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
 
-	//’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
-	//GPUã‚Ìƒoƒbƒtƒ@‚É‘Î‰‚µ‚½‰¼‘zƒƒ‚ƒŠ‚ğæ“¾
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
+	//GPUä¸Šã®ãƒãƒƒãƒ•ã‚¡ã«å¯¾å¿œã—ãŸä»®æƒ³ãƒ¡ãƒ¢ãƒªã‚’å–å¾—
 	result_ = vertBuff_->Map(0, nullptr, (void**)&vertMap_);
 
-	//‘S’¸“_‚É‘Î‚µ‚Ä
+	//å…¨é ‚ç‚¹ã«å¯¾ã—ã¦
 	for (uint16_t i = 0; i < vertices_.size(); i++)
 	{
-		vertMap_[i] = vertices_[i];//À•W‚ğƒRƒs[
+		vertMap_[i] = vertices_[i];//åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
 	}
 
 
-	//‚Â‚È‚ª‚è‚ğ‰ğœ
+	//ã¤ãªãŒã‚Šã‚’è§£é™¤
 	vertBuff_->Unmap(0, nullptr);
 
 #pragma endregion
 
-#pragma region ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ì¶¬
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ç”Ÿæˆ
 
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬(GPU‚Ö‚Ì“¹‚µ‚é‚×)•Ó
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ(GPUã¸ã®é“ã—ã‚‹ã¹)è¾º
 
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 
 	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	vbView_.SizeInBytes = sizeVB_;
@@ -78,45 +78,45 @@ void Model::vertexBuffObjGeneration()
 
 void Model::indicesBuffGeneration()
 {
-#pragma region ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+#pragma region ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	resDesc_.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc_.Width = sizeIB_;//ƒCƒ“ƒfƒbƒNƒXî•ñ‚ª“ü‚é•ª‚ÌƒTƒCƒY
+	resDesc_.Width = sizeIB_;//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±ãŒå…¥ã‚‹åˆ†ã®ã‚µã‚¤ã‚º
 	resDesc_.Height = 1;
 	resDesc_.DepthOrArraySize = 1;
 	resDesc_.MipLevels = 1;
 	resDesc_.SampleDesc.Count = 1;
 	resDesc_.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ì¶¬
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
 	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
-		&heapprop_,//ƒq[ƒvİ’è
+		&heapprop_,//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc_,//ƒŠƒ\[ƒXİ’è
+		&resDesc_,//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff_)
 	);
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ğƒ}ƒbƒsƒ“ƒO
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ãƒãƒƒãƒ”ãƒ³ã‚°
 	uint16_t* indexMap = nullptr;
 	result_ = indexBuff_->Map(0, nullptr, (void**)&indexMap);
-	//‘SƒCƒ“ƒfƒbƒNƒX‚É‘Î‚µ‚Ä
+	//å…¨ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«å¯¾ã—ã¦
 	for (uint16_t i = 0; i < indices_.size(); i++)
 	{
-		indexMap[i] = indices_[i];//ƒCƒ“ƒfƒbƒNƒX‚ğƒRƒs[
+		indexMap[i] = indices_[i];//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚³ãƒ”ãƒ¼
 	}
 
-	//ƒ}ƒbƒsƒ“ƒO‰ğœ
+	//ãƒãƒƒãƒ”ãƒ³ã‚°è§£é™¤
 	indexBuff_->Unmap(0, nullptr);
 
-#pragma endregion ’¸“_‚ğ’Ê‚é‡”Ô‚ğŒˆ‚ß‚éêŠ
+#pragma endregion é ‚ç‚¹ã‚’é€šã‚‹é †ç•ªã‚’æ±ºã‚ã‚‹å ´æ‰€
 
-#pragma region ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+#pragma region ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[‚Ì¶¬
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ç”Ÿæˆ
 
 	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
 	ibView_.Format = DXGI_FORMAT_R16_UINT;
@@ -140,7 +140,7 @@ AnimationMesh::~AnimationMesh()
 void AnimationMesh::Init()
 {
 
-	//’¸“_ƒoƒbƒtƒ@‚ğì‚é
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 	SetSizeVB();
 	for (auto& itr : material_)
 	{
@@ -151,7 +151,7 @@ void AnimationMesh::Init()
 	VertexBuffMap();
 	VertexBuffViewGeneration();
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ğ‚Â‚­‚é
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ã¤ãã‚‹
 
 	SetSizeIB();
 	for (auto& itr : material_)
@@ -177,14 +177,14 @@ void AnimationMesh::VertexBuffObjGeneration(const D3D12_HEAP_PROPERTIES& heapPro
 {
 
 
-#pragma region ’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
-	//’¸“_ƒoƒbƒtƒ@‚Ì¶¬
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 
 	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
-		&heapProp,//ƒq[ƒvİ’è
+		&heapProp,//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		flag,
-		&resDesc,//ƒŠƒ\[ƒXİ’è
+		&resDesc,//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		state,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff_)
@@ -195,18 +195,18 @@ void AnimationMesh::VertexBuffObjGeneration(const D3D12_HEAP_PROPERTIES& heapPro
 
 void AnimationMesh::VertexBuffMap()
 {
-	//’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
-	//GPUã‚Ìƒoƒbƒtƒ@‚É‘Î‰‚µ‚½‰¼‘zƒƒ‚ƒŠ‚ğæ“¾
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
+	//GPUä¸Šã®ãƒãƒƒãƒ•ã‚¡ã«å¯¾å¿œã—ãŸä»®æƒ³ãƒ¡ãƒ¢ãƒªã‚’å–å¾—
 	result_ = vertBuff_->Map(0, nullptr, (void**)&vertMap_);
 
-	//‘S’¸“_‚É‘Î‚µ‚Ä
+	//å…¨é ‚ç‚¹ã«å¯¾ã—ã¦
 	for (uint16_t i = 0; i < vertices_.size(); i++)
 	{
-		vertMap_[i] = vertices_[i];//À•W‚ğƒRƒs[
+		vertMap_[i] = vertices_[i];//åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
 	}
 
 
-	//‚Â‚È‚ª‚è‚ğ‰ğœ
+	//ã¤ãªãŒã‚Šã‚’è§£é™¤
 	vertBuff_->Unmap(0, nullptr);
 }
 
@@ -221,9 +221,9 @@ void AnimationMesh::IndicesBuffGeneration(const D3D12_HEAP_PROPERTIES& heapProp,
 {					
 
 	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
-		&heapProp,//ƒq[ƒvİ’è
+		&heapProp,//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		flag,
-		&resDesc,//ƒŠƒ\[ƒXİ’è
+		&resDesc,//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		state,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff_)
@@ -232,16 +232,16 @@ void AnimationMesh::IndicesBuffGeneration(const D3D12_HEAP_PROPERTIES& heapProp,
 					
 void AnimationMesh::IndicesBuffMap()
 {					
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ğƒ}ƒbƒsƒ“ƒO
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ãƒãƒƒãƒ”ãƒ³ã‚°
 	uint16_t* indexMap = nullptr;
 	result_ = indexBuff_->Map(0, nullptr, (void**)&indexMap);
-	//‘SƒCƒ“ƒfƒbƒNƒX‚É‘Î‚µ‚Ä
+	//å…¨ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«å¯¾ã—ã¦
 	for (uint16_t i = 0; i < indices_.size(); i++)
 	{
-		indexMap[i] = indices_[i];//ƒCƒ“ƒfƒbƒNƒX‚ğƒRƒs[
+		indexMap[i] = indices_[i];//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚³ãƒ”ãƒ¼
 	}
 
-	//ƒ}ƒbƒsƒ“ƒO‰ğœ
+	//ãƒãƒƒãƒ”ãƒ³ã‚°è§£é™¤
 	indexBuff_->Unmap(0, nullptr);
 }					
 					
