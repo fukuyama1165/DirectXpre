@@ -1,5 +1,5 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include <d3dcompiler.h>
 
 #include <DirectXMath.h>
@@ -11,14 +11,14 @@ class LightGroup
 {
 private:
 
-	//Microsoft::WRL::‚ğÈ—ª
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 public:
 
 	static void Staticlnitialize();
 
-	//ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 	//static LightGroup* Create();
 
 	void Init();
@@ -27,7 +27,7 @@ public:
 
 	void Draw(uint32_t rootParameterIndex);
 
-	//’è”ƒoƒbƒtƒ@“]‘—
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡è»¢é€
 	void TransferConstBuffer();
 
 	void SetAmbientColor(const Vector3& color);
@@ -62,10 +62,10 @@ public:
 
 private:
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	void constantBuffGeneration();
 
-	//’è”ƒoƒbƒtƒ@—p‚ÌƒŠƒ\[ƒXİ’èŠÖ”
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ã®ãƒªã‚½ãƒ¼ã‚¹è¨­å®šé–¢æ•°
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(uint32_t size);
 
 public:
@@ -80,12 +80,12 @@ public:
 
 	struct ConstBufferData
 	{
-		//ŠÂ‹«Œõ‚ÌF
+		//ç’°å¢ƒå…‰ã®è‰²
 		Vector3 ambientColor;
 		float pad1;
-		//•½sŒõŒ¹—p
+		//å¹³è¡Œå…‰æºç”¨
 		DirectionalLight::ConstBufferData dirLights[SDirLightNum_];
-		//“_ŒõŒ¹—p
+		//ç‚¹å…‰æºç”¨
 		PointLight::ConstBufferData pointLights[SPointLightNum_];
 
 		SpotLight::ConstBufferData spotLights[SSpotLightNum_];
@@ -113,12 +113,12 @@ private:
 
 	bool dirty_ = false;
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>constBuff_ = nullptr;
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES cbHeapProp_{};
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC cbResourceDesc_{};
 
 };

@@ -5,24 +5,28 @@
 #include <memory>
 #include "Vector3.h"
 #include "Vector4.h"
+#pragma warning( push )
+#pragma warning( disable : 26819 )
 #include "json.hpp"
+#pragma warning( pop )
+
 
 struct LevelData
 {
-	//‚à‚ç‚Á‚Ä‚­‚éƒRƒ‰ƒCƒ_[‚Ìƒf[ƒ^‚ğŠi”[‚·‚é‚Æ‚±‚ë
+	//ã‚‚ã‚‰ã£ã¦ãã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ã¨ã“ã‚
 	struct ObjectCollider
 	{
 
-		std::string ColliderType_ ="";
+		std::string ColliderType_ = "";
 		Vector3 center_;
 		Vector3 size_;
 
 	};
 
-	//”z’u‚Ìƒf[ƒ^
+	//é…ç½®ã®ãƒ‡ãƒ¼ã‚¿
 	struct ObjectTransformData
 	{
-		
+
 		std::string fileName_;
 		std::string name_;
 
@@ -36,23 +40,23 @@ struct LevelData
 
 	};
 
-	
 
-	//‚±‚±‚É”z’u‚Ìƒf[ƒ^‚ğ‚Ü‚Æ‚ß‚ÄˆêŒÂ•ª‚É‚µ‚Ä‚é
+
+	//ã“ã“ã«é…ç½®ã®ãƒ‡ãƒ¼ã‚¿ã‚’ã¾ã¨ã‚ã¦ä¸€å€‹åˆ†ã«ã—ã¦ã‚‹
 	std::vector<ObjectTransformData> objects_;
 	std::vector<ObjectCollider> colliders_;
 
 };
 
-//json“Ç‚İ‚İ(ƒŒƒxƒ‹ƒGƒfƒBƒ^(blender)‚©‚ço‚Ä‚«‚½ƒf[ƒ^‚ğ“Ç‚İ‚Ş)
+//jsonèª­ã¿è¾¼ã¿(ãƒ¬ãƒ™ãƒ«ã‚¨ãƒ‡ã‚£ã‚¿(blender)ã‹ã‚‰å‡ºã¦ããŸãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€)
 class JsonLevelLoader
 {
 public:
-	
-	//“Ç‚İ‚ŞÛ‚Ìƒtƒ@ƒCƒ‹ƒpƒX(ƒtƒ@ƒCƒ‹–¼‚¾‚¯‚Åw’è‚·‚é‚½‚ß)
+
+	//èª­ã¿è¾¼ã‚€éš›ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹(ãƒ•ã‚¡ã‚¤ãƒ«åã ã‘ã§æŒ‡å®šã™ã‚‹ãŸã‚)
 	static const std::string SDefaultDataPath_;
 
-	//ƒtƒ@ƒCƒ‹Šg’£q
+	//ãƒ•ã‚¡ã‚¤ãƒ«æ‹¡å¼µå­
 	static const std::string SExtension_;
 
 private:
@@ -66,8 +70,7 @@ public:
 
 private:
 
-	//ƒIƒuƒWƒFƒNƒg‚ğ‘{¸‚·‚é
-	static void objectScanning(LevelData* levelData, const nlohmann::json deserialized,nlohmann::json& object);
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æœæŸ»ã™ã‚‹
+	static void objectScanning(LevelData* levelData, const nlohmann::json deserialized, nlohmann::json& object);
 
 };
-

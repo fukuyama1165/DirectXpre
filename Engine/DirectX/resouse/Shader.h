@@ -1,7 +1,7 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
-//ComPtr—pƒCƒ“ƒNƒ‹[ƒh
+//ComPtrç”¨ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
 #include <wrl.h>
 
 #include <vector>
@@ -19,43 +19,43 @@ public:
 
 	Microsoft::WRL::ComPtr<ID3DBlob> blob_ = nullptr;
 
-	//ƒGƒ‰[ƒIƒuƒWƒFƒNƒg
+	//ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob_ = nullptr;
 
 	bool Roadsuccess = false;
 
 	Shader() {};
 	/// <summary>
-	/// w’è‚µ‚Ä“Ç‚İ‚İ
+	/// æŒ‡å®šã—ã¦èª­ã¿è¾¼ã¿
 	/// </summary>
-	/// <param name="id">ŒÄ‚Ño‚·‚Æ‚«g—p‚·‚éid</param>
-	/// <param name="ShaderName">“Ç‚İ‚İ‚½‚¢ƒVƒF[ƒ_–¼(ƒpƒX)</param>
-	/// <param name="EntryPoint">ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg</param>
-	/// <param name="ShaderModelName">ƒVƒF[ƒ_ƒ‚ƒfƒ‹–¼</param>
+	/// <param name="id">å‘¼ã³å‡ºã™ã¨ãä½¿ç”¨ã™ã‚‹id</param>
+	/// <param name="ShaderName">èª­ã¿è¾¼ã¿ãŸã„ã‚·ã‚§ãƒ¼ãƒ€å(ãƒ‘ã‚¹)</param>
+	/// <param name="EntryPoint">ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ</param>
+	/// <param name="ShaderModelName">ã‚·ã‚§ãƒ¼ãƒ€ãƒ¢ãƒ‡ãƒ«å</param>
 	Shader(std::string id, std::string ShaderName,std::string EntryPoint,std::string ShaderModelName);
 
 	/// <summary>
-	/// w’è‚µ‚½•¨‚ğ¶¬‚µ‚Äƒf[ƒ^‚É“o˜^(ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Æ‚Ìˆá‚¢‚Í”z—ñ‚É“ü‚ê‚é‚©‚Ç‚¤‚©Šî–{“I‚É‚±‚Á‚¿‚ğŒÄ‚Ño‚·)
+	/// æŒ‡å®šã—ãŸç‰©ã‚’ç”Ÿæˆã—ã¦ãƒ‡ãƒ¼ã‚¿ã«ç™»éŒ²(ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã¨ã®é•ã„ã¯é…åˆ—ã«å…¥ã‚Œã‚‹ã‹ã©ã†ã‹åŸºæœ¬çš„ã«ã“ã£ã¡ã‚’å‘¼ã³å‡ºã™)
 	/// </summary>
-	/// <param name="id">ŒÄ‚Ño‚·‚Æ‚«g—p‚·‚éid</param>
-	/// <param name="ShaderName">“Ç‚İ‚İ‚½‚¢ƒVƒF[ƒ_–¼(ƒpƒX)</param>
-	/// <param name="EntryPoint">ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg</param>
-	/// <param name="ShaderModelName">ƒVƒF[ƒ_ƒ‚ƒfƒ‹–¼</param>
-	/// <returns>“o˜^‚µ‚½ƒVƒF[ƒ_</returns>
+	/// <param name="id">å‘¼ã³å‡ºã™ã¨ãä½¿ç”¨ã™ã‚‹id</param>
+	/// <param name="ShaderName">èª­ã¿è¾¼ã¿ãŸã„ã‚·ã‚§ãƒ¼ãƒ€å(ãƒ‘ã‚¹)</param>
+	/// <param name="EntryPoint">ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ</param>
+	/// <param name="ShaderModelName">ã‚·ã‚§ãƒ¼ãƒ€ãƒ¢ãƒ‡ãƒ«å</param>
+	/// <returns>ç™»éŒ²ã—ãŸã‚·ã‚§ãƒ¼ãƒ€</returns>
 	static Shader ShaderLoad(std::string id, std::string ShaderName, std::string EntryPoint, std::string ShaderModelName);
 
 	/// <summary>
-	///ƒVƒF[ƒ_‚ğ’T‚µ‚Ä•Ô‚·(‚È‚¯‚ê‚Î‰½‚à“ü‚Á‚Ä‚¢‚È‚¢ƒVƒF[ƒ_‚ğ•Ô‚·)
+	///ã‚·ã‚§ãƒ¼ãƒ€ã‚’æ¢ã—ã¦è¿”ã™(ãªã‘ã‚Œã°ä½•ã‚‚å…¥ã£ã¦ã„ãªã„ã‚·ã‚§ãƒ¼ãƒ€ã‚’è¿”ã™)
 	/// </summary>
-	/// <param name="id">’T‚µ‚½‚¢id</param>
-	/// <returns>Œ‹‰Ê</returns>
+	/// <param name="id">æ¢ã—ãŸã„id</param>
+	/// <returns>çµæœ</returns>
 	static Shader SearchShaderData(std::string id);
 
 	/// <summary>
-	/// ”z—ñ‚É“o˜^
+	/// é…åˆ—ã«ç™»éŒ²
 	/// </summary>
-	/// <param name="id">ŒÄ‚Ño‚·‚Æ‚«g—p‚·‚éid</param>
-	/// <param name="shader">“o˜^‚µ‚½‚¢ƒVƒF[ƒ_</param>
+	/// <param name="id">å‘¼ã³å‡ºã™ã¨ãä½¿ç”¨ã™ã‚‹id</param>
+	/// <param name="shader">ç™»éŒ²ã—ãŸã„ã‚·ã‚§ãƒ¼ãƒ€</param>
 	static void RegisterShader(std::string id, Shader shader);
 
 private:
@@ -71,7 +71,7 @@ private:
 			return &instance;
 		};
 
-		//ƒVƒF[ƒ_ƒf[ƒ^‚Ì˜A‘z”z—ñ
+		//ã‚·ã‚§ãƒ¼ãƒ€ãƒ‡ãƒ¼ã‚¿ã®é€£æƒ³é…åˆ—
 		std::map<std::string, Shader> Shaders_;
 
 

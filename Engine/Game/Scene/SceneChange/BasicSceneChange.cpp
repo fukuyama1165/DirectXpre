@@ -13,8 +13,10 @@ BasicSceneChange::~BasicSceneChange()
 
 void BasicSceneChange::Initialize()
 {
-	chengSprite_.initialize(SpriteCommon::GetInstance(),1);
+	chengSprite_.initialize("basketballMan");
 	chengSprite_.pos_ = WinApp::GetInstance()->GetWindowCenter();
+	chengSprite_.scale_ = { 0.01f,0.01f };
+	chengSprite_.Update();
 
 	isStart_ = false;
 	isClose_ = false;
@@ -38,7 +40,7 @@ void BasicSceneChange::Update()
 	{
 		if (!isClose_)
 		{
-			scale_ = easeOutQuad(1.0f, 100.0f, scaleTimer_ / scaleMaxTime_);
+			scale_ = easeOutQuad(0.01f, 20.0f, scaleTimer_ / scaleMaxTime_);
 
 			chengSprite_.scale_ = Vector2(scale_, scale_);
 			chengSprite_.rotate_ = angle_;

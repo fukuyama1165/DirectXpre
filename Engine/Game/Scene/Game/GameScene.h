@@ -3,7 +3,7 @@
 
 #include<Windows.h>
 
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 
 #include<vector>
@@ -41,6 +41,7 @@
 #include "EventPointManager.h"
 
 #include <sstream>
+#include "ModelManager.h"
 
 #include <cstdint>
 #include "Wall.h"
@@ -65,31 +66,24 @@ private:
 
 private:
 
-
-
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	LightManager* lightManager_;
 
-
 	//obj
-	Object3D charactorObj_;
-	Object3D charactorObj2_;
-	Object3D charactorObj3_;
-
-	Object3D objobj_;
-	Object3D objobj2_;
 	Object3D objobj3_;
 
 	Object3D testFBX_;
 
-	std::unique_ptr<AnimationModel> testModel_;
+	Object3D testObj_;
 
-	std::unique_ptr<AnimationModel> levelModel_;
-	std::unique_ptr<AnimationModel> levelBallModel_;
-	std::unique_ptr<AnimationModel> levelGroundModel_;
-	std::unique_ptr<AnimationModel> levelBuildingModel_;
+	AnimationModel* testModel_;
 
-	//ƒJƒƒ‰
+	AnimationModel* levelModel_;
+	AnimationModel* levelBallModel_;
+	AnimationModel* levelGroundModel_;
+	AnimationModel* levelBuildingModel_;
+
+	//ã‚«ãƒ¡ãƒ©
 	Camera camera_;
 	cameraObj cameobj_;
 	Camera debugCamera_;
@@ -97,7 +91,7 @@ private:
 
 	uint32_t texname_ = 0;
 
-	//“–‚½‚è”»’èƒ`ƒFƒbƒN
+	//å½“ãŸã‚Šåˆ¤å®šãƒã‚§ãƒƒã‚¯
 	Sphere sphere_;
 	Plane plane_;
 	Triangle triangle_;
@@ -105,7 +99,7 @@ private:
 
 	bool IsUseCameraMouse_ = false;
 
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	SpriteCommon* spritecommon_;
 
 	Sprite sprite_;
@@ -177,6 +171,19 @@ private:
 	Vector3 mouseCameraRot = {};
 
 	EventPointManager* eventManager;
+
+	//ã‚¯ãƒªã‚¢ã—ãŸã¨ãã®å¤‰æ•°ç­‰
+
+	float clearEffectTime_ = 0;
+	float clearEffectMaxTime_ = 500;
+	float clearEffectAlphaMaxTime_ = 300;
+
+	Vector2 clearTextStartScale_ = { 2.5f,2.5f };
+	Vector2 clearTextEndScale_ = { 1.0f,1.0f };
+
+	Sprite clearBackSprite_;
+
+	Sprite clearTextSprite_;
 
 };
 

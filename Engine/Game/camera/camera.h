@@ -16,17 +16,19 @@ public:
 
 	void upDate();
 
+	void setDefCamera();
+
 private:
 	Matrix4x4 matViewGeneration(const Vector3& eye,const Vector3& target,const Vector3& up);
 
 	Matrix4x4 perspectiveProjectionGeneration(float FovAngleY,float NearZ,float FarZ);
 
 	/// <summary>
-	/// sin‚Æcos‚ğ•Ô‚·ŠÖ”
+	/// sinã¨cosã‚’è¿”ã™é–¢æ•°
 	/// </summary>
-	/// <param name="Sin">sin‚Ì’l‚ª“ü‚éˆø”</param>
-	/// <param name="Cos">cos‚Ì’l‚ª“ü‚éˆø”</param>
-	/// <param name="angle">ƒ¦‚Ì’l</param>
+	/// <param name="Sin">sinã®å€¤ãŒå…¥ã‚‹å¼•æ•°</param>
+	/// <param name="Cos">cosã®å€¤ãŒå…¥ã‚‹å¼•æ•°</param>
+	/// <param name="angle">Î˜ã®å€¤</param>
 	void sinCos(float& Sin, float& Cos,const float& angle);
 
 	Vector3 float3Dat(const Vector3& A, const Vector3& B);
@@ -34,20 +36,31 @@ private:
 public:
 
 
-	//“§‹“Š‰es—ñ
+	//é€è¦–æŠ•å½±è¡Œåˆ—
 	Matrix4x4 matProjection_;
 
-	//ƒrƒ…[•ÏŠ·s—ñ
+	//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
 	Matrix4x4 matView_;
-	Vector3 eye_ = {};//‹“_À•W
-	Vector3 target_ = {};//’‹“_À•W
-	Vector3 up_= { 0, 1, 0 };//ã•ûŒüƒxƒNƒgƒ‹
+	Vector3 eye_ = {};//è¦–ç‚¹åº§æ¨™
+	Vector3 target_ = {};//æ³¨è¦–ç‚¹åº§æ¨™
+	Vector3 up_= { 0, 1, 0 };//ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 
-	Vector3 forward_ = { 0,0,1 };//³–Ê
+	Vector3 forward_ = { 0,0,1 };//æ­£é¢
+
+	Vector3 rightDirection = { 1,0,0 };//å³æ–¹å‘
+
+	Vector3 upDirection = { 0,1,0 };//ä¸Šæ–¹å‘
+
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
+	Matrix4x4 matBillboard;
+	Matrix4x4 matYBillboard;
+
+	static Camera* nowCamera;
 
 private:
-	//‰æ–ÊƒTƒCƒY
+	//ç”»é¢ã‚µã‚¤ã‚º
 	float Win_width_;
 	float Win_height_;
+
 };
 

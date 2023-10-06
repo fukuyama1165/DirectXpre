@@ -24,12 +24,15 @@ void TitleScene::Initialize()
 
 	cameobj_.pos_ = { 0,0,-50 };
 
-	textureNum_ = Texture::GetInstance()->loadTexture("Resources/titleText.png");
+	textureNum_ = Texture::GetInstance()->loadTexture("Resources/titleText.png","titleText");
 
-	title_.initialize(SpriteCommon::GetInstance(), textureNum_);
+	title_.initialize(textureNum_);
 
-	title_.pos_ = { WinApp::SWindowWidth_ / 2,WinApp::SWindowHeight_ / 2 };
-	title_.scale_ = { 10,5 };
+	title_.pos_ = { (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 };
+	title_.scale_ = { 1,1 };
+
+	
+	Camera::nowCamera = cameobj_.GetCameraP();
 
 }
 
@@ -40,23 +43,36 @@ void TitleScene::Finalize()
 
 void TitleScene::Update()
 {
-	/*ImGui::Begin("check");
-
-	ImGui::Text("Title");
-	ImGui::Text("next:m");
-
-	ImGui::End();*/
 
 	cameobj_.upDate();
 
-	if (Input::GetInstance()->GetMouseButtonDown(0) or Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
+	if ((Input::GetInstance()->GetMouseButtonDown(0)and Input::GetInstance()->GetMouseInWindow()) or Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
 	{
 		SceneManager::GetInstance()->ChangeScene("GAMEPLAY");
 	}
 
-	objobj3_.Update(cameobj_.GetCamera());
+	objobj3_.Update();
 
 	title_.Update();
+
+	if (debugMenu_)
+	{
+
+#pragma region check
+
+		ImGui::Begin("check");
+
+		ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);;
+
+		ImGui::End();
+
+#pragma endregion
+	}
+
+	if (Input::GetInstance()->TriggerKey(DIK_F3))
+	{
+		debugMenu_ = !debugMenu_;
+	}
 
 }
 

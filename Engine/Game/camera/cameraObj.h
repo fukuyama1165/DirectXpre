@@ -11,8 +11,12 @@ public:
 	void upDate();
 
 	Camera GetCamera() { return camera_; };
+	Camera* GetCameraP() { return &camera_; };
 
 	void SetCamera(Camera camera) { camera_ = camera; };
+
+	//カメラシェイクを起こす
+	void CameraShake(Vector3 vec,Vector3 power={1,1,1});
 
 public:
 
@@ -21,13 +25,28 @@ public:
 
 	Vector3 forward_ = { 0.0f, 0.0f, 1.0f };
 
-	//�{��(�P���Ɉʒu�Ƃ��Ă����g���ĂȂ��̂ł������̂�init���g�����Ƃ͂Ȃ��͂�)
+	//本体(単純に位置としてしか使ってないのでこいつ自体はinit等使うことはないはず)
 	Object3D cameobj_;
+
+	//マウスをの方向にカメラを剥けるかどうか
+	bool IsUseCameraMouse_ = false;
 
 private:
 
-	//�J�����Ƃ��Ă̋@�\
+	//いろいろ処理をした後の位置
+	Vector3 afterPos_ = {};
+
+	//シェイク用のベクトル
+	Vector3 shakeVec = {};
+
+	//カメラとしての機能
 	Camera camera_;
+
+	//マウスカーソルをカメラで使っているときの角度
+	Vector3 mouseCameraRot = {};
+
+	//シェイク用の一時保存用変数
+	Vector3 shekeSinNum = {};
 
 };
 

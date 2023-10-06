@@ -15,8 +15,8 @@ public:
 
 	struct ConstBufferData
 	{
-		//GPU‚É‘—‚é‚½‚ß‚É‚±‚Ì‡”Ô‚É‚È‚è
-		//ŠÔ‚Épad‚ª“ü‚Á‚Ä‚¢‚é
+		//GPUã«é€ã‚‹ãŸã‚ã«ã“ã®é †ç•ªã«ãªã‚Š
+		//é–“ã«padãŒå…¥ã£ã¦ã„ã‚‹
 		float active;
 		float pad01;
 		float pad02;
@@ -63,22 +63,22 @@ public:
 
 private:
 
-	//ƒ‰ƒCƒg•ûŒü
+	//ãƒ©ã‚¤ãƒˆæ–¹å‘
 	Vector3 lightDir_ = { 0,0,0 };
 
-	//ƒ‰ƒCƒgÀ•W
+	//ãƒ©ã‚¤ãƒˆåº§æ¨™
 	Vector3 lightPos_ = { 0,0,0 };
 
-	//ƒ‰ƒCƒg‚ÌF
+	//ãƒ©ã‚¤ãƒˆã®è‰²
 	Vector3 lightColor_ = { 1,1,1 };
 
-	//ƒ‰ƒCƒg‹——£Œ¸ŠŒW”
+	//ãƒ©ã‚¤ãƒˆè·é›¢æ¸›è¡°ä¿‚æ•°
 	Vector3 lightAtten_ = { 1.0f,1.0f,1.0f };
 
-	//ƒ‰ƒCƒgŒ¸ŠŠp“x(ŠJnŠp“xAI—¹Šp“x)
+	//ãƒ©ã‚¤ãƒˆæ¸›è¡°è§’åº¦(é–‹å§‹è§’åº¦ã€çµ‚äº†è§’åº¦)
 	Vector2 lightFactorAngleCos_ = { 0.5f,0.2f };
 
-	//—LŒøƒtƒ‰ƒO
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool active_ = false;
 
 };

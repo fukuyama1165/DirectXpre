@@ -186,7 +186,7 @@ Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, float t
 
 	float qDot = dot(Q0, Q1);
 
-	//0–¢–‚È‚ç”½‘Î‚©‚ç‚Ü‚í‚µ‚½‚Ù‚¤‚ª‚¢‚¢‚Ì‚Å”½“]
+	//0æœªæº€ãªã‚‰åå¯¾ã‹ã‚‰ã¾ã‚ã—ãŸã»ã†ãŒã„ã„ã®ã§åè»¢
 	if (qDot < 0)
 	{
 
@@ -215,16 +215,16 @@ Quaternion Quaternion::Slerp(const Quaternion& q0, const Quaternion& q1, float t
 Quaternion Quaternion::DirectionToDirection(const Vector3& u, const Vector3& v)
 {
 	
-	//’PˆÊƒxƒNƒgƒ‹‚É‚·‚é
+	//å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã«ã™ã‚‹
 	Vector3 u1 = Vector3::normalize(u);
 	Vector3 v1 = Vector3::normalize(v);
 
-	//‚È‚·Šp‚ğ‹‚ß‚é‚½‚ß‚É“àÏ‚ğŒvZ‚·‚é
+	//ãªã™è§’ã‚’æ±‚ã‚ã‚‹ãŸã‚ã«å†…ç©ã‚’è¨ˆç®—ã™ã‚‹
 	float dot = Vector3::dot(u1, v1);
 
 	Vector3 cross = Vector3::cross(u1, v1);
 
-	//³‹K‰»‚·‚é
+	//æ­£è¦åŒ–ã™ã‚‹
 	Vector3 axis = Vector3::normalize(cross);
 
 	float theta = std::acos(dot);

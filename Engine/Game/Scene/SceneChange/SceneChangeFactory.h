@@ -2,9 +2,9 @@
 
 #include "ISceneChangeFactory.h"
 
-//Œp³‚µ‚Ä‚¢‚é——R
-//ì‚Á‚Ä‚¢‚é‚à‚Ì‚ª•Ï‚í‚Á‚½‚ÉƒV[ƒ“‚ª‘‚¦‚½‚ÉV‚½‚Éˆ—‚ª‘‚¯‚é‚µ
-//•Ï‚¦‚é‚Ì‚ªŠÈ’P‚É‚È‚é‚½‚ß
+//ç¶™æ‰¿ã—ã¦ã„ã‚‹ç†ç”±
+//ä½œã£ã¦ã„ã‚‹ã‚‚ã®ãŒå¤‰ã‚ã£ãŸæ™‚ã«ã‚·ãƒ¼ãƒ³ãŒå¢—ãˆãŸæ™‚ã«æ–°ãŸã«å‡¦ç†ãŒæ›¸ã‘ã‚‹ã—
+//å¤‰ãˆã‚‹ã®ãŒç°¡å˜ã«ãªã‚‹ãŸã‚
 
 class SceneChangeFactory :public ISceneChangeFactory
 {
@@ -13,10 +13,10 @@ public:
 	~SceneChangeFactory();
 
 	/// <summary>
-	/// ƒV[ƒ“¶¬
+	/// ã‚·ãƒ¼ãƒ³ç”Ÿæˆ
 	/// </summary>
-	/// <param name="sceneName">ƒV[ƒ“–¼</param>
-	/// <returns>¶¬‚µ‚½ƒV[ƒ“</returns>
+	/// <param name="sceneName">ã‚·ãƒ¼ãƒ³å</param>
+	/// <returns>ç”Ÿæˆã—ãŸã‚·ãƒ¼ãƒ³</returns>
 	std::unique_ptr<ISceneChange> CreateSceneChange(const std::string& sceneChangeName)override;
 
 private:

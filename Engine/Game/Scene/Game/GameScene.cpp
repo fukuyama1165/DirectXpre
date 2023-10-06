@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "EmitterManager.h"
 #include "SceneManager.h"
+#include "Easing.h"
 
 void GameScene::Initialize()
 {
@@ -9,7 +10,7 @@ void GameScene::Initialize()
 
 	test_ = xAudio_->SoundLoadWave("Resources/sound/music_InGame.wav");
 
-	//ƒ‰ƒCƒg‚Ì¶¬
+	//ãƒ©ã‚¤ãƒˆã®ç”Ÿæˆ
 	lightManager_ = LightManager::GetInstance();
 
 	lightManager_->lightGroups_[0].SetDirLightActive(0, false);
@@ -38,11 +39,13 @@ void GameScene::Initialize()
 	//cameobj.cameobj.SetParent(&objobj);
 
 
-	//.obj‚ÌƒIƒuƒWƒFƒNƒg
+	//.objã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
 
+	
 
 
+	//playerã®init
 	play_.Init("Resources/obj/karaage/", "karaage.obj");
 
 	
@@ -99,9 +102,28 @@ void GameScene::Initialize()
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 
+	//testObj_.boarPolygonInit();
+
+	testObj_.billboardMode_ = BillboardMode::AllBillboard;
+
 	testFBX_.FBXInit();
 
-	testModel_ = std::make_unique<AnimationModel>();
+	testFBX_.billboardMode_ = BillboardMode::AllBillboard;
+
+	testFBX_.Scale_ = { 0.1f,0.1f,0.1f };
+
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "basketballmanBox", "basketballman2");
+	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "Ground", "Dirt", "jpg");
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");
+
+	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
+	levelModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	levelBallModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	levelGroundModel_ = ModelManager::GetInstance()->SearchModelData("Ground");
+	levelBuildingModel_ = ModelManager::GetInstance()->SearchModelData("Building");
+
+	/*testModel_ = std::make_unique<AnimationModel>();
 	levelModel_ = std::make_unique<AnimationModel>();
 	levelBallModel_ = std::make_unique<AnimationModel>();
 	levelGroundModel_ = std::make_unique<AnimationModel>();
@@ -111,30 +133,40 @@ void GameScene::Initialize()
 	levelModel_->Load("testFBX", "gltf", "white1x1");
 	levelBallModel_->Load("testGLTFBall", "gltf", "white1x1");
 	levelGroundModel_->Load("testFBX", "gltf", "Dirt", "jpg");
-	levelBuildingModel_->Load("testFBX", "gltf", "Biru2");
-
-
-	//spritecommon_->initialize();
-	
+	levelBuildingModel_->Load("testFBX", "gltf", "Biru2");*/
 	
 	objobj3_.SetScale({ 1000,1000,1000 });
 
 
 	XAudio::PlaySoundData(test_, 0.3f, true);
 
-	//XAudio::StapSoundData(test_);
 
 	enemys_ = EnemyManager::GetInstance();
 
-	//enemys_->PopEnemy(Vector3(0, 0, -100));
 
 	eventManager = EventPointManager::GetInstance();
 
-	eventManager->SetDebugMoveEvent({ 0,0,0 }, { 0,0,0 }, { 0,0,0 });
-	
-	eventManager->SetDebugBattleEvent({ 0,0,50 }, 100, { 10,0,50 }, 20, { -10,0,50 }, 100, { 0,10,50 });
+	/*eventManager->SetDebug1MoveEvent({ 0,0,0 });
 
-	//eventManager->SetDebugMoveEvent();
+	eventManager->SetDebugBattleEvent({ 0,0,50 },1.0f, 100, { 10,0,50 }, 1.0f, 20, { -10,0,50 }, 1.0f, 100, { 0,10,50 });
+	eventManager->SetDebugBattleEvent({ 0,0,50 }, 1.0f, 100, { 10,0,50 }, 1.0f, 20, { -10,0,50 }, 1.0f, 100, { 0,10,50 });
+	eventManager->SetDebug1MoveEvent({ 0,0,100 });
+	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
+	//ã‚¤ãƒ™ãƒ³ãƒˆãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
+	eventManager->LoadEventData("Event");
+
+
+	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
+
+	clearBackSprite_.initialize("white1x1");
+	clearTextSprite_.initialize("clearText");
+
+	clearBackSprite_.setColor({ 0,0,0,0.7f });
+	clearBackSprite_.pos_ = { WinApp::GetInstance()->GetWindowCenter()};
+	clearBackSprite_.scale_ = { WinApp::SWindowWidthF_,WinApp::SWindowHeightF_ };
+
+	clearTextSprite_.pos_ = { WinApp::SWindowWidthF_/2,(WinApp::SWindowHeightF_/2) - (clearTextSprite_.GetTextureSize().y / 3) };
+
 }
 
 void GameScene::Finalize()
@@ -152,17 +184,17 @@ void GameScene::Update()
 {
 
 
-#pragma region DirectX–ˆƒtƒŒ[ƒ€ˆ—
+#pragma region DirectXæ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†
 
-	//DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚©‚ç
+	//DirectXæ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ã€€ã“ã“ã‹ã‚‰
 
-#pragma region ƒL[ƒ{[ƒhî•ñ‚Ìæ“¾
+#pragma region ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—
 
 
 
 #pragma endregion
 
-#pragma region XVˆ—
+#pragma region æ›´æ–°å‡¦ç†
 
 
 #ifdef _DEBUG
@@ -178,11 +210,11 @@ void GameScene::Update()
 	}
 	if (Input::GetInstance()->PushKey(DIK_RIGHT))
 	{
-		cameraPos_.x += 1;
+		cameraPos_ += debugCamera_.rightDirection;
 	}
 	if (Input::GetInstance()->PushKey(DIK_LEFT))
 	{
-		cameraPos_.x += -1;
+		cameraPos_ += -debugCamera_.rightDirection;
 	}
 
 	Vector4 moveY(0, 0.01f, 0, 0);
@@ -203,12 +235,10 @@ void GameScene::Update()
 	{
 		movecoll_.x -= moveX.x;
 	}
-
 	if (Input::GetInstance()->PushKey(DIK_Z))
 	{
 		movecoll_.z += 0.01f;
 	}
-
 	if (Input::GetInstance()->PushKey(DIK_X))
 	{
 		movecoll_.z -= 0.01f;
@@ -362,7 +392,12 @@ void GameScene::Update()
 		cameraRot_.z = 0;
 	}
 
+	ImGui::Text("eye:%0.2f,%0.2f,%0.2f", debugCamera_.eye_.x, debugCamera_.eye_.y, debugCamera_.eye_.z);
+	ImGui::Text("target:%0.2f,%0.2f,%0.2f", debugCamera_.target_.x, debugCamera_.target_.y, debugCamera_.target_.z);
+	ImGui::Text("up:%0.2f,%0.2f,%0.2f", debugCamera_.up_.x, debugCamera_.up_.y, debugCamera_.up_.z);
 	
+	ImGui::Text("forward:%0.2f,%0.2f,%0.2f", debugCamera_.forward_.x, debugCamera_.forward_.y, debugCamera_.forward_.z);
+	ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", debugCamera_.rightDirection.x, debugCamera_.rightDirection.y, debugCamera_.rightDirection.z);
 	
 	ImGui::End();
 
@@ -378,6 +413,9 @@ void GameScene::Update()
 	ImGui::Text("pos x:%f y:%f", Input::GetInstance()->GetMousePos().x, Input::GetInstance()->GetMousePos().y);
 	ImGui::Text("oldpos x:%f y:%f", Input::GetInstance()->GetOldMousePos().x, Input::GetInstance()->GetOldMousePos().y);
 	ImGui::Text("move x:%f y:%f z:%f", Input::GetInstance()->GetMouseMove().x, Input::GetInstance()->GetMouseMove().y, Input::GetInstance()->GetMouseMove().z);
+
+	ImGui::Text("use KEY:%d pad:%d Mouse:%d", Input::GetInstance()->AllKeyCheck(), Input::GetInstance()->GetGamePadInput(), Input::GetInstance()->GetMouseInput());
+	ImGui::Text("mouseInWindow:%d", Input::GetInstance()->GetMouseInWindow());
 
 	ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
 
@@ -467,6 +505,7 @@ void GameScene::Update()
 	ImGui::Begin("player");
 
 	ImGui::Text("pos:%0.2f,%0.2f,%0.2f", play_.playerObj_.GetWorldPos().x, play_.playerObj_.GetWorldPos().y, play_.playerObj_.GetWorldPos().z);
+	ImGui::Text("camerapos:%0.2f,%0.2f,%0.2f", play_.playerCamera_.pos_.x, play_.playerCamera_.pos_.y, play_.playerCamera_.pos_.z);
 	ImGui::Text("hp:%0.0f", play_.hp_);
 	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
 	ImGui::Text("movetimer:%0.0f", play_.time_);	
@@ -494,7 +533,7 @@ void GameScene::Update()
 
 	if (ImGui::Button("popEnemy"))
 	{
-		enemys_->PopEnemy(enemyPopPos);
+		enemys_->PopEnemy(EnemyType::Attack,enemyPopPos);
 	}
 
 	ImGui::End();
@@ -510,134 +549,108 @@ void GameScene::Update()
 	
 
 	reloadLevel(DIK_K, "MapTest");
-#endif
+#endif	
 
 	if (chengCamera_)
 	{
-
-		//play_.playerCamera_.upDate();
-		//play_.playerCamera_.pos_ = cameraPos_;
 		cameobj_ = play_.playerCamera_;
+		Camera::nowCamera = play_.playerCamera_.GetCameraP();
 	}
 	else
 	{
-		debugCamera_.eye_ = cameraPos_;
-
-		if (IsUseCameraMouse_)
-		{
-			if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
-			{
-				WinApp::GetInstance()->SetMousePos(WinApp::SWindowWidth_ / 2, WinApp::SWindowHeight_ / 2);
-			}
-
-			Camera mouseCamera = debugCamera_;
-
-			Vector3 mouseMove = Input::GetInstance()->GetMouseMove() / 1000;
-
-			mouseCameraRot += {0, mouseMove.x, 0};
-
-			Object3D cameobj;
-
-			cameobj.SetPos(cameraPos_);
-			cameobj.SetRotate(mouseCameraRot);
-			cameobj.matWorldGeneration();
-
-			mouseCamera.eye_ = cameobj.GetWorldPos();
-
-			Vector3 forward = { 0.0f, 0.0f, 1.0f };
-
-			forward = VectorMat(forward, cameobj.GetWorldMat());
-
-			mouseCamera.target_.x = mouseCamera.eye_.x + forward.x;
-			mouseCamera.target_.z = mouseCamera.eye_.z + forward.z;
-			mouseCamera.target_.y -= mouseMove.y + forward.y;
-
-
-
-			Vector3 up(0, 1, 0);
-
-			mouseCamera.up_ = VectorMat(up, cameobj.GetWorldMat());
-
-			debugCamera_ = mouseCamera;
-		}
-		else
-		{
-			Object3D cameobj;
-
-			cameobj.SetPos(cameraPos_);
-			cameobj.SetRotate(cameraRot_);
-			cameobj.matWorldGeneration();
-
-			debugCamera_.eye_ = cameobj.GetWorldPos();
-
-			Vector3 forward = { 0.0f, 0.0f, 1.0f };
-
-			forward = VectorMat(forward, cameobj.GetWorldMat());
-
-			debugCamera_.target_ = debugCamera_.eye_ + forward;
-
-			Vector3 up(0, 1, 0);
-
-			debugCamera_.up_ = VectorMat(up, cameobj.GetWorldMat());
-
-		}
-
-		debugCamera_.upDate();
-
-
-		cameobj_.SetCamera(debugCamera_);
+		cameobj_.IsUseCameraMouse_ = IsUseCameraMouse_;
+		cameobj_.pos_ = cameraPos_;
+		
+		cameobj_.upDate();
+		Camera::nowCamera = cameobj_.GetCameraP();
+		
 
 	}
 	
-	play_.Update(cameobj_.GetCamera());
+	play_.Update();
 	lightManager_->lightGroups_[0].Update();
 
 
-	objobj3_.Update(cameobj_.GetCamera());
+	objobj3_.Update();
+	//testObj_.Update();
 
-	testFBX_.Update(cameobj_.GetCamera());
+	testFBX_.Update();
 
 	for (LevelObj a : levelObj)
 	{
-		a.obj.Update(cameobj_.GetCamera());
+		a.obj.Update();
 	}
 
 	for (uint16_t b = 0; b < wallObj_.size(); b++)
 	{
-		wallObj_[b]->obj.Update(cameobj_.GetCamera());
+		wallObj_[b]->obj.Update();
 	}
 
-	enemys_->UpDate(cameobj_.GetCamera(), play_.playerCamera_.GetCamera().eye_);
+	enemys_->UpDate(play_.playerCamera_.GetCamera().eye_);
 
 	CollisionManager::GetInstance()->CheckAllCollisions();
 
 	eventManager->Update();
 
-	EmitterManager::GetInstance()->Update(cameobj_.GetCamera());
+	EmitterManager::GetInstance()->Update();
 
 	
+	//ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç†
+	if (play_.hp_<=0)
+	{
+#ifdef _DEBUG
 
-	if (play_.hp_<=0 or eventManager->GetEventAllEnd())
+#else
+		SceneManager::GetInstance()->ChangeScene("TITLE");
+
+#endif
+	}
+
+	//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢//å‡¦ç†
+	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
 	{
 		
-		SceneManager::GetInstance()->ChangeScene("TITLE");
-	}
+		if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
+		{
+			SceneManager::GetInstance()->ChangeScene("TITLE");
+		}
+
+		//é€£æ‰“é˜²æ­¢ã—ãŸã„
+		if (clearEffectTime_ < clearEffectMaxTime_)
+		{
+			clearEffectTime_++;
+		}
+
+		if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
+		{
+			clearEffectTime_ = clearEffectMaxTime_;
+		}
+
+		clearTextSprite_.scale_ = easeOutQuint(clearTextStartScale_, clearTextEndScale_, clearEffectTime_ / clearEffectMaxTime_);
+
+		float textAlpha = easeInSine(0.1f, 1.0f, clearEffectTime_ / clearEffectAlphaMaxTime_);
+
+		clearTextSprite_.setColor({ 1.0f,1.0f,1.0f,textAlpha });
+
+		clearBackSprite_.Update();
+		clearTextSprite_.Update();
+
+
+	} 
+
 }
 
 void GameScene::Draw()
 {
-#pragma region •`‰æƒRƒ}ƒ“ƒh
+#pragma region æç”»ã‚³ãƒãƒ³ãƒ‰
 
 	
-	// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚©‚ç
-
-	
-
-
+	// 4.æç”»ã‚³ãƒãƒ³ãƒ‰ã“ã“ã‹ã‚‰
 
 	objobj3_.Draw();
+	//testObj_.Draw();
 
-	//testFBX_.FBXDraw(*testModel_.get());
+	//testFBX_.FBXDraw(*testModel_);
 
 	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
@@ -646,40 +659,52 @@ void GameScene::Draw()
 	{
 		if (a.name.find("box1")!= std::string::npos)
 		{
-			a.obj.FBXDraw(*levelModel_.get());
+			a.obj.FBXDraw(*levelModel_);
 		}
 		else if (a.name.find("ball") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelBallModel_.get());
+			a.obj.FBXDraw(*levelBallModel_);
 		}
 		else if(a.name.find("Ground")!=std::string::npos)
 		{
-			a.obj.FBXDraw(*levelGroundModel_.get());
+			a.obj.FBXDraw(*levelGroundModel_);
 		}
 		else if (a.name.find("building") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelBuildingModel_.get());
+			a.obj.FBXDraw(*levelBuildingModel_);
 		}
 		else
 		{
-			a.obj.FBXDraw(*levelModel_.get());
+			a.obj.FBXDraw(*levelModel_);
 		}
 	}
 
 	for (uint16_t b = 0; b < wallObj_.size(); b++)
 	{
-		wallObj_[b]->obj.Draw(levelBuildingModel_.get());
+		wallObj_[b]->obj.Draw(levelBuildingModel_);
 	}
 
-	play_.Draw();
+	
 
 	enemys_->Draw();
+	
+	play_.Draw();
 
+	eventManager->Draw();
 
 	EmitterManager::GetInstance()->Draw();
 
+	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
+	{
 
-	// 4.•`‰æƒRƒ}ƒ“ƒh‚±‚±‚Ü‚Å
+		clearBackSprite_.Draw();
+		clearTextSprite_.Draw();
+		
+
+	}
+
+
+	// 4.æç”»ã‚³ãƒãƒ³ãƒ‰ã“ã“ã¾ã§
 
 	
 
@@ -687,13 +712,13 @@ void GameScene::Draw()
 
 	
 
-	//DirectX–ˆƒtƒŒ[ƒ€ˆ—@‚±‚±‚Ü‚Å
+	//DirectXæ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‡¦ç†ã€€ã“ã“ã¾ã§
 
 #pragma endregion
 
 
 
-#pragma region •`‰æˆ—
+#pragma region æç”»å‡¦ç†
 
 }
 

@@ -3,6 +3,8 @@
 #include "WinApp.h"
 #include "Texture.h"
 #include "matrix4x4.h"
+#include "Shader.h"
+#include "PipeLine.h"
 
 class PostEffect
 {
@@ -24,53 +26,54 @@ private:
 
 	void vertexBuffGeneration();
 
-	//’¸“_ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	void vertexShaderGeneration();
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_‚Ì“Ç‚İ‚İ‚ÆƒRƒ“ƒpƒCƒ‹
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã®èª­ã¿è¾¼ã¿ã¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«
 	void pixelShaderGeneration();
 
-	//’¸“_ƒŒƒCƒAƒEƒg‚Ìİ’è
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã®è¨­å®š
 	void vertexLayout();
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ìİ’è
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®è¨­å®š
 	void graphicPipelineGeneration();
 
-	//ƒ‹[ƒgƒpƒ‰ƒ[ƒ^‚Ìİ’è(’è”ƒoƒbƒtƒ@‚ÆƒVƒF[ƒ_‚É‚Â‚¢‚Ä)
+	//ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š(å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¨ã‚·ã‚§ãƒ¼ãƒ€ã«ã¤ã„ã¦)
 	void rootParamGeneration();
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	void rootsignatureGeneration();
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	void constantBuffGeneration();
 
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ¬ãƒ³ã‚¸
 	void descriptorRangeGeneration();
 
-	//ƒeƒNƒXƒ`ƒƒƒTƒ“ƒvƒ‰[‚Ìİ’è
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µãƒ³ãƒ—ãƒ©ãƒ¼ã®è¨­å®š
 	void textureSamplerGeneration();
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@¶¬
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	void textureBuffGeneraion();
 
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv¶¬
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ç”Ÿæˆ
 	void SRVDescHeapGeneraion();
 
-	//RTV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv¶¬
+	//RTVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ç”Ÿæˆ
 	void RTVDescHeapGeneraion();
 
-	//DSV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv¶¬
+	//DSVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ç”Ÿæˆ
 	void DSVDescHeapGeneraion();
 
-	//’è”ƒoƒbƒtƒ@—p‚ÌƒŠƒ\[ƒXİ’èŠÖ”
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ã®ãƒªã‚½ãƒ¼ã‚¹è¨­å®šé–¢æ•°
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(uint32_t size);
 
 private:
 
-	//’¸“_ƒf[ƒ^\‘¢‘Ì
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct Vertex
 	{
-		Vector3 pos;//xyzÀ•W
+		Vector3 pos;//xyzåº§æ¨™
 		Vector2 uv;
 	};
 
@@ -81,86 +84,87 @@ private:
 
 	HRESULT result_;
 
-	//’¸“_ƒŒƒCƒAƒEƒg(—v‘f‚ğ‘‚â‚·‚È‚ç”z—ñ”‚ğ‘‚â‚·)
+	//é ‚ç‚¹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ(è¦ç´ ã‚’å¢—ã‚„ã™ãªã‚‰é…åˆ—æ•°ã‚’å¢—ã‚„ã™)
 	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayouts_;
 
-	//ƒGƒ‰[ƒIƒuƒWƒFƒNƒg
+	//ã‚¨ãƒ©ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob_ = nullptr;
 
-	//’¸“_ƒoƒbƒtƒ@—p•Ï”
-	D3D12_HEAP_PROPERTIES heapprop_{};//ƒq[ƒvİ’è
-	D3D12_RESOURCE_DESC resDesc_{};//ƒŠƒ\[ƒXİ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”¨å¤‰æ•°
+	D3D12_HEAP_PROPERTIES heapprop_{};//ãƒ’ãƒ¼ãƒ—è¨­å®š
+	D3D12_RESOURCE_DESC resDesc_{};//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	Vertex* vertMap_;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff_[2];
 
-	//ƒVƒF[ƒ_[ƒŠƒ\[ƒXƒrƒ…[
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
-	//[“xƒoƒbƒtƒ@
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff_;
 
-	//RTV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//RTVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
 
-	//DSV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//DSVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
 
 	static const float clearColor[4];
 
-	//ƒŠƒ\[ƒXƒoƒŠƒA
+	//ãƒªã‚½ãƒ¼ã‚¹ãƒãƒªã‚¢
 	D3D12_RESOURCE_BARRIER barrierDesc_{};
 
 	static Texture* STexture_;
 
-	//’¸“_ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	Shader vs;
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+	Shader ps;
+
+	//é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> vsBlob_ = nullptr;
 
-	//ƒsƒNƒZƒ‹ƒVƒF[ƒ_ƒIƒuƒWƒFƒNƒg
+	//ãƒ”ã‚¯ã‚»ãƒ«ã‚·ã‚§ãƒ¼ãƒ€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Microsoft::WRL::ComPtr<ID3DBlob> psBlob_ = nullptr;
 
-	//ƒeƒNƒXƒ`ƒƒƒTƒ“ƒvƒ‰[
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µãƒ³ãƒ—ãƒ©ãƒ¼
 	D3D12_STATIC_SAMPLER_DESC sampleDesc_{};
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒŒƒ“ƒW
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ¬ãƒ³ã‚¸
 	D3D12_DESCRIPTOR_RANGE descriptorRange_{};
 	D3D12_DESCRIPTOR_RANGE descriptorRange2_{};
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚ÌŠeƒXƒe[ƒW‚Ìİ’è‚ğ‚·‚é\‘¢‘Ì‚ğ—pˆÓ
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline_{};
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline2_{};
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline3_{};//‰ÁZ
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline4_{};//Œ¸Z
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC gpipeline5_{};//F”½“]
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®å„ã‚¹ãƒ†ãƒ¼ã‚¸ã®è¨­å®šã‚’ã™ã‚‹æ§‹é€ ä½“ã‚’ç”¨æ„
+	PipeLine pipeline_;
+	PipeLine pipeline2_;
+	PipeLine pipeline3_;
+	PipeLine pipeline4_;
 
-	//ƒ‹[ƒgƒpƒ‰ƒ[ƒ^(’è”ƒoƒbƒtƒ@‚Ì”‚ª‘‚¦‚½‚ç”z—ñ‚Ì—v‘f”‚ğ‘‚â‚µ‚Äİ’è‚ğ‚µ‚Ä‚¢‚éŠÖ”‚Ì’†g‚É‚à’Ç‰Á‚·‚é‚±‚Æ)
+
+	//ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿(å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®æ•°ãŒå¢—ãˆãŸã‚‰é…åˆ—ã®è¦ç´ æ•°ã‚’å¢—ã‚„ã—ã¦è¨­å®šã‚’ã—ã¦ã„ã‚‹é–¢æ•°ã®ä¸­èº«ã«ã‚‚è¿½åŠ ã™ã‚‹ã“ã¨)
 	D3D12_ROOT_PARAMETER rootParam_[4] = {};
 
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature_;
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒg
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate2_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate3_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate4_ = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelinestate5_ = nullptr;
-
+	//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°ã®å¯¾å¿œã®ç‚ºå…¨ã¦vector4ã‚’ä½¿ã£ã¦ã„ã‚‹
 	struct  ConstBufferMaterial
 	{
 
 		Vector4 color;
+		Vector4 sigma;//ãƒ–ãƒ«ãƒ¼ãƒ ã‚’æ›ã‘ã‚‹ã¨ãã®ãƒ–ãƒ©ãƒ¼ç”¨ã®å€¤(xã®ã¿)
+		Vector4 grayScaleStep;//ãƒ–ãƒ«ãƒ¼ãƒ ç”¨ã®ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ã®smoothstepç”¨ã®å¤§ãã•(x,yã®ã¿)
 
 	};
 
-	//’è”ƒoƒbƒtƒ@‚»‚Ì‚à‚Ì
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãã®ã‚‚ã®
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
-	//ƒ}ƒbƒsƒ“ƒO‚·‚é‚Æ‚«‚Ìƒ|ƒCƒ“ƒ^
+	//ãƒãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹ã¨ãã®ãƒã‚¤ãƒ³ã‚¿
 	ConstBufferMaterial* constMapMaterial_ = nullptr;
 
 	struct ConstBuffDataTransform
@@ -169,17 +173,20 @@ private:
 	};
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
-	//ƒ}ƒbƒsƒ“ƒO‚·‚é‚Æ‚«‚Ìƒ|ƒCƒ“ƒ^
+	//ãƒãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹ã¨ãã®ãƒã‚¤ãƒ³ã‚¿
 	ConstBuffDataTransform* constMapTransform_ = nullptr;
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES cbHeapProp_{};
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC cbResourceDesc_{};
 
-	
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«é€ã‚‹ã¨ãç”¨ã®å¤‰æ•°
+	float sigma_ = 0.0025f;
+	float stepWidth_ = 0.001f;
+	float grayScaleStep_[2] = {0.6f,0.9f};
 
-	//•½s“Š‰e
+	//å¹³è¡ŒæŠ•å½±
 	Matrix4x4 matProjection_;
 
 	bool cheng_ = true;

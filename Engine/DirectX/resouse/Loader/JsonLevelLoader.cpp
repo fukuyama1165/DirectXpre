@@ -7,44 +7,44 @@ const std::string JsonLevelLoader::SExtension_ = ".json";
 
 std::unique_ptr<LevelData> JsonLevelLoader::LoadJsonFile(const std::string& fileName)
 {
-	//Œ³‚©‚ç—pˆÓ‚µ‚Ä‚¢‚½ƒpƒX‚ğ‚­‚Á‚Â‚¯‚ÄŠ®‘S‚É’Ê‚éƒpƒX‚É‚·‚é
-	const std::string fullPath =SDefaultDataPath_ + fileName + SExtension_;
+	//å…ƒã‹ã‚‰ç”¨æ„ã—ã¦ã„ãŸãƒ‘ã‚¹ã‚’ãã£ã¤ã‘ã¦å®Œå…¨ã«é€šã‚‹ãƒ‘ã‚¹ã«ã™ã‚‹
+	const std::string fullPath = SDefaultDataPath_ + fileName + SExtension_;
 
-	//ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 	std::ifstream file;
 
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	file.open(fullPath);
 
-	//ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s‚ğƒ`ƒFƒbƒN
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³å¤±æ•—ã‚’ãƒã‚§ãƒƒã‚¯
 	if (file.fail())
 	{
 		assert(0);
 	}
 
-	//JSON•¶š—ñ‚©‚ç‰ğ“€‚µ‚½ƒf[ƒ^
+	//JSONæ–‡å­—åˆ—ã‹ã‚‰è§£å‡ã—ãŸãƒ‡ãƒ¼ã‚¿
 	nlohmann::json deserialized;
 
-	//‰ğ“€
+	//è§£å‡
 	file >> deserialized;
 
-	//³‚µ‚¢ƒŒƒxƒ‹ƒf[ƒ^ƒtƒ@ƒCƒ‹‚©ƒ`ƒFƒbƒN
+	//æ­£ã—ã„ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒã‚§ãƒƒã‚¯
 	assert(deserialized.is_object());
 	assert(deserialized.contains("name"));
 	assert(deserialized["name"].is_string());
 
-	//"name"‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾
+	//"name"ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—
 	std::string name = deserialized["name"].get<std::string>();
 
-	//³‚µ‚¢‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//æ­£ã—ã„ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
 	assert(name.compare("scene") == 0);
 
-	//ƒŒƒxƒ‹ƒf[ƒ^Ši”[—pƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+	//ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 	std::unique_ptr<LevelData> levelData = std::make_unique<LevelData>();
-	//"object"‚Ì‘SƒIƒuƒWƒFƒNƒg‚ğ‘–¸
+	//"object"ã®å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’èµ°æŸ»
 	for (nlohmann::json& object : deserialized["objects"])
 	{
-		
+
 		JsonLevelLoader::objectScanning(levelData.get(), deserialized, object);
 	}
 
@@ -52,27 +52,27 @@ std::unique_ptr<LevelData> JsonLevelLoader::LoadJsonFile(const std::string& file
 
 }
 
-void JsonLevelLoader::objectScanning(LevelData* levelData, nlohmann::json deserialized,nlohmann::json& object)
+void JsonLevelLoader::objectScanning(LevelData* levelData, nlohmann::json deserialized, nlohmann::json& object)
 {
 
-	
-	//type‚ª‚È‚¯‚ê‚Î~‚ß‚é
+
+	//typeãŒãªã‘ã‚Œã°æ­¢ã‚ã‚‹
 	assert(object.contains("type"));
-	//ƒ^ƒCƒv‚ğæ“¾
+	//ã‚¿ã‚¤ãƒ—ã‚’å–å¾—
 	std::string type = object["type"].get<std::string>();
 
-	
 
-	//MESH‚È‚ç
+
+	//MESHãªã‚‰
 	if (type.compare("MESH") == 0)
 	{
 
 		levelData->objects_.emplace_back(LevelData::ObjectTransformData{});
 
-		//¡’Ç‰Á‚µ‚½—v‘f‚ÌQÆ‚ğ“¾‚é
+		//ä»Šè¿½åŠ ã—ãŸè¦ç´ ã®å‚ç…§ã‚’å¾—ã‚‹
 		LevelData::ObjectTransformData& objectData = levelData->objects_.back();
 
-		//ƒtƒ@ƒCƒ‹–¼‚ª‚ ‚é‚È‚ç“ü‚ê‚é
+		//ãƒ•ã‚¡ã‚¤ãƒ«åãŒã‚ã‚‹ãªã‚‰å…¥ã‚Œã‚‹
 		if (object.contains("file_name"))
 		{
 			objectData.fileName_ = object["file_name"];
@@ -80,43 +80,43 @@ void JsonLevelLoader::objectScanning(LevelData* levelData, nlohmann::json deseri
 
 		objectData.name_ = object["name"].get<std::string>();
 
-		//ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+		//ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 		nlohmann::json& transform = object["transform"];
 
-		//•½sˆÚ“®
+		//å¹³è¡Œç§»å‹•
 		objectData.trans_.x = (float)transform["translation"][1];
 		objectData.trans_.y = (float)transform["translation"][2];
 		objectData.trans_.z = -(float)transform["translation"][0];
 		objectData.trans_.w = 1.0f;
 
 
-		//‰ñ“]Šp
+		//å›è»¢è§’
 		objectData.rot_.x = -(float)transform["rotation"][1];
 		objectData.rot_.y = -(float)transform["rotation"][2];
 		objectData.rot_.z = (float)transform["rotation"][0];
 		objectData.rot_.w = 0.0f;
 
 
-		//ƒXƒP[ƒŠƒ“ƒO
+		//ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 		objectData.scale_.x = (float)transform["scaling"][1];
 		objectData.scale_.y = (float)transform["scaling"][2];
 		objectData.scale_.z = (float)transform["scaling"][0];
 		objectData.scale_.w = 0.0f;
 
-		//ƒtƒ@ƒCƒ‹–¼‚ª‚ ‚é‚È‚ç“ü‚ê‚é
+		//ãƒ•ã‚¡ã‚¤ãƒ«åãŒã‚ã‚‹ãªã‚‰å…¥ã‚Œã‚‹
 		if (object.contains("collider"))
 		{
-			//ƒRƒ‰ƒCƒ_[
+			//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 			levelData->colliders_.emplace_back(LevelData::ObjectCollider{});
-			//¡’Ç‰Á‚µ‚½—v‘f‚ÌQÆ‚ğ“¾‚é
+			//ä»Šè¿½åŠ ã—ãŸè¦ç´ ã®å‚ç…§ã‚’å¾—ã‚‹
 			LevelData::ObjectCollider& objectCollider = levelData->colliders_.back();
 
 			nlohmann::json& collider = object["collider"];
 
-			//‚½‚Ô‚ñƒ^ƒCƒv
+			//ãŸã¶ã‚“ã‚¿ã‚¤ãƒ—
 			objectCollider.ColliderType_ = collider["collider"];
 
-			//’†‰›
+			//ä¸­å¤®
 			objectCollider.center_.x = (float)collider["collider_center"][1];
 			objectCollider.center_.y = (float)collider["collider_center"][2];
 			objectCollider.center_.z = -(float)collider["collider_center"][0];
@@ -130,13 +130,13 @@ void JsonLevelLoader::objectScanning(LevelData* levelData, nlohmann::json deseri
 	if (object.contains("children"))
 	{
 		nlohmann::json& children = object["children"];
-		for (uint16_t i = 0; i < children.size();i++)
+		for (uint16_t i = 0; i < children.size(); i++)
 		{
 			objectScanning(levelData, deserialized, children[i]);
 		}
-		
+
 	}
 
-	
+
 
 }

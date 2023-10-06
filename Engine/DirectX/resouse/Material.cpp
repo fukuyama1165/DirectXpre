@@ -22,7 +22,7 @@ void Material::MaterialConstBuffInit()
 
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataB1) + 0xff) & ~0xff;//256ƒoƒCƒgƒAƒ‰ƒCƒ“ƒƒ“ƒg
+	cbResourceDesc.Width = (sizeof(ConstBufferDataB1) + 0xff) & ~0xff;//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ³ãƒ¡ãƒ³ãƒˆ
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
@@ -48,15 +48,15 @@ void Material::MaterialConstBuffInit()
 
 void Material::VertexBuffObjSetting(D3D12_HEAP_TYPE heapType, D3D12_RESOURCE_DIMENSION dimension, uint32_t sizeVB, uint16_t height, uint16_t depthOrArraySize, int16_t mipLevels, uint16_t sampleDescCount, D3D12_TEXTURE_LAYOUT layput)
 {
-#pragma region ’¸“_ƒoƒbƒtƒ@‚ÌŠm•Û
+#pragma region é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿
 
-	//’¸“_ƒoƒbƒtƒ@‚ÌŠm•Û•Ó
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®ç¢ºä¿è¾º
 
-	heapprop_.Type = heapType;//GPU‚Ö‚Ì“]‘——p
+	heapprop_.Type = heapType;//GPUã¸ã®è»¢é€ç”¨
 
 
 	resDesc_.Dimension = dimension;
-	resDesc_.Width = sizeVB;//’¸“_ƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	resDesc_.Width = sizeVB;//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	resDesc_.Height = height;
 	resDesc_.DepthOrArraySize = depthOrArraySize;
 	resDesc_.MipLevels = mipLevels;
@@ -70,7 +70,7 @@ void Material::IndicesBuffSetting(D3D12_RESOURCE_DIMENSION dimension, uint32_t s
 {
 
 	resDesc_.Dimension = dimension;
-	resDesc_.Width = sizeIB;//’¸“_ƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	resDesc_.Width = sizeIB;//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	resDesc_.Height = height;
 	resDesc_.DepthOrArraySize = depthOrArraySize;
 	resDesc_.MipLevels = mipLevels;

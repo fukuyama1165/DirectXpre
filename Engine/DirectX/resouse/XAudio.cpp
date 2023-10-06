@@ -1,6 +1,6 @@
 #include "XAudio.h"
 
-//asssertg‚¤‚¾‚¯‚È‚ç‚±‚ê
+//asssertä½¿ã†ã ã‘ãªã‚‰ã“ã‚Œ
 #include <cassert>
 
 Microsoft::WRL::ComPtr<IXAudio2> XAudio::xAudio2_ = nullptr;
@@ -13,16 +13,16 @@ XAudio::~XAudio()
 void XAudio::Init()
 {
 
-	//xaudio2ƒGƒ“ƒWƒ“‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì‚é
+	//xaudio2ã‚¨ãƒ³ã‚¸ãƒ³ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œã‚‹
 	result_ = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
 
 	assert(SUCCEEDED(result_));
 
-	//masterVoice‚É‚Â‚¢‚Ä
-	// ‘S‚Ä‚ÌƒI[ƒfƒBƒI‚Ìˆ¶æ
-	// ‚±‚ê‚Å‰¹‚ğ–Â‚ç‚·‚È‚ç‚±‚ê‚ğg‚¤‚ç‚µ‚¢
-	// ‚±‚ê‚Íã‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‰ğ•ú‚·‚é‚Æˆê‚ÉÁ‚¦‚é‚ç‚µ‚¢‚Ì‚Ådelete‚µ‚È‚¢‚æ‚¤‚É
-	//ƒ}ƒXƒ^[ƒ{ƒCƒX‚ğ¶¬
+	//masterVoiceã«ã¤ã„ã¦
+	// å…¨ã¦ã®ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªã®å®›å…ˆ
+	// ã“ã‚Œã§éŸ³ã‚’é³´ã‚‰ã™ãªã‚‰ã“ã‚Œã‚’ä½¿ã†ã‚‰ã—ã„
+	// ã“ã‚Œã¯ä¸Šã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è§£æ”¾ã™ã‚‹ã¨ä¸€ç·’ã«æ¶ˆãˆã‚‹ã‚‰ã—ã„ã®ã§deleteã—ãªã„ã‚ˆã†ã«
+	//ãƒã‚¹ã‚¿ãƒ¼ãƒœã‚¤ã‚¹ã‚’ç”Ÿæˆ
 	result_ = xAudio2_->CreateMasteringVoice(&masterVoice_);
 
 }
@@ -30,61 +30,61 @@ void XAudio::Init()
 std::string XAudio::SoundLoadWave(const char* filename, std::string handle)
 {
 
-	//ˆê‰ñ“Ç‚İ‚ñ‚¾‚±‚Æ‚ª‚ ‚éƒtƒ@ƒCƒ‹‚Í‚»‚Ì‚Ü‚Ü•Ô‚·
+	//ä¸€å›èª­ã¿è¾¼ã‚“ã ã“ã¨ãŒã‚ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã¯ãã®ã¾ã¾è¿”ã™
 	auto itr = std::find_if(GetInstance()->soundDatas_.begin(), GetInstance()->soundDatas_.end(), [&](const std::pair<std::string, std::shared_ptr<AudioData>>& p) {
-		return p.second->filepath == filename;//ğŒ
+		return p.second->filepath == filename;//æ¡ä»¶
 		});
-	//Œ©‚Â‚©‚Á‚½‚ç‚»‚ê‚ğ•Ô‚·
+	//è¦‹ã¤ã‹ã£ãŸã‚‰ãã‚Œã‚’è¿”ã™
 	if (itr != GetInstance()->soundDatas_.end()) {
 		return itr->first;
 	}
 
-	//ƒtƒ@ƒCƒ‹“ü—ÍƒXƒgƒŠ[ƒ€‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	//ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	std::ifstream file;
 
-	//.wavƒtƒ@ƒCƒ‹‚ğƒoƒCƒiƒŠƒ‚[ƒh‚ÅŠJ‚­
+	//.wavãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒã‚¤ãƒŠãƒªãƒ¢ãƒ¼ãƒ‰ã§é–‹ã
 	file.open(filename, std::ios_base::binary);
 
-	//ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s‚ğŒŸo‚·‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³å¤±æ•—ã‚’æ¤œå‡ºã™ã‚‹
 	assert(file.is_open());
 
-	//RIFFƒwƒbƒ^[‚Ì“Ç‚İ‚İ
+	//RIFFãƒ˜ãƒƒã‚¿ãƒ¼ã®èª­ã¿è¾¼ã¿
 	RiffHeader riff;
 	file.read((char*)&riff, sizeof(riff));
 
-	//ƒtƒ@ƒCƒ‹‚ªRIFF‚©ƒ`ƒFƒbƒN
+	//ãƒ•ã‚¡ã‚¤ãƒ«ãŒRIFFã‹ãƒã‚§ãƒƒã‚¯
 	if (strncmp(riff.chunk_.id_, "RIFF", 4) != 0)
 	{
 		assert(0);
 	}
 
-	//ƒ^ƒCƒv‚ªWAVE‚©ƒ`ƒFƒbƒN
+	//ã‚¿ã‚¤ãƒ—ãŒWAVEã‹ãƒã‚§ãƒƒã‚¯
 	if (strncmp(riff.type_, "WAVE", 4) != 0)
 	{
 		assert(0);
 	}
 
-	//formatƒ`ƒƒƒ“ƒN‚Ì“Ç‚İ‚İ
+	//formatãƒãƒ£ãƒ³ã‚¯ã®èª­ã¿è¾¼ã¿
 	FormatChunk format = {};
 
-	//ƒwƒbƒ^[‚Ì•”•ª‚¾‚¯‚ğ“Ç‚İ‚ñ‚Åid‚È‚Ç‚ğæ“¾‚·‚é
+	//ãƒ˜ãƒƒã‚¿ãƒ¼ã®éƒ¨åˆ†ã ã‘ã‚’èª­ã¿è¾¼ã‚“ã§idãªã©ã‚’å–å¾—ã™ã‚‹
 	file.read((char*)&format, sizeof(ChunkHeader));
 
-	//id‚ªfmt‚©ƒ`ƒFƒbƒN
+	//idãŒfmtã‹ãƒã‚§ãƒƒã‚¯
 	if (strncmp(format.chunk_.id_, "fmt ", 4) != 0)
 	{
 		assert(0);
 	}
 
-	//–â‘è‚È‚¢‚È‚ç‘S•”“Ç‚İ‚Ş
+	//å•é¡Œãªã„ãªã‚‰å…¨éƒ¨èª­ã¿è¾¼ã‚€
 	assert(format.chunk_.size_ <= sizeof(format.fmt_));
 	file.read((char*)&format.fmt_, format.chunk_.size_);
 
-	//Dataƒ`ƒƒƒ“ƒN‚Ì“Ç‚İ‚İ
+	//Dataãƒãƒ£ãƒ³ã‚¯ã®èª­ã¿è¾¼ã¿
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
 
-	//data‚Ì‚Æ‚±‚Ü‚Å”ò‚Î‚·Š
+	//dataã®ã¨ã“ã¾ã§é£›ã°ã™æ‰€
 	while (!file.fail() && strncmp(data.id_, "data", 4) != 0) {
 		file.seekg(data.size_, std::ios_base::cur);
 		file.read((char*)&data, sizeof(data));
@@ -94,19 +94,21 @@ std::string XAudio::SoundLoadWave(const char* filename, std::string handle)
 		assert(0);
 	}
 
-	//Dataƒ`ƒƒƒ“ƒN‚Ìƒf[ƒ^•”(”gŒ`ƒf[ƒ^)‚Ì“Ç‚İ‚İ
-	char* pBuffer = new char[data.size_];
-	file.read(pBuffer, data.size_);
-
-	//waveƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
-	file.close();
-
 	std::shared_ptr<SoundData> soundData = std::make_shared<SoundData>();
 
 	soundData->filepath = filename;
 	soundData->wfex_ = format.fmt_;
-	soundData->pBuffer_ = reinterpret_cast<BYTE*>(pBuffer);
 	soundData->BufferSize_ = data.size_;
+
+	//Dataãƒãƒ£ãƒ³ã‚¯ã®ãƒ‡ãƒ¼ã‚¿éƒ¨(æ³¢å½¢ãƒ‡ãƒ¼ã‚¿)ã®èª­ã¿è¾¼ã¿
+	//èª­ã¿è¾¼ã¿ãŸã„ãƒ‡ãƒ¼ã‚¿åˆ†å¤§ãã•ã‚’å¤‰ãˆã‚‹
+	soundData->buffer_.resize(data.size_);
+	file.read(reinterpret_cast<char*>(&soundData->buffer_[0]), data.size_);
+
+	//waveãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
+	file.close();
+
+	
 	
 
 	if (handle.empty())
@@ -125,7 +127,7 @@ void XAudio::PlaySoundData(const std::string handle, const float& volume, const 
 	HRESULT result;
 	XAudio* instance = GetInstance();
 
-	//”gŒ`ƒtƒH[ƒ}ƒbƒg‚ğ‚à‚Æ‚ÉsourceVoice‚ğ¶¬
+	//æ³¢å½¢ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’ã‚‚ã¨ã«sourceVoiceã‚’ç”Ÿæˆ
 
 	if (instance->soundDatas_.find(handle) == instance->soundDatas_.end()) {
 		return;
@@ -141,14 +143,14 @@ void XAudio::PlaySoundData(const std::string handle, const float& volume, const 
 		result = xAudio2_->CreateSourceVoice(&pSourceVoice, &waveData->wfex_);
 		assert(SUCCEEDED(result));
 
-		//Ä¶‚·‚é”gŒ`ƒf[ƒ^‚Ìİ’è
+		//å†ç”Ÿã™ã‚‹æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®è¨­å®š
 		XAUDIO2_BUFFER buf{};
-		buf.pAudioData = waveData->pBuffer_;
+		buf.pAudioData = &waveData->buffer_[0];
 		buf.AudioBytes = waveData->BufferSize_;
 		buf.LoopCount = loop ? XAUDIO2_LOOP_INFINITE : 0;
 		buf.Flags = XAUDIO2_END_OF_STREAM;
 
-		//”gŒ`ƒf[ƒ^‚ÌÄ¶
+		//æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®å†ç”Ÿ
 		result = pSourceVoice->SubmitSourceBuffer(&buf);
 		assert(SUCCEEDED(result));
 		result = pSourceVoice->SetVolume(volume);

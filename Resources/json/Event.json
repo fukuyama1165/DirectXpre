@@ -1,0 +1,130 @@
+{
+    "name": "event",
+    "events": [
+        {
+            "type": "moveEvent",
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 1
+            }
+        },
+        {
+            "type": "BattleEvent",         
+            "seting": {
+                "enemyMaxSpawn": 5,
+                "enemyNum": 4,
+                "spawnPoint": [
+                    [0.0,0.0,50.0],
+                    [10.0,0.0,50.0],
+                    [-10.0,0.0,50.0],
+                    [0.0,10.0,50.0]
+                ],
+                "spawnInterval": [
+                    0.0,
+                    100.0,
+                    20.0,
+                    100.0
+                ],
+                "enemyType": [
+                    "Attack",
+                    "moveOnly",
+                    "Attack",
+                    "moveAttack"
+                ],
+
+                "enemySpeed": [
+                    1.0,
+                    0.1,
+                    1.0,
+                    1.0
+                ],
+                "enemyMovePos": [
+                    [0.0,0.0,0.0],
+                    [-10.0,10.0,50.0],
+                    [0.0,0.0,0.0],
+                    [20.0,10.0,50.0]
+                ]
+            }
+        },
+        {
+            "type": "BattleEvent",         
+            "seting": {
+                "enemyMaxSpawn": 5,
+                "enemyNum": 4,
+                "spawnPoint": [
+                    [0.0,0.0,50.0],
+                    [10.0,0.0,50.0],
+                    [-10.0,0.0,50.0],
+                    [0.0,10.0,50.0]
+                ],
+                "spawnInterval": [
+                    0.0,
+                    100.0,
+                    20.0,
+                    100.0
+                ],
+                "enemyType": [
+                    "Attack",
+                    "moveOnly",
+                    "Attack",
+                    "moveAttack"
+                ],
+
+                "enemySpeed": [
+                    1.0,
+                    0.1,
+                    1.0,
+                    1.0
+                ],
+                "enemyMovePos": [
+                    [0.0,0.0,0.0],
+                    [-10.0,10.0,50.0],
+                    [0.0,0.0,0.0],
+                    [20.0,10.0,50.0]
+                ]
+            }
+        },
+        {
+            "type": "moveEvent",
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    100.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 1
+            }
+        },
+        {
+            "type": "moveEvent",
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    150.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 2
+            }
+        }
+        
+    ]
+}

@@ -1,6 +1,6 @@
 #pragma once
 
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 
 #include<d3d12.h>
@@ -13,15 +13,15 @@
 
 class DirectionalLight
 {
-private://ƒGƒCƒŠƒAƒX
+private://ã‚¨ã‚¤ãƒªã‚¢ã‚¹
 
-	//Microsoft::WRL::‚ğÈ—ª
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 	
 
-public://ƒTƒuƒNƒ‰ƒX
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+public://ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferData
 	{
 
@@ -35,85 +35,85 @@ public://ƒTƒuƒNƒ‰ƒX
 
 	};
 
-private://Ã“Iƒƒ“ƒo•Ï”
+private://é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	//ƒfƒoƒCƒX
+	//ãƒ‡ãƒã‚¤ã‚¹
 	//static Microsoft::WRL::ComPtr<ID3D12Device> dev;
 
-public://Ã“Iƒƒ“ƒoŠÖ”
+public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 
 	static void StaticInitialize();
 
 public:
 
-	//ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 	//static DirectionalLight* Create();
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Init();
 
-	//XV
+	//æ›´æ–°
 	void Update();
 
-	//•`‰æ
+	//æç”»
 	void Draw(uint32_t rootParameterIndex);
 
-	//’è”ƒoƒbƒtƒ@“]‘—
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡è»¢é€
 	void TransferConstBuffer();
 
 	/// <summary>
-	/// ƒ‰ƒCƒg•ûŒü‚ğƒZƒbƒg
+	/// ãƒ©ã‚¤ãƒˆæ–¹å‘ã‚’ã‚»ãƒƒãƒˆ
 	/// </summary>
-	/// <param name="lightdir">ƒ‰ƒCƒg•ûŒü</param>
+	/// <param name="lightdir">ãƒ©ã‚¤ãƒˆæ–¹å‘</param>
 	void SetLightDir(const Vector4& lightdir);
 
 	/// <summary>
-	/// ƒ‰ƒCƒgF‚ğƒZƒbƒg
+	/// ãƒ©ã‚¤ãƒˆè‰²ã‚’ã‚»ãƒƒãƒˆ
 	/// </summary>
-	/// <param name="lightcolor">ƒ‰ƒCƒgF</param>
+	/// <param name="lightcolor">ãƒ©ã‚¤ãƒˆè‰²</param>
 	void SetLightColor(const Vector3& lightcolor);
 
-	//—LŒøƒtƒ‰ƒO‚ğƒZƒbƒg
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã‚’ã‚»ãƒƒãƒˆ
 	void SetIsActive(bool flag) { isActive_ = flag; };
 
-	//—LŒøƒtƒ‰ƒO‚ğæ“¾
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã‚’å–å¾—
 	bool GetIsActive() { return isActive_; };
 
 	Vector4 GetLightDir() { return lightDir_; };
 
 	Vector3 GetLightColor() { return lightColor_; };
 
-private://ƒƒ“ƒoŠÖ”(privete)
+private://ãƒ¡ãƒ³ãƒé–¢æ•°(privete)
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	void constantBuffGeneration();
 
-	//’è”ƒoƒbƒtƒ@—p‚ÌƒŠƒ\[ƒXİ’èŠÖ”
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ã®ãƒªã‚½ãƒ¼ã‚¹è¨­å®šé–¢æ•°
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(uint32_t size);
 
 
-private://ƒƒ“ƒo•Ï”
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
 
 	HRESULT result_;
 
-	//—LŒøƒtƒ‰ƒO
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool isActive_ = false;
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>constBuff_ = nullptr;
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES cbHeapProp_{};
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC cbResourceDesc_{};
 
-	//ƒ‰ƒCƒgŒõü•ûŒü(’PˆÊƒxƒNƒgƒ‹)
+	//ãƒ©ã‚¤ãƒˆå…‰ç·šæ–¹å‘(å˜ä½ãƒ™ã‚¯ãƒˆãƒ«)
 	Vector4 lightDir_ = { 1,0,0,0 };
 
-	//ƒ‰ƒCƒgF
+	//ãƒ©ã‚¤ãƒˆè‰²
 	Vector3 lightColor_ = { 1,1,1 };
 
-	//ƒ_[ƒeƒBƒtƒ‰ƒO
+	//ãƒ€ãƒ¼ãƒ†ã‚£ãƒ•ãƒ©ã‚°
 	bool dirty_ = false;
 
 };

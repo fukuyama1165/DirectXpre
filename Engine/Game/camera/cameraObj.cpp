@@ -1,4 +1,5 @@
 #include "cameraObj.h"
+#include "Input.h"
 
 cameraObj::cameraObj(float win_width,float win_height)
 {
@@ -12,22 +13,83 @@ cameraObj::~cameraObj()
 
 void cameraObj::upDate()
 {
-	cameobj_.SetPos(pos_);
-	cameobj_.SetRotate(rotate_);
-	cameobj_.matWorldGeneration();
+	afterPos_ = pos_ + shakeVec;
 
-	camera_.eye_ = cameobj_.GetWorldPos();
+	
 
-	forward_ = { 0.0f, 0.0f, 1.0f };
+	if (IsUseCameraMouse_)
+	{
+		if (!Input::GetInstance()->PushKey(DIK_LCONTROL))
+		{
+			WinApp::GetInstance()->SetMousePos(WinApp::SWindowWidth_ / 2, WinApp::SWindowHeight_ / 2);
+		}
 
-	forward_ = VectorMat(forward_, cameobj_.GetWorldMat());
+		Camera mouseCamera = camera_;
 
-	camera_.target_ = camera_.eye_ + forward_;
+		Vector3 mouseMove = Input::GetInstance()->GetMouseMove() / 1000;
 
-	Vector3 up(0, 1, 0);
+		mouseCameraRot += {0, mouseMove.x, 0};
 
-	camera_.up_ = VectorMat(up, cameobj_.GetWorldMat());
+		Object3D cameobj;
+
+		cameobj.SetPos(afterPos_);
+		cameobj.SetRotate(mouseCameraRot);
+		cameobj.matWorldGeneration();
+
+		mouseCamera.eye_ = cameobj.GetWorldPos();
+
+		Vector3 forward = { 0.0f, 0.0f, 1.0f };
+
+		forward = VectorMat(forward, cameobj.GetWorldMat());
+
+		mouseCamera.target_.x = mouseCamera.eye_.x + forward.x;
+		mouseCamera.target_.z = mouseCamera.eye_.z + forward.z;
+		mouseCamera.target_.y -= mouseMove.y + forward.y;
+
+
+
+		Vector3 up(0, 1, 0);
+
+		mouseCamera.up_ = VectorMat(up, cameobj.GetWorldMat());
+
+		camera_ = mouseCamera;
+	}
+	else
+	{
+		Object3D cameobj;
+
+		cameobj.SetPos(afterPos_);
+		cameobj.SetRotate(rotate_);
+		cameobj.matWorldGeneration();
+
+		camera_.eye_ = cameobj.GetWorldPos();
+
+		Vector3 forward = { 0.0f, 0.0f, 1.0f };
+
+		forward = VectorMat(forward, cameobj.GetWorldMat());
+
+		camera_.target_ = camera_.eye_ + forward;
+
+		Vector3 up(0, 1, 0);
+
+		camera_.up_ = VectorMat(up, cameobj.GetWorldMat());
+
+	}
 
 	camera_.upDate();
+
+}
+
+void cameraObj::CameraShake(Vector3 vec, Vector3 power)
+{
+	shekeSinNum += vec;
+
+	if (vec == Vector3{ 0,0,0 })
+	{
+		shekeSinNum = { 0,0,0 };
+	}
+
+	shakeVec = { (sinf(shekeSinNum.x)) * power.x, (sinf(shekeSinNum.y)) * power.y, (sinf(shekeSinNum.z)) * power.z };
+
 
 }

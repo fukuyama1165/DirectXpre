@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 
@@ -43,6 +43,9 @@ public:
 	//キーボードのキーを離した瞬間に反応する関数(長押し反応しない)
 	bool ReleaseKey(const BYTE& CheckKey);
 
+	//キーボードのキーのどれかが押されたらtrueを返す関数
+	bool AllKeyCheck();
+
 	/// <summary>
 	/// クリックしているかどうかを取得
 	/// </summary>
@@ -73,6 +76,12 @@ public:
 	//マウスの移動量取得(zはホイールの移動量)
 	Vector3 GetMouseMove();
 
+	//マウスの入力を受け取ったらtrueを返す関数
+	bool GetMouseInput();
+
+	//マウスが画面内にあるか
+	bool GetMouseInWindow();
+
 	//ゲームパッドのボタンを押したかどうか
 	bool GetGamePadButton(uint32_t button);
 
@@ -81,6 +90,9 @@ public:
 
 	//ゲームパッドのボタンが離された瞬間かどうか
 	bool GetGamePadButtonUp(uint32_t button);
+
+	//ゲームパッドのどれかのボタンが押されたか
+	bool GetGamePadAllButton();
 
 	//現在ゲームパッドがつながっているか
 	bool GetIsUseGamePad();
@@ -105,8 +117,14 @@ public:
 	//ゲームパッドの右スティック情報取得
 	Vector2 GetGamePadRStick();
 
+	//ゲームパッドのスティックの入力があったらtrueを返す関数
+	bool GetGamePadStickInput();
+
+	//ゲームパッドの入力があったらtrueを返す関数
+	bool GetGamePadInput();
+
 	//便利だったのでアイデアをもらった
-	
+
 	/// <summary>
 	/// 左のスティックの情報をキーボードとまとめて取得できる関数
 	/// </summary>
@@ -132,7 +150,7 @@ private:
 
 	//static Input* instance_;
 
-	HRESULT result_ =S_OK;
+	HRESULT result_ = S_OK;
 
 	//全キーの入力情報を取得する為の変数
 	BYTE key_[256] = {};

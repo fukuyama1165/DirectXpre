@@ -15,40 +15,40 @@ public:
 	Quaternion(Vector3 axis,float angle);
 	~Quaternion();
 
-	//Quaternion‚ÌÏ
+	//Quaternionã®ç©
 	static Quaternion Multiply(const Quaternion& lhs, const Quaternion& rhs);
 
-	//’PˆÊQuaternion‚ğ•Ô‚·
+	//å˜ä½Quaternionã‚’è¿”ã™
 	static Quaternion IdentityQuaternion();
 
-	//‹¤–ğQuaternion‚ğ•Ô‚·
+	//å…±å½¹Quaternionã‚’è¿”ã™
 	static Quaternion Conjugate(const Quaternion& quaternion);
 
-	//Quaternion‚Ìnorm‚ğ•Ô‚·
+	//Quaternionã®normã‚’è¿”ã™
 	static float Norm(const Quaternion& quaternion);
 
-	//³‹K‰»‚µ‚½Quaternion‚ğ•Ô‚·
+	//æ­£è¦åŒ–ã—ãŸQuaternionã‚’è¿”ã™
 	static Quaternion Normalize(const Quaternion& quaternion);
 
-	//‹tQuaternion‚ğ•Ô‚·
+	//é€†Quaternionã‚’è¿”ã™
 	static Quaternion Inverse(const Quaternion& quaternion);
 
-	//”CˆÓ²‰ñ“]‚ğ•\‚·Quaternion‚Ì¶¬
+	//ä»»æ„è»¸å›è»¢ã‚’è¡¨ã™Quaternionã®ç”Ÿæˆ
 	static Quaternion MakeAxisAngle(const Vector3& axis, float angle);
 
-	//ƒxƒNƒgƒ‹‚ğQuaternion‚Å‰ñ“]‚³‚¹‚½Œ‹‰Ê‚ÌƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+	//ãƒ™ã‚¯ãƒˆãƒ«ã‚’Quaternionã§å›è»¢ã•ã›ãŸçµæœã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
 	static Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
 
-	//Quaternion‚©‚ç‰ñ“]s—ñ‚ğ‹‚ß‚é
+	//Quaternionã‹ã‚‰å›è»¢è¡Œåˆ—ã‚’æ±‚ã‚ã‚‹
 	static Matrix4x4 MakeRotateMatrix(const Quaternion& quaternion);
 
-	//“àÏ
+	//å†…ç©
 	static float dot(const Quaternion& q0, const Quaternion& q1);
 
-	//‹…–ÊüŒ`•âŠÔ
+	//çƒé¢ç·šå½¢è£œé–“
 	static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
 
-	//u‚©‚ç‚–‚Ö‚ÌQuaternion‚ğ¶¬
+	//uã‹ã‚‰ï½–ã¸ã®Quaternionã‚’ç”Ÿæˆ
 	static Quaternion DirectionToDirection(const Vector3& u, const Vector3& v);
 
 
