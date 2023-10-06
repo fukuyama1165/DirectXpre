@@ -152,17 +152,17 @@ const Vector3 operator/(const Vector3& v, float s)
 	return temp /= s;
 }
 
-const bool operator==(const Vector3& v1, const Vector3& v2)
+bool operator==(const Vector3& v1, const Vector3& v2)
 {
 	return v1.x == v2.x and v1.y == v2.y and v1.z == v2.z;
 }
 
-const bool operator<=(const Vector3& v1, const Vector3& v2)
+bool operator<=(const Vector3& v1, const Vector3& v2)
 {
 	return v1.x <= v2.x and v1.y <= v2.y and v1.z <= v2.z;
 }
 
-const bool operator>=(const Vector3& v1, const Vector3& v2)
+bool operator>=(const Vector3& v1, const Vector3& v2)
 {
 	return v1.x >= v2.x and v1.y >= v2.y and v1.z >= v2.z;
 }

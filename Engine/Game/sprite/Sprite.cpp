@@ -720,7 +720,7 @@ void Sprite::rootParamGeneration()
 #pragma region ルートパラメータ
 
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER newRootParam;
+	D3D12_ROOT_PARAMETER newRootParam{};
 	//色
 	newRootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
 	newRootParam.Descriptor.ShaderRegister = 0;//定数バッファ番号
@@ -883,7 +883,7 @@ D3D12_RESOURCE_DESC Sprite::constBuffResourceGeneration(uint32_t size)
 {
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (size + 0xff) & ~0xff;//256バイトアラインメント
+	cbResourceDesc.Width = (uint64_t)((size + 0xff) & ~0xff);//256バイトアラインメント
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;

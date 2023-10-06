@@ -6,6 +6,9 @@ public:
 	Vector2();
 	Vector2(float x, float y);
 	~Vector2();
+	Vector2(const Vector2&) = default;
+	Vector2& operator=(const Vector2&) = default;
+
 
 	float length()const;
 	//渡したものを正規化して返す

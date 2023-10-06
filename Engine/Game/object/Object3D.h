@@ -260,9 +260,9 @@ private:
 	std::vector <Vertex> vertices_;
 
 	//頂点データサイズ
-	uint32_t sizeVB_;
+	uint32_t sizeVB_ = 0;
 
-	HRESULT result_;
+	HRESULT result_ = S_OK;
 
 	//頂点バッファ用変数
 	D3D12_HEAP_PROPERTIES heapprop_{};//ヒープ設定
@@ -321,7 +321,7 @@ private:
 	//インデックスデータ
 	std::vector< unsigned short> indices_;
 	//インデックスデータ全体のサイズ
-	uint32_t sizeIB_;
+	uint32_t sizeIB_ = 0;
 	//インデックスバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	//インデックスビュー
