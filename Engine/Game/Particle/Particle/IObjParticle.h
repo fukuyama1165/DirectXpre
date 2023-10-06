@@ -9,17 +9,17 @@ class IObjParticle
 public:
 	virtual ~IObjParticle() {};
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	virtual void Initialize() {};
 	virtual void Initialize(const Vector3& position, const Vector3& velocity, float liveTime) = 0;
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	virtual void Finalize() = 0;
 
-	//–ˆƒtƒŒ[ƒ€XV
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	virtual void Update() = 0;
 
-	//•`‰æ
+	//æç”»
 	virtual void Draw(AnimationModel* model) = 0;
 
 	
@@ -41,7 +41,7 @@ private:
 
 	Object3D obj_;
 
-	//‘¬“x
+	//é€Ÿåº¦
 	Vector3	Velocity_;
 
 	float liveTime_ = 50;

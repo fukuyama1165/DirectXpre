@@ -4,7 +4,7 @@
 
 #include "Vector3.h"
 
-//•K‚¸Å¬‚ÅƒTƒCƒY‚Å1,1,1‚Ì—§•û‘Ì‚ðŽg‚¤‚±‚Æ
+//å¿…ãšæœ€å°ã§ã‚µã‚¤ã‚ºã§1,1,1ã®ç«‹æ–¹ä½“ã‚’ä½¿ã†ã“ã¨
 class CubeCollider :public BaseCollider, public Cube
 {
 
@@ -12,7 +12,7 @@ public:
 	CubeCollider(Vector3 Size = {1,1,1}) :size_(Size)
 	{
 
-		//‹…Œ`ó‚ðƒZƒbƒg
+		//çƒå½¢çŠ¶ã‚’ã‚»ãƒƒãƒˆ
 		shapeType_ = COLLISIONSHAPE_CUBE;
 
 
@@ -29,7 +29,7 @@ public:
 	void Initialize();
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update(const Vector3 pos)override;
 
@@ -37,7 +37,7 @@ public:
 
 public:
 
-	//ƒTƒCƒY
+	//ã‚µã‚¤ã‚º
 	Vector3 size_ = { 1,1,1 };
 };
 

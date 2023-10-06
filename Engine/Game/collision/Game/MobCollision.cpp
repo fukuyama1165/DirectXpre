@@ -15,19 +15,19 @@ MobCollision::~MobCollision()
 }
 
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void MobCollision::Initialize()
 {
 	collisionObj_.FBXInit();
 }
 
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 void MobCollision::Finalize()
 {
 
 }
 
-//–ˆƒtƒŒ[ƒ€XV
+//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 void MobCollision::Update(const Vector3 pos)
 {
 
@@ -36,10 +36,10 @@ void MobCollision::Update(const Vector3 pos)
 	
 }
 
-//•`‰æ
+//æç”»
 void MobCollision::Draw(AnimationModel* model)
 {
-	//ƒkƒ‹ƒ|ƒ`ƒFƒbƒN
+	//ãƒŒãƒ«ãƒãƒã‚§ãƒƒã‚¯
 	assert(model);
 	if (isDraw_)
 	{

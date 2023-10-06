@@ -19,11 +19,11 @@
 
 #include "Model.h"
 
-//l‚ÌƒR[ƒhŒ©‚Äì‚Á‚½
+//äººã®ã‚³ãƒ¼ãƒ‰è¦‹ã¦ä½œã£ãŸ
 
 
 
-//•”ˆÊ‚Ìtransform‚¾‚Æv‚¤
+//éƒ¨ä½ã®transformã ã¨æ€ã†
 struct NodeUnit
 {
 	std::string name_;
@@ -36,51 +36,51 @@ struct NodeUnit
 
 };
 
-//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì“®‚«‚Ìˆ×‚Ì\‘¢‘Ì(i’»‚Æ‚©–¼‘O‚Æ‚©)
+//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å‹•ãã®ç‚ºã®æ§‹é€ ä½“(é€²æ—ã¨ã‹åå‰ã¨ã‹)
 struct Animation
 {
 
 	std::string name_;
-	double duration_;//ŠÔŠu
-	double ticksPerSecond_;//Œo‰ß?ŠÔ
-	std::vector< NodeUnit> channels_;//‚½‚Ô‚ñ•”ˆÊ’PˆÊ‚ÌˆÊ’u‚ğ‚Á‚Ä‚é
+	double duration_;//é–“éš”
+	double ticksPerSecond_;//çµŒé?æ™‚é–“
+	std::vector< NodeUnit> channels_;//ãŸã¶ã‚“éƒ¨ä½å˜ä½ã®ä½ç½®ã‚’æŒã£ã¦ã‚‹
 
 };
 
-//ˆê’PˆÊ‚¾‚Æv‚¤(’¸“_‚İ‚½‚¢‚ÌH)
+//ä¸€å˜ä½ã ã¨æ€ã†(é ‚ç‚¹ã¿ãŸã„ã®ï¼Ÿ)
 #pragma warning(push)
 #pragma warning(disable: 4324)
 typedef struct Node
 {
-	//–¼‘O(‚½‚Ô‚ñ“®‚©‚·Û‚É‚±‚Ì•”•ª‚Ì‚â‚Â“®‚©‚·‚½‚ß‚É•K—v‚É‚È‚éH)
+	//åå‰(ãŸã¶ã‚“å‹•ã‹ã™éš›ã«ã“ã®éƒ¨åˆ†ã®ã‚„ã¤å‹•ã‹ã™ãŸã‚ã«å¿…è¦ã«ãªã‚‹ï¼Ÿ)
 	std::string name_;
 
-	//ƒƒbƒVƒ…
+	//ãƒ¡ãƒƒã‚·ãƒ¥
 	std::vector<std::unique_ptr<AnimationMesh>> meshes_;
 
-	//‚±‚±‚©‚ç’P‘Ì‚Ìs—ñ‚âƒ[ƒJƒ‹À•W
+	//ã“ã“ã‹ã‚‰å˜ä½“ã®è¡Œåˆ—ã‚„ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™
 
-	//‚½‚Ô‚ñXMVECTOR‚Å‚µ‚©ó‚¯æ‚ê‚È‚¢H
-	//‘å‚«‚³
+	//ãŸã¶ã‚“XMVECTORã§ã—ã‹å—ã‘å–ã‚Œãªã„ï¼Ÿ
+	//å¤§ãã•
 	DirectX::XMVECTOR scale_ = { 1,1,1,0 };
-	//Šp“x
+	//è§’åº¦
 	DirectX::XMVECTOR rotation_ = { 0,0,0,0 };
-	//ˆÊ’u
+	//ä½ç½®
 	DirectX::XMVECTOR translation_ = { 0,0,0,1 };
 
-	//ƒ[ƒJƒ‹À•Ws—ñ
+	//ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™è¡Œåˆ—
 	Matrix4x4 transform_ = Matrix4x4::Identity();
 
-	//ƒOƒ[ƒoƒ‹(ƒ[ƒ‹ƒh)À•Ws—ñ?
+	//ã‚°ãƒ­ãƒ¼ãƒãƒ«(ãƒ¯ãƒ¼ãƒ«ãƒ‰)åº§æ¨™è¡Œåˆ—?
 	Matrix4x4 globalTransform_ = Matrix4x4::Identity();
 
-	//ƒOƒ[ƒoƒ‹(ƒ[ƒ‹ƒh)À•W‚Ì‹ts—ñ
+	//ã‚°ãƒ­ãƒ¼ãƒãƒ«(ãƒ¯ãƒ¼ãƒ«ãƒ‰)åº§æ¨™ã®é€†è¡Œåˆ—
 	Matrix4x4 globalInverseTransform_ = Matrix4x4::Identity();
 
-	//e‚ÌƒAƒjƒ[ƒVƒ‡ƒ“s—ñ?
+	//è¦ªã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³è¡Œåˆ—?
 	Matrix4x4 animaetionParentMat_ = Matrix4x4::Identity();
 
-	//eƒIƒuƒWƒFƒNƒg
+	//è¦ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Node* parent_ = nullptr;
 
 }Node;
@@ -89,55 +89,55 @@ typedef struct Node
 
 
 
-//‚±‚ê‚ğobject3D‚É‚½‚¹‚é‚±‚Æ‚ÅˆÊ’u‚ğˆÚ“®‚³‚¹‚½‚è‚·‚é
+//ã“ã‚Œã‚’object3Dã«æŒãŸã›ã‚‹ã“ã¨ã§ä½ç½®ã‚’ç§»å‹•ã•ã›ãŸã‚Šã™ã‚‹
 class AnimationModel
 {
 
 public:
-	//texture‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ‚à‚ç‚Á‚Ä‚­‚é
+	//textureã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ã‚‚ã‚‰ã£ã¦ãã‚‹
 	DirectXInit* directXinit_ = DirectXInit::GetInstance();
 	Texture* texture_ = Texture::GetInstance();
 
-	//’¸“_ˆÊ’uŒQH
+	//é ‚ç‚¹ä½ç½®ç¾¤ï¼Ÿ
 	std::vector<std::unique_ptr<Node>> nodes_;
 	std::vector<std::unique_ptr<Animation>> animations_;
 	std::vector<Bone> bones;
 
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~AnimationModel();
 
-	//ƒtƒ@ƒCƒ‹–¼
+	//ãƒ•ã‚¡ã‚¤ãƒ«å
 	std::string filename_;
 	std::string materialName_;
 
-	//aiscene‚ğ‚Á‚Ä‚­‚é
-	
+	//aisceneã‚’æŒã£ã¦ãã‚‹
+
 	bool Load(std::string filename, std::string fileType, std::string materialName = "", std::string materialType = "png");
 
 	void Draw()const;
 
 	/// <summary>
-	/// aiscene‚É“ü‚Á‚Ä‚éƒm[ƒh‚Ìî•ñ‚ğƒRƒs[‚·‚é
+	/// aisceneã«å…¥ã£ã¦ã‚‹ãƒãƒ¼ãƒ‰ã®æƒ…å ±ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 	/// </summary>
-	/// <param name="node">ƒm[ƒh(’Ç‰Á‚µ‚½‚¢‚â‚Â)</param>
-	/// <param name="scene">‘S‘Ì(‚Ç‚ÌˆÊ’u‚É‚¢‚é‚©”»’f‚·‚é‚½‚ß?)</param>
-	/// <param name="targetParent">eqŠÖŒW‚ª‚ ‚é‚È‚ç“ü‚ê‚é</param>
-	void CopyNodeMesh(const aiNode* node,const aiScene* scene, Node* targetParent = nullptr);
+	/// <param name="node">ãƒãƒ¼ãƒ‰(è¿½åŠ ã—ãŸã„ã‚„ã¤)</param>
+	/// <param name="scene">å…¨ä½“(ã©ã®ä½ç½®ã«ã„ã‚‹ã‹åˆ¤æ–­ã™ã‚‹ãŸã‚?)</param>
+	/// <param name="targetParent">è¦ªå­é–¢ä¿‚ãŒã‚ã‚‹ãªã‚‰å…¥ã‚Œã‚‹</param>
+	void CopyNodeMesh(const aiNode* node, const aiScene* scene, Node* targetParent = nullptr);
 
 	/// <summary>
-	/// ƒƒbƒVƒ…‚Ìî•ñ‚ğ“ü‚ê‚é
+	/// ãƒ¡ãƒƒã‚·ãƒ¥ã®æƒ…å ±ã‚’å…¥ã‚Œã‚‹
 	/// </summary>
-	/// <param name="mesh">“ü‚ê‚½‚¢ƒƒbƒVƒ…</param>
-	/// <param name="scene">“Ç‚İ‚ñ‚¾aiScene</param>
-	/// <param name="model">•Û‘¶‚·‚éêŠ</param>
+	/// <param name="mesh">å…¥ã‚ŒãŸã„ãƒ¡ãƒƒã‚·ãƒ¥</param>
+	/// <param name="scene">èª­ã¿è¾¼ã‚“ã aiScene</param>
+	/// <param name="model">ä¿å­˜ã™ã‚‹å ´æ‰€</param>
 	void ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMesh& model);
 
 	/// <summary>
-	/// ƒ}ƒeƒŠƒAƒ‹‚É‚ ‚éƒeƒNƒXƒ`ƒƒ‚ğ“Ç‚İ‚Ş‚â‚Â
+	/// ãƒãƒ†ãƒªã‚¢ãƒ«ã«ã‚ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’èª­ã¿è¾¼ã‚€ã‚„ã¤
 	/// </summary>
-	/// <param name="material">ŠY“–‚·‚éƒ}ƒeƒŠƒAƒ‹</param>
-	/// <param name="type">ó‚¯æ‚è‚½‚¢‚â‚Â‚ÌğŒ?</param>
-	/// <param name="model">•Û‘¶‚·‚éêŠ</param>
+	/// <param name="material">è©²å½“ã™ã‚‹ãƒãƒ†ãƒªã‚¢ãƒ«</param>
+	/// <param name="type">å—ã‘å–ã‚ŠãŸã„ã‚„ã¤ã®æ¡ä»¶?</param>
+	/// <param name="model">ä¿å­˜ã™ã‚‹å ´æ‰€</param>
 	void LoadMaterialTextures(aiMaterial* material, aiTextureType type, AnimationMesh& model);
 
 	//void MeshAssignment(const aiMesh* mesh, const aiScene* scene);

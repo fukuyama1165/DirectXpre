@@ -19,7 +19,7 @@ void BasicParticle::Initialize()
 void BasicParticle::Initialize(const Vector3& position, const Vector3& velocity,float liveTime)
 {
 	obj_.FBXInit();
-	//ˆø”‚ÅŽó‚¯Žæ‚Á‚½‰ŠúÀ•W‚ðƒZƒbƒg
+	//å¼•æ•°ã§å—ã‘å–ã£ãŸåˆæœŸåº§æ¨™ã‚’ã‚»ãƒƒãƒˆ
 	obj_.Trans_ = position;
 
 	Velocity_ = velocity;
@@ -34,7 +34,7 @@ void BasicParticle::Finalize()
 
 void BasicParticle::Update()
 {
-	//ˆÚ“®‚·‚é‚Æ‚±‚ë
+	//ç§»å‹•ã™ã‚‹ã¨ã“ã‚
 	obj_.Trans_ += Velocity_;
 	obj_.Rotate_ = easeInQuint(Vector3(0,0,0), Vector3(100, 100, 100), actionTime_ / actionMaxTime_);
 	obj_.Scale_ = easeInQuint(Vector3(0,0,0), Vector3(1, 1, 1), actionTime_ / actionMaxTime_);

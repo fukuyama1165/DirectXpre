@@ -15,19 +15,19 @@ BulletCollision::~BulletCollision()
 }
 
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void BulletCollision::Initialize()
 {
 	collisionObj_.FBXInit();
 }
 
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 void BulletCollision::Finalize()
 {
 
 }
 
-//–ˆƒtƒŒ[ƒ€XV
+//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 void BulletCollision::Update(const Vector3 pos)
 {
 
@@ -36,10 +36,10 @@ void BulletCollision::Update(const Vector3 pos)
 	
 }
 
-//•`‰æ
+//æç”»
 void BulletCollision::Draw(AnimationModel* model)
 {
-	//ƒkƒ‹ƒ|ƒ`ƒFƒbƒN
+	//ãƒŒãƒ«ãƒãƒã‚§ãƒƒã‚¯
 	assert(model);
 	if (isDraw_)
 	{

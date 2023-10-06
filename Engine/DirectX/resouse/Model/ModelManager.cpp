@@ -4,9 +4,9 @@ std::string ModelManager::Load(std::string filename, std::string fileType, std::
 {
 
 	auto itr = std::find_if(models_.begin(), models_.end(), [&](const std::pair<std::string, ModelData>& p) {
-		return p.second.fileName == filename and p.second.materialName == materialName;//ğŒ
+		return p.second.fileName == filename and p.second.materialName == materialName;//æ¡ä»¶
 		});
-	//Œ©‚Â‚©‚Á‚½‚ç‚»‚ê‚ğ•Ô‚·
+	//è¦‹ã¤ã‹ã£ãŸã‚‰ãã‚Œã‚’è¿”ã™
 	if (itr != models_.end()) {
 		return itr->first;
 	}
@@ -27,16 +27,16 @@ std::string ModelManager::Load(std::string filename, std::string fileType, std::
 AnimationModel* ModelManager::SearchModelData(std::string handle)
 {
 
-	//’T‚·‚æ
+	//æ¢ã™ã‚ˆ
 	auto itr = std::find_if(models_.begin(), models_.end(), [&](const std::pair<std::string, ModelData>& p) {
-		return p.first == handle;//ğŒ
+		return p.first == handle;//æ¡ä»¶
 		});
-	//Œ©‚Â‚©‚Á‚½‚ç‚»‚ê‚ğ•Ô‚·
+	//è¦‹ã¤ã‹ã£ãŸã‚‰ãã‚Œã‚’è¿”ã™
 	if (itr != models_.end()) {
 		return models_[handle].model.get();
 	}
 
-	//‚È‚¢‚à‚Ì’T‚»‚¤‚Æ‚µ‚Ä‚é‚â‚Â‚Í”’‚¢ƒ{ƒbƒNƒX‚ğ•Ô‚·‚æ
+	//ãªã„ã‚‚ã®æ¢ãã†ã¨ã—ã¦ã‚‹ã‚„ã¤ã¯ç™½ã„ãƒœãƒƒã‚¯ã‚¹ã‚’è¿”ã™ã‚ˆ
 	std::string whiteBox = "whiteBox";
 
 	return models_[whiteBox].model.get();
@@ -46,7 +46,7 @@ AnimationModel* ModelManager::SearchModelData(std::string handle)
 
 void ModelManager::RegisterModel(std::string handle, std::shared_ptr<AnimationModel> model)
 {
-	//‚È‚©‚İ‚È‚¢‚È‚ç•Ô‚·‚æ
+	//ãªã‹ã¿ãªã„ãªã‚‰è¿”ã™ã‚ˆ
 	if (model == nullptr)return;
 
 	models_[handle].model = std::move(model);
@@ -55,14 +55,14 @@ void ModelManager::RegisterModel(std::string handle, std::shared_ptr<AnimationMo
 void ModelManager::eraseModel(std::string handle)
 {
 
-	//’T‚·‚æ
+	//æ¢ã™ã‚ˆ
 	auto itr = std::find_if(models_.begin(), models_.end(), [&](const std::pair<std::string, ModelData>& p) {
-		return p.first == handle;//ğŒ
+		return p.first == handle;//æ¡ä»¶
 		});
-	//Œ©‚Â‚©‚Á‚½‚ç‚»‚ê‚ğÁ‚·
+	//è¦‹ã¤ã‹ã£ãŸã‚‰ãã‚Œã‚’æ¶ˆã™
 	if (itr != models_.end()) {
 		models_.erase(handle);
 	}
 
-	//‚È‚¢‚È‚ç‰½‚à‚È‚¢
+	//ãªã„ãªã‚‰ä½•ã‚‚ãªã„
 }

@@ -17,7 +17,7 @@ void CollisionManager::CheckAllCollisions()
 
 	itA = colliders_.begin();
 
-	//‘“–‚½‚è‚Å‘S‚Ä‚ðƒ`ƒFƒbƒN
+	//ç·å½“ãŸã‚Šã§å…¨ã¦ã‚’ãƒã‚§ãƒƒã‚¯
 	for (itA = colliders_.begin(); itA != colliders_.end(); ++itA)
 	{
 
@@ -29,9 +29,9 @@ void CollisionManager::CheckAllCollisions()
 			BaseCollider* colA = *itA;
 			BaseCollider* colB = *itB;
 
-			//‚±‚±‚©‚çƒ^ƒCƒv‚É‚æ‚Á‚Ä‚Ìˆ—‚ð‘‚­
+			//ã“ã“ã‹ã‚‰ã‚¿ã‚¤ãƒ—ã«ã‚ˆã£ã¦ã®å‡¦ç†ã‚’æ›¸ã
 
-			//‚Æ‚à‚É‹…
+			//ã¨ã‚‚ã«çƒ
 			if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE and colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
 			{
 
@@ -47,7 +47,7 @@ void CollisionManager::CheckAllCollisions()
 
 			}
 
-			//‚Æ‚à‚É—§•û‘Ì
+			//ã¨ã‚‚ã«ç«‹æ–¹ä½“
 			if (colA->GetShapeType() == COLLISIONSHAPE_CUBE and colB->GetShapeType() == COLLISIONSHAPE_CUBE)
 			{
 
@@ -63,7 +63,7 @@ void CollisionManager::CheckAllCollisions()
 
 			}
 
-			//•Ð•û‚ª’¼•û‘Ì‚Å‚à‚¤•Ð•û‚ª—§•û‘Ì
+			//ç‰‡æ–¹ãŒç›´æ–¹ä½“ã§ã‚‚ã†ç‰‡æ–¹ãŒç«‹æ–¹ä½“
 			if (colA->GetShapeType() == COLLISIONSHAPE_BOX and colB->GetShapeType() == COLLISIONSHAPE_CUBE)
 			{
 
@@ -91,7 +91,7 @@ void CollisionManager::CheckAllCollisions()
 				}
 			}
 
-			//‚Æ‚à‚É’¼•û‘Ì
+			//ã¨ã‚‚ã«ç›´æ–¹ä½“
 			if (colA->GetShapeType() == COLLISIONSHAPE_BOX and colB->GetShapeType() == COLLISIONSHAPE_BOX)
 			{
 				Rectangular* CubeA = dynamic_cast<Rectangular*>(colA);

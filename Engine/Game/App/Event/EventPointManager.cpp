@@ -27,39 +27,39 @@ void EventPointManager::LoadEventData(std::string fileName)
 
 	nowEventDataFileName_ = fileName;
 
-	//Œ³‚©‚ç—pˆÓ‚µ‚Ä‚¢‚½ƒpƒX‚ğ‚­‚Á‚Â‚¯‚ÄŠ®‘S‚É’Ê‚éƒpƒX‚É‚·‚é
+	//å…ƒã‹ã‚‰ç”¨æ„ã—ã¦ã„ãŸãƒ‘ã‚¹ã‚’ãã£ã¤ã‘ã¦å®Œå…¨ã«é€šã‚‹ãƒ‘ã‚¹ã«ã™ã‚‹
 	const std::string fullPath = SDefaultEventPath_ + fileName + SDefaultEventExtension_;
 
-	//ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 	std::ifstream file;
 
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	file.open(fullPath);
 
-	//ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s‚ğƒ`ƒFƒbƒN
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³å¤±æ•—ã‚’ãƒã‚§ãƒƒã‚¯
 	if (file.fail())
 	{
 		assert(0);
 	}
 
-	//JSON•¶š—ñ‚©‚ç‰ğ“€‚µ‚½ƒf[ƒ^
+	//JSONæ–‡å­—åˆ—ã‹ã‚‰è§£å‡ã—ãŸãƒ‡ãƒ¼ã‚¿
 	nlohmann::json deserialized;
 
-	//‰ğ“€
+	//è§£å‡
 	file >> deserialized;
 
-	//³‚µ‚¢ƒCƒxƒ“ƒgƒtƒ@ƒCƒ‹‚©ƒ`ƒFƒbƒN
+	//æ­£ã—ã„ã‚¤ãƒ™ãƒ³ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒã‚§ãƒƒã‚¯
 	assert(deserialized.is_object());
 	assert(deserialized.contains("name"));
 	assert(deserialized["name"].is_string());
 
-	//"name"‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾
+	//"name"ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—
 	std::string name = deserialized["name"].get<std::string>();
 
-	//³‚µ‚¢‚©‚Ç‚¤‚©ƒ`ƒFƒbƒN
+	//æ­£ã—ã„ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯
 	assert(name.compare("event") == 0);
 
-	//"events"‚Ì‘SƒIƒuƒWƒFƒNƒg‚ğ‘–¸
+	//"events"ã®å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’èµ°æŸ»
 	for (nlohmann::json& events : deserialized["events"])
 	{
 
@@ -83,14 +83,14 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 {
 
 
-	//type‚ª‚È‚¯‚ê‚Î~‚ß‚é
+	//typeãŒãªã‘ã‚Œã°æ­¢ã‚ã‚‹
 	assert(Event.contains("type"));
-	//ƒ^ƒCƒv‚ğæ“¾
+	//ã‚¿ã‚¤ãƒ—ã‚’å–å¾—
 	std::string type = Event["type"].get<std::string>();
 
 
 
-	//moveEvent‚È‚ç
+	//moveEventãªã‚‰
 	if (type.compare("moveEvent") == 0)
 	{
 
@@ -100,20 +100,20 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 		eventData.eventType = EventType::moveEvent;
 
-		//İ’è‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+		//è¨­å®šã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 		nlohmann::json& seting = Event["seting"];
 
-		//ˆÚ“®‚·‚éêŠ“Ç‚İ‚İ
+		//ç§»å‹•ã™ã‚‹å ´æ‰€èª­ã¿è¾¼ã¿
 		eventData.movePoint.x = (float)seting["movePoint"][0];
 		eventData.movePoint.y = (float)seting["movePoint"][1];
 		eventData.movePoint.z = (float)seting["movePoint"][2];
 
-		//ˆÚ“®‚·‚é‚Æ‚«‚ÌŠp“x“Ç‚İ‚İ
+		//ç§»å‹•ã™ã‚‹ã¨ãã®è§’åº¦èª­ã¿è¾¼ã¿
 		eventData.movePointRot.x = (float)seting["movePointRot"][0];
 		eventData.movePointRot.y = (float)seting["movePointRot"][1];
 		eventData.movePointRot.z = (float)seting["movePointRot"][2];
 
-		//ƒXƒs[ƒh‚ÌƒZƒbƒg
+		//ã‚¹ãƒ”ãƒ¼ãƒ‰ã®ã‚»ãƒƒãƒˆ
 		eventData.moveSpeed = (float)seting["moveSpeed"];
 
 		eventSetings_.push_back(eventData);
@@ -125,20 +125,20 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 		EventSeting eventData;
 
-		//İ’è‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+		//è¨­å®šã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 		nlohmann::json& seting = Event["seting"];
 
-		//•¦‚«”‚Æ‰æ–Ê“à‚ÌÅ‘å”‚ğƒZƒbƒg
+		//æ²¸ãæ•°ã¨ç”»é¢å†…ã®æœ€å¤§æ•°ã‚’ã‚»ãƒƒãƒˆ
 		eventData.enemyMaxSpawn = seting["enemyMaxSpawn"];
 		eventData.enemyNum = seting["enemyNum"];
 
-		//ƒCƒxƒ“ƒg‚Ìƒ^ƒCƒv‚ğƒZƒbƒg
+		//ã‚¤ãƒ™ãƒ³ãƒˆã®ã‚¿ã‚¤ãƒ—ã‚’ã‚»ãƒƒãƒˆ
 		eventData.eventType = BattleEvent;
 
-		//ƒGƒlƒ~[‚Ì”‚¾‚¯‰ñ‚·
+		//ã‚¨ãƒãƒŸãƒ¼ã®æ•°ã ã‘å›ã™
 		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
 		{
-			//İ’è‚³‚ê‚Ä‚È‚¢‚â‚Â‚ğ‚İ‚æ‚¤‚Æ‚µ‚½‚ç‚»‚à‚»‚à‚æ‚Î‚È‚¢‚æ‚¤‚É
+			//è¨­å®šã•ã‚Œã¦ãªã„ã‚„ã¤ã‚’ã¿ã‚ˆã†ã¨ã—ãŸã‚‰ãã‚‚ãã‚‚ã‚ˆã°ãªã„ã‚ˆã†ã«
 			if ((float)seting["spawnPoint"].size() <= i or
 				(float)seting["spawnInterval"].size() <= i or
 				(float)seting["enemyType"].size() <= i or
@@ -146,19 +146,19 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 				(float)seting["enemyMovePos"].size() <= i) continue;
 
 
-			//—N‚­êŠ‚ğƒZƒbƒg
+			//æ¹§ãå ´æ‰€ã‚’ã‚»ãƒƒãƒˆ
 			eventData.enemySpawnPos.push_back({ (float)seting["spawnPoint"][i][0],(float)seting["spawnPoint"][i][1] ,(float)seting["spawnPoint"][i][2] });
 
-			//—N‚­ŠÔŠu‚ğƒZƒbƒg
+			//æ¹§ãé–“éš”ã‚’ã‚»ãƒƒãƒˆ
 			eventData.enemySpawnInterval.push_back((float)seting["spawnInterval"][i]);
 
-			//ƒGƒlƒ~[‚Ìí—Ş‚ğƒZƒbƒg
+			//ã‚¨ãƒãƒŸãƒ¼ã®ç¨®é¡ã‚’ã‚»ãƒƒãƒˆ
 			eventData.enemyTypes.push_back(seting["enemyType"][i].get<std::string>());
 
-			//ƒGƒlƒ~[‚ª“®‚­ê‡“®‚­‚Æ‚«‚Ì‘¬“x‚ğƒZƒbƒg
+			//ã‚¨ãƒãƒŸãƒ¼ãŒå‹•ãå ´åˆå‹•ãã¨ãã®é€Ÿåº¦ã‚’ã‚»ãƒƒãƒˆ
 			eventData.enemyMoveSpeed.push_back((float)seting["enemySpeed"][i]);
 
-			//ƒGƒlƒ~[‚ª“®‚­ê‡‚Ì“®‚­ˆÊ’u
+			//ã‚¨ãƒãƒŸãƒ¼ãŒå‹•ãå ´åˆã®å‹•ãä½ç½®
 			eventData.enemyMovePos.push_back({ (float)seting["enemyMovePos"][i][0],(float)seting["enemyMovePos"][i][1] ,(float)seting["enemyMovePos"][i][2] });
 
 		}

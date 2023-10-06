@@ -20,10 +20,10 @@ private:
 
 	
 
-	//“–‚½‚è”»’è‚Ìˆ—
+	//å½“ãŸã‚Šåˆ¤å®šã®å‡¦ç†
 	MobCollision collision_;
 
-	//“–‚½‚è”»’è‚Ì–{‘Ì
+	//å½“ãŸã‚Šåˆ¤å®šã®æœ¬ä½“
 	CubeCollider collider_;
 
 };

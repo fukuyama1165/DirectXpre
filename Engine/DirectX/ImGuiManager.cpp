@@ -22,8 +22,8 @@ void ImGuiManager::Init()
 {
 
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
-	dsvHeapDesc.NumDescriptors = 1;//[“xƒrƒ…[‚Í1‚Â
-	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;//ƒfƒvƒXƒXƒeƒ“ƒVƒ‹ƒrƒ…[
+	dsvHeapDesc.NumDescriptors = 1;//æ·±åº¦ãƒ“ãƒ¥ãƒ¼ã¯1ã¤
+	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;//ãƒ‡ãƒ—ã‚¹ã‚¹ãƒ†ãƒ³ã‚·ãƒ«ãƒ“ãƒ¥ãƒ¼
 	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	result_ = DirectXInit::GetInstance()->Getdev().Get()->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap_));
 	assert(SUCCEEDED(result_));
@@ -37,7 +37,7 @@ void ImGuiManager::Init()
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, dsvHeap_.Get(),
 		dsvHeap_->GetCPUDescriptorHandleForHeapStart(),
 		dsvHeap_->GetGPUDescriptorHandleForHeapStart());
-	
+
 
 
 }
@@ -49,7 +49,7 @@ void ImGuiManager::Finalize()
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚ð‰ð•ú
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã‚’è§£æ”¾
 	dsvHeap_.Reset();
 
 }

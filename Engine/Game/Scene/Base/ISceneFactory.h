@@ -9,7 +9,7 @@ class ISceneFactory
 public:
 	virtual ~ISceneFactory() = default;
 
-	//ƒV[ƒ“¶¬
+	//ã‚·ãƒ¼ãƒ³ç”Ÿæˆ
 	virtual std::unique_ptr<IScene> CreateScene(const std::string& sceneName) = 0;
 
 private:

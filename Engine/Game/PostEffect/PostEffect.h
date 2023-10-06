@@ -26,54 +26,54 @@ private:
 
 	void vertexBuffGeneration();
 
-	//���_�V�F�[�_�̓ǂݍ��݂ƃR���p�C��
+	//頂点シェーダの読み込みとコンパイル
 	void vertexShaderGeneration();
 
-	//�s�N�Z���V�F�[�_�̓ǂݍ��݂ƃR���p�C��
+	//ピクセルシェーダの読み込みとコンパイル
 	void pixelShaderGeneration();
 
-	//���_���C�A�E�g�̐ݒ�
+	//頂点レイアウトの設定
 	void vertexLayout();
 
-	//�O���t�B�b�N�X�p�C�v���C���̐ݒ�
+	//グラフィックスパイプラインの設定
 	void graphicPipelineGeneration();
 
-	//���[�g�p�����[�^�̐ݒ�(�萔�o�b�t�@�ƃV�F�[�_�ɂ���)
+	//ルートパラメータの設定(定数バッファとシェーダについて)
 	void rootParamGeneration();
 
-	//���[�g�V�O�l�`��
+	//ルートシグネチャ
 	void rootsignatureGeneration();
 
-	//�萔�o�b�t�@
+	//定数バッファ
 	void constantBuffGeneration();
 
-	//�f�X�N���v�^�����W
+	//デスクリプタレンジ
 	void descriptorRangeGeneration();
 
-	//�e�N�X�`���T���v���[�̐ݒ�
+	//テクスチャサンプラーの設定
 	void textureSamplerGeneration();
 
-	//�e�N�X�`���o�b�t�@����
+	//テクスチャバッファ生成
 	void textureBuffGeneraion();
 
-	//SRV�p�f�X�N���v�^�q�[�v����
+	//SRV用デスクリプタヒープ生成
 	void SRVDescHeapGeneraion();
 
-	//RTV�p�f�X�N���v�^�q�[�v����
+	//RTV用デスクリプタヒープ生成
 	void RTVDescHeapGeneraion();
 
-	//DSV�p�f�X�N���v�^�q�[�v����
+	//DSV用デスクリプタヒープ生成
 	void DSVDescHeapGeneraion();
 
-	//�萔�o�b�t�@�p�̃��\�[�X�ݒ�֐�
+	//定数バッファ用のリソース設定関数
 	D3D12_RESOURCE_DESC constBuffResourceGeneration(uint32_t size);
 
 private:
 
-	//���_�f�[�^�\����
+	//頂点データ構造体
 	struct Vertex
 	{
-		Vector3 pos;//xyz���W
+		Vector3 pos;//xyz座標
 		Vector2 uv;
 	};
 
@@ -84,87 +84,87 @@ private:
 
 	HRESULT result_;
 
-	//���_���C�A�E�g(�v�f�𑝂₷�Ȃ�z�񐔂𑝂₷)
+	//頂点レイアウト(要素を増やすなら配列数を増やす)
 	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayouts_;
 
-	//�G���[�I�u�W�F�N�g
+	//エラーオブジェクト
 	Microsoft::WRL::ComPtr<ID3DBlob> errorBlob_ = nullptr;
 
-	//���_�o�b�t�@�p�ϐ�
-	D3D12_HEAP_PROPERTIES heapprop_{};//�q�[�v�ݒ�
-	D3D12_RESOURCE_DESC resDesc_{};//���\�[�X�ݒ�
+	//頂点バッファ用変数
+	D3D12_HEAP_PROPERTIES heapprop_{};//ヒープ設定
+	D3D12_RESOURCE_DESC resDesc_{};//リソース設定
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	Vertex* vertMap_;
-	//���_�o�b�t�@�r���[
+	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 
-	//�e�N�X�`���o�b�t�@
+	//テクスチャバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource>texBuff_[2];
 
-	//�V�F�[�_�[���\�[�X�r���[
+	//シェーダーリソースビュー
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
-	//�[�x�o�b�t�@
+	//深度バッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> depthBuff_;
 
-	//RTV�p�f�X�N���v�^�q�[�v
+	//RTV用デスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapRTV_;
 
-	//DSV�p�f�X�N���v�^�q�[�v
+	//DSV用デスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
 
 	static const float clearColor[4];
 
-	//���\�[�X�o���A
+	//リソースバリア
 	D3D12_RESOURCE_BARRIER barrierDesc_{};
 
 	static Texture* STexture_;
 
-	//���_�V�F�[�_�I�u�W�F�N�g
+	//頂点シェーダオブジェクト
 	Shader vs;
-	//�s�N�Z���V�F�[�_�I�u�W�F�N�g
+	//ピクセルシェーダオブジェクト
 	Shader ps;
 
-	//���_�V�F�[�_�I�u�W�F�N�g
+	//頂点シェーダオブジェクト
 	Microsoft::WRL::ComPtr<ID3DBlob> vsBlob_ = nullptr;
 
-	//�s�N�Z���V�F�[�_�I�u�W�F�N�g
+	//ピクセルシェーダオブジェクト
 	Microsoft::WRL::ComPtr<ID3DBlob> psBlob_ = nullptr;
 
-	//�e�N�X�`���T���v���[
+	//テクスチャサンプラー
 	D3D12_STATIC_SAMPLER_DESC sampleDesc_{};
 
-	//�f�X�N���v�^�����W
+	//デスクリプタレンジ
 	D3D12_DESCRIPTOR_RANGE descriptorRange_{};
 	D3D12_DESCRIPTOR_RANGE descriptorRange2_{};
 
-	//�O���t�B�b�N�X�p�C�v���C���̊e�X�e�[�W�̐ݒ������\���̂�p��
+	//グラフィックスパイプラインの各ステージの設定をする構造体を用意
 	PipeLine pipeline_;
 	PipeLine pipeline2_;
 	PipeLine pipeline3_;
 	PipeLine pipeline4_;
 
 
-	//���[�g�p�����[�^(�萔�o�b�t�@�̐�����������z��̗v�f���𑝂₵�Đݒ�����Ă���֐��̒��g�ɂ��ǉ����邱��)
+	//ルートパラメータ(定数バッファの数が増えたら配列の要素数を増やして設定をしている関数の中身にも追加すること)
 	D3D12_ROOT_PARAMETER rootParam_[4] = {};
 
-	//���[�g�V�O�l�`��
+	//ルートシグネチャ
 	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootsignature_;
 
-	//�p�f�B���O�̑Ή��̈בS��vector4���g���Ă���
+	//パディングの対応の為全てvector4を使っている
 	struct  ConstBufferMaterial
 	{
 
 		Vector4 color;
-		Vector4 sigma;//�u���[�����|����Ƃ��̃u���[�p�̒l(x�̂�)
-		Vector4 grayScaleStep;//�u���[���p�̃O���[�X�P�[����smoothstep�p�̑傫��(x,y�̂�)
+		Vector4 sigma;//ブルームを掛けるときのブラー用の値(xのみ)
+		Vector4 grayScaleStep;//ブルーム用のグレースケールのsmoothstep用の大きさ(x,yのみ)
 
 	};
 
-	//�萔�o�b�t�@���̂���
+	//定数バッファそのもの
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
-	//�}�b�s���O����Ƃ��̃|�C���^
+	//マッピングするときのポインタ
 	ConstBufferMaterial* constMapMaterial_ = nullptr;
 
 	struct ConstBuffDataTransform
@@ -173,20 +173,20 @@ private:
 	};
 
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
-	//�}�b�s���O����Ƃ��̃|�C���^
+	//マッピングするときのポインタ
 	ConstBuffDataTransform* constMapTransform_ = nullptr;
 
-	//�q�[�v�ݒ�
+	//ヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp_{};
-	//���\�[�X�ݒ�
+	//リソース設定
 	D3D12_RESOURCE_DESC cbResourceDesc_{};
 
-	//�萔�o�b�t�@�ɑ���Ƃ��p�̕ϐ�
+	//定数バッファに送るとき用の変数
 	float sigma_ = 0.0025f;
 	float stepWidth_ = 0.001f;
 	float grayScaleStep_[2] = {0.6f,0.9f};
 
-	//���s���e
+	//平行投影
 	Matrix4x4 matProjection_;
 
 	bool cheng_ = true;

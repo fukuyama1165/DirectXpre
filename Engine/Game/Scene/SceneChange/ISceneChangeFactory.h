@@ -8,7 +8,7 @@ class ISceneChangeFactory
 public:
 	virtual ~ISceneChangeFactory() = default;
 
-	//ƒV[ƒ“¶¬
+	//ã‚·ãƒ¼ãƒ³ç”Ÿæˆ
 	virtual std::unique_ptr<ISceneChange> CreateSceneChange(const std::string& sceneChangeName) = 0;
 
 private:

@@ -164,9 +164,9 @@ Matrix4x4 Camera::matViewGeneration(const Vector3& eye,const Vector3& target,con
 	mResult.m[3][2] = vTemp4.y;
 	mResult.m[3][3] = vTemp4.w;
 
-#pragma region ‘S•ûŒüƒrƒ‹ƒ{[ƒhs—ñ‚ÌŒvZ
+#pragma region å…¨æ–¹å‘ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
 
-	//ƒrƒ‹ƒ{[ƒhs—ñ
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	matBillboard.m[0][0] = xVer.x;
 	matBillboard.m[0][1] = xVer.y;
 	matBillboard.m[0][2] = xVer.z;
@@ -189,21 +189,21 @@ Matrix4x4 Camera::matViewGeneration(const Vector3& eye,const Vector3& target,con
 
 #pragma endregion
 
-#pragma region Y²ü‚èƒrƒ‹ƒ{[ƒhs—ñ‚ÌŒvZ
+#pragma region Yè»¸å‘¨ã‚Šãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
 
-	//ƒJƒƒ‰X²AY²AZ²
+	//ã‚«ãƒ¡ãƒ©Xè»¸ã€Yè»¸ã€Zè»¸
 	Vector3 ybillCameraAxisX, ybillCameraAxisY, ybillCameraAxisZ;
 
-	//X²‚Í‹¤’Ê
+	//Xè»¸ã¯å…±é€š
 	ybillCameraAxisX = xVer;
 
-	//Y²‚Íƒ[ƒ‹ƒhÀ•WŒn‚ÌY²
+	//Yè»¸ã¯ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ç³»ã®Yè»¸
 	ybillCameraAxisY = Vector3::normalize(up);
 
-	//Z²‚ÍX²¨Y²‚ÌŠOÏ‚Å‹‚Ü‚é
+	//Zè»¸ã¯Xè»¸â†’Yè»¸ã®å¤–ç©ã§æ±‚ã¾ã‚‹
 	ybillCameraAxisZ = Vector3::cross(ybillCameraAxisX, ybillCameraAxisY);
 
-	//Y²ü‚èƒrƒ‹ƒ{[ƒhs—ñ
+	//Yè»¸å‘¨ã‚Šãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	matYBillboard.m[0][0] = ybillCameraAxisX.x;
 	matYBillboard.m[0][1] = ybillCameraAxisX.y;
 	matYBillboard.m[0][2] = ybillCameraAxisX.z;

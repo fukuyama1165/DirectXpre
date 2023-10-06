@@ -41,7 +41,7 @@ public:
 
 	bool isDebugShotStop_ = false;
 
-	//ˆÚ“®—Ê‚ğ’Ç‰Á
+	//ç§»å‹•é‡ã‚’è¿½åŠ 
 	float bulletSpeed_ = 1.0f;
 
 	std::string enemyDownSound_;

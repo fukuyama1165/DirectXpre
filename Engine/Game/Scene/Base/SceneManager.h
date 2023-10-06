@@ -18,10 +18,10 @@ public:
 
 	void Draw();
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	void Finalize();
 
-	//ƒV[ƒ“ƒtƒ@ƒNƒgƒŠ[ƒZƒbƒg
+	//ã‚·ãƒ¼ãƒ³ãƒ•ã‚¡ã‚¯ãƒˆãƒªãƒ¼ã‚»ãƒƒãƒˆ
 	void SetSceneFactory(std::unique_ptr<ISceneFactory> sceneFactory) { sceneFactory_ = std::move(sceneFactory); };
 
 	void ChangeScene(const std::string& sceneName, const std::string& sceneChangeName = "BASIC");

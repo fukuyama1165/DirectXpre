@@ -5,17 +5,17 @@
 void Framework::Ran()
 {
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	Initialize();
 
-	//ƒQ[ƒ€ƒ‹[ƒv
+	//ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
 	while (true)
 	{
 		imGuiManager_->Begin();
-		//–ˆƒtƒŒ[ƒ€XV
+		//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 		Update();
 
-		//I—¹ƒŠƒNƒGƒXƒg‚ª—ˆ‚½‚çI—¹
+		//çµ‚äº†ãƒªã‚¯ã‚¨ã‚¹ãƒˆãŒæ¥ãŸã‚‰çµ‚äº†
 		if (IsEndRequst())
 		{
 			break;
@@ -32,7 +32,7 @@ void Framework::Ran()
 
 }
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void Framework::Initialize()
 {
 
@@ -59,7 +59,7 @@ void Framework::Initialize()
 
 }
 
-//I—¹ˆ—
+//çµ‚äº†å‡¦ç†
 void Framework::Finalize()
 {
 	sceneManager_->Finalize();
@@ -67,7 +67,7 @@ void Framework::Finalize()
 	imGuiManager_->Finalize();
 }
 
-//–ˆƒtƒŒ[ƒ€XV
+//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 void Framework::Update()
 {
 

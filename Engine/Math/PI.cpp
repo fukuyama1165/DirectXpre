@@ -1,13 +1,13 @@
 #include "PI.h"
 #include <random>
 
-//ラジアンから角度
+//繝ｩ繧ｸ繧｢繝ｳ縺九ｉ隗貞ｺｦ
 float Util::RadianToAngle(float Radian)
 {
 	return Radian * (180 / PI);
 }
 
-//角度からラジアン
+//隗貞ｺｦ縺九ｉ繝ｩ繧ｸ繧｢繝ｳ
 float Util::AngleToRadian(float Angle)
 {
 	return Angle * (PI / 180);

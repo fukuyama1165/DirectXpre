@@ -1,4 +1,4 @@
-﻿#include "matrix4x4.h"
+#include "matrix4x4.h"
 #include <cstdint>
 #include <math.h>
 #include "Quaternion.h"

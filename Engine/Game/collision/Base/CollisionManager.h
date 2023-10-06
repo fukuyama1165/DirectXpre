@@ -7,30 +7,30 @@ class BaseCollider;
 class CollisionManager
 {
 
-public://ƒVƒ“ƒOƒ‹ƒgƒ“‚Ìˆ×‚Ì‚â‚Â
+public://ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã®ç‚ºã®ã‚„ã¤
 	static CollisionManager* GetInstance();
 
 public:
 
 	/// <summary>
-	/// ƒRƒ‰ƒCƒ_[‚Ì’Ç‰Á
+	/// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®è¿½åŠ 
 	/// </summary>
-	/// <param name="Collider">ƒRƒ‰ƒCƒ_[</param>
+	/// <param name="Collider">ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼</param>
 	void AddCollider(BaseCollider* Collider)
 	{
 		colliders_.push_front(Collider);
 	}
 
 	/// <summary>
-	/// ƒRƒ‰ƒCƒ_[‚Ìíœ
+	/// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å‰Šé™¤
 	/// </summary>
-	/// <param name="Collider">ƒRƒ‰ƒCƒ_[</param>
+	/// <param name="Collider">ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼</param>
 	void RemoveCollider(BaseCollider* Collider)
 	{
 		colliders_.remove(Collider);
 	}
 
-	//‚·‚×‚Ä‚ÌÕ“Ëƒ`ƒFƒbƒN
+	//ã™ã¹ã¦ã®è¡çªãƒã‚§ãƒƒã‚¯
 	void CheckAllCollisions();
 
 	void AllRemoveCollider() { colliders_.clear(); };
@@ -42,7 +42,7 @@ private:
 	~CollisionManager() = default;
 	CollisionManager& operator=(const CollisionManager&) = delete;
 
-	//ƒRƒ‰ƒCƒ_[‚ÌƒŠƒXƒg
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒªã‚¹ãƒˆ
 	std::forward_list<BaseCollider*>colliders_;
 
 

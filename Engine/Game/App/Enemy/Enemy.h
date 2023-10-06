@@ -46,10 +46,10 @@ private:
 
 	AnimationModel* bulletModel_=nullptr;
 
-	//“–‚½‚è”»’è‚Ìˆ—
+	//å½“ãŸã‚Šåˆ¤å®šã®å‡¦ç†
 	MobCollision collision;
 
-	//“–‚½‚è”»’è‚Ì–{‘Ì
+	//å½“ãŸã‚Šåˆ¤å®šã®æœ¬ä½“
 	CubeCollider Collider;
 
 	std::string enemyType_ = EnemyType::moveOnly;

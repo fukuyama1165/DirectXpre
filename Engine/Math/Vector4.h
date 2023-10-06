@@ -6,14 +6,14 @@ public:
 	Vector4(float x, float y, float z,float w);
 
 	float length()const;
-	//“n‚µ‚½‚à‚Ì‚ğ³‹K‰»‚µ‚Ä•Ô‚·
+	//æ¸¡ã—ãŸã‚‚ã®ã‚’æ­£è¦åŒ–ã—ã¦è¿”ã™
 	static Vector4 normalize(const Vector4& v);
-	//©•ª‚ğ³‹K‰»‚·‚é(©•ª‘‚«Š·‚¦‚é)
+	//è‡ªåˆ†ã‚’æ­£è¦åŒ–ã™ã‚‹(è‡ªåˆ†æ›¸ãæ›ãˆã‚‹)
 	Vector4& normalize();
 
-	//“n‚µ‚½‚à‚Ì‚Å“àÏ‚ğŒvZ‚µ‚Ä•Ô‚·
+	//æ¸¡ã—ãŸã‚‚ã®ã§å†…ç©ã‚’è¨ˆç®—ã—ã¦è¿”ã™
 	static float dot(const Vector4& v, const Vector4& v2);
-	//©•ª‚Æ“n‚µ‚½‚à‚Ì‚Å“àÏ‚ğŒvZ‚µ‚Ä•Ô‚·(©•ªæ)
+	//è‡ªåˆ†ã¨æ¸¡ã—ãŸã‚‚ã®ã§å†…ç©ã‚’è¨ˆç®—ã—ã¦è¿”ã™(è‡ªåˆ†å…ˆ)
 	float dot(const Vector4& v);
 
 	

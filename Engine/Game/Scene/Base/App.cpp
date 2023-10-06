@@ -6,7 +6,7 @@ void App::Initialize()
 	
 	Framework::Initialize();
 
-	//Å‰‚ÌƒV[ƒ“‚ğƒZƒbƒg
+	//æœ€åˆã®ã‚·ãƒ¼ãƒ³ã‚’ã‚»ãƒƒãƒˆ
 	
 	//SceneManager::GetInstance()->SetNextScene(std::make_unique<GameScene>());
 	SceneManager::GetInstance()->ChangeScene("TITLE","NONE");
@@ -28,7 +28,7 @@ void App::Update()
 
 void App::Draw()
 {
-#pragma region •`‰æƒRƒ}ƒ“ƒh
+#pragma region æç”»ã‚³ãƒãƒ³ãƒ‰
 
 	
 	

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 
@@ -124,7 +124,7 @@ public:
 	bool GetGamePadInput();
 
 	//便利だったのでアイデアをもらった
-	
+
 	/// <summary>
 	/// 左のスティックの情報をキーボードとまとめて取得できる関数
 	/// </summary>
@@ -150,7 +150,7 @@ private:
 
 	//static Input* instance_;
 
-	HRESULT result_ =S_OK;
+	HRESULT result_ = S_OK;
 
 	//全キーの入力情報を取得する為の変数
 	BYTE key_[256] = {};

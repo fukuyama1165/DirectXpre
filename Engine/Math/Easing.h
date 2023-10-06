@@ -2,7 +2,7 @@
 #include <math.h>
 #include "PI.h"
 
-//a‚©‚çb‚Ü‚Å‚ÌŠÔ(0`1)‚ÌˆÊ’u‚ğ’m‚é‚±‚Æ‚ª‚Å‚«‚éŠÖ”
+//aã‹ã‚‰bã¾ã§ã®æ™‚é–“(0ï½1)ã®ä½ç½®ã‚’çŸ¥ã‚‹ã“ã¨ãŒã§ãã‚‹é–¢æ•°
 template<typename T>
 T lerp(T a, T b, float t)
 {
@@ -33,9 +33,9 @@ T easeOutQuad(T start, T end, float time)
 	return start + (1 - (1 - time) * (1 - time)) * (end - start);
 }
 
-//start‚Ín‚ß‚éÀ•W end‚Íˆê”ÔÅŒã‚ÌÀ•W time‚ÍŒo‰ßŠÔ(‚±‚±‚Í‘—¿‚Éæ‚Á‚Ä‚é)
-//Šî–{“I‚É ƒC[ƒWƒ“ƒO‚³‚¹‚½‚¢’l = ‚Åg‚¤
-//‘¼‚ÌŒö®‚ğg‚¢‚½‚¢ê‡‚Í return start + (Œö®) * (end - start); ‚Åg‚¦‚é
+//startã¯å§‹ã‚ã‚‹åº§æ¨™ endã¯ä¸€ç•ªæœ€å¾Œã®åº§æ¨™ timeã¯çµŒéæ™‚é–“(ã“ã“ã¯è³‡æ–™ã«ä¹—ã£ã¦ã‚‹)
+//åŸºæœ¬çš„ã« ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°ã•ã›ãŸã„å€¤ = ã§ä½¿ã†
+//ä»–ã®å…¬å¼ã‚’ä½¿ã„ãŸã„å ´åˆã¯ return start + (å…¬å¼) * (end - start); ã§ä½¿ãˆã‚‹
 template<typename T>
 T easeInQuint(T start, T end, float time)
 {

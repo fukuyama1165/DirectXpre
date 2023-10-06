@@ -5,7 +5,7 @@
 #include "ICollisionObj.h"
 
 /// <summary>
-/// ƒRƒ‰ƒCƒ_[Šî’êƒNƒ‰ƒX
+/// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼åŸºåº•ã‚¯ãƒ©ã‚¹
 /// </summary>
 class BaseCollider
 {
@@ -13,7 +13,7 @@ class BaseCollider
 public:
 	BaseCollider() = default;
 
-	//‰¼‘zƒfƒXƒgƒ‰ƒNƒ^
+	//ä»®æƒ³ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	virtual ~BaseCollider() = default;
 
 	void SetObject(ICollisionObj* object)
@@ -24,11 +24,11 @@ public:
 	ICollisionObj* GetCollisionObj() { return collisionObject_; };
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	virtual void Update(const Vector3 pos) = 0;
 
-	//Œ`óƒ^ƒCƒvæ“¾
+	//å½¢çŠ¶ã‚¿ã‚¤ãƒ—å–å¾—
 	CollisionShapeType GetShapeType() { return shapeType_; };
 
 	void OnCollision(const CollisionInfo& Info) { collisionObject_->OnCollision(Info); };

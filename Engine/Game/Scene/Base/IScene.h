@@ -5,16 +5,16 @@ class IScene
 public:
 	virtual ~IScene() {};
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	virtual void Initialize() {};
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	virtual void Finalize() {};
 
-	//–ˆƒtƒŒ[ƒ€XV
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	virtual void Update() {};
 
-	//•`‰æ
+	//æç”»
 	virtual void Draw() {};
 
 };

@@ -8,10 +8,10 @@ class Util
 {
 public:
 
-	//ラジアンから角度
+	//繝ｩ繧ｸ繧｢繝ｳ縺九ｉ隗貞ｺｦ
 	static float RadianToAngle(float Radian);
 
-	//角度からラジアン
+	//隗貞ｺｦ縺九ｉ繝ｩ繧ｸ繧｢繝ｳ
 	static float AngleToRadian(float Angle);
 
 	static uint32_t Rand(uint32_t min, uint32_t max);

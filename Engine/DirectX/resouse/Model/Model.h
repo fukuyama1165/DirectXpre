@@ -1,5 +1,5 @@
 #pragma once
-//D3DƒRƒ“ƒpƒCƒ‰
+//D3Dã‚³ãƒ³ãƒ‘ã‚¤ãƒ©
 #include<d3dcompiler.h>
 
 #include<d3d12.h>
@@ -18,13 +18,13 @@
 #include <unordered_map>
 
 
-//ˆê‚©Š‚É‚Ä‚éÅ‘åƒ{[ƒ“”?
+//ä¸€ã‹æ‰€ã«æŒã¦ã‚‹æœ€å¤§ãƒœãƒ¼ãƒ³æ•°?
 static const uint32_t SNUM_BONES_PER_VERTEX = 4;
 
-//Å‘åƒ{[ƒ“”
+//æœ€å¤§ãƒœãƒ¼ãƒ³æ•°
 static const uint32_t SMAX_BONE = 128;
 
-//’¸“_ƒf[ƒ^
+//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 struct AnimationVertex
 {
 
@@ -36,29 +36,29 @@ struct AnimationVertex
 
 };
 
-//’è”ƒoƒbƒtƒ@—p
+//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨
 struct ConstBuffSkin
 {
 	Matrix4x4 boneMats_[SMAX_BONE] = {};
 };
 
-//ƒEƒGƒCƒg‚Ìî•ñ
+//ã‚¦ã‚¨ã‚¤ãƒˆã®æƒ…å ±
 struct SetWeight
 {
 	uint32_t id_;
 	float weight_;
 };
 
-//ƒ{[ƒ“‚Ìî•ñ
+//ãƒœãƒ¼ãƒ³ã®æƒ…å ±
 struct Bone
 {
-	//‚Ç‚±‚Ì‚â‚Â‚©
+	//ã©ã“ã®ã‚„ã¤ã‹
 	std::string name_;
 
-	//‰ŠúˆÊ’u
+	//åˆæœŸä½ç½®
 	Matrix4x4 offsetMatrix_;
 
-	//ÅIˆÊ’u?
+	//æœ€çµ‚ä½ç½®?
 	Matrix4x4 finalMatrix_;
 
 };
@@ -71,32 +71,32 @@ public:
 
 private:
 
-	//’¸“_ƒoƒbƒtƒ@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	void vertexBuffObjGeneration();
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^ŠÖ˜A(ƒCƒ“ƒfƒbƒNƒXƒrƒ…[‚à‚±‚±)
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿é–¢é€£(ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ“ãƒ¥ãƒ¼ã‚‚ã“ã“)
 	void indicesBuffGeneration();
 
 private:
 
-	//’¸“_ƒf[ƒ^\‘¢‘Ì
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct Vertex
 	{
-		Vector3 pos_;//xyzÀ•W
-		Vector3 normal_;//–@üƒxƒNƒgƒ‹
-		Vector3 uv_;//uvÀ•W
+		Vector3 pos_;//xyzåº§æ¨™
+		Vector3 normal_;//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+		Vector3 uv_;//uvåº§æ¨™
 	};
 
 	struct Material
 	{
-		std::string name_;//ƒ}ƒeƒŠƒAƒ‹–¼
-		Vector3 ambient_;//ƒAƒ“ƒrƒGƒ“ƒg‰e‹¿“x
-		Vector3 diffuse_;//ƒfƒBƒtƒ…[ƒY‰e‹¿“x
-		Vector3 specular_;//ƒXƒyƒLƒ…ƒ‰[‰e‹¿“x
-		float alpha_;//ƒAƒ‹ƒtƒ@
-		std::string textureFilename_;//ƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹–¼
+		std::string name_;//ãƒãƒ†ãƒªã‚¢ãƒ«å
+		Vector3 ambient_;//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆå½±éŸ¿åº¦
+		Vector3 diffuse_;//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºå½±éŸ¿åº¦
+		Vector3 specular_;//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼å½±éŸ¿åº¦
+		float alpha_;//ã‚¢ãƒ«ãƒ•ã‚¡
+		std::string textureFilename_;//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«å
 
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Material()
 		{
 			ambient_ = { 0.3f, 0.3f, 0.3f };
@@ -109,47 +109,47 @@ private:
 
 	
 
-	//’¸“_ƒf[ƒ^ƒTƒCƒY
-	uint32_t sizeVB_;
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º
+	uint32_t sizeVB_ = 0;
 
-	HRESULT result_;
+	HRESULT result_ = S_OK;
 
-	//’¸“_ƒoƒbƒtƒ@—p•Ï”
-	D3D12_HEAP_PROPERTIES heapprop_{};//ƒq[ƒvİ’è
-	D3D12_RESOURCE_DESC resDesc_{};//ƒŠƒ\[ƒXİ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”¨å¤‰æ•°
+	D3D12_HEAP_PROPERTIES heapprop_{};//ãƒ’ãƒ¼ãƒ—è¨­å®š
+	D3D12_RESOURCE_DESC resDesc_{};//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	Vertex* vertMap_ = nullptr;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
-	uint32_t sizeIB_;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
+	uint32_t sizeIB_ = 0;
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_ = nullptr;
-	//ƒCƒ“ƒfƒbƒNƒXƒrƒ…[
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 
-	//’¸“_–@üƒXƒ€[ƒWƒ“ƒO—pƒf[ƒ^
+	//é ‚ç‚¹æ³•ç·šã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°ç”¨ãƒ‡ãƒ¼ã‚¿
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 
-	//ƒeƒNƒXƒ`ƒƒ
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	static Texture* STexture_;
 
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	Material material_;
 
 public:
 
-	//’¸“_ƒf[ƒ^(‘‚â‚µ‚½‚¢‚È‚ç‚±‚±‚à‘‚â‚µ‚Ä‚¨‚­)
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿(å¢—ã‚„ã—ãŸã„ãªã‚‰ã“ã“ã‚‚å¢—ã‚„ã—ã¦ãŠã)
 	std::vector <Vertex> vertices_;
 
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿
 	std::vector< unsigned short> indices_;
 
 };
 
-//ƒAƒjƒ[ƒVƒ‡ƒ“—p‚ÌƒƒbƒVƒ…
+//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã®ãƒ¡ãƒƒã‚·ãƒ¥
 class AnimationMesh
 {
 public:
@@ -166,12 +166,12 @@ private:
 
 	void SetSizeIB();
 
-	//’¸“_ƒoƒbƒtƒ@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	void VertexBuffObjGeneration(const D3D12_HEAP_PROPERTIES& HeapProp, D3D12_HEAP_FLAGS flag, const D3D12_RESOURCE_DESC Resdesc, D3D12_RESOURCE_STATES state);
 	void VertexBuffMap();
 	void VertexBuffViewGeneration();
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^ŠÖ˜A(ƒCƒ“ƒfƒbƒNƒXƒrƒ…[‚à‚±‚±)
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿é–¢é€£(ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ“ãƒ¥ãƒ¼ã‚‚ã“ã“)
 	
 	void IndicesBuffGeneration(const D3D12_HEAP_PROPERTIES& HeapProp, D3D12_HEAP_FLAGS flag, const D3D12_RESOURCE_DESC Resdesc, D3D12_RESOURCE_STATES state);
 	void IndicesBuffMap();
@@ -182,10 +182,10 @@ private:
 	
 
 
-	//’¸“_ƒf[ƒ^ƒTƒCƒY
-	uint32_t sizeVB_;
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º
+	uint32_t sizeVB_ = 0;
 
-	HRESULT result_;
+	HRESULT result_ = S_OK;
 
 	
 	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff_ = nullptr;
@@ -193,13 +193,13 @@ private:
 	
 	
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
-	uint32_t sizeIB_;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
+	uint32_t sizeIB_ = 0;
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	
 
-	//’¸“_–@üƒXƒ€[ƒWƒ“ƒO—pƒf[ƒ^
+	//é ‚ç‚¹æ³•ç·šã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°ç”¨ãƒ‡ãƒ¼ã‚¿
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 
 	
@@ -208,26 +208,26 @@ public:
 
 	
 
-	//’¸“_ƒf[ƒ^(‘‚â‚µ‚½‚¢‚È‚ç‚±‚±‚à‘‚â‚µ‚Ä‚¨‚­)
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿(å¢—ã‚„ã—ãŸã„ãªã‚‰ã“ã“ã‚‚å¢—ã‚„ã—ã¦ãŠã)
 	std::vector <AnimationVertex> vertices_;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 
 
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿
 	std::vector< unsigned short> indices_;
 
-	//ƒCƒ“ƒfƒbƒNƒXƒrƒ…[
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 
-	//ƒeƒNƒXƒ`ƒƒ
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	static Texture* STexture_;
 
-	//‚Ç‚ÌƒeƒNƒXƒ`ƒƒ‚©”»’f‚·‚é‚½‚ß‚Ì’l(Œã‚Å‚â‚è•û‚ğ•Ï‚¦‚é)
+	//ã©ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‹åˆ¤æ–­ã™ã‚‹ãŸã‚ã®å€¤(å¾Œã§ã‚„ã‚Šæ–¹ã‚’å¤‰ãˆã‚‹)
 	std::vector <std::string> textureHandle = {};
 
-	//ƒ}ƒeƒŠƒAƒ‹(•¡”‚É‘Î‰‚·‚é‚½‚ß)
+	//ãƒãƒ†ãƒªã‚¢ãƒ«(è¤‡æ•°ã«å¯¾å¿œã™ã‚‹ãŸã‚)
 	std::vector<Material> material_;
 
 };

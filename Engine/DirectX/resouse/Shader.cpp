@@ -8,12 +8,12 @@ Shader::Shader(std::string id,std::string ShaderName, std::string EntryPoint, st
 	HRESULT result;
 
 	result = D3DCompileFromFile(
-		std::wstring(ShaderName.begin(), ShaderName.end()).c_str(),//ƒVƒF[ƒ_ƒtƒ@ƒCƒ‹–¼
+		std::wstring(ShaderName.begin(), ShaderName.end()).c_str(),//ã‚·ã‚§ãƒ¼ãƒ€ãƒ•ã‚¡ã‚¤ãƒ«å
 		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE,//ƒCƒ“ƒNƒ‹[ƒh‰Â”\‚É‚·‚é
-		EntryPoint.c_str(),//ƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg–¼
-		ShaderModelName.c_str(),//ƒVƒF[ƒ_ƒ‚ƒfƒ‹w’è
-		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//ƒfƒoƒbƒN—pİ’è
+		D3D_COMPILE_STANDARD_FILE_INCLUDE,//ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰å¯èƒ½ã«ã™ã‚‹
+		EntryPoint.c_str(),//ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆå
+		ShaderModelName.c_str(),//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¢ãƒ‡ãƒ«æŒ‡å®š
+		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION,//ãƒ‡ãƒãƒƒã‚¯ç”¨è¨­å®š
 		0,
 		&blob_,
 		&errorBlob_
@@ -21,13 +21,13 @@ Shader::Shader(std::string id,std::string ShaderName, std::string EntryPoint, st
 
 #pragma endregion 
 
-	//“Ç‚İ‚İ‚ÌƒGƒ‰[‚ğ•\¦‚·‚éêŠ
+	//èª­ã¿è¾¼ã¿æ™‚ã®ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹å ´æ‰€
 #pragma region 
 
-	//“Ç‚İ‚İ‚ÌƒGƒ‰[‚ğ•\¦‚·‚éêŠ
+	//èª­ã¿è¾¼ã¿æ™‚ã®ã‚¨ãƒ©ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹å ´æ‰€
 	if (FAILED(result))
 	{
-		//errorBlob‚©‚çƒGƒ‰[“à—e‚ğstringŒ^‚ÉƒRƒs[
+		//errorBlobã‹ã‚‰ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’stringå‹ã«ã‚³ãƒ”ãƒ¼
 		std::string errstr;
 		errstr.resize(errorBlob_->GetBufferSize());
 
@@ -35,7 +35,7 @@ Shader::Shader(std::string id,std::string ShaderName, std::string EntryPoint, st
 			errorBlob_->GetBufferSize(),
 			errstr.begin());
 		errstr += "\n";
-		//ƒGƒ‰[“à—e‚ğƒEƒBƒ“ƒhƒE‚É•\¦
+		//ã‚¨ãƒ©ãƒ¼å†…å®¹ã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«è¡¨ç¤º
 		OutputDebugStringA(errstr.c_str());
 		exit(1);
 	}
@@ -69,11 +69,11 @@ Shader Shader::ShaderLoad(std::string id, std::string ShaderName, std::string En
 
 Shader Shader::SearchShaderData(std::string id)
 {
-	//ˆê‰ñ“Ç‚İ‚ñ‚¾‚±‚Æ‚ª‚ ‚éƒtƒ@ƒCƒ‹‚Í‚»‚Ì‚Ü‚Ü•Ô‚·
+	//ä¸€å›èª­ã¿è¾¼ã‚“ã ã“ã¨ãŒã‚ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã¯ãã®ã¾ã¾è¿”ã™
 	auto itr = std::find_if(ShaderData::GetInstance()->Shaders_.begin(), ShaderData::GetInstance()->Shaders_.end(), [&](const std::pair<std::string, Shader>& p) {
-		return p.first == id;//ğŒ
+		return p.first == id;//æ¡ä»¶
 		});
-	//Œ©‚Â‚©‚Á‚½‚ç‚»‚ê‚ğ•Ô‚·
+	//è¦‹ã¤ã‹ã£ãŸã‚‰ãã‚Œã‚’è¿”ã™
 	if (itr != ShaderData::GetInstance()->Shaders_.end()) {
 		return ShaderData::GetInstance()->Shaders_[id];
 	}

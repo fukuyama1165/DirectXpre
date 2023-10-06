@@ -2,86 +2,86 @@
 
 #include "Vector3.h"
 
-//‹…
+//çƒ
 struct Sphere
 {
 
-	//’†SÀ•W
+	//ä¸­å¿ƒåº§æ¨™
 	Vector3 center_ = { 0,0,0};
 
-	//”¼Œa
+	//åŠå¾„
 	float radius_ = 1.0f;
 
 };
 
-//–³ŒÀ•½–Ê
+//ç„¡é™å¹³é¢
 struct Plane
 {
 
-	//–@üƒxƒNƒgƒ‹
+	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 normal_ = { 0,1,0 };
 
-	//Œ´“_(0,0,0)‚©‚ç‚Ì‹——£
+	//åŸç‚¹(0,0,0)ã‹ã‚‰ã®è·é›¢
 	float distance_ = 0.0f;
 
 };
 
-//OŠpŒ`
+//ä¸‰è§’å½¢
 class Triangle
 {
 public:
-	//’¸“_À•W3‚Â
+	//é ‚ç‚¹åº§æ¨™3ã¤
 	Vector3 p0_;
 	Vector3 p1_;
 	Vector3 p2_;
 
-	//–@üƒxƒNƒgƒ‹
+	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 	Vector3 normal_;
 
-	//–@üƒxƒNƒgƒ‹‚ÌZo
+	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã®ç®—å‡º
 	void ComputeNormal();
 
 private:
 
 };
 
-//ƒŒƒC
+//ãƒ¬ã‚¤
 struct Ray
 {
 
-	//‹“_À•W
+	//è¦–ç‚¹åº§æ¨™
 	Vector3 start_ = { 0,0,0};
 
-	//•ûŒü
+	//æ–¹å‘
 	Vector3 dir_ = { 1,0,0};
 
 };
 
-//—§•û‘Ì
+//ç«‹æ–¹ä½“
 struct Cube
 {
-	//’†SÀ•W
+	//ä¸­å¿ƒåº§æ¨™
 	Vector3 center_ = { 0,0,0 };
 
-	//’†‰›‚©‚ç‚Ì‹——£
+	//ä¸­å¤®ã‹ã‚‰ã®è·é›¢
 	Vector3 size_ = { 1,1,1 };
 };
 
-//’¼•û‘Ì
+//ç›´æ–¹ä½“
 struct Rectangular
 {
-	//’†SÀ•W
+	//ä¸­å¿ƒåº§æ¨™
 	Vector3 center_ = { 0,0,0 };
 
-	//’†‰›‚©‚ç‚ÌÅ¬‹——£
+	//ä¸­å¤®ã‹ã‚‰ã®æœ€å°è·é›¢
 	Vector3 sizeMin_ = { 1,1,1 };
 
-	//’†‰›‚©‚ç‚ÌÅ‘å‹——£
+	//ä¸­å¤®ã‹ã‚‰ã®æœ€å¤§è·é›¢
 	Vector3 sizeMax_ = { 1,1,1 };
 };
 
 
-//ˆê‰‚Å—pˆÓ‚µ‚½‚â‚Â
+//ä¸€å¿œã§ç”¨æ„ã—ãŸã‚„ã¤
 class CollisionPrimirive
 {
 };

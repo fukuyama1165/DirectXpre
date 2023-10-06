@@ -10,16 +10,16 @@ public:
 	BulletCollision(std::string tag);
 	~BulletCollision();
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize()override;
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	void Finalize()override;
 
-	//–ˆƒtƒŒ[ƒ€XV
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	void Update(const Vector3 pos)override;
 
-	//•`‰æ
+	//æç”»
 	void Draw(AnimationModel* model);
 
 	void OnCollision(const CollisionInfo& info);

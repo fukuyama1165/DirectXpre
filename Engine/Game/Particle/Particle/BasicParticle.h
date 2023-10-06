@@ -9,17 +9,17 @@ public:
 	BasicParticle();
 	~BasicParticle();
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize()override;
 	void Initialize(const Vector3& position, const Vector3& velocity,float liveTime)override;
 
-	//I—¹ˆ—
+	//çµ‚äº†å‡¦ç†
 	void Finalize()override;
 
-	//–ˆƒtƒŒ[ƒ€XV
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	void Update()override;
 
-	//•`‰æ
+	//æç”»
 	void Draw(AnimationModel* model)override;
 
 	Object3D GetObj()override { return obj_; };
@@ -39,7 +39,7 @@ private:
 
 	Object3D obj_;
 
-	//‘¬“x
+	//é€Ÿåº¦
 	Vector3	Velocity_;
 
 	float liveTime_ = 50;

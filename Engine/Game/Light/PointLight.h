@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector3.h"
 
-//uintŒn
+//uintç³»
 #include <cstdint>
 
 class PointLight
@@ -13,13 +13,13 @@ public:
 	struct ConstBufferData
 	{
 
-		//ˆÊ’u
+		//ä½ç½®
 		Vector3 lightPos;
 		float pad1;
-		//F
+		//è‰²
 		Vector3 lightColor;
 		float pad2;
-		//‹——£Œ¸ŠŒW”
+		//è·é›¢æ¸›è¡°ä¿‚æ•°
 		Vector3 lightAtten;
 		float pad3;
 		float active;
@@ -50,16 +50,16 @@ public:
 
 private:
 
-	//ƒ‰ƒCƒgÀ•W
+	//ãƒ©ã‚¤ãƒˆåº§æ¨™
 	Vector3 lightPos_ = { 0,0,0 };
 
-	//ƒ‰ƒCƒg‚ÌF
+	//ãƒ©ã‚¤ãƒˆã®è‰²
 	Vector3 lightColor_ = { 1,1,1 };
 
-	//ƒ‰ƒCƒg‹——£Œ¸ŠŒW”
+	//ãƒ©ã‚¤ãƒˆè·é›¢æ¸›è¡°ä¿‚æ•°
 	Vector3 lightAtten_ = { 1.0f,1.0f,1.0f };
 
-	//—LŒøƒtƒ‰ƒO
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool active_ = false;
 
 };

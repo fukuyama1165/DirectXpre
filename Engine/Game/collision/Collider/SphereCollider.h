@@ -11,7 +11,7 @@ public:
 	SphereCollider(const Vector3& Offset = { 0,0,0 },float Radius = 1.0f) :offset_(Offset), radius_(Radius)
 	{
 
-		//‹…Œ`ó‚ğƒZƒbƒg
+		//çƒå½¢çŠ¶ã‚’ã‚»ãƒƒãƒˆ
 		shapeType_ = COLLISIONSHAPE_SPHERE;
 		
 
@@ -28,7 +28,7 @@ public:
 	void Initialize();
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update(const Vector3 pos)override;
 
@@ -36,10 +36,10 @@ public:
 
 public:
 
-	//ƒIƒuƒWƒFƒNƒg’†S‚©‚ç‚ÌƒIƒtƒZƒbƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä¸­å¿ƒã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 	Vector3 offset_;
 
-	//”¼Œa
+	//åŠå¾„
 	float radius_;
 };
 

@@ -6,11 +6,14 @@ public:
 	Vector2();
 	Vector2(float x, float y);
 	~Vector2();
+	Vector2(const Vector2&) = default;
+	Vector2& operator=(const Vector2&) = default;
+
 
 	float length()const;
-	//“n‚µ‚½‚à‚Ì‚ğ³‹K‰»‚µ‚Ä•Ô‚·
+	//æ¸¡ã—ãŸã‚‚ã®ã‚’æ­£è¦åŒ–ã—ã¦è¿”ã™
 	static Vector2 normalize(const Vector2& v);
-	//©•ª‚ğ³‹K‰»‚·‚é(©•ª‘‚«Š·‚¦‚é)
+	//è‡ªåˆ†ã‚’æ­£è¦åŒ–ã™ã‚‹(è‡ªåˆ†æ›¸ãæ›ãˆã‚‹)
 	Vector2& normalize();
 
 	Vector2 operator+() const;
