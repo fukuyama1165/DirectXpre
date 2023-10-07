@@ -264,6 +264,14 @@ void Sprite::SetTextureRect(int32_t srcX, int32_t srcY, int32_t width, int32_t h
 
 }
 
+void Sprite::ChangeTexture(std::string textureIndex)
+{
+	AdjustTexSize(textureIndex);
+
+	texIndex = textureIndex;
+
+	changeFlag = true;
+}
 
 void Sprite::vertexLayout()
 {

@@ -26,29 +26,42 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	reticle3DObj_.objDrawInit(directoryPath, filename,true);
 	
 
+	//画像の読み込み
 	Texture::GetInstance()->loadTexture("Resources/life.png", "Life");
 	Texture::GetInstance()->loadTexture("Resources/ammunition.png", "Ammo");
 	Texture::GetInstance()->loadTexture("Resources/Reticle.png", "Reticle");
 	Texture::GetInstance()->loadTexture("Resources/particle.png", "Particle");
-	reticle_.initialize("Reticle");
 
+	Texture::GetInstance()->loadTexture("Resources/mouseimage.png", "Mouse");
+	Texture::GetInstance()->loadTexture("Resources/mouseRightClickimage.png", "MouseRightClick");
+	Texture::GetInstance()->loadTexture("Resources/SPACEimage.png", "SPACEimage");
+
+	Texture::GetInstance()->loadTexture("Resources/padButtonAimage.png", "padButtonA");
+	Texture::GetInstance()->loadTexture("Resources/RT.png", "padRT");	
+	Texture::GetInstance()->loadTexture("Resources/stickL.png", "stickL");
+
+	Texture::GetInstance()->loadTexture("Resources/standUpIcon.png", "stateStandUp");
+	Texture::GetInstance()->loadTexture("Resources/squatIcon.png", "stateSquat");
+	
+	//モデルの読み込み
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
 	ModelManager::GetInstance()->Load("Gun", "gltf", "Gun", "gray2x2");
 
+	//モデルのセット
 	bulletModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 	gunModel_ = ModelManager::GetInstance()->SearchModelData("Gun");
 	
+	//モデルとかの位置
 	playerObj_.SetPos({ 0,5,0 });
 	playerObj_.SetScale({ 0.13f,0.21f,0.17f });
 
 	playerCamera_.pos_ = { 0,0,-200 };
 	playCamera_.eye_ = { 0,0,-3 };
 
-	reticle_.scale_ = { 2,2 };
-
 	reticle3DObj_.SetPos({ 0,0,-100 });
 	reticle3DObj_.SetScale({ 0.05f,0.05f,0.05f });
 
+	//当たり判定
 	collision = MobCollision("player");
 
 	Collider.SetObject(&collision);
@@ -57,6 +70,7 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
+	//スプライト生成
 	hp1Sprote_.initialize("Life");
 	hp2Sprote_.initialize("Life");
 	hp3Sprote_.initialize("Life");
@@ -69,6 +83,34 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	damageSprote_.pos_ = { WinApp::SWindowWidthF_/2,WinApp::SWindowHeightF_/2 };
 	damageSprote_.scale_ = { WinApp::SWindowWidthF_,WinApp::SWindowHeightF_ };
 
+	reticle_.initialize("Reticle");
+	reticle_.scale_ = { 2,2 };
+
+	mouseSprite_.initialize("Mouse");
+	rightClickSprite_.initialize("MouseRightClick");
+	spaceButtonSprite_.initialize("SPACEimage");
+
+	gamePadButtonASprite_.initialize("padButtonA");
+	gamePadButtonRTSprite_.initialize("padRT");
+	gamePadStickLSprite_.initialize("stickL");
+
+	//サイズ気に入らないので直しとく
+	mouseSprite_.pos_ = { mouseSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+	rightClickSprite_.pos_ = { rightClickSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+	spaceButtonSprite_.pos_ = { spaceButtonSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
+
+
+
+	gamePadButtonASprite_.pos_ = { gamePadButtonASprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadButtonASprite_.GetTextureSize().y + gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y) };
+	gamePadButtonRTSprite_.pos_ = { gamePadButtonRTSprite_.GetTextureSize().x-48,WinApp::SWindowHeightF_ - (gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y/2) };
+	gamePadStickLSprite_.pos_ = { gamePadStickLSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadStickLSprite_.GetTextureSize().y/2) };
+
+	stateSprite_.initialize("stateStandUp");
+	stateSprite_.pos_ = { WinApp::SWindowWidthF_ / 4*3,WinApp::SWindowHeightF_ - (stateSprite_.GetTextureSize().y/3*2)};
+	stateSprite_.scale_ = { 2.0f,2.0f };
+	stateSprite_.setColor({ 0.5f,0.5f ,0.5f ,1.0f });
+
+	//弾の個数分生成
 	for (uint16_t i = 0; i < bulletMaxNum_; i++)
 	{
 		Sprite newBulletSprite;
@@ -78,10 +120,12 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 		bulletSprite_.push_back(newBulletSprite);
 	}
 
+	//音の読み込み
 	gunShotSount_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/GunShot.wav");
 	gunReloadSount_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/GunReload.wav");
 	damageSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
 
+	//板ポリの設定
 	flashObj_.boarPolygonInit();
 
 }
@@ -162,6 +206,15 @@ void Player::Update()
 
 	}
 
+	if (attackFlag_)
+	{
+		stateSprite_.ChangeTexture("stateSquat");
+	}
+	else
+	{
+		stateSprite_.ChangeTexture("stateStandUp");
+	}
+
 	playCamera_.upDate();
 	//playerCamera_.SetCamera(playCamera_);
 
@@ -239,6 +292,16 @@ void Player::Update()
 
 	flashObj_.Update();
 
+	stateSprite_.Update();
+
+	mouseSprite_.Update();
+	rightClickSprite_.Update();
+	spaceButtonSprite_.Update();
+
+	gamePadButtonASprite_.Update();
+	gamePadButtonRTSprite_.Update();
+	gamePadStickLSprite_.Update();
+
 #ifdef _DEBUG
 	ImGui::Begin("player");
 
@@ -282,11 +345,23 @@ void Player::Draw()
 
 	//まだ完成していないので描画を止めています
 	//flashObj_.Draw("Particle");
+
+	stateSprite_.Draw();
 	
 	damageSprote_.Draw();
 
-	
-
+	if (isUseKeybord_)
+	{
+		mouseSprite_.Draw();
+		rightClickSprite_.Draw();
+		spaceButtonSprite_.Draw();
+	}
+	else
+	{
+		gamePadButtonASprite_.Draw();
+		gamePadButtonRTSprite_.Draw();
+		gamePadStickLSprite_.Draw();
+	}
 
 }
 

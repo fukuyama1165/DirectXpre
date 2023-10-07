@@ -31,6 +31,8 @@ public:
 
 	Vector2 GetTextureSize() { return textureSize_; };
 
+	void ChangeTexture(std::string textureIndex);
+
 
 
 protected:

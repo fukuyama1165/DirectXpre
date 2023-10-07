@@ -104,13 +104,31 @@ private:
 	//当たり判定の本体
 	CubeCollider Collider;
 
+	//体力とか
 	Sprite hp1Sprote_;
 	Sprite hp2Sprote_;
 	Sprite hp3Sprote_;
 	Sprite damageSprote_;
 
+	//弾の画像群
 	std::vector<Sprite>bulletSprite_;
 
+	//操作表示用画像
+	//キーボードマウス用
+	Sprite mouseSprite_;
+	Sprite rightClickSprite_;
+	Sprite spaceButtonSprite_;
+
+	//ゲームパッド
+	Sprite gamePadButtonASprite_;
+	Sprite gamePadButtonRTSprite_;
+	Sprite gamePadStickLSprite_;
+
+	//状態
+	Sprite stateSprite_;
+
+
+	//音
 	std::string gunShotSount_;
 	std::string gunReloadSount_;
 	std::string damageSound_;
@@ -145,9 +163,6 @@ private:
 	Object3D flashObj_;
 
 	float flashAlpha_ = 0;
-
-	
-	
 
 	//動きを切り替えるときの時間
 	float flashChengTime_ = 3;
