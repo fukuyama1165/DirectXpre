@@ -411,6 +411,12 @@
     <ClCompile Include="Engine\Game\Scene\Base\SceneManager.cpp">
       <Filter>ソース ファイル\Game\Scene\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\FallParticle.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\Event\CountTimer.cpp">
+      <Filter>ソース ファイル\Game\App\Event</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
@@ -637,6 +643,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Scene\Base\SceneManager.h">
       <Filter>ヘッダー ファイル\Game\Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\FallParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Event\CountTimer.h">
+      <Filter>ヘッダー ファイル\App\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

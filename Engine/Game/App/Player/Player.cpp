@@ -42,6 +42,9 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	Texture::GetInstance()->loadTexture("Resources/standUpIcon.png", "stateStandUp");
 	Texture::GetInstance()->loadTexture("Resources/squatIcon.png", "stateSquat");
+
+	Texture::GetInstance()->loadTexture("Resources/ReticleMove.png", "reticleMove");
+	Texture::GetInstance()->loadTexture("Resources/shoticon.png", "shotIcon");
 	
 	//モデルの読み込み
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
@@ -94,13 +97,22 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	gamePadButtonRTSprite_.initialize("padRT");
 	gamePadStickLSprite_.initialize("stickL");
 
+	reticleMoveSprite_.initialize("reticleMove");
+	shotIconSprite_.initialize("shotIcon");
+	stateiconSprite_.initialize("stateSquat");
+
 	//サイズ気に入らないので直しとく
 	mouseSprite_.pos_ = { mouseSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
 	rightClickSprite_.pos_ = { rightClickSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
 	spaceButtonSprite_.pos_ = { spaceButtonSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
 
+	reticleMoveSprite_.pos_ = { (mouseSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x/2, WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y)};
+	shotIconSprite_.pos_ = { (rightClickSprite_.GetTextureSize().x / 2)+shotIconSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+	stateiconSprite_.pos_ = { (spaceButtonSprite_.GetTextureSize().x / 2)+stateiconSprite_.GetTextureSize().x,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
 
+	stateiconSprite_.setColor({ 0.5f,0.5f ,0.5f ,1.0f });
 
+	//位置が気になるので手が開いたら直す(おもにマジックナンバー)
 	gamePadButtonASprite_.pos_ = { gamePadButtonASprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadButtonASprite_.GetTextureSize().y + gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y) };
 	gamePadButtonRTSprite_.pos_ = { gamePadButtonRTSprite_.GetTextureSize().x-48,WinApp::SWindowHeightF_ - (gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y/2) };
 	gamePadStickLSprite_.pos_ = { gamePadStickLSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadStickLSprite_.GetTextureSize().y/2) };
@@ -219,6 +231,31 @@ void Player::Update()
 		stateSprite_.ChangeTexture("stateStandUp");
 	}
 
+	//操作の描画の位置変更
+	if (isUseKeybord_)
+	{
+		//キーボードの時
+		reticleMoveSprite_.pos_ = { (mouseSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x/2, WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+		shotIconSprite_.pos_ = { (rightClickSprite_.GetTextureSize().x / 2) + +shotIconSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+		stateiconSprite_.pos_ = { (spaceButtonSprite_.GetTextureSize().x / 2) + +stateiconSprite_.GetTextureSize().x,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
+
+		reticleMoveSprite_.scale_ = { 0.5f,0.5f };
+		shotIconSprite_.scale_ = { 0.5f,0.5f };
+		stateiconSprite_.scale_ = { 0.5f,0.5f };
+	}
+	else
+	{
+		//コントローラーの時(手が開いたら修正する)
+		reticleMoveSprite_.pos_ = { (gamePadStickLSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (gamePadStickLSprite_.GetTextureSize().y / 2) };
+		shotIconSprite_.pos_ = { (gamePadButtonRTSprite_.GetTextureSize().x - 48) + +shotIconSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y / 2) };
+		stateiconSprite_.pos_ = { (gamePadButtonASprite_.GetTextureSize().x / 2) + +stateiconSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadButtonASprite_.GetTextureSize().y + gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y) };
+
+		reticleMoveSprite_.scale_ = { 1.0f,1.0f };
+		shotIconSprite_.scale_ = { 1.0f,1.0f };
+		stateiconSprite_.scale_ = { 1.0f,1.0f };
+
+	}
+
 	playCamera_.upDate();
 
 	playerCamera_.upDate();
@@ -312,6 +349,10 @@ void Player::Update()
 	gamePadButtonRTSprite_.Update();
 	gamePadStickLSprite_.Update();
 
+	reticleMoveSprite_.Update();
+	shotIconSprite_.Update();
+	stateiconSprite_.Update();
+
 #ifdef _DEBUG
 	if (!isTitle_)
 	{
@@ -361,7 +402,7 @@ void Player::Draw()
 		stateSprite_.Draw();
 	}
 	//まだ完成していないので描画を止めています
-	//flashObj_.Draw("Particle");
+	flashObj_.Draw("Particle");
 
 	
 	
@@ -381,6 +422,11 @@ void Player::Draw()
 			gamePadButtonRTSprite_.Draw();
 			gamePadStickLSprite_.Draw();
 		}
+
+		reticleMoveSprite_.Draw();
+		shotIconSprite_.Draw();
+		stateiconSprite_.Draw();
+
 	}
 
 }
@@ -638,7 +684,7 @@ void Player::Damage()
 		}
 	}
 
-	float effectT = lerp(0.7f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
+	float effectT = lerp(0.6f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
 
 	if (damageEffectTimer_ < damageEffectMaxTime_)
 	{

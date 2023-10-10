@@ -27,7 +27,7 @@ void BasicEmitter::Initialize()
 	particleType_ = "BASIC";
 }
 
-void BasicEmitter::Initialize(const Vector3& pos,std::string particleType, std::string particleModel, std::string emitterModel, float ActiveTime)
+void BasicEmitter::Initialize(const Vector3& pos, std::string particleType,const float& liveTime, const float& ActiveTime, const Vector2& randRengeX, const Vector2& randRengeY, const Vector2& randRengeZ, std::string particleModel, std::string emitterModel)
 {
 
 	particleModel_ = ModelManager::GetInstance()->SearchModelData(particleModel);
@@ -43,6 +43,12 @@ void BasicEmitter::Initialize(const Vector3& pos,std::string particleType, std::
 	particleFactory_ = std::make_unique<ObjParticleFactory>();
 
 	particleType_ = particleType;
+
+	particleLiveTime_ = liveTime;
+
+	randRangeX_ = randRengeX;
+	randRangeY_ = randRengeY;
+	randRangeZ_ = randRengeZ;
 
 }
 
@@ -69,7 +75,7 @@ void BasicEmitter::Update()
 
 	if (CT_ <= 0)
 	{
-		Vector3 velo(Util::Rand(-100.0f, 100.0f), Util::Rand(-100.0f, 100.0f), Util::Rand(-100.0f, 100.0f));
+		Vector3 velo(Util::Rand(randRangeX_.x, randRangeX_.y), Util::Rand(randRangeY_.x, randRangeY_.y), Util::Rand(randRangeZ_.x, randRangeZ_.y));
 
 		velo.normalize();
 

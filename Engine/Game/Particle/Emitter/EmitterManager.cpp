@@ -18,10 +18,10 @@ EmitterManager* EmitterManager::GetInstance()
 	return &instance;
 }
 
-void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, float ActiveTime, std::string particleModel, std::string emitterModel)
+void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, const float& liveTime, const float& ActiveTime, const Vector2& randRengeX, const Vector2& randRengeY, const Vector2& randRengeZ, std::string particleModel, std::string emitterModel)
 {
 	std::unique_ptr<IObjEmitter> newEmitter = std::move(emitterFactory_->CreateObjEmitter(emitterType));
-	newEmitter->Initialize(pos, particleType,particleModel,emitterModel, ActiveTime);
+	newEmitter->Initialize(pos, particleType, liveTime,ActiveTime, randRengeX, randRengeY, randRengeZ, particleModel, emitterModel);
 
 	objEmitters_.push_back(std::move(newEmitter));
 }

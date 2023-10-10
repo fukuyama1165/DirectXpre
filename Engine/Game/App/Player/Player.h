@@ -131,6 +131,11 @@ private:
 	//状態
 	Sprite stateSprite_;
 
+	//操作描画
+	Sprite reticleMoveSprite_;
+	Sprite shotIconSprite_;
+	Sprite stateiconSprite_;
+
 
 	//音
 	std::string gunShotSount_;

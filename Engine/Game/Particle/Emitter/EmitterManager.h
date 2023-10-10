@@ -9,7 +9,7 @@ class EmitterManager
 public:
 	static EmitterManager* GetInstance();
 
-	void AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, float ActiveTime = -1, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox");
+	void AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, const float& liveTime, const float& ActiveTime = -1, const Vector2& randRengeX = { -100,100 }, const Vector2& randRengeY = { -100,100 }, const Vector2& randRengeZ = { -100,100 }, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox");
 
 	//中身全部消す
 	void reset() { objEmitters_.clear(); emitters_.clear(); };

@@ -12,7 +12,7 @@ public:
 
 	//初期化
 	void Initialize()override;
-	void Initialize(const Vector3& pos,std::string particleType, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox",  float ActiveTime = -1)override;
+	void Initialize(const Vector3& pos, std::string particleType, const float& liveTime = 10, const float& ActiveTime = -1, const Vector2& randRengeX = { -100,100 }, const Vector2& randRengeY = { -100,100 }, const Vector2& randRengeZ = { -100,100 }, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox")override;
 
 	//終了処理
 	void Finalize()override;
@@ -60,6 +60,10 @@ private:
 	std::unique_ptr<ObjParticleFactory> particleFactory_ = nullptr;
 
 	std::string particleType_ = "";
+
+	Vector2 randRangeX_ = { -100,100 };
+	Vector2 randRangeY_ = { -100,100 };
+	Vector2 randRangeZ_ = { -100,100 };
 
 };
 

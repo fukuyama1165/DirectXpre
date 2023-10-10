@@ -153,7 +153,7 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
-	eventManager->LoadEventData("Event");
+	eventManager->LoadEventData("testEvent");
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
@@ -200,21 +200,21 @@ void GameScene::Update()
 #ifdef _DEBUG
 	if (Input::GetInstance()->PushKey(DIK_UP))
 	{
-		cameraPos_.x += Vector3::normalize(debugCamera_.forward_).x;
-		cameraPos_.z += Vector3::normalize(debugCamera_.forward_).z;
+		cameraPos_.x += Vector3::normalize(Camera::nowCamera->forward_).x;
+		cameraPos_.z += Vector3::normalize(Camera::nowCamera->forward_).z;
 	}
 	if (Input::GetInstance()->PushKey(DIK_DOWN))
 	{
-		cameraPos_.x += -Vector3::normalize(debugCamera_.forward_).x;
-		cameraPos_.z += -Vector3::normalize(debugCamera_.forward_).z;
+		cameraPos_.x += -Vector3::normalize(Camera::nowCamera->forward_).x;
+		cameraPos_.z += -Vector3::normalize(Camera::nowCamera->forward_).z;
 	}
 	if (Input::GetInstance()->PushKey(DIK_RIGHT))
 	{
-		cameraPos_ += debugCamera_.rightDirection;
+		cameraPos_ += Camera::nowCamera->rightDirection;
 	}
 	if (Input::GetInstance()->PushKey(DIK_LEFT))
 	{
-		cameraPos_ += -debugCamera_.rightDirection;
+		cameraPos_ += -Camera::nowCamera->rightDirection;
 	}
 
 	Vector4 moveY(0, 0.01f, 0, 0);
@@ -564,7 +564,7 @@ void GameScene::Update()
 		cameobj_.upDate();
 		Camera::nowCamera = cameobj_.GetCameraP();
 		
-
+		debugCamera_ = cameobj_.GetCamera();
 	}
 	
 	play_.Update();
@@ -593,6 +593,18 @@ void GameScene::Update()
 	eventManager->Update();
 
 	EmitterManager::GetInstance()->Update();
+
+	//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
+	if (eventManager->nowEventDataFileName_ == "testEvent")
+	{
+
+		if (Input::GetInstance()->TriggerKey(DIK_E))
+		{
+			EmitterManager::GetInstance()->AddObjEmitter({ 0,0,40 }, "BASIC", "Cartridge", 10, -1, { -10,10 }, { 1,1 }, { -10,10 });
+		}
+
+
+	}
 
 	
 	//ゲームオーバー処理

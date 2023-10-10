@@ -37,7 +37,7 @@ void CartridgeParticle::Initialize(const Vector3& position, const Vector3& veloc
 
 	velo.normalize();
 
-	Velocity_ = velo/10;
+	Velocity_ = velocity;
 	liveTime_ = liveTime;
 
 	collision = BulletCollision("Cartridge");
@@ -60,7 +60,7 @@ void CartridgeParticle::Update()
 
 	//移動するところ
 	obj_.Trans_.x += Velocity_.x;
-	obj_.Trans_.x += moveSpeed_;
+	obj_.Trans_.y += moveSpeed_;
 	obj_.Trans_.z += Velocity_.z;
 	if (obj_.Rotate_.x > 0)
 	{
@@ -83,9 +83,9 @@ void CartridgeParticle::Update()
 
 	if (collision.isHit)
 	{
-		hitCount_++;
+		/*hitCount_++;
 		moveSpeed_ = 10.0f/ hitCount_;
-		collision.isHit = false;
+		collision.isHit = false;*/
 	}
 
 

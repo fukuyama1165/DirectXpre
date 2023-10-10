@@ -74,6 +74,8 @@ void EventPointManager::LoadEventData(std::string fileName)
 	}
 
 	eventPoint_ = EventPoint(eventSetings_[0]);
+
+	//最初がバトルの場合倒した後にもう一周してしまうため(移動イベントだとおきない)
 	if (eventPoint_.GetEventType() == EventType::BattleEvent)
 	{
 		eventPoint_.SetIsFinished(true);
