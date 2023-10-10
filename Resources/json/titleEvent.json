@@ -1,0 +1,38 @@
+{
+    "name": "event",
+    "events": [
+        {
+            "type": "BattleEvent",         
+            "seting": {
+                "enemyMaxSpawn": 3,
+                "enemyNum": 3,
+                "spawnPoint": [
+                    [0.0,0.0,50.0],
+                    [10.0,0.0,50.0],
+                    [-10.0,0.0,50.0]
+                ],
+                "spawnInterval": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "enemyType": [
+                    "Attack",
+                    "Attack",
+                    "Attack" 
+                ],
+
+                "enemySpeed": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "enemyMovePos": [
+                    [0.0,0.0,0.0],
+                    [0.0,0.0,0.0],
+                    [0.0,0.0,0.0]
+                ]
+            }
+        }
+    ]
+}

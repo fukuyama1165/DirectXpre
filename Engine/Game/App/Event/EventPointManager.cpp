@@ -74,6 +74,10 @@ void EventPointManager::LoadEventData(std::string fileName)
 	}
 
 	eventPoint_ = EventPoint(eventSetings_[0]);
+	if (eventPoint_.GetEventType() == EventType::BattleEvent)
+	{
+		eventPoint_.SetIsFinished(true);
+	}
 
 	eventAllEnd_ = false;
 	
@@ -342,7 +346,7 @@ void EventPointManager::Update()
 				//float a = easeOutQuad(0.0f, 20.0f, nextMoveTime_ / nextMoveMaxTime_);
 
 				waitSprite_.setColor({ 1,1,1,sinf(nextMoveTime_) });
-				nextMoveTime_++;
+				nextMoveTime_+=0.1f;
 			}
 			else
 			{

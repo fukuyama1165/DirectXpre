@@ -34,6 +34,8 @@ public:
 
 	uint32_t GetEventCount() { return eventCount_; };
 
+	uint16_t GetEventNum() { return (uint16_t)eventSetings_.size(); };
+
 	void reset() { eventSetings_.clear(); eventCount_ = 0; eventPoint_ = EventPoint(); }
 
 public:

@@ -11,6 +11,9 @@ public:
 
 	void AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, float ActiveTime = -1, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox");
 
+	//中身全部消す
+	void reset() { objEmitters_.clear(); emitters_.clear(); };
+
 	//毎フレーム更新
 	void Update();
 

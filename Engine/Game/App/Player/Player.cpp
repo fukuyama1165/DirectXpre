@@ -148,25 +148,29 @@ void Player::Update()
 		return bullet->IsDead();
 	});
 	
-
-	if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_<=20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+	if (!isTitle_)
 	{
-		attackFlag_ = true;
-		bulletNum_ = bulletMaxNum_;
-		
-		
-	}
 
-	if ((input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A)) && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
-	{
-		XAudio::PlaySoundData(gunReloadSount_, 1.0f);
-	}
+		if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_ <= 20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+		{
+			attackFlag_ = true;
+			bulletNum_ = bulletMaxNum_;
 
-	if (input_->ReleaseKey(DIK_SPACE) || input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A))
-	{
-		attackFlag_ = false;
-		
+
+		}
+
+		if ((input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A)) && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+		{
+			XAudio::PlaySoundData(gunReloadSount_, 1.0f);
+		}
+
+		if (input_->ReleaseKey(DIK_SPACE) || input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A))
+		{
+			attackFlag_ = false;
+
+		}
 	}
+	
 
 	//移動中ではないなら
 	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
@@ -216,9 +220,6 @@ void Player::Update()
 	}
 
 	playCamera_.upDate();
-	//playerCamera_.SetCamera(playCamera_);
-
-	//playerCamera_.CameraShake(test,{0.01f,0.01f,0.01f});
 
 	playerCamera_.upDate();
 
@@ -239,9 +240,12 @@ void Player::Update()
 
 	reticle3DObj_.Update();
 
-	if ((!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_>0)or isDebugShot_)
+	if (!isTitle_)
 	{
-		Attack();
+		if ((!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_ > 0) or isDebugShot_)
+		{
+			Attack();
+		}
 	}
 
 	if (muzzleFlashTime_ > 0)
@@ -255,7 +259,10 @@ void Player::Update()
 		playerObj_.SLightGroup_->SetPointLightActive(1, false);
 	}
 
-	Reticle2DMouse();
+	if (!isTitle_)
+	{
+		Reticle2DMouse();
+	}
 	
 	Damage();
 
@@ -264,13 +271,16 @@ void Player::Update()
 		bullet->Update();
 	}
 
-	if (collision.isHit)
+	if (!isTitle_)
 	{
-		hp_--;
-		collision.isHit = false;
-		XAudio::GetInstance()->PlaySoundData(damageSound_);
-		isDamage_ = true;
-		damageEffectTimer_ = 0;
+		if (collision.isHit)
+		{
+			hp_--;
+			collision.isHit = false;
+			XAudio::GetInstance()->PlaySoundData(damageSound_);
+			isDamage_ = true;
+			damageEffectTimer_ = 0;
+		}
 	}
 
 	hp1Sprote_.Update();
@@ -303,11 +313,14 @@ void Player::Update()
 	gamePadStickLSprite_.Update();
 
 #ifdef _DEBUG
-	ImGui::Begin("player");
+	if (!isTitle_)
+	{
+		ImGui::Begin("player");
 
-	ImGui::Text("hppos:%0.2ff", hp3Sprote_.pos_.y);
+		ImGui::Text("hppos:%0.2ff", hp3Sprote_.pos_.y);
 
-	ImGui::End();
+		ImGui::End();
+	}
 #endif
 
 }
@@ -322,45 +335,52 @@ void Player::Draw()
 		bullet->Draw(bulletModel_);
 	}
 
-	if (hp_ > 0)
+	if (!isTitle_)
 	{
-		hp1Sprote_.Draw();
-	}
-	if (hp_ > 1)
-	{
-		hp2Sprote_.Draw();
-	}
-	if (hp_ > 2)
-	{
-		hp3Sprote_.Draw();
-	}
-
-	for (uint16_t i = 0; i < bulletMaxNum_; i++)
-	{
-		if (bulletNum_ > i)
+		if (hp_ > 0)
 		{
-			bulletSprite_[i].Draw();
+			hp1Sprote_.Draw();
 		}
-	}
+		if (hp_ > 1)
+		{
+			hp2Sprote_.Draw();
+		}
+		if (hp_ > 2)
+		{
+			hp3Sprote_.Draw();
+		}
 
+		for (uint16_t i = 0; i < bulletMaxNum_; i++)
+		{
+			if (bulletNum_ > i)
+			{
+				bulletSprite_[i].Draw();
+			}
+		}
+
+		stateSprite_.Draw();
+	}
 	//まだ完成していないので描画を止めています
 	//flashObj_.Draw("Particle");
 
-	stateSprite_.Draw();
+	
 	
 	damageSprote_.Draw();
 
-	if (isUseKeybord_)
+	if (!isTitle_)
 	{
-		mouseSprite_.Draw();
-		rightClickSprite_.Draw();
-		spaceButtonSprite_.Draw();
-	}
-	else
-	{
-		gamePadButtonASprite_.Draw();
-		gamePadButtonRTSprite_.Draw();
-		gamePadStickLSprite_.Draw();
+		if (isUseKeybord_)
+		{
+			mouseSprite_.Draw();
+			rightClickSprite_.Draw();
+			spaceButtonSprite_.Draw();
+		}
+		else
+		{
+			gamePadButtonASprite_.Draw();
+			gamePadButtonRTSprite_.Draw();
+			gamePadStickLSprite_.Draw();
+		}
 	}
 
 }
@@ -368,7 +388,12 @@ void Player::Draw()
 void Player::Attack()
 {
 	
-	if (((input_->GetMouseButtonDown(0) and bulletCT_ <= 0))and isUseKeybord_)
+	if (isTitle_)
+	{
+		reticle3DObj_.Update();
+	}
+
+	if ((input_->GetMouseButtonDown(0) and bulletCT_ <= 0 and isUseKeybord_) or (isTitle_ and isUseKeybord_))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -424,7 +449,7 @@ void Player::Attack()
 	}
 
 	//Rトリガーを押していたら
-	if (Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0 and !isUseKeybord_)
+	if ((Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0 and !isUseKeybord_) or (isTitle_ and isUseKeybord_))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();

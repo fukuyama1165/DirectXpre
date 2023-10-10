@@ -108,7 +108,7 @@ void PostEffect::Update()
 		ImGui::DragFloat("sigma", &sigma_,0.00001f,0.0f, 0.01f,"%.5f");
 		ImGui::DragFloat("stepWidth", &stepWidth_,0.0001f,0.0001f, 0.1f,"%.5f");
 		ImGui::DragFloat2("grayScaleStep", &grayScaleStep_[0], 0.001f, 0.0f, 1.0f);
-		ImGui::Text("def(sigma:0.0025\nstepWidth:0.001\ngrayScaleStep:0.6,0.9");
+		//ImGui::Text("def(sigma:0.0025\nstepWidth:0.001\ngrayScaleStep:0.6,0.9");
 
 		ImGui::End();
 
