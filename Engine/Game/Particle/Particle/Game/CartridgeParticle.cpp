@@ -56,12 +56,10 @@ void CartridgeParticle::Finalize()
 
 void CartridgeParticle::Update()
 {
-	moveSpeed_ -= Velocity_.y;
+	Velocity_.y -= moveSpeed_;
 
 	//移動するところ
-	obj_.Trans_.x += Velocity_.x;
-	obj_.Trans_.y += moveSpeed_;
-	obj_.Trans_.z += Velocity_.z;
+	obj_.Trans_ += Velocity_;
 	if (obj_.Rotate_.x > 0)
 	{
 		obj_.Rotate_ -= {0.1f,0.1f,0.1f};

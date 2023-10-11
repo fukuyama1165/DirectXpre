@@ -541,6 +541,19 @@ void GameScene::Update()
 
 #pragma endregion
 
+#pragma region effect
+
+	ImGui::Begin("effect");
+
+	ImGui::DragFloat2("RandX", effectTestRandX);
+	ImGui::DragFloat2("RandY", effectTestRandY);
+	ImGui::DragFloat2("RandZ", effectTestRandZ);
+
+	ImGui::DragFloat("speed", &effectTestSpeed);
+
+	ImGui::End();
+
+#pragma endregion
 
 #ifdef _DEBUG
 
@@ -600,9 +613,13 @@ void GameScene::Update()
 
 		if (Input::GetInstance()->TriggerKey(DIK_E))
 		{
-			EmitterManager::GetInstance()->AddObjEmitter({ 0,0,40 }, "BASIC", "Cartridge", 10, -1, { -10,10 }, { 1,1 }, { -10,10 });
+			EmitterManager::GetInstance()->AddObjEmitter({ 0,0,40 }, "BASIC", "Cartridge", effectTestSpeed, -1, { effectTestRandX[0],effectTestRandX[1]}, { effectTestRandY[0],effectTestRandY[1] }, { effectTestRandZ[0],effectTestRandZ[1] });
 		}
 
+		if (Input::GetInstance()->TriggerKey(DIK_Q))
+		{
+			EmitterManager::GetInstance()->reset();
+		}
 
 	}
 

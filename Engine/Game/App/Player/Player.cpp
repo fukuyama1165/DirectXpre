@@ -402,7 +402,10 @@ void Player::Draw()
 		stateSprite_.Draw();
 	}
 	//まだ完成していないので描画を止めています
-	flashObj_.Draw("Particle");
+	if (flashObj_.GetColor().w > 0)
+	{
+		flashObj_.Draw("Particle");
+	}
 
 	
 	

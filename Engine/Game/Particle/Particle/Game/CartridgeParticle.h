@@ -48,7 +48,7 @@ private:
 
 	float actionTime_ = 50;
 
-	float moveSpeed_ = 1.0f;
+	float moveSpeed_ = 0.01f;
 	uint16_t hitCount_ = 0;
 
 	//当たり判定の処理
