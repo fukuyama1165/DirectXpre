@@ -16,37 +16,21 @@ void CartridgeParticle::Initialize()
 {
 	obj_.FBXInit();
 
-	collision = BulletCollision("Cartridge");
-
-	Collider.SetObject(&collision);
-
-	Collider.Initialize();
-
-	CollisionManager::GetInstance()->AddCollider(&Collider);
+	
 }
 
-void CartridgeParticle::Initialize(const Vector3& position, const Vector3& velocity, float liveTime)
+void CartridgeParticle::Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime)
 {
 	obj_.FBXInit();
 	//引数で受け取った初期座標をセット
 	obj_.Trans_ = position;
 
-	velocity;
-
-	Vector3 velo(Util::Rand(-1.0f, 1.0f), Util::Rand(-5.0f, 5.0f), Util::Rand(-1.0f, 1.0f));
-
-	velo.normalize();
-
 	Velocity_ = velocity;
 	liveTime_ = liveTime;
 
-	collision = BulletCollision("Cartridge");
+	
 
-	Collider.SetObject(&collision);
-
-	Collider.Initialize();
-
-	CollisionManager::GetInstance()->AddCollider(&Collider);
+	actionTime_ = actionMaxTime;
 }
 
 void CartridgeParticle::Finalize()
@@ -72,19 +56,9 @@ void CartridgeParticle::Update()
 		liveTime_--;
 	}
 
-	if (liveTime_ <= 0)
-	{
-		CollisionManager::GetInstance()->RemoveCollider(&Collider);
-	}
+	
 
-	Collider.Update(obj_.GetWorldPos());
-
-	if (collision.isHit)
-	{
-		/*hitCount_++;
-		moveSpeed_ = 10.0f/ hitCount_;
-		collision.isHit = false;*/
-	}
+	
 
 
 }

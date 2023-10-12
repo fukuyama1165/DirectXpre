@@ -11,7 +11,7 @@ public:
 
 	//初期化
 	void Initialize()override;
-	void Initialize(const Vector3& position, const Vector3& velocity, float liveTime)override;
+	void Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime)override;
 
 	//終了処理
 	void Finalize()override;

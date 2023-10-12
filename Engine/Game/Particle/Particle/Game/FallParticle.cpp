@@ -16,7 +16,7 @@ void FallParticle::Initialize()
 	obj_.FBXInit();
 }
 
-void FallParticle::Initialize(const Vector3& position, const Vector3& velocity, float liveTime)
+void FallParticle::Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime)
 {
 	obj_.FBXInit();
 	//引数で受け取った初期座標をセット
@@ -25,6 +25,9 @@ void FallParticle::Initialize(const Vector3& position, const Vector3& velocity, 
 	Velocity_ = velocity;
 	liveTime_ = liveTime;
 	liveMaxTime_ = liveTime;
+
+	actionTime_ = actionMaxTime;
+	actionMaxTime_ = actionMaxTime;
 }
 
 void FallParticle::Finalize()

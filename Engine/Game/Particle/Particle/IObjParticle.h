@@ -11,7 +11,7 @@ public:
 
 	//初期化
 	virtual void Initialize() {};
-	virtual void Initialize(const Vector3& position, const Vector3& velocity, float liveTime) = 0;
+	virtual void Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime) = 0;
 
 	//終了処理
 	virtual void Finalize() = 0;

@@ -13,7 +13,7 @@ public:
 
 	//初期化
 	void Initialize()override;
-	void Initialize(const Vector3& position, const Vector3& velocity, float liveTime)override;
+	void Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime)override;
 
 	//終了処理
 	void Finalize()override;
@@ -49,12 +49,6 @@ private:
 	float actionTime_ = 50;
 
 	float moveSpeed_ = 0.01f;
-	uint16_t hitCount_ = 0;
 
-	//当たり判定の処理
-	BulletCollision collision;
-
-	//当たり判定の本体
-	CubeCollider Collider;
 
 };

@@ -106,7 +106,7 @@ void Enemy::OnCollision()
 
 	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 
-	EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", "Fall", 10, 20);
+	EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", "Fall", 10,10, 20);
 
 }
 

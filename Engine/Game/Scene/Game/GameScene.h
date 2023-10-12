@@ -185,11 +185,7 @@ private:
 
 	Sprite clearTextSprite_;
 
-	float effectTestRandX[2] = { -10,10 };
-	float effectTestRandY[2] = { 0.1f,1.0f };
-	float effectTestRandZ[2] = { -10,10 };
-
-	float effectTestSpeed = 1;
+	
 
 };
 
