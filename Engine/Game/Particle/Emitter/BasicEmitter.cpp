@@ -27,7 +27,7 @@ void BasicEmitter::Initialize()
 	particleType_ = "BASIC";
 }
 
-void BasicEmitter::Initialize(const Vector3& pos,std::string particleType, std::string particleModel, std::string emitterModel, float ActiveTime)
+void BasicEmitter::Initialize(const Vector3& pos, std::string particleType,const float& liveTime, const float& ActiveTime, const float& actionMaxTime, const Vector2& randRengeX, const Vector2& randRengeY, const Vector2& randRengeZ, std::string particleModel, std::string emitterModel)
 {
 
 	particleModel_ = ModelManager::GetInstance()->SearchModelData(particleModel);
@@ -44,6 +44,14 @@ void BasicEmitter::Initialize(const Vector3& pos,std::string particleType, std::
 
 	particleType_ = particleType;
 
+	particleLiveTime_ = liveTime;
+
+	randRangeX_ = randRengeX;
+	randRangeY_ = randRengeY;
+	randRangeZ_ = randRengeZ;
+
+	particleactionTime_ = actionMaxTime;
+
 }
 
 void BasicEmitter::Finalize()
@@ -53,7 +61,7 @@ void BasicEmitter::Finalize()
 
 void BasicEmitter::Update()
 {
-	
+	if (isEnd_)return;
 
 	particles_.remove_if([](std::unique_ptr<IObjParticle>& particle)
 	{
@@ -65,17 +73,19 @@ void BasicEmitter::Update()
 		particle->Update();
 	}
 
+	if (!isActive_ and particles_.size() <= 0) isEnd_ = true;
+
 	if (!isActive_)return;
 
 	if (CT_ <= 0)
 	{
-		Vector3 velo(Util::Rand(-100.0f, 100.0f), Util::Rand(-100.0f, 100.0f), Util::Rand(-100.0f, 100.0f));
+		Vector3 velo(Util::Rand(randRangeX_.x, randRangeX_.y), Util::Rand(randRangeY_.x, randRangeY_.y), Util::Rand(randRangeZ_.x, randRangeZ_.y));
 
-		velo.normalize();
+		//velo.normalize();
 
 		std::unique_ptr<IObjParticle> newParticle = std::move(particleFactory_->CreateObjParticle(particleType_));
 
-		newParticle->Initialize(obj_.GetWorldPos(), velo, particleLiveTime_);
+		newParticle->Initialize(obj_.GetWorldPos(), velo, particleLiveTime_, particleactionTime_);
 
 		particles_.push_back(std::move(newParticle));
 

@@ -1,15 +1,13 @@
 #pragma once
 #include "IObjParticle.h"
 #include "Object3D.h"
-#include "BulletCollision.h"
-#include "CubeCollider.h"
 
 
-class CartridgeParticle :public IObjParticle
+class FallParticle :public IObjParticle
 {
 public:
-	CartridgeParticle();
-	~CartridgeParticle();
+	FallParticle();
+	~FallParticle();
 
 	//初期化
 	void Initialize()override;
@@ -26,11 +24,11 @@ public:
 
 	Object3D GetObj()override { return obj_; };
 
-	void SetliveTime(float time)override { liveTime_ = time; };
+	void SetliveTime(float time)override { liveTime_ = time; liveMaxTime_ = time; };
 
 	float GetliveTime()override { return liveTime_; };
 
-	void SetActionTime(float time)override { actionTime_ = time; };
+	void SetActionTime(float time)override { actionMaxTime_ = time; };
 
 	float GetActionTime()override { return actionTime_; };
 
@@ -45,10 +43,11 @@ private:
 	Vector3	Velocity_;
 
 	float liveTime_ = 50;
+	float liveMaxTime_ = liveTime_;
 
-	float actionTime_ = 50;
+	float actionTime_ = 100;
+	float actionMaxTime_ = actionTime_;
 
-	float moveSpeed_ = 0.01f;
-
+	float gravity_ = 0.00986f;
 
 };

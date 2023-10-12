@@ -20,8 +20,6 @@ public:
 	void Attack();
 	void Damage();
 
-	bool GetAttackFlag() { return attackFlag_; };
-
 	//マウスの位置を取得してその位置をレティクル用のオブジェクト等に入れる関数
 	void Reticle2DMouse();
 
@@ -52,6 +50,12 @@ public:
 	float muzzleFlashMaxTime_ = 2.0f;
 
 	float hp_ = 3;
+
+	//タイトル用の処理にするか
+	bool isTitle_ = false;
+
+	//隠れるか
+	bool attackFlag_ = false;
 
 private:
 
@@ -84,7 +88,7 @@ private:
 	//カメラの始点の移動するときの時間
 	float maxMoveTime_ = maxTime_/15;
 
-	bool attackFlag_ = false;
+	
 
 	float attackTime_ = 3;
 
@@ -126,6 +130,11 @@ private:
 
 	//状態
 	Sprite stateSprite_;
+
+	//操作描画
+	Sprite reticleMoveSprite_;
+	Sprite shotIconSprite_;
+	Sprite stateiconSprite_;
 
 
 	//音
@@ -175,6 +184,8 @@ private:
 
 	//現在進捗具合
 	float flashTimer_ = flashMaxTime_;
+
+	
 
 };
 

@@ -60,11 +60,11 @@ void EventPoint::Update()
 
 #ifdef _DEBUG
 
-		ImGui::Begin("check");
+		/*ImGui::Begin("check");
 
 		ImGui::Text("count:%d", count_);
 
-		ImGui::End();
+		ImGui::End();*/
 
 #endif
 

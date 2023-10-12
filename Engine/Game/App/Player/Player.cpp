@@ -42,6 +42,9 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 
 	Texture::GetInstance()->loadTexture("Resources/standUpIcon.png", "stateStandUp");
 	Texture::GetInstance()->loadTexture("Resources/squatIcon.png", "stateSquat");
+
+	Texture::GetInstance()->loadTexture("Resources/ReticleMove.png", "reticleMove");
+	Texture::GetInstance()->loadTexture("Resources/shoticon.png", "shotIcon");
 	
 	//モデルの読み込み
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
@@ -94,13 +97,22 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	gamePadButtonRTSprite_.initialize("padRT");
 	gamePadStickLSprite_.initialize("stickL");
 
+	reticleMoveSprite_.initialize("reticleMove");
+	shotIconSprite_.initialize("shotIcon");
+	stateiconSprite_.initialize("stateSquat");
+
 	//サイズ気に入らないので直しとく
 	mouseSprite_.pos_ = { mouseSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
 	rightClickSprite_.pos_ = { rightClickSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
 	spaceButtonSprite_.pos_ = { spaceButtonSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
 
+	reticleMoveSprite_.pos_ = { (mouseSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x/2, WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y)};
+	shotIconSprite_.pos_ = { (rightClickSprite_.GetTextureSize().x / 2)+shotIconSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+	stateiconSprite_.pos_ = { (spaceButtonSprite_.GetTextureSize().x / 2)+stateiconSprite_.GetTextureSize().x,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
 
+	stateiconSprite_.setColor({ 0.5f,0.5f ,0.5f ,1.0f });
 
+	//位置が気になるので手が開いたら直す(おもにマジックナンバー)
 	gamePadButtonASprite_.pos_ = { gamePadButtonASprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadButtonASprite_.GetTextureSize().y + gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y) };
 	gamePadButtonRTSprite_.pos_ = { gamePadButtonRTSprite_.GetTextureSize().x-48,WinApp::SWindowHeightF_ - (gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y/2) };
 	gamePadStickLSprite_.pos_ = { gamePadStickLSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadStickLSprite_.GetTextureSize().y/2) };
@@ -148,25 +160,29 @@ void Player::Update()
 		return bullet->IsDead();
 	});
 	
-
-	if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_<=20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+	if (!isTitle_)
 	{
-		attackFlag_ = true;
-		bulletNum_ = bulletMaxNum_;
-		
-		
-	}
 
-	if ((input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A)) && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
-	{
-		XAudio::PlaySoundData(gunReloadSount_, 1.0f);
-	}
+		if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_ <= 20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+		{
+			attackFlag_ = true;
+			bulletNum_ = bulletMaxNum_;
 
-	if (input_->ReleaseKey(DIK_SPACE) || input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A))
-	{
-		attackFlag_ = false;
-		
+
+		}
+
+		if ((input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A)) && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+		{
+			XAudio::PlaySoundData(gunReloadSount_, 1.0f);
+		}
+
+		if (input_->ReleaseKey(DIK_SPACE) || input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A))
+		{
+			attackFlag_ = false;
+
+		}
 	}
+	
 
 	//移動中ではないなら
 	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
@@ -215,10 +231,32 @@ void Player::Update()
 		stateSprite_.ChangeTexture("stateStandUp");
 	}
 
-	playCamera_.upDate();
-	//playerCamera_.SetCamera(playCamera_);
+	//操作の描画の位置変更
+	if (isUseKeybord_)
+	{
+		//キーボードの時
+		reticleMoveSprite_.pos_ = { (mouseSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x/2, WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+		shotIconSprite_.pos_ = { (rightClickSprite_.GetTextureSize().x / 2) + +shotIconSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+		stateiconSprite_.pos_ = { (spaceButtonSprite_.GetTextureSize().x / 2) + +stateiconSprite_.GetTextureSize().x,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
 
-	//playerCamera_.CameraShake(test,{0.01f,0.01f,0.01f});
+		reticleMoveSprite_.scale_ = { 0.5f,0.5f };
+		shotIconSprite_.scale_ = { 0.5f,0.5f };
+		stateiconSprite_.scale_ = { 0.5f,0.5f };
+	}
+	else
+	{
+		//コントローラーの時(手が開いたら修正する)
+		reticleMoveSprite_.pos_ = { (gamePadStickLSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (gamePadStickLSprite_.GetTextureSize().y / 2) };
+		shotIconSprite_.pos_ = { (gamePadButtonRTSprite_.GetTextureSize().x - 48) + +shotIconSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y / 2) };
+		stateiconSprite_.pos_ = { (gamePadButtonASprite_.GetTextureSize().x / 2) + +stateiconSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadButtonASprite_.GetTextureSize().y + gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y) };
+
+		reticleMoveSprite_.scale_ = { 1.0f,1.0f };
+		shotIconSprite_.scale_ = { 1.0f,1.0f };
+		stateiconSprite_.scale_ = { 1.0f,1.0f };
+
+	}
+
+	playCamera_.upDate();
 
 	playerCamera_.upDate();
 
@@ -239,9 +277,12 @@ void Player::Update()
 
 	reticle3DObj_.Update();
 
-	if ((!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_>0)or isDebugShot_)
+	if (!isTitle_)
 	{
-		Attack();
+		if ((!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_ > 0) or isDebugShot_)
+		{
+			Attack();
+		}
 	}
 
 	if (muzzleFlashTime_ > 0)
@@ -255,7 +296,10 @@ void Player::Update()
 		playerObj_.SLightGroup_->SetPointLightActive(1, false);
 	}
 
-	Reticle2DMouse();
+	if (!isTitle_)
+	{
+		Reticle2DMouse();
+	}
 	
 	Damage();
 
@@ -264,13 +308,16 @@ void Player::Update()
 		bullet->Update();
 	}
 
-	if (collision.isHit)
+	if (!isTitle_)
 	{
-		hp_--;
-		collision.isHit = false;
-		XAudio::GetInstance()->PlaySoundData(damageSound_);
-		isDamage_ = true;
-		damageEffectTimer_ = 0;
+		if (collision.isHit)
+		{
+			hp_--;
+			collision.isHit = false;
+			XAudio::GetInstance()->PlaySoundData(damageSound_);
+			isDamage_ = true;
+			damageEffectTimer_ = 0;
+		}
 	}
 
 	hp1Sprote_.Update();
@@ -302,12 +349,19 @@ void Player::Update()
 	gamePadButtonRTSprite_.Update();
 	gamePadStickLSprite_.Update();
 
+	reticleMoveSprite_.Update();
+	shotIconSprite_.Update();
+	stateiconSprite_.Update();
+
 #ifdef _DEBUG
-	ImGui::Begin("player");
+	if (!isTitle_)
+	{
+		ImGui::Begin("player");
 
-	ImGui::Text("hppos:%0.2ff", hp3Sprote_.pos_.y);
+		ImGui::Text("hppos:%0.2ff", hp3Sprote_.pos_.y);
 
-	ImGui::End();
+		ImGui::End();
+	}
 #endif
 
 }
@@ -322,45 +376,61 @@ void Player::Draw()
 		bullet->Draw(bulletModel_);
 	}
 
-	if (hp_ > 0)
+	if (!isTitle_)
 	{
-		hp1Sprote_.Draw();
-	}
-	if (hp_ > 1)
-	{
-		hp2Sprote_.Draw();
-	}
-	if (hp_ > 2)
-	{
-		hp3Sprote_.Draw();
-	}
-
-	for (uint16_t i = 0; i < bulletMaxNum_; i++)
-	{
-		if (bulletNum_ > i)
+		if (hp_ > 0)
 		{
-			bulletSprite_[i].Draw();
+			hp1Sprote_.Draw();
 		}
+		if (hp_ > 1)
+		{
+			hp2Sprote_.Draw();
+		}
+		if (hp_ > 2)
+		{
+			hp3Sprote_.Draw();
+		}
+
+		for (uint16_t i = 0; i < bulletMaxNum_; i++)
+		{
+			if (bulletNum_ > i)
+			{
+				bulletSprite_[i].Draw();
+			}
+		}
+
+		stateSprite_.Draw();
+	}
+	
+	//発射の時のエフェクト
+	if (flashObj_.GetColor().w > 0)
+	{
+		flashObj_.Draw("Particle");
 	}
 
-	//まだ完成していないので描画を止めています
-	//flashObj_.Draw("Particle");
-
-	stateSprite_.Draw();
+	
 	
 	damageSprote_.Draw();
 
-	if (isUseKeybord_)
+	if (!isTitle_)
 	{
-		mouseSprite_.Draw();
-		rightClickSprite_.Draw();
-		spaceButtonSprite_.Draw();
-	}
-	else
-	{
-		gamePadButtonASprite_.Draw();
-		gamePadButtonRTSprite_.Draw();
-		gamePadStickLSprite_.Draw();
+		if (isUseKeybord_)
+		{
+			mouseSprite_.Draw();
+			rightClickSprite_.Draw();
+			spaceButtonSprite_.Draw();
+		}
+		else
+		{
+			gamePadButtonASprite_.Draw();
+			gamePadButtonRTSprite_.Draw();
+			gamePadStickLSprite_.Draw();
+		}
+
+		reticleMoveSprite_.Draw();
+		shotIconSprite_.Draw();
+		stateiconSprite_.Draw();
+
 	}
 
 }
@@ -368,7 +438,12 @@ void Player::Draw()
 void Player::Attack()
 {
 	
-	if (((input_->GetMouseButtonDown(0) and bulletCT_ <= 0))and isUseKeybord_)
+	if (isTitle_)
+	{
+		reticle3DObj_.Update();
+	}
+
+	if ((input_->GetMouseButtonDown(0) and bulletCT_ <= 0 and isUseKeybord_) or (isTitle_ and isUseKeybord_))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -424,7 +499,7 @@ void Player::Attack()
 	}
 
 	//Rトリガーを押していたら
-	if (Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0 and !isUseKeybord_)
+	if ((Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0 and !isUseKeybord_) or (isTitle_ and isUseKeybord_))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -613,7 +688,7 @@ void Player::Damage()
 		}
 	}
 
-	float effectT = lerp(0.7f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
+	float effectT = lerp(0.6f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
 
 	if (damageEffectTimer_ < damageEffectMaxTime_)
 	{

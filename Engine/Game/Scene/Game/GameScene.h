@@ -185,6 +185,8 @@ private:
 
 	Sprite clearTextSprite_;
 
+	
+
 };
 
 

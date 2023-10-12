@@ -138,7 +138,7 @@ void GameScene::Initialize()
 	objobj3_.SetScale({ 1000,1000,1000 });
 
 
-	XAudio::PlaySoundData(test_, 0.3f, true);
+	//XAudio::PlaySoundData(test_, 0.3f, true);
 
 
 	enemys_ = EnemyManager::GetInstance();
@@ -172,7 +172,7 @@ void GameScene::Initialize()
 void GameScene::Finalize()
 {
 
-	XAudio::StapSoundData(test_);
+	//XAudio::StapSoundData(test_);
 	CollisionManager::GetInstance()->AllRemoveCollider();
 	eventManager->reset();
 	enemys_->Reset();
@@ -200,21 +200,21 @@ void GameScene::Update()
 #ifdef _DEBUG
 	if (Input::GetInstance()->PushKey(DIK_UP))
 	{
-		cameraPos_.x += Vector3::normalize(debugCamera_.forward_).x;
-		cameraPos_.z += Vector3::normalize(debugCamera_.forward_).z;
+		cameraPos_.x += Vector3::normalize(Camera::nowCamera->forward_).x;
+		cameraPos_.z += Vector3::normalize(Camera::nowCamera->forward_).z;
 	}
 	if (Input::GetInstance()->PushKey(DIK_DOWN))
 	{
-		cameraPos_.x += -Vector3::normalize(debugCamera_.forward_).x;
-		cameraPos_.z += -Vector3::normalize(debugCamera_.forward_).z;
+		cameraPos_.x += -Vector3::normalize(Camera::nowCamera->forward_).x;
+		cameraPos_.z += -Vector3::normalize(Camera::nowCamera->forward_).z;
 	}
 	if (Input::GetInstance()->PushKey(DIK_RIGHT))
 	{
-		cameraPos_ += debugCamera_.rightDirection;
+		cameraPos_ += Camera::nowCamera->rightDirection;
 	}
 	if (Input::GetInstance()->PushKey(DIK_LEFT))
 	{
-		cameraPos_ += -debugCamera_.rightDirection;
+		cameraPos_ += -Camera::nowCamera->rightDirection;
 	}
 
 	Vector4 moveY(0, 0.01f, 0, 0);
@@ -542,6 +542,7 @@ void GameScene::Update()
 #pragma endregion
 
 
+
 #ifdef _DEBUG
 
 	ImGui::ShowDemoWindow();
@@ -564,7 +565,7 @@ void GameScene::Update()
 		cameobj_.upDate();
 		Camera::nowCamera = cameobj_.GetCameraP();
 		
-
+		debugCamera_ = cameobj_.GetCamera();
 	}
 	
 	play_.Update();
@@ -593,6 +594,14 @@ void GameScene::Update()
 	eventManager->Update();
 
 	EmitterManager::GetInstance()->Update();
+
+	//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
+	if (eventManager->nowEventDataFileName_ == "testEvent")
+	{
+
+		
+
+	}
 
 	
 	//ゲームオーバー処理

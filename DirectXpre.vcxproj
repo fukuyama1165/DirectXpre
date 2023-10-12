@@ -112,6 +112,7 @@
     <ClCompile Include="Engine\Game\App\Enemy\Enemy.cpp" />
     <ClCompile Include="Engine\Game\App\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="Engine\Game\App\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Engine\Game\App\Event\CountTimer.cpp" />
     <ClCompile Include="Engine\Game\App\Event\EventPoint.cpp" />
     <ClCompile Include="Engine\Game\App\Event\EventPointManager.cpp" />
     <ClCompile Include="Engine\Game\App\Level\Wall.cpp" />
@@ -140,6 +141,7 @@
     <ClCompile Include="Engine\Game\Particle\Emitter\EmitterManager.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\BasicParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\FallParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\ObjParticleFactory.cpp" />
     <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp" />
     <ClCompile Include="Engine\Game\Scene\Base\App.cpp" />
@@ -191,6 +193,7 @@
     <ClInclude Include="Engine\Game\App\Enemy\Enemy.h" />
     <ClInclude Include="Engine\Game\App\Enemy\EnemyBullet.h" />
     <ClInclude Include="Engine\Game\App\Enemy\EnemyManager.h" />
+    <ClInclude Include="Engine\Game\App\Event\CountTimer.h" />
     <ClInclude Include="Engine\Game\App\Event\EventPoint.h" />
     <ClInclude Include="Engine\Game\App\Event\EventPointManager.h" />
     <ClInclude Include="Engine\Game\App\Level\Wall.h" />
@@ -223,6 +226,7 @@
     <ClInclude Include="Engine\Game\Particle\Emitter\IObjEmitter.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\BasicParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\FallParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IObjParticleFactory.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IParticle.h" />

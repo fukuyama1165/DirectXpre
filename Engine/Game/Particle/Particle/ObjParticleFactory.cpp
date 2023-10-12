@@ -1,6 +1,7 @@
 #include "ObjParticleFactory.h"
 #include "BasicParticle.h"
 #include "CartridgeParticle.h"
+#include "FallParticle.h"
 
 ObjParticleFactory::ObjParticleFactory()
 {
@@ -22,6 +23,10 @@ std::unique_ptr<IObjParticle> ObjParticleFactory::CreateObjParticle(const std::s
 	else if (objParticleName == "Cartridge")
 	{
 		newParticle = std::make_unique<CartridgeParticle>();
+	}
+	else if (objParticleName == "Fall")
+	{
+		newParticle = std::make_unique<FallParticle>();
 	}
 	else if (objParticleName == "")
 	{
