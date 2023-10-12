@@ -26,6 +26,7 @@ void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, 
 	objEmitters_.push_back(std::move(newEmitter));
 
 #ifdef _DEBUG
+	//デバック用のデータを追加するところ
 	pos_.push_back(pos);
 
 	particleLiveTime_.push_back(liveTime);
@@ -53,6 +54,7 @@ void EmitterManager::Update()
 	{
 		if (emitter.get()->GetIsEnd())
 		{
+			//デバック用のデータを削除するところ
 			for (auto posI = pos_.begin(); posI != pos_.end();)
 			{
 				posI += count;
@@ -137,6 +139,7 @@ void EmitterManager::Update()
 
 	ImGui::Begin("effect");
 
+	//エフェクト追加するとこ
 	ImGui::DragFloat3("pos", particlePos);
 
 	ImGui::DragFloat2("RandX", effectTestRandX, 0.1f);
@@ -146,14 +149,10 @@ void EmitterManager::Update()
 	ImGui::DragFloat("liveTime", &effectTestliveTime, 0.1f);
 	ImGui::DragFloat("actionTime", &effectTestactionTime, 0.1f);
 
-
-
 	const char* emittrChar[] = { "BASIC" };
 
 	//intしか使えん許さん
 	ImGui::Combo("emitterType", (int*)&emittrTypeNum, emittrChar, IM_ARRAYSIZE(emittrChar));
-
-
 
 	const char* particleChar[] = { "BASIC","Cartridge","Fall" };
 
@@ -212,7 +211,9 @@ void EmitterManager::Update()
 
 	for (auto i = objEmitters_.begin(); i != objEmitters_.end(); i++)
 	{
+		//中身いじるよ
 		float posbuff[3] = { pos_[effectListCount].x,pos_[effectListCount].y ,pos_[effectListCount].z };
+		ImGui::Text("effectNum:%d", effectListCount);
 		ImGui::DragFloat3("pos", posbuff, 0.1f);
 
 		ImGui::DragFloat("particleLiveTime", &particleLiveTime_[effectListCount], 0.1f);
@@ -295,6 +296,7 @@ void EmitterManager::reset()
 	particleLiveTime_.clear();
 	activeTime_.clear();
 	maxCT_.clear();
+	particleActionTime_.clear();
 	particleTypeNum_.clear();
 
 	particleType_.clear();
