@@ -45,11 +45,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(solutionDir)DirectXTex;$(SolutionDir)imgui;$(solutionDir)assimp\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(solutionDir)External\DirectXTex;$(SolutionDir)External\imgui;$(SolutionDir)External\assimp\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(solutionDir)DirectXTex;$(SolutionDir)imgui;$(solutionDir)assimp\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(solutionDir)External\DirectXTex;$(SolutionDir)External\imgui;$(solutionDir)External\assimp\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -62,6 +62,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,17 +164,6 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\Vector4.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="assimp\code\assimp.vcxproj">
-      <Project>{130fd2fe-dc70-34b1-895a-f74b90e6b795}</Project>
-    </ProjectReference>
-    <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
-      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
-    </ProjectReference>
-    <ProjectReference Include="imgui\imgui.vcxproj">
-      <Project>{a851d73b-db14-4df9-8713-2de9fe88379a}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\DirectXInit.h" />
@@ -359,6 +349,20 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="External\assimp\code\assimp.vcxproj">
+      <Project>{130fd2fe-dc70-34b1-895a-f74b90e6b795}</Project>
+    </ProjectReference>
+    <ProjectReference Include="External\assimp\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{972acdb0-a912-3138-b899-683084ea82d1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="External\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
+      <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+    <ProjectReference Include="External\imgui\imgui.vcxproj">
+      <Project>{a851d73b-db14-4df9-8713-2de9fe88379a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

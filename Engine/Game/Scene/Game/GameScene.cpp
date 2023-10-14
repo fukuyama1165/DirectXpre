@@ -138,7 +138,7 @@ void GameScene::Initialize()
 	objobj3_.SetScale({ 1000,1000,1000 });
 
 
-	//XAudio::PlaySoundData(test_, 0.3f, true);
+	XAudio::PlaySoundData(test_, 0.3f, true);
 
 
 	enemys_ = EnemyManager::GetInstance();
@@ -172,7 +172,7 @@ void GameScene::Initialize()
 void GameScene::Finalize()
 {
 
-	//XAudio::StapSoundData(test_);
+	XAudio::StapSoundData(test_);
 	CollisionManager::GetInstance()->AllRemoveCollider();
 	eventManager->reset();
 	enemys_->Reset();
