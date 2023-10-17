@@ -3,11 +3,11 @@
 #include "Object3D.h"
 
 
-class BasicParticle:public IObjParticle
+class BasicObjParticle:public IObjParticle
 {
 public:
-	BasicParticle();
-	~BasicParticle();
+	BasicObjParticle();
+	~BasicObjParticle();
 
 	//初期化
 	void Initialize()override;
@@ -45,7 +45,7 @@ private:
 	float liveTime_ = 50;
 	float liveMaxTime_ = liveTime_;
 
-	float actionTime_ = 100;
-	float actionMaxTime_ = actionTime_;
+	float actionTime_ = 0;
+	float actionMaxTime_ = 100;
 
 };

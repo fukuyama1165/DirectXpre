@@ -14,7 +14,7 @@ public:
 
 	//初期化
 	virtual void Initialize() = 0;
-	virtual void Initialize(const Vector3& pos, std::string particleType, const float& liveTime = 10, const float& actionMaxTime=10, const float& ActiveTime = -1, const Vector2& randRengeX = { -1,1 }, const Vector2& randRengeY = { -1,1 }, const Vector2& randRengeZ = { -1,1 }, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox") = 0;
+	virtual void Initialize(const Vector3& pos, std::string particleType, const float& liveTime = 10, const float& actionMaxTime = 10, const float& ActiveTime = -1, float ct = 1, const Vector2& randRengeX = { -1,1 }, const Vector2& randRengeY = { -1,1 }, const Vector2& randRengeZ = { -1,1 }, Vector3 startScale = { 1,1,1 }, Vector3 endScale = { 1,1,1 }, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox") = 0;
 
 	//終了処理
 	virtual void Finalize() = 0;
@@ -76,6 +76,6 @@ private:
 	Vector2 randRangeY_ = { -1,1 };
 	Vector2 randRangeZ_ = { -1,1 };
 
-	float particleactionTime = 10;
+	float particleactionTime_ = 10;
 
 };

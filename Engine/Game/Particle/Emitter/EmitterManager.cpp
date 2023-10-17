@@ -18,10 +18,10 @@ EmitterManager* EmitterManager::GetInstance()
 	return &instance;
 }
 
-void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, const float& liveTime, const float& actionTime, const float& ActiveTime, const Vector2& randRengeX, const Vector2& randRengeY, const Vector2& randRengeZ, std::string particleModel, std::string emitterModel)
+void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, const float& liveTime, const float& actionTime, const float& ActiveTime, float ct, const Vector2& randRengeX, const Vector2& randRengeY, const Vector2& randRengeZ, Vector3 startScale, Vector3 endScale, std::string particleModel, std::string emitterModel)
 {
 	std::unique_ptr<IObjEmitter> newEmitter = std::move(emitterFactory_->CreateObjEmitter(emitterType));
-	newEmitter->Initialize(pos, particleType, liveTime, ActiveTime, actionTime, randRengeX, randRengeY, randRengeZ, particleModel, emitterModel);
+	newEmitter->Initialize(pos, particleType, liveTime, actionTime, ActiveTime, ct, randRengeX, randRengeY, randRengeZ, startScale, endScale, particleModel, emitterModel);
 
 	objEmitters_.push_back(std::move(newEmitter));
 
@@ -31,8 +31,8 @@ void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, 
 
 	particleLiveTime_.push_back(liveTime);
 	activeTime_.push_back(ActiveTime);
-	maxCT_.push_back(1.0f);
-	particleTypeNum_.push_back(0);
+	maxCT_.push_back(ct);
+	
 	particleActionTime_.push_back(actionTime);
 
 	particleType_.push_back(particleType);
@@ -40,8 +40,63 @@ void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, 
 	randRangeX_.push_back(randRengeX);
 	randRangeY_.push_back(randRengeY);
 	randRangeZ_.push_back(randRengeZ);
+
+	if (particleType == "BASIC")
+	{
+		particleTypeNum_.push_back(0);
+	}
+	else if (particleType == "Cartridge")
+	{
+		particleTypeNum_.push_back(1);
+	}
+	else if (particleType == "Fall")
+	{
+		particleTypeNum_.push_back(2);
+	}
+	else
+	{
+		particleTypeNum_.push_back(0);
+	}
+
 #endif
 
+}
+
+void EmitterManager::AddSpriteEmitter(const Vector2& pos, std::string emitterType, std::string particleType, const float& liveTime, const float& actionTime, const float& ActiveTime, float ct, const Vector2& randRengeX, const Vector2& randRengeY, Vector2 startScale, Vector2 endScale, std::string particleTexture, std::string emitterTexture)
+{
+	std::unique_ptr<IEmitter> newEmitter = std::move(emitterFactory_->CreateEmitter(emitterType));
+	newEmitter->Initialize(pos, particleType, liveTime, actionTime, ActiveTime, ct, randRengeX, randRengeY, startScale, endScale, particleTexture, emitterTexture);
+
+	emitters_.push_back(std::move(newEmitter));
+
+#ifdef _DEBUG
+	//デバック用のデータを追加するところ
+	spritePos_.push_back(pos);
+
+	spriteParticleLiveTime_.push_back(liveTime);
+	spriteActiveTime_.push_back(ActiveTime);
+	spriteMaxCT_.push_back(ct);
+	
+	spriteParticleActionTime_.push_back(actionTime);
+
+	spriteParticleType_.push_back(particleType);
+
+	spriteRandRangeX_.push_back(randRengeX);
+	spriteRandRangeY_.push_back(randRengeY);
+
+	if (particleType == "BASIC")
+	{
+		spriteParticleTypeNum_.push_back(0);
+	}
+	else if (particleType == "Fall")
+	{
+		spriteParticleTypeNum_.push_back(1);
+	}
+	else
+	{
+		spriteParticleTypeNum_.push_back(0);
+	}
+#endif
 }
 
 void EmitterManager::Update()
@@ -120,9 +175,79 @@ void EmitterManager::Update()
 		count++;
 	}
 
+	count = 0;
+	for (std::unique_ptr<IEmitter>& emitter : emitters_)
+	{
+		if (emitter.get()->GetIsEnd())
+		{
+			//デバック用のデータを削除するところ
+			for (auto posI = spritePos_.begin(); posI != spritePos_.end();)
+			{
+				posI += count;
+				posI = spritePos_.erase(posI);
+				break;
+			}
+			for (auto CTI = spriteMaxCT_.begin(); CTI != spriteMaxCT_.end();)
+			{
+				CTI += count;
+				CTI = spriteMaxCT_.erase(CTI);
+				break;
+			}
+			for (auto particleLiveTimeI = spriteParticleLiveTime_.begin(); particleLiveTimeI != spriteParticleLiveTime_.end();)
+			{
+				particleLiveTimeI += count;
+				particleLiveTimeI = spriteParticleLiveTime_.erase(particleLiveTimeI);
+				break;
+			}
+			for (auto activeTimeI = spriteActiveTime_.begin(); activeTimeI != spriteActiveTime_.end();)
+			{
+				activeTimeI += count;
+				activeTimeI = spriteActiveTime_.erase(activeTimeI);
+				break;
+			}
+			for (auto particleActionTimeI = spriteParticleActionTime_.begin(); particleActionTimeI != spriteParticleActionTime_.end();)
+			{
+				particleActionTimeI += count;
+				particleActionTimeI = spriteParticleActionTime_.erase(particleActionTimeI);
+				break;
+			}
+			for (auto particleTypeI = spriteParticleType_.begin(); particleTypeI != spriteParticleType_.end();)
+			{
+				particleTypeI += count;
+				particleTypeI = spriteParticleType_.erase(particleTypeI);
+				break;
+			}
+			for (auto particleTypeNumI = spriteParticleTypeNum_.begin(); particleTypeNumI != spriteParticleTypeNum_.end();)
+			{
+				particleTypeNumI += count;
+				particleTypeNumI = spriteParticleTypeNum_.erase(particleTypeNumI);
+				break;
+			}
+			for (auto randRangeXI = spriteRandRangeX_.begin(); randRangeXI != spriteRandRangeX_.end();)
+			{
+				randRangeXI += count;
+				randRangeXI = spriteRandRangeX_.erase(randRangeXI);
+				break;
+			}
+			for (auto randRangeYI = spriteRandRangeY_.begin(); randRangeYI != spriteRandRangeY_.end();)
+			{
+				randRangeYI += count;
+				randRangeYI = spriteRandRangeY_.erase(randRangeYI);
+				break;
+			}
+
+		}
+		count++;
+	}
+
 #endif
 
-	for (std::unique_ptr<IObjEmitter>& emitter : objEmitters_)
+	for (std::unique_ptr<IObjEmitter>& objEmitter : objEmitters_)
+	{
+		objEmitter->Update();
+	}
+
+	for (std::unique_ptr<IEmitter>& emitter : emitters_)
 	{
 		emitter->Update();
 	}
@@ -132,12 +257,17 @@ void EmitterManager::Update()
 		return emitter->GetIsEnd();
 	});
 
+	emitters_.remove_if([](std::unique_ptr<IEmitter>& emitter)
+	{
+		return emitter->GetIsEnd();
+	});
+
 #ifdef _DEBUG
 
 
 #pragma region effect
 
-	ImGui::Begin("effect");
+	ImGui::Begin("objEffect");
 
 	//エフェクト追加するとこ
 	ImGui::DragFloat3("pos", particlePos);
@@ -148,6 +278,7 @@ void EmitterManager::Update()
 
 	ImGui::DragFloat("liveTime", &effectTestliveTime, 0.1f);
 	ImGui::DragFloat("actionTime", &effectTestactionTime, 0.1f);
+	ImGui::DragFloat("ct", &emitterCt, 0.1f);
 
 	const char* emittrChar[] = { "BASIC" };
 
@@ -191,7 +322,68 @@ void EmitterManager::Update()
 
 	if (ImGui::Button("emittrpop"))
 	{
-		EmitterManager::GetInstance()->AddObjEmitter({ particlePos[0],particlePos[1],particlePos[2] }, emitterType, particleType, effectTestliveTime, effectTestactionTime, -1, { effectTestRandX[0],effectTestRandX[1] }, { effectTestRandY[0],effectTestRandY[1] }, { effectTestRandZ[0],effectTestRandZ[1] });
+		EmitterManager::GetInstance()->AddObjEmitter({ particlePos[0],particlePos[1],particlePos[2] }, emitterType, particleType, effectTestliveTime, effectTestactionTime, -1,emitterCt, { effectTestRandX[0],effectTestRandX[1] }, { effectTestRandY[0],effectTestRandY[1] }, { effectTestRandZ[0],effectTestRandZ[1] });
+	}
+
+	if (ImGui::Button("alldel"))
+	{
+		EmitterManager::GetInstance()->reset();
+	}
+
+	ImGui::End();
+
+	ImGui::Begin("Effect");
+
+	//エフェクト追加するとこ
+	ImGui::DragFloat2("pos", spriteParticlePos);
+
+	ImGui::DragFloat2("RandX", spriteEffectTestRandX, 0.1f);
+	ImGui::DragFloat2("RandY", spriteEffectTestRandY, 0.1f);
+
+	ImGui::DragFloat("liveTime", &spriteEffectTestliveTime, 0.1f);
+	ImGui::DragFloat("actionTime", &spriteEffectTestactionTime, 0.1f);
+	ImGui::DragFloat("ct", &spriteEmitterCt, 0.1f);
+
+	const char* spriteEmittrChar[] = { "BASIC" };
+
+	//intしか使えん許さん
+	ImGui::Combo("emitterType", (int*)&spriteEmittrTypeNum, spriteEmittrChar, IM_ARRAYSIZE(spriteEmittrChar));
+
+	const char* spriteParticleChar[] = { "BASIC","Fall" };
+
+	//intしか使えん許さん
+	ImGui::Combo("particleType", (int*)&spriteParticleTypeNum, spriteParticleChar, IM_ARRAYSIZE(spriteParticleChar));
+
+	std::string spriteEmitterType;
+	std::string spriteParticleType;
+
+	switch (spriteEmittrTypeNum)
+	{
+	case 1:
+		spriteEmitterType = "BASIC";
+		break;
+	default:
+		spriteEmitterType = "BASIC";
+		break;
+	}
+
+	switch (spriteParticleTypeNum)
+	{
+	case 1:
+		spriteParticleType = "BASIC";
+		break;
+	case 2:
+		spriteParticleType = "Fall";
+		break;
+
+	default:
+		spriteParticleType = "BASIC";
+		break;
+	}
+
+	if (ImGui::Button("emittrpop"))
+	{
+		EmitterManager::GetInstance()->AddSpriteEmitter({ spriteParticlePos[0],spriteParticlePos[1]}, emitterType, particleType, spriteEffectTestliveTime, spriteEffectTestactionTime, -1,spriteEmitterCt, { spriteEffectTestRandX[0],spriteEffectTestRandX[1] }, { spriteEffectTestRandY[0],spriteEffectTestRandY[1] });
 	}
 
 	if (ImGui::Button("alldel"))
@@ -203,21 +395,22 @@ void EmitterManager::Update()
 
 #pragma endregion
 
-#pragma region effect
+#pragma region objEffect
 
-	ImGui::Begin("effectList");
+	ImGui::Begin("objEffectList");
 
 	uint32_t effectListCount = 0;
 
 	for (auto i = objEmitters_.begin(); i != objEmitters_.end(); i++)
 	{
 		//中身いじるよ
+		ImGui::Text("%02d:objemitter", effectListCount);
 		float posbuff[3] = { pos_[effectListCount].x,pos_[effectListCount].y ,pos_[effectListCount].z };
 		ImGui::Text("effectNum:%d", effectListCount);
 		ImGui::DragFloat3("pos", posbuff, 0.1f);
 
 		ImGui::DragFloat("particleLiveTime", &particleLiveTime_[effectListCount], 0.1f);
-		ImGui::DragFloat("activeTime", &activeTime_[effectListCount], 0.1f);
+		ImGui::Text("activeTime:%0.3f", activeTime_[effectListCount]);
 		ImGui::DragFloat("CT", &maxCT_[effectListCount], 0.1f);
 		ImGui::DragFloat("particleActionTime", &particleActionTime_[effectListCount], 0.1f);
 
@@ -256,7 +449,7 @@ void EmitterManager::Update()
 		randRangeZ_[effectListCount] = { randRangeZbuff[0],randRangeZbuff[1] };
 
 		i->get()->SetPos(pos_[effectListCount]);
-		i->get()->SetActiveTime(activeTime_[effectListCount]);
+		//i->get()->SetActiveTime(activeTime_[effectListCount]);
 		i->get()->SetParticleLiveTime(particleLiveTime_[effectListCount]);
 		i->get()->SetCT(maxCT_[effectListCount]);
 		i->get()->SetParticleType(particleType_[effectListCount]);
@@ -267,6 +460,70 @@ void EmitterManager::Update()
 
 		effectListCount++;
 	
+		ImGui::Text("\n");
+
+	}
+
+	ImGui::End();
+
+	ImGui::Begin("effectList");
+
+	uint32_t spriteEffectListCount = 0;
+
+	for (auto i = emitters_.begin(); i != emitters_.end(); i++)
+	{
+		//中身いじるよ
+		ImGui::Text("%02d:objemitter", spriteEffectListCount);
+		float spriteposbuff[2] = { spritePos_[spriteEffectListCount].x,spritePos_[spriteEffectListCount].y};
+		ImGui::Text("effectNum:%d", spriteEffectListCount);
+		ImGui::DragFloat2("pos", spriteposbuff, 0.1f);
+
+		ImGui::DragFloat("particleLiveTime", &spriteParticleLiveTime_[spriteEffectListCount], 0.1f);
+		ImGui::Text("activeTime:%0.3f", spriteActiveTime_[spriteEffectListCount]);
+		ImGui::DragFloat("CT", &spriteMaxCT_[spriteEffectListCount], 0.1f);
+		ImGui::DragFloat("particleActionTime", &spriteParticleActionTime_[spriteEffectListCount], 0.1f);
+
+		//intしか使えん許さん
+		ImGui::Combo("particleType", (int*)&spriteParticleTypeNum_[spriteEffectListCount], spriteParticleChar, IM_ARRAYSIZE(spriteParticleChar));
+
+		switch (spriteParticleTypeNum_[spriteEffectListCount])
+		{
+		case 0:
+			spriteParticleType_[spriteEffectListCount] = "BASIC";
+			break;
+		case 1:
+			spriteParticleType_[spriteEffectListCount] = "Fall";
+			break;
+
+		default:
+			spriteParticleType_[spriteEffectListCount] = "BASIC";
+			break;
+		}
+
+		float spriteRandRangeXbuff[2] = { spriteRandRangeX_[spriteEffectListCount].x,spriteRandRangeX_[spriteEffectListCount].y };
+		float spriteRandRangeYbuff[2] = { spriteRandRangeY_[spriteEffectListCount].x,spriteRandRangeY_[spriteEffectListCount].y };
+		ImGui::DragFloat2("randRangeX", spriteRandRangeXbuff, 0.1f);
+		ImGui::DragFloat2("randRangeY", spriteRandRangeYbuff, 0.1f);
+
+
+		spritePos_[spriteEffectListCount] = { spriteposbuff[0],spriteposbuff[1]};
+
+		spriteRandRangeX_[spriteEffectListCount] = { spriteRandRangeXbuff[0],spriteRandRangeXbuff[1] };
+		spriteRandRangeY_[spriteEffectListCount] = { spriteRandRangeYbuff[0],spriteRandRangeYbuff[1] };
+
+		i->get()->SetPos(spritePos_[spriteEffectListCount]);
+		//i->get()->SetActiveTime(activeTime_[effectListCount]);
+		i->get()->SetParticleLiveTime(spriteParticleLiveTime_[spriteEffectListCount]);
+		i->get()->SetCT(spriteMaxCT_[spriteEffectListCount]);
+		i->get()->SetParticleType(spriteParticleType_[spriteEffectListCount]);
+		i->get()->SetRandRangeX(spriteRandRangeX_[spriteEffectListCount]);
+		i->get()->SetRandRangeY(spriteRandRangeY_[spriteEffectListCount]);
+		i->get()->SetParticleactionTime(spriteParticleActionTime_[spriteEffectListCount]);
+
+		spriteEffectListCount++;
+
+		ImGui::Text("\n");
+
 	}
 
 	ImGui::End();
@@ -280,7 +537,12 @@ void EmitterManager::Update()
 
 void EmitterManager::Draw()
 {
-	for (std::unique_ptr<IObjEmitter>& emitter : objEmitters_)
+	for (std::unique_ptr<IObjEmitter>& objEmitter : objEmitters_)
+	{
+		objEmitter->Draw();
+	}
+
+	for (std::unique_ptr<IEmitter>& emitter : emitters_)
 	{
 		emitter->Draw();
 	}
@@ -291,6 +553,8 @@ void EmitterManager::reset()
 
 	objEmitters_.clear(); 
 	emitters_.clear();
+
+#ifdef  _DEBUG
 	pos_.clear();
 
 	particleLiveTime_.clear();
@@ -304,5 +568,20 @@ void EmitterManager::reset()
 	randRangeX_.clear();
 	randRangeY_.clear();
 	randRangeZ_.clear();
+
+	spritePos_.clear();
+
+	spriteMaxCT_.clear();
+	spriteParticleLiveTime_.clear();
+	spriteActiveTime_.clear();
+	spriteParticleActionTime_.clear();
+
+	spriteParticleType_.clear();
+	spriteParticleTypeNum_.clear();
+
+	spriteRandRangeX_.clear();
+	spriteRandRangeY_.clear();
+#endif //  _DEBUG
+
 
 }

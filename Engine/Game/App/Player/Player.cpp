@@ -330,7 +330,7 @@ void Player::Update()
 		bulletSprite_[i].Update();
 	}
 
-	if (isDebugShot_)
+	if (isDebugShot_ and bulletNum_ <= 0)
 	{
 		bulletNum_ = 6;
 	}
@@ -473,7 +473,8 @@ void Player::Attack()
 
 		bulletNum_--;
 
-		//EmitterManager::GetInstance()->AddObjEmitter(position, "BASIC", "Cartridge", 1.0f, "Building");
+		EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[0].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f,1.0f, { -10.0f,10.0f }, { -20.0f,0.0f }, { 1,1 }, { 1,1 }, "Ammo");
+		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Fall", 50.0f, 1000.0f, 1.0f, 500, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f });
 
 		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 

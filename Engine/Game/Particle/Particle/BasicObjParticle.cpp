@@ -1,22 +1,22 @@
-#include "BasicParticle.h"
+#include "BasicObjParticle.h"
 #include "Easing.h"
 
-BasicParticle::BasicParticle()
+BasicObjParticle::BasicObjParticle()
 {
 
 }
 
-BasicParticle::~BasicParticle()
+BasicObjParticle::~BasicObjParticle()
 {
 
 }
 
-void BasicParticle::Initialize()
+void BasicObjParticle::Initialize()
 {
 	obj_.FBXInit();
 }
 
-void BasicParticle::Initialize(const Vector3& position, const Vector3& velocity,float liveTime, float actionMaxTime)
+void BasicObjParticle::Initialize(const Vector3& position, const Vector3& velocity,float liveTime, float actionMaxTime)
 {
 	obj_.FBXInit();
 	//引数で受け取った初期座標をセット
@@ -27,15 +27,14 @@ void BasicParticle::Initialize(const Vector3& position, const Vector3& velocity,
 	liveMaxTime_ = liveTime;
 
 	actionMaxTime_ = actionMaxTime;
-	actionTime_ = actionMaxTime;
 }
 
-void BasicParticle::Finalize()
+void BasicObjParticle::Finalize()
 {
 
 }
 
-void BasicParticle::Update()
+void BasicObjParticle::Update()
 {
 	//移動するところ
 	obj_.Trans_ += Velocity_;
@@ -49,15 +48,15 @@ void BasicParticle::Update()
 		liveTime_--;
 	}
 
-	if (actionTime_ > 0)
+	if (actionTime_ <= actionMaxTime_)
 	{
-		actionTime_--;
+		actionTime_++;
 	}
 
 
 }
 
-void BasicParticle::Draw(AnimationModel* model)
+void BasicObjParticle::Draw(AnimationModel* model)
 {
 	obj_.FBXDraw(*model);
 }

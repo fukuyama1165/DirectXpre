@@ -1,4 +1,5 @@
 #include "EmitterFactory.h"
+#include "BasicObjEmitter.h"
 #include "BasicEmitter.h"
 
 EmitterFactory::EmitterFactory()
@@ -16,7 +17,7 @@ std::unique_ptr<IObjEmitter> EmitterFactory::CreateObjEmitter(const std::string&
 
 	if (emitterName == "BASIC")
 	{
-		newEmitter = std::make_unique<BasicEmitter>();
+		newEmitter = std::make_unique<BasicObjEmitter>();
 	}
 	else if (emitterName == "")
 	{
@@ -24,7 +25,7 @@ std::unique_ptr<IObjEmitter> EmitterFactory::CreateObjEmitter(const std::string&
 	}
 	else
 	{
-		newEmitter = std::make_unique<BasicEmitter>();
+		newEmitter = std::make_unique<BasicObjEmitter>();
 	}
 
 	return std::move(newEmitter);
@@ -37,7 +38,7 @@ std::unique_ptr<IEmitter> EmitterFactory::CreateEmitter(const std::string& emitt
 
 	if (emitterName == "BASIC")
 	{
-		newEmitter = nullptr;
+		newEmitter = std::make_unique<BasicEmitter>();
 	}
 	else if (emitterName == "")
 	{
@@ -45,7 +46,7 @@ std::unique_ptr<IEmitter> EmitterFactory::CreateEmitter(const std::string& emitt
 	}
 	else
 	{
-		newEmitter = nullptr;
+		newEmitter = std::make_unique<BasicEmitter>();
 	}
 
 	return std::move(newEmitter);

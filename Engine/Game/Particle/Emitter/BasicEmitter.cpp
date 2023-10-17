@@ -12,35 +12,32 @@ BasicEmitter::~BasicEmitter()
 
 void BasicEmitter::Initialize()
 {
-	particleModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
+	emitter_.initialize("white1x1");
 
-	emitterModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
+	particleTexture_ = "basketballMan";
 
-	obj_.FBXInit();
-
-	obj_.SetPos({0,0,0});
+	emitter_.pos_ = { 0,0 };
 
 	activeTime_ = -1;
 
-	particleFactory_ = std::make_unique<ObjParticleFactory>();
+	particleFactory_ = std::make_unique<ParticleFactory>();
 
 	particleType_ = "BASIC";
 }
 
-void BasicEmitter::Initialize(const Vector3& pos, std::string particleType,const float& liveTime, const float& ActiveTime, const float& actionMaxTime, const Vector2& randRengeX, const Vector2& randRengeY, const Vector2& randRengeZ, std::string particleModel, std::string emitterModel)
+void BasicEmitter::Initialize(const Vector2& pos, std::string particleType, const float& liveTime, const float& actionMaxTime, const float& ActiveTime, float ct, const Vector2& randRengeX, const Vector2& randRengeY, Vector2 startScale, Vector2 endScale, std::string particleTexture, std::string emitterTexture)
 {
 
-	particleModel_ = ModelManager::GetInstance()->SearchModelData(particleModel);
+	emitter_.initialize(emitterTexture);
 
-	emitterModel_ = ModelManager::GetInstance()->SearchModelData(emitterModel);
+	particleTexture_ = particleTexture;
 
-	obj_.FBXInit();
-
-	obj_.SetPos(pos);
+	
+	emitter_.pos_ = pos;
 
 	activeTime_ = ActiveTime;
 
-	particleFactory_ = std::make_unique<ObjParticleFactory>();
+	particleFactory_ = std::make_unique<ParticleFactory>();
 
 	particleType_ = particleType;
 
@@ -48,10 +45,14 @@ void BasicEmitter::Initialize(const Vector3& pos, std::string particleType,const
 
 	randRangeX_ = randRengeX;
 	randRangeY_ = randRengeY;
-	randRangeZ_ = randRengeZ;
+
+	startScale_ = startScale;
+	endScale_ = endScale;
 
 	particleactionTime_ = actionMaxTime;
 
+	CT_ = ct;
+	maxCT_ = ct;
 }
 
 void BasicEmitter::Finalize()
@@ -61,31 +62,25 @@ void BasicEmitter::Finalize()
 
 void BasicEmitter::Update()
 {
+	//終わっているので消す
 	if (isEnd_)return;
 
-	particles_.remove_if([](std::unique_ptr<IObjParticle>& particle)
+	//終わったパーティクルを消す
+	particles_.remove_if([](std::unique_ptr<IParticle>& particle)
 	{
-			return particle->GetliveTime() <= 0;
+		return particle->GetliveTime() <= 0;
 	});
 
-	for (std::unique_ptr<IObjParticle>& particle : particles_)
+	//パーティクル生成(isactiveが条件式にあるのはパーティクルのUpdateの前に処理したかったから)
+	if (CT_ <= 0 and isActive_)
 	{
-		particle->Update();
-	}
-
-	if (!isActive_ and particles_.size() <= 0) isEnd_ = true;
-
-	if (!isActive_)return;
-
-	if (CT_ <= 0)
-	{
-		Vector3 velo(Util::Rand(randRangeX_.x, randRangeX_.y), Util::Rand(randRangeY_.x, randRangeY_.y), Util::Rand(randRangeZ_.x, randRangeZ_.y));
+		Vector2 velo(Util::Rand(randRangeX_.x, randRangeX_.y), Util::Rand(randRangeY_.x, randRangeY_.y));
 
 		//velo.normalize();
 
-		std::unique_ptr<IObjParticle> newParticle = std::move(particleFactory_->CreateObjParticle(particleType_));
+		std::unique_ptr<IParticle> newParticle = std::move(particleFactory_->CreateParticle(particleType_));
 
-		newParticle->Initialize(obj_.GetWorldPos(), velo, particleLiveTime_, particleactionTime_);
+		newParticle->Initialize(emitter_.pos_, velo, particleLiveTime_, particleactionTime_, startScale_, endScale_, particleTexture_);
 
 		particles_.push_back(std::move(newParticle));
 
@@ -93,9 +88,21 @@ void BasicEmitter::Update()
 
 	}
 
+	for (std::unique_ptr<IParticle>& particle : particles_)
+	{
+		particle->Update();
+	}
 	
 
-	obj_.Update();
+	//起動していなくてパーティクルが一つも無かったら死んだことにする
+	if (!isActive_ and particles_.size() <= 0) isEnd_ = true;
+
+	//機能してないなら動かさない
+	if (!isActive_)return;
+
+	emitter_.Update();
+
+	
 
 	if (CT_ > 0)
 	{
@@ -106,7 +113,7 @@ void BasicEmitter::Update()
 	{
 		activeTime_--;
 	}
-	else if(activeTime_ == 0)
+	else if (activeTime_ == 0)
 	{
 		isActive_ = false;
 	}
@@ -116,15 +123,15 @@ void BasicEmitter::Update()
 
 void BasicEmitter::Draw()
 {
-	
+
 
 	if (isDraw)
 	{
-		obj_.FBXDraw(*emitterModel_);
+		emitter_.Draw();
 	}
 
-	for (std::unique_ptr<IObjParticle>& particle : particles_)
+	for (std::unique_ptr<IParticle>& particle : particles_)
 	{
-		particle->Draw(particleModel_);
+		particle->Draw();
 	}
 }

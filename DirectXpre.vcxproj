@@ -46,6 +46,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(solutionDir)External\DirectXTex;$(SolutionDir)External\imgui;$(SolutionDir)External\assimp\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\/</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -138,12 +140,15 @@
     <ClCompile Include="Engine\Game\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\Game\object\Object3D.cpp" />
     <ClCompile Include="Engine\Game\Particle\Emitter\BasicEmitter.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Emitter\BasicObjEmitter.cpp" />
     <ClCompile Include="Engine\Game\Particle\Emitter\EmitterFactory.cpp" />
     <ClCompile Include="Engine\Game\Particle\Emitter\EmitterManager.cpp" />
-    <ClCompile Include="Engine\Game\Particle\Particle\BasicParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Particle\BasicObjParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\BasicParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\FallParticle.cpp" />
-    <ClCompile Include="Engine\Game\Particle\Particle\ObjParticleFactory.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Particle\ParticleFactory.cpp" />
     <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp" />
     <ClCompile Include="Engine\Game\Scene\Base\App.cpp" />
     <ClCompile Include="Engine\Game\Scene\Base\Framework.cpp" />
@@ -209,18 +214,21 @@
     <ClInclude Include="Engine\Game\Light\SpotLight.h" />
     <ClInclude Include="Engine\Game\object\Object3D.h" />
     <ClInclude Include="Engine\Game\Particle\Emitter\BasicEmitter.h" />
+    <ClInclude Include="Engine\Game\Particle\Emitter\BasicObjEmitter.h" />
     <ClInclude Include="Engine\Game\Particle\Emitter\EmitterFactory.h" />
     <ClInclude Include="Engine\Game\Particle\Emitter\EmitterManager.h" />
     <ClInclude Include="Engine\Game\Particle\Emitter\IEmitter.h" />
     <ClInclude Include="Engine\Game\Particle\Emitter\IEmitterFactory.h" />
     <ClInclude Include="Engine\Game\Particle\Emitter\IObjEmitter.h" />
-    <ClInclude Include="Engine\Game\Particle\Particle\BasicParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\BasicObjParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\BasicParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\FallParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\IParticleFactory.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\ParticleFactory.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h" />
-    <ClInclude Include="Engine\Game\Particle\Particle\IObjParticleFactory.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IParticle.h" />
-    <ClInclude Include="Engine\Game\Particle\Particle\ObjParticleFactory.h" />
     <ClInclude Include="Engine\Game\PostEffect\PostEffect.h" />
     <ClInclude Include="Engine\Game\Scene\Base\App.h" />
     <ClInclude Include="Engine\Game\Scene\Base\Framework.h" />
