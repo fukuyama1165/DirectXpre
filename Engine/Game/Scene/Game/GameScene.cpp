@@ -153,7 +153,7 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
-	eventManager->LoadEventData("Event");
+	eventManager->LoadEventData("testEvent");
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");

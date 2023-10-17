@@ -163,12 +163,6 @@
     <Filter Include="ソース ファイル\Game\Particle\Emitter">
       <UniqueIdentifier>{bdb9552c-a060-437c-a7c3-b9034fb36c39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Particle\Particle">
-      <UniqueIdentifier>{f9df5158-d242-4915-aed0-5a28bac40585}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Game\Particle\Particle\Game">
-      <UniqueIdentifier>{659fb624-8aef-4cec-91b4-db21733a4b37}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Game\Scene\Base">
       <UniqueIdentifier>{c1d780d1-4c02-45f7-b52e-34131a940538}</UniqueIdentifier>
     </Filter>
@@ -210,6 +204,12 @@
     </Filter>
     <Filter Include="ソース ファイル\Game\App\Level">
       <UniqueIdentifier>{5f7b2742-009c-42f0-ba30-34fe3c1db37d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Particle\Particle">
+      <UniqueIdentifier>{f9df5158-d242-4915-aed0-5a28bac40585}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\Particle\Particle\Game">
+      <UniqueIdentifier>{659fb624-8aef-4cec-91b4-db21733a4b37}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -378,7 +378,7 @@
     <ClCompile Include="Engine\Game\collision\Collider\SphereCollider.cpp">
       <Filter>ソース ファイル\Game\collision\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\Emitter\BasicEmitter.cpp">
+    <ClCompile Include="Engine\Game\Particle\Emitter\BasicObjEmitter.cpp">
       <Filter>ソース ファイル\Game\Particle\Emitter</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\Particle\Emitter\EmitterFactory.cpp">
@@ -390,10 +390,7 @@
     <ClCompile Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.cpp">
       <Filter>ソース ファイル\Game\Particle\Particle\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\Particle\BasicParticle.cpp">
-      <Filter>ソース ファイル\Game\Particle\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Game\Particle\Particle\ObjParticleFactory.cpp">
+    <ClCompile Include="Engine\Game\Particle\Particle\BasicObjParticle.cpp">
       <Filter>ソース ファイル\Game\Particle\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Game\Scene\Base\App.cpp">
@@ -416,6 +413,18 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\App\Event\CountTimer.cpp">
       <Filter>ソース ファイル\Game\App\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\BasicParticle.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\ParticleFactory.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Emitter\BasicEmitter.cpp">
+      <Filter>ソース ファイル\Game\Particle\Emitter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -590,7 +599,7 @@
     <ClInclude Include="Engine\Game\collision\Collider\SphereCollider.h">
       <Filter>ヘッダー ファイル\Game\collision\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\Emitter\BasicEmitter.h">
+    <ClInclude Include="Engine\Game\Particle\Emitter\BasicObjEmitter.h">
       <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\Particle\Emitter\EmitterFactory.h">
@@ -611,19 +620,7 @@
     <ClInclude Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.h">
       <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\Particle\BasicParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\Particle\IObjParticleFactory.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\Particle\IParticle.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\Particle\ObjParticleFactory.h">
+    <ClInclude Include="Engine\Game\Particle\Particle\BasicObjParticle.h">
       <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Game\Scene\Base\App.h">
@@ -649,6 +646,27 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\App\Event\CountTimer.h">
       <Filter>ヘッダー ファイル\App\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\BasicParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\IParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\IParticleFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\ParticleFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Emitter\BasicEmitter.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
