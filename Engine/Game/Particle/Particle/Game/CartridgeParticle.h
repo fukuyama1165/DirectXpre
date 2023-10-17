@@ -13,7 +13,7 @@ public:
 
 	//初期化
 	void Initialize()override;
-	void Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime)override;
+	void Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime, Vector3 startScale, Vector3 endScale)override;
 
 	//終了処理
 	void Finalize()override;
@@ -43,6 +43,9 @@ private:
 
 	//速度
 	Vector3	Velocity_;
+
+	Vector3 startScale_;
+	Vector3 endScale_;
 
 	float liveTime_ = 50;
 

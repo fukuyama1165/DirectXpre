@@ -52,6 +52,9 @@ void BasicObjEmitter::Initialize(const Vector3& pos, std::string particleType,co
 
 	particleactionTime_ = actionMaxTime;
 
+	startScale_ = startScale;
+	endScale_ = endScale;
+
 	CT_ = ct;
 	maxCT_ = ct;
 
@@ -88,7 +91,7 @@ void BasicObjEmitter::Update()
 
 		std::unique_ptr<IObjParticle> newParticle = std::move(particleFactory_->CreateObjParticle(particleType_));
 
-		newParticle->Initialize(obj_.GetWorldPos(), velo, particleLiveTime_, particleactionTime_);
+		newParticle->Initialize(obj_.GetWorldPos(), velo, particleLiveTime_, particleactionTime_,startScale_,endScale_);
 
 		particles_.push_back(std::move(newParticle));
 

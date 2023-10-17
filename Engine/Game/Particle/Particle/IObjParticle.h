@@ -11,7 +11,7 @@ public:
 
 	//初期化
 	virtual void Initialize() {};
-	virtual void Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime) = 0;
+	virtual void Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime, Vector3 startScale, Vector3 endScale) = 0;
 
 	//終了処理
 	virtual void Finalize() = 0;
@@ -43,6 +43,9 @@ private:
 
 	//速度
 	Vector3	Velocity_;
+
+	Vector3 startScale_;
+	Vector3 endScale_;
 
 	float liveTime_ = 50;
 	float liveMaxTime_ = liveTime_;

@@ -80,6 +80,9 @@ private:
 	Vector2 randRangeY_ = { -1,1 };
 	Vector2 randRangeZ_ = { -1,1 };
 
+	Vector3 startScale_ = { 1,1,1 };
+	Vector3 endScale_ = { 1,1,1 };
+
 	float particleactionTime_ = 10;
 
 };

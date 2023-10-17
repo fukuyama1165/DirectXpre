@@ -19,16 +19,18 @@ void CartridgeParticle::Initialize()
 	
 }
 
-void CartridgeParticle::Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime)
+void CartridgeParticle::Initialize(const Vector3& position, const Vector3& velocity, float liveTime, float actionMaxTime, Vector3 startScale, Vector3 endScale)
 {
 	obj_.FBXInit();
 	//引数で受け取った初期座標をセット
 	obj_.Trans_ = position;
+	obj_.Scale_ = startScale;
 
 	Velocity_ = velocity;
 	liveTime_ = liveTime;
 
-	
+	startScale_ = startScale;
+	endScale_ = endScale;;
 
 	actionTime_ = actionMaxTime;
 }
