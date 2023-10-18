@@ -48,8 +48,8 @@ private:
 	float liveTime_ = 50;
 	float liveMaxTime_ = liveTime_;
 
-	float actionTime_ = 100;
-	float actionMaxTime_ = actionTime_;
+	float actionTime_ = 0;
+	float actionMaxTime_ = 100;
 
 	float gravity_ = 0.00986f;
 

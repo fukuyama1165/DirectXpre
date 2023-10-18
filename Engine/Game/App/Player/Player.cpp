@@ -474,7 +474,7 @@ void Player::Attack()
 		bulletNum_--;
 
 		EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[0].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f,1.0f, { -10.0f,10.0f }, { -20.0f,0.0f }, { 1,1 }, { 1,1 }, "Ammo");
-		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Fall", 100.0f, 50.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f });
+		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 100.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.2f,0.2f,0.2f }, { 0.2f,0.2f,0.2f });
 
 		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 

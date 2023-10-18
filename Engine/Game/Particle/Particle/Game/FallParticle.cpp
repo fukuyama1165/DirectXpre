@@ -27,7 +27,6 @@ void FallParticle::Initialize(const Vector3& position, const Vector3& velocity, 
 	liveTime_ = liveTime;
 	liveMaxTime_ = liveTime;
 
-	actionTime_ = actionMaxTime;
 	actionMaxTime_ = actionMaxTime;
 
 	startScale_ = startScale;
@@ -55,9 +54,9 @@ void FallParticle::Update()
 		liveTime_--;
 	}
 
-	if (actionTime_ > 0)
+	if (actionTime_ <= actionMaxTime_)
 	{
-		actionTime_--;
+		actionTime_++;
 	}
 
 

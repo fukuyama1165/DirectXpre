@@ -44,14 +44,17 @@ private:
 	//速度
 	Vector3	Velocity_;
 
-	Vector3 startScale_;
-	Vector3 endScale_;
+	Vector3 startScale_ = { 1,1,1 };
+	Vector3 endScale_ = { 1,1,1 };
 
 	float liveTime_ = 50;
 
-	float actionTime_ = 50;
+	float actionTime_ = 0;
+	float actionMaxTime_ = 100;
 
 	float moveSpeed_ = 0.01f;
+
+	float gravity_ = 0.00986f;
 
 
 };
