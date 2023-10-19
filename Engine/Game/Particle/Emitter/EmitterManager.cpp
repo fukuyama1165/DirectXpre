@@ -171,6 +171,8 @@ void EmitterManager::Update()
 				break;
 			}
 			
+			continue;
+
 		}
 		count++;
 	}
@@ -236,11 +238,22 @@ void EmitterManager::Update()
 				break;
 			}
 
+			continue;
 		}
 		count++;
 	}
 
 #endif
+
+	objEmitters_.remove_if([](std::unique_ptr<IObjEmitter>& emitter)
+		{
+			return emitter->GetIsEnd();
+		});
+
+	emitters_.remove_if([](std::unique_ptr<IEmitter>& emitter)
+		{
+			return emitter->GetIsEnd();
+		});
 
 	for (std::unique_ptr<IObjEmitter>& objEmitter : objEmitters_)
 	{
@@ -252,15 +265,7 @@ void EmitterManager::Update()
 		emitter->Update();
 	}
 
-	objEmitters_.remove_if([](std::unique_ptr<IObjEmitter>& emitter)
-	{
-		return emitter->GetIsEnd();
-	});
-
-	emitters_.remove_if([](std::unique_ptr<IEmitter>& emitter)
-	{
-		return emitter->GetIsEnd();
-	});
+	
 
 #ifdef _DEBUG
 

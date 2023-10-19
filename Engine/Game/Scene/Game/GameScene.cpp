@@ -46,7 +46,7 @@ void GameScene::Initialize()
 
 
 	//playerのinit
-	play_.Init("Resources/obj/karaage/", "karaage.obj");
+	play_.Init();
 
 	
 
@@ -505,6 +505,7 @@ void GameScene::Update()
 	ImGui::Begin("player");
 
 	ImGui::Text("pos:%0.2f,%0.2f,%0.2f", play_.playerObj_.GetWorldPos().x, play_.playerObj_.GetWorldPos().y, play_.playerObj_.GetWorldPos().z);
+	ImGui::Text("pos:%0.2f,%0.2f,%0.2f", play_.reticle3DObj_.GetWorldPos().x, play_.reticle3DObj_.GetWorldPos().y, play_.reticle3DObj_.GetWorldPos().z);
 	ImGui::Text("camerapos:%0.2f,%0.2f,%0.2f", play_.playerCamera_.pos_.x, play_.playerCamera_.pos_.y, play_.playerCamera_.pos_.z);
 	ImGui::Text("hp:%0.0f", play_.hp_);
 	ImGui::Checkbox("chengHide", &play_.cameraCheng_);

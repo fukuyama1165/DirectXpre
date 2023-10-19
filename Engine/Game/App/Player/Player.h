@@ -14,11 +14,12 @@ public:
 	Player();
 	~Player();
 
-	void Init(const std::string& directoryPath, const char filename[]);
+	void Init();
 	void Update();
 	void Draw();
 	void Attack();
 	void Damage();
+	void Reload();
 
 	//マウスの位置を取得してその位置をレティクル用のオブジェクト等に入れる関数
 	void Reticle2DMouse();
@@ -185,6 +186,10 @@ private:
 	//現在進捗具合
 	float flashTimer_ = flashMaxTime_;
 
+	//リロード用のタイマー
+	float reloadTimer = 0;
+
+	float reloadMaxTime = 5;
 	
 
 };

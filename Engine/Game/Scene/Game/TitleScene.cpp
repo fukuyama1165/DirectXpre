@@ -34,7 +34,7 @@ void TitleScene::Initialize()
 
 
 	//playerのinit
-	play_.Init("Resources/obj/karaage/", "karaage.obj");
+	play_.Init();
 
 	play_.isTitle_ = true;
 	play_.attackFlag_ = true;

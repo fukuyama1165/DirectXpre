@@ -81,13 +81,49 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 	calcMat[2][6] = 1;
 	calcMat[3][7] = 1;
 
-	float calcMatTmp[4][8];
+	float a;
+
+	//一時行列にコピー
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
+			calcMat[i][j] = m[i][j];
+
+			if (i == j)calcMat[i][4 + j] = 1;
+		}
+	}
+
+	for (int32_t k = 0; k < 4; k++) {
+		a = 1 / calcMat[k][k];
+
+		for (int32_t j = 0; j < 8; j++) {
+			calcMat[k][j] *= a;
+		}
+
+		for (int32_t i = 0; i < 4; i++) {
+			if (i == k) {
+				continue;
+			}
+
+			a = -calcMat[i][k];
+
+			for (int32_t j = 0; j < 8; j++) {
+				calcMat[i][j] += calcMat[k][j] * a;
+			}
+		}
+	}
+
+	for (int32_t i = 0; i < 4; i++) {
+		for (int32_t j = 0; j < 4; j++) {
+			inverse.m[i][j] = calcMat[i][4 + j];
+		}
+	}
+	return inverse;
 
 	//‚Ps‚P—ñ‚ð‚P‚É‚·‚é
 
-	{
+	/*{
 		float max = abs(calcMat[0][0]);
-		uint32_t	maxI = 0;
+		uint32_t maxI = 0;
 
 		for (uint16_t i = 1; i < 4; i++)
 		{
@@ -262,7 +298,8 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 		}
 	}
 
-	return inverse;
+
+	return inverse;*/
 }
 
 
@@ -441,6 +478,10 @@ Vector3 Matrix4x4::VectorMatDivW(const Matrix4x4& mat, const Vector3& pos)
 {
 	float w = pos.x * mat.m[0][3] + pos.y * mat.m[1][3] + pos.z * mat.m[2][3] + mat.m[3][3];
 
+	if (w == 0)
+	{
+		w = 1;
+	}
 	Vector3 result =
 	{
 		(pos.x * mat.m[0][0] + pos.y * mat.m[1][0] + pos.z * mat.m[2][0] + mat.m[3][0]) / w,

@@ -19,11 +19,11 @@ Player::~Player()
 
 
 
-void Player::Init(const std::string& directoryPath, const char filename[])
+void Player::Init()
 {
 	input_ = input_->GetInstance();
 	playerObj_.FBXInit();
-	reticle3DObj_.objDrawInit(directoryPath, filename,true);
+	reticle3DObj_.FBXInit();
 	
 
 	//画像の読み込み
@@ -62,7 +62,8 @@ void Player::Init(const std::string& directoryPath, const char filename[])
 	playCamera_.eye_ = { 0,0,-3 };
 
 	reticle3DObj_.SetPos({ 0,0,-100 });
-	reticle3DObj_.SetScale({ 0.05f,0.05f,0.05f });
+	//reticle3DObj_.SetScale({ 0.05f,0.05f,0.05f });
+	reticle3DObj_.SetScale({ 5,5,5 });
 
 	//当たり判定
 	collision = MobCollision("player");
@@ -166,7 +167,7 @@ void Player::Update()
 		if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_ <= 20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 		{
 			attackFlag_ = true;
-			bulletNum_ = bulletMaxNum_;
+			Reload();
 
 
 		}
@@ -296,6 +297,14 @@ void Player::Update()
 		playerObj_.SLightGroup_->SetPointLightActive(1, false);
 	}
 
+	/*if (!isTitle_)
+	{
+		float y_pos = atan2(reticle3DObj_.GetWorldPos().x, reticle3DObj_.GetWorldPos().z);
+		float x_pos = atan2(reticle3DObj_.GetWorldPos().y, reticle3DObj_.GetWorldPos().z);
+
+		playerObj_.Rotate_ = { -x_pos ,y_pos ,0 };
+	}*/
+
 	if (!isTitle_)
 	{
 		Reticle2DMouse();
@@ -324,16 +333,30 @@ void Player::Update()
 	hp2Sprote_.Update();
 	hp3Sprote_.Update();
 	damageSprote_.Update();
+
+	if (isDebugShot_ and bulletNum_ <= 0)
+	{
+		Reload();
+	}
+
+	for (uint32_t i = 0; i < bulletMaxNum_; i++)
+	{
+
+		bulletSprite_[i].pos_ = lerp({ WinApp::SWindowWidth_ / 2 + bulletSprite_[i].GetTextureSize().x / 2 * (float)i,WinApp::SWindowHeightF_ + bulletSprite_[i].GetTextureSize().y / 4 }, { WinApp::SWindowWidth_ / 2 + bulletSprite_[i].GetTextureSize().x / 2 * (float)i, WinApp::SWindowHeight_ - bulletSprite_[i].GetTextureSize().y / 4 }, reloadTimer / reloadMaxTime);
+
+	}
+
+	if (reloadTimer < reloadMaxTime)
+	{
+		reloadTimer++;
+	}
 	
 	for (uint16_t i = 0; i < bulletMaxNum_; i++)
 	{
 		bulletSprite_[i].Update();
 	}
 
-	if (isDebugShot_ and bulletNum_ <= 0)
-	{
-		bulletNum_ = 6;
-	}
+	
 
 	MuzzleFlash();
 
@@ -370,7 +393,7 @@ void Player::Draw()
 {
 	playerObj_.FBXDraw(*gunModel_);
 	//reticle3DObj_.Draw();
-	reticle_.Draw();
+	//reticle_.Draw();
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
 		bullet->Draw(bulletModel_);
@@ -433,6 +456,8 @@ void Player::Draw()
 
 	}
 
+	reticle3DObj_.FBXDraw(*bulletModel_);
+
 }
 
 void Player::Attack()
@@ -441,6 +466,9 @@ void Player::Attack()
 	if (isTitle_)
 	{
 		reticle3DObj_.Update();
+		/*float p_pos = atan2(reticle3DObj_.GetWorldPos().x, reticle3DObj_.GetWorldPos().z);
+		playerObj_.Rotate_.y = (p_pos);
+		playerObj_.Update();*/
 	}
 
 	if ((input_->GetMouseButtonDown(0) and bulletCT_ <= 0 and isUseKeybord_) or (isTitle_ and isUseKeybord_))
@@ -454,7 +482,7 @@ void Player::Attack()
 		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
 		velocity = velocity.normalize() * bulletSpeed_;
 
-		Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration(playerObj_.GetRotate()) * matMoveGeneration(playerObj_.GetPos());
+		Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration({0,0,0}) * matMoveGeneration(playerObj_.GetPos());
 
 		//速度ベクトルを自機の向きの方向に合わせて回転する
 		velocity = VectorMat(velocity, playermat);
@@ -473,8 +501,11 @@ void Player::Attack()
 
 		bulletNum_--;
 
-		EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[0].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f,1.0f, { -10.0f,10.0f }, { -20.0f,0.0f }, { 1,1 }, { 1,1 }, "Ammo");
-		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 100.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.2f,0.2f,0.2f }, { 0.2f,0.2f,0.2f });
+		if (!isTitle_)
+		{
+			EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[(uint32_t)bulletNum_].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f, 1.0f, { -10.0f,10.0f }, { -20.0f,-10.0f }, { 1,1 }, { 1,1 }, "Ammo");
+		}
+		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 50.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.2f,0.2f,0.2f }, { 0.2f,0.2f,0.2f });
 
 		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 
@@ -527,6 +558,15 @@ void Player::Attack()
 		muzzleFlashTime_ = muzzleFlashMaxTime_;
 
 		bulletNum_--;
+
+		if (!isTitle_)
+		{
+			EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[(uint32_t)bulletNum_].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f, 1.0f, { -10.0f,10.0f }, { -20.0f,-10.0f }, { 1,1 }, { 1,1 }, "Ammo");
+		}
+		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 50.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.2f,0.2f,0.2f }, { 0.2f,0.2f,0.2f });
+
+		//マズルフラッシュ用のタイマーをリセット
+		flashTimer_ = 0;
 
 		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 	}
@@ -626,10 +666,10 @@ void Player::Reticle2DMouse()
 	ImGui::End();*/
 
 	Matrix4x4 matViewport = {
-			640,0,0,0,
-			0,-360,0,0,
+			WinApp::SWindowWidthF_/2,0,0,0,
+			0,-WinApp::SWindowHeightF_ / 2,0,0,
 			0,0,1,0,
-			640 + 0,360 + 0,0,1
+			WinApp::SWindowWidthF_ / 2 + 0,WinApp::SWindowHeightF_ / 2 + 0,0,1
 	};
 
 	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
@@ -639,6 +679,10 @@ void Player::Reticle2DMouse()
 	matVPV *= matViewport;
 	//合成行列の逆行列を計算する
 	Matrix4x4 matInverseVPV =matVPV.InverseMatrix();
+
+	Matrix4x4 testmat;
+
+	testmat = matInverseVPV * matVPV;
 
 	//スクリーン座標
 	Vector3 posNear = Vector3(reticle_.pos_.x, reticle_.pos_.y, 0);
@@ -658,7 +702,7 @@ void Player::Reticle2DMouse()
 	Vector3 A = posNear;
 	A += Vector3(mouseDirection.x * kDistanceTestObject, mouseDirection.y * kDistanceTestObject, mouseDirection.z * kDistanceTestObject);
 	reticle3DObj_.Trans_ = A;
-	reticle3DObj_.Scale_ = { 0.05f,0.05f,0.05f };
+	//reticle3DObj_.Scale_ = { 0.05f,0.05f,0.05f };
 
 
 	reticle_.Update();
@@ -719,4 +763,12 @@ void Player::MuzzleFlash()
 
 	flashObj_.SetColor({ 1,1,1,flashAlpha_ });
 
+}
+
+void Player::Reload()
+{
+
+	reloadTimer = 0;
+
+	bulletNum_ = bulletMaxNum_;
 }
