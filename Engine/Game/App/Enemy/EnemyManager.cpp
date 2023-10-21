@@ -61,7 +61,6 @@ void EnemyManager::UpDate(const Vector3& playerPos)
 		if ((enem->GetCT() <= 0 or isDebugShot_)and !isDebugShotStop_)
 		{
 			EnemyAttack(*enem, playerPos);
-			//playerPos;
 		}
 	}
 
@@ -104,12 +103,6 @@ void EnemyManager::EnemyAttack(Enemy enemy, const Vector3& playerPos)
 
 	//速度ベクトルを自機の向きに合わせて回転する
 	velocity = VectorMat(velocity, enemy.enemyObj_.GetWorldMat());
-
-	/*ImGui::Begin("enemy");
-
-	ImGui::Text("velocity:%0.5f,%0.5f,%0.5f", velocity.x, velocity.y, velocity.z);
-
-	ImGui::End();*/
 
 	//弾の生成と初期化
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();

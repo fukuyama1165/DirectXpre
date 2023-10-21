@@ -46,6 +46,7 @@ void CartridgeParticle::Update()
 	//移動するところ
 	Velocity_.y -= gravity_;
 	obj_.Trans_ += Velocity_;
+	//適当に回ってくれればいいので
 	obj_.Rotate_ = lerp(Vector3(0, 0, 0), Vector3(100, 100, 100), actionTime_ / actionMaxTime_);
 	obj_.Scale_ = easeInQuint(startScale_, endScale_, actionTime_ / actionMaxTime_);
 

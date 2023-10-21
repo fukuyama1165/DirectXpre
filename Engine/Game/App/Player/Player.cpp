@@ -270,13 +270,33 @@ void Player::Update()
 
 	playerObj_.SetPos(playerPos + (playerCamera_.forward_ * 5));
 	flashObj_.SetPos(playerPos + (playerCamera_.forward_ * 6));
+
+	//レティクルの方向へ向ける
+	if (!isTitle_)
+	{
+
+		//Quaternion rot = Quaternion::DirectionToDirection(playerPos, reticle3DObj_.GetWorldPos());
+
+		//Vector3 reticlePos = Quaternion::RotateVector(playerObj_.forward_, rot);
+		
+		Vector3 reticlePos = reticle3DObj_.GetWorldPos();
+		float y_pos = atan2(reticlePos.x, reticlePos.z);
+		float x_pos = atan2(reticlePos.y, reticlePos.z);
+		playerObj_.Rotate_ = { -x_pos ,y_pos ,0 };
+		//playerObj_.Rotate_ = { reticlePos};
+	}
+
+	if (!isTitle_)
+	{
+		Reticle2DMouse();
+	}
 	
 	
 	playerObj_.Update();
 	Collider.Update(playerObj_.GetWorldPos());
 
 
-	reticle3DObj_.Update();
+	//reticle3DObj_.Update();
 
 	if (!isTitle_)
 	{
@@ -297,18 +317,7 @@ void Player::Update()
 		playerObj_.SLightGroup_->SetPointLightActive(1, false);
 	}
 
-	/*if (!isTitle_)
-	{
-		float y_pos = atan2(reticle3DObj_.GetWorldPos().x, reticle3DObj_.GetWorldPos().z);
-		float x_pos = atan2(reticle3DObj_.GetWorldPos().y, reticle3DObj_.GetWorldPos().z);
-
-		playerObj_.Rotate_ = { -x_pos ,y_pos ,0 };
-	}*/
-
-	if (!isTitle_)
-	{
-		Reticle2DMouse();
-	}
+	
 	
 	Damage();
 

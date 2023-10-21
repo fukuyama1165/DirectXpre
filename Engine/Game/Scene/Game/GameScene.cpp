@@ -217,7 +217,7 @@ void GameScene::Update()
 		cameraPos_ += -Camera::nowCamera->rightDirection;
 	}
 
-	Vector4 moveY(0, 0.01f, 0, 0);
+	Vector4 moveY(1.0f, 1.0f, 1.0f, 0);
 	if (Input::GetInstance()->PushKey(DIK_W))
 	{
 		movecoll_.y += moveY.y;
@@ -237,14 +237,19 @@ void GameScene::Update()
 	}
 	if (Input::GetInstance()->PushKey(DIK_Z))
 	{
-		movecoll_.z += 0.01f;
+		movecoll_.z += moveY.z;
 	}
 	if (Input::GetInstance()->PushKey(DIK_X))
 	{
-		movecoll_.z -= 0.01f;
+		movecoll_.z -= moveY.z;
 	}
 
-	sphere_.center_ = { movecoll_.x ,movecoll_.y,movecoll_.z };
+	if (eventManager->GetEventAllEnd())
+	{
+		play_.playerCamera_.pos_ = movecoll_;
+	}
+
+	//sphere_.center_ = { movecoll_.x ,movecoll_.y,movecoll_.z };
 
 	//ray.start = { movecoll.x ,movecoll.y,movecoll.z};
 
@@ -488,6 +493,11 @@ void GameScene::Update()
 	ImGui::Begin("check");
 
 	ImGui::Checkbox("chengCamera", &chengCamera_);
+
+	if (ImGui::Button("pause"))
+	{
+		pause_ = !pause_;
+	}
 	
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
@@ -506,6 +516,7 @@ void GameScene::Update()
 
 	ImGui::Text("pos:%0.2f,%0.2f,%0.2f", play_.playerObj_.GetWorldPos().x, play_.playerObj_.GetWorldPos().y, play_.playerObj_.GetWorldPos().z);
 	ImGui::Text("pos:%0.2f,%0.2f,%0.2f", play_.reticle3DObj_.GetWorldPos().x, play_.reticle3DObj_.GetWorldPos().y, play_.reticle3DObj_.GetWorldPos().z);
+	ImGui::Text("objrot:%0.2f,%0.2f,%0.2f", play_.playerObj_.Rotate_.x, play_.playerObj_.Rotate_.y, play_.playerObj_.Rotate_.z);
 	ImGui::Text("camerapos:%0.2f,%0.2f,%0.2f", play_.playerCamera_.pos_.x, play_.playerCamera_.pos_.y, play_.playerCamera_.pos_.z);
 	ImGui::Text("hp:%0.0f", play_.hp_);
 	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
@@ -568,85 +579,89 @@ void GameScene::Update()
 		
 		debugCamera_ = cameobj_.GetCamera();
 	}
-	
-	play_.Update();
-	lightManager_->lightGroups_[0].Update();
 
-
-	objobj3_.Update();
-	//testObj_.Update();
-
-	testFBX_.Update();
-
-	for (LevelObj a : levelObj)
-	{
-		a.obj.Update();
-	}
-
-	for (uint16_t b = 0; b < wallObj_.size(); b++)
-	{
-		wallObj_[b]->obj.Update();
-	}
-
-	enemys_->UpDate(play_.playerCamera_.GetCamera().eye_);
-
-	CollisionManager::GetInstance()->CheckAllCollisions();
-
-	eventManager->Update();
-
-	EmitterManager::GetInstance()->Update();
-
-	//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
-	if (eventManager->nowEventDataFileName_ == "testEvent")
+	if (!pause_)
 	{
 
-		
+		play_.Update();
+		lightManager_->lightGroups_[0].Update();
 
-	}
 
-	
-	//ゲームオーバー処理
-	if (play_.hp_<=0)
-	{
+		objobj3_.Update();
+		//testObj_.Update();
+
+		testFBX_.Update();
+
+		for (LevelObj a : levelObj)
+		{
+			a.obj.Update();
+		}
+
+		for (uint16_t b = 0; b < wallObj_.size(); b++)
+		{
+			wallObj_[b]->obj.Update();
+		}
+
+		enemys_->UpDate(play_.playerCamera_.GetCamera().eye_);
+
+		CollisionManager::GetInstance()->CheckAllCollisions();
+
+		eventManager->Update();
+
+		EmitterManager::GetInstance()->Update();
+
+		//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
+		if (eventManager->nowEventDataFileName_ == "testEvent")
+		{
+
+
+
+		}
+
+
+		//ゲームオーバー処理
+		if (play_.hp_ <= 0)
+		{
 #ifdef _DEBUG
 
 #else
-		SceneManager::GetInstance()->ChangeScene("TITLE");
+			SceneManager::GetInstance()->ChangeScene("TITLE");
 
 #endif
+		}
+
+		//ゲームクリア//処理
+		if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
+		{
+
+			if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
+			{
+				SceneManager::GetInstance()->ChangeScene("TITLE");
+			}
+
+			//連打防止したい
+			if (clearEffectTime_ < clearEffectMaxTime_)
+			{
+				clearEffectTime_++;
+			}
+
+			if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
+			{
+				clearEffectTime_ = clearEffectMaxTime_;
+			}
+
+			clearTextSprite_.scale_ = easeOutQuint(clearTextStartScale_, clearTextEndScale_, clearEffectTime_ / clearEffectMaxTime_);
+
+			float textAlpha = easeInSine(0.1f, 1.0f, clearEffectTime_ / clearEffectAlphaMaxTime_);
+
+			clearTextSprite_.setColor({ 1.0f,1.0f,1.0f,textAlpha });
+
+			clearBackSprite_.Update();
+			clearTextSprite_.Update();
+
+
+		}
 	}
-
-	//ゲームクリア//処理
-	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
-	{
-		
-		if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
-		{
-			SceneManager::GetInstance()->ChangeScene("TITLE");
-		}
-
-		//連打防止したい
-		if (clearEffectTime_ < clearEffectMaxTime_)
-		{
-			clearEffectTime_++;
-		}
-
-		if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
-		{
-			clearEffectTime_ = clearEffectMaxTime_;
-		}
-
-		clearTextSprite_.scale_ = easeOutQuint(clearTextStartScale_, clearTextEndScale_, clearEffectTime_ / clearEffectMaxTime_);
-
-		float textAlpha = easeInSine(0.1f, 1.0f, clearEffectTime_ / clearEffectAlphaMaxTime_);
-
-		clearTextSprite_.setColor({ 1.0f,1.0f,1.0f,textAlpha });
-
-		clearBackSprite_.Update();
-		clearTextSprite_.Update();
-
-
-	} 
 
 }
 

@@ -197,6 +197,8 @@ public:
 
 	static LightGroup* SLightGroup_;
 
+	Vector3 forward_ = { 0.0f,0.0f,1.0f };
+
 private:
 	
 
@@ -335,6 +337,6 @@ private:
 
 	std::string materialTextureNum_ = "";
 
-	Vector3 forward_ = { 0.0f,0.0f,1.0f };
+	
 
 };
