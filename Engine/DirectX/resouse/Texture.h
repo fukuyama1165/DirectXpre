@@ -80,6 +80,9 @@ private:
 	//シェーダリソースビュー
 	void SRVGeneraion(const D3D12_RESOURCE_DESC& textureResourceDesc, Microsoft::WRL::ComPtr<ID3D12Resource> newTexBuff, const std::string& filename, std::string& handle);
 
+	//拡張子を返す関数
+	std::string SeparateFilePath(const std::string& filePath);
+
 public:
 
 

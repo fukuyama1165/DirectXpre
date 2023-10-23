@@ -158,6 +158,8 @@ void GameScene::Initialize()
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
 
+	Texture::GetInstance()->loadTexture("Resources/basketballman2.dds", "basketballman2");
+
 	clearBackSprite_.initialize("white1x1");
 	clearTextSprite_.initialize("clearText");
 
@@ -614,7 +616,7 @@ void GameScene::Update()
 		if (eventManager->nowEventDataFileName_ == "testEvent")
 		{
 
-
+			
 
 		}
 
@@ -724,6 +726,14 @@ void GameScene::Draw()
 
 		clearBackSprite_.Draw();
 		clearTextSprite_.Draw();
+		
+
+	}
+
+	//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
+	if (eventManager->nowEventDataFileName_ == "testEvent")
+	{
+
 		
 
 	}
