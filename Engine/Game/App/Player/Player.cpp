@@ -275,15 +275,34 @@ void Player::Update()
 	if (!isTitle_)
 	{
 
-		//Quaternion rot = Quaternion::DirectionToDirection(playerPos, reticle3DObj_.GetWorldPos());
+		Quaternion rot = Quaternion::DirectionToDirection(playerPos, reticle3DObj_.GetWorldPos());
 
-		//Vector3 reticlePos = Quaternion::RotateVector(playerObj_.forward_, rot);
+		Vector3 reticlePosX;
+		Vector3 reticlePosY;
+		Vector3 reticlePosZ;
+
+		reticlePosX = Quaternion::RotateVector({ 1,0,0 }, rot);
+		reticlePosY = Quaternion::RotateVector({ 0,1,0 }, rot);
+		reticlePosZ = Quaternion::RotateVector({ 0,0,1 }, rot);
 		
-		Vector3 reticlePos = reticle3DObj_.GetWorldPos();
+	/*	Vector3 reticlePos = reticle3DObj_.GetWorldPos();
 		float y_pos = atan2(reticlePos.x, reticlePos.z);
 		float x_pos = atan2(reticlePos.y, reticlePos.z);
-		playerObj_.Rotate_ = { -x_pos ,y_pos ,0 };
-		//playerObj_.Rotate_ = { reticlePos};
+		playerObj_.Rotate_ = { -x_pos ,y_pos ,0 };*/
+		playerObj_.Rotate_ = { reticlePosY.y,-reticlePosZ.x ,0 };
+
+#ifdef _DEBUG
+		if (!isTitle_)
+		{
+			ImGui::Begin("player");
+
+			ImGui::Text("rotX:%0.2ff,%0.2ff,%0.2ff", reticlePosX.x, reticlePosX.y, reticlePosX.z);
+			ImGui::Text("rotY:%0.2ff,%0.2ff,%0.2ff", reticlePosY.x, reticlePosY.y, reticlePosY.z);
+			ImGui::Text("rotZ:%0.2ff,%0.2ff,%0.2ff", reticlePosZ.x, reticlePosZ.y, reticlePosZ.z);
+
+			ImGui::End();
+		}
+#endif
 	}
 
 	if (!isTitle_)
