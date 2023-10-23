@@ -171,6 +171,8 @@ void EmitterManager::Update()
 				break;
 			}
 			
+			continue;
+
 		}
 		count++;
 	}
@@ -236,11 +238,22 @@ void EmitterManager::Update()
 				break;
 			}
 
+			continue;
 		}
 		count++;
 	}
 
 #endif
+
+	objEmitters_.remove_if([](std::unique_ptr<IObjEmitter>& emitter)
+		{
+			return emitter->GetIsEnd();
+		});
+
+	emitters_.remove_if([](std::unique_ptr<IEmitter>& emitter)
+		{
+			return emitter->GetIsEnd();
+		});
 
 	for (std::unique_ptr<IObjEmitter>& objEmitter : objEmitters_)
 	{
@@ -252,15 +265,7 @@ void EmitterManager::Update()
 		emitter->Update();
 	}
 
-	objEmitters_.remove_if([](std::unique_ptr<IObjEmitter>& emitter)
-	{
-		return emitter->GetIsEnd();
-	});
-
-	emitters_.remove_if([](std::unique_ptr<IEmitter>& emitter)
-	{
-		return emitter->GetIsEnd();
-	});
+	
 
 #ifdef _DEBUG
 
@@ -295,7 +300,7 @@ void EmitterManager::Update()
 
 	switch (emittrTypeNum)
 	{
-	case 1:
+	case 0:
 		emitterType = "BASIC";
 		break;
 	default:
@@ -305,13 +310,13 @@ void EmitterManager::Update()
 
 	switch (particleTypeNum)
 	{
-	case 1:
+	case 0:
 		particleType = "BASIC";
 		break;
-	case 2:
+	case 1:
 		particleType = "Cartridge";
 		break;
-	case 3:
+	case 2:
 		particleType = "Fall";
 		break;
 
@@ -359,7 +364,7 @@ void EmitterManager::Update()
 
 	switch (spriteEmittrTypeNum)
 	{
-	case 1:
+	case 0:
 		spriteEmitterType = "BASIC";
 		break;
 	default:
@@ -369,10 +374,10 @@ void EmitterManager::Update()
 
 	switch (spriteParticleTypeNum)
 	{
-	case 1:
+	case 0:
 		spriteParticleType = "BASIC";
 		break;
-	case 2:
+	case 1:
 		spriteParticleType = "Fall";
 		break;
 
@@ -419,13 +424,13 @@ void EmitterManager::Update()
 
 		switch (particleTypeNum_[effectListCount])
 		{
-		case 1:
+		case 0:
 			particleType_[effectListCount] = "BASIC";
 			break;
-		case 2:
+		case 1:
 			particleType_[effectListCount] = "Cartridge";
 			break;
-		case 3:
+		case 2:
 			particleType_[effectListCount] = "Fall";
 			break;
 
@@ -459,6 +464,11 @@ void EmitterManager::Update()
 		i->get()->SetParticleactionTime(particleActionTime_[effectListCount]);
 
 		effectListCount++;
+
+		if (ImGui::Button("delete"))
+		{
+			i->get()->SetIsEnd(true);
+		}
 	
 		ImGui::Text("\n");
 
@@ -519,6 +529,11 @@ void EmitterManager::Update()
 		i->get()->SetRandRangeX(spriteRandRangeX_[spriteEffectListCount]);
 		i->get()->SetRandRangeY(spriteRandRangeY_[spriteEffectListCount]);
 		i->get()->SetParticleactionTime(spriteParticleActionTime_[spriteEffectListCount]);
+
+		if (ImGui::Button("delete"))
+		{
+			i->get()->SetIsEnd(true);
+		}
 
 		spriteEffectListCount++;
 

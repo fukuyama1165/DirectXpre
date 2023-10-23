@@ -21,6 +21,7 @@ void BasicParticle::Initialize(const Vector2& position, const Vector2& velocity,
 	Sprite_.initialize(textureName);
 	//引数で受け取った初期座標をセット
 	Sprite_.pos_ = position;
+	Sprite_.scale_ = startScale;
 
 	Velocity_ = velocity;
 	liveTime_ = liveTime;

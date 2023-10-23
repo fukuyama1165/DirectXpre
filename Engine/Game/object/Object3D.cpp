@@ -27,9 +27,9 @@ void Object3D::Update()
 {
 	forward_ = { 0.0f,0.0f,1.0f };
 
-	forward_ = VectorMat(forward_, matWorld_);
-
 	matWorldGeneration();
+
+	forward_ = VectorMat(forward_, matWorld_);
 
 	Camera now = *Camera::nowCamera;
 

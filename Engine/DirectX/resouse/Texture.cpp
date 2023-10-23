@@ -105,32 +105,53 @@ void Texture::imageDataGeneration(const std::string& filename, DirectX::TexMetad
 		wchar_t wfilepath[128];
 		MultiByteToWideChar(CP_ACP, 0, filename.c_str(), -1, wfilepath, _countof(wfilepath));
 
-		//WICテクスチャのロード
-		result_ = LoadFromWICFile(
-			wfilepath,
-			DirectX::WIC_FLAGS_NONE,
-			&metadataBuff,
-			scratchImgBuff
-		);
+		//拡張子を取得
+		std::string ext = SeparateFilePath(filename);
 
-		DirectX::ScratchImage mipChain{};
-		//ミップマップの生成
-		result_ = GenerateMipMaps(
-			scratchImgBuff.GetImages(),
-			scratchImgBuff.GetImageCount(),
-			scratchImgBuff.GetMetadata(),
-			DirectX::TEX_FILTER_DEFAULT,
-			0,
-			mipChain
-		);
-
-		if (SUCCEEDED(result_))
+		if (ext == "dds")
 		{
-			scratchImgBuff = std::move(mipChain);
-			//scratchImg_.push_back(scratchImgBuff);
-			metadataBuff = scratchImgBuff.GetMetadata();
-			//textureFileName_.push_back(filename);
+
+			//DDSテクスチャのロード
+			result_ = LoadFromDDSFile(
+				wfilepath,
+				DirectX::DDS_FLAGS_NONE,
+				&metadataBuff,
+				scratchImgBuff
+			);
+
 		}
+		else
+		{
+			//WICテクスチャのロード
+			result_ = LoadFromWICFile(
+				wfilepath,
+				DirectX::WIC_FLAGS_NONE,
+				&metadataBuff,
+				scratchImgBuff
+			);
+
+			DirectX::ScratchImage mipChain{};
+			//ミップマップの生成
+			result_ = GenerateMipMaps(
+				scratchImgBuff.GetImages(),
+				scratchImgBuff.GetImageCount(),
+				scratchImgBuff.GetMetadata(),
+				DirectX::TEX_FILTER_DEFAULT,
+				0,
+				mipChain
+			);
+
+			if (SUCCEEDED(result_))
+			{
+				scratchImgBuff = std::move(mipChain);
+				//scratchImg_.push_back(scratchImgBuff);
+				metadataBuff = scratchImgBuff.GetMetadata();
+				//textureFileName_.push_back(filename);
+			}
+		}
+		
+
+		
 
 		//読み込んだディフューズテクスチャをSRGBとして扱う
 		metadataBuff.format = DirectX::MakeSRGB(metadataBuff.format);
@@ -296,5 +317,32 @@ void Texture::SRVGeneraion(const D3D12_RESOURCE_DESC& TextureResourceDesc, Micro
 #pragma endregion
 }
 
+std::string Texture::SeparateFilePath(const std::string& filePath)
+{
+
+	size_t pos1;
+	std::string ans;
+
+	//区切り文字'.'が出てくる一番最後の部分を検索
+	pos1 = filePath.rfind('.');
+
+	//検索がヒットしたら
+	if (pos1 != std::wstring::npos)
+	{
+		//区切り文字の後ろをファイル拡張子として保存
+		ans = filePath.substr(pos1 + 1, filePath.size() - pos1 - 1);
+
+	}
+	else
+	{
+
+		//ないのはやばいので止める
+		assert(0);
+
+	}
+
+
+	return ans;
+}
 
 

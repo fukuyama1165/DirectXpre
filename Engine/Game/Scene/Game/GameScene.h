@@ -185,7 +185,7 @@ private:
 
 	Sprite clearTextSprite_;
 
-	
+	bool pause_ = false;
 
 };
 
