@@ -18,7 +18,8 @@ public:
 	/// </summary>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void Initlize(const Vector3& position,const Vector3& velocity);
+	/// <param name="size">大きさ</param>
+	void Initlize(const Vector3& position,const Vector3& velocity, const Vector3& size={1.0f,1.0f,1.0f });
 
 	/// <summary>
 	/// 更新

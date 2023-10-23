@@ -11,7 +11,7 @@ PlayerBullet::~PlayerBullet()
 {
 }
 
-void PlayerBullet::Initlize(const Vector3& position, const Vector3& velocity)
+void PlayerBullet::Initlize(const Vector3& position, const Vector3& velocity,const Vector3& size)
 {
 
 	
@@ -19,6 +19,7 @@ void PlayerBullet::Initlize(const Vector3& position, const Vector3& velocity)
 
 	//引数で受け取った初期座標をセット
 	obj_.Trans_ = position;
+	obj_.Scale_ = size;
 
 	Velocity_ = velocity;
 
