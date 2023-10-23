@@ -421,7 +421,7 @@ void Player::Draw()
 {
 	playerObj_.FBXDraw(*gunModel_);
 	//reticle3DObj_.Draw();
-	//reticle_.Draw();
+	reticle_.Draw();
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
 		bullet->Draw(bulletModel_);
