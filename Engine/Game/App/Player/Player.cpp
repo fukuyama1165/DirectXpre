@@ -484,7 +484,7 @@ void Player::Draw()
 
 	}
 
-	reticle3DObj_.FBXDraw(*bulletModel_);
+	//reticle3DObj_.FBXDraw(*bulletModel_);
 
 }
 
@@ -517,7 +517,8 @@ void Player::Attack()
 
 		//弾の生成と初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initlize(position, velocity);
+		newBullet->Initlize(position, velocity,{0.3f,0.3f,0.3f });
+		
 
 		//弾を登録
 		bullets_.emplace_back(std::move(newBullet));
@@ -577,7 +578,7 @@ void Player::Attack()
 
 		//弾の生成と初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initlize(position, velocity);
+		newBullet->Initlize(position, velocity,{ 0.3f,0.3f,0.3f });
 
 		//弾を登録
 		bullets_.emplace_back(std::move(newBullet));

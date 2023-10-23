@@ -106,7 +106,7 @@ void EnemyManager::EnemyAttack(Enemy enemy, const Vector3& playerPos)
 
 	//弾の生成と初期化
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-	newBullet->Initlize(position, velocity);
+	newBullet->Initlize(position, velocity, { 0.3f,0.3f,0.3f });
 
 	//弾を登録
 	bullets_.emplace_back(std::move(newBullet));
