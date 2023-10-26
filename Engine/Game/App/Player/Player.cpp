@@ -276,6 +276,8 @@ void Player::Update()
 	//レティクルの方向へ向ける
 	if (1)
 	{
+		//馬鹿だったので補足
+		//dirTodirは(無回転の時の向き,回転させたい方向)なので(始点,終点)ではない
 
 		Quaternion rot = Quaternion::DirectionToDirection({0,0,1}, reticle3DObj_.GetWorldPos()-playerPos);
 		Vector3 reticlePosY;
