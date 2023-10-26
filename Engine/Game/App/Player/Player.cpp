@@ -45,10 +45,12 @@ void Player::Init()
 
 	Texture::GetInstance()->loadTexture("Resources/ReticleMove.png", "reticleMove");
 	Texture::GetInstance()->loadTexture("Resources/shoticon.png", "shotIcon");
+	Texture::GetInstance()->loadTexture("Resources/obj/ammo/ammoTex.png", "ammoTex");
 	
 	//モデルの読み込み
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
 	ModelManager::GetInstance()->Load("Gun", "gltf", "Gun", "gray2x2");
+	ModelManager::GetInstance()->Load("ammo", "gltf", "Ammo", "ammoTex");
 
 	//モデルのセット
 	bulletModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
@@ -272,31 +274,23 @@ void Player::Update()
 	flashObj_.SetPos(playerPos + (playerCamera_.forward_ * 6));
 
 	//レティクルの方向へ向ける
-	if (!isTitle_)
+	if (1)
 	{
 
-		Quaternion rot = Quaternion::DirectionToDirection(playerPos, reticle3DObj_.GetWorldPos());
-
-		Vector3 reticlePosX;
+		Quaternion rot = Quaternion::DirectionToDirection({0,0,1}, reticle3DObj_.GetWorldPos()-playerPos);
 		Vector3 reticlePosY;
 		Vector3 reticlePosZ;
 
-		reticlePosX = Quaternion::RotateVector({ 1,0,0 }, rot);
 		reticlePosY = Quaternion::RotateVector({ 0,1,0 }, rot);
 		reticlePosZ = Quaternion::RotateVector({ 0,0,1 }, rot);
 		
-	/*	Vector3 reticlePos = reticle3DObj_.GetWorldPos();
-		float y_pos = atan2(reticlePos.x, reticlePos.z);
-		float x_pos = atan2(reticlePos.y, reticlePos.z);
-		playerObj_.Rotate_ = { -x_pos ,y_pos ,0 };*/
-		playerObj_.Rotate_ = { reticlePosY.y,-reticlePosZ.x ,0 };
+		playerObj_.Rotate_ = { reticlePosY.z,reticlePosZ.x ,0 };
 
 #ifdef _DEBUG
 		if (!isTitle_)
 		{
 			ImGui::Begin("player");
 
-			ImGui::Text("rotX:%0.2ff,%0.2ff,%0.2ff", reticlePosX.x, reticlePosX.y, reticlePosX.z);
 			ImGui::Text("rotY:%0.2ff,%0.2ff,%0.2ff", reticlePosY.x, reticlePosY.y, reticlePosY.z);
 			ImGui::Text("rotZ:%0.2ff,%0.2ff,%0.2ff", reticlePosZ.x, reticlePosZ.y, reticlePosZ.z);
 
@@ -494,9 +488,6 @@ void Player::Attack()
 	if (isTitle_)
 	{
 		reticle3DObj_.Update();
-		/*float p_pos = atan2(reticle3DObj_.GetWorldPos().x, reticle3DObj_.GetWorldPos().z);
-		playerObj_.Rotate_.y = (p_pos);
-		playerObj_.Update();*/
 	}
 
 	if ((input_->GetMouseButtonDown(0) and bulletCT_ <= 0 and isUseKeybord_) or (isTitle_ and isUseKeybord_))
@@ -534,7 +525,7 @@ void Player::Attack()
 		{
 			EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[(uint32_t)bulletNum_].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f, 1.0f, { -10.0f,10.0f }, { -20.0f,-10.0f }, { 1,1 }, { 1,1 }, "Ammo");
 		}
-		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 50.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.2f,0.2f,0.2f }, { 0.2f,0.2f,0.2f });
+		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 50.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.1f,0.1f,0.1f }, { 0.1f,0.1f,0.1f },"Ammo");
 
 		XAudio::PlaySoundData(gunShotSount_, 1.0f);
 

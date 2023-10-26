@@ -95,6 +95,7 @@ private:
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
+	//モデル
 	AnimationModel* bulletModel_=nullptr;
 	AnimationModel* gunModel_=nullptr;
 
