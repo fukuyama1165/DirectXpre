@@ -118,6 +118,7 @@
     <ClCompile Include="Engine\Game\App\Event\CountTimer.cpp" />
     <ClCompile Include="Engine\Game\App\Event\EventPoint.cpp" />
     <ClCompile Include="Engine\Game\App\Event\EventPointManager.cpp" />
+    <ClCompile Include="Engine\Game\App\Level\LevelLoader.cpp" />
     <ClCompile Include="Engine\Game\App\Level\Wall.cpp" />
     <ClCompile Include="Engine\Game\App\Player\Player.cpp" />
     <ClCompile Include="Engine\Game\App\Player\PlayerBullet.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Engine\Game\App\Event\CountTimer.h" />
     <ClInclude Include="Engine\Game\App\Event\EventPoint.h" />
     <ClInclude Include="Engine\Game\App\Event\EventPointManager.h" />
+    <ClInclude Include="Engine\Game\App\Level\LevelLoader.h" />
     <ClInclude Include="Engine\Game\App\Level\Wall.h" />
     <ClInclude Include="Engine\Game\App\Player\Player.h" />
     <ClInclude Include="Engine\Game\App\Player\PlayerBullet.h" />

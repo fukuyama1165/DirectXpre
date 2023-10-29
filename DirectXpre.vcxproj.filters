@@ -435,6 +435,9 @@
     <ClCompile Include="Engine\Game\Scene\Editor\EventEditorScene.cpp">
       <Filter>ソース ファイル\Game\Scene\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\App\Level\LevelLoader.cpp">
+      <Filter>ソース ファイル\Game\App\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
@@ -679,6 +682,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Scene\Editor\EventEditorScene.h">
       <Filter>ヘッダー ファイル\Game\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Level\LevelLoader.h">
+      <Filter>ヘッダー ファイル\App\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

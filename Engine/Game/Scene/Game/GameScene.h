@@ -62,7 +62,7 @@ private:
 
 	bool CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, float rB);
 
-	void reloadLevel(const BYTE& CheckKey,std::string filename);
+	
 
 private:
 
@@ -77,11 +77,6 @@ private:
 	Object3D testObj_;
 
 	AnimationModel* testModel_;
-
-	AnimationModel* levelModel_;
-	AnimationModel* levelBallModel_;
-	AnimationModel* levelGroundModel_;
-	AnimationModel* levelBuildingModel_;
 
 	//カメラ
 	Camera camera_;
@@ -146,20 +141,7 @@ private:
 
 	std::string test_;
 
-	struct LevelObj
-	{
-		Object3D obj;
-		std::string name;
-	};
-
-	struct LevelWallObj
-	{
-		WallObj obj;
-		std::string name;
-	};
-
-	std::vector<LevelObj> levelObj;
-	std::vector<std::unique_ptr<LevelWallObj>> wallObj_;
+	
 
 	WallObj obj;
 
