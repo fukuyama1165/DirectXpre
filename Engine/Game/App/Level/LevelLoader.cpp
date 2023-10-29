@@ -21,7 +21,7 @@ LevelLoader* LevelLoader::GetInstance()
 
 void LevelLoader::LoadLevel(std::string filename)
 {
-	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile("MapTest");
+	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile(filename);
 
 	for (auto& objData : levelData->objects_)
 	{

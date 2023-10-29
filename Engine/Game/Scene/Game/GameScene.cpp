@@ -81,7 +81,7 @@ void GameScene::Initialize()
 
 	testFBX_.Scale_ = { 0.1f,0.1f,0.1f };
 
-	
+	LevelLoader::GetInstance()->LoadLevel("MapTest");
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
 	
