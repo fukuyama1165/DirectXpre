@@ -61,7 +61,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\Editor;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -83,7 +83,7 @@
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\Editor;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -118,6 +118,7 @@
     <ClCompile Include="Engine\Game\App\Event\CountTimer.cpp" />
     <ClCompile Include="Engine\Game\App\Event\EventPoint.cpp" />
     <ClCompile Include="Engine\Game\App\Event\EventPointManager.cpp" />
+    <ClCompile Include="Engine\Game\App\Level\LevelLoader.cpp" />
     <ClCompile Include="Engine\Game\App\Level\Wall.cpp" />
     <ClCompile Include="Engine\Game\App\Player\Player.cpp" />
     <ClCompile Include="Engine\Game\App\Player\PlayerBullet.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Engine\Game\Scene\Base\IScene.cpp" />
     <ClCompile Include="Engine\Game\Scene\Base\SceneFactory.cpp" />
     <ClCompile Include="Engine\Game\Scene\Base\SceneManager.cpp" />
+    <ClCompile Include="Engine\Game\Scene\Editor\EventEditorScene.cpp" />
     <ClCompile Include="Engine\Game\Scene\game\GameScene.cpp" />
     <ClCompile Include="Engine\Game\Scene\game\TitleScene.cpp" />
     <ClCompile Include="Engine\Game\Scene\SceneChange\BasicSceneChange.cpp" />
@@ -191,6 +193,7 @@
     <ClInclude Include="Engine\Game\App\Event\CountTimer.h" />
     <ClInclude Include="Engine\Game\App\Event\EventPoint.h" />
     <ClInclude Include="Engine\Game\App\Event\EventPointManager.h" />
+    <ClInclude Include="Engine\Game\App\Level\LevelLoader.h" />
     <ClInclude Include="Engine\Game\App\Level\Wall.h" />
     <ClInclude Include="Engine\Game\App\Player\Player.h" />
     <ClInclude Include="Engine\Game\App\Player\PlayerBullet.h" />
@@ -236,6 +239,7 @@
     <ClInclude Include="Engine\Game\Scene\Base\ISceneFactory.h" />
     <ClInclude Include="Engine\Game\Scene\Base\SceneFactory.h" />
     <ClInclude Include="Engine\Game\Scene\Base\SceneManager.h" />
+    <ClInclude Include="Engine\Game\Scene\Editor\EventEditorScene.h" />
     <ClInclude Include="Engine\Game\Scene\game\GameScene.h" />
     <ClInclude Include="Engine\Game\Scene\Game\TitleScene.h" />
     <ClInclude Include="Engine\Game\Scene\SceneChange\BasicSceneChange.h" />

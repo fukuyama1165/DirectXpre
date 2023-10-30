@@ -119,8 +119,7 @@ Matrix4x4 Matrix4x4::InverseMatrix()
 	}
 	return inverse;
 
-	//‚Ps‚P—ñ‚ð‚P‚É‚·‚é
-
+	//これ使った時挙動がおかしかったので上の方法に変更した(問題を調べておきたい)
 	/*{
 		float max = abs(calcMat[0][0]);
 		uint32_t maxI = 0;

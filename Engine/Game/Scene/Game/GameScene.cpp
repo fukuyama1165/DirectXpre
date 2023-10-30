@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "EmitterManager.h"
 #include "SceneManager.h"
+#include "LevelLoader.h"
 #include "Easing.h"
 
 void GameScene::Initialize()
@@ -66,39 +67,7 @@ void GameScene::Initialize()
 	ray_.start_ = { 0.0f,0.0f,0.0f };
 	ray_.dir_ = { 0.0f,0.0f,-1.0f };
 
-	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile("MapTest");
-
 	
-
-	for (auto& objData : levelData->objects_)
-	{
-		if (objData.name_.find("Wall") == std::string::npos)
-		{
-			LevelObj newObject;
-			newObject.obj.FBXInit();
-			newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-			newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-			newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-			newObject.obj.matWorldGeneration();
-			newObject.name = objData.name_;
-
-			levelObj.emplace_back(newObject);
-		}
-		else
-		{
-			std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
-			
-			newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-			newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-			newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-			newWall->obj.obj_.matWorldGeneration();
-			newWall->obj.Init();
-			newWall->name = objData.name_;
-
-			wallObj_.emplace_back(std::move(newWall));
-		}
-
-	}
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 
@@ -112,16 +81,10 @@ void GameScene::Initialize()
 
 	testFBX_.Scale_ = { 0.1f,0.1f,0.1f };
 
-	ModelManager::GetInstance()->Load("testFBX", "gltf", "basketballmanBox", "basketballman2");
-	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
-	ModelManager::GetInstance()->Load("testFBX", "gltf", "Ground", "Dirt", "jpg");
-	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");
+	LevelLoader::GetInstance()->LoadLevel("MapTest");
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
-	levelModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
-	levelBallModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
-	levelGroundModel_ = ModelManager::GetInstance()->SearchModelData("Ground");
-	levelBuildingModel_ = ModelManager::GetInstance()->SearchModelData("Building");
+	
 
 	/*testModel_ = std::make_unique<AnimationModel>();
 	levelModel_ = std::make_unique<AnimationModel>();
@@ -153,7 +116,7 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
-	eventManager->LoadEventData("Event");
+	eventManager->LoadEventData("testEvent");
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
@@ -563,7 +526,7 @@ void GameScene::Update()
 #endif
 	
 
-	reloadLevel(DIK_K, "MapTest");
+	LevelLoader::GetInstance()->reloadLevel(DIK_K, "MapTest");
 #endif	
 
 	if (chengCamera_)
@@ -594,15 +557,7 @@ void GameScene::Update()
 
 		testFBX_.Update();
 
-		for (LevelObj a : levelObj)
-		{
-			a.obj.Update();
-		}
-
-		for (uint16_t b = 0; b < wallObj_.size(); b++)
-		{
-			wallObj_[b]->obj.Update();
-		}
+		LevelLoader::GetInstance()->Update();
 
 		enemys_->UpDate(play_.playerCamera_.GetCamera().eye_);
 
@@ -682,35 +637,8 @@ void GameScene::Draw()
 	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
 
 
-	for (LevelObj a : levelObj)
-	{
-		if (a.name.find("box1")!= std::string::npos)
-		{
-			a.obj.FBXDraw(*levelModel_);
-		}
-		else if (a.name.find("ball") != std::string::npos)
-		{
-			a.obj.FBXDraw(*levelBallModel_);
-		}
-		else if(a.name.find("Ground")!=std::string::npos)
-		{
-			a.obj.FBXDraw(*levelGroundModel_);
-		}
-		else if (a.name.find("building") != std::string::npos)
-		{
-			a.obj.FBXDraw(*levelBuildingModel_);
-		}
-		else
-		{
-			a.obj.FBXDraw(*levelModel_);
-		}
-	}
-
-	for (uint16_t b = 0; b < wallObj_.size(); b++)
-	{
-		wallObj_[b]->obj.Draw(levelBuildingModel_);
-	}
-
+	
+	LevelLoader::GetInstance()->Draw();
 	
 
 	enemys_->Draw();
@@ -775,42 +703,3 @@ bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vecto
 
 }
 
-void GameScene::reloadLevel(const BYTE& CheckKey, std::string filename)
-{
-	if (Input::GetInstance()->TriggerKey(CheckKey))
-	{
-		levelObj.clear();
-		wallObj_.clear();
-		std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile(filename);
-
-		for (auto& objData : levelData->objects_)
-		{
-			if (objData.name_.find("Wall") == std::string::npos)
-			{
-				LevelObj newObject;
-				newObject.obj.FBXInit();
-				newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-				newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-				newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-				newObject.obj.matWorldGeneration();
-				newObject.name = objData.name_;
-
-				levelObj.emplace_back(newObject);
-			}
-			else
-			{
-				std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
-				
-				newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-				newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-				newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-				newWall->obj.obj_.matWorldGeneration();
-				newWall->name = objData.name_;
-				newWall->obj.Init();
-
-				wallObj_.emplace_back(std::move(newWall));
-			}
-
-		}
-	}
-}

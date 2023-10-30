@@ -211,6 +211,12 @@
     <Filter Include="ソース ファイル\Game\Particle\Particle\Game">
       <UniqueIdentifier>{659fb624-8aef-4cec-91b4-db21733a4b37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Scene\Editor">
+      <UniqueIdentifier>{18e152b0-e8cb-42f3-8b92-979e5b653b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Game\Scene\Editor">
+      <UniqueIdentifier>{6f606bcc-e0d0-4828-aaad-6315300c839c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\resouse\Loader\FBXLoader.cpp">
@@ -425,6 +431,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Game\Particle\Emitter\BasicEmitter.cpp">
       <Filter>ソース ファイル\Game\Particle\Emitter</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Scene\Editor\EventEditorScene.cpp">
+      <Filter>ソース ファイル\Game\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\Level\LevelLoader.cpp">
+      <Filter>ソース ファイル\Game\App\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -667,6 +679,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Particle\Emitter\BasicEmitter.h">
       <Filter>ヘッダー ファイル\Game\Particle\Emitter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Scene\Editor\EventEditorScene.h">
+      <Filter>ヘッダー ファイル\Game\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Level\LevelLoader.h">
+      <Filter>ヘッダー ファイル\App\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
