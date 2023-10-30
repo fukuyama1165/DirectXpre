@@ -4,9 +4,6 @@
     <ProjectOutput>
       <FullPath>C:\k021g1165\DirectX\DirectXpre\assimp\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
-    <ProjectOutput>
-      <FullPath>C:\k021g1165\DirectX\DirectXpre\External\assimp\contrib\zlib\Release\zlibstatic.lib</FullPath>
-    </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
   <SatelliteDlls />
