@@ -20,22 +20,34 @@ public:
 
 	void Draw();
 
+	//デバック用のイベントデータ追加
 	void SetDebugMoveEvent(Vector3 point1 = { 0,0,50 }, Vector3 point2 = { 50,0,50 }, Vector3 point3 = { 50,0,0 }, Vector3 point4 = { 0,0,0 });
 	void SetDebug1MoveEvent(Vector3 point1 = { 0,0,50 }, float Speed1 = 1.0f);
 	void SetDebugBattleEvent(Vector3 point1 = { 0,0,50 }, float Speed1 = 1.0f,float interval1=50, Vector3 point2 = { 50,0,50 }, float Speed2 = 1.0f, float interval2=50, Vector3 point3 = { 50,0,0 }, float Speed3 = 1.0f, float interval3=50, Vector3 point4 = { 0,0,0 }, float Speed4 = 1.0f);
 
+
+	//設定済みイベントデータに変更
+	void setEventSeting(const std::vector<EventSeting>& eventSetings) { eventSetings_ = eventSetings; };
+
+	//現在実行中のイベントデータ取得
 	EventPoint* GetPEventPoint() { return &eventPoint_; };
 
+	//全部のイベントが終わっているか
 	bool GetEventAllEnd() { return eventAllEnd_; };
 
+	//どうしても全てのイベントが終わったことにしたい場合使う
 	void SetEventAllEnd(bool flag) { eventAllEnd_ = flag; };
 
+	//イベント変更の演出の時間取得
 	bool GetNextTime() { return nextTime_; };
 
+	//今何個目のイベントかを取得
 	uint32_t GetEventCount() { return eventCount_; };
 
+	//イベントの数を取得
 	uint16_t GetEventNum() { return (uint16_t)eventSetings_.size(); };
 
+	//設定を全部消す
 	void reset() { eventSetings_.clear(); eventCount_ = 0; eventPoint_ = EventPoint(); }
 
 public:

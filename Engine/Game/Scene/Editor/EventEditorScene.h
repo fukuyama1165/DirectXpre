@@ -40,4 +40,26 @@ private:
 	//モデル
 	AnimationModel* testModel_ = nullptr;
 
+	//出力用のイベントの設定
+	std::vector<EventSeting> seting_;
+
+	//種類設定用変数
+	uint32_t eventTypeNum_ = 0;
+	std::vector<uint32_t> enemyTypeNum_;
+
+	//イベントの中身設定用変数
+	uint16_t eventType_ = EventType::moveEvent;
+	float movePoint_[3] = {0,0,0};
+	float movePointRot_[3] = { 0,0,0 };
+	float moveSpeed_ = 1;
+
+	
+	uint16_t enemyNum_ = 0;
+	uint16_t enemyMaxSpawn_ = 0;
+	std::vector<Vector3> enemySpawnPos_;
+	std::vector<Vector3> enemyMovePos_;
+	std::vector<float> enemyMoveSpeed_;
+	std::vector<float> enemySpawnInterval_;
+	std::vector<std::string> enemyTypes_;
+
 };
