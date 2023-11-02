@@ -325,6 +325,8 @@ void EventEditorScene::Update()
 	//登録されているイベントデータ編集したい
 	for (auto setingI = seting_.begin(); setingI != seting_.end();)
 	{
+
+		std::string num = ("##" + std::to_string(eventCount));
 		if (setingI->eventType == EventType::moveEvent)
 		{
 			ImGui::Text("eventNum:%02d", eventCount);
@@ -333,15 +335,15 @@ void EventEditorScene::Update()
 			float movePointRot[3] = { setingI->movePointRot.x,setingI->movePointRot.x,setingI->movePointRot.x };
 			float moveSpeed = setingI->moveSpeed;
 
-			ImGui::DragFloat3("movePoint", movePoint, 1.0f, -1000.0f, 1000.0f);
-			ImGui::DragFloat3("movePointRot", movePointRot, 1.0f, -1000.0f, 1000.0f);
-			ImGui::DragFloat("moveSpeed", &moveSpeed, 1.0f, 0.0f, 1000.0f);
+			ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f);
+			ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f);
+			ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f);
 
 			setingI->movePoint = { movePoint[0] ,movePoint[1] ,movePoint[2] };
 			setingI->movePointRot = { movePointRot[0] ,movePointRot[1] ,movePointRot[2] };
 			setingI->moveSpeed = moveSpeed;
 
-			if (ImGui::Button("erase"))
+			if (ImGui::Button(std::string("erase" + num).c_str()))
 			{
 				//先頭のデータなら
 				if (setingI == seting_.begin())
@@ -363,14 +365,14 @@ void EventEditorScene::Update()
 				}
 				else
 				{
-					seting_.erase(setingI);
+					setingI = seting_.erase(setingI);
 					continue;
 				}
 			}
 		}
 		else if (setingI->eventType == EventType::BattleEvent)
 		{
-			ImGui::Text("Battle!!!!");
+			ImGui::Text(std::string("Battle!!!!" + num).c_str());
 		}
 
 		eventCount++;
