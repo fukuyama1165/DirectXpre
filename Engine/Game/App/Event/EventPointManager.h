@@ -27,7 +27,7 @@ public:
 
 
 	//設定済みイベントデータに変更
-	void setEventSeting(const std::vector<EventSeting>& eventSetings) { eventSetings_ = eventSetings; };
+	void setEventSeting(const std::vector<EventSeting>& eventSetings) { eventSetings_ = eventSetings; eventAllEnd_ = false;};
 
 	//現在実行中のイベントデータ取得
 	EventPoint* GetPEventPoint() { return &eventPoint_; };

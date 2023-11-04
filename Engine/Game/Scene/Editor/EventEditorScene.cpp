@@ -34,6 +34,7 @@ void EventEditorScene::Initialize()
 	enemys_ = EnemyManager::GetInstance();
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
+	enemyModel_ = ModelManager::GetInstance()->SearchModelData("Enemy");
 
 	eventManager_ = EventPointManager::GetInstance();
 
@@ -147,9 +148,84 @@ void EventEditorScene::Update()
 
 	ImGui::End();
 
+	//イベント管理部分
+	AddEvent();
+
+	EditEvent();
+
+	
+
+	for (auto enemyDatas = enemyDatas_.begin(); enemyDatas != enemyDatas_.end();)
+	{
+		if (enemyDatas->isEnd)
+		{
+			enemyDatas = enemyDatas_.erase(enemyDatas);
+			continue;
+		}
+		enemyDatas++;
+	}
+	
+	for (auto enemyobj : enemyDatas_)
+	{
+		
+		for (auto setingI = seting_.begin(); setingI != seting_.end();)
+		{
+			if (setingI->eventType != EventType::BattleEvent)
+			{
+				setingI++;
+				continue;
+			}
+
+			for (uint32_t i = 0; i < enemyobj.enemys.size(); i++)
+			{
+				enemyobj.enemys[i].Trans_ = setingI->enemySpawnPos[i];
+				enemyobj.enemys[i].Update();
+			}
+
+			setingI++;
+		}
+		
+		
+		
+	}
+
+	eventManager_->Update();
+
+	EmitterManager::GetInstance()->Update();
+
+}
+
+void EventEditorScene::Draw()
+{
+
+	LevelLoader::GetInstance()->Draw();
+
+	objobj3_.Draw();
+
+	
+	enemys_->Draw();
+
+
+	for (auto enemyobj : enemyDatas_)
+	{
+		for (auto enemys : enemyobj.enemys)
+		{
+			enemys.FBXDraw(*enemyModel_);
+		}
+	}
+
+	eventManager_->Draw();
+
+	EmitterManager::GetInstance()->Draw();
+
+}
+
+void EventEditorScene::AddEvent()
+{
+	//イベント追加部分
 	ImGui::Begin("addEvent");
 
-	const char* EventTypeChar[] = { "moveEvent","BattleEvent"};
+	
 
 	//intしか使えん許さん
 	ImGui::Combo("emitterType", (int*)&eventTypeNum_, EventTypeChar, IM_ARRAYSIZE(EventTypeChar));
@@ -157,12 +233,11 @@ void EventEditorScene::Update()
 	//前フレームの敵の数
 	uint16_t oldEnemyNum_ = 0;
 
-	const char* EnemyTypeChar[] = { "moveOnly","moveAttack","Attack" };
 
 	switch (eventTypeNum_)
 	{
 	case 0:
-		
+
 		ImGui::DragFloat3("movePoint", movePoint_, 1.0f, -1000.0f, 1000.0f);
 		ImGui::DragFloat3("movePointRot", movePointRot_, 1.0f, -1000.0f, 1000.0f);
 		ImGui::DragFloat("moveSpeed", &moveSpeed_, 1.0f, 0.0f, 1000.0f);
@@ -182,7 +257,7 @@ void EventEditorScene::Update()
 
 	case 1:
 
-		
+
 		//前フレームの情報を保存
 		oldEnemyNum_ = enemyNum_;
 		//intしかないのでintに変換
@@ -202,7 +277,7 @@ void EventEditorScene::Update()
 			enemyTypes_.resize(enemyNum_);
 		}
 
-		
+
 
 		//敵の数分回す
 		for (uint16_t i = 0; i < enemyNum_; i++)
@@ -220,7 +295,7 @@ void EventEditorScene::Update()
 			float enemySpawnInterval = { enemySpawnInterval_[i] };
 			float enemyMoveSpeed = { enemyMoveSpeed_[i] };
 
-			
+
 
 			switch (enemyTypeNum_[i])
 			{
@@ -231,14 +306,14 @@ void EventEditorScene::Update()
 				ImGui::Text("enemytype:moveOnly");
 				enemyTypes_[i] = "moveOnly";
 
-				ImGui::DragFloat3(std::string("spawnPos"+ num).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
+				ImGui::DragFloat3(std::string("spawnPos" + num).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
 
 				ImGui::DragFloat3(std::string("movePos" + num).c_str(), movePos, 1.0f, -1000.0f, 1000.0f);
-				
+
 				ImGui::DragFloat(std::string("spawnInterval" + num).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
-				
+
 				ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
-				
+
 				break;
 			case 1:
 
@@ -271,7 +346,7 @@ void EventEditorScene::Update()
 
 				break;
 			default:
-				
+
 				break;
 			}
 
@@ -299,6 +374,21 @@ void EventEditorScene::Update()
 
 			seting_.push_back(addEvent);
 
+			EventEnemyData add;
+
+			for (uint16_t i = 0; i < enemyNum_; i++)
+			{
+				Object3D enemyObj;
+				enemyObj.FBXInit();
+				enemyObj.Trans_ = enemySpawnPos_[i];
+
+				add.enemys.push_back(enemyObj);
+			}
+
+			add.eventNum = (uint32_t)(seting_.size() - 1);
+
+			enemyDatas_.push_back(add);
+
 			//次の設定用に中身を削除
 			enemyTypeNum_.clear();
 			enemySpawnPos_.clear();
@@ -317,7 +407,10 @@ void EventEditorScene::Update()
 	}
 
 	ImGui::End();
+}
 
+void EventEditorScene::EditEvent()
+{
 	ImGui::Begin("Eventseting");
 
 	uint16_t eventCount = 0;
@@ -343,64 +436,150 @@ void EventEditorScene::Update()
 			setingI->movePointRot = { movePointRot[0] ,movePointRot[1] ,movePointRot[2] };
 			setingI->moveSpeed = moveSpeed;
 
-			if (ImGui::Button(std::string("erase" + num).c_str()))
-			{
-				//先頭のデータなら
-				if (setingI == seting_.begin())
-				{
-					//データが複数あるなら先頭をイデレーターを先頭にセット
-					if (seting_.size() > 1)
-					{
-						seting_.erase(setingI);
-						setingI = seting_.begin();
-						continue;
 
-					}
-					else
-					{
-						//それしかないなら全部消す
-						seting_.clear();
-						break;
-					}
-				}
-				else
-				{
-					setingI = seting_.erase(setingI);
-					continue;
-				}
-			}
 		}
 		else if (setingI->eventType == EventType::BattleEvent)
 		{
-			ImGui::Text(std::string("Battle!!!!" + num).c_str());
+			for (uint16_t i = 0; i < setingI->enemyNum; i++)
+			{
+				ImGui::Text("enemyNum:%02d", i);
+
+				//種類識別
+				std::string enemyNum = (num + "_" + std::to_string(i));
+
+				uint32_t enemyTypeNum = 0;
+
+				if (setingI->enemyTypes[i] == "moveOnly")
+				{
+					enemyTypeNum = 0;
+				}
+				else if (setingI->enemyTypes[i] == "moveAttack")
+				{
+					enemyTypeNum = 1;
+				}
+				else if (setingI->enemyTypes[i] == "Attack")
+				{
+					enemyTypeNum = 2;
+				}
+
+
+
+				//intしか使えん許さん
+				ImGui::Combo(std::string("EnemyType" + enemyNum).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar));
+
+				//現在の値を取得
+				float spawnPos[3] = { setingI->enemySpawnPos[i].x,setingI->enemySpawnPos[i].y,setingI->enemySpawnPos[i].z };
+				float movePos[3] = { setingI->enemyMovePos[i].x,setingI->enemyMovePos[i].y,setingI->enemyMovePos[i].z };
+				float enemySpawnInterval = { setingI->enemySpawnInterval[i] };
+				float enemyMoveSpeed = { setingI->enemyMoveSpeed[i] };
+
+
+
+				switch (enemyTypeNum)
+				{
+				case 0:
+
+
+
+					ImGui::Text("enemytype:moveOnly");
+					setingI->enemyTypes[i] = "moveOnly";
+
+					ImGui::DragFloat3(std::string("spawnPos" + enemyNum).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
+
+					ImGui::DragFloat3(std::string("movePos" + enemyNum).c_str(), movePos, 1.0f, -1000.0f, 1000.0f);
+
+					ImGui::DragFloat(std::string("spawnInterval" + enemyNum).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+
+					ImGui::DragFloat(std::string("moveSpeed" + enemyNum).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
+
+					break;
+				case 1:
+
+					ImGui::Text("enemytype:moveAttack");
+					setingI->enemyTypes[i] = "moveAttack";
+
+					ImGui::DragFloat3(std::string("spawnPos" + enemyNum).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
+
+					ImGui::DragFloat3(std::string("movePos" + enemyNum).c_str(), movePos, 1.0f, -1000.0f, 1000.0f);
+
+					ImGui::DragFloat(std::string("spawnInterval" + enemyNum).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+
+					ImGui::DragFloat(std::string("moveSpeed" + enemyNum).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
+
+					break;
+				case 2:
+
+					ImGui::Text("enemytype:Attack");
+					setingI->enemyTypes[i] = "Attack";
+
+					ImGui::DragFloat3(std::string("spawnPos" + enemyNum).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
+
+					movePos[0] = { 0 };
+					movePos[1] = { 0 };
+					movePos[2] = { 0 };
+
+					ImGui::DragFloat(std::string("spawnInterval" + enemyNum).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+
+					enemyMoveSpeed = 0;
+
+					break;
+				default:
+
+					break;
+				}
+
+				setingI->enemySpawnPos[i] = { spawnPos[0],spawnPos[1] ,spawnPos[2] };
+				setingI->enemyMovePos[i] = { movePos[0],movePos[1] ,movePos[2] };
+				setingI->enemySpawnInterval[i] = enemySpawnInterval;
+				setingI->enemyMoveSpeed[i] = enemyMoveSpeed;
+
+
+
+			}
+		}
+
+		if (ImGui::Button(std::string("erase" + num).c_str()))
+		{
+			//一つしかないなら
+			if (seting_.size() == 1)
+			{
+				//それしかないなら全部消す
+				seting_.clear();
+				enemyDatas_.clear();
+				break;
+
+			}
+			else
+			{
+				uint16_t battleNum = 0;
+
+				for (auto setingJ = seting_.begin(); setingJ != seting_.end(); setingJ++)
+				{
+
+					if (setingJ->eventType == EventType::BattleEvent)
+					{
+						battleNum++;
+
+						if (setingJ == setingI)
+						{
+							enemyDatas_[battleNum].isEnd = true;
+							break;
+						}
+
+					}
+					
+
+				}
+
+				setingI = seting_.erase(setingI);
+				continue;
+			}
 		}
 
 		eventCount++;
 		setingI++;
 	}
-	
+
 
 	ImGui::End();
-
-	eventManager_->Update();
-
-	EmitterManager::GetInstance()->Update();
-
-}
-
-void EventEditorScene::Draw()
-{
-
-	LevelLoader::GetInstance()->Draw();
-
-	objobj3_.Draw();
-
-	
-	enemys_->Draw();
-
-
-	eventManager_->Draw();
-
-	EmitterManager::GetInstance()->Draw();
-
 }
