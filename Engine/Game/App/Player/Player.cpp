@@ -163,9 +163,11 @@ void Player::Update()
 		return bullet->IsDead();
 	});
 	
+	//ゲームシーンなら
 	if (!isTitle_)
 	{
 
+		//隠れる動作用のフラグ立てる場所(リロードも)
 		if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_ <= 20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 		{
 			attackFlag_ = true;
@@ -200,15 +202,19 @@ void Player::Update()
 		}
 	}
 
+	//移動イベント処理
 	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
 	{
+		//移動を開始していないなら
 		if (moveEventStart_ == false)
 		{
+			//移動中は隠れているのをやめて元の位置に戻す
 			if (EventPointManager::GetInstance()->GetEventCount() != 0)
 			{
 				playerCamera_.pos_ = originalPos_;
 				attackFlag_ = false;
 			}
+			//現在位置を取得して進む大きさを決定
 			pos_ = playerCamera_.pos_;
 			moveVec_ = nainavec3(EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint(), pos_).normalize();
 			moveEventStart_ = true;
@@ -606,7 +612,7 @@ void Player::HideRightWall()
 			time_++;
 		}
 
-		Vector3 camerapos = {};
+		
 
 		playCamera_.eye_ = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z}, Vector3{ originalPos_.x+5, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
 		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z+1 }, Vector3{ playCamera_.eye_.x-100,playCamera_.eye_.y,playCamera_.eye_.z}, time_ / maxTime_);
@@ -619,10 +625,20 @@ void Player::HideRightWall()
 			time_--;
 		}
 		
-		playCamera_.eye_ = easeOutQuint(Vector3{ playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z }, Vector3{ playerCamera_.pos_.x + 5, playerCamera_.pos_.y, playerCamera_.pos_.z }, time_ / maxMoveTime_);
+		playCamera_.eye_ = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x+5, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
 		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z + 1 }, Vector3{ playCamera_.eye_.x - 100,playCamera_.eye_.y,playCamera_.eye_.z }, time_ / maxTime_);
 
+
+
 	}
+
+
+	Vector3 camerapos = {};
+
+	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x + 5, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
+
+	playerCamera_.pos_ = camerapos;
+
 }
 
 void Player::HideDownWall()
@@ -644,13 +660,6 @@ void Player::HideDownWall()
 	
 	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x, originalPos_.y-2, originalPos_.z }, time_ / maxMoveTime_);
 
-	//playerCamera_.cameobj_.matWorldGeneration();
-
-	/*Vector3 forward = { 0.0f, 0.0f, 1.0f };
-
-	forward = VectorMat(forward, playerObj_.GetWorldMat());*/
-
-	//playCamera_.target_ = playCamera_.eye_ + forward;
 	playerCamera_.pos_ = camerapos;
 }
 

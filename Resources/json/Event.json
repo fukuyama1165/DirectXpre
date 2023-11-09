@@ -9,6 +9,11 @@
                     0.0,
                     0.0
                 ],
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
                 "movePointRot": [
                     0.0,
                     0.0,
@@ -100,6 +105,11 @@
                     0.0,
                     0.0,
                     100.0
+                ],
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    0.0
                 ],
                 "movePointRot": [
                     0.0,
@@ -116,6 +126,11 @@
                     0.0,
                     0.0,
                     150.0
+                ],
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    0.0
                 ],
                 "movePointRot": [
                     0.0,

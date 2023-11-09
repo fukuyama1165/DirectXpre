@@ -14,6 +14,7 @@ struct EventSeting
 {
 	uint16_t eventType = moveEvent;
 	Vector3 movePoint = { 0,0,0 };
+	Vector3 moveStartPoint = { 0,0,0 };
 	Vector3 movePointRot = { 0,0,0 };
 	float moveSpeed = 1;
 	uint16_t enemyNum = 0;
@@ -68,6 +69,9 @@ private:
 
 	//動く角度
 	Vector3 movePointRot_ = {};
+
+	//移動開始位置
+	Vector3 moveStartPoint_ = {};
 
 	//待ち時間
 	float timeCount_ = 0;

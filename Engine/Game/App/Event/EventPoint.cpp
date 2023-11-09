@@ -34,6 +34,7 @@ void EventPoint::Update()
 
 		movePoint_ = seting_.movePoint;
 		movePointRot_ = seting_.movePointRot;
+		moveStartPoint_ = seting_.moveStartPoint;
 
 		break;
 

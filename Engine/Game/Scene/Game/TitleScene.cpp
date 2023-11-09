@@ -78,6 +78,7 @@ void TitleScene::Initialize()
 	}
 
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "basketballmanBox", "basketballman2");
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "whiteBox", "white1x1");
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Ground", "Dirt", "jpg");
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");

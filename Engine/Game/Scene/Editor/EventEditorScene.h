@@ -32,6 +32,9 @@ private:
 	//現在入っているイベントを編集したり消すところ
 	void EditEvent();
 
+	//制作中のイベントの描画用のオブジェクトの更新用の関数
+	void DrawEventDataUpdate();
+
 private:
 	//天球
 	Object3D objobj3_;
@@ -66,19 +69,35 @@ private:
 	{
 		std::vector<Object3D> enemys;
 		bool isEnd = false;
-		uint32_t eventNum = 0;
 	};
 
+	//作成中の移動イベントの描画用構造体
+	struct EventMovePointData
+	{
+		Object3D startPoint;
+		Object3D endPoint;
+		Object3D move;
+		bool isEnd = false;
+	};
+
+	//作成中のイベントの中身保持用
 	std::vector<EventEnemyData> enemyDatas_;
+	std::vector<EventMovePointData> movePointDatas_;
+
+	//移動イベントのどういう風に動くかのためのタイマー
+	float moveEventMoveTimer = 0;
+	float moveEventMoveMaxTime = 50;
 
 	//描画用モデル
 	AnimationModel* enemyModel_;
+	AnimationModel* moveEventModel_;
 
 	//イベントの中身設定用変数
 	//移動イベント用
 	uint16_t eventType_ = EventType::moveEvent;
 	float movePoint_[3] = {0,0,0};
 	float movePointRot_[3] = { 0,0,0 };
+	float moveStartPoint_[3] = { 0,0,0 };
 	float moveSpeed_ = 1;
 
 	//バトルイベント用

@@ -114,6 +114,11 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 		eventData.movePoint.y = (float)seting["movePoint"][1];
 		eventData.movePoint.z = (float)seting["movePoint"][2];
 
+		//移動開始位置取得
+		eventData.moveStartPoint.x = (float)seting["moveStartPoint"][0];
+		eventData.moveStartPoint.y = (float)seting["moveStartPoint"][1];
+		eventData.moveStartPoint.z = (float)seting["moveStartPoint"][2];
+
 		//移動するときの角度読み込み
 		eventData.movePointRot.x = (float)seting["movePointRot"][0];
 		eventData.movePointRot.y = (float)seting["movePointRot"][1];

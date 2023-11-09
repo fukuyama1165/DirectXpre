@@ -35,6 +35,7 @@ void EventEditorScene::Initialize()
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
 	enemyModel_ = ModelManager::GetInstance()->SearchModelData("Enemy");
+	moveEventModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
 
 	eventManager_ = EventPointManager::GetInstance();
 
@@ -82,11 +83,11 @@ void EventEditorScene::Update()
 
 	if (Input::GetInstance()->PushKey(DIK_I))
 	{
-		cameraPos_ += Camera::nowCamera->upDirection;
+		cameraPos_ += {0,1,0};
 	}
 	if (Input::GetInstance()->PushKey(DIK_K))
 	{
-		cameraPos_ += -Camera::nowCamera->upDirection;
+		cameraPos_ += {0, -1, 0};
 	}
 
 	cameobj_.pos_ = cameraPos_;
@@ -153,41 +154,9 @@ void EventEditorScene::Update()
 
 	EditEvent();
 
+	DrawEventDataUpdate();
+
 	
-
-	for (auto enemyDatas = enemyDatas_.begin(); enemyDatas != enemyDatas_.end();)
-	{
-		if (enemyDatas->isEnd)
-		{
-			enemyDatas = enemyDatas_.erase(enemyDatas);
-			continue;
-		}
-		enemyDatas++;
-	}
-	
-	for (auto enemyobj : enemyDatas_)
-	{
-		
-		for (auto setingI = seting_.begin(); setingI != seting_.end();)
-		{
-			if (setingI->eventType != EventType::BattleEvent)
-			{
-				setingI++;
-				continue;
-			}
-
-			for (uint32_t i = 0; i < enemyobj.enemys.size(); i++)
-			{
-				enemyobj.enemys[i].Trans_ = setingI->enemySpawnPos[i];
-				enemyobj.enemys[i].Update();
-			}
-
-			setingI++;
-		}
-		
-		
-		
-	}
 
 	eventManager_->Update();
 
@@ -212,6 +181,13 @@ void EventEditorScene::Draw()
 		{
 			enemys.FBXDraw(*enemyModel_);
 		}
+	}
+
+	for (auto movePointobj : movePointDatas_)
+	{
+		movePointobj.startPoint.FBXDraw(*moveEventModel_);
+		movePointobj.endPoint.FBXDraw(*moveEventModel_);
+		movePointobj.move.FBXDraw(*moveEventModel_);
 	}
 
 	eventManager_->Draw();
@@ -240,6 +216,7 @@ void EventEditorScene::AddEvent()
 
 		ImGui::DragFloat3("movePoint", movePoint_, 1.0f, -1000.0f, 1000.0f);
 		ImGui::DragFloat3("movePointRot", movePointRot_, 1.0f, -1000.0f, 1000.0f);
+		ImGui::DragFloat3("moveStartPoint", moveStartPoint_, 1.0f, -1000.0f, 1000.0f);
 		ImGui::DragFloat("moveSpeed", &moveSpeed_, 1.0f, 0.0f, 1000.0f);
 
 		if (ImGui::Button("addEvent"))
@@ -248,9 +225,33 @@ void EventEditorScene::AddEvent()
 			addEvent.eventType = EventType::moveEvent;
 			addEvent.movePoint = { movePoint_[0] ,movePoint_[1] ,movePoint_[2] };
 			addEvent.movePointRot = { movePointRot_[0] ,movePointRot_[1] ,movePointRot_[2] };
+			addEvent.moveStartPoint = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
 			addEvent.moveSpeed = moveSpeed_;
 
 			seting_.push_back(addEvent);
+
+			//描画用のやつにコピー
+			EventMovePointData addMoveEventData;
+
+			addMoveEventData.startPoint.FBXInit();
+			addMoveEventData.endPoint.FBXInit();
+			addMoveEventData.move.FBXInit();
+
+			addMoveEventData.startPoint.Trans_ = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
+			addMoveEventData.endPoint.Trans_ = { movePoint_[0] ,movePoint_[1] ,movePoint_[2] };
+			addMoveEventData.move.Trans_ = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
+
+			addMoveEventData.startPoint.Update();
+			addMoveEventData.endPoint.Update();
+			addMoveEventData.move.Update();
+
+			//各ポイントの色を変更
+
+			addMoveEventData.startPoint.SetColor({ 0.0f,0.0f ,0.5f ,1.0f });
+			addMoveEventData.endPoint.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
+			addMoveEventData.move.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
+
+			movePointDatas_.push_back(addMoveEventData);
 		}
 
 		break;
@@ -322,11 +323,11 @@ void EventEditorScene::AddEvent()
 
 				ImGui::DragFloat3(std::string("spawnPos" + num).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
 
-				ImGui::DragFloat3(std::string("movePos##" + num).c_str(), movePos, 1.0f, -1000.0f, 1000.0f);
+				ImGui::DragFloat3(std::string("movePos" + num).c_str(), movePos, 1.0f, -1000.0f, 1000.0f);
 
-				ImGui::DragFloat(std::string("spawnInterval##" + num).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+				ImGui::DragFloat(std::string("spawnInterval" + num).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
 
-				ImGui::DragFloat(std::string("moveSpeed##" + num).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
+				ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
 
 				break;
 			case 2:
@@ -334,13 +335,13 @@ void EventEditorScene::AddEvent()
 				ImGui::Text("enemytype:Attack");
 				enemyTypes_[i] = "Attack";
 
-				ImGui::DragFloat3(std::string("spawnPos##" + num).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
+				ImGui::DragFloat3(std::string("spawnPos" + num).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
 
 				movePos[0] = { 0 };
 				movePos[1] = { 0 };
 				movePos[2] = { 0 };
 
-				ImGui::DragFloat(std::string("spawnInterval##" + num).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+				ImGui::DragFloat(std::string("spawnInterval" + num).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
 
 				enemyMoveSpeed = 0;
 
@@ -385,8 +386,6 @@ void EventEditorScene::AddEvent()
 				add.enemys.push_back(enemyObj);
 			}
 
-			add.eventNum = (uint32_t)(seting_.size() - 1);
-
 			enemyDatas_.push_back(add);
 
 			//次の設定用に中身を削除
@@ -425,11 +424,13 @@ void EventEditorScene::EditEvent()
 			ImGui::Text("eventNum:%02d", eventCount);
 			ImGui::Text("moveEvent");
 			float movePoint[3] = { setingI->movePoint.x,setingI->movePoint.y,setingI->movePoint.z };
-			float movePointRot[3] = { setingI->movePointRot.x,setingI->movePointRot.x,setingI->movePointRot.x };
+			float movePointRot[3] = { setingI->movePointRot.x,setingI->movePointRot.y,setingI->movePointRot.z };
+			float moveStartPoint[3] = { setingI->moveStartPoint.x,setingI->moveStartPoint.y,setingI->moveStartPoint.z };
 			float moveSpeed = setingI->moveSpeed;
 
 			ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f);
 			ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f);
+			ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f);
 			ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f);
 
 			setingI->movePoint = { movePoint[0] ,movePoint[1] ,movePoint[2] };
@@ -546,12 +547,14 @@ void EventEditorScene::EditEvent()
 				//それしかないなら全部消す
 				seting_.clear();
 				enemyDatas_.clear();
+				movePointDatas_.clear();
 				break;
 
 			}
 			else
 			{
 				uint16_t battleNum = 0;
+				uint16_t moveNum = 0;
 
 				for (auto setingJ = seting_.begin(); setingJ != seting_.end(); setingJ++)
 				{
@@ -562,7 +565,19 @@ void EventEditorScene::EditEvent()
 
 						if (setingJ == setingI)
 						{
-							enemyDatas_[battleNum].isEnd = true;
+							enemyDatas_[battleNum-1].isEnd = true;
+							break;
+						}
+
+					}
+					else if (setingJ->eventType == EventType::moveEvent)
+					{
+
+						moveNum++;
+
+						if (setingJ == setingI)
+						{
+							movePointDatas_[moveNum-1].isEnd = true;
 							break;
 						}
 
@@ -582,4 +597,84 @@ void EventEditorScene::EditEvent()
 
 
 	ImGui::End();
+}
+
+
+void EventEditorScene::DrawEventDataUpdate()
+{
+	for (auto enemyDatas = enemyDatas_.begin(); enemyDatas != enemyDatas_.end();)
+	{
+		if (enemyDatas->isEnd)
+		{
+			enemyDatas = enemyDatas_.erase(enemyDatas);
+			continue;
+		}
+		enemyDatas++;
+	}
+
+	for (auto movePointDatas = movePointDatas_.begin(); movePointDatas != movePointDatas_.end();)
+	{
+		if (movePointDatas->isEnd)
+		{
+			movePointDatas = movePointDatas_.erase(movePointDatas);
+			continue;
+		}
+		movePointDatas++;
+	}
+
+	for (auto enemyobj : enemyDatas_)
+	{
+
+		for (auto setingI = seting_.begin(); setingI != seting_.end();)
+		{
+			if (setingI->eventType != EventType::BattleEvent)
+			{
+				setingI++;
+				continue;
+			}
+
+			for (uint32_t i = 0; i < enemyobj.enemys.size(); i++)
+			{
+				enemyobj.enemys[i].Trans_ = setingI->enemySpawnPos[i];
+				enemyobj.enemys[i].Update();
+			}
+
+			setingI++;
+		}
+
+
+
+	}
+
+	for (auto movePointobj : movePointDatas_)
+	{
+
+		for (auto setingI = seting_.begin(); setingI != seting_.end();)
+		{
+			if (setingI->eventType != EventType::moveEvent)
+			{
+				setingI++;
+				continue;
+			}
+
+			movePointobj.move.Trans_ = lerp(movePointobj.startPoint.GetWorldPos(), movePointobj.endPoint.GetWorldPos(), moveEventMoveTimer / moveEventMoveMaxTime);
+			movePointobj.startPoint.Update();
+			movePointobj.endPoint.Update();
+			movePointobj.move.Update();
+
+			setingI++;
+		}
+
+
+
+	}
+
+	if (moveEventMoveTimer < moveEventMoveMaxTime)
+	{
+		moveEventMoveTimer++;
+	}
+	else
+	{
+		moveEventMoveTimer = 0;
+	}
 }

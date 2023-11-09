@@ -62,7 +62,8 @@ private:
 
 	bool CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, float rB);
 
-	
+	//デバック用の更新とか処理
+	void DebugUpdate();
 
 private:
 
