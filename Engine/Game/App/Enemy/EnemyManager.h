@@ -47,7 +47,7 @@ public:
 	//弾
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 
-	uint32_t enemyCount_ = 0;
+	int32_t enemyCount_ = 0;
 
 	bool isDebugShot_ = false;
 

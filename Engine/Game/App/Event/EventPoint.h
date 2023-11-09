@@ -17,8 +17,8 @@ struct EventSeting
 	Vector3 moveStartPoint = { 0,0,0 };
 	Vector3 movePointRot = { 0,0,0 };
 	float moveSpeed = 1;
-	uint16_t enemyNum = 0;
-	uint16_t enemyMaxSpawn = 0;
+	int32_t enemyNum = 0;
+	int32_t enemyMaxSpawn = 0;
 	std::vector<Vector3> enemySpawnPos;
 	std::vector<Vector3> enemyMovePos;
 	std::vector<float> enemyMoveSpeed;
@@ -83,7 +83,7 @@ private:
 	bool IsFinished_ = false;
 
 	//敵の個数等のカウンター
-	uint32_t count_ = 0;
+	int32_t count_ = 0;
 
 	//イベントの設定
 	EventSeting seting_;

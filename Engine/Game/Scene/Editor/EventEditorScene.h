@@ -35,6 +35,9 @@ private:
 	//制作中のイベントの描画用のオブジェクトの更新用の関数
 	void DrawEventDataUpdate();
 
+	//イベントデータを書き出し
+	void SaveEventData(const std::string fileName);
+
 private:
 	//天球
 	Object3D objobj3_;
@@ -89,8 +92,8 @@ private:
 	float moveEventMoveMaxTime = 50;
 
 	//描画用モデル
-	AnimationModel* enemyModel_;
-	AnimationModel* moveEventModel_;
+	AnimationModel* enemyModel_ = nullptr;
+	AnimationModel* moveEventModel_ = nullptr;
 
 	//イベントの中身設定用変数
 	//移動イベント用
@@ -101,8 +104,8 @@ private:
 	float moveSpeed_ = 1;
 
 	//バトルイベント用
-	uint16_t enemyNum_ = 0;
-	uint16_t enemyMaxSpawn_ = 0;
+	int32_t enemyNum_ = 0;
+	int32_t enemyMaxSpawn_ = 1;
 	std::vector<Vector3> enemySpawnPos_;
 	std::vector<Vector3> enemyMovePos_;
 	std::vector<float> enemyMoveSpeed_;
@@ -113,4 +116,7 @@ private:
 	const char* EventTypeChar[2] = { "moveEvent","BattleEvent" };
 	//敵の種類
 	const char* EnemyTypeChar[3] = { "moveOnly","moveAttack","Attack" };
+
+	//jsonファイル書き出し用のファイル名を入れるところ
+	char str1[128] = "";
 };

@@ -149,6 +149,11 @@ void EventEditorScene::Update()
 
 	ImGui::End();
 
+#ifdef _DEBUG
+
+	ImGui::ShowDemoWindow();
+#endif
+
 	//イベント管理部分
 	AddEvent();
 
@@ -156,6 +161,16 @@ void EventEditorScene::Update()
 
 	DrawEventDataUpdate();
 
+	ImGui::Begin("save");
+
+	ImGui::InputTextWithHint("fileName", "seveFileName", str1, IM_ARRAYSIZE(str1));
+
+	if (ImGui::Button("save"))
+	{
+		SaveEventData(std::string(str1));
+	}
+
+	ImGui::End();
 	
 
 	eventManager_->Update();
@@ -207,7 +222,7 @@ void EventEditorScene::AddEvent()
 	ImGui::Combo("emitterType", (int*)&eventTypeNum_, EventTypeChar, IM_ARRAYSIZE(EventTypeChar));
 
 	//前フレームの敵の数
-	uint16_t oldEnemyNum_ = 0;
+	int32_t oldEnemyNum_ = 0;
 
 
 	switch (eventTypeNum_)
@@ -262,10 +277,10 @@ void EventEditorScene::AddEvent()
 		//前フレームの情報を保存
 		oldEnemyNum_ = enemyNum_;
 		//intしかないのでintに変換
-		ImGui::DragInt("enemyNum_", (int*)&enemyNum_, 1, 0, 10);
+		ImGui::DragInt("enemyNum", (int*)&enemyNum_, 1, 0, 10);
 
 		//画面の最大湧き数を設定
-		ImGui::DragInt("maxSpawn", (int*)&enemyMaxSpawn_, 1, 0, enemyNum_);
+		ImGui::DragInt("maxSpawn", (int*)&enemyMaxSpawn_, 1, 1, 10);
 
 		//前フレームから変更されていたら大きさを変更
 		if (oldEnemyNum_ != enemyNum_)
@@ -278,6 +293,51 @@ void EventEditorScene::AddEvent()
 			enemyTypes_.resize(enemyNum_);
 		}
 
+		//イベント追加するよ
+		if (ImGui::Button("addEvent"))
+		{
+			//バトルなので敵の情報を入れましょう
+			EventSeting addEvent;
+			addEvent.eventType = EventType::BattleEvent;
+			addEvent.enemyNum = enemyNum_;
+			addEvent.enemyTypes = enemyTypes_;
+			addEvent.enemyMaxSpawn = enemyMaxSpawn_;
+			addEvent.enemySpawnPos = enemySpawnPos_;
+			addEvent.enemyMovePos = enemyMovePos_;
+			addEvent.enemySpawnInterval = enemySpawnInterval_;
+			addEvent.enemyMoveSpeed = enemyMoveSpeed_;
+
+			seting_.push_back(addEvent);
+
+			EventEnemyData add;
+
+			for (uint16_t i = 0; i < enemyNum_; i++)
+			{
+				Object3D enemyObj;
+				enemyObj.FBXInit();
+				enemyObj.Trans_ = enemySpawnPos_[i];
+
+				add.enemys.push_back(enemyObj);
+			}
+
+			enemyDatas_.push_back(add);
+
+			//次の設定用に中身を削除
+			enemyTypeNum_.clear();
+			enemySpawnPos_.clear();
+			enemyMovePos_.clear();
+			enemyMoveSpeed_.clear();
+			enemySpawnInterval_.clear();
+			enemyTypes_.clear();
+			enemyNum_ = 0;
+			enemyMaxSpawn_ = 1;
+		}
+
+
+		break;
+	default:
+		break;
+	}
 
 
 		//敵の数分回す
@@ -359,51 +419,7 @@ void EventEditorScene::AddEvent()
 
 		}
 
-		//イベント追加するよ
-		if (ImGui::Button("addEvent"))
-		{
-			//バトルなので敵の情報を入れましょう
-			EventSeting addEvent;
-			addEvent.eventType = EventType::BattleEvent;
-			addEvent.enemyNum = enemyNum_;
-			addEvent.enemyTypes = enemyTypes_;
-			addEvent.enemyMaxSpawn = enemyMaxSpawn_;
-			addEvent.enemySpawnPos = enemySpawnPos_;
-			addEvent.enemyMovePos = enemyMovePos_;
-			addEvent.enemySpawnInterval = enemySpawnInterval_;
-			addEvent.enemyMoveSpeed = enemyMoveSpeed_;
-
-			seting_.push_back(addEvent);
-
-			EventEnemyData add;
-
-			for (uint16_t i = 0; i < enemyNum_; i++)
-			{
-				Object3D enemyObj;
-				enemyObj.FBXInit();
-				enemyObj.Trans_ = enemySpawnPos_[i];
-
-				add.enemys.push_back(enemyObj);
-			}
-
-			enemyDatas_.push_back(add);
-
-			//次の設定用に中身を削除
-			enemyTypeNum_.clear();
-			enemySpawnPos_.clear();
-			enemyMovePos_.clear();
-			enemyMoveSpeed_.clear();
-			enemySpawnInterval_.clear();
-			enemyTypes_.clear();
-			enemyNum_ = 0;
-			enemyMaxSpawn_ = 0;
-		}
-
-
-		break;
-	default:
-		break;
-	}
+		
 
 	ImGui::End();
 }
@@ -417,8 +433,14 @@ void EventEditorScene::EditEvent()
 	//登録されているイベントデータ編集したい
 	for (auto setingI = seting_.begin(); setingI != seting_.end();)
 	{
-
 		std::string num = ("##" + std::to_string(eventCount));
+		if (!ImGui::CollapsingHeader(std::string("eventNum"+ std::to_string(eventCount) + num).c_str()))
+		{
+			eventCount++;
+			setingI++;
+			continue;
+		}
+		
 		if (setingI->eventType == EventType::moveEvent)
 		{
 			ImGui::Text("eventNum:%02d", eventCount);
@@ -622,29 +644,29 @@ void EventEditorScene::DrawEventDataUpdate()
 		movePointDatas++;
 	}
 
-	for (auto enemyobj : enemyDatas_)
+	auto enemyobj = enemyDatas_.begin();
+
+	for (auto setingI = seting_.begin(); setingI != seting_.end();)
 	{
-
-		for (auto setingI = seting_.begin(); setingI != seting_.end();)
+		if (setingI->eventType != EventType::BattleEvent)
 		{
-			if (setingI->eventType != EventType::BattleEvent)
-			{
-				setingI++;
-				continue;
-			}
-
-			for (uint32_t i = 0; i < enemyobj.enemys.size(); i++)
-			{
-				enemyobj.enemys[i].Trans_ = setingI->enemySpawnPos[i];
-				enemyobj.enemys[i].Update();
-			}
-
 			setingI++;
+			continue;
 		}
 
+		for (uint32_t i = 0; i < enemyobj->enemys.size(); i++)
+		{
+			enemyobj->enemys[i].Trans_ = setingI->enemySpawnPos[i];
+			enemyobj->enemys[i].Update();
+		}
 
-
+		setingI++;
+		enemyobj++;
 	}
+
+
+
+	
 
 	for (auto movePointobj : movePointDatas_)
 	{
@@ -677,4 +699,53 @@ void EventEditorScene::DrawEventDataUpdate()
 	{
 		moveEventMoveTimer = 0;
 	}
+}
+
+void EventEditorScene::SaveEventData(const std::string fileName)
+{
+
+	std::string name = fileName;
+
+	if (fileName == "")
+	{
+		name = std::string("jsonEventdata");
+	}
+
+	nlohmann::json jsonfile;
+
+	for (auto eventSeting : seting_)
+	{
+		nlohmann::json data;
+		if (eventSeting.eventType == EventType::moveEvent)
+		{
+			data["seting"]["movePoint"] = { eventSeting.movePoint.x,eventSeting.movePoint.y,eventSeting.movePoint.z };
+			data["seting"]["movePointRot"] = { eventSeting.movePointRot.x,eventSeting.movePointRot.y,eventSeting.movePointRot.z };
+			data["seting"]["moveStartPoint"] = { eventSeting.moveStartPoint.x,eventSeting.moveStartPoint.y,eventSeting.moveStartPoint.z };
+			data["seting"]["moveSpeed"] = eventSeting.moveSpeed;
+			data["type"] = "moveEvent";
+		}
+		else if (eventSeting.eventType == EventType::BattleEvent)
+		{
+			data["seting"]["enemyMaxSpawn"] = eventSeting.enemyMaxSpawn;
+			data["seting"]["enemyNum"] = eventSeting.enemyNum;
+			for (uint16_t i = 0; i < eventSeting.enemyNum; i++)
+			{
+				data["seting"]["spawnPoint"] += { eventSeting.enemySpawnPos[i].x,eventSeting.enemySpawnPos[i].y,eventSeting.enemySpawnPos[i].z};
+				
+				data["seting"]["enemyMovePos"] += { eventSeting.enemyMovePos[i].x, eventSeting.enemyMovePos[i].y, eventSeting.enemyMovePos[i].z };
+			}
+			data["seting"]["spawnInterval"] = eventSeting.enemySpawnInterval;
+			data["seting"]["enemyType"] = eventSeting.enemyTypes;
+			data["seting"]["enemySpeed"] = eventSeting.enemyMoveSpeed;
+			data["type"] = "BattleEvent";
+		}
+		jsonfile["events"] += { data };
+	}
+	
+
+	std::ofstream ofs("Resources/json/" + name + ".json");
+	if (ofs) {
+		ofs << jsonfile.dump(4);
+	}
+
 }
