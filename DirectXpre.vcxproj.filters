@@ -306,7 +306,7 @@
     <ClCompile Include="Engine\Game\Light\SpotLight.cpp">
       <Filter>ソース ファイル\Game\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Math\PI.cpp">
+    <ClCompile Include="Engine\Math\Util.cpp">
       <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Easing.cpp">
@@ -491,7 +491,7 @@
     <ClInclude Include="Engine\Math\matrix4x4.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Math\PI.h">
+    <ClInclude Include="Engine\Math\Util.h">
       <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Quaternion.h">

@@ -85,6 +85,64 @@ void EventPointManager::LoadEventData(std::string fileName)
 	
 }
 
+void EventPointManager::LoadFullPathEventData(std::string fileName)
+{
+
+	eventSetings_.clear();
+
+	nowEventDataFileName_ = Util::SeparateFilePath(fileName);
+
+	//ファイルストリーム
+	std::ifstream file(fileName);
+
+	if (!file)
+	{
+		assert(0);
+	}
+
+	//JSON文字列から解凍したデータ
+	nlohmann::json deserialized;
+
+	//解凍
+	file >> deserialized;
+
+	//正しいイベントファイルかチェック
+	assert(deserialized.is_object());
+	assert(deserialized.contains("name"));
+	assert(deserialized["name"].is_string());
+
+	//"name"を文字列として取得
+	std::string name = deserialized["name"].get<std::string>();
+
+	//正しいかどうかチェック
+	assert(name.compare("event") == 0);
+
+	//"events"の全オブジェクトを走査
+	for (nlohmann::json& events : deserialized["events"])
+	{
+
+		EventScanning(deserialized, events);
+	}
+
+	//return std::move(levelData);
+
+	if (eventSetings_.empty())
+	{
+		eventSetings_.push_back(EventSeting());
+	}
+
+	eventPoint_ = EventPoint(eventSetings_[0]);
+
+	//最初がバトルの場合倒した後にもう一周してしまうため(移動イベントだとおきない)
+	if (eventPoint_.GetEventType() == EventType::BattleEvent)
+	{
+		eventPoint_.SetIsFinished(true);
+	}
+
+	eventAllEnd_ = false;
+
+}
+
 void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::json& Event)
 {
 
@@ -145,6 +203,7 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 		//イベントのタイプをセット
 		eventData.eventType = BattleEvent;
+		eventData.playerHideVector = seting["playerHideType"];
 
 		//エネミーの数だけ回す
 		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)

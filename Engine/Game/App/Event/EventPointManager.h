@@ -13,6 +13,8 @@ public:
 
 	//外にあるイベントのデータを持つファイルからデータを入れたい
 	void LoadEventData(std::string fileName);
+	//フルパスで指定された場所にあるイベントのデータが入っているファイルからデータを取得(フォルダ名に日本語が入っていると無理)
+	void LoadFullPathEventData(std::string fileName);
 
 	void Initlize();
 

@@ -29,7 +29,7 @@ void EventEditorScene::Initialize()
 	Camera::nowCamera = cameobj_.GetCameraP();
 
 	//レベル読み込み
-	LevelLoader::GetInstance()->LoadLevel("MapTest");
+	LevelLoader::GetInstance()->LoadLevel("MapTest2");
 
 	enemys_ = EnemyManager::GetInstance();
 
@@ -39,7 +39,7 @@ void EventEditorScene::Initialize()
 
 	eventManager_ = EventPointManager::GetInstance();
 
-
+	player_.Init();
 
 }
 
@@ -61,98 +61,8 @@ void EventEditorScene::Update()
 
 	LevelLoader::GetInstance()->Update();
 
-
-	if (Input::GetInstance()->PushKey(DIK_UP))
-	{
-		cameraPos_.x += Vector3::normalize(Camera::nowCamera->forward_).x;
-		cameraPos_.z += Vector3::normalize(Camera::nowCamera->forward_).z;
-	}
-	if (Input::GetInstance()->PushKey(DIK_DOWN))
-	{
-		cameraPos_.x += -Vector3::normalize(Camera::nowCamera->forward_).x;
-		cameraPos_.z += -Vector3::normalize(Camera::nowCamera->forward_).z;
-	}
-	if (Input::GetInstance()->PushKey(DIK_RIGHT))
-	{
-		cameraPos_ += Camera::nowCamera->rightDirection;
-	}
-	if (Input::GetInstance()->PushKey(DIK_LEFT))
-	{
-		cameraPos_ += -Camera::nowCamera->rightDirection;
-	}
-
-	if (Input::GetInstance()->PushKey(DIK_I))
-	{
-		cameraPos_ += {0,1,0};
-	}
-	if (Input::GetInstance()->PushKey(DIK_K))
-	{
-		cameraPos_ += {0, -1, 0};
-	}
-
-	cameobj_.pos_ = cameraPos_;
-	cameobj_.IsUseCameraMouse_ = IsUseCameraMouse_;
-
-	if (Input::GetInstance()->TriggerKey(DIK_B))
-	{
-		IsUseCameraMouse_ = !IsUseCameraMouse_;
-	}
-
-#pragma region check
-
-	ImGui::Begin("check");
-
-	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
-
-	ImGui::Text("eventEnd:%d", eventManager_->GetInstance()->GetPEventPoint()->GetIsFinished());
-	ImGui::Text("eventAllEnd:%d", eventManager_->GetInstance()->GetEventAllEnd());
-	ImGui::Text("eventNum:%d", eventManager_->GetInstance()->GetEventNum());
-	ImGui::Text("eventcount:%d", eventManager_->GetInstance()->GetEventCount());
-	ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
-
-	ImGui::End();
-
-#pragma endregion
-
-	ImGui::Begin("camera");
-
-
-	ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
-	ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
-	ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
-
-
-	ImGui::Text("reset");
-
-	if (ImGui::Button("posX"))
-	{
-		cameraPos_.x = 0;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("posY"))
-	{
-		cameraPos_.y = 0;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("posZ"))
-	{
-		cameraPos_.z = -200;
-	}
-	
-
-	ImGui::Text("eye:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().eye_.x, cameobj_.GetCamera().eye_.y, cameobj_.GetCamera().eye_.z);
-	ImGui::Text("target:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().target_.x, cameobj_.GetCamera().target_.y, cameobj_.GetCamera().target_.z);
-	ImGui::Text("up:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().up_.x, cameobj_.GetCamera().up_.y, cameobj_.GetCamera().up_.z);
-
-	ImGui::Text("forward:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().forward_.x, cameobj_.GetCamera().forward_.y, cameobj_.GetCamera().forward_.z);
-	ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().rightDirection.x, cameobj_.GetCamera().rightDirection.y, cameobj_.GetCamera().rightDirection.z);
-
-	ImGui::End();
-
-#ifdef _DEBUG
-
-	ImGui::ShowDemoWindow();
-#endif
+	//デバック用の処理
+	DebugUpdate();
 
 	//イベント管理部分
 	AddEvent();
@@ -168,6 +78,37 @@ void EventEditorScene::Update()
 	if (ImGui::Button("save"))
 	{
 		SaveEventData(std::string(str1));
+	}
+
+	if (ImGui::Button("test"))
+	{
+		wchar_t filePath[MAX_PATH] = {0};
+		OPENFILENAME a = {};
+		//構造体の大きさ基本的にこれ
+		a.lStructSize = sizeof(OPENFILENAME);
+		//使いたい(占有)ウインドウハンドル
+		a.hwndOwner = WinApp::GetInstance()->getHwnd();
+		//フィルターを設定?
+		a.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0\0";
+		//拡張子決定
+		a.lpstrDefExt = L"eefm";
+		//何個目のフィルターを使うん?みたいな感じ?
+		a.nFilterIndex = 0;
+		//保存の時ファイル名を入れるやつ?
+		a.lpstrFile = filePath;
+		//ファイルのバッファの大きさ？
+		a.nMaxFile = MAX_PATH;
+		//ファイルを保存するときにどういう動きをするか
+		a.Flags = OFN_OVERWRITEPROMPT;
+
+		auto old = std::filesystem::current_path();
+		if (GetSaveFileName(&a))
+		{
+			std::string test = Util::WStringToString(filePath);
+			SaveEventFullPathData(test);
+		}
+		std::filesystem::current_path(old);
+
 	}
 
 	ImGui::End();
@@ -189,20 +130,23 @@ void EventEditorScene::Draw()
 	
 	enemys_->Draw();
 
-
-	for (auto enemyobj : enemyDatas_)
+	if (!isTest_)
 	{
-		for (auto enemys : enemyobj.enemys)
+
+		for (auto enemyobj : enemyDatas_)
 		{
-			enemys.FBXDraw(*enemyModel_);
+			for (auto enemys : enemyobj.enemys)
+			{
+				enemys.FBXDraw(*enemyModel_);
+			}
 		}
-	}
 
-	for (auto movePointobj : movePointDatas_)
-	{
-		movePointobj.startPoint.FBXDraw(*moveEventModel_);
-		movePointobj.endPoint.FBXDraw(*moveEventModel_);
-		movePointobj.move.FBXDraw(*moveEventModel_);
+		for (auto movePointobj : movePointDatas_)
+		{
+			movePointobj.startPoint.FBXDraw(*moveEventModel_);
+			movePointobj.endPoint.FBXDraw(*moveEventModel_);
+			movePointobj.move.FBXDraw(*moveEventModel_);
+		}
 	}
 
 	eventManager_->Draw();
@@ -293,6 +237,21 @@ void EventEditorScene::AddEvent()
 			enemyTypes_.resize(enemyNum_);
 		}
 
+		//intしか使えん許さん
+		ImGui::Combo("playerHideType", (int*)&playerHideTypeNum_, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
+
+		switch (playerHideTypeNum_)
+		{
+		case playerHideVectorType::Down:
+			playerHideType_ = playerHideVectorType::Down;
+			break;
+		case playerHideVectorType::Right:
+			playerHideType_ = playerHideVectorType::Right;
+			break;
+		default:
+			break;
+		}
+
 		//イベント追加するよ
 		if (ImGui::Button("addEvent"))
 		{
@@ -306,6 +265,7 @@ void EventEditorScene::AddEvent()
 			addEvent.enemyMovePos = enemyMovePos_;
 			addEvent.enemySpawnInterval = enemySpawnInterval_;
 			addEvent.enemyMoveSpeed = enemyMoveSpeed_;
+			addEvent.playerHideVector = playerHideType_;
 
 			seting_.push_back(addEvent);
 
@@ -457,6 +417,7 @@ void EventEditorScene::EditEvent()
 
 			setingI->movePoint = { movePoint[0] ,movePoint[1] ,movePoint[2] };
 			setingI->movePointRot = { movePointRot[0] ,movePointRot[1] ,movePointRot[2] };
+			setingI->moveStartPoint = { moveStartPoint[0] ,moveStartPoint[1] ,moveStartPoint[2] };
 			setingI->moveSpeed = moveSpeed;
 
 
@@ -485,7 +446,7 @@ void EventEditorScene::EditEvent()
 					enemyTypeNum = 2;
 				}
 
-
+				
 
 				//intしか使えん許さん
 				ImGui::Combo(std::string("EnemyType" + enemyNum).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar));
@@ -559,6 +520,25 @@ void EventEditorScene::EditEvent()
 
 
 			}
+
+			float playerHideType = setingI->playerHideVector;
+
+			//intしか使えん許さん
+			ImGui::Combo("playerHideType", (int*)&playerHideTypeNum_, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
+
+			switch (playerHideTypeNum_)
+			{
+			case playerHideVectorType::Down:
+				playerHideType = playerHideVectorType::Down;
+				break;
+			case playerHideVectorType::Right:
+				playerHideType = playerHideVectorType::Right;
+				break;
+			default:
+				break;
+			}
+
+			setingI->playerHideVector = playerHideType;
 		}
 
 		if (ImGui::Button(std::string("erase" + num).c_str()))
@@ -621,7 +601,6 @@ void EventEditorScene::EditEvent()
 	ImGui::End();
 }
 
-
 void EventEditorScene::DrawEventDataUpdate()
 {
 	for (auto enemyDatas = enemyDatas_.begin(); enemyDatas != enemyDatas_.end();)
@@ -642,6 +621,25 @@ void EventEditorScene::DrawEventDataUpdate()
 			continue;
 		}
 		movePointDatas++;
+	}
+
+	auto moveobj = movePointDatas_.begin();
+
+	for (auto setingI = seting_.begin(); setingI != seting_.end();)
+	{
+		if (setingI->eventType != EventType::moveEvent)
+		{
+			setingI++;
+			continue;
+		}
+		
+		moveobj->startPoint.Trans_ = setingI->moveStartPoint;
+		moveobj->startPoint.Update();
+		moveobj->endPoint.Trans_ = setingI->movePoint;
+		moveobj->endPoint.Update();
+		
+		setingI++;
+		moveobj++;
 	}
 
 	auto enemyobj = enemyDatas_.begin();
@@ -703,7 +701,7 @@ void EventEditorScene::DrawEventDataUpdate()
 
 void EventEditorScene::SaveEventData(const std::string fileName)
 {
-
+	
 	std::string name = fileName;
 
 	if (fileName == "")
@@ -712,6 +710,8 @@ void EventEditorScene::SaveEventData(const std::string fileName)
 	}
 
 	nlohmann::json jsonfile;
+
+	jsonfile["name"] = "event";
 
 	for (auto eventSeting : seting_)
 	{
@@ -738,6 +738,7 @@ void EventEditorScene::SaveEventData(const std::string fileName)
 			data["seting"]["enemyType"] = eventSeting.enemyTypes;
 			data["seting"]["enemySpeed"] = eventSeting.enemyMoveSpeed;
 			data["type"] = "BattleEvent";
+			data["playerHideType"] = eventSeting.playerHideVector;
 		}
 		jsonfile["events"] += { data };
 	}
@@ -748,4 +749,158 @@ void EventEditorScene::SaveEventData(const std::string fileName)
 		ofs << jsonfile.dump(4);
 	}
 
+}
+
+void EventEditorScene::TestEvent()
+{
+
+}
+
+void EventEditorScene::DebugUpdate()
+{
+	if (Input::GetInstance()->PushKey(DIK_UP))
+	{
+		cameraPos_.x += Vector3::normalize(Camera::nowCamera->forward_).x;
+		cameraPos_.z += Vector3::normalize(Camera::nowCamera->forward_).z;
+	}
+	if (Input::GetInstance()->PushKey(DIK_DOWN))
+	{
+		cameraPos_.x += -Vector3::normalize(Camera::nowCamera->forward_).x;
+		cameraPos_.z += -Vector3::normalize(Camera::nowCamera->forward_).z;
+	}
+	if (Input::GetInstance()->PushKey(DIK_RIGHT))
+	{
+		cameraPos_ += Camera::nowCamera->rightDirection;
+	}
+	if (Input::GetInstance()->PushKey(DIK_LEFT))
+	{
+		cameraPos_ += -Camera::nowCamera->rightDirection;
+	}
+
+	if (Input::GetInstance()->PushKey(DIK_I))
+	{
+		cameraPos_ += {0, 1, 0};
+	}
+	if (Input::GetInstance()->PushKey(DIK_K))
+	{
+		cameraPos_ += {0, -1, 0};
+	}
+
+	cameobj_.pos_ = cameraPos_;
+	cameobj_.IsUseCameraMouse_ = IsUseCameraMouse_;
+
+	if (Input::GetInstance()->TriggerKey(DIK_B))
+	{
+		IsUseCameraMouse_ = !IsUseCameraMouse_;
+	}
+
+#pragma region check
+
+	ImGui::Begin("check");
+
+	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
+
+	ImGui::Text("eventEnd:%d", eventManager_->GetInstance()->GetPEventPoint()->GetIsFinished());
+	ImGui::Text("eventAllEnd:%d", eventManager_->GetInstance()->GetEventAllEnd());
+	ImGui::Text("eventNum:%d", eventManager_->GetInstance()->GetEventNum());
+	ImGui::Text("eventcount:%d", eventManager_->GetInstance()->GetEventCount());
+	ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
+
+	ImGui::End();
+
+#pragma endregion
+
+	ImGui::Begin("camera");
+
+
+	ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
+	ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
+	ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
+
+
+	ImGui::Text("reset");
+
+	if (ImGui::Button("posX"))
+	{
+		cameraPos_.x = 0;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("posY"))
+	{
+		cameraPos_.y = 0;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("posZ"))
+	{
+		cameraPos_.z = -200;
+	}
+
+
+	ImGui::Text("eye:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().eye_.x, cameobj_.GetCamera().eye_.y, cameobj_.GetCamera().eye_.z);
+	ImGui::Text("target:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().target_.x, cameobj_.GetCamera().target_.y, cameobj_.GetCamera().target_.z);
+	ImGui::Text("up:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().up_.x, cameobj_.GetCamera().up_.y, cameobj_.GetCamera().up_.z);
+
+	ImGui::Text("forward:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().forward_.x, cameobj_.GetCamera().forward_.y, cameobj_.GetCamera().forward_.z);
+	ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().rightDirection.x, cameobj_.GetCamera().rightDirection.y, cameobj_.GetCamera().rightDirection.z);
+
+	ImGui::End();
+
+#ifdef _DEBUG
+
+	ImGui::ShowDemoWindow();
+#endif
+
+	//マップのテスト
+	LevelLoader::GetInstance()->reloadLevel(DIK_L, "MapTest2");
+
+}
+
+void EventEditorScene::SaveEventFullPathData(const std::string fileName)
+{
+	std::string name = fileName;
+
+	if (fileName == "")
+	{
+		name = std::string("jsonEventdata");
+	}
+
+	nlohmann::json jsonfile;
+
+	jsonfile["name"] = "event";
+
+	for (auto eventSeting : seting_)
+	{
+		nlohmann::json data;
+		if (eventSeting.eventType == EventType::moveEvent)
+		{
+			data["seting"]["movePoint"] = { eventSeting.movePoint.x,eventSeting.movePoint.y,eventSeting.movePoint.z };
+			data["seting"]["movePointRot"] = { eventSeting.movePointRot.x,eventSeting.movePointRot.y,eventSeting.movePointRot.z };
+			data["seting"]["moveStartPoint"] = { eventSeting.moveStartPoint.x,eventSeting.moveStartPoint.y,eventSeting.moveStartPoint.z };
+			data["seting"]["moveSpeed"] = eventSeting.moveSpeed;
+			data["type"] = "moveEvent";
+		}
+		else if (eventSeting.eventType == EventType::BattleEvent)
+		{
+			data["seting"]["enemyMaxSpawn"] = eventSeting.enemyMaxSpawn;
+			data["seting"]["enemyNum"] = eventSeting.enemyNum;
+			for (uint16_t i = 0; i < eventSeting.enemyNum; i++)
+			{
+				data["seting"]["spawnPoint"] += { eventSeting.enemySpawnPos[i].x, eventSeting.enemySpawnPos[i].y, eventSeting.enemySpawnPos[i].z};
+
+				data["seting"]["enemyMovePos"] += { eventSeting.enemyMovePos[i].x, eventSeting.enemyMovePos[i].y, eventSeting.enemyMovePos[i].z };
+			}
+			data["seting"]["spawnInterval"] = eventSeting.enemySpawnInterval;
+			data["seting"]["enemyType"] = eventSeting.enemyTypes;
+			data["seting"]["enemySpeed"] = eventSeting.enemyMoveSpeed;
+			data["type"] = "BattleEvent";
+			data["playerHideType"] = eventSeting.playerHideVector;
+		}
+		jsonfile["events"] += { data };
+	}
+
+
+	std::ofstream ofs(name);
+	if (ofs) {
+		ofs << jsonfile.dump(4);
+	}
 }

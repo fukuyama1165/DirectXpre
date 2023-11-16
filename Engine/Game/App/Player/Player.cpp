@@ -192,7 +192,7 @@ void Player::Update()
 	//移動中ではないなら
 	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 	{
-		if (cameraCheng_)
+		if (EventPointManager::GetInstance()->GetPEventPoint()->GetPlayerHideVector()==(float)playerHideVectorType::Right)
 		{
 			HideRightWall();
 		}
@@ -214,9 +214,10 @@ void Player::Update()
 				playerCamera_.pos_ = originalPos_;
 				attackFlag_ = false;
 			}
-			//現在位置を取得して進む大きさを決定
-			pos_ = playerCamera_.pos_;
+			//開始位置を取得して進む大きさを決定
+			pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMoveStartPoint();
 			moveVec_ = nainavec3(EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint(), pos_).normalize();
+			playerCamera_.pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMoveStartPoint();;
 			moveEventStart_ = true;
 		}
 		playerCamera_.pos_ += moveVec_;
@@ -329,8 +330,7 @@ void Player::Update()
 
 	if (muzzleFlashTime_ > 0)
 	{
-		playerObj_.SLightGroup_->SetPointLightActive(1, true);
-		
+		playerObj_.SLightGroup_->SetPointLightActive(1, true);	
 
 	}
 	else
@@ -338,6 +338,10 @@ void Player::Update()
 		playerObj_.SLightGroup_->SetPointLightActive(1, false);
 	}
 
+	if (muzzleFlashTime_ > 0)
+	{
+		muzzleFlashTime_--;
+	}
 	
 	
 	Damage();
@@ -423,7 +427,7 @@ void Player::Draw()
 {
 	playerObj_.FBXDraw(*gunModel_);
 	//reticle3DObj_.Draw();
-	reticle_.Draw();
+	
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
 		bullet->Draw(bulletModel_);
@@ -431,6 +435,7 @@ void Player::Draw()
 
 	if (!isTitle_)
 	{
+		reticle_.Draw();
 		if (hp_ > 0)
 		{
 			hp1Sprote_.Draw();
@@ -498,6 +503,13 @@ void Player::Attack()
 		reticle3DObj_.Update();
 	}
 
+	if (bulletCT_ > 0)
+	{
+		bulletCT_--;
+	}
+
+	
+
 	if ((input_->GetMouseButtonDown(0) and bulletCT_ <= 0 and isUseKeybord_) or (isTitle_ and isUseKeybord_))
 	{
 		//発射地点の為に自キャラの座標をコピー
@@ -542,15 +554,7 @@ void Player::Attack()
 		
 	}
 
-	if (bulletCT_ > 0)
-	{
-		bulletCT_--;
-	}
-
-	if (muzzleFlashTime_ > 0)
-	{
-		muzzleFlashTime_--;
-	}
+	
 
 	//ゲームパッド未接続なら何もせず抜ける
 	if (!Input::GetInstance()->GetIsUseGamePad())
@@ -611,11 +615,6 @@ void Player::HideRightWall()
 		{
 			time_++;
 		}
-
-		
-
-		playCamera_.eye_ = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z}, Vector3{ originalPos_.x+5, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
-		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z+1 }, Vector3{ playCamera_.eye_.x-100,playCamera_.eye_.y,playCamera_.eye_.z}, time_ / maxTime_);
 		
 	}
 	else
@@ -624,11 +623,6 @@ void Player::HideRightWall()
 		{
 			time_--;
 		}
-		
-		playCamera_.eye_ = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x+5, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
-		playCamera_.target_ = easeOutQuint(Vector3{ playCamera_.eye_.x,playCamera_.eye_.y,playCamera_.eye_.z + 1 }, Vector3{ playCamera_.eye_.x - 100,playCamera_.eye_.y,playCamera_.eye_.z }, time_ / maxTime_);
-
-
 
 	}
 

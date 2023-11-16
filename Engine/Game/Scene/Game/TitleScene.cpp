@@ -16,7 +16,25 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
-	Object3D::SetLight(&LightManager::GetInstance()->lightGroups_[0]);
+
+	//ライトの生成
+	lightManager_ = LightManager::GetInstance();
+
+	lightManager_->lightGroups_[0].SetDirLightActive(0, true);
+	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
+	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
+
+	lightManager_->lightGroups_[0].SetPointLightActive(0, false);
+	lightManager_->lightGroups_[0].SetPointLightActive(1, false);
+	lightManager_->lightGroups_[0].SetPointLightActive(2, false);
+
+	lightManager_->lightGroups_[0].SetSpotLightActive(0, false);
+	lightManager_->lightGroups_[0].SetSpotLightActive(1, false);
+
+	lightManager_->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
+	lightManager_->lightGroups_[0].SetDirLightColor(0, { 0.05f,0.05f,0.05f });
+
+	Object3D::SetLight(&lightManager_->lightGroups_[0]);
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 	objobj3_.SetScale({ 1000,1000,1000 });
@@ -110,9 +128,20 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 
-	cameobj_.upDate();
-	cameobj_ = play_.playerCamera_;
-	Camera::nowCamera = play_.playerCamera_.GetCameraP();
+
+	if (chengCamera_)
+	{
+		Camera::nowCamera = play_.playerCamera_.GetCameraP();
+	}
+	else
+	{
+		cameobj_.pos_ = cameraPos_;
+
+		cameobj_.upDate();
+		Camera::nowCamera = cameobj_.GetCameraP();
+	}
+	
+	lightManager_->lightGroups_[0].Update();
 
 	if ((Input::GetInstance()->GetMouseButtonDown(0)and Input::GetInstance()->GetMouseInWindow()) or Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
 	{
@@ -146,28 +175,6 @@ void TitleScene::Update()
 
 	title_.Update();
 
-	if (debugMenu_)
-	{
-
-#pragma region check
-
-		ImGui::Begin("check");
-
-		ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
-
-		ImGui::Text("eventEnd:%d", eventManager_->GetInstance()->GetPEventPoint()->GetIsFinished());
-		ImGui::Text("eventAllEnd:%d", eventManager_->GetInstance()->GetEventAllEnd());
-		ImGui::Text("eventNum:%d", eventManager_->GetInstance()->GetEventNum());
-		ImGui::Text("eventcount:%d", eventManager_->GetInstance()->GetEventCount());
-
-
-#pragma endregion
-
-		ImGui::End();
-
-#pragma endregion
-	}
-
 	if (Input::GetInstance()->TriggerKey(DIK_F3))
 	{
 		debugMenu_ = !debugMenu_;
@@ -193,6 +200,7 @@ void TitleScene::Update()
 
 	EmitterManager::GetInstance()->Update();
 
+	ImguiUpdate();
 }
 
 void TitleScene::Draw()
@@ -239,4 +247,83 @@ void TitleScene::Draw()
 	EmitterManager::GetInstance()->Draw();
 
 	title_.Draw();
+}
+
+void TitleScene::ImguiUpdate()
+{
+#ifdef _DEBUG
+
+
+	if (debugMenu_)
+	{
+
+#pragma region check
+
+		ImGui::Begin("check");
+
+		ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
+
+		ImGui::Text("eventEnd:%d", eventManager_->GetInstance()->GetPEventPoint()->GetIsFinished());
+		ImGui::Text("eventAllEnd:%d", eventManager_->GetInstance()->GetEventAllEnd());
+		ImGui::Text("eventNum:%d", eventManager_->GetInstance()->GetEventNum());
+		ImGui::Text("eventcount:%d", eventManager_->GetInstance()->GetEventCount());
+
+
+#pragma endregion
+
+		ImGui::End();
+	}
+
+#pragma region camera
+
+	ImGui::Begin("camera");
+
+	ImGui::Checkbox("chengCamera", &chengCamera_);
+
+	ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
+	ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
+	ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
+
+
+	ImGui::Text("reset");
+
+	if (ImGui::Button("posX"))
+	{
+		cameraPos_.x = 0;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("posY"))
+	{
+		cameraPos_.y = 0;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("posZ"))
+	{
+		cameraPos_.z = -200;
+	}
+
+	if (Input::GetInstance()->PushKey(DIK_UP))
+	{
+		cameraPos_.x += Vector3::normalize(Camera::nowCamera->forward_).x;
+		cameraPos_.z += Vector3::normalize(Camera::nowCamera->forward_).z;
+	}
+	if (Input::GetInstance()->PushKey(DIK_DOWN))
+	{
+		cameraPos_.x += -Vector3::normalize(Camera::nowCamera->forward_).x;
+		cameraPos_.z += -Vector3::normalize(Camera::nowCamera->forward_).z;
+	}
+	if (Input::GetInstance()->PushKey(DIK_RIGHT))
+	{
+		cameraPos_ += Camera::nowCamera->rightDirection;
+	}
+	if (Input::GetInstance()->PushKey(DIK_LEFT))
+	{
+		cameraPos_ += -Camera::nowCamera->rightDirection;
+	}
+
+	ImGui::End();
+
+#pragma endregion
+
+#endif
 }

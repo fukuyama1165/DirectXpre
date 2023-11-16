@@ -14,7 +14,7 @@ void GameScene::Initialize()
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
 
-	lightManager_->lightGroups_[0].SetDirLightActive(0, false);
+	lightManager_->lightGroups_[0].SetDirLightActive(0, true);
 	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
 
@@ -27,6 +27,9 @@ void GameScene::Initialize()
 
 	//lightGroup->SetLightColor({ 1,1,1 });
 
+	lightManager_->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
+	lightManager_->lightGroups_[0].SetDirLightColor(0,{ 0.05f,0.05f,0.05f });
+
 	Object3D::SetLight(&lightManager_->lightGroups_[0]);
 
 	camera_ = Camera((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
@@ -35,6 +38,7 @@ void GameScene::Initialize()
 
 	cameobj_ = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
+	//初期値店の移動を記録
 	playerCameobj_.pos_.z = -200;
 
 	//cameobj.cameobj.SetParent(&objobj);
@@ -81,7 +85,7 @@ void GameScene::Initialize()
 
 	testFBX_.Scale_ = { 0.1f,0.1f,0.1f };
 
-	LevelLoader::GetInstance()->LoadLevel("MapTest");
+	LevelLoader::GetInstance()->LoadLevel("MapTest2");
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
 	
@@ -116,7 +120,9 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
-	eventManager->LoadEventData("Event");
+	//eventManager->LoadEventData("Event2");
+	std::string a = "C:\\k021g1165\\DirectX\\test\\loadTest.eefm";
+	eventManager->LoadFullPathEventData(a);
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");

@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file Texture.h
+ * @brief テクスチャデータを読み込みをしキーで登録を行える
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 

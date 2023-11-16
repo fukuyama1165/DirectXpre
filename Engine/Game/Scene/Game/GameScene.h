@@ -104,10 +104,10 @@ private:
 
 	Vector3 lightDir_;
 
-	float ambientColor0_[3] = { 1,1,1 };
+	float ambientColor0_[3] = { 0.25f,0.25f,0.25f };
 
 	float lightDir0_[3] = { 1,0,0 };
-	float lightColor0_[3] = { 0.9f,0.7f,0.7f };
+	float lightColor0_[3] = { 0.05f,0.05f,0.05f };
 
 	float lightDir1_[3] = { 1,0,0 };
 	float lightColor1_[3] = { 0,0,0 };

@@ -1,0 +1,67 @@
+{
+    "events": [
+        {
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 1.0,
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "type": "moveEvent"
+        },
+        {
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 1.0,
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "type": "moveEvent"
+        },
+        {
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 1.0,
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "type": "moveEvent"
+        }
+    ]
+}

@@ -6,12 +6,14 @@ EventPoint::EventPoint()
 {	
 	EventSeting seting;
 	seting_ = seting;
+	count_ = 0;
 }
 
 EventPoint::EventPoint(EventSeting seting)
 {
 	seting_ = seting;
 	movePoint_ = seting_.movePoint;
+	count_ = 0;
 }
 
 
@@ -48,16 +50,17 @@ void EventPoint::Update()
 			count_++;
 
 		}
+		else if (timeCount_ == 0 and count_ >= seting_.enemyNum and EnemyManager::GetInstance()->enemyCount_ <= 0)
+		{
+			IsFinished_ = true;
+		}
 
 		if (timeCount_ > 0)
 		{
 			timeCount_--;
 		}
 		
-		if (timeCount_ == 0 and count_ >= seting_.enemyNum and EnemyManager::GetInstance()->enemyCount_<=0)
-		{
-			IsFinished_ = true;
-		}
+		
 
 #ifdef _DEBUG
 

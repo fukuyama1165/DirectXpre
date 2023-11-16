@@ -45,6 +45,7 @@ private:
 	AnimationModel* levelBallModel_ = nullptr;
 	AnimationModel* levelGroundModel_ = nullptr;
 	AnimationModel* levelBuildingModel_ = nullptr;
+	AnimationModel* levelWallModel_ = nullptr;
 
 private:
 

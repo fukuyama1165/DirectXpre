@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file XAudio.h
+ * @brief XAudioを使用しwaveデータから音源を取得し再生停止ができる
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include <xaudio2.h>
 
 //ファイル読み込みに必要らしい

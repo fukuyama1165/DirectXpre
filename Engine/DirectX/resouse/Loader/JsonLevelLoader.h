@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file JsonLevelLoader.h
+ * @brief blenderから出力した自作レベルデータのjsonを読み込んで登録
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include <string>
 #include <vector>
 #include <memory>

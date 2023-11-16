@@ -10,6 +10,12 @@ enum EventType
 	BattleEvent
 };
 
+enum playerHideVectorType
+{
+	Down,
+	Right
+};
+
 struct EventSeting
 {
 	uint16_t eventType = moveEvent;
@@ -24,6 +30,7 @@ struct EventSeting
 	std::vector<float> enemyMoveSpeed;
 	std::vector<float> enemySpawnInterval;
 	std::vector<std::string> enemyTypes;
+	float playerHideVector = playerHideVectorType::Down;
 
 };
 
@@ -55,11 +62,17 @@ public:
 	//移動位置取得
 	Vector3 GetMovePoint() { return movePoint_; };
 
+	//移動開始位置取得
+	Vector3 GetMoveStartPoint() { return moveStartPoint_; };
+
 	//イベントの角度取得(バトルイベントの向きとか)
 	Vector3 GetMovePointRot() { return movePointRot_; };
 
 	//イベントの設定取得
 	EventSeting GetEventSeting() { return seting_; };
+
+	//プレイヤーが隠れる方向を取得
+	float GetPlayerHideVector() { return seting_.playerHideVector; };
 
 
 private:

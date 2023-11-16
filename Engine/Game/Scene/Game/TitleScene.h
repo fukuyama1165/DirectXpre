@@ -9,6 +9,7 @@
 #include "ModelManager.h"
 #include "Wall.h"
 #include "EnemyManager.h"
+#include "LightManager.h"
 
 class TitleScene : public IScene
 {
@@ -25,6 +26,17 @@ public:
 	void Draw()override;
 
 private:
+
+	//デバック用の設定とかいじるところを書くところ
+	void ImguiUpdate();
+
+
+private:
+
+	//ライト
+	LightManager* lightManager_;
+
+	//天球
 	Object3D objobj3_;
 
 	cameraObj cameobj_;
@@ -75,4 +87,9 @@ private:
 	//次に行くときの待ち時間
 	float EventWaitTimer_ = 0;
 	float EventWait_ = 20;
+
+	//デバック用のカメラの位置
+	Vector3 cameraPos_ = { 0,20,-200 };
+
+	bool chengCamera_ = true;
 };

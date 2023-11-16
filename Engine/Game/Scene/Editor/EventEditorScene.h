@@ -38,6 +38,14 @@ private:
 	//イベントデータを書き出し
 	void SaveEventData(const std::string fileName);
 
+	void SaveEventFullPathData(const std::string fileName);
+
+	//現在制作中のイベントを動かす
+	void TestEvent();
+
+	//デバック用の更新とか処理
+	void DebugUpdate();
+
 private:
 	//天球
 	Object3D objobj3_;
@@ -57,6 +65,8 @@ private:
 	//エネミーマネージャー
 	EnemyManager* enemys_ = nullptr;
 
+	Player player_;
+
 	//モデル
 	AnimationModel* testModel_ = nullptr;
 
@@ -66,6 +76,7 @@ private:
 	//種類設定用変数
 	uint32_t eventTypeNum_ = 0;
 	std::vector<uint32_t> enemyTypeNum_;
+	uint32_t playerHideTypeNum_ = 0;
 
 	//制作中のバトルイベントのエネミーの描画用構造体
 	struct EventEnemyData
@@ -111,12 +122,18 @@ private:
 	std::vector<float> enemyMoveSpeed_;
 	std::vector<float> enemySpawnInterval_;
 	std::vector<std::string> enemyTypes_;
+	float playerHideType_ = playerHideVectorType::Down;
 
 	//イベントの種類
 	const char* EventTypeChar[2] = { "moveEvent","BattleEvent" };
 	//敵の種類
 	const char* EnemyTypeChar[3] = { "moveOnly","moveAttack","Attack" };
 
+	const char* playerHideTypeChar[2] = { "Down","Right" };
+
 	//jsonファイル書き出し用のファイル名を入れるところ
 	char str1[128] = "";
+
+	//テスト中か
+	bool isTest_ = false;
 };

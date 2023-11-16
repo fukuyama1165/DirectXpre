@@ -78,7 +78,7 @@ private:
 
 	RECT wrc_ = {};
 
-	HWND hwnd_;
+	HWND hwnd_ = {};
 
 	//これを書かないとウィンドウが一瞬で消えるため記述
 	MSG msg{};

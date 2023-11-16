@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file Shader.h
+ * @brief シェーダを作成して登録し設定したキーで呼び出しを行える
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 //ComPtr用インクルード

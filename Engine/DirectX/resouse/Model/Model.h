@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file Model.h
+ * @brief モデルデータを格納する構造体を宣言している所
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 
@@ -224,7 +231,7 @@ public:
 	//テクスチャ
 	static Texture* STexture_;
 
-	//どのテクスチャか判断するための値(後でやり方を変える)
+	//どのテクスチャか判断するための値
 	std::vector <std::string> textureHandle = {};
 
 	//マテリアル(複数に対応するため)
