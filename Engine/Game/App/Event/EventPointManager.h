@@ -60,44 +60,54 @@ public:
 	//ファイル拡張子
 	static const inline std::string SDefaultEventExtension_= ".json";
 
-	std::string nowEventDataFileName_;
+	//現在読み込んでいるファイルの名前
+	std::string NowEventDataFileName_;
 
 private:
 
+	//シングルトン用
 	EventPointManager() = default;
 	~EventPointManager();
 
 	EventPointManager(const EventPointManager&) = delete;
 	EventPointManager& operator=(const EventPointManager&) = delete;
 
+	//イベントの中身読み込むよう
 	void EventScanning(nlohmann::json deserialized, nlohmann::json& Event);
 
 
 private:
 
+	//イベントの設定
 	std::vector<EventSeting> eventSetings_;
 
+	//現在実行中のイベント
 	EventPoint eventPoint_;
 
 	//前回のイベントを参照
 	uint16_t beforeEventPointType_ = 0;
 
+	//描画用
 	AnimationModel* eventModel_ = nullptr;
 
-	bool isActive = false;
-
+	//今何番目のイベントか
 	uint32_t eventCount_ = 0;
 
+	//全てのイベントが終わったか
 	bool eventAllEnd_ = false;
 
+	//イベントの種類変更用のスプライト
 	Sprite nextSprite_;
 	Sprite waitSprite_;
 
+	//スプライトの動作用変数
 	bool nextTime_ = false;
 
+	//入り
 	float nextMoveTime_ = 0;
 	float nextMoveMaxTime_ = 150;
 
+	//引き
 	float nextMoveTime2_ = 0;
 	float nextMoveMaxTime2_ = 150;
 

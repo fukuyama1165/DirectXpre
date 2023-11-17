@@ -106,18 +106,14 @@ private:
 	//画像データ等
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff2_ = nullptr;
 
-	//std::vector<std::string>textureFileName_{};
-
-	/*bool isReturn_ = false;
-	uint32_t sufferTexNum_ = 0;
-	uint32_t TexNum_ = 0;*/
-
+	//初期化したかどうか
 	static bool SInitFlag_;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle_{};
 
-
+	//srvヒープ保存用
 	Microsoft::WRL::ComPtr < ID3D12DescriptorHeap> srvHeap_ = nullptr;
 
+	//使う大きさ
 	static const size_t kMaxSRVCount = 2056;
 };

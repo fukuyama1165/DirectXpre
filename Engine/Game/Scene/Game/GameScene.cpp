@@ -192,7 +192,7 @@ void GameScene::Update()
 		EmitterManager::GetInstance()->Update();
 
 		//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
-		if (eventManager->nowEventDataFileName_ == "testEvent")
+		if (eventManager->NowEventDataFileName_ == "testEvent")
 		{
 
 			
@@ -212,7 +212,7 @@ void GameScene::Update()
 		}
 
 		//ゲームクリア処理
-		if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
+		if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ != "testEvent")
 		{
 
 			if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
@@ -273,7 +273,8 @@ void GameScene::Draw()
 
 	EmitterManager::GetInstance()->Draw();
 
-	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
+	//クリアしたときの描画(イベントがテスト用なら描画しない)
+	if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ != "testEvent")
 	{
 
 		clearBackSprite_.Draw();
@@ -283,7 +284,7 @@ void GameScene::Draw()
 	}
 
 	//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
-	if (eventManager->nowEventDataFileName_ == "testEvent")
+	if (eventManager->NowEventDataFileName_ == "testEvent")
 	{
 
 		
@@ -377,7 +378,8 @@ void GameScene::DebugUpdate()
 		movecoll_.z -= moveY.z;
 	}
 
-	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ == "testEvent")
+	//イベントが終わってテスト用のイベントなら動かせるように
+	if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ == "testEvent")
 	{
 		play_.playerCamera_.pos_ = movecoll_;
 	}

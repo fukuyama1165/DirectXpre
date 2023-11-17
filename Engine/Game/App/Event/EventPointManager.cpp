@@ -25,7 +25,7 @@ void EventPointManager::LoadEventData(std::string fileName)
 
 	eventSetings_.clear();
 
-	nowEventDataFileName_ = fileName;
+	NowEventDataFileName_ = fileName;
 
 	//元から用意していたパスをくっつけて完全に通るパスにする
 	const std::string fullPath = SDefaultEventPath_ + fileName + SDefaultEventExtension_;
@@ -90,7 +90,7 @@ void EventPointManager::LoadFullPathEventData(std::string fileName)
 
 	eventSetings_.clear();
 
-	nowEventDataFileName_ = Util::SeparateFilePath(fileName);
+	NowEventDataFileName_ = Util::SeparateFilePath(fileName);
 
 	//ファイルストリーム
 	std::ifstream file(fileName);

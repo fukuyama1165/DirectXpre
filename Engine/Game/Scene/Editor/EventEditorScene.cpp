@@ -111,6 +111,85 @@ void EventEditorScene::Update()
 
 	}
 
+	if (ImGui::Button("open"))
+	{
+		wchar_t filePath[MAX_PATH] = { 0 };
+		OPENFILENAME a = {};
+		//構造体の大きさ基本的にこれ
+		a.lStructSize = sizeof(OPENFILENAME);
+		//使いたい(占有)ウインドウハンドル
+		a.hwndOwner = WinApp::GetInstance()->getHwnd();
+		//フィルターを設定?
+		a.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0"
+						L"すべてのファイル (*.*)\0*.*\0";
+		//何個目のフィルターを使うん?みたいな感じ?
+		a.nFilterIndex = 0;
+		//保存の時ファイル名を入れるやつ?
+		a.lpstrFile = filePath;
+		//ファイルのバッファの大きさ？
+		a.nMaxFile = MAX_PATH;
+
+		auto old = std::filesystem::current_path();
+		if (GetOpenFileName(&a))
+		{
+			std::string test = Util::WStringToString(filePath);
+			LoadFullPathEventData(test);
+
+			if (seting_.size() != 0)
+			{
+				movePointDatas_.clear();
+				enemyDatas_.clear();
+
+				for (auto eventData = seting_.begin(); eventData != seting_.end();eventData++)
+				{
+					if (eventData->eventType == EventType::moveEvent)
+					{
+						//描画用のやつにコピー
+						EventMovePointData addMoveEventData;
+
+						addMoveEventData.startPoint.FBXInit();
+						addMoveEventData.endPoint.FBXInit();
+						addMoveEventData.move.FBXInit();
+
+						addMoveEventData.startPoint.Trans_ = { eventData->moveStartPoint };
+						addMoveEventData.endPoint.Trans_ = { eventData->movePoint };
+						addMoveEventData.move.Trans_ = { eventData->moveStartPoint };
+
+						addMoveEventData.startPoint.Update();
+						addMoveEventData.endPoint.Update();
+						addMoveEventData.move.Update();
+
+						//各ポイントの色を変更
+
+						addMoveEventData.startPoint.SetColor({ 0.0f,0.0f ,0.5f ,1.0f });
+						addMoveEventData.endPoint.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
+						addMoveEventData.move.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
+
+						movePointDatas_.push_back(addMoveEventData);
+					}
+					else if (eventData->eventType == EventType::BattleEvent)
+					{
+						EventEnemyData add;
+
+						for (uint16_t i = 0; i < eventData->enemyNum; i++)
+						{
+							Object3D enemyObj;
+							enemyObj.FBXInit();
+							enemyObj.Trans_ = eventData->enemySpawnPos[i];
+
+							add.enemys.push_back(enemyObj);
+						}
+
+						enemyDatas_.push_back(add);
+					}
+				}
+			}
+
+		}
+		std::filesystem::current_path(old);
+
+	}
+
 	ImGui::End();
 	
 
@@ -603,6 +682,11 @@ void EventEditorScene::EditEvent()
 
 void EventEditorScene::DrawEventDataUpdate()
 {
+	if (seting_.size() == 0)
+	{
+		return;
+	}
+
 	for (auto enemyDatas = enemyDatas_.begin(); enemyDatas != enemyDatas_.end();)
 	{
 		if (enemyDatas->isEnd)
@@ -738,7 +822,7 @@ void EventEditorScene::SaveEventData(const std::string fileName)
 			data["seting"]["enemyType"] = eventSeting.enemyTypes;
 			data["seting"]["enemySpeed"] = eventSeting.enemyMoveSpeed;
 			data["type"] = "BattleEvent";
-			data["playerHideType"] = eventSeting.playerHideVector;
+			data["seting"]["playerHideType"] = eventSeting.playerHideVector;
 		}
 		jsonfile["events"] += { data };
 	}
@@ -903,4 +987,148 @@ void EventEditorScene::SaveEventFullPathData(const std::string fileName)
 	if (ofs) {
 		ofs << jsonfile.dump(4);
 	}
+}
+
+void EventEditorScene::LoadFullPathEventData(std::string fileName)
+{
+
+	seting_.clear();
+
+	//ファイルストリーム
+	std::ifstream file(fileName);
+
+	if (!file)
+	{
+		assert(0);
+	}
+
+	//JSON文字列から解凍したデータ
+	nlohmann::json deserialized;
+
+	//解凍
+	file >> deserialized;
+
+	//正しいイベントファイルかチェック
+	assert(deserialized.is_object());
+	assert(deserialized.contains("name"));
+	assert(deserialized["name"].is_string());
+
+	//"name"を文字列として取得
+	std::string name = deserialized["name"].get<std::string>();
+
+	//正しいかどうかチェック
+	assert(name.compare("event") == 0);
+
+	//"events"の全オブジェクトを走査
+	for (nlohmann::json& events : deserialized["events"])
+	{
+
+		EventScanning(deserialized, events);
+	}
+
+
+	if (seting_.empty())
+	{
+		seting_.push_back(EventSeting());
+	}
+
+}
+
+void EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json& Event)
+{
+
+
+	//typeがなければ止める
+	assert(Event.contains("type"));
+	//タイプを取得
+	std::string type = Event["type"].get<std::string>();
+
+
+
+	//moveEventなら
+	if (type.compare("moveEvent") == 0)
+	{
+
+
+
+		EventSeting eventData;
+
+		eventData.eventType = EventType::moveEvent;
+
+		//設定のパラメータ読み込み
+		nlohmann::json& seting = Event["seting"];
+
+		//移動する場所読み込み
+		eventData.movePoint.x = (float)seting["movePoint"][0];
+		eventData.movePoint.y = (float)seting["movePoint"][1];
+		eventData.movePoint.z = (float)seting["movePoint"][2];
+
+		//移動開始位置取得
+		eventData.moveStartPoint.x = (float)seting["moveStartPoint"][0];
+		eventData.moveStartPoint.y = (float)seting["moveStartPoint"][1];
+		eventData.moveStartPoint.z = (float)seting["moveStartPoint"][2];
+
+		//移動するときの角度読み込み
+		eventData.movePointRot.x = (float)seting["movePointRot"][0];
+		eventData.movePointRot.y = (float)seting["movePointRot"][1];
+		eventData.movePointRot.z = (float)seting["movePointRot"][2];
+
+		//スピードのセット
+		eventData.moveSpeed = (float)seting["moveSpeed"];
+
+		seting_.push_back(eventData);
+
+
+	}
+	else if (type.compare("BattleEvent") == 0)
+	{
+
+		EventSeting eventData;
+
+		//設定のパラメータ読み込み
+		nlohmann::json& seting = Event["seting"];
+
+		//沸き数と画面内の最大数をセット
+		eventData.enemyMaxSpawn = seting["enemyMaxSpawn"];
+		eventData.enemyNum = seting["enemyNum"];
+
+		//イベントのタイプをセット
+		eventData.eventType = BattleEvent;
+		eventData.playerHideVector = seting["playerHideType"];
+
+		//エネミーの数だけ回す
+		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
+		{
+			//設定されてないやつをみようとしたらそもそもよばないように
+			if ((float)seting["spawnPoint"].size() <= i or
+				(float)seting["spawnInterval"].size() <= i or
+				(float)seting["enemyType"].size() <= i or
+				(float)seting["enemySpeed"].size() <= i or
+				(float)seting["enemyMovePos"].size() <= i) continue;
+
+
+			//湧く場所をセット
+			eventData.enemySpawnPos.push_back({ (float)seting["spawnPoint"][i][0],(float)seting["spawnPoint"][i][1] ,(float)seting["spawnPoint"][i][2] });
+
+			//湧く間隔をセット
+			eventData.enemySpawnInterval.push_back((float)seting["spawnInterval"][i]);
+
+			//エネミーの種類をセット
+			eventData.enemyTypes.push_back(seting["enemyType"][i].get<std::string>());
+
+			//エネミーが動く場合動くときの速度をセット
+			eventData.enemyMoveSpeed.push_back((float)seting["enemySpeed"][i]);
+
+			//エネミーが動く場合の動く位置
+			eventData.enemyMovePos.push_back({ (float)seting["enemyMovePos"][i][0],(float)seting["enemyMovePos"][i][1] ,(float)seting["enemyMovePos"][i][2] });
+
+		}
+
+		seting_.push_back(eventData);
+
+	}
+
+
+
+
 }

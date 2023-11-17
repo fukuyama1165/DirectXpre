@@ -46,6 +46,14 @@ private:
 	//デバック用の更新とか処理
 	void DebugUpdate();
 
+	//開くを使うための関数(イベントマネージャーにもあるがこっちのシーンで編集するためにこちらで読み込みたいので)
+
+	//フルパスで指定された場所にあるイベントのデータが入っているファイルからデータを取得(フォルダ名に日本語が入っていると無理)
+	void LoadFullPathEventData(std::string fileName);
+
+	//イベントの中身読み込むよう
+	void EventScanning(nlohmann::json deserialized, nlohmann::json& Event);
+
 private:
 	//天球
 	Object3D objobj3_;
