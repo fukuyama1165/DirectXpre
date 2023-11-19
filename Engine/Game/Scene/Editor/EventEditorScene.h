@@ -29,8 +29,14 @@ private:
 	//設定してイベントを追加するところ
 	void AddEvent();
 
+	void AddMoveEvent();
+	void AddBattleEvent();
+
 	//現在入っているイベントを編集したり消すところ
 	void EditEvent();
+
+	//イベントデータを保存したり読み込んだりするところ
+	void SaveAndLoadEvent();
 
 	//制作中のイベントの描画用のオブジェクトの更新用の関数
 	void DrawEventDataUpdate();
@@ -38,6 +44,7 @@ private:
 	//イベントデータを書き出し
 	void SaveEventData(const std::string fileName);
 
+	//フルパスでのファイルの書き込み
 	void SaveEventFullPathData(const std::string fileName);
 
 	//現在制作中のイベントを動かす
@@ -45,6 +52,12 @@ private:
 
 	//デバック用の更新とか処理
 	void DebugUpdate();
+
+	//windowsの機能を使ってeefmファイルを保存
+	void WindowsSaveEEFMFile();
+
+	//windowsの機能を使ってeefmファイルを開く
+	void WindowsOpenEEFMFile();
 
 	//開くを使うための関数(イベントマネージャーにもあるがこっちのシーンで編集するためにこちらで読み込みたいので)
 
@@ -90,6 +103,10 @@ private:
 	struct EventEnemyData
 	{
 		std::vector<Object3D> enemys;
+		std::vector<std::string> enemyTypes;
+		std::vector<Object3D> endPoint;
+		std::vector<Object3D> move;
+
 		bool isEnd = false;
 	};
 

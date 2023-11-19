@@ -121,8 +121,8 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
 	//eventManager->LoadEventData("Event2");
-	std::string a = "C:\\k021g1165\\DirectX\\test\\loadTest.eefm";
-	eventManager->LoadFullPathEventData(a);
+	//std::string a = "C:\\k021g1165\\DirectX\\test\\loadTest.eefm";
+	eventManager->LoadeefmEventData("testtest");
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");

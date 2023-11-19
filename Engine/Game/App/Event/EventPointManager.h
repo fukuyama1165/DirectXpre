@@ -13,6 +13,9 @@ public:
 
 	//外にあるイベントのデータを持つファイルからデータを入れたい
 	void LoadEventData(std::string fileName);
+
+	//自作のイベントデータを読み込むところ
+	void LoadeefmEventData(std::string fileName);
 	//フルパスで指定された場所にあるイベントのデータが入っているファイルからデータを取得(フォルダ名に日本語が入っていると無理)
 	void LoadFullPathEventData(std::string fileName);
 
@@ -56,9 +59,14 @@ public:
 
 	//読み込む際のファイルパス(ファイル名だけで指定するため)
 	static const inline std::string SDefaultEventPath_="Resources/json/";
+	//読み込む際の自作のファイルのファイルパス(ファイル名だけで指定するため)
+	static const inline std::string SDefaultEventPath2_="Resources/eefm/";
 
 	//ファイル拡張子
 	static const inline std::string SDefaultEventExtension_= ".json";
+
+	//自作のファイル拡張子
+	static const inline std::string SDefaultEventExtension2_= ".eefm";
 
 	//現在読み込んでいるファイルの名前
 	std::string NowEventDataFileName_;
