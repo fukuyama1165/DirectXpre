@@ -23,12 +23,14 @@ struct EventSeting
 	Vector3 moveStartPoint = { 0,0,0 };
 	Vector3 movePointRot = { 0,0,0 };
 	float moveSpeed = 1;
+	float moveRotTime = 1;
 	int32_t enemyNum = 0;
 	int32_t enemyMaxSpawn = 0;
 	std::vector<Vector3> enemySpawnPos;
 	std::vector<Vector3> enemyMovePos;
 	std::vector<float> enemyMoveSpeed;
 	std::vector<float> enemySpawnInterval;
+	std::vector<uint32_t> enemyBulletCT;
 	std::vector<std::string> enemyTypes;
 	float playerHideVector = playerHideVectorType::Down;
 
@@ -65,7 +67,10 @@ public:
 	//移動開始位置取得
 	Vector3 GetMoveStartPoint() { return moveStartPoint_; };
 
-	//イベントの角度取得(バトルイベントの向きとか)
+	//移動速度取得
+	float GetMoveSpeed() { return seting_.moveSpeed; };
+
+	//イベントの角度取得(プレイヤーの向きとか)
 	Vector3 GetMovePointRot() { return movePointRot_; };
 
 	//イベントの設定取得

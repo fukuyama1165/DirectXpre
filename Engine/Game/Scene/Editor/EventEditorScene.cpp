@@ -101,8 +101,11 @@ void EventEditorScene::Draw()
 			for (uint32_t i = 0; i < enemyobj.enemys.size(); i++)
 			{
 				enemyobj.enemys[i].FBXDraw(*enemyModel_);
-				enemyobj.endPoint[i].FBXDraw(*enemyModel_);
-				enemyobj.move[i].FBXDraw(*enemyModel_);
+				if (enemyobj.enemyTypes[i] != EnemyType::Attack)
+				{
+					enemyobj.endPoint[i].FBXDraw(*enemyModel_);
+					enemyobj.move[i].FBXDraw(*enemyModel_);
+				}
 			}
 		}
 
@@ -168,6 +171,7 @@ void EventEditorScene::AddMoveEvent()
 	ImGui::DragFloat3("movePointRot", movePointRot_, 1.0f, -1000.0f, 1000.0f);
 	ImGui::DragFloat3("moveStartPoint", moveStartPoint_, 1.0f, -1000.0f, 1000.0f);
 	ImGui::DragFloat("moveSpeed", &moveSpeed_, 1.0f, 0.0f, 1000.0f);
+	ImGui::DragFloat("moveRotTime", &moveRotTime_, 1.0f, 0.0f, 1000.0f);
 
 	if (ImGui::Button("addEvent"))
 	{
@@ -177,6 +181,7 @@ void EventEditorScene::AddMoveEvent()
 		addEvent.movePointRot = { movePointRot_[0] ,movePointRot_[1] ,movePointRot_[2] };
 		addEvent.moveStartPoint = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
 		addEvent.moveSpeed = moveSpeed_;
+		addEvent.moveRotTime = moveRotTime_;
 
 		seting_.push_back(addEvent);
 
@@ -224,6 +229,7 @@ void EventEditorScene::AddBattleEvent()
 		enemyMovePos_.resize(enemyNum_);
 		enemyMoveSpeed_.resize(enemyNum_);
 		enemySpawnInterval_.resize(enemyNum_);
+		enemyBulletCT_.resize(enemyNum_);
 		enemyTypes_.resize(enemyNum_);
 	}
 
@@ -255,6 +261,7 @@ void EventEditorScene::AddBattleEvent()
 		addEvent.enemyMovePos = enemyMovePos_;
 		addEvent.enemySpawnInterval = enemySpawnInterval_;
 		addEvent.enemyMoveSpeed = enemyMoveSpeed_;
+		addEvent.enemyBulletCT = enemyBulletCT_;
 		addEvent.playerHideVector = playerHideType_;
 
 		seting_.push_back(addEvent);
@@ -314,6 +321,7 @@ void EventEditorScene::AddBattleEvent()
 		float movePos[3] = { enemyMovePos_[i].x,enemyMovePos_[i].y,enemyMovePos_[i].z };
 		float enemySpawnInterval = { enemySpawnInterval_[i] };
 		float enemyMoveSpeed = { enemyMoveSpeed_[i] };
+		uint32_t enemyBulletCT = { enemyBulletCT_[i] };
 
 
 
@@ -334,6 +342,8 @@ void EventEditorScene::AddBattleEvent()
 
 			ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
 
+			enemyBulletCT = 10000000;
+
 			break;
 		case 1:
 
@@ -345,6 +355,8 @@ void EventEditorScene::AddBattleEvent()
 			ImGui::DragFloat3(std::string("movePos" + num).c_str(), movePos, 1.0f, -1000.0f, 1000.0f);
 
 			ImGui::DragFloat(std::string("spawnInterval" + num).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+
+			ImGui::DragInt(std::string("enemyBulletCT" + num).c_str(), (int*)&enemyBulletCT, 1, 0, 500);
 
 			ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
 
@@ -362,6 +374,8 @@ void EventEditorScene::AddBattleEvent()
 
 			ImGui::DragFloat(std::string("spawnInterval" + num).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
 
+			ImGui::DragInt(std::string("enemyBulletCT" + num).c_str(), (int*)&enemyBulletCT, 1, 0, 500);
+
 			enemyMoveSpeed = 0;
 
 			break;
@@ -375,6 +389,7 @@ void EventEditorScene::AddBattleEvent()
 		enemySpawnInterval_[i] = enemySpawnInterval;
 		enemyMoveSpeed_[i] = enemyMoveSpeed;
 
+		enemyBulletCT_[i] = enemyBulletCT;
 
 	}
 }
@@ -404,16 +419,19 @@ void EventEditorScene::EditEvent()
 			float movePointRot[3] = { setingI->movePointRot.x,setingI->movePointRot.y,setingI->movePointRot.z };
 			float moveStartPoint[3] = { setingI->moveStartPoint.x,setingI->moveStartPoint.y,setingI->moveStartPoint.z };
 			float moveSpeed = setingI->moveSpeed;
+			float moveRotTime = setingI->moveRotTime;
 
 			ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f);
 			ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f);
 			ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f);
 			ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f);
+			ImGui::DragFloat(std::string("moveRotTime" + num).c_str(), &moveRotTime, 1.0f, 0.0f, 1000.0f);
 
 			setingI->movePoint = { movePoint[0] ,movePoint[1] ,movePoint[2] };
 			setingI->movePointRot = { movePointRot[0] ,movePointRot[1] ,movePointRot[2] };
 			setingI->moveStartPoint = { moveStartPoint[0] ,moveStartPoint[1] ,moveStartPoint[2] };
 			setingI->moveSpeed = moveSpeed;
+			setingI->moveRotTime = moveRotTime;
 
 
 		}
@@ -451,7 +469,7 @@ void EventEditorScene::EditEvent()
 				float movePos[3] = { setingI->enemyMovePos[i].x,setingI->enemyMovePos[i].y,setingI->enemyMovePos[i].z };
 				float enemySpawnInterval = { setingI->enemySpawnInterval[i] };
 				float enemyMoveSpeed = { setingI->enemyMoveSpeed[i] };
-
+				uint32_t enemyBulletCT = { setingI->enemyBulletCT[i] };
 
 
 				switch (enemyTypeNum)
@@ -471,6 +489,8 @@ void EventEditorScene::EditEvent()
 
 					ImGui::DragFloat(std::string("moveSpeed" + enemyNum).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
 
+					enemyBulletCT = 0;
+
 					break;
 				case 1:
 
@@ -484,6 +504,8 @@ void EventEditorScene::EditEvent()
 					ImGui::DragFloat(std::string("spawnInterval" + enemyNum).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
 
 					ImGui::DragFloat(std::string("moveSpeed" + enemyNum).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
+
+					ImGui::DragInt(std::string("enemyBulletCT" + enemyNum).c_str(), (int*)&enemyBulletCT, 1, 0, 500);
 
 					break;
 				case 2:
@@ -499,6 +521,8 @@ void EventEditorScene::EditEvent()
 
 					ImGui::DragFloat(std::string("spawnInterval" + enemyNum).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
 
+					ImGui::DragInt(std::string("enemyBulletCT" + enemyNum).c_str(), (int*)&enemyBulletCT, 1, 0, 500);
+
 					enemyMoveSpeed = 0;
 
 					break;
@@ -511,7 +535,7 @@ void EventEditorScene::EditEvent()
 				setingI->enemyMovePos[i] = { movePos[0],movePos[1] ,movePos[2] };
 				setingI->enemySpawnInterval[i] = enemySpawnInterval;
 				setingI->enemyMoveSpeed[i] = enemyMoveSpeed;
-
+				setingI->enemyBulletCT[i] = enemyBulletCT;
 
 
 			}
@@ -617,8 +641,14 @@ void EventEditorScene::SaveAndLoadEvent()
 	if (ImGui::Button("openFile"))
 	{
 
-		WindowsOpenEEFMFile();
+		isLoad_= WindowsOpenEEFMFile();	
 
+	}
+
+	if (!isLoad_)
+	{
+		ImGui::Text("Loading failed");
+		ImGui::Text(std::string("reason " + loadErrorText_).c_str());
 	}
 
 	ImGui::End();
@@ -780,6 +810,7 @@ void EventEditorScene::SaveEventData(const std::string fileName)
 			data["seting"]["movePointRot"] = { eventSeting.movePointRot.x,eventSeting.movePointRot.y,eventSeting.movePointRot.z };
 			data["seting"]["moveStartPoint"] = { eventSeting.moveStartPoint.x,eventSeting.moveStartPoint.y,eventSeting.moveStartPoint.z };
 			data["seting"]["moveSpeed"] = eventSeting.moveSpeed;
+			data["seting"]["moveRotTime"] = eventSeting.moveRotTime;
 			data["type"] = "moveEvent";
 		}
 		else if (eventSeting.eventType == EventType::BattleEvent)
@@ -795,6 +826,7 @@ void EventEditorScene::SaveEventData(const std::string fileName)
 			data["seting"]["spawnInterval"] = eventSeting.enemySpawnInterval;
 			data["seting"]["enemyType"] = eventSeting.enemyTypes;
 			data["seting"]["enemySpeed"] = eventSeting.enemyMoveSpeed;
+			data["seting"]["enemyBulletCT"] = eventSeting.enemyBulletCT;
 			data["type"] = "BattleEvent";
 			data["seting"]["playerHideType"] = eventSeting.playerHideVector;
 		}
@@ -830,6 +862,7 @@ void EventEditorScene::TestEvent()
 			eventManager_->reset();
 			eventManager_->SetEventAllEnd(false);
 			enemys_->Reset();
+			player_.Reset();
 			isTest_ = !isTest_;
 		}
 	}
@@ -849,6 +882,12 @@ void EventEditorScene::TestEvent()
 		enemys_->UpDate(player_.playerCamera_.GetCamera().eye_);
 
 		CollisionManager::GetInstance()->CheckAllCollisions();
+
+		ImGui::Begin("player");
+
+		ImGui::Text("rotate:%0.2f,%0.2f,%0.2f", player_.playerCamera_.rotate_.x, player_.playerCamera_.rotate_.y, player_.playerCamera_.rotate_.z);
+
+		ImGui::End();
 
 	}
 
@@ -975,6 +1014,7 @@ void EventEditorScene::SaveEventFullPathData(const std::string fileName)
 			data["seting"]["movePointRot"] = { eventSeting.movePointRot.x,eventSeting.movePointRot.y,eventSeting.movePointRot.z };
 			data["seting"]["moveStartPoint"] = { eventSeting.moveStartPoint.x,eventSeting.moveStartPoint.y,eventSeting.moveStartPoint.z };
 			data["seting"]["moveSpeed"] = eventSeting.moveSpeed;
+			data["seting"]["moveRotTime"] = eventSeting.moveRotTime;
 			data["type"] = "moveEvent";
 		}
 		else if (eventSeting.eventType == EventType::BattleEvent)
@@ -990,6 +1030,7 @@ void EventEditorScene::SaveEventFullPathData(const std::string fileName)
 			data["seting"]["spawnInterval"] = eventSeting.enemySpawnInterval;
 			data["seting"]["enemyType"] = eventSeting.enemyTypes;
 			data["seting"]["enemySpeed"] = eventSeting.enemyMoveSpeed;
+			data["seting"]["enemyBulletCT"] = eventSeting.enemyBulletCT;
 			data["type"] = "BattleEvent";
 			data["seting"]["playerHideType"] = eventSeting.playerHideVector;
 		}
@@ -1003,7 +1044,7 @@ void EventEditorScene::SaveEventFullPathData(const std::string fileName)
 	}
 }
 
-void EventEditorScene::LoadFullPathEventData(std::string fileName)
+bool EventEditorScene::LoadFullPathEventData(std::string fileName)
 {
 
 	seting_.clear();
@@ -1013,7 +1054,8 @@ void EventEditorScene::LoadFullPathEventData(std::string fileName)
 
 	if (!file)
 	{
-		assert(0);
+		loadErrorText_ = "can not find file";
+		return false;
 	}
 
 	//JSON文字列から解凍したデータ
@@ -1023,21 +1065,34 @@ void EventEditorScene::LoadFullPathEventData(std::string fileName)
 	file >> deserialized;
 
 	//正しいイベントファイルかチェック
-	assert(deserialized.is_object());
-	assert(deserialized.contains("name"));
-	assert(deserialized["name"].is_string());
+	if (!deserialized.is_object() or !deserialized.contains("name") or !deserialized["name"].is_string())
+	{
+		loadErrorText_ = "Not the correct event file";
+		return false;
+	}
 
 	//"name"を文字列として取得
 	std::string name = deserialized["name"].get<std::string>();
 
 	//正しいかどうかチェック
-	assert(name.compare("event") == 0);
+	if (name.compare("event") != 0)
+	{
+		loadErrorText_ = "Not event file";
+		return false;
+	}
 
 	//"events"の全オブジェクトを走査
 	for (nlohmann::json& events : deserialized["events"])
 	{
 
-		EventScanning(deserialized, events);
+		bool result = true;
+
+		result = EventScanning(deserialized, events);
+
+		if (!result)
+		{
+			return false;
+		}
 	}
 
 
@@ -1046,14 +1101,20 @@ void EventEditorScene::LoadFullPathEventData(std::string fileName)
 		seting_.push_back(EventSeting());
 	}
 
+	return true;
+
 }
 
-void EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json& Event)
+bool EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json& Event)
 {
 
 
 	//typeがなければ止める
-	assert(Event.contains("type"));
+	if (!Event.contains("type"))
+	{
+		loadErrorText_ = "event type is missing";
+		return false;
+	}
 	//タイプを取得
 	std::string type = Event["type"].get<std::string>();
 
@@ -1072,6 +1133,33 @@ void EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 		//設定のパラメータ読み込み
 		nlohmann::json& seting = Event["seting"];
 
+		//ちゃんとパラメータがあるかチェック
+		if (!seting.contains("movePoint"))
+		{
+			loadErrorText_ = "movePoint is missing";
+			return false;
+		}
+		if (!seting.contains("moveStartPoint"))
+		{
+			loadErrorText_ = "moveStartPoint is missing";
+			return false;
+		}
+		if (!seting.contains("movePointRot"))
+		{
+			loadErrorText_ = "movePointRot is missing";
+			return false;
+		}
+		if (!seting.contains("moveSpeed"))
+		{
+			loadErrorText_ = "moveSpeed is missing";
+			return false;
+		}
+		if (!seting.contains("moveRotTime"))
+		{
+			loadErrorText_ = "moveRotTime is missing";
+			return false;
+		}
+
 		//移動する場所読み込み
 		eventData.movePoint.x = (float)seting["movePoint"][0];
 		eventData.movePoint.y = (float)seting["movePoint"][1];
@@ -1089,6 +1177,7 @@ void EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 
 		//スピードのセット
 		eventData.moveSpeed = (float)seting["moveSpeed"];
+		eventData.moveRotTime = (float)seting["moveRotTime"];
 
 		seting_.push_back(eventData);
 
@@ -1101,6 +1190,53 @@ void EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 
 		//設定のパラメータ読み込み
 		nlohmann::json& seting = Event["seting"];
+
+		//ちゃんとパラメータがあるかチェック
+		if (!seting.contains("enemyMaxSpawn"))
+		{
+			loadErrorText_ = "enemyMaxSpawn is missing";
+			return false;
+		}
+		if (!seting.contains("enemyNum"))
+		{
+			loadErrorText_ = "enemyNum is missing";
+			return false;
+		}
+		if (!seting.contains("playerHideType"))
+		{
+			loadErrorText_ = "playerHideType is missing";
+			return false;
+		}
+		if (!seting.contains("spawnPoint"))
+		{
+			loadErrorText_ = "EnemySpawnPoint is missing";
+			return false;
+		}
+		if (!seting.contains("spawnInterval"))
+		{
+			loadErrorText_ = "EnemySpawnInterval is missing";
+			return false;
+		}
+		if (!seting.contains("enemyType"))
+		{
+			loadErrorText_ = "enemyType is missing";
+			return false;
+		}
+		if (!seting.contains("enemySpeed"))
+		{
+			loadErrorText_ = "enemySpeed is missing";
+			return false;
+		}
+		if (!seting.contains("enemyMovePos"))
+		{
+			loadErrorText_ = "enemyMovePos is missing";
+			return false;
+		}
+		if (!seting.contains("enemyBulletCT"))
+		{
+			loadErrorText_ = "enemyBulletCT is missing";
+			return false;
+		}
 
 		//沸き数と画面内の最大数をセット
 		eventData.enemyMaxSpawn = seting["enemyMaxSpawn"];
@@ -1133,6 +1269,8 @@ void EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 			//エネミーが動く場合動くときの速度をセット
 			eventData.enemyMoveSpeed.push_back((float)seting["enemySpeed"][i]);
 
+			eventData.enemyBulletCT.push_back((uint32_t)seting["enemyBulletCT"][i]);
+
 			//エネミーが動く場合の動く位置
 			eventData.enemyMovePos.push_back({ (float)seting["enemyMovePos"][i][0],(float)seting["enemyMovePos"][i][1] ,(float)seting["enemyMovePos"][i][2] });
 
@@ -1141,9 +1279,14 @@ void EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 		seting_.push_back(eventData);
 
 	}
+	else
+	{
+		loadErrorText_ = "event type is missing";
+		return false;
+	}
 
 
-
+	return true;
 
 }
 
@@ -1177,7 +1320,7 @@ void EventEditorScene::WindowsSaveEEFMFile()
 	std::filesystem::current_path(old);
 }
 
-void EventEditorScene::WindowsOpenEEFMFile()
+bool EventEditorScene::WindowsOpenEEFMFile()
 {
 	wchar_t filePath[MAX_PATH] = { 0 };
 	OPENFILENAME a = {};
@@ -1198,73 +1341,103 @@ void EventEditorScene::WindowsOpenEEFMFile()
 	auto old = std::filesystem::current_path();
 	if (GetOpenFileName(&a))
 	{
+		bool result = true;
 		std::string test = Util::WStringToString(filePath);
-		LoadFullPathEventData(test);
+		//設定のまとめに選択したファイルを読み取り書き込む
+		result = LoadFullPathEventData(test);
 
-		if (seting_.size() != 0)
+		if (!result)
 		{
-			movePointDatas_.clear();
-			enemyDatas_.clear();
-
-			for (auto eventData = seting_.begin(); eventData != seting_.end(); eventData++)
-			{
-				if (eventData->eventType == EventType::moveEvent)
-				{
-					//描画用のやつにコピー
-					EventMovePointData addMoveEventData;
-
-					addMoveEventData.startPoint.FBXInit();
-					addMoveEventData.endPoint.FBXInit();
-					addMoveEventData.move.FBXInit();
-
-					addMoveEventData.startPoint.Trans_ = { eventData->moveStartPoint };
-					addMoveEventData.endPoint.Trans_ = { eventData->movePoint };
-					addMoveEventData.move.Trans_ = { eventData->moveStartPoint };
-
-					addMoveEventData.startPoint.Update();
-					addMoveEventData.endPoint.Update();
-					addMoveEventData.move.Update();
-
-					//各ポイントの色を変更
-
-					addMoveEventData.startPoint.SetColor({ 0.0f,0.0f ,0.5f ,1.0f });
-					addMoveEventData.endPoint.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
-					addMoveEventData.move.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
-
-					movePointDatas_.push_back(addMoveEventData);
-				}
-				else if (eventData->eventType == EventType::BattleEvent)
-				{
-					EventEnemyData add;
-
-					for (uint16_t i = 0; i < eventData->enemyNum; i++)
-					{
-						Object3D enemyObj;
-						enemyObj.FBXInit();
-						enemyObj.Trans_ = eventData->enemySpawnPos[i];
-
-						add.enemys.push_back(enemyObj);
-
-						add.enemyTypes.push_back(eventData->enemyTypes[i]);
-
-						Object3D endPointObj;
-						endPointObj.FBXInit();
-						endPointObj.Trans_ = eventData->enemyMovePos[i];
-						endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
-						add.endPoint.push_back(endPointObj);
-
-						Object3D moveObj;
-						moveObj.FBXInit();
-						moveObj.Trans_ = eventData->enemySpawnPos[i];
-						moveObj.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
-						add.move.push_back(moveObj);
-					}
-
-					enemyDatas_.push_back(add);
-				}
-			}
+			return false;
 		}
+
+		//読み込んだデータにあるエディタに描画するオブジェクトの登録
+		AddEventDebugObj();
 
 	}
 	std::filesystem::current_path(old);
+
+	return true;
+}
+
+void EventEditorScene::AddEventDebugObj()
+{
+	if (seting_.size() != 0)
+	{
+		movePointDatas_.clear();
+		enemyDatas_.clear();
+
+		AddMoveEventDebugObj();
+
+		AddBattleEventDebugObj();
+		
+	}
+}
+
+void EventEditorScene::AddMoveEventDebugObj()
+{
+	for (auto eventData = seting_.begin(); eventData != seting_.end(); eventData++)
+	{
+		if (eventData->eventType == EventType::moveEvent)
+		{
+			//描画用のやつにコピー
+			EventMovePointData addMoveEventData;
+
+			addMoveEventData.startPoint.FBXInit();
+			addMoveEventData.endPoint.FBXInit();
+			addMoveEventData.move.FBXInit();
+
+			addMoveEventData.startPoint.Trans_ = { eventData->moveStartPoint };
+			addMoveEventData.endPoint.Trans_ = { eventData->movePoint };
+			addMoveEventData.move.Trans_ = { eventData->moveStartPoint };
+
+			addMoveEventData.startPoint.Update();
+			addMoveEventData.endPoint.Update();
+			addMoveEventData.move.Update();
+
+			//各ポイントの色を変更
+
+			addMoveEventData.startPoint.SetColor({ 0.0f,0.0f ,0.5f ,1.0f });
+			addMoveEventData.endPoint.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
+			addMoveEventData.move.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
+
+			movePointDatas_.push_back(addMoveEventData);
+		}
+		
+	}
+}
+void EventEditorScene::AddBattleEventDebugObj()
+{
+	for (auto eventData = seting_.begin(); eventData != seting_.end(); eventData++)
+	{
+		if (eventData->eventType == EventType::BattleEvent)
+		{
+			EventEnemyData add;
+
+			for (uint16_t i = 0; i < eventData->enemyNum; i++)
+			{
+				Object3D enemyObj;
+				enemyObj.FBXInit();
+				enemyObj.Trans_ = eventData->enemySpawnPos[i];
+
+				add.enemys.push_back(enemyObj);
+
+				add.enemyTypes.push_back(eventData->enemyTypes[i]);
+
+				Object3D endPointObj;
+				endPointObj.FBXInit();
+				endPointObj.Trans_ = eventData->enemyMovePos[i];
+				endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
+				add.endPoint.push_back(endPointObj);
+
+				Object3D moveObj;
+				moveObj.FBXInit();
+				moveObj.Trans_ = eventData->enemySpawnPos[i];
+				moveObj.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
+				add.move.push_back(moveObj);
+			}
+
+			enemyDatas_.push_back(add);
+		}
+	}
 }

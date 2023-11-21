@@ -244,6 +244,7 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 		//スピードのセット
 		eventData.moveSpeed = (float)seting["moveSpeed"];
+		eventData.moveRotTime = (float)seting["moveRotTime"];
 
 		eventSetings_.push_back(eventData);
 
@@ -273,7 +274,8 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 				(float)seting["spawnInterval"].size() <= i or
 				(float)seting["enemyType"].size() <= i or
 				(float)seting["enemySpeed"].size() <= i or
-				(float)seting["enemyMovePos"].size() <= i) continue;
+				(float)seting["enemyMovePos"].size() <= i or
+				(float)seting["enemyBulletCT"].size() <= i) continue;
 
 
 			//湧く場所をセット
@@ -290,6 +292,8 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 			//エネミーが動く場合の動く位置
 			eventData.enemyMovePos.push_back({ (float)seting["enemyMovePos"][i][0],(float)seting["enemyMovePos"][i][1] ,(float)seting["enemyMovePos"][i][2] });
+
+			eventData.enemyBulletCT.push_back((uint32_t)seting["enemyBulletCT"][i]);
 
 		}
 

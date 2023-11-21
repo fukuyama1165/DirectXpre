@@ -13,6 +13,7 @@
                     0.0
                 ],
                 "moveSpeed": 1.0,
+                "moveRotTime": 0.0,
                 "moveStartPoint": [
                     0.0,
                     20.0,

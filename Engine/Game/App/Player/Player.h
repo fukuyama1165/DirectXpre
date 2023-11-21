@@ -24,6 +24,30 @@ public:
 	//マウスの位置を取得してその位置をレティクル用のオブジェクト等に入れる関数
 	void Reticle2DMouse();
 
+	//位置関係をリセット
+	void Reset(){
+		pos_ = {0,0,0};
+
+		moveVec_ = { 0,0,0 };
+
+		rotTimer_ = 0;
+
+		rotVec_ = { 0,0,0 };
+
+		playerCamera_.pos_ = { 0,0,0 };
+		playerCamera_.rotate_ = { 0,0,0 };
+		playCamera_.upDate();
+
+		moveEventStart_ = true;
+
+		playerCamera_.pos_ = originalPos_;
+		attackFlag_ = false;
+
+		bulletNum_ = bulletMaxNum_;
+
+		hp_ = 3;
+	}
+
 	Object3D playerObj_;
 
 	Object3D reticle3DObj_;
@@ -58,20 +82,25 @@ public:
 	//隠れるか
 	bool attackFlag_ = false;
 
+	//回転保存用のやつ
+	Vector3 rotVec_ = { 0,0,0 };
+
 private:
 
 	void HideRightWall();
 
 	void HideDownWall();
 
+	//移動イベントの更新処理
+	void MoveEventUpdate();
+
+	//スプライトの更新処理
+	void SpriteUpdate();
+
 	//マズルフラッシュして
 	void MuzzleFlash();
 
 private:
-
-	
-	
-	float rotate_ = 0;
 	
 
 	Input* input_ =nullptr;
@@ -80,20 +109,22 @@ private:
 
 	Vector3 moveVec_;
 
+	float rotTimer_ = 0;
+
 	bool moveEventStart_ = false;
 
-	float moveSpeed_ = 0.1f;
-
-	//注視点滑らかな移動のため
+	//滑らかな移動のため
 	float maxTime_ = 500;
 	//カメラの始点の移動するときの時間
 	float maxMoveTime_ = maxTime_/15;
 
-	
-
 	float attackTime_ = 3;
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+
+	//隠れるときの動く大きさ
+	float hideDistanceX_ = 5;
+	float hideDistanceY_ = 2;
 
 	//モデル
 	AnimationModel* bulletModel_=nullptr;

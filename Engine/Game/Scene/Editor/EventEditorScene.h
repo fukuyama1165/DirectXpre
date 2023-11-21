@@ -29,8 +29,14 @@ private:
 	//設定してイベントを追加するところ
 	void AddEvent();
 
+	//追加するときの各イベント用処理
 	void AddMoveEvent();
 	void AddBattleEvent();
+
+	//デバック用のオブジェクトの登録関数
+	void AddEventDebugObj();
+	void AddMoveEventDebugObj();
+	void AddBattleEventDebugObj();
 
 	//現在入っているイベントを編集したり消すところ
 	void EditEvent();
@@ -57,15 +63,15 @@ private:
 	void WindowsSaveEEFMFile();
 
 	//windowsの機能を使ってeefmファイルを開く
-	void WindowsOpenEEFMFile();
+	bool WindowsOpenEEFMFile();
 
 	//開くを使うための関数(イベントマネージャーにもあるがこっちのシーンで編集するためにこちらで読み込みたいので)
 
 	//フルパスで指定された場所にあるイベントのデータが入っているファイルからデータを取得(フォルダ名に日本語が入っていると無理)
-	void LoadFullPathEventData(std::string fileName);
+	bool LoadFullPathEventData(std::string fileName);
 
 	//イベントの中身読み込むよう
-	void EventScanning(nlohmann::json deserialized, nlohmann::json& Event);
+	bool EventScanning(nlohmann::json deserialized, nlohmann::json& Event);
 
 private:
 	//天球
@@ -138,6 +144,7 @@ private:
 	float movePointRot_[3] = { 0,0,0 };
 	float moveStartPoint_[3] = { 0,0,0 };
 	float moveSpeed_ = 1;
+	float moveRotTime_ = 1;
 
 	//バトルイベント用
 	int32_t enemyNum_ = 0;
@@ -146,6 +153,7 @@ private:
 	std::vector<Vector3> enemyMovePos_;
 	std::vector<float> enemyMoveSpeed_;
 	std::vector<float> enemySpawnInterval_;
+	std::vector<uint32_t> enemyBulletCT_;
 	std::vector<std::string> enemyTypes_;
 	float playerHideType_ = playerHideVectorType::Down;
 
@@ -161,4 +169,9 @@ private:
 
 	//テスト中か
 	bool isTest_ = false;
+
+	//ちゃんとロードできた?
+	bool isLoad_ = true;
+
+	std::string loadErrorText_ = "";
 };

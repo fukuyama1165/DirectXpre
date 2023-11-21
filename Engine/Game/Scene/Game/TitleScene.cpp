@@ -119,7 +119,7 @@ void TitleScene::Initialize()
 
 void TitleScene::Finalize()
 {
-	CollisionManager::GetInstance()->AllRemoveCollider();
+	CollisionManager::GetInstance()->AllRemoveCollider(); 
 	eventManager_->reset();
 	enemys_->Reset();
 	EmitterManager::GetInstance()->reset();

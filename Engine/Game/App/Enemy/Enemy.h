@@ -20,7 +20,7 @@ public:
 	Enemy();
 	~Enemy();
 
-	void Init(std::string enemyType,Vector3 pos,Vector3 movePointPos,float moveSpeed);
+	void Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed, uint32_t bulletCT = 200);
 	void Update(std::string soundH);
 	void Draw(AnimationModel* model);
 

@@ -176,6 +176,7 @@ void Player::Update()
 
 		}
 
+		//隠れた時一回だけ音を鳴らしたい
 		if ((input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A)) && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 		{
 			XAudio::PlaySoundData(gunReloadSount_, 1.0f);
@@ -188,84 +189,10 @@ void Player::Update()
 		}
 	}
 	
-
-	//移動中ではないなら
-	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
-	{
-		if (EventPointManager::GetInstance()->GetPEventPoint()->GetPlayerHideVector()==(float)playerHideVectorType::Right)
-		{
-			HideRightWall();
-		}
-		else
-		{
-			HideDownWall();
-		}
-	}
-
-	//移動イベント処理
-	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
-	{
-		//移動を開始していないなら
-		if (moveEventStart_ == false)
-		{
-			//移動中は隠れているのをやめて元の位置に戻す
-			if (EventPointManager::GetInstance()->GetEventCount() != 0)
-			{
-				playerCamera_.pos_ = originalPos_;
-				attackFlag_ = false;
-			}
-			//開始位置を取得して進む大きさを決定
-			pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMoveStartPoint();
-			moveVec_ = nainavec3(EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint(), pos_).normalize();
-			playerCamera_.pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMoveStartPoint();;
-			moveEventStart_ = true;
-		}
-		playerCamera_.pos_ += moveVec_;
-
-		if (EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint() == playerCamera_.pos_)
-		{
-			moveVec_ = { 0,0,0 };
-			originalPos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint();
-			EventPointManager::GetInstance()->GetPEventPoint()->SetIsFinished(true);
-			moveEventStart_ = false;
-		}
-
-	}
-
-	if (attackFlag_)
-	{
-		stateSprite_.ChangeTexture("stateSquat");
-	}
-	else
-	{
-		stateSprite_.ChangeTexture("stateStandUp");
-	}
-
-	//操作の描画の位置変更
-	if (isUseKeybord_)
-	{
-		//キーボードの時
-		reticleMoveSprite_.pos_ = { (mouseSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x/2, WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
-		shotIconSprite_.pos_ = { (rightClickSprite_.GetTextureSize().x / 2) + +shotIconSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
-		stateiconSprite_.pos_ = { (spaceButtonSprite_.GetTextureSize().x / 2) + +stateiconSprite_.GetTextureSize().x,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
-
-		reticleMoveSprite_.scale_ = { 0.5f,0.5f };
-		shotIconSprite_.scale_ = { 0.5f,0.5f };
-		stateiconSprite_.scale_ = { 0.5f,0.5f };
-	}
-	else
-	{
-		//コントローラーの時(手が開いたら修正する)
-		reticleMoveSprite_.pos_ = { (gamePadStickLSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (gamePadStickLSprite_.GetTextureSize().y / 2) };
-		shotIconSprite_.pos_ = { (gamePadButtonRTSprite_.GetTextureSize().x - 48) + +shotIconSprite_.GetTextureSize().x/2,WinApp::SWindowHeightF_ - (gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y / 2) };
-		stateiconSprite_.pos_ = { (gamePadButtonASprite_.GetTextureSize().x / 2) + +stateiconSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadButtonASprite_.GetTextureSize().y + gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y) };
-
-		reticleMoveSprite_.scale_ = { 1.0f,1.0f };
-		shotIconSprite_.scale_ = { 1.0f,1.0f };
-		stateiconSprite_.scale_ = { 1.0f,1.0f };
-
-	}
-
+	MoveEventUpdate();
+	
+	SpriteUpdate();
+	
 	playCamera_.upDate();
 
 	playerCamera_.upDate();
@@ -629,7 +556,7 @@ void Player::HideRightWall()
 
 	Vector3 camerapos = {};
 
-	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x + 5, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
+	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x + hideDistanceX_, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
 
 	playerCamera_.pos_ = camerapos;
 
@@ -652,9 +579,114 @@ void Player::HideDownWall()
 
 	Vector3 camerapos = {};
 	
-	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x, originalPos_.y-2, originalPos_.z }, time_ / maxMoveTime_);
+	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x, originalPos_.y-hideDistanceY_, originalPos_.z }, time_ / maxMoveTime_);
 
 	playerCamera_.pos_ = camerapos;
+}
+
+void Player::MoveEventUpdate()
+{
+	//移動中ではないなら
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+	{
+		if (EventPointManager::GetInstance()->GetPEventPoint()->GetPlayerHideVector() == (float)playerHideVectorType::Right)
+		{
+			HideRightWall();
+		}
+		else
+		{
+			HideDownWall();
+		}
+	}
+
+	//移動イベント処理
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
+	{
+		//移動を開始していないなら
+		if (moveEventStart_ == false)
+		{
+			//移動中は隠れているのをやめて元の位置に戻す
+			if (EventPointManager::GetInstance()->GetEventCount() != 0)
+			{
+				playerCamera_.pos_ = originalPos_;
+				attackFlag_ = false;
+			}
+			//開始位置を取得して進む大きさを決定
+			pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMoveStartPoint();
+			moveVec_ = nainavec3(EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint(), pos_).normalize();
+			playerCamera_.pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMoveStartPoint();
+			moveEventStart_ = true;
+		}
+		
+		playerCamera_.rotate_ = lerp(rotVec_, EventPointManager::GetInstance()->GetPEventPoint()->GetMovePointRot(), rotTimer_ / EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().moveRotTime);
+
+		if (rotTimer_ < EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().moveRotTime)
+		{
+			rotTimer_++;
+		}
+
+		//ちょっとずれてもいいように
+		if (((playerCamera_.pos_.x <= moveVec_.x + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
+			(playerCamera_.pos_.x >= moveVec_.x - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) and
+			((playerCamera_.pos_.y <= moveVec_.y + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
+				(playerCamera_.pos_.y >= moveVec_.y - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) and
+			((playerCamera_.pos_.z <= moveVec_.z + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
+				(playerCamera_.pos_.z >= moveVec_.z - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())))
+		{
+			//回転が終わったことも確認
+			if (rotTimer_ >= EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().moveRotTime)
+			{
+				moveVec_ = { 0,0,0 };
+				originalPos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint();
+				playerCamera_.pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint();
+				EventPointManager::GetInstance()->GetPEventPoint()->SetIsFinished(true);
+				rotVec_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMovePointRot();
+				moveEventStart_ = false;
+			}
+		}
+		else
+		{
+			playerCamera_.pos_ += moveVec_ * EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed();
+		}
+
+	}
+}
+
+void Player::SpriteUpdate()
+{
+	if (attackFlag_)
+	{
+		stateSprite_.ChangeTexture("stateSquat");
+	}
+	else
+	{
+		stateSprite_.ChangeTexture("stateStandUp");
+	}
+
+	//操作の描画の位置変更
+	if (isUseKeybord_)
+	{
+		//キーボードの時
+		reticleMoveSprite_.pos_ = { (mouseSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x / 2, WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+		shotIconSprite_.pos_ = { (rightClickSprite_.GetTextureSize().x / 2) + +shotIconSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
+		stateiconSprite_.pos_ = { (spaceButtonSprite_.GetTextureSize().x / 2) + +stateiconSprite_.GetTextureSize().x,WinApp::SWindowHeightF_ - (spaceButtonSprite_.GetTextureSize().y) };
+
+		reticleMoveSprite_.scale_ = { 0.5f,0.5f };
+		shotIconSprite_.scale_ = { 0.5f,0.5f };
+		stateiconSprite_.scale_ = { 0.5f,0.5f };
+	}
+	else
+	{
+		//コントローラーの時(手が開いたら修正する)
+		reticleMoveSprite_.pos_ = { (gamePadStickLSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadStickLSprite_.GetTextureSize().y / 2) };
+		shotIconSprite_.pos_ = { (gamePadButtonRTSprite_.GetTextureSize().x - 48) + +shotIconSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y / 2) };
+		stateiconSprite_.pos_ = { (gamePadButtonASprite_.GetTextureSize().x / 2) + +stateiconSprite_.GetTextureSize().x / 2,WinApp::SWindowHeightF_ - (gamePadButtonASprite_.GetTextureSize().y + gamePadButtonRTSprite_.GetTextureSize().y + gamePadStickLSprite_.GetTextureSize().y) };
+
+		reticleMoveSprite_.scale_ = { 1.0f,1.0f };
+		shotIconSprite_.scale_ = { 1.0f,1.0f };
+		stateiconSprite_.scale_ = { 1.0f,1.0f };
+
+	}
 }
 
 void Player::Reticle2DMouse()

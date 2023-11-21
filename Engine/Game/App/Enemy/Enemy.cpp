@@ -10,7 +10,7 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed)
+void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed, uint32_t bulletCT)
 {
 	
 	enemyObj_.FBXInit();
@@ -34,6 +34,9 @@ void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float
 	moveStartPos_ = pos;
 
 	speed_ = moveSpeed;
+
+	bulletMaxCT_ = bulletCT;
+	bulletCT_ = bulletCT;
 
 }
 

@@ -13,7 +13,7 @@
                     0.0
                 ],
                 "moveSpeed": 1.0,
-                "moveRotTime": 100.0,
+                
                 "moveStartPoint": [
                     0.0,
                     0.0,
@@ -62,12 +62,7 @@
                         0.0,
                         40.0
                     ]
-                ],
-                "enemyBulletCT": [
-                    10,
-                    50
                 ]
-
             },
             "type": "BattleEvent"
         }
