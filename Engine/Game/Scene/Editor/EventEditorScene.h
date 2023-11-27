@@ -112,6 +112,7 @@ private:
 		std::vector<std::string> enemyTypes;
 		std::vector<Object3D> endPoint;
 		std::vector<Object3D> move;
+		Object3D playerPoint;
 
 		bool isEnd = false;
 	};
@@ -156,6 +157,7 @@ private:
 	std::vector<uint32_t> enemyBulletCT_;
 	std::vector<std::string> enemyTypes_;
 	float playerHideType_ = playerHideVectorType::Down;
+	float playerPos_[3] = { 0,0,0 };
 
 	//イベントの種類
 	const char* EventTypeChar[2] = { "moveEvent","BattleEvent" };
@@ -173,5 +175,8 @@ private:
 	//ちゃんとロードできた?
 	bool isLoad_ = true;
 
+	//エラーが出た時の出力先
 	std::string loadErrorText_ = "";
+
+	uint32_t eventNum_ = 1;
 };

@@ -33,6 +33,7 @@ struct EventSeting
 	std::vector<uint32_t> enemyBulletCT;
 	std::vector<std::string> enemyTypes;
 	float playerHideVector = playerHideVectorType::Down;
+	Vector3 playerPos = { 0,0,0 };
 
 };
 

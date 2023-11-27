@@ -9,6 +9,7 @@ EnemyBullet::EnemyBullet()
 
 EnemyBullet::~EnemyBullet()
 {
+	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 }
 
 void EnemyBullet::Initlize(const Vector3& position, const Vector3& velocity, const Vector3& size)
@@ -48,7 +49,7 @@ void EnemyBullet::Update()
 	if (--deathTimer_ <= 0 or EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==EventType::moveEvent)
 	{
 		isDead_ = true;
-		CollisionManager::GetInstance()->RemoveCollider(&Collider);
+		
 	}
 
 	Collider.Update(obj_.GetWorldPos());
@@ -70,7 +71,6 @@ void EnemyBullet::Draw(AnimationModel* model)
 void EnemyBullet::OnCollision()
 {
 	isDead_ = true;
-	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 }
 
 Vector3 EnemyBullet::GetWorldPosition()

@@ -25,6 +25,11 @@
         {
             "seting": {
                 "playerHideType": 0.0,
+                "playerPos": [
+                    0.0,
+                    20.0,
+                    0.0
+                ],
                 "enemyMaxSpawn": 1,
                 "enemyMovePos": [
                     [
@@ -62,6 +67,10 @@
                         30.0,
                         40.0
                     ]
+                ],
+                "enemyBulletCT": [
+                    10,
+                    50
                 ]
             },
             "type": "BattleEvent"

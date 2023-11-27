@@ -107,6 +107,7 @@ void EventEditorScene::Draw()
 					enemyobj.move[i].FBXDraw(*enemyModel_);
 				}
 			}
+			enemyobj.playerPoint.FBXDraw(*moveEventModel_);
 		}
 
 		for (auto movePointobj : movePointDatas_)
@@ -221,6 +222,9 @@ void EventEditorScene::AddBattleEvent()
 	//画面の最大湧き数を設定
 	ImGui::DragInt("maxSpawn", (int*)&enemyMaxSpawn_, 1, 1, 10);
 
+	//プレイヤーがバトルするところを設定
+	ImGui::DragFloat3("PlayerPos", playerPos_, 1, -1000.0f, 1000.0f);
+
 	//前フレームから変更されていたら大きさを変更
 	if (oldEnemyNum_ != enemyNum_)
 	{
@@ -263,6 +267,7 @@ void EventEditorScene::AddBattleEvent()
 		addEvent.enemyMoveSpeed = enemyMoveSpeed_;
 		addEvent.enemyBulletCT = enemyBulletCT_;
 		addEvent.playerHideVector = playerHideType_;
+		addEvent.playerPos = { playerPos_[0],playerPos_[1] ,playerPos_[2] };
 
 		seting_.push_back(addEvent);
 
@@ -437,6 +442,8 @@ void EventEditorScene::EditEvent()
 		}
 		else if (setingI->eventType == EventType::BattleEvent)
 		{
+			float playerPos[3] = { setingI->playerPos.x,setingI->playerPos.y,setingI->playerPos.z };
+			ImGui::DragFloat3(std::string("PlayerPos" + num).c_str(), playerPos, 1, -1000.0f, 1000.0f);
 			for (uint16_t i = 0; i < setingI->enemyNum; i++)
 			{
 				ImGui::Text("enemyNum:%02d", i);
@@ -558,6 +565,7 @@ void EventEditorScene::EditEvent()
 			}
 
 			setingI->playerHideVector = playerHideType;
+			setingI->playerPos = { playerPos[0],playerPos[1] ,playerPos[2] };
 		}
 
 		if (ImGui::Button(std::string("erase" + num).c_str()))
@@ -683,46 +691,56 @@ void EventEditorScene::DrawEventDataUpdate()
 
 	auto moveobj = movePointDatas_.begin();
 
-	for (auto setingI = seting_.begin(); setingI != seting_.end();)
+	if (movePointDatas_.size() != 0)
 	{
-		if (setingI->eventType != EventType::moveEvent)
+
+		for (auto setingI = seting_.begin(); setingI != seting_.end();)
 		{
+			if (setingI->eventType != EventType::moveEvent)
+			{
+				setingI++;
+				continue;
+			}
+
+			moveobj->startPoint.Trans_ = setingI->moveStartPoint;
+			moveobj->startPoint.Update();
+			moveobj->endPoint.Trans_ = setingI->movePoint;
+			moveobj->endPoint.Update();
+
 			setingI++;
-			continue;
+			moveobj++;
 		}
-		
-		moveobj->startPoint.Trans_ = setingI->moveStartPoint;
-		moveobj->startPoint.Update();
-		moveobj->endPoint.Trans_ = setingI->movePoint;
-		moveobj->endPoint.Update();
-		
-		setingI++;
-		moveobj++;
 	}
 
 	auto enemyobj = enemyDatas_.begin();
 
-	for (auto setingI = seting_.begin(); setingI != seting_.end();)
+	if (enemyDatas_.size() != 0)
 	{
-		if (setingI->eventType != EventType::BattleEvent)
+
+		for (auto setingI = seting_.begin(); setingI != seting_.end();)
 		{
+			if (setingI->eventType != EventType::BattleEvent)
+			{
+				setingI++;
+				continue;
+			}
+
+			for (uint32_t i = 0; i < enemyobj->enemys.size(); i++)
+			{
+				enemyobj->enemys[i].Trans_ = setingI->enemySpawnPos[i];
+				enemyobj->endPoint[i].Trans_ = setingI->enemyMovePos[i];
+				enemyobj->enemys[i].Update();
+				enemyobj->endPoint[i].Update();
+			}
+
+			enemyobj->playerPoint.Trans_ = setingI->playerPos;
+			enemyobj->playerPoint.Update();
+
 			setingI++;
-			continue;
+			enemyobj++;
 		}
 
-		for (uint32_t i = 0; i < enemyobj->enemys.size(); i++)
-		{
-			enemyobj->enemys[i].Trans_ = setingI->enemySpawnPos[i];
-			enemyobj->endPoint[i].Trans_ = setingI->enemyMovePos[i];
-			enemyobj->enemys[i].Update();
-			enemyobj->endPoint[i].Update();
-		}
-
-		setingI++;
-		enemyobj++;
 	}
-
-
 
 	
 
@@ -889,6 +907,29 @@ void EventEditorScene::TestEvent()
 
 		ImGui::End();
 
+		ImGui::Begin("eventNum");
+
+		uint32_t oldEventNum = eventNum_;
+
+		//イベントの位置を指定
+		ImGui::DragInt("maxSpawn", (int*)&eventNum_, 1, 1, (int)seting_.size());
+
+		ImGui::End();
+
+		if (oldEventNum != eventNum_)
+		{
+			//配列指定するので引く
+			eventManager_->MoveEventNum(eventNum_-1);
+			eventManager_->SetEventAllEnd(false);
+			enemys_->Reset();
+			player_.Reset();
+		}
+
+		/*if (eventNum_ != eventManager_->GetEventNum())
+		{
+			eventNum_ = eventManager_->GetEventNum();
+		}*/
+
 	}
 
 }
@@ -1033,6 +1074,7 @@ void EventEditorScene::SaveEventFullPathData(const std::string fileName)
 			data["seting"]["enemyBulletCT"] = eventSeting.enemyBulletCT;
 			data["type"] = "BattleEvent";
 			data["seting"]["playerHideType"] = eventSeting.playerHideVector;
+			data["seting"]["playerPos"] = { eventSeting.playerPos.x,eventSeting.playerPos.y,eventSeting.playerPos.z };
 		}
 		jsonfile["events"] += { data };
 	}
@@ -1238,6 +1280,12 @@ bool EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 			return false;
 		}
 
+		if (!seting.contains("playerPos"))
+		{
+			loadErrorText_ = "playerPos is missing";
+			return false;
+		}
+
 		//沸き数と画面内の最大数をセット
 		eventData.enemyMaxSpawn = seting["enemyMaxSpawn"];
 		eventData.enemyNum = seting["enemyNum"];
@@ -1245,6 +1293,10 @@ bool EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 		//イベントのタイプをセット
 		eventData.eventType = BattleEvent;
 		eventData.playerHideVector = seting["playerHideType"];
+		//プレイヤーの位置をセット
+		eventData.playerPos.x = (float)seting["playerPos"][0];
+		eventData.playerPos.y = (float)seting["playerPos"][1];
+		eventData.playerPos.z = (float)seting["playerPos"][2];
 
 		//エネミーの数だけ回す
 		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
@@ -1413,6 +1465,11 @@ void EventEditorScene::AddBattleEventDebugObj()
 		if (eventData->eventType == EventType::BattleEvent)
 		{
 			EventEnemyData add;
+
+			Object3D playerObj;
+			playerObj.FBXInit();
+			playerObj.Trans_ = eventData->playerPos;
+			add.playerPoint = playerObj;
 
 			for (uint16_t i = 0; i < eventData->enemyNum; i++)
 			{

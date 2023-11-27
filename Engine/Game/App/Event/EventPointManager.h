@@ -55,6 +55,9 @@ public:
 	//設定を全部消す
 	void reset() { eventSetings_.clear(); eventCount_ = 0; eventPoint_ = EventPoint(); }
 
+	//指定したイベントの番号に移動(なかったりオーバーしてたら何もしない)
+	void MoveEventNum(uint32_t eventCount);
+
 public:
 
 	//読み込む際のファイルパス(ファイル名だけで指定するため)

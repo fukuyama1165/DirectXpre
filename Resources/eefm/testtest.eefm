@@ -25,6 +25,11 @@
         {           
             "seting": {
                 "playerHideType": 0.0,
+                "playerPos": [
+                    0,
+                    0,
+                    0
+                ],
                 "enemyMaxSpawn": 2,
                 "enemyMovePos": [
                     [

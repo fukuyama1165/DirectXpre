@@ -266,6 +266,8 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 		eventData.eventType = BattleEvent;
 		eventData.playerHideVector = seting["playerHideType"];
 
+		eventData.playerPos = { (float)seting["playerPos"][0],(float)seting["playerPos"][1] ,(float)seting["playerPos"][2] };
+
 		//エネミーの数だけ回す
 		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
 		{
@@ -501,4 +503,23 @@ void EventPointManager::Draw()
 	{
 		waitSprite_.Draw();
 	}
+}
+
+void EventPointManager::MoveEventNum(uint32_t eventCount)
+{
+
+	if ((eventSetings_.size() > eventCount) and (eventCount >= 0))
+	{
+		eventPoint_ = EventPoint(eventSetings_[eventCount]);
+		//次のイベントに指定
+		eventCount_ = eventCount + 1;
+		if (eventCount > 1)
+		{
+			nextTime_ = true;
+			nextMoveTime_ = 0;
+			nextMoveTime2_ = 0;
+		}
+	}
+	
+
 }

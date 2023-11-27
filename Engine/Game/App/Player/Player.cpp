@@ -189,7 +189,7 @@ void Player::Update()
 		}
 	}
 	
-	MoveEventUpdate();
+	EventUpdate();
 	
 	SpriteUpdate();
 	
@@ -584,7 +584,7 @@ void Player::HideDownWall()
 	playerCamera_.pos_ = camerapos;
 }
 
-void Player::MoveEventUpdate()
+void Player::EventUpdate()
 {
 	//移動中ではないなら
 	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
@@ -600,7 +600,7 @@ void Player::MoveEventUpdate()
 	}
 
 	//移動イベント処理
-	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == EventType::moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
 	{
 		//移動を開始していないなら
 		if (moveEventStart_ == false)
@@ -626,12 +626,12 @@ void Player::MoveEventUpdate()
 		}
 
 		//ちょっとずれてもいいように
-		if (((playerCamera_.pos_.x <= moveVec_.x + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
-			(playerCamera_.pos_.x >= moveVec_.x - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) and
-			((playerCamera_.pos_.y <= moveVec_.y + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
-				(playerCamera_.pos_.y >= moveVec_.y - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) and
-			((playerCamera_.pos_.z <= moveVec_.z + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
-				(playerCamera_.pos_.z >= moveVec_.z - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())))
+		if (((playerCamera_.pos_.x <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().x + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
+			(playerCamera_.pos_.x >= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().x - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) and
+			((playerCamera_.pos_.y <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().y + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
+				(playerCamera_.pos_.y >= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().y - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) and
+			((playerCamera_.pos_.z <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().z + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
+				(playerCamera_.pos_.z >= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().z - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())))
 		{
 			//回転が終わったことも確認
 			if (rotTimer_ >= EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().moveRotTime)
@@ -648,6 +648,24 @@ void Player::MoveEventUpdate()
 		{
 			playerCamera_.pos_ += moveVec_ * EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed();
 		}
+
+	}
+
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == EventType::BattleEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
+	{
+		if (battleEventStart_ == false)
+		{
+			//開始位置を取得
+			playerCamera_.pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().playerPos;
+			originalPos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().playerPos;
+			battleEventStart_ = true;
+		}
+	}
+	//バトルイベント終了時の処理
+	else if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == EventType::BattleEvent)
+	{
+
+		battleEventStart_ = false;
 
 	}
 }

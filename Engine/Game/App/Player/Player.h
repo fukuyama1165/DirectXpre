@@ -38,7 +38,9 @@ public:
 		playerCamera_.rotate_ = { 0,0,0 };
 		playCamera_.upDate();
 
-		moveEventStart_ = true;
+		moveEventStart_ = false;
+		battleEventStart_ = false;
+
 
 		playerCamera_.pos_ = originalPos_;
 		attackFlag_ = false;
@@ -91,8 +93,8 @@ private:
 
 	void HideDownWall();
 
-	//移動イベントの更新処理
-	void MoveEventUpdate();
+	//イベントの更新処理
+	void EventUpdate();
 
 	//スプライトの更新処理
 	void SpriteUpdate();
@@ -111,7 +113,11 @@ private:
 
 	float rotTimer_ = 0;
 
+	//移動開始のための事前処理用フラグ
 	bool moveEventStart_ = false;
+
+	//戦闘開始のための事前処理用フラグ
+	bool battleEventStart_ = false;
 
 	//滑らかな移動のため
 	float maxTime_ = 500;
