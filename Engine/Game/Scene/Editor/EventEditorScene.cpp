@@ -273,6 +273,11 @@ void EventEditorScene::AddBattleEvent()
 
 		EventEnemyData add;
 
+		Object3D playerObj;
+		playerObj.FBXInit();
+		playerObj.Trans_ = addEvent.playerPos;
+		add.playerPoint = playerObj;
+
 		for (uint16_t i = 0; i < enemyNum_; i++)
 		{
 			Object3D enemyObj;
@@ -309,6 +314,7 @@ void EventEditorScene::AddBattleEvent()
 		enemyTypes_.clear();
 		enemyNum_ = 0;
 		enemyMaxSpawn_ = 1;
+		addEvent.playerPos = { 0,0,0 };
 	}
 
 	//敵の数分回す
