@@ -8,7 +8,7 @@ public:
 
 	static EnemyManager* GetInstance();
 
-	void PopEnemy(std::string enemyType, Vector3 pos, Vector3 movePoint = { 0,0,0 }, float moveSpeed=1.0f);
+	void PopEnemy(std::string enemyType, Vector3 pos, Vector3 movePoint = { 0,0,0 }, float moveSpeed = 1.0f, uint32_t bulletCT = 200);
 
 	//初期化
 	void Init();
@@ -47,7 +47,7 @@ public:
 	//弾
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 
-	uint32_t enemyCount_ = 0;
+	int32_t enemyCount_ = 0;
 
 	bool isDebugShot_ = false;
 

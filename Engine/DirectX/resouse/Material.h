@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file Material.h
+ * @brief マテリアルデータを保存するためのクラス
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 

@@ -166,7 +166,7 @@
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\Math\Easing.cpp" />
     <ClCompile Include="Engine\Math\matrix4x4.cpp" />
-    <ClCompile Include="Engine\Math\PI.cpp" />
+    <ClCompile Include="Engine\Math\Util.cpp" />
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
@@ -250,7 +250,7 @@
     <ClInclude Include="Engine\Game\sprite\SpriteCommon.h" />
     <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\Math\matrix4x4.h" />
-    <ClInclude Include="Engine\Math\PI.h" />
+    <ClInclude Include="Engine\Math\Util.h" />
     <ClInclude Include="Engine\Math\Quaternion.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />

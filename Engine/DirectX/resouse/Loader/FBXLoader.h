@@ -1,5 +1,13 @@
 #pragma once
 
+
+/**
+ * @file FBXLoader.h
+ * @brief assimpを使用したモデルファイルを指定した既定のクラスに登録する
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include <memory>
 
 #include "DirectXInit.h"
@@ -18,9 +26,6 @@
 #include <unordered_map>
 
 #include "Model.h"
-
-//人のコード見て作った
-
 
 
 //部位のtransformだと思う

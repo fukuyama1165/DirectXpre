@@ -44,7 +44,6 @@ std::unique_ptr<LevelData> JsonLevelLoader::LoadJsonFile(const std::string& file
 	//"object"の全オブジェクトを走査
 	for (nlohmann::json& object : deserialized["objects"])
 	{
-
 		JsonLevelLoader::objectScanning(levelData.get(), deserialized, object);
 	}
 

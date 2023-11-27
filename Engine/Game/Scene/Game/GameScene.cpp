@@ -14,7 +14,7 @@ void GameScene::Initialize()
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
 
-	lightManager_->lightGroups_[0].SetDirLightActive(0, false);
+	lightManager_->lightGroups_[0].SetDirLightActive(0, true);
 	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
 
@@ -27,6 +27,9 @@ void GameScene::Initialize()
 
 	//lightGroup->SetLightColor({ 1,1,1 });
 
+	lightManager_->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
+	lightManager_->lightGroups_[0].SetDirLightColor(0,{ 0.05f,0.05f,0.05f });
+
 	Object3D::SetLight(&lightManager_->lightGroups_[0]);
 
 	camera_ = Camera((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
@@ -35,6 +38,7 @@ void GameScene::Initialize()
 
 	cameobj_ = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
+	//初期値店の移動を記録
 	playerCameobj_.pos_.z = -200;
 
 	//cameobj.cameobj.SetParent(&objobj);
@@ -81,7 +85,7 @@ void GameScene::Initialize()
 
 	testFBX_.Scale_ = { 0.1f,0.1f,0.1f };
 
-	LevelLoader::GetInstance()->LoadLevel("MapTest");
+	LevelLoader::GetInstance()->LoadLevel("MapTest2");
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
 	
@@ -116,7 +120,9 @@ void GameScene::Initialize()
 	eventManager->SetDebug1MoveEvent({ 0,0,100 });
 	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
 	//イベントデータの読み込み
-	eventManager->LoadEventData("Event");
+	//eventManager->LoadEventData("Event2");
+	//std::string a = "C:\\k021g1165\\DirectX\\test\\loadTest.eefm";
+	eventManager->LoadeefmEventData("testtest");
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
@@ -161,7 +167,170 @@ void GameScene::Update()
 
 #pragma region 更新処理
 
+	DebugUpdate();
 
+	if (!pause_)
+	{
+
+		play_.Update();
+		lightManager_->lightGroups_[0].Update();
+
+
+		objobj3_.Update();
+		//testObj_.Update();
+
+		testFBX_.Update();
+
+		LevelLoader::GetInstance()->Update();
+
+		enemys_->UpDate(play_.playerCamera_.GetCamera().eye_);
+
+		CollisionManager::GetInstance()->CheckAllCollisions();
+
+		eventManager->Update();
+
+		EmitterManager::GetInstance()->Update();
+
+		//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
+		if (eventManager->NowEventDataFileName_ == "testEvent")
+		{
+
+			
+
+		}
+
+
+		//ゲームオーバー処理
+		if (play_.hp_ <= 0)
+		{
+#ifdef _DEBUG
+
+#else
+			SceneManager::GetInstance()->ChangeScene("TITLE");
+
+#endif
+		}
+
+		//ゲームクリア処理
+		if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ != "testEvent")
+		{
+
+			if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
+			{
+				SceneManager::GetInstance()->ChangeScene("TITLE");
+			}
+
+			//連打防止したい
+			if (clearEffectTime_ < clearEffectMaxTime_)
+			{
+				clearEffectTime_++;
+			}
+
+			if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
+			{
+				clearEffectTime_ = clearEffectMaxTime_;
+			}
+
+			clearTextSprite_.scale_ = easeOutQuint(clearTextStartScale_, clearTextEndScale_, clearEffectTime_ / clearEffectMaxTime_);
+
+			float textAlpha = easeInSine(0.1f, 1.0f, clearEffectTime_ / clearEffectAlphaMaxTime_);
+
+			clearTextSprite_.setColor({ 1.0f,1.0f,1.0f,textAlpha });
+
+			clearBackSprite_.Update();
+			clearTextSprite_.Update();
+
+
+		}
+	}
+
+}
+
+void GameScene::Draw()
+{
+#pragma region 描画コマンド
+
+	
+	// 4.描画コマンドここから
+
+	objobj3_.Draw();
+	//testObj_.Draw();
+
+	//testFBX_.FBXDraw(*testModel_);
+
+	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
+
+
+	
+	LevelLoader::GetInstance()->Draw();
+	
+
+	enemys_->Draw();
+	
+	play_.Draw();
+
+	eventManager->Draw();
+
+	EmitterManager::GetInstance()->Draw();
+
+	//クリアしたときの描画(イベントがテスト用なら描画しない)
+	if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ != "testEvent")
+	{
+
+		clearBackSprite_.Draw();
+		clearTextSprite_.Draw();
+		
+
+	}
+
+	//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
+	if (eventManager->NowEventDataFileName_ == "testEvent")
+	{
+
+		
+
+	}
+
+
+	// 4.描画コマンドここまで
+
+	
+
+#pragma endregion
+
+	
+
+	//DirectX毎フレーム処理　ここまで
+
+#pragma endregion
+
+
+
+#pragma region 描画処理
+
+}
+
+bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, float rB)
+{
+	Vector3 AB = posB - posA;
+
+	float range = AB.length();
+
+	if (range < rA + rB)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+
+}
+
+
+void GameScene::DebugUpdate()
+{
 #ifdef _DEBUG
 	if (Input::GetInstance()->PushKey(DIK_UP))
 	{
@@ -209,7 +378,8 @@ void GameScene::Update()
 		movecoll_.z -= moveY.z;
 	}
 
-	if (eventManager->GetEventAllEnd())
+	//イベントが終わってテスト用のイベントなら動かせるように
+	if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ == "testEvent")
 	{
 		play_.playerCamera_.pos_ = movecoll_;
 	}
@@ -240,7 +410,7 @@ void GameScene::Update()
 	lightManager_->lightGroups_[0].SetSpotLightDir(0, { spotDir_[0],spotDir_[1] ,spotDir_[2] });
 	lightManager_->lightGroups_[0].SetSpotLightColor(0, { spotLightColor_[0],spotLightColor_[1] ,spotLightColor_[2] });
 	lightManager_->lightGroups_[0].SetSpotLightAtten(0, { spotLightAtten_[0],spotLightAtten_[1] ,spotLightAtten_[2] });
-	lightManager_->lightGroups_[0].SetSpotLightFactorAngle(0, { spotLightFactorAngle_[0],spotLightFactorAngle_[1]});
+	lightManager_->lightGroups_[0].SetSpotLightFactorAngle(0, { spotLightFactorAngle_[0],spotLightFactorAngle_[1] });
 
 	lightManager_->lightGroups_[0].SetSpotLightPos(1, spotLightPos_);
 	lightManager_->lightGroups_[0].SetSpotLightDir(1, { spotDir_[0],spotDir_[1] ,spotDir_[2] });
@@ -312,7 +482,7 @@ void GameScene::Update()
 	{
 		ImGui::Text("hit");
 	}
-	
+
 
 	ImGui::End();
 
@@ -322,7 +492,7 @@ void GameScene::Update()
 
 	ImGui::Begin("camera");
 
-	
+
 	ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
 	ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
 	ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
@@ -365,10 +535,10 @@ void GameScene::Update()
 	ImGui::Text("eye:%0.2f,%0.2f,%0.2f", debugCamera_.eye_.x, debugCamera_.eye_.y, debugCamera_.eye_.z);
 	ImGui::Text("target:%0.2f,%0.2f,%0.2f", debugCamera_.target_.x, debugCamera_.target_.y, debugCamera_.target_.z);
 	ImGui::Text("up:%0.2f,%0.2f,%0.2f", debugCamera_.up_.x, debugCamera_.up_.y, debugCamera_.up_.z);
-	
+
 	ImGui::Text("forward:%0.2f,%0.2f,%0.2f", debugCamera_.forward_.x, debugCamera_.forward_.y, debugCamera_.forward_.z);
 	ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", debugCamera_.rightDirection.x, debugCamera_.rightDirection.y, debugCamera_.rightDirection.z);
-	
+
 	ImGui::End();
 
 #pragma endregion
@@ -463,11 +633,11 @@ void GameScene::Update()
 	{
 		pause_ = !pause_;
 	}
-	
+
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
-	ImGui::Text("eventEnd:%d", eventManager->GetInstance()->GetPEventPoint()->GetIsFinished());	
-	ImGui::Text("eventAllEnd:%d", eventManager->GetInstance()->GetEventAllEnd());	
+	ImGui::Text("eventEnd:%d", eventManager->GetInstance()->GetPEventPoint()->GetIsFinished());
+	ImGui::Text("eventAllEnd:%d", eventManager->GetInstance()->GetEventAllEnd());
 
 	//ImGui::Text("pos:%0.2f,%0.2f,%0.2f", wallObj_[0]->obj.obj_.GetWorldPos().x, wallObj_[0]->obj.obj_.GetWorldPos().y, wallObj_[0]->obj.obj_.GetWorldPos().z);
 
@@ -485,7 +655,7 @@ void GameScene::Update()
 	ImGui::Text("camerapos:%0.2f,%0.2f,%0.2f", play_.playerCamera_.pos_.x, play_.playerCamera_.pos_.y, play_.playerCamera_.pos_.z);
 	ImGui::Text("hp:%0.0f", play_.hp_);
 	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
-	ImGui::Text("movetimer:%0.0f", play_.time_);	
+	ImGui::Text("movetimer:%0.0f", play_.time_);
 	ImGui::Checkbox("playerDebugShot", &play_.isDebugShot_);
 	ImGui::InputFloat("playerShotCT", &play_.bulletMaxCT_, 1, 5);
 	ImGui::InputFloat("playerShotSpeed", &play_.bulletSpeed_, 1, 5);
@@ -510,7 +680,7 @@ void GameScene::Update()
 
 	if (ImGui::Button("popEnemy"))
 	{
-		enemys_->PopEnemy(EnemyType::Attack,enemyPopPos);
+		enemys_->PopEnemy(EnemyType::Attack, enemyPopPos);
 	}
 
 	ImGui::End();
@@ -524,7 +694,7 @@ void GameScene::Update()
 
 	ImGui::ShowDemoWindow();
 #endif
-	
+
 
 	LevelLoader::GetInstance()->reloadLevel(DIK_K, "MapTest");
 #endif	
@@ -538,168 +708,10 @@ void GameScene::Update()
 	{
 		cameobj_.IsUseCameraMouse_ = IsUseCameraMouse_;
 		cameobj_.pos_ = cameraPos_;
-		
+
 		cameobj_.upDate();
 		Camera::nowCamera = cameobj_.GetCameraP();
-		
+
 		debugCamera_ = cameobj_.GetCamera();
 	}
-
-	if (!pause_)
-	{
-
-		play_.Update();
-		lightManager_->lightGroups_[0].Update();
-
-
-		objobj3_.Update();
-		//testObj_.Update();
-
-		testFBX_.Update();
-
-		LevelLoader::GetInstance()->Update();
-
-		enemys_->UpDate(play_.playerCamera_.GetCamera().eye_);
-
-		CollisionManager::GetInstance()->CheckAllCollisions();
-
-		eventManager->Update();
-
-		EmitterManager::GetInstance()->Update();
-
-		//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
-		if (eventManager->nowEventDataFileName_ == "testEvent")
-		{
-
-			
-
-		}
-
-
-		//ゲームオーバー処理
-		if (play_.hp_ <= 0)
-		{
-#ifdef _DEBUG
-
-#else
-			SceneManager::GetInstance()->ChangeScene("TITLE");
-
-#endif
-		}
-
-		//ゲームクリア//処理
-		if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
-		{
-
-			if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
-			{
-				SceneManager::GetInstance()->ChangeScene("TITLE");
-			}
-
-			//連打防止したい
-			if (clearEffectTime_ < clearEffectMaxTime_)
-			{
-				clearEffectTime_++;
-			}
-
-			if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
-			{
-				clearEffectTime_ = clearEffectMaxTime_;
-			}
-
-			clearTextSprite_.scale_ = easeOutQuint(clearTextStartScale_, clearTextEndScale_, clearEffectTime_ / clearEffectMaxTime_);
-
-			float textAlpha = easeInSine(0.1f, 1.0f, clearEffectTime_ / clearEffectAlphaMaxTime_);
-
-			clearTextSprite_.setColor({ 1.0f,1.0f,1.0f,textAlpha });
-
-			clearBackSprite_.Update();
-			clearTextSprite_.Update();
-
-
-		}
-	}
-
 }
-
-void GameScene::Draw()
-{
-#pragma region 描画コマンド
-
-	
-	// 4.描画コマンドここから
-
-	objobj3_.Draw();
-	//testObj_.Draw();
-
-	//testFBX_.FBXDraw(*testModel_);
-
-	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
-
-
-	
-	LevelLoader::GetInstance()->Draw();
-	
-
-	enemys_->Draw();
-	
-	play_.Draw();
-
-	eventManager->Draw();
-
-	EmitterManager::GetInstance()->Draw();
-
-	if (eventManager->GetEventAllEnd() and eventManager->nowEventDataFileName_ != "testEvent")
-	{
-
-		clearBackSprite_.Draw();
-		clearTextSprite_.Draw();
-		
-
-	}
-
-	//ここに確認したい物とか動きを書いたらテストイベントで動いてくれるはず
-	if (eventManager->nowEventDataFileName_ == "testEvent")
-	{
-
-		
-
-	}
-
-
-	// 4.描画コマンドここまで
-
-	
-
-#pragma endregion
-
-	
-
-	//DirectX毎フレーム処理　ここまで
-
-#pragma endregion
-
-
-
-#pragma region 描画処理
-
-}
-
-bool GameScene::CollsionSphere(const Vector3& posA, const float& rA, const Vector3& posB, float rB)
-{
-	Vector3 AB = posB - posA;
-
-	float range = AB.length();
-
-	if (range < rA + rB)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-
-
-}
-

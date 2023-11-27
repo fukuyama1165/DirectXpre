@@ -6,12 +6,14 @@ EventPoint::EventPoint()
 {	
 	EventSeting seting;
 	seting_ = seting;
+	count_ = 0;
 }
 
 EventPoint::EventPoint(EventSeting seting)
 {
 	seting_ = seting;
 	movePoint_ = seting_.movePoint;
+	count_ = 0;
 }
 
 
@@ -34,6 +36,7 @@ void EventPoint::Update()
 
 		movePoint_ = seting_.movePoint;
 		movePointRot_ = seting_.movePointRot;
+		moveStartPoint_ = seting_.moveStartPoint;
 
 		break;
 
@@ -43,9 +46,13 @@ void EventPoint::Update()
 		{
 			timeCount_ = seting_.enemySpawnInterval[count_];
 
-			EnemyManager::GetInstance()->PopEnemy(seting_.enemyTypes[count_], seting_.enemySpawnPos[count_], seting_.enemyMovePos[count_],seting_.enemyMoveSpeed[count_]);
+			EnemyManager::GetInstance()->PopEnemy(seting_.enemyTypes[count_], seting_.enemySpawnPos[count_], seting_.enemyMovePos[count_],seting_.enemyMoveSpeed[count_], seting_.enemyBulletCT[count_]);
 			count_++;
 
+		}
+		else if (timeCount_ == 0 and count_ >= seting_.enemyNum and EnemyManager::GetInstance()->enemyCount_ <= 0)
+		{
+			IsFinished_ = true;
 		}
 
 		if (timeCount_ > 0)
@@ -53,10 +60,7 @@ void EventPoint::Update()
 			timeCount_--;
 		}
 		
-		if (timeCount_ == 0 and count_ >= seting_.enemyNum and EnemyManager::GetInstance()->enemyCount_<=0)
-		{
-			IsFinished_ = true;
-		}
+		
 
 #ifdef _DEBUG
 

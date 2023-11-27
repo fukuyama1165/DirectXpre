@@ -61,11 +61,13 @@ void LevelLoader::Initialize()
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Ground", "Dirt", "jpg");
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "Wall", "gray2x2");
 
 	levelModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 	levelBallModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 	levelGroundModel_ = ModelManager::GetInstance()->SearchModelData("Ground");
 	levelBuildingModel_ = ModelManager::GetInstance()->SearchModelData("Building");
+	levelWallModel_ = ModelManager::GetInstance()->SearchModelData("Wall");
 }
 
 void LevelLoader::Update()
@@ -85,9 +87,13 @@ void LevelLoader::Draw()
 {
 	for (LevelObj a : levelObj)
 	{
-		if (a.name.find("box1") != std::string::npos)
+		if (a.name.find("test") != std::string::npos)
 		{
 			a.obj.FBXDraw(*levelModel_);
+		}
+		else if (a.name.find("Box") != std::string::npos)
+		{
+			a.obj.FBXDraw(*levelWallModel_);
 		}
 		else if (a.name.find("ball") != std::string::npos)
 		{
@@ -109,7 +115,7 @@ void LevelLoader::Draw()
 
 	for (uint16_t b = 0; b < wallObj_.size(); b++)
 	{
-		wallObj_[b]->obj.Draw(levelBuildingModel_);
+		wallObj_[b]->obj.Draw(levelWallModel_);
 	}
 }
 

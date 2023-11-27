@@ -1,0 +1,80 @@
+{
+    "events": [
+        {
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    20.0,
+                    0.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 1.0,
+                "moveRotTime": 0.0,
+                "moveStartPoint": [
+                    0.0,
+                    20.0,
+                    -200.0
+                ]
+            },
+            "type": "moveEvent"
+        },
+        {
+            "seting": {
+                "playerHideType": 0.0,
+                "playerPos": [
+                    0.0,
+                    20.0,
+                    0.0
+                ],
+                "enemyMaxSpawn": 1,
+                "enemyMovePos": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        -10.0,
+                        20.0,
+                        40.0
+                    ]
+                ],
+                "enemyNum": 2,
+                "enemySpeed": [
+                    0.0,
+                    1.0
+                ],
+                "enemyType": [
+                    "Attack",
+                    "moveAttack"
+                ],
+                "spawnInterval": [
+                    0.0,
+                    0.0
+                ],
+                "spawnPoint": [
+                    [
+                        10.0,
+                        20.0,
+                        40.0
+                    ],
+                    [
+                        0.0,
+                        30.0,
+                        40.0
+                    ]
+                ],
+                "enemyBulletCT": [
+                    10,
+                    50
+                ]
+            },
+            "type": "BattleEvent"
+        }
+    ],
+    "name": "event"
+}

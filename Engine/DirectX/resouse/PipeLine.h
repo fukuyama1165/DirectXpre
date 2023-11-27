@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file PipeLine.h
+ * @brief パイプラインを作成して登録し設定したキーで呼び出しを行える
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "Shader.h"
 #include<d3d12.h>
 #include<dxgi1_6.h>
@@ -62,6 +70,7 @@ public:
 	//登録
 	static void RegisterPipeLine(std::string id, PipeLine pipeLine);
 
+	//頂点シェーダとピクセルシェーダとインプットレイアウトとルートシグネチャ以外を既定の設定でパイプラインの設定を作成するところ
 	static PipeLineSeting defCreatePipeLineSeting(const Shader& vs, const Shader& ps, const std::vector<D3D12_INPUT_ELEMENT_DESC>& inputLayout,ID3D12RootSignature* rootsignature);
 
 private:

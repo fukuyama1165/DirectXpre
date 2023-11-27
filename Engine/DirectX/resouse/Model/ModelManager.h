@@ -1,4 +1,10 @@
 #pragma once
+/**
+ * @file ModelManager.h
+ * @brief モデルを管理している所
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
 #include "Model.h"
 #include "FBXLoader.h"
 

@@ -1,0 +1,90 @@
+{
+    "events": [
+        {
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 1.0,
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    -100.0
+                ]
+            },
+            "type": "moveEvent"
+        },
+        {
+            "seting": {
+                "enemyMaxSpawn": 2,
+                "enemyMovePos": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        -10.0,
+                        5.0,
+                        40.0
+                    ]
+                ],
+                "enemyNum": 2,
+                "enemySpeed": [
+                    0.0,
+                    1.0
+                ],
+                "enemyType": [
+                    "Attack",
+                    "moveAttack"
+                ],
+                "spawnInterval": [
+                    0.0,
+                    0.0
+                ],
+                "spawnPoint": [
+                    [
+                        0.0,
+                        0.0,
+                        40.0
+                    ],
+                    [
+                        0.0,
+                        5.0,
+                        40.0
+                    ]
+                ]
+            },
+            "type": "BattleEvent"
+        },
+        {
+            "seting": {
+                "movePoint": [
+                    0.0,
+                    0.0,
+                    100.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveSpeed": 1.0,
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "type": "moveEvent"
+        }
+    ],
+    "name": "event"
+}

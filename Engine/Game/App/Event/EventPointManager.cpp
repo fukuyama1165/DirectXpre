@@ -25,7 +25,7 @@ void EventPointManager::LoadEventData(std::string fileName)
 
 	eventSetings_.clear();
 
-	nowEventDataFileName_ = fileName;
+	NowEventDataFileName_ = fileName;
 
 	//元から用意していたパスをくっつけて完全に通るパスにする
 	const std::string fullPath = SDefaultEventPath_ + fileName + SDefaultEventExtension_;
@@ -85,6 +85,124 @@ void EventPointManager::LoadEventData(std::string fileName)
 	
 }
 
+void EventPointManager::LoadeefmEventData(std::string fileName)
+{
+	eventSetings_.clear();
+
+	NowEventDataFileName_ = fileName;
+
+	//元から用意していたパスをくっつけて完全に通るパスにする
+	const std::string fullPath = SDefaultEventPath2_ + fileName + SDefaultEventExtension2_;
+
+	//ファイルストリーム
+	std::ifstream file(fullPath);
+
+	//ファイル開けられた?
+	if (!file)
+	{
+		assert(0);
+	}
+
+	//JSON文字列から解凍したデータ
+	nlohmann::json deserialized;
+
+	//解凍
+	file >> deserialized;
+
+	//正しいイベントファイルかチェック
+	assert(deserialized.is_object());
+	assert(deserialized.contains("name"));
+	assert(deserialized["name"].is_string());
+
+	//"name"を文字列として取得
+	std::string name = deserialized["name"].get<std::string>();
+
+	//正しいかどうかチェック
+	assert(name.compare("event") == 0);
+
+	//"events"の全オブジェクトを走査
+	for (nlohmann::json& events : deserialized["events"])
+	{
+
+		EventScanning(deserialized, events);
+	}
+
+	//return std::move(levelData);
+
+	if (eventSetings_.empty())
+	{
+		eventSetings_.push_back(EventSeting());
+	}
+
+	eventPoint_ = EventPoint(eventSetings_[0]);
+
+	//最初がバトルの場合倒した後にもう一周してしまうため(移動イベントだとおきない)
+	if (eventPoint_.GetEventType() == EventType::BattleEvent)
+	{
+		eventPoint_.SetIsFinished(true);
+	}
+
+	eventAllEnd_ = false;
+}
+
+void EventPointManager::LoadFullPathEventData(std::string fileName)
+{
+
+	eventSetings_.clear();
+
+	NowEventDataFileName_ = Util::SeparateFilePath(fileName);
+
+	//ファイルストリーム
+	std::ifstream file(fileName);
+
+	if (!file)
+	{
+		assert(0);
+	}
+
+	//JSON文字列から解凍したデータ
+	nlohmann::json deserialized;
+
+	//解凍
+	file >> deserialized;
+
+	//正しいイベントファイルかチェック
+	assert(deserialized.is_object());
+	assert(deserialized.contains("name"));
+	assert(deserialized["name"].is_string());
+
+	//"name"を文字列として取得
+	std::string name = deserialized["name"].get<std::string>();
+
+	//正しいかどうかチェック
+	assert(name.compare("event") == 0);
+
+	//"events"の全オブジェクトを走査
+	for (nlohmann::json& events : deserialized["events"])
+	{
+
+		EventScanning(deserialized, events);
+	}
+
+	//return std::move(levelData);
+
+	if (eventSetings_.empty())
+	{
+		eventSetings_.push_back(EventSeting());
+	}
+
+	eventPoint_ = EventPoint(eventSetings_[0]);
+
+	//最初がバトルの場合倒した後にもう一周してしまうため(移動イベントだとおきない)
+	if (eventPoint_.GetEventType() == EventType::BattleEvent)
+	{
+		eventPoint_.SetIsFinished(true);
+	}
+
+	eventAllEnd_ = false;
+
+}
+
 void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::json& Event)
 {
 
@@ -114,6 +232,11 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 		eventData.movePoint.y = (float)seting["movePoint"][1];
 		eventData.movePoint.z = (float)seting["movePoint"][2];
 
+		//移動開始位置取得
+		eventData.moveStartPoint.x = (float)seting["moveStartPoint"][0];
+		eventData.moveStartPoint.y = (float)seting["moveStartPoint"][1];
+		eventData.moveStartPoint.z = (float)seting["moveStartPoint"][2];
+
 		//移動するときの角度読み込み
 		eventData.movePointRot.x = (float)seting["movePointRot"][0];
 		eventData.movePointRot.y = (float)seting["movePointRot"][1];
@@ -121,6 +244,7 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 		//スピードのセット
 		eventData.moveSpeed = (float)seting["moveSpeed"];
+		eventData.moveRotTime = (float)seting["moveRotTime"];
 
 		eventSetings_.push_back(eventData);
 
@@ -140,6 +264,9 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 		//イベントのタイプをセット
 		eventData.eventType = BattleEvent;
+		eventData.playerHideVector = seting["playerHideType"];
+
+		eventData.playerPos = { (float)seting["playerPos"][0],(float)seting["playerPos"][1] ,(float)seting["playerPos"][2] };
 
 		//エネミーの数だけ回す
 		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
@@ -149,7 +276,8 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 				(float)seting["spawnInterval"].size() <= i or
 				(float)seting["enemyType"].size() <= i or
 				(float)seting["enemySpeed"].size() <= i or
-				(float)seting["enemyMovePos"].size() <= i) continue;
+				(float)seting["enemyMovePos"].size() <= i or
+				(float)seting["enemyBulletCT"].size() <= i) continue;
 
 
 			//湧く場所をセット
@@ -166,6 +294,8 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 			//エネミーが動く場合の動く位置
 			eventData.enemyMovePos.push_back({ (float)seting["enemyMovePos"][i][0],(float)seting["enemyMovePos"][i][1] ,(float)seting["enemyMovePos"][i][2] });
+
+			eventData.enemyBulletCT.push_back((uint32_t)seting["enemyBulletCT"][i]);
 
 		}
 
@@ -373,4 +503,23 @@ void EventPointManager::Draw()
 	{
 		waitSprite_.Draw();
 	}
+}
+
+void EventPointManager::MoveEventNum(uint32_t eventCount)
+{
+
+	if ((eventSetings_.size() > eventCount) and (eventCount >= 0))
+	{
+		eventPoint_ = EventPoint(eventSetings_[eventCount]);
+		//次のイベントに指定
+		eventCount_ = eventCount + 1;
+		if (eventCount > 1)
+		{
+			nextTime_ = true;
+			nextMoveTime_ = 0;
+			nextMoveTime2_ = 0;
+		}
+	}
+	
+
 }

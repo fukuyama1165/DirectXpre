@@ -1,6 +1,6 @@
 #pragma once
 #include <math.h>
-#include "PI.h"
+#include "Util.h"
 
 //aからbまでの時間(0～1)の位置を知ることができる関数
 template<typename T>
