@@ -151,5 +151,7 @@ std::string Util::SeparateFilePath(const std::string& filePath)
 	//区切り文字が無いのでファイル名のみとして扱うよ
 	directoryPath = "";
 	fileName = exceptExt;
+
+	//ファイル名を返すよ
 	return fileName;
 }

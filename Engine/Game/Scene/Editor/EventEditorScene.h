@@ -26,12 +26,40 @@ public:
 
 private:
 
+	//制作中のバトルイベントのエネミーの描画用構造体
+	struct EventEnemyData
+	{
+		std::vector<Object3D> enemys;
+		std::vector<std::string> enemyTypes;
+		std::vector<Object3D> endPoint;
+		std::vector<Object3D> move;
+		Object3D playerPoint;
+
+		bool isEnd = false;
+	};
+
+	//作成中の移動イベントの描画用構造体
+	struct EventMovePointData
+	{
+		Object3D startPoint;
+		Object3D endPoint;
+		Object3D move;
+		bool isEnd = false;
+	};
+
+private:
+
 	//設定してイベントを追加するところ
 	void AddEvent();
 
 	//追加するときの各イベント用処理
 	void AddMoveEvent();
 	void AddBattleEvent();
+	void AddBattleEventEnemy();
+
+	//Addのボタンが押された時の処理
+	void AddButtonBattleEvent();
+	void AddButtonBattleEventDebugObj();
 
 	//デバック用のオブジェクトの登録関数
 	void AddEventDebugObj();
@@ -43,6 +71,9 @@ private:
 
 	//イベントデータを保存したり読み込んだりするところ
 	void SaveAndLoadEvent();
+
+	//エディタシーンのマップを変更できるところ
+	void ChangeMap();
 
 	//制作中のイベントの描画用のオブジェクトの更新用の関数
 	void DrawEventDataUpdate();
@@ -105,26 +136,7 @@ private:
 	std::vector<uint32_t> enemyTypeNum_;
 	uint32_t playerHideTypeNum_ = 0;
 
-	//制作中のバトルイベントのエネミーの描画用構造体
-	struct EventEnemyData
-	{
-		std::vector<Object3D> enemys;
-		std::vector<std::string> enemyTypes;
-		std::vector<Object3D> endPoint;
-		std::vector<Object3D> move;
-		Object3D playerPoint;
-
-		bool isEnd = false;
-	};
-
-	//作成中の移動イベントの描画用構造体
-	struct EventMovePointData
-	{
-		Object3D startPoint;
-		Object3D endPoint;
-		Object3D move;
-		bool isEnd = false;
-	};
+	
 
 	//作成中のイベントの中身保持用
 	std::vector<EventEnemyData> enemyDatas_;
@@ -171,6 +183,9 @@ private:
 
 	//テスト中か
 	bool isTest_ = false;
+
+	//一時停止しているか
+	bool pause_ = false;
 
 	//ちゃんとロードできた?
 	bool isLoad_ = true;
