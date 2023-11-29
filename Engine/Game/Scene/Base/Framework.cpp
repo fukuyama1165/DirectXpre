@@ -72,7 +72,7 @@ void Framework::Finalize()
 void Framework::Update()
 {
 
-	if (winApp_->processMassage() or input_->TriggerKey(DIK_ESCAPE))
+	if (winApp_->processMassage() || input_->TriggerKey(DIK_ESCAPE))
 	{
 
 		endRequst_ = true;

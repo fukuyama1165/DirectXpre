@@ -83,7 +83,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	float d2 = Vector3::dot(p0p2, p0Po);
 
 	//2つの内積が負の数ならp0が一番近い
-	if (d1 <= 0.0f and d2 <= 0.0f)
+	if (d1 <= 0.0f && d2 <= 0.0f)
 	{
 
 		*closest = triangle.p0_;
@@ -108,7 +108,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 
 
 	
-	if (d3 >= 0.0f and d4 <= d3)
+	if (d3 >= 0.0f && d4 <= d3)
 	{
 
 		*closest = triangle.p1_;
@@ -122,7 +122,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	//領域内チェックのための計算これが負の数なら三角形の外にいる
 	float p0p1Projection = d1 * d4 - d3 * d2;
 
-	if (p0p1Projection <= 0.0f and d1 >= 0.0f and d3 <= 0.0f)
+	if (p0p1Projection <= 0.0f && d1 >= 0.0f && d3 <= 0.0f)
 	{
 		*closest = triangle.p0_ + ((d1 / (d1 - d3)) * p0p1);
 		return;
@@ -145,7 +145,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 
 
 	
-	if (d6 >= 0.0f and d5 <= d6)
+	if (d6 >= 0.0f && d5 <= d6)
 	{
 
 		*closest = triangle.p2_;
@@ -159,7 +159,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	//領域内チェックのための計算これが負の数なら三角形の外にいる
 	float p0p2Projection = d2 * d5 - d6 * d1;
 
-	if (p0p2Projection <= 0.0f and d2 >= 0.0f and d6 <= 0.0f)
+	if (p0p2Projection <= 0.0f && d2 >= 0.0f && d6 <= 0.0f)
 	{
 		*closest = triangle.p0_ + ((d2 / (d2 - d6)) * p0p2);
 		return;
@@ -170,7 +170,7 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	//領域内チェックのための計算これが負の数なら三角形の外にいる
 	float p1p2Projection = d3 * d6 - d5 * d4;
 
-	if (p1p2Projection <= 0.0f and (d4-d3) >= 0.0f and (d5-d6) >= 0.0f)
+	if (p1p2Projection <= 0.0f && (d4-d3) >= 0.0f && (d5-d6) >= 0.0f)
 	{
 
 		*closest = triangle.p1_ + (((d4 - d3) / ((d4 - d3) + (d5 - d6))) * (triangle.p2_ -triangle.p1_));
@@ -223,7 +223,7 @@ bool Collision::CheckCube2CubeAABB(const Cube& cube1, const Cube& cube2)
 	Vector3 max2 = cube2.center_ + cube2.size_;
 
 	//中央からサイズ分の位置内にもう片方があるか
-	if ((min1 <= max2) and (max1 >= min2))
+	if ((min1 <= max2) && (max1 >= min2))
 	{
 		//当たってますよ
 		return true;
@@ -243,7 +243,7 @@ bool Collision::CheckCube2BoxAABB(const Cube& cube, const Rectangular& Box)
 	Vector3 max2 = Box.center_ + Box.sizeMax_;
 
 	//中央からサイズ分の位置内にもう片方があるか
-	if ((min1 <= max2) and (max1 >= min2))
+	if ((min1 <= max2) && (max1 >= min2))
 	{
 		//当たってますよ
 		return true;
@@ -267,7 +267,7 @@ bool Collision::CheckBox2BoxAABB(const Rectangular& Box1, const Rectangular& Box
 	Vector3 max2 = Box2.center_ + Box2.sizeMax_;
 
 	//中央からサイズ分の位置内にもう片方があるか
-	if ((min1 <= max2) and (max1 >= min2))
+	if ((min1 <= max2) && (max1 >= min2))
 	{
 		//当たってますよ
 		return true;
@@ -400,7 +400,7 @@ bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* dis
 	//rayの始点がsphereの外側にあり(c>0)、
 	//rayがsphereから離れていく方向を指している場合(b>0)、
 	//当たらない
-	if (c > 0.0f and b > 0.0f)
+	if (c > 0.0f && b > 0.0f)
 	{
 
 		return false;

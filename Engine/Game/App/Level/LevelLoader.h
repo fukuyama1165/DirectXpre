@@ -37,8 +37,12 @@ public:
 	std::vector<LevelObj> levelObj;
 	std::vector<std::unique_ptr<LevelWallObj>> wallObj_;
 
-	//キーを指定してレベルを読みこむ
+	//キーを指定してレベルを読み込みなおす
 	void reloadLevel(const BYTE& CheckKey, std::string filename);
+
+	//問答無用で読み込みなおす(毎フレーム呼ばないこと)
+	void reloadLevel(std::string filename);
+
 private:
 
 	AnimationModel* levelModel_ = nullptr;

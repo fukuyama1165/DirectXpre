@@ -42,7 +42,7 @@ void EventPoint::Update()
 
 	case BattleEvent:
 
-		if (timeCount_ == 0 and EnemyManager::GetInstance()->enemyCount_ < seting_.enemyMaxSpawn and count_ < seting_.enemyNum)
+		if (timeCount_ == 0 && EnemyManager::GetInstance()->enemyCount_ < seting_.enemyMaxSpawn && count_ < seting_.enemyNum)
 		{
 			timeCount_ = seting_.enemySpawnInterval[count_];
 
@@ -50,7 +50,7 @@ void EventPoint::Update()
 			count_++;
 
 		}
-		else if (timeCount_ == 0 and count_ >= seting_.enemyNum and EnemyManager::GetInstance()->enemyCount_ <= 0)
+		else if (timeCount_ == 0 && count_ >= seting_.enemyNum && EnemyManager::GetInstance()->enemyCount_ <= 0)
 		{
 			IsFinished_ = true;
 		}

@@ -79,7 +79,7 @@ void BasicObjEmitter::Update()
 		particle->Update();
 	}
 
-	if (!isActive_ and particles_.size() <= 0) isEnd_ = true;
+	if (!isActive_ && particles_.size() <= 0) isEnd_ = true;
 
 	if (!isActive_)return;
 

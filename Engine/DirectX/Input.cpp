@@ -1,4 +1,4 @@
-﻿#include "Input.h"
+#include "Input.h"
 #include "WinApp.h"
 #include <imgui.h>
 
@@ -165,20 +165,20 @@ void Input::update()
 
 bool Input::PushKey(const BYTE& CheckKey)
 {
-	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) and CheckKey != DIK_ESCAPE)return false;
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && CheckKey != DIK_ESCAPE)return false;
 	return key_[CheckKey];
 }
 
 bool Input::TriggerKey(const BYTE& CheckKey)
 {
-	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) and CheckKey != DIK_ESCAPE)return false;
-	return key_[CheckKey] and oldKey_[CheckKey] == 0;
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && CheckKey != DIK_ESCAPE)return false;
+	return key_[CheckKey] && oldKey_[CheckKey] == 0;
 }
 
 bool Input::ReleaseKey(const BYTE& CheckKey)
 {
 	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow))return false;
-	return key_[CheckKey] == 0 and oldKey_[CheckKey];
+	return key_[CheckKey] == 0 && oldKey_[CheckKey];
 }
 
 bool Input::AllKeyCheck()
@@ -230,7 +230,7 @@ Vector3 Input::GetMouseMove()
 
 bool Input::GetMouseInput()
 {
-	if (GetMouseButton(0) or GetMouseButton(1) or GetMouseMove().x > 0.2f or GetMouseMove().y > 0.2f or GetMouseMove().z > 0.2f)
+	if (GetMouseButton(0) || GetMouseButton(1) || GetMouseMove().x > 0.2f || GetMouseMove().y > 0.2f || GetMouseMove().z > 0.2f)
 	{
 		return true;
 	}
@@ -241,7 +241,7 @@ bool Input::GetMouseInput()
 bool Input::GetMouseInWindow()
 {
 
-	if ((mousePos_.x >= 0 and mousePos_.y >= 0) and (mousePos_.x <= WinApp::SWindowWidthF_ and mousePos_.y <= WinApp::SWindowHeightF_))
+	if ((mousePos_.x >= 0 && mousePos_.y >= 0) && (mousePos_.x <= WinApp::SWindowWidthF_ && mousePos_.y <= WinApp::SWindowHeightF_))
 	{
 		return true;
 	}
@@ -271,19 +271,19 @@ bool Input::GetGamePadButtonUp(uint32_t button)
 
 bool Input::GetGamePadAllButton()
 {
-	return (((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_START) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_BACK) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) != 0) or
-		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_X) != 0) or
+	return (((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_START) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_BACK) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_A) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_B) != 0) ||
+		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_X) != 0) ||
 		((gamePadState_.Gamepad.wButtons & XINPUT_GAMEPAD_Y) != 0));
 }
 
@@ -331,7 +331,7 @@ Vector2 Input::GetGamePadRStick()
 
 bool Input::GetGamePadStickInput()
 {
-	return (GetGamePadLStick().x > 0.1f or GetGamePadLStick().x < -0.1f) or (GetGamePadLStick().y > 0.1f or GetGamePadLStick().y < -0.1f) or (GetGamePadRStick().x > 0.1f or GetGamePadRStick().x < -0.1f) or (GetGamePadRStick().y > 0.1f or GetGamePadRStick().y < -0.1f);
+	return (GetGamePadLStick().x > 0.1f || GetGamePadLStick().x < -0.1f) || (GetGamePadLStick().y > 0.1f || GetGamePadLStick().y < -0.1f) || (GetGamePadRStick().x > 0.1f || GetGamePadRStick().x < -0.1f) || (GetGamePadRStick().y > 0.1f || GetGamePadRStick().y < -0.1f);
 }
 
 bool Input::GetGamePadInput()
@@ -341,7 +341,7 @@ bool Input::GetGamePadInput()
 		return false;
 	}
 
-	return GetGamePadAllButton() or GetGamePadLTrigger() or GetGamePadRTrigger() or GetGamePadStickInput();
+	return GetGamePadAllButton() || GetGamePadLTrigger() || GetGamePadRTrigger() || GetGamePadStickInput();
 }
 
 Vector2 Input::GetLStick(const bool& useWASD, const bool& useArrow)

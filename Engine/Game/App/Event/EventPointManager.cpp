@@ -266,11 +266,11 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
 		{
 			//設定されてないやつをみようとしたらそもそもよばないように
-			if ((float)seting["spawnPoint"].size() <= i or
-				(float)seting["spawnInterval"].size() <= i or
-				(float)seting["enemyType"].size() <= i or
-				(float)seting["enemySpeed"].size() <= i or
-				(float)seting["enemyMovePos"].size() <= i or
+			if ((float)seting["spawnPoint"].size() <= i ||
+				(float)seting["spawnInterval"].size() <= i ||
+				(float)seting["enemyType"].size() <= i ||
+				(float)seting["enemySpeed"].size() <= i ||
+				(float)seting["enemyMovePos"].size() <= i ||
 				(float)seting["enemyBulletCT"].size() <= i) continue;
 
 
@@ -416,12 +416,12 @@ void EventPointManager::Update()
 	if (!nextTime_)
 	{
 
-		if (eventPoint_.GetIsFinished() and eventSetings_.size() > eventCount_)
+		if (eventPoint_.GetIsFinished() && eventSetings_.size() > eventCount_)
 		{
 			beforeEventPointType_ = eventPoint_.GetEventType();
 			eventPoint_ = EventPoint(eventSetings_[eventCount_]);
 			eventCount_++;
-			if (eventCount_ > 1 and (beforeEventPointType_!=eventPoint_.GetEventType() or (beforeEventPointType_==EventType::moveEvent and eventPoint_.GetEventType()==EventType::moveEvent)))
+			if (eventCount_ > 1 && (beforeEventPointType_!=eventPoint_.GetEventType() || (beforeEventPointType_==EventType::moveEvent && eventPoint_.GetEventType()==EventType::moveEvent)))
 			{
 				nextTime_ = true;
 				nextMoveTime_ = 0;
@@ -435,7 +435,7 @@ void EventPointManager::Update()
 	
 	}
 
-	if (!nextTime_ or eventPoint_.GetEventType() == EventType::moveEvent)
+	if (!nextTime_ || eventPoint_.GetEventType() == EventType::moveEvent)
 	{
 		eventPoint_.Update();
 	}
@@ -502,7 +502,7 @@ void EventPointManager::Draw()
 void EventPointManager::MoveEventNum(uint32_t eventCount)
 {
 
-	if ((eventSetings_.size() > eventCount) and (eventCount >= 0))
+	if ((eventSetings_.size() > eventCount) && (eventCount >= 0))
 	{
 		eventPoint_ = EventPoint(eventSetings_[eventCount]);
 		//次のイベントに指定

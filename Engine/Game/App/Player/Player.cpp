@@ -148,7 +148,7 @@ void Player::Init()
 void Player::Update()
 {
 
-	if (input_->AllKeyCheck() or input_->GetMouseInput())
+	if (input_->AllKeyCheck() || input_->GetMouseInput())
 	{
 		isUseKeybord_ = true;
 	}
@@ -249,7 +249,7 @@ void Player::Update()
 
 	if (!isTitle_)
 	{
-		if ((!attackFlag_ and EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent and bulletNum_ > 0) or isDebugShot_)
+		if ((!attackFlag_ && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent && bulletNum_ > 0) || isDebugShot_)
 		{
 			Attack();
 		}
@@ -295,7 +295,7 @@ void Player::Update()
 	hp3Sprote_.Update();
 	damageSprote_.Update();
 
-	if (isDebugShot_ and bulletNum_ <= 0)
+	if (isDebugShot_ && bulletNum_ <= 0)
 	{
 		Reload();
 	}
@@ -437,7 +437,7 @@ void Player::Attack()
 
 	
 
-	if ((input_->GetMouseButtonDown(0) and bulletCT_ <= 0 and isUseKeybord_) or (isTitle_ and isUseKeybord_))
+	if ((input_->GetMouseButtonDown(0) && bulletCT_ <= 0 && isUseKeybord_) || (isTitle_ && isUseKeybord_))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -490,7 +490,7 @@ void Player::Attack()
 	}
 
 	//Rトリガーを押していたら
-	if ((Input::GetInstance()->GetGamePadRTrigger() and bulletCT_ <= 0 and !isUseKeybord_) or (isTitle_ and isUseKeybord_))
+	if ((Input::GetInstance()->GetGamePadRTrigger() && bulletCT_ <= 0 && !isUseKeybord_) || (isTitle_ && isUseKeybord_))
 	{
 		//発射地点の為に自キャラの座標をコピー
 		Vector3 position = playerObj_.GetWorldPos();
@@ -600,7 +600,7 @@ void Player::EventUpdate()
 	}
 
 	//移動イベント処理
-	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == EventType::moveEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == EventType::moveEvent && !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
 	{
 		//移動を開始していないなら
 		if (moveEventStart_ == false)
@@ -626,11 +626,11 @@ void Player::EventUpdate()
 		}
 
 		//ちょっとずれてもいいように
-		if (((playerCamera_.pos_.x <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().x + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
-			(playerCamera_.pos_.x >= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().x - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) and
-			((playerCamera_.pos_.y <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().y + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
-				(playerCamera_.pos_.y >= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().y - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) and
-			((playerCamera_.pos_.z <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().z + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) and
+		if (((playerCamera_.pos_.x <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().x + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) &&
+			(playerCamera_.pos_.x >= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().x - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) &&
+			((playerCamera_.pos_.y <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().y + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) &&
+				(playerCamera_.pos_.y >= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().y - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())) &&
+			((playerCamera_.pos_.z <= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().z + EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed()) &&
 				(playerCamera_.pos_.z >= EventPointManager::GetInstance()->GetPEventPoint()->GetMovePoint().z - EventPointManager::GetInstance()->GetPEventPoint()->GetMoveSpeed())))
 		{
 			//回転が終わったことも確認
@@ -651,7 +651,7 @@ void Player::EventUpdate()
 
 	}
 
-	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == EventType::BattleEvent and !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
+	if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() == EventType::BattleEvent && !EventPointManager::GetInstance()->GetPEventPoint()->GetIsFinished())
 	{
 		if (battleEventStart_ == false)
 		{

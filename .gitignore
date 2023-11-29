@@ -34,7 +34,8 @@ bld/
 [Ll]ogs/
 
 External/assimp/lib/*/*.lib
-
+Product/*/*.lib
+External/Product/*/*.lib
 
 External/assimp/contrib/zlib/*/*.lib
 External/assimp/contrib/zlib/Debug/zlibstaticd.lib

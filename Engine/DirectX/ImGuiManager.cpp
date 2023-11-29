@@ -39,6 +39,12 @@ void ImGuiManager::Init()
 		dsvHeap_->GetGPUDescriptorHandleForHeapStart());
 
 
+	ImGuiIO& io = ImGui::GetIO();
+	ImFontConfig config;
+	config.MergeMode = true;
+	io.Fonts->AddFontDefault();
+	io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryo.ttc", 18.0f, &config, io.Fonts->GetGlyphRangesJapanese());
+
 
 }
 

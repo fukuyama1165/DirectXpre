@@ -8,7 +8,7 @@ EnemyManager* EnemyManager::GetInstance()
 {
 	static EnemyManager instance;
 
-	if (instance.enemyModel_ == nullptr and instance.bulletModel_ == nullptr)
+	if (instance.enemyModel_ == nullptr && instance.bulletModel_ == nullptr)
 	{
 		instance.Init();
 	}
@@ -58,7 +58,7 @@ void EnemyManager::UpDate(const Vector3& playerPos)
 	{
 		enem->Update(enemyDownSound_);
 
-		if ((enem->GetCT() <= 0 or isDebugShot_)and !isDebugShotStop_)
+		if ((enem->GetCT() <= 0 || isDebugShot_)&& !isDebugShotStop_)
 		{
 			EnemyAttack(*enem, playerPos);
 		}

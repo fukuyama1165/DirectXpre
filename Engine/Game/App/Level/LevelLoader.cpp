@@ -123,38 +123,43 @@ void LevelLoader::reloadLevel(const BYTE& CheckKey, std::string filename)
 {
 	if (Input::GetInstance()->TriggerKey(CheckKey))
 	{
-		levelObj.clear();
-		wallObj_.clear();
-		std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile(filename);
+		reloadLevel(filename);
+	}
+}
 
-		for (auto& objData : levelData->objects_)
+void LevelLoader::reloadLevel(std::string filename)
+{
+	levelObj.clear();
+	wallObj_.clear();
+	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile(filename);
+
+	for (auto& objData : levelData->objects_)
+	{
+		if (objData.name_.find("Wall") == std::string::npos)
 		{
-			if (objData.name_.find("Wall") == std::string::npos)
-			{
-				LevelObj newObject;
-				newObject.obj.FBXInit();
-				newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-				newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-				newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-				newObject.obj.matWorldGeneration();
-				newObject.name = objData.name_;
+			LevelObj newObject;
+			newObject.obj.FBXInit();
+			newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
+			newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+			newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+			newObject.obj.matWorldGeneration();
+			newObject.name = objData.name_;
 
-				levelObj.emplace_back(newObject);
-			}
-			else
-			{
-				std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
-
-				newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-				newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-				newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-				newWall->obj.obj_.matWorldGeneration();
-				newWall->name = objData.name_;
-				newWall->obj.Init();
-
-				wallObj_.emplace_back(std::move(newWall));
-			}
-
+			levelObj.emplace_back(newObject);
 		}
+		else
+		{
+			std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
+
+			newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
+			newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+			newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+			newWall->obj.obj_.matWorldGeneration();
+			newWall->name = objData.name_;
+			newWall->obj.Init();
+
+			wallObj_.emplace_back(std::move(newWall));
+		}
+
 	}
 }
