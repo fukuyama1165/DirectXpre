@@ -51,7 +51,7 @@ void MobCollision::Draw(AnimationModel* model)
 void MobCollision::OnCollision(const CollisionInfo& info)
 {
 
-	if (info.object_->collisionObj_.GetWorldPos().x >= 16777215 or info.object_->collisionObj_.GetWorldPos().x <= -16777215)return;
+	if (info.object_->collisionObj_.GetWorldPos().x >= 16777215 || info.object_->collisionObj_.GetWorldPos().x <= -16777215)return;
 
 	if ((info.object_->tag_ == "enemyBullet" ) && tag_ == "player")
 	{

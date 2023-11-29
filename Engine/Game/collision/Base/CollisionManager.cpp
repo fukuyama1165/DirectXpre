@@ -32,7 +32,7 @@ void CollisionManager::CheckAllCollisions()
 			//ここからタイプによっての処理を書く
 
 			//ともに球
-			if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE and colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
+			if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE && colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
 			{
 
 				Sphere* SphereA = dynamic_cast<Sphere*>(colA);
@@ -48,7 +48,7 @@ void CollisionManager::CheckAllCollisions()
 			}
 
 			//ともに立方体
-			if (colA->GetShapeType() == COLLISIONSHAPE_CUBE and colB->GetShapeType() == COLLISIONSHAPE_CUBE)
+			if (colA->GetShapeType() == COLLISIONSHAPE_CUBE && colB->GetShapeType() == COLLISIONSHAPE_CUBE)
 			{
 
 				Cube* CubeA = dynamic_cast<Cube*>(colA);
@@ -64,7 +64,7 @@ void CollisionManager::CheckAllCollisions()
 			}
 
 			//片方が直方体でもう片方が立方体
-			if (colA->GetShapeType() == COLLISIONSHAPE_BOX and colB->GetShapeType() == COLLISIONSHAPE_CUBE)
+			if (colA->GetShapeType() == COLLISIONSHAPE_BOX && colB->GetShapeType() == COLLISIONSHAPE_CUBE)
 			{
 
 				Rectangular* CubeA = dynamic_cast<Rectangular*>(colA);
@@ -78,7 +78,7 @@ void CollisionManager::CheckAllCollisions()
 				}
 
 			}
-			else if (colA->GetShapeType() == COLLISIONSHAPE_CUBE and colB->GetShapeType() == COLLISIONSHAPE_BOX)
+			else if (colA->GetShapeType() == COLLISIONSHAPE_CUBE && colB->GetShapeType() == COLLISIONSHAPE_BOX)
 			{
 				Cube* CubeA = dynamic_cast<Cube*>(colA);
 				Rectangular* CubeB = dynamic_cast<Rectangular*>(colB);
@@ -92,7 +92,7 @@ void CollisionManager::CheckAllCollisions()
 			}
 
 			//ともに直方体
-			if (colA->GetShapeType() == COLLISIONSHAPE_BOX and colB->GetShapeType() == COLLISIONSHAPE_BOX)
+			if (colA->GetShapeType() == COLLISIONSHAPE_BOX && colB->GetShapeType() == COLLISIONSHAPE_BOX)
 			{
 				Rectangular* CubeA = dynamic_cast<Rectangular*>(colA);
 				Rectangular* CubeB = dynamic_cast<Rectangular*>(colB);

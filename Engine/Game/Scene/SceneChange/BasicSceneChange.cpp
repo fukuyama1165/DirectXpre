@@ -36,7 +36,7 @@ void BasicSceneChange::Finalize()
 
 void BasicSceneChange::Update()
 {
-	if (isStart_ and !isEnd_)
+	if (isStart_ && !isEnd_)
 	{
 		if (!isClose_)
 		{

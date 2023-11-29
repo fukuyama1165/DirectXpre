@@ -143,7 +143,7 @@ void TitleScene::Update()
 	
 	lightManager_->lightGroups_[0].Update();
 
-	if ((Input::GetInstance()->GetMouseButtonDown(0)and Input::GetInstance()->GetMouseInWindow()) or Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
+	if ((Input::GetInstance()->GetMouseButtonDown(0)&& Input::GetInstance()->GetMouseInWindow()) || Input::GetInstance()->GetGamePadButton(XINPUT_GAMEPAD_A))
 	{
 		startFlag_ = true;
 		play_.attackFlag_ = false;
@@ -152,7 +152,7 @@ void TitleScene::Update()
 	if (startFlag_)
 	{
 
-		if (eventManager_->GetPEventPoint()->GetEventSeting().enemyNum > EventEnemyCount_ and EventWaitTimer_>=EventWait_)
+		if (eventManager_->GetPEventPoint()->GetEventSeting().enemyNum > EventEnemyCount_ && EventWaitTimer_>=EventWait_)
 		{
 			EventWaitTimer_ = 0;
 			play_.reticle3DObj_.Trans_ = eventManager_->GetPEventPoint()->GetEventSeting().enemySpawnPos[EventEnemyCount_];

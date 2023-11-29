@@ -46,7 +46,7 @@ void EnemyBullet::Update()
 	obj_.Update();
 
 	//デスタイマーをひいて0以下になったらフラグを立てるのと自機が移動中なら弾を殺す
-	if (--deathTimer_ <= 0 or EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==EventType::moveEvent)
+	if (--deathTimer_ <= 0 || EventPointManager::GetInstance()->GetPEventPoint()->GetEventType()==EventType::moveEvent)
 	{
 		isDead_ = true;
 		

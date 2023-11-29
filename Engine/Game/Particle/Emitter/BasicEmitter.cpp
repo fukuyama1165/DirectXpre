@@ -72,7 +72,7 @@ void BasicEmitter::Update()
 	});
 
 	//パーティクル生成(isactiveが条件式にあるのはパーティクルのUpdateの前に処理したかったから)
-	if (CT_ <= 0 and isActive_)
+	if (CT_ <= 0 && isActive_)
 	{
 		Vector2 velo(Util::Rand(randRangeX_.x, randRangeX_.y), Util::Rand(randRangeY_.x, randRangeY_.y));
 
@@ -95,7 +95,7 @@ void BasicEmitter::Update()
 	
 
 	//起動していなくてパーティクルが一つも無かったら死んだことにする
-	if (!isActive_ and particles_.size() <= 0) isEnd_ = true;
+	if (!isActive_ && particles_.size() <= 0) isEnd_ = true;
 
 	//機能してないなら動かさない
 	if (!isActive_)return;

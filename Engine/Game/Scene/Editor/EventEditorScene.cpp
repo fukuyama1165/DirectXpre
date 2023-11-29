@@ -469,6 +469,25 @@ void EventEditorScene::EditEvent()
 		{
 			float playerPos[3] = { setingI->playerPos.x,setingI->playerPos.y,setingI->playerPos.z };
 			ImGui::DragFloat3(std::string("PlayerPos" + num).c_str(), playerPos, 1, -1000.0f, 1000.0f);
+
+
+			float playerHideType = setingI->playerHideVector;
+
+			//intしか使えん許さん
+			ImGui::Combo("playerHideType", (int*)&playerHideTypeNum_, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
+
+			switch (playerHideTypeNum_)
+			{
+			case playerHideVectorType::Down:
+				playerHideType = playerHideVectorType::Down;
+				break;
+			case playerHideVectorType::Right:
+				playerHideType = playerHideVectorType::Right;
+				break;
+			default:
+				break;
+			}
+
 			for (uint16_t i = 0; i < setingI->enemyNum; i++)
 			{
 				ImGui::Text("enemyNum:%02d", i);
@@ -572,22 +591,6 @@ void EventEditorScene::EditEvent()
 
 			}
 
-			float playerHideType = setingI->playerHideVector;
-
-			//intしか使えん許さん
-			ImGui::Combo("playerHideType", (int*)&playerHideTypeNum_, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
-
-			switch (playerHideTypeNum_)
-			{
-			case playerHideVectorType::Down:
-				playerHideType = playerHideVectorType::Down;
-				break;
-			case playerHideVectorType::Right:
-				playerHideType = playerHideVectorType::Right;
-				break;
-			default:
-				break;
-			}
 
 			setingI->playerHideVector = playerHideType;
 			setingI->playerPos = { playerPos[0],playerPos[1] ,playerPos[2] };
@@ -883,7 +886,7 @@ void EventEditorScene::ChangeMap()
 	ImGui::Begin("ChangeMap");
 
 
-	if (ImGui::Button("selectMap"))
+	if (ImGui::Button("selectMap"))/*ImGui::SameLine(); HelpMarker("You can input value using the scientific notation,\n""  e.g. \"1e+8\" becomes \"100000000\".");*/
 	{
 		wchar_t filePath[MAX_PATH] = { 0 };
 		OPENFILENAME a = {};
@@ -923,7 +926,7 @@ void EventEditorScene::ChangeMap()
 void EventEditorScene::TestEvent()
 {
 	ImGui::Begin("test");
-	if (!isTest_ and seting_.size()!=0)
+	if (!isTest_ && seting_.size()!=0)
 	{
 		if (ImGui::Button("testStart"))
 		{
@@ -1006,6 +1009,13 @@ void EventEditorScene::TestEvent()
 	{
 		EmitterManager::GetInstance()->Update();
 	}
+
+	/*ImGui::Begin("Test");
+
+	ImGui::Text("日本語テスト");
+
+	ImGui::End();*/
+
 
 }
 
@@ -1182,7 +1192,7 @@ bool EventEditorScene::LoadFullPathEventData(std::string fileName)
 	file >> deserialized;
 
 	//正しいイベントファイルかチェック
-	if (!deserialized.is_object() or !deserialized.contains("name") or !deserialized["name"].is_string())
+	if (!deserialized.is_object() || !deserialized.contains("name") || !deserialized["name"].is_string())
 	{
 		loadErrorText_ = "Not the correct event file";
 		return false;
@@ -1377,10 +1387,10 @@ bool EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 		for (uint16_t i = 0; i < (uint16_t)seting["enemyNum"]; i++)
 		{
 			//設定されてないやつをみようとしたらそもそもよばないように
-			if ((float)seting["spawnPoint"].size() <= i or
-				(float)seting["spawnInterval"].size() <= i or
-				(float)seting["enemyType"].size() <= i or
-				(float)seting["enemySpeed"].size() <= i or
+			if ((float)seting["spawnPoint"].size() <= i ||
+				(float)seting["spawnInterval"].size() <= i ||
+				(float)seting["enemyType"].size() <= i ||
+				(float)seting["enemySpeed"].size() <= i ||
 				(float)seting["enemyMovePos"].size() <= i) continue;
 
 

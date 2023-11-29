@@ -212,10 +212,10 @@ void GameScene::Update()
 		}
 
 		//ゲームクリア処理
-		if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ != "testEvent")
+		if (eventManager->GetEventAllEnd() && eventManager->NowEventDataFileName_ != "testEvent")
 		{
 
-			if (clearEffectTime_ >= clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
+			if (clearEffectTime_ >= clearEffectMaxTime_ && (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
 			{
 				SceneManager::GetInstance()->ChangeScene("TITLE");
 			}
@@ -226,7 +226,7 @@ void GameScene::Update()
 				clearEffectTime_++;
 			}
 
-			if (clearEffectTime_ < clearEffectMaxTime_ and (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
+			if (clearEffectTime_ < clearEffectMaxTime_ && (Input::GetInstance()->GetMouseButtonDown(0) || Input::GetInstance()->GetGamePadButtonDown(XINPUT_GAMEPAD_A)))
 			{
 				clearEffectTime_ = clearEffectMaxTime_;
 			}
@@ -274,7 +274,7 @@ void GameScene::Draw()
 	EmitterManager::GetInstance()->Draw();
 
 	//クリアしたときの描画(イベントがテスト用なら描画しない)
-	if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ != "testEvent")
+	if (eventManager->GetEventAllEnd() && eventManager->NowEventDataFileName_ != "testEvent")
 	{
 
 		clearBackSprite_.Draw();
@@ -379,7 +379,7 @@ void GameScene::DebugUpdate()
 	}
 
 	//イベントが終わってテスト用のイベントなら動かせるように
-	if (eventManager->GetEventAllEnd() and eventManager->NowEventDataFileName_ == "testEvent")
+	if (eventManager->GetEventAllEnd() && eventManager->NowEventDataFileName_ == "testEvent")
 	{
 		play_.playerCamera_.pos_ = movecoll_;
 	}

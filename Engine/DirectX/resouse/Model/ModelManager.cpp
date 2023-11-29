@@ -4,7 +4,7 @@ std::string ModelManager::Load(std::string filename, std::string fileType, std::
 {
 
 	auto itr = std::find_if(models_.begin(), models_.end(), [&](const std::pair<std::string, ModelData>& p) {
-		return p.second.fileName == filename and p.second.materialName == materialName;//条件
+		return p.second.fileName == filename && p.second.materialName == materialName;//条件
 		});
 	//見つかったらそれを返す
 	if (itr != models_.end()) {

@@ -170,7 +170,7 @@ void LightGroup::SetAmbientColor(const Vector3& color)
 void LightGroup::SetDirLightActive(uint32_t index, bool active)
 {
 
-	assert(0 <= index and index < SDirLightNum_);
+	assert(0 <= index && index < SDirLightNum_);
 
 	dirLights_[index].SetIsActive(active);
 
@@ -179,7 +179,7 @@ void LightGroup::SetDirLightActive(uint32_t index, bool active)
 void LightGroup::SetDirLightDir(uint32_t index, const Vector4& lightdir)
 {
 
-	assert(0 <= index and index < SDirLightNum_);
+	assert(0 <= index && index < SDirLightNum_);
 
 	dirLights_[index].SetLightDir(lightdir);
 
@@ -190,7 +190,7 @@ void LightGroup::SetDirLightDir(uint32_t index, const Vector4& lightdir)
 void LightGroup::SetDirLightColor(uint32_t index, const Vector3& lightcolor)
 {
 
-	assert(0 <= index and index < SDirLightNum_);
+	assert(0 <= index && index < SDirLightNum_);
 
 	dirLights_[index].SetLightColor(lightcolor);
 
@@ -201,7 +201,7 @@ void LightGroup::SetDirLightColor(uint32_t index, const Vector3& lightcolor)
 void LightGroup::SetPointLightActive(uint32_t index, bool active)
 {
 
-	assert(0 <= index and index < SPointLightNum_);
+	assert(0 <= index && index < SPointLightNum_);
 
 	pointLights_[index].SetIsActive(active);
 
@@ -210,7 +210,7 @@ void LightGroup::SetPointLightActive(uint32_t index, bool active)
 void LightGroup::SetPointLightPos(uint32_t index, const Vector3& lightPos)
 {
 
-	assert(0 <= index and index < SPointLightNum_);
+	assert(0 <= index && index < SPointLightNum_);
 
 	pointLights_[index].SetLightPos(lightPos);
 
@@ -221,7 +221,7 @@ void LightGroup::SetPointLightPos(uint32_t index, const Vector3& lightPos)
 void LightGroup::SetPointLightColor(uint32_t index, const Vector3& lightColor)
 {
 
-	assert(0 <= index and index < SPointLightNum_);
+	assert(0 <= index && index < SPointLightNum_);
 
 	pointLights_[index].SetLightColor(lightColor);
 
@@ -232,7 +232,7 @@ void LightGroup::SetPointLightColor(uint32_t index, const Vector3& lightColor)
 void LightGroup::SetPointLightAtten(uint32_t index, const Vector3& lightAtten)
 {
 
-	assert(0 <= index and index < SPointLightNum_);
+	assert(0 <= index && index < SPointLightNum_);
 
 	pointLights_[index].SetLightAtten(lightAtten);
 
@@ -244,7 +244,7 @@ void LightGroup::SetPointLightAtten(uint32_t index, const Vector3& lightAtten)
 void LightGroup::SetSpotLightActive(uint32_t index, bool active)
 {
 
-	assert(0 <= index and index < SSpotLightNum_);
+	assert(0 <= index && index < SSpotLightNum_);
 
 	SpotLights_[index].SetIsActive(active);
 
@@ -253,7 +253,7 @@ void LightGroup::SetSpotLightActive(uint32_t index, bool active)
 void LightGroup::SetSpotLightDir(uint32_t index, const Vector3& lightdir)
 {
 
-	assert(0 <= index and index < SSpotLightNum_);
+	assert(0 <= index && index < SSpotLightNum_);
 
 	SpotLights_[index].SetLightDir(lightdir);
 
@@ -264,7 +264,7 @@ void LightGroup::SetSpotLightDir(uint32_t index, const Vector3& lightdir)
 void LightGroup::SetSpotLightPos(uint32_t index, const Vector3& lightPos)
 {
 
-	assert(0 <= index and index < SSpotLightNum_);
+	assert(0 <= index && index < SSpotLightNum_);
 
 	SpotLights_[index].SetLightPos(lightPos);
 
@@ -275,7 +275,7 @@ void LightGroup::SetSpotLightPos(uint32_t index, const Vector3& lightPos)
 void LightGroup::SetSpotLightColor(uint32_t index, const Vector3& lightColor)
 {
 
-	assert(0 <= index and index < SSpotLightNum_);
+	assert(0 <= index && index < SSpotLightNum_);
 
 	SpotLights_[index].SetLightColor(lightColor);
 
@@ -286,7 +286,7 @@ void LightGroup::SetSpotLightColor(uint32_t index, const Vector3& lightColor)
 void LightGroup::SetSpotLightAtten(uint32_t index, const Vector3& lightAtten)
 {
 
-	assert(0 <= index and index < SSpotLightNum_);
+	assert(0 <= index && index < SSpotLightNum_);
 
 	SpotLights_[index].SetLightAtten(lightAtten);
 
@@ -297,7 +297,7 @@ void LightGroup::SetSpotLightAtten(uint32_t index, const Vector3& lightAtten)
 void LightGroup::SetSpotLightFactorAngle(uint32_t index, const Vector2& lightFactorAngle)
 {
 
-	assert(0 <= index and index < SSpotLightNum_);
+	assert(0 <= index && index < SSpotLightNum_);
 
 	SpotLights_[index].SetLightFactorAhgle(lightFactorAngle);
 

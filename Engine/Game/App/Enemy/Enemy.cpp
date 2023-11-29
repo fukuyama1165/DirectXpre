@@ -48,14 +48,14 @@ void Enemy::Update(std::string soundH)
 
 		
 
-		if ((enemyType_ == EnemyType::moveAttack and moveEnd_ == false) or enemyType_ == EnemyType::moveOnly)
+		if ((enemyType_ == EnemyType::moveAttack && moveEnd_ == false) || enemyType_ == EnemyType::moveOnly)
 		{
 			Move();
 		}
 
 		enemyObj_.Update();
 
-		if ((enemyType_ == EnemyType::moveAttack and moveEnd_ == true) or enemyType_ == EnemyType::Attack)
+		if ((enemyType_ == EnemyType::moveAttack && moveEnd_ == true) || enemyType_ == EnemyType::Attack)
 		{
 			Attack();
 		}
@@ -70,7 +70,7 @@ void Enemy::Update(std::string soundH)
 			XAudio::GetInstance()->PlaySoundData(soundH);
 		}
 
-		if (enemyType_ == EnemyType::moveOnly and moveEnd_)
+		if (enemyType_ == EnemyType::moveOnly && moveEnd_)
 		{
 			isAlive_ = false;
 
@@ -123,11 +123,11 @@ void Enemy::Move()
 	enemyObj_.Trans_ += moveVec*speed_;
 
 	//位置の情報で移動の為の大きさによってはたどり着けない場合があるので幅を持たせるため
-	if (((enemyObj_.GetPos().x <= movePoint_.x + speed_) and
-		(enemyObj_.GetPos().x >= movePoint_.x - speed_)) and
-		((enemyObj_.GetPos().y <= movePoint_.y + speed_) and
-		(enemyObj_.GetPos().y >= movePoint_.y - speed_)) and
-		((enemyObj_.GetPos().z <= movePoint_.z + speed_) and
+	if (((enemyObj_.GetPos().x <= movePoint_.x + speed_) &&
+		(enemyObj_.GetPos().x >= movePoint_.x - speed_)) &&
+		((enemyObj_.GetPos().y <= movePoint_.y + speed_) &&
+		(enemyObj_.GetPos().y >= movePoint_.y - speed_)) &&
+		((enemyObj_.GetPos().z <= movePoint_.z + speed_) &&
 		(enemyObj_.GetPos().z >= movePoint_.z - speed_)))
 	{
 		moveEnd_ = true;
