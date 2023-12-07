@@ -15,6 +15,11 @@ void cameraObj::upDate()
 {
 	afterPos_ = pos_ + shakeVec;
 
+
+	if (checkUseMouse_ != IsUseCameraMouse_ && !IsUseCameraMouse_)
+	{
+		rotate_ = mouseCameraRot;
+	}
 	
 
 	if (IsUseCameraMouse_)
@@ -40,11 +45,11 @@ void cameraObj::upDate()
 
 		Vector3 forward = { 0.0f, 0.0f, 1.0f };
 
-		forward = VectorMat(forward, cameobj.GetWorldMat());
+		forward_ = VectorMat(forward, cameobj.GetWorldMat());
 
-		mouseCamera.target_.x = mouseCamera.eye_.x + forward.x;
-		mouseCamera.target_.z = mouseCamera.eye_.z + forward.z;
-		mouseCamera.target_.y -= mouseMove.y + forward.y;
+		mouseCamera.target_.x = mouseCamera.eye_.x + forward_.x;
+		mouseCamera.target_.z = mouseCamera.eye_.z + forward_.z;
+		mouseCamera.target_.y -= mouseMove.y + forward_.y;
 
 
 
@@ -66,9 +71,9 @@ void cameraObj::upDate()
 
 		Vector3 forward = { 0.0f, 0.0f, 1.0f };
 
-		forward = VectorMat(forward, cameobj.GetWorldMat());
+		forward_ = VectorMat(forward, cameobj.GetWorldMat());
 
-		camera_.target_ = camera_.eye_ + forward;
+		camera_.target_ = camera_.eye_ + forward_;
 
 		Vector3 up(0, 1, 0);
 
@@ -77,6 +82,8 @@ void cameraObj::upDate()
 	}
 
 	camera_.upDate();
+
+	checkUseMouse_ = IsUseCameraMouse_;
 
 }
 

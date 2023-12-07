@@ -11,7 +11,7 @@ Object3D::Object3D()
 {
 	Scale_ = { 1,1,1 };
 	Rotate_ = {};
-	Trans_ = {};
+	pos_ = {};
 
 	matWorld_.IdentityMatrix();
 
@@ -176,7 +176,7 @@ void Object3D::SetRotate(const Vector3& rotate)
 }
 void Object3D::SetPos(const Vector3& pos)
 {
-	Trans_ = pos;
+	pos_ = pos;
 }
 
 void Object3D::SetParent(Object3D* parent)
@@ -204,7 +204,7 @@ Vector3 Object3D::GetRotate()
 }
 Vector3 Object3D::GetPos()
 {
-	return Trans_;
+	return pos_;
 }
 
 Matrix4x4 Object3D::GetWorldMat()
@@ -237,10 +237,17 @@ void Object3D::matWorldGeneration()
 	matScale_ = matScaleGeneration(Scale_);
 
 	//回転行列更新
-	matRotate_ = QuaternionMatRotateGeneration(Rotate_);
+	if (!useQuaternion)
+	{
+		matRotate_ = QuaternionMatRotateGeneration(Rotate_);
+	}
+	else
+	{
+		matRotate_ = Quaternion::MakeRotateMatrix(Quaternion::Normalize(quaternionRot_));
+	}
 
 	//平行移動行列更新
-	matTrans_ = matMoveGeneration(Trans_);
+	matTrans_ = matMoveGeneration(pos_);
 
 	//ワールド行列更新
 	matWorld_.IdentityMatrix();
@@ -571,7 +578,7 @@ void Object3D::vertexBuffGeneration()
 
 #pragma region 法線ベクトル計算
 
-	for (uint16_t i = 0; i < indices_.size() / 3; i++)
+	for (uint32_t i = 0; i < indices_.size() / 3; i++)
 	{//三角形1つごとに計算していく
 
 		//三角形のインデックスを取り出して,一時的な変数に入れる
@@ -1027,7 +1034,7 @@ void Object3D::rootParamGeneration()
 	//rootParam[1].Descriptor.RegisterSpace = 0;//デフォルト値
 	//rootParam[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
-	D3D12_ROOT_PARAMETER newRootParam;
+	D3D12_ROOT_PARAMETER newRootParam{};
 
 	newRootParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;//定数バッファビュー
 	newRootParam.Descriptor.ShaderRegister = 0;//定数バッファ番号

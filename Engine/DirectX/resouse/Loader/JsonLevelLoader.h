@@ -37,7 +37,7 @@ struct LevelData
 		std::string fileName_;
 		std::string name_;
 
-		Vector4 trans_;
+		Vector4 pos_;
 
 		Vector4 rot_;
 

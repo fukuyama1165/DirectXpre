@@ -194,9 +194,9 @@ void EventEditorScene::AddMoveEvent()
 		addMoveEventData.endPoint.FBXInit();
 		addMoveEventData.move.FBXInit();
 
-		addMoveEventData.startPoint.Trans_ = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
-		addMoveEventData.endPoint.Trans_ = { movePoint_[0] ,movePoint_[1] ,movePoint_[2] };
-		addMoveEventData.move.Trans_ = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
+		addMoveEventData.startPoint.pos_ = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
+		addMoveEventData.endPoint.pos_ = { movePoint_[0] ,movePoint_[1] ,movePoint_[2] };
+		addMoveEventData.move.pos_ = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
 
 		addMoveEventData.startPoint.Update();
 		addMoveEventData.endPoint.Update();
@@ -303,14 +303,14 @@ void EventEditorScene::AddButtonBattleEventDebugObj()
 
 	Object3D playerObj;
 	playerObj.FBXInit();
-	playerObj.Trans_ = { playerPos_[0],playerPos_[1] ,playerPos_[2] };
+	playerObj.pos_ = { playerPos_[0],playerPos_[1] ,playerPos_[2] };
 	add.playerPoint = playerObj;
 
 	for (int32_t i = 0; i < enemyNum_; i++)
 	{
 		Object3D enemyObj;
 		enemyObj.FBXInit();
-		enemyObj.Trans_ = enemySpawnPos_[i];
+		enemyObj.pos_ = enemySpawnPos_[i];
 
 		add.enemys.push_back(enemyObj);
 
@@ -318,13 +318,13 @@ void EventEditorScene::AddButtonBattleEventDebugObj()
 
 		Object3D endPointObj;
 		endPointObj.FBXInit();
-		endPointObj.Trans_ = enemyMovePos_[i];
+		endPointObj.pos_ = enemyMovePos_[i];
 		endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
 		add.endPoint.push_back(endPointObj);
 
 		Object3D moveObj;
 		moveObj.FBXInit();
-		moveObj.Trans_ = enemySpawnPos_[i];
+		moveObj.pos_ = enemySpawnPos_[i];
 		moveObj.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
 		add.move.push_back(moveObj);
 
@@ -724,9 +724,9 @@ void EventEditorScene::DrawEventDataUpdate()
 				continue;
 			}
 
-			moveobj->startPoint.Trans_ = setingI->moveStartPoint;
+			moveobj->startPoint.pos_ = setingI->moveStartPoint;
 			moveobj->startPoint.Update();
-			moveobj->endPoint.Trans_ = setingI->movePoint;
+			moveobj->endPoint.pos_ = setingI->movePoint;
 			moveobj->endPoint.Update();
 
 			setingI++;
@@ -749,13 +749,13 @@ void EventEditorScene::DrawEventDataUpdate()
 
 			for (uint32_t i = 0; i < enemyobj->enemys.size(); i++)
 			{
-				enemyobj->enemys[i].Trans_ = setingI->enemySpawnPos[i];
-				enemyobj->endPoint[i].Trans_ = setingI->enemyMovePos[i];
+				enemyobj->enemys[i].pos_ = setingI->enemySpawnPos[i];
+				enemyobj->endPoint[i].pos_ = setingI->enemyMovePos[i];
 				enemyobj->enemys[i].Update();
 				enemyobj->endPoint[i].Update();
 			}
 
-			enemyobj->playerPoint.Trans_ = setingI->playerPos;
+			enemyobj->playerPoint.pos_ = setingI->playerPos;
 			enemyobj->playerPoint.Update();
 
 			setingI++;
@@ -782,7 +782,7 @@ void EventEditorScene::DrawEventDataUpdate()
 				{ 
 					continue;
 				}
-				enemyPointobj.move[i].Trans_ = lerp(enemyPointobj.enemys[i].GetWorldPos(), enemyPointobj.endPoint[i].GetWorldPos(), moveEventMoveTimer / moveEventMoveMaxTime);
+				enemyPointobj.move[i].pos_ = lerp(enemyPointobj.enemys[i].GetWorldPos(), enemyPointobj.endPoint[i].GetWorldPos(), moveEventMoveTimer / moveEventMoveMaxTime);
 				enemyPointobj.endPoint[i].Update();
 				enemyPointobj.move[i].Update();
 			}
@@ -805,7 +805,7 @@ void EventEditorScene::DrawEventDataUpdate()
 				continue;
 			}
 
-			movePointobj.move.Trans_ = lerp(movePointobj.startPoint.GetWorldPos(), movePointobj.endPoint.GetWorldPos(), moveEventMoveTimer / moveEventMoveMaxTime);
+			movePointobj.move.pos_ = lerp(movePointobj.startPoint.GetWorldPos(), movePointobj.endPoint.GetWorldPos(), moveEventMoveTimer / moveEventMoveMaxTime);
 			movePointobj.startPoint.Update();
 			movePointobj.endPoint.Update();
 			movePointobj.move.Update();
@@ -917,7 +917,7 @@ void EventEditorScene::ChangeMap()
 		}
 		std::filesystem::current_path(old);
 		//設定されたマップを読み込みなおす
-		LevelLoader::GetInstance()->reloadLevel(test);
+		LevelLoader::GetInstance()->LoadLevel(test);
 	}
 
 	ImGui::End();
@@ -1524,9 +1524,9 @@ void EventEditorScene::AddMoveEventDebugObj()
 			addMoveEventData.endPoint.FBXInit();
 			addMoveEventData.move.FBXInit();
 
-			addMoveEventData.startPoint.Trans_ = { eventData->moveStartPoint };
-			addMoveEventData.endPoint.Trans_ = { eventData->movePoint };
-			addMoveEventData.move.Trans_ = { eventData->moveStartPoint };
+			addMoveEventData.startPoint.pos_ = { eventData->moveStartPoint };
+			addMoveEventData.endPoint.pos_ = { eventData->movePoint };
+			addMoveEventData.move.pos_ = { eventData->moveStartPoint };
 
 			addMoveEventData.startPoint.Update();
 			addMoveEventData.endPoint.Update();
@@ -1553,14 +1553,14 @@ void EventEditorScene::AddBattleEventDebugObj()
 
 			Object3D playerObj;
 			playerObj.FBXInit();
-			playerObj.Trans_ = eventData->playerPos;
+			playerObj.pos_ = eventData->playerPos;
 			add.playerPoint = playerObj;
 
 			for (int32_t i = 0; i < eventData->enemyNum; i++)
 			{
 				Object3D enemyObj;
 				enemyObj.FBXInit();
-				enemyObj.Trans_ = eventData->enemySpawnPos[i];
+				enemyObj.pos_ = eventData->enemySpawnPos[i];
 
 				add.enemys.push_back(enemyObj);
 
@@ -1568,13 +1568,13 @@ void EventEditorScene::AddBattleEventDebugObj()
 
 				Object3D endPointObj;
 				endPointObj.FBXInit();
-				endPointObj.Trans_ = eventData->enemyMovePos[i];
+				endPointObj.pos_ = eventData->enemyMovePos[i];
 				endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
 				add.endPoint.push_back(endPointObj);
 
 				Object3D moveObj;
 				moveObj.FBXInit();
-				moveObj.Trans_ = eventData->enemySpawnPos[i];
+				moveObj.pos_ = eventData->enemySpawnPos[i];
 				moveObj.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
 				add.move.push_back(moveObj);
 			}

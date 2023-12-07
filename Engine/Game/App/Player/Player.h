@@ -7,6 +7,7 @@
 #include <list>
 #include "MobCollision.h"
 #include "CubeCollider.h"
+#include "CountTimer.h"
 
 class Player
 {
@@ -102,6 +103,9 @@ private:
 	//マズルフラッシュして
 	void MuzzleFlash();
 
+	//弾の追加処理部分
+	void BulletAdd();
+
 private:
 	
 
@@ -109,7 +113,7 @@ private:
 
 	Vector3 pos_ = {};
 
-	Vector3 moveVec_;
+	Vector3 moveVec_ = {};
 
 	float rotTimer_ = 0;
 
@@ -229,6 +233,10 @@ private:
 
 	float reloadMaxTime = 5;
 	
+
+	Quaternion rot;
+
+	CountTimer timer;
 
 };
 

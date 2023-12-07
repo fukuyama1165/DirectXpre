@@ -10,7 +10,7 @@ public:
 
 	static LevelLoader* GetInstance();
 
-	//レベル読み込み
+	//レベル読み込み(前回のがあった場合消去)
 	void LoadLevel(std::string filename);
 
 	//初期化
@@ -39,9 +39,6 @@ public:
 
 	//キーを指定してレベルを読み込みなおす
 	void reloadLevel(const BYTE& CheckKey, std::string filename);
-
-	//問答無用で読み込みなおす(毎フレーム呼ばないこと)
-	void reloadLevel(std::string filename);
 
 private:
 

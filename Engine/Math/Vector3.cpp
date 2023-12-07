@@ -21,6 +21,11 @@ float Vector3::length()const
 	return sqrtf(x * x + y * y + z * z);
 }
 
+float Vector3::SquaredLength()const
+{
+	return (x * x + y * y + z * z);
+}
+
 Vector3 Vector3::normalize(const Vector3& v)
 {
 	float len = v.length();

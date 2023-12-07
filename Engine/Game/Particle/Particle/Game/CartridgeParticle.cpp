@@ -24,7 +24,7 @@ void CartridgeParticle::Initialize(const Vector3& position, const Vector3& veloc
 {
 	obj_.FBXInit();
 	//引数で受け取った初期座標をセット
-	obj_.Trans_ = position;
+	obj_.pos_ = position;
 	obj_.Scale_ = startScale;
 
 	Velocity_ = velocity;
@@ -45,7 +45,7 @@ void CartridgeParticle::Update()
 {
 	//移動するところ
 	Velocity_.y -= gravity_;
-	obj_.Trans_ += Velocity_;
+	obj_.pos_ += Velocity_;
 	//適当に回ってくれればいいので
 	obj_.Rotate_ = lerp(Vector3(0, 0, 0), Vector3(100, 100, 100), actionTime_ / actionMaxTime_);
 	obj_.Scale_ = easeInQuint(startScale_, endScale_, actionTime_ / actionMaxTime_);

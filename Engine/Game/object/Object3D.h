@@ -189,7 +189,9 @@ public:
 
 	Vector3 Scale_;
 	Vector3 Rotate_;
-	Vector3 Trans_;
+	//クオータニオン使う場合のクオータニオンを入れる場所(これを使うなら必ずクオータニオンを使うフラグを立てること)
+	Quaternion quaternionRot_;
+	Vector3 pos_;
 
 	int16_t billboardMode_ = BillboardMode::nothingBillboard;
 
@@ -198,6 +200,9 @@ public:
 	static LightGroup* SLightGroup_;
 
 	Vector3 forward_ = { 0.0f,0.0f,1.0f };
+
+	//自分で持っている変数のクオータニオンを使って行列計算するか(クオータニオンを直で使いたい場合)
+	bool useQuaternion = false;
 
 private:
 	

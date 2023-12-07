@@ -41,71 +41,29 @@ void GameScene::Initialize()
 	//初期値店の移動を記録
 	playerCameobj_.pos_.z = -200;
 
-	//cameobj.cameobj.SetParent(&objobj);
-
-
-	//.objのオブジェクト
-	//DrawOBJ test(winApp->getWindowSizeWidth(), winApp->getWindowSizeHeight());
-
-	
-
-
 	//playerのinit
 	play_.Init();
 
-	
-
-
-	sphere_.center_ = { 0,0,0 };
-	sphere_.radius_ = 1.0f;
-
-	plane_.normal_ = { 0,1,0 };
-	plane_.distance_ = 0.0f;
-
-	triangle_.p0_ = { -50.0f,-50.0f,50.0f };
-	triangle_.p1_ = { 50.0f,-50.0f,50.0f };
-	triangle_.p2_ = { -50.0f, 50.0f,50.0f };
-	triangle_.ComputeNormal();
-	//triangle.normal = { 0.0f,0.0f,-1.0f,0 };
-
-	ray_.start_ = { 0.0f,0.0f,0.0f };
-	ray_.dir_ = { 0.0f,0.0f,-1.0f };
-
-	
-
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 
-	//testObj_.boarPolygonInit();
+	testObj_.FBXInit();
 
-	testObj_.billboardMode_ = BillboardMode::AllBillboard;
+	testObj_.pos_ = { 0.0f,20.0f,10.0f };
 
 	testFBX_.FBXInit();
 
-	testFBX_.billboardMode_ = BillboardMode::AllBillboard;
+	testFBX_.pos_ = { 0.0f,20.0f,0.0f };
+	testFBX_.Scale_ = { 1.0f,1.0f,5.0f };
+	testFBX_.useQuaternion = true;
 
-	testFBX_.Scale_ = { 0.1f,0.1f,0.1f };
-
-	LevelLoader::GetInstance()->LoadLevel("MapTest2");
+	LevelLoader::GetInstance()->LoadLevel("MapTest4");
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
-	
-
-	/*testModel_ = std::make_unique<AnimationModel>();
-	levelModel_ = std::make_unique<AnimationModel>();
-	levelBallModel_ = std::make_unique<AnimationModel>();
-	levelGroundModel_ = std::make_unique<AnimationModel>();
-	levelBuildingModel_ = std::make_unique<AnimationModel>();
-
-	testModel_->Load("testFBX", "gltf", "basketballman2");
-	levelModel_->Load("testFBX", "gltf", "white1x1");
-	levelBallModel_->Load("testGLTFBall", "gltf", "white1x1");
-	levelGroundModel_->Load("testFBX", "gltf", "Dirt", "jpg");
-	levelBuildingModel_->Load("testFBX", "gltf", "Biru2");*/
 	
 	objobj3_.SetScale({ 1000,1000,1000 });
 
 
-	XAudio::PlaySoundData(test_, 0.3f, true);
+	XAudio::PlaySoundData(test_, 0.1f, true);
 
 
 	enemys_ = EnemyManager::GetInstance();
@@ -113,16 +71,12 @@ void GameScene::Initialize()
 
 	eventManager = EventPointManager::GetInstance();
 
-	/*eventManager->SetDebug1MoveEvent({ 0,0,0 });
-
-	eventManager->SetDebugBattleEvent({ 0,0,50 },1.0f, 100, { 10,0,50 }, 1.0f, 20, { -10,0,50 }, 1.0f, 100, { 0,10,50 });
-	eventManager->SetDebugBattleEvent({ 0,0,50 }, 1.0f, 100, { 10,0,50 }, 1.0f, 20, { -10,0,50 }, 1.0f, 100, { 0,10,50 });
-	eventManager->SetDebug1MoveEvent({ 0,0,100 });
-	eventManager->SetDebug1MoveEvent({ 0,0,0 });*/
+	
 	//イベントデータの読み込み
 	//eventManager->LoadEventData("Event2");
-	//std::string a = "C:\\k021g1165\\DirectX\\test\\loadTest.eefm";
-	eventManager->LoadeefmEventData("testtest");
+	//eventManager->LoadeefmEventData("stage1");
+	eventManager->LoadeefmEventData("testEvent");
+	//eventManager->LoadeefmEventData("testtest");
 
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
@@ -177,7 +131,7 @@ void GameScene::Update()
 
 
 		objobj3_.Update();
-		//testObj_.Update();
+		testObj_.Update();
 
 		testFBX_.Update();
 
@@ -195,7 +149,62 @@ void GameScene::Update()
 		if (eventManager->NowEventDataFileName_ == "testEvent")
 		{
 
+			if (Input::GetInstance()->PushKey(DIK_T))
+			{
+				play_.playerCamera_.rotate_.x += 0.01f;
+			}
+			if (Input::GetInstance()->PushKey(DIK_F))
+			{
+				play_.playerCamera_.rotate_.y-= 0.01f;
+			}
+			if (Input::GetInstance()->PushKey(DIK_G))
+			{
+				play_.playerCamera_.rotate_.x-= 0.01f;
+			}
+			if (Input::GetInstance()->PushKey(DIK_H))
+			{
+				play_.playerCamera_.rotate_.y+= 0.01f;
+			}
+
+			if (Input::GetInstance()->PushKey(DIK_N))
+			{
+				ang_+=0.01f;
+			}
+			if (Input::GetInstance()->PushKey(DIK_M))
+			{
+				ang_-= 0.01f;
+			}
+
 			
+
+			testObj_.SetPos({ sinf(ang_) * 10, h_,cosf(ang_)*10});
+
+			//Quaternion rot2 = rot;
+
+			Vector3 nowvec = Quaternion::RotateVector({ 0,0,1 }, testFBX_.quaternionRot_).normalize();
+			//
+			//nowvec.normalize();
+
+			rot = Quaternion::DirectionToDirection({ 0,0,1 }, Vector3::normalize(testObj_.GetPos() - testFBX_.GetPos()));
+
+
+			if (nowvec!= Vector3::normalize(testObj_.GetPos() - testFBX_.GetPos()))
+			{
+				testFBX_.quaternionRot_ =Quaternion::Normalize(rot);
+
+				
+			}
+			
+
+			ImGui::Begin("bebug");
+
+			ImGui::Text("ang:%0.2ff", ang_);
+			ImGui::Text("rot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", rot.v.x, rot.v.y, rot.v.z, rot.w);
+			ImGui::Text("now:%0.2ff,%0.2ff,%0.2ff", nowvec.x, nowvec.y, nowvec.z);
+			ImGui::Text("quaternionRot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", testFBX_.quaternionRot_.v.x, testFBX_.quaternionRot_.v.y, testFBX_.quaternionRot_.v.z, testFBX_.quaternionRot_.w);
+			ImGui::DragFloat("h", &h_,0.01f, -50.0f, 50.0f, "%.2f");
+
+			ImGui::End();
 
 		}
 
@@ -254,17 +263,9 @@ void GameScene::Draw()
 	// 4.描画コマンドここから
 
 	objobj3_.Draw();
-	//testObj_.Draw();
-
-	//testFBX_.FBXDraw(*testModel_);
-
-	//test.Draw(directXinit->GetcmdList().Get(), PipeLineRuleFlag, true, true);
-
-
 	
 	LevelLoader::GetInstance()->Draw();
 	
-
 	enemys_->Draw();
 	
 	play_.Draw();
@@ -287,7 +288,8 @@ void GameScene::Draw()
 	if (eventManager->NowEventDataFileName_ == "testEvent")
 	{
 
-		
+		testFBX_.FBXDraw(*testModel_);
+		testObj_.FBXDraw(*testModel_);
 
 	}
 
@@ -388,8 +390,6 @@ void GameScene::DebugUpdate()
 
 	//ray.start = { movecoll.x ,movecoll.y,movecoll.z};
 
-	bool hit = Collision::CheckRay2Sphere(ray_, sphere_);
-
 	lightManager_->lightGroups_[0].SetAmbientColor(Vector3(ambientColor0_[0], ambientColor0_[1], ambientColor0_[2]));
 
 	lightManager_->lightGroups_[0].SetDirLightDir(0, { lightDir0_[0],lightDir0_[1] ,lightDir0_[2],0 });
@@ -476,14 +476,7 @@ void GameScene::DebugUpdate()
 	ImGui::SliderFloat("movecolly", &movecoll_.y, -200.0f, 200.0f, "%.3f");
 	ImGui::SliderFloat("movecollz", &movecoll_.z, -200.0f, 200.0f, "%.3f");
 
-	ImGui::Text("x:%f y:%f z:%f", ray_.start_.x, ray_.start_.y, ray_.start_.z);
-
-	if (hit)
-	{
-		ImGui::Text("hit");
-	}
-
-
+	
 	ImGui::End();
 
 #pragma endregion
@@ -674,14 +667,6 @@ void GameScene::DebugUpdate()
 	ImGui::Checkbox("enemyDebugShot", &enemys_->isDebugShot_);
 	ImGui::Checkbox("ShotStop", &enemys_->isDebugShotStop_);
 	ImGui::InputFloat("enemyShotSpeed", &enemys_->bulletSpeed_, 0.1f, 5);
-
-	ImGui::DragFloat3("popEnemyPos", PopPos);
-	enemyPopPos = { PopPos[0],PopPos[1],PopPos[2] };
-
-	if (ImGui::Button("popEnemy"))
-	{
-		enemys_->PopEnemy(EnemyType::Attack, enemyPopPos);
-	}
 
 	ImGui::End();
 

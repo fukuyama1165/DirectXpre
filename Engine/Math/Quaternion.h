@@ -4,10 +4,8 @@
 class Quaternion
 {
 public:
-	float x;
-	float y;
-	float z;
-	float w;
+	Vector3 v;
+	float w = 0;
 
 public:
 	Quaternion();

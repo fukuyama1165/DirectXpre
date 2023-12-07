@@ -17,10 +17,12 @@ TitleScene::~TitleScene()
 void TitleScene::Initialize()
 {
 
+	Texture::GetInstance()->loadTexture("Resources/basketballman2.dds", "basketballman2");
+
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
 
-	lightManager_->lightGroups_[0].SetDirLightActive(0, true);
+	lightManager_->lightGroups_[0].SetDirLightActive(0, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
 
@@ -63,49 +65,7 @@ void TitleScene::Initialize()
 	Camera::nowCamera = play_.playerCamera_.GetCameraP();
 
 	//レベル読み込み
-	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile("MapTest");
-
-	for (auto& objData : levelData->objects_)
-	{
-		if (objData.name_.find("Wall") == std::string::npos)
-		{
-			LevelObj newObject;
-			newObject.obj.FBXInit();
-			newObject.obj.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-			newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-			newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-			newObject.obj.matWorldGeneration();
-			newObject.name = objData.name_;
-
-			levelObj.emplace_back(newObject);
-		}
-		else
-		{
-			std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
-
-			newWall->obj.obj_.Trans_ = Vector3{ objData.trans_.x,objData.trans_.y ,objData.trans_.z };
-			newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-			newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-			newWall->obj.obj_.matWorldGeneration();
-			newWall->obj.Init();
-			newWall->name = objData.name_;
-
-			wallObj_.emplace_back(std::move(newWall));
-		}
-
-	}
-
-	ModelManager::GetInstance()->Load("testFBX", "gltf", "basketballmanBox", "basketballman2");
-	ModelManager::GetInstance()->Load("testFBX", "gltf", "whiteBox", "white1x1");
-	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
-	ModelManager::GetInstance()->Load("testFBX", "gltf", "Ground", "Dirt", "jpg");
-	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");
-
-	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
-	levelModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
-	levelBallModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
-	levelGroundModel_ = ModelManager::GetInstance()->SearchModelData("Ground");
-	levelBuildingModel_ = ModelManager::GetInstance()->SearchModelData("Building");
+	LevelLoader::GetInstance()->LoadLevel("MapTest");
 
 	enemys_ = EnemyManager::GetInstance();
 
@@ -114,6 +74,8 @@ void TitleScene::Initialize()
 
 	//イベントデータの読み込み
 	eventManager_->LoadEventData("titleEvent");
+
+	play_.reticle3DObj_.pos_ = eventManager_->GetPEventPoint()->GetEventSeting().enemySpawnPos[EventEnemyCount_];
 
 }
 
@@ -155,7 +117,8 @@ void TitleScene::Update()
 		if (eventManager_->GetPEventPoint()->GetEventSeting().enemyNum > EventEnemyCount_ && EventWaitTimer_>=EventWait_)
 		{
 			EventWaitTimer_ = 0;
-			play_.reticle3DObj_.Trans_ = eventManager_->GetPEventPoint()->GetEventSeting().enemySpawnPos[EventEnemyCount_];
+			play_.reticle3DObj_.pos_ = eventManager_->GetPEventPoint()->GetEventSeting().enemySpawnPos[EventEnemyCount_];
+			play_.Update();
 			play_.Attack();
 			EventEnemyCount_++;
 		}
@@ -201,41 +164,15 @@ void TitleScene::Update()
 	EmitterManager::GetInstance()->Update();
 
 	ImguiUpdate();
+
+	LevelLoader::GetInstance()->Update();
 }
 
 void TitleScene::Draw()
 {
 	objobj3_.Draw();
 
-	for (LevelObj a : levelObj)
-	{
-		if (a.name.find("box1") != std::string::npos)
-		{
-			a.obj.FBXDraw(*levelModel_);
-		}
-		else if (a.name.find("ball") != std::string::npos)
-		{
-			a.obj.FBXDraw(*levelBallModel_);
-		}
-		else if (a.name.find("Ground") != std::string::npos)
-		{
-			a.obj.FBXDraw(*levelGroundModel_);
-		}
-		else if (a.name.find("building") != std::string::npos)
-		{
-			a.obj.FBXDraw(*levelBuildingModel_);
-		}
-		else
-		{
-			a.obj.FBXDraw(*levelModel_);
-		}
-	}
-
-	for (uint16_t b = 0; b < wallObj_.size(); b++)
-	{
-		wallObj_[b]->obj.Draw(levelBuildingModel_);
-	}
-
+	LevelLoader::GetInstance()->Draw();
 
 
 	enemys_->Draw();

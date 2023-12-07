@@ -87,12 +87,6 @@ private:
 
 	uint32_t texname_ = 0;
 
-	//当たり判定チェック
-	Sphere sphere_;
-	Plane plane_;
-	Triangle triangle_;
-	Ray ray_;
-
 	bool IsUseCameraMouse_ = false;
 
 	//スプライト
@@ -142,14 +136,8 @@ private:
 
 	std::string test_;
 
-	
-
-	WallObj obj;
 
 	bool chengCamera_ = true;
-
-	Vector3 enemyPopPos = { 0,0,0 };
-	float PopPos[3] = {0,0,0};
 
 	Vector3 mouseCameraRot = {};
 
@@ -169,6 +157,12 @@ private:
 	Sprite clearTextSprite_;
 
 	bool pause_ = false;
+
+	float ang_ = 0;
+
+	float h_ = 20;
+
+	Quaternion rot;
 
 };
 

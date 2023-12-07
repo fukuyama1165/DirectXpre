@@ -83,10 +83,10 @@ void JsonLevelLoader::objectScanning(LevelData* levelData, nlohmann::json deseri
 		nlohmann::json& transform = object["transform"];
 
 		//平行移動
-		objectData.trans_.x = (float)transform["translation"][1];
-		objectData.trans_.y = (float)transform["translation"][2];
-		objectData.trans_.z = -(float)transform["translation"][0];
-		objectData.trans_.w = 1.0f;
+		objectData.pos_.x = (float)transform["translation"][1];
+		objectData.pos_.y = (float)transform["translation"][2];
+		objectData.pos_.z = -(float)transform["translation"][0];
+		objectData.pos_.w = 1.0f;
 
 
 		//回転角

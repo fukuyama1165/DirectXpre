@@ -10,7 +10,7 @@ public:
 	WallObj();
 	~WallObj();
 
-	void Init();
+	void Init(std::string tag = "Wall");
 	void Update();
 	void Draw(AnimationModel* model);
 

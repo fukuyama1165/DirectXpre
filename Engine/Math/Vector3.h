@@ -8,6 +8,7 @@ public:
 	~Vector3();
 
 	float length()const;
+	float SquaredLength()const;
 	//渡したものを正規化して返す
 	static Vector3 normalize(const Vector3& v);
 	//自分を正規化する(自分書き換える)

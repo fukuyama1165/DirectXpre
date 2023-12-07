@@ -19,7 +19,7 @@ void EnemyBullet::Initlize(const Vector3& position, const Vector3& velocity, con
 	obj_.FBXInit();
 
 	//引数で受け取った初期座標をセット
-	obj_.Trans_ = position;
+	obj_.pos_ = position;
 	obj_.Scale_ = size;
 
 	Velocity_ = velocity;
@@ -42,7 +42,7 @@ void EnemyBullet::Initlize(const Vector3& position, const Vector3& velocity, con
 void EnemyBullet::Update()
 {
 	//移動するところ
-	obj_.Trans_ += Velocity_;
+	obj_.pos_ += Velocity_;
 	obj_.Update();
 
 	//デスタイマーをひいて0以下になったらフラグを立てるのと自機が移動中なら弾を殺す

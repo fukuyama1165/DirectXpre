@@ -50,7 +50,7 @@ void MobCollision::Draw(AnimationModel* model)
 
 void MobCollision::OnCollision(const CollisionInfo& info)
 {
-
+	//とんでもない所で当たることは無いのでそもそも除外
 	if (info.object_->collisionObj_.GetWorldPos().x >= 16777215 || info.object_->collisionObj_.GetWorldPos().x <= -16777215)return;
 
 	if ((info.object_->tag_ == "enemyBullet" ) && tag_ == "player")

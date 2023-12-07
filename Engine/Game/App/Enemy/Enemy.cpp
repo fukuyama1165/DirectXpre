@@ -120,7 +120,7 @@ void Enemy::Move()
 	Vector3 moveVec = { 0,0,0 };
 	moveVec = nainavec3(movePoint_, moveStartPos_).normalize();
 
-	enemyObj_.Trans_ += moveVec*speed_;
+	enemyObj_.pos_ += moveVec*speed_;
 
 	//位置の情報で移動の為の大きさによってはたどり着けない場合があるので幅を持たせるため
 	if (((enemyObj_.GetPos().x <= movePoint_.x + speed_) &&
