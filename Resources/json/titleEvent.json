@@ -7,6 +7,7 @@
                 "enemyMaxSpawn": 3,
                 "enemyNum": 3,
                 "playerHideType": 0,
+                "addTime": 0,
                 "spawnPoint": [
                     [0.0,0.0,50.0],
                     [10.0,0.0,50.0],

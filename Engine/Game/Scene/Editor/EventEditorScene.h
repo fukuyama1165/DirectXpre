@@ -151,6 +151,8 @@ private:
 	AnimationModel* moveEventModel_ = nullptr;
 
 	//イベントの中身設定用変数
+	float addTime_ = 0;
+	
 	//移動イベント用
 	uint16_t eventType_ = EventType::moveEvent;
 	float movePoint_[3] = {0,0,0};

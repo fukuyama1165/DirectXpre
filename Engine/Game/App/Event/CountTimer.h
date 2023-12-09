@@ -46,7 +46,9 @@ private:
 	/// <param name="rank">表示したい桁(最大4)</param>
 	/// <param name="w">画像一つ一つの横の大きさ</param>
 	/// <param name="h">画像一つ一つの縦の大きさ</param>
-	void graphNumberDisplayScore(Vector2 pos, int32_t number, int32_t rank, float w, float h);
+	void GraphNumberDisplayScore(Vector2 pos, int32_t number, int32_t rank, float w, float h);
+
+	int32_t Numreturn(float number, int32_t& now, int32_t& count);
 
 public:
 
@@ -61,7 +63,7 @@ private:
 	float timer_ = 0;
 
 	//初期タイム
-	float MaxTime_ = 99;
+	float MaxTime_ = 6600;
 
 	int32_t testnum = 0;
 

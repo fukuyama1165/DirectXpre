@@ -78,6 +78,8 @@ void GameScene::Initialize()
 	eventManager->LoadeefmEventData("testEvent");
 	//eventManager->LoadeefmEventData("testtest");
 
+	eventManager->isNoTimer = false;
+
 
 	Texture::GetInstance()->loadTexture("Resources/clearText.png", "clearText");
 

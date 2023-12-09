@@ -75,6 +75,8 @@ void TitleScene::Initialize()
 	//イベントデータの読み込み
 	eventManager_->LoadEventData("titleEvent");
 
+	eventManager_->isNoTimer = true;
+
 	play_.reticle3DObj_.pos_ = eventManager_->GetPEventPoint()->GetEventSeting().enemySpawnPos[EventEnemyCount_];
 
 }

@@ -145,7 +145,7 @@ void Player::Init()
 	//板ポリの設定
 	flashObj_.boarPolygonInit();
 
-	timer.Initialize();
+	//timer.Initialize();
 
 }
 
@@ -386,7 +386,7 @@ void Player::Update()
 	}
 #endif
 
-	timer.Update();
+	//timer.Update();
 
 }
 
@@ -460,7 +460,7 @@ void Player::Draw()
 
 	//reticle3DObj_.FBXDraw(*bulletModel_);
 
-	timer.Draw();
+	//timer.Draw();
 
 }
 

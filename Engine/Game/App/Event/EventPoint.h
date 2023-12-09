@@ -35,6 +35,8 @@ struct EventSeting
 	float playerHideVector = playerHideVectorType::Down;
 	Vector3 playerPos = { 0,0,0 };
 
+	float addTimer = 0;
+
 };
 
 class EventPoint
