@@ -17,6 +17,6 @@ VSOutput main( float4 pos : POSITION,float3 normal:NORMAL, float2 uv:TEXCOORD)
 	output.color.a = m_alpha;*/
 	output.worldpos = wpos;
 	output.normal = wnormal.xyz;
-	output.uv = uv;
+    output.uv = uv;
 	return output;
 }

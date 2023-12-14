@@ -295,12 +295,12 @@ void Player::Update()
 
 	if (muzzleFlashTime_ > 0)
 	{
-		playerObj_.SLightGroup_->SetPointLightActive(1, true);	
+		playerObj_.SLightGroup_->SetPointLightActive(0, true);	
 
 	}
 	else
 	{
-		playerObj_.SLightGroup_->SetPointLightActive(1, false);
+		playerObj_.SLightGroup_->SetPointLightActive(0, false);
 	}
 
 	if (muzzleFlashTime_ > 0)
@@ -849,8 +849,9 @@ void Player::BulletAdd()
 
 	bulletCT_ = bulletMaxCT_;
 	muzzleFlashTime_ = muzzleFlashMaxTime_;
-	playerObj_.SLightGroup_->SetPointLightPos(1, position);
-	playerObj_.SLightGroup_->SetPointLightAtten(1, { 0.1f,0.1f,0.1f });
+	playerObj_.SLightGroup_->SetPointLightPos(0, position);
+	playerObj_.SLightGroup_->SetPointLightAtten(0, { 0.1f,0.1f,0.1f });
+	playerObj_.SLightGroup_->SetPointLightColor(0, { 1.0f,1.0f,1.0f });
 
 	bulletNum_--;
 

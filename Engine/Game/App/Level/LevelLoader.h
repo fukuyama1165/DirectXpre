@@ -47,6 +47,16 @@ private:
 	AnimationModel* levelGroundModel_ = nullptr;
 	AnimationModel* levelBuildingModel_ = nullptr;
 	AnimationModel* levelWallModel_ = nullptr;
+	AnimationModel* levelLightModel_ = nullptr;
+
+	float test_[2] = {1,1};
+	float test2_[2] = { 1,1 };
+	float test3_[2] = { 1,1 };
+
+	Object3D testObj_;
+
+	//ライトの数(初期値が1なのは要素番号を指定して行うため0番はplayerが使うため)
+	int32_t lightCount_ = 1;
 
 private:
 

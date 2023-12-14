@@ -14,20 +14,7 @@ void GameScene::Initialize()
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
 
-	lightManager_->lightGroups_[0].SetDirLightActive(0, true);
-	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
-	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
-
-	lightManager_->lightGroups_[0].SetPointLightActive(0, false);
-	lightManager_->lightGroups_[0].SetPointLightActive(1, false);
-	lightManager_->lightGroups_[0].SetPointLightActive(2, false);
-
-	lightManager_->lightGroups_[0].SetSpotLightActive(0, false);
-	lightManager_->lightGroups_[0].SetSpotLightActive(1, false);
-
-	//lightGroup->SetLightColor({ 1,1,1 });
-
-	lightManager_->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
+	lightManager_->lightGroups_[0].SetAmbientColor({ 0.05f,0.05f,0.05f });
 	lightManager_->lightGroups_[0].SetDirLightColor(0,{ 0.05f,0.05f,0.05f });
 
 	Object3D::SetLight(&lightManager_->lightGroups_[0]);
@@ -56,7 +43,7 @@ void GameScene::Initialize()
 	testFBX_.Scale_ = { 1.0f,1.0f,5.0f };
 	testFBX_.useQuaternion = true;
 
-	LevelLoader::GetInstance()->LoadLevel("MapTest4");
+	LevelLoader::GetInstance()->LoadLevel("MapTest5");
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
 	
@@ -74,8 +61,8 @@ void GameScene::Initialize()
 	
 	//イベントデータの読み込み
 	//eventManager->LoadEventData("Event2");
-	//eventManager->LoadeefmEventData("stage1");
-	eventManager->LoadeefmEventData("testEvent");
+	eventManager->LoadeefmEventData("stage1");
+	//eventManager->LoadeefmEventData("testEvent");
 	//eventManager->LoadeefmEventData("testtest");
 
 	eventManager->isNoTimer = false;

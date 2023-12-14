@@ -308,16 +308,25 @@ void LightGroup::SetSpotLightFactorAngle(uint32_t index, const Vector2& lightFac
 void LightGroup::DefaultLightSetting()
 {
 
-	dirLights_[0].SetIsActive(true);
+	dirLights_[0].SetIsActive(false);
 	dirLights_[0].SetLightColor({1.0f,1.0f,1.0f});
 	dirLights_[0].SetLightDir({0.0f,-1.0f,0.0f,0});
 
-	dirLights_[1].SetIsActive(true);
+	dirLights_[1].SetIsActive(false);
 	dirLights_[1].SetLightColor({ 1.0f,1.0f,1.0f });
 	dirLights_[1].SetLightDir({ +0.5f,+0.1f,+0.2f,0 });
 
-	dirLights_[2].SetIsActive(true);
+	dirLights_[2].SetIsActive(false);
 	dirLights_[2].SetLightColor({ 1.0f,1.0f,1.0f });
 	dirLights_[2].SetLightDir({ -0.5f,+0.1f,-0.2f,0 });
+
+
+	for (int32_t i = 0; i < SPointLightNum_; i++)
+	{
+		pointLights_[i].SetIsActive(false);
+	}
+	
+	SpotLights_[0].SetIsActive(false);
+	SpotLights_[1].SetIsActive(false);
 
 }

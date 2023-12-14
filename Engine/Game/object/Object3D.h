@@ -50,7 +50,7 @@ public:
 	void objDrawInit(const std::string& directoryPath, const char filename[], bool smoothing = false);//.objを読み込んで描画
 	void boarPolygonInit();//板ポリ用の初期化
 
-
+	//FBX(gltf)用の初期化
 	void FBXInit();
 
 	void SetScale(const Vector3&  scale);
@@ -85,6 +85,7 @@ public:
 
 	void matWorldGeneration();
 
+	//更新
 	void Update();
 
 	/// <summary>
@@ -95,7 +96,8 @@ public:
 	/// <param name="ChangeSquareFlag">頂点３つだけ使って描画するように変化させるフラグ</param>
 	void Draw(const std::string& ChangeTexure = "basketballMan", const bool& PipeLineRuleFlag = true, const bool& ChangeSquareFlag = true);
 
-	void FBXDraw(const AnimationModel& model, const bool& PipeLineRuleFlag = true);
+	//FBX((gltf)用の描画(これを使うにはFBXInitで初期化しておく必要がある)
+	void FBXDraw(AnimationModel& model, const bool& PipeLineRuleFlag = true);
 
 	std::string loadTexture(const std::string& filename,std::string handle);
 
@@ -106,7 +108,7 @@ public:
 		Object3D::SLightGroup_ = light;
 	}
 
-
+	void SetMaterialTiring(Vector2 tiring) { material_.material_.tile_ = tiring; };
 
 private:	
 
@@ -181,6 +183,8 @@ private:
 	/// <returns>成否</returns>
 	bool LoadMaterialTexture(const std::string& filename, std::string handle);
 
+	
+
 
 	
 	//Matrix4x4 QuaternionMatRotateGeneration(const Vector3& rotate, Vector3 forward);
@@ -204,6 +208,9 @@ public:
 	//自分で持っている変数のクオータニオンを使って行列計算するか(クオータニオンを直で使いたい場合)
 	bool useQuaternion = false;
 
+	Vector2 tiring_ = { 1,1 };
+	
+	Material material_;
 private:
 	
 
@@ -221,33 +228,39 @@ private:
 
 	struct ConstBufferDataB1
 	{
-		DirectX::XMFLOAT3 ambient_;//アンビエント影響度
+		Vector3 ambient_;//アンビエント影響度
 		float pad1_;//パディング
-		DirectX::XMFLOAT3 diffuse_;//ディフューズ影響度
+		Vector3 diffuse_;//ディフューズ影響度
 		float pad2_;//パディング
-		DirectX::XMFLOAT3 specular_;//スペキュラー影響度
+		Vector3 specular_;//スペキュラー影響度
 		float alpha_;//アルファ
+		Vector2 tile;
+		float pad3_;
+		float pad4_;
 	};
 
-	struct Material
-	{
-		std::string name_="";//マテリアル名
-		DirectX::XMFLOAT3 ambient_;//アンビエント影響度
-		DirectX::XMFLOAT3 diffuse_;//ディフューズ影響度
-		DirectX::XMFLOAT3 specular_;//スペキュラー影響度
-		float alpha_;//アルファ
-		std::string textureFilename_;//テクスチャファイル名
+	//struct Material
+	//{
+	//	std::string name_="";//マテリアル名
+	//	DirectX::XMFLOAT3 ambient_;//アンビエント影響度
+	//	DirectX::XMFLOAT3 diffuse_;//ディフューズ影響度
+	//	DirectX::XMFLOAT3 specular_;//スペキュラー影響度
+	//	float alpha_;//アルファ
 
-		//コンストラクタ
-		Material()
-		{
-			ambient_ = { 0.3f, 0.3f, 0.3f };
-			diffuse_ = { 0.0f, 0.0f, 0.0f };
-			specular_ = { 0.0f, 0.0f, 0.0f };
-			alpha_ = 1.0f;
-		}
+	//	Vector2 tile_ = {5.0f,5.0f};
 
-	};
+	//	std::string textureFilename_;//テクスチャファイル名
+
+	//	//コンストラクタ
+	//	Material()
+	//	{
+	//		ambient_ = { 0.3f, 0.3f, 0.3f };
+	//		diffuse_ = { 0.0f, 0.0f, 0.0f };
+	//		specular_ = { 0.0f, 0.0f, 0.0f };
+	//		alpha_ = 1.0f;
+	//	}
+
+	//};
 
 
 	
@@ -338,7 +351,7 @@ private:
 	//頂点法線スムージング用データ
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;	
 
-	Material material_;
+	
 
 	std::string materialTextureNum_ = "";
 

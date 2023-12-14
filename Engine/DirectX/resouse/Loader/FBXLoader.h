@@ -108,6 +108,9 @@ public:
 	std::vector<std::unique_ptr<Animation>> animations_;
 	std::vector<Bone> bones;
 
+	//マテリアル(複数に対応するため)
+	std::vector<Material> material_;
+
 	//デストラクタ
 	~AnimationModel();
 

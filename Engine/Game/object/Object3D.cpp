@@ -35,7 +35,6 @@ void Object3D::Update()
 
 	constTransformMatUpdata(now.eye_, now.matView_, now.matProjection_);
 
-	
 
 }
 
@@ -104,7 +103,7 @@ void Object3D::Draw(const std::string& ChangeTexure,const bool& PipeLineRuleFlag
 
 }
 
-void Object3D::FBXDraw(const AnimationModel& model,const bool& PipeLineRuleFlag)
+void Object3D::FBXDraw(AnimationModel& model,const bool& PipeLineRuleFlag)
 {
 
 
@@ -133,15 +132,16 @@ void Object3D::FBXDraw(const AnimationModel& model,const bool& PipeLineRuleFlag)
 	//定数バッファビュー(CBV)の設定コマンド
 	DirectXInit::GetInstance()->GetcmdList().Get()->SetGraphicsRootConstantBufferView(0, constBuffTransform_->GetGPUVirtualAddress());
 
-	for (uint16_t i = 0; i < model.nodes_.size(); i++)
-	{
-		for (uint16_t j = 0; j < model.nodes_[i]->meshes_.size(); j++)
-		{
-			for (uint16_t m = 0; m < model.nodes_[i]->meshes_[j]->material_.size(); m++)
-			{
-				DirectXInit::GetInstance()->GetcmdList().Get()->SetGraphicsRootConstantBufferView(2, model.nodes_[i]->meshes_[j]->material_[m].constBuffB1_->GetGPUVirtualAddress());
-			}
-		}
+
+	for (uint16_t m = 0; m < model.material_.size(); m++)
+	{	
+		//タイリングをするためにオブジェクトが持っているタイリングの情報を受け取って変更
+		constMapB1_->ambient_ = model.material_[m].material_.ambient_;
+		constMapB1_->diffuse_ = model.material_[m].material_.diffuse_;
+		constMapB1_->specular_ = model.material_[m].material_.specular_;
+		constMapB1_->alpha_ = model.material_[m].material_.alpha_;
+		constMapB1_->tile =material_.material_.tile_;
+		DirectXInit::GetInstance()->GetcmdList().Get()->SetGraphicsRootConstantBufferView(2, constBuffB1_->GetGPUVirtualAddress());
 	}
 
 	SLightGroup_->Draw(3);
@@ -1157,10 +1157,11 @@ void Object3D::constantBuffGeneration()
 
 	result_ = constBuffB1_->Map(0, nullptr, (void**)&constMapB1_);
 	assert(SUCCEEDED(result_));
-	constMapB1_->ambient_ = material_.ambient_;
-	constMapB1_->diffuse_ = material_.diffuse_;
-	constMapB1_->specular_ = material_.specular_;
-	constMapB1_->alpha_ = material_.alpha_;
+	constMapB1_->ambient_ = material_.material_.ambient_;
+	constMapB1_->diffuse_ = material_.material_.diffuse_;
+	constMapB1_->specular_ = material_.material_.specular_;
+	constMapB1_->alpha_ = material_.material_.alpha_;
+	constMapB1_->tile = material_.material_.tile_;
 
 
 	////定数バッファのマッピング
@@ -1199,25 +1200,27 @@ void Object3D::constantBuffFBXGeneration()
 
 	constMapTransform_->color = { 1,1,1,1 };
 
-	if (material_.name_ != "")
+	cbResourceDesc_ = constBuffResourceGeneration(sizeof(ConstBufferDataB1));
+
+	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
+		&cbHeapProp_,
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDesc_,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffB1_));
+	assert(SUCCEEDED(result_));
+
+	result_ = constBuffB1_->Map(0, nullptr, (void**)&constMapB1_);
+	assert(SUCCEEDED(result_));
+
+	if (material_.material_.name_ != "")
 	{
-		cbResourceDesc_ = constBuffResourceGeneration(sizeof(ConstBufferDataB1));
-
-		result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
-			&cbHeapProp_,
-			D3D12_HEAP_FLAG_NONE,
-			&cbResourceDesc_,
-			D3D12_RESOURCE_STATE_GENERIC_READ,
-			nullptr,
-			IID_PPV_ARGS(&constBuffB1_));
-		assert(SUCCEEDED(result_));
-
-		result_ = constBuffB1_->Map(0, nullptr, (void**)&constMapB1_);
-		assert(SUCCEEDED(result_));
-		constMapB1_->ambient_ = material_.ambient_;
-		constMapB1_->diffuse_ = material_.diffuse_;
-		constMapB1_->specular_ = material_.specular_;
-		constMapB1_->alpha_ = material_.alpha_;
+		constMapB1_->ambient_ = material_.material_.ambient_;
+		constMapB1_->diffuse_ = material_.material_.diffuse_;
+		constMapB1_->specular_ = material_.material_.specular_;
+		constMapB1_->alpha_ = material_.material_.alpha_;
+		constMapB1_->tile = material_.material_.tile_;
 	}
 
 #pragma endregion
@@ -1333,7 +1336,7 @@ void Object3D::loadMaterial(const std::string& filename, const std::string& dire
 		if (key == "newmtl")
 		{
 
-			lineStream >> material_.name_;
+			lineStream >> material_.material_.name_;
 
 		}
 
@@ -1341,9 +1344,9 @@ void Object3D::loadMaterial(const std::string& filename, const std::string& dire
 		if (key == "Ka")
 		{
 
-			lineStream >> material_.ambient_.x;
-			lineStream >> material_.ambient_.y;
-			lineStream >> material_.ambient_.z;
+			lineStream >> material_.material_.ambient_.x;
+			lineStream >> material_.material_.ambient_.y;
+			lineStream >> material_.material_.ambient_.z;
 
 		}
 
@@ -1351,9 +1354,9 @@ void Object3D::loadMaterial(const std::string& filename, const std::string& dire
 		if (key == "Kd")
 		{
 
-			lineStream >> material_.diffuse_.x;
-			lineStream >> material_.diffuse_.y;
-			lineStream >> material_.diffuse_.z;
+			lineStream >> material_.material_.diffuse_.x;
+			lineStream >> material_.material_.diffuse_.y;
+			lineStream >> material_.material_.diffuse_.z;
 
 		}
 
@@ -1361,20 +1364,20 @@ void Object3D::loadMaterial(const std::string& filename, const std::string& dire
 		if (key == "Ks")
 		{
 
-			lineStream >> material_.specular_.x;
-			lineStream >> material_.specular_.y;
-			lineStream >> material_.specular_.z;
+			lineStream >> material_.material_.specular_.x;
+			lineStream >> material_.material_.specular_.y;
+			lineStream >> material_.material_.specular_.z;
 
 		}
 		//先頭文字列がmap_Kdならテクスチャファイル名
 		if (key == "map_Kd")
 		{
 			//テクスチャのファイル名読み込み
-			lineStream >> material_.textureFilename_;
-			std::string texpath = directoryPath + material_.textureFilename_;
+			lineStream >> material_.material_.textureFilename_;
+			std::string texpath = directoryPath + material_.material_.textureFilename_;
 
 			//テクスチャ読み込み
-			LoadMaterialTexture(texpath, material_.textureFilename_);
+			LoadMaterialTexture(texpath, material_.material_.textureFilename_);
 		}
 
 	}

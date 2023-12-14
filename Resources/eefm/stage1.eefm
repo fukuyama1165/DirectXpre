@@ -30,7 +30,7 @@
                     50
                 ],
                 "enemyMaxSpawn": 2,
-                "addTime": 0,
+                "addTime": 60,
                 "enemyMovePos": [
                     [
                         0.0,
@@ -91,7 +91,7 @@
                 ],
                 "moveRotTime": 1.0,
                 "moveSpeed": 1.0,
-                "addTime": 0,
+                "addTime": 60,
                 "moveStartPoint": [
                     0.0,
                     0.0,
@@ -102,7 +102,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "enemyBulletCT": [
                     200,
                     200
@@ -202,7 +202,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "enemyBulletCT": [
                     200,
                     200,
@@ -316,7 +316,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "enemyBulletCT": [
                     100,
                     150
@@ -393,7 +393,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "enemyBulletCT": [
                     100,
                     200,
@@ -461,7 +461,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "movePoint": [
                     0.0,
                     0.0,
@@ -484,7 +484,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "enemyBulletCT": [
                     90,
                     90,
@@ -603,7 +603,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "enemyBulletCT": [
                     50,
                     90,
@@ -722,7 +722,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "enemyBulletCT": [
                     100,
                     100,
@@ -888,7 +888,7 @@
         },
         {
             "seting": {
-                "addTime": 0,
+                "addTime": 60,
                 "movePoint": [
                     0.0,
                     0.0,

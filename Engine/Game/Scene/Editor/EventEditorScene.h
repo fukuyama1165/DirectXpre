@@ -196,4 +196,6 @@ private:
 	std::string loadErrorText_ = "";
 
 	uint32_t eventNum_ = 1;
+
+	float test_[2] = {};
 };

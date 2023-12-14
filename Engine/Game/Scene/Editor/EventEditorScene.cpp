@@ -18,6 +18,7 @@ EventEditorScene::~EventEditorScene()
 void EventEditorScene::Initialize()
 {
 	Object3D::SetLight(&LightManager::GetInstance()->lightGroups_[0]);
+	//LightManager::GetInstance()->lightGroups_[0].SetAmbientColor({ 0.05f,0.05f,0.05f });
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 	objobj3_.SetScale({ 1000,1000,1000 });
@@ -84,7 +85,7 @@ void EventEditorScene::Update()
 
 	TestEvent();
 
-	
+	LightManager::GetInstance()->ALLLightUpdate();
 
 }
 
@@ -1030,11 +1031,15 @@ void EventEditorScene::TestEvent()
 		EmitterManager::GetInstance()->Update();
 	}
 
-	/*ImGui::Begin("Test");
+	ImGui::Begin("Test");
 
 	ImGui::Text("日本語テスト");
 
-	ImGui::End();*/
+	ImGui::DragFloat2("tile", test_, 0.1f, 0.0f, 10.0f);
+
+	ImGui::End();
+
+	objobj3_.SetMaterialTiring({ test_[0],test_[1] });
 
 
 }

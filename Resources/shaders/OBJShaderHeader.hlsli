@@ -15,6 +15,7 @@ cbuffer cbuff1 : register(b1)//定数バッファの番号をbの後ろにつけ
 	float3 m_diffuse:packoffset(c1);
 	float3 m_specular:packoffset(c2);
 	float m_alpha : packoffset(c2.w);
+	float2 m_tile : packoffset(c3);
 }
 
 //cbuffer cbuff2 : register(b2)
@@ -27,7 +28,7 @@ cbuffer cbuff1 : register(b1)//定数バッファの番号をbの後ろにつけ
 
 static const uint DIR_LIGHT_NUM = 3;
 //天光源の数
-static const uint POINTLIGHT_NUM = 3;
+static const uint POINTLIGHT_NUM = 100;
 //スポットライトの数
 static const uint SPOTLIGHT_NUM = 3;
 

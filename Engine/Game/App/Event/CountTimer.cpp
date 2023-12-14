@@ -163,7 +163,7 @@ int32_t CountTimer::Numreturn(float number, int32_t& now, int32_t& count)
 		now += buff;
 	}
 
-	if (number - buff != 0 and count < 3)
+	if (number - buff != 0 && count < 3)
 	{
 		count++;
 		Numreturn((number - buff)*10, now, count);

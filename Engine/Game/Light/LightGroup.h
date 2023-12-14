@@ -72,7 +72,7 @@ public:
 
 	static const uint16_t SDirLightNum_ = 3;
 
-	static const uint16_t SPointLightNum_ = 3;
+	static const uint16_t SPointLightNum_ = 100;
 
 	static const uint16_t SSpotLightNum_ = 3;
 

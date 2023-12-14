@@ -22,7 +22,7 @@ void TitleScene::Initialize()
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
 
-	lightManager_->lightGroups_[0].SetDirLightActive(0, false);
+	/*lightManager_->lightGroups_[0].SetDirLightActive(0, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(1, false);
 	lightManager_->lightGroups_[0].SetDirLightActive(2, false);
 
@@ -31,7 +31,7 @@ void TitleScene::Initialize()
 	lightManager_->lightGroups_[0].SetPointLightActive(2, false);
 
 	lightManager_->lightGroups_[0].SetSpotLightActive(0, false);
-	lightManager_->lightGroups_[0].SetSpotLightActive(1, false);
+	lightManager_->lightGroups_[0].SetSpotLightActive(1, false);*/
 
 	lightManager_->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
 	lightManager_->lightGroups_[0].SetDirLightColor(0, { 0.05f,0.05f,0.05f });
