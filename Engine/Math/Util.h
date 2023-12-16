@@ -22,6 +22,8 @@ public:
 	static float Rand(float min, float max);
 	static double Rand(double min, double max);
 
+	static float Clamp(float num, float min, float max);
+
 	//wstringをstringに変換
 	static std::string WStringToString(const std::wstring& wstr);
 

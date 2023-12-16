@@ -255,11 +255,11 @@ void Sprite::Draw(std::string ChangeTexure, uint16_t PipeLineRuleFlag)
 
 }
 
-void Sprite::SetTextureRect(int32_t srcX, int32_t srcY, int32_t width, int32_t height)
+void Sprite::SetTextureRect(float srcX, float srcY, float width, float height)
 {
 
-	srcTexturePos_ = { static_cast<float>(srcX),static_cast<float>(srcY) };
-	textureSize_ = { static_cast<float>(width),static_cast<float>(height) };
+	srcTexturePos_ = {srcX,srcY };
+	textureSize_ = { width,height };
 	changeFlag = true;
 
 }

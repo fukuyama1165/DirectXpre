@@ -142,10 +142,10 @@ void AnimationMesh::Init()
 
 	//頂点バッファを作る
 	SetSizeVB();
-	for (auto& itr : material_)
+	for (int32_t i=0;i<materialNum;i++)
 	{
-		itr.VertexBuffObjSetting(D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_DIMENSION_BUFFER, sizeVB_, 1, 1, 1, 1, D3D12_TEXTURE_LAYOUT_ROW_MAJOR);
-		VertexBuffObjGeneration(itr.heapprop_, D3D12_HEAP_FLAG_NONE, itr.resDesc_, D3D12_RESOURCE_STATE_GENERIC_READ);
+		VertexBuffObjSetting(D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_DIMENSION_BUFFER, sizeVB_, 1, 1, 1, 1, D3D12_TEXTURE_LAYOUT_ROW_MAJOR);
+		VertexBuffObjGeneration(heapprop_, D3D12_HEAP_FLAG_NONE, resDesc_, D3D12_RESOURCE_STATE_GENERIC_READ);
 		
 	}
 	VertexBuffMap();
@@ -154,10 +154,10 @@ void AnimationMesh::Init()
 	//インデックスバッファをつくる
 
 	SetSizeIB();
-	for (auto& itr : material_)
+	for (int32_t i = 0; i < materialNum; i++)
 	{
-		itr.IndicesBuffSetting(D3D12_RESOURCE_DIMENSION_BUFFER, sizeIB_, 1, 1, 1, 1, D3D12_TEXTURE_LAYOUT_ROW_MAJOR);
-		IndicesBuffGeneration(itr.heapprop_, D3D12_HEAP_FLAG_NONE, itr.resDesc_, D3D12_RESOURCE_STATE_GENERIC_READ);
+		IndicesBuffSetting(D3D12_RESOURCE_DIMENSION_BUFFER, sizeIB_, 1, 1, 1, 1, D3D12_TEXTURE_LAYOUT_ROW_MAJOR);
+		IndicesBuffGeneration(heapprop_, D3D12_HEAP_FLAG_NONE, resDesc_, D3D12_RESOURCE_STATE_GENERIC_READ);
 	}
 	IndicesBuffMap();
 	IndicesBuffViewGeneration(DXGI_FORMAT_R16_UINT);
@@ -250,4 +250,37 @@ void AnimationMesh::IndicesBuffViewGeneration(DXGI_FORMAT format)
 	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
 	ibView_.Format = format;
 	ibView_.SizeInBytes = sizeIB_;
+}
+
+void AnimationMesh::VertexBuffObjSetting(D3D12_HEAP_TYPE heapType, D3D12_RESOURCE_DIMENSION dimension, uint32_t sizeVB, uint16_t height, uint16_t depthOrArraySize, int16_t mipLevels, uint16_t sampleDescCount, D3D12_TEXTURE_LAYOUT layput)
+{
+#pragma region 頂点バッファの確保
+
+	//頂点バッファの確保辺
+
+	heapprop_.Type = heapType;//GPUへの転送用
+
+
+	resDesc_.Dimension = dimension;
+	resDesc_.Width = sizeVB;//頂点データ全体のサイズ
+	resDesc_.Height = height;
+	resDesc_.DepthOrArraySize = depthOrArraySize;
+	resDesc_.MipLevels = mipLevels;
+	resDesc_.SampleDesc.Count = sampleDescCount;
+	resDesc_.Layout = layput;
+
+#pragma endregion
+}
+
+void AnimationMesh::IndicesBuffSetting(D3D12_RESOURCE_DIMENSION dimension, uint32_t sizeIB, uint16_t height, uint16_t depthOrArraySize, int16_t mipLevels, uint16_t sampleDescCount, D3D12_TEXTURE_LAYOUT layput)
+{
+
+	resDesc_.Dimension = dimension;
+	resDesc_.Width = sizeIB;//頂点データ全体のサイズ
+	resDesc_.Height = height;
+	resDesc_.DepthOrArraySize = depthOrArraySize;
+	resDesc_.MipLevels = mipLevels;
+	resDesc_.SampleDesc.Count = sampleDescCount;
+	resDesc_.Layout = layput;
+
 }

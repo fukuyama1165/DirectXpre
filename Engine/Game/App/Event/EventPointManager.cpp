@@ -401,6 +401,9 @@ void EventPointManager::Initlize()
 
 	waitSprite_.pos_ = { (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 };
 
+	//最大の100秒に
+	timer_.Initialize(6000);
+
 }
 
 void EventPointManager::Update()
@@ -419,6 +422,7 @@ void EventPointManager::Update()
 		if (eventPoint_.GetIsFinished() && eventSetings_.size() > eventCount_)
 		{
 			beforeEventPointType_ = eventPoint_.GetEventType();
+			timer_.AddTimer(eventPoint_.GetEventSeting().addTimer);
 			eventPoint_ = EventPoint(eventSetings_[eventCount_]);
 			eventCount_++;
 			if (eventCount_ > 1 && (beforeEventPointType_!=eventPoint_.GetEventType() || (beforeEventPointType_==EventType::moveEvent && eventPoint_.GetEventType()==EventType::moveEvent)))
@@ -431,6 +435,11 @@ void EventPointManager::Update()
 		else if (eventPoint_.GetIsFinished())
 		{
 			eventAllEnd_ = true;
+		}
+
+		if (!isNoTimer)
+		{
+			timer_.Update();
 		}
 	
 	}
@@ -496,6 +505,11 @@ void EventPointManager::Draw()
 	else if(nextTime_ && eventPoint_.GetEventType() == EventType::moveEvent)
 	{
 		waitSprite_.Draw();
+	}
+
+	if (!isNoTimer)
+	{
+		timer_.Draw();
 	}
 }
 

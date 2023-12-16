@@ -228,7 +228,9 @@ void AnimationModel::ProcessMesh(aiMesh* mesh, const aiScene* scene, AnimationMe
 
 		material.MaterialConstBuffInit();
 
-		model.material_.emplace_back(material);
+		model.materialNum++;
+		material_.emplace_back(material);
+
 
 		LoadMaterialTextures(scene->mMaterials[mesh->mMaterialIndex], aiTextureType_DIFFUSE, model);
 

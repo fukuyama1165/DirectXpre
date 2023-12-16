@@ -10,7 +10,7 @@ public:
 
 	static LevelLoader* GetInstance();
 
-	//レベル読み込み
+	//レベル読み込み(前回のがあった場合消去)
 	void LoadLevel(std::string filename);
 
 	//初期化
@@ -40,9 +40,6 @@ public:
 	//キーを指定してレベルを読み込みなおす
 	void reloadLevel(const BYTE& CheckKey, std::string filename);
 
-	//問答無用で読み込みなおす(毎フレーム呼ばないこと)
-	void reloadLevel(std::string filename);
-
 private:
 
 	AnimationModel* levelModel_ = nullptr;
@@ -50,6 +47,16 @@ private:
 	AnimationModel* levelGroundModel_ = nullptr;
 	AnimationModel* levelBuildingModel_ = nullptr;
 	AnimationModel* levelWallModel_ = nullptr;
+	AnimationModel* levelLightModel_ = nullptr;
+
+	float test_[2] = {1,1};
+	float test2_[2] = { 1,1 };
+	float test3_[2] = { 1,1 };
+
+	Object3D testObj_;
+
+	//ライトの数(初期値が1なのは要素番号を指定して行うため0番はplayerが使うため)
+	int32_t lightCount_ = 1;
 
 private:
 

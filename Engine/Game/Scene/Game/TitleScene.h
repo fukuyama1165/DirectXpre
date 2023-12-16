@@ -10,6 +10,7 @@
 #include "Wall.h"
 #include "EnemyManager.h"
 #include "LightManager.h"
+#include "LevelLoader.h"
 
 class TitleScene : public IScene
 {
@@ -34,7 +35,7 @@ private:
 private:
 
 	//ライト
-	LightManager* lightManager_;
+	LightManager* lightManager_ = nullptr;
 
 	//天球
 	Object3D objobj3_;

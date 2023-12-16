@@ -67,12 +67,18 @@ void BulletCollision::OnCollision(const CollisionInfo& info)
 	{
 		isHit = true;
 	}
+	else if (info.object_->tag_ == "EnemyWall" && (tag_ == "playerBullet"))
+	{
+		isHit = true;
+	}
 	else if (info.object_->tag_ == "Wall" && tag_ == "Cartridge")
 	{
+		//コライダーは持っているけど特に指定がない場合はとりあえず当たったことに
 		isHit = true;
 	}
 	else if (info.object_->tag_ == "")
 	{
+		//当たってきたやつが名前指定のないやべーやつなら怖いので当たったことに
 		isHit = true;
 	}
 

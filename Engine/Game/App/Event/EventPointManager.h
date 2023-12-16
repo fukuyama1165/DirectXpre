@@ -4,6 +4,7 @@
 #include <sstream>
 #include "Sprite.h"
 #include "json.hpp"
+#include "CountTimer.h"
 
 class EventPointManager
 {
@@ -57,6 +58,9 @@ public:
 
 	//指定したイベントの番号に移動(なかったりオーバーしてたら何もしない)
 	void MoveEventNum(uint32_t eventCount);
+
+	//タイマーを使わないイベントなら
+	bool isNoTimer = false;
 
 public:
 
@@ -121,6 +125,10 @@ private:
 	//引き
 	float nextMoveTime2_ = 0;
 	float nextMoveMaxTime2_ = 150;
+
+	CountTimer timer_;
+
+	
 
 };
 

@@ -184,7 +184,7 @@ PSOutput main(VSOutput input)
 	////float3 reflect = normalize(-light + 2 * dot(light, normal) * normal);
 	//float3 reflect = normalize(-lightV + 2 * dot(lightV, wnormal.xyz) * wnormal.xyz);
 
-	float4 col = tex.Sample(smp, input.uv) * Icolor;
+    float4 col = tex.Sample(smp, input.uv * m_tile) * Icolor;
 	
 	output.target1 = averagBlur(input);
 	output.target0 = col * shadecolor;

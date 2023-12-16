@@ -35,9 +35,7 @@ public:
 
 	void Update();
 
-	void VertexBuffObjSetting(D3D12_HEAP_TYPE heaptype, D3D12_RESOURCE_DIMENSION dimension, uint32_t sizeVB, uint16_t height, uint16_t DepthOrArraySize, int16_t MipLevels, uint16_t SampleDescCount, D3D12_TEXTURE_LAYOUT layput);
-
-	void IndicesBuffSetting(D3D12_RESOURCE_DIMENSION dimension, uint32_t sizeIB, uint16_t height, uint16_t DepthOrArraySize, int16_t MipLevels, uint16_t SampleDescCount, D3D12_TEXTURE_LAYOUT layput);
+	void SetMaterialTiring(Vector2 tiring) { material_.tile_ = tiring; };
 
 	struct ConstBufferDataB1
 	{
@@ -47,6 +45,9 @@ public:
 		float pad2_;//パディング
 		Vector3 specular_;//スペキュラー影響度
 		float alpha_;//アルファ
+		Vector2 tile;
+		float pad3_;
+		float pad4_;
 	};
 
 	struct MaterialObj
@@ -56,6 +57,7 @@ public:
 		Vector3 diffuse_ = {};//ディフューズ影響度
 		Vector3 specular_ = {};//スペキュラー影響度
 		float alpha_ = 1.0f;//アルファ
+		Vector2 tile_ = {1,1};
 		std::string textureFilename_;//テクスチャファイル名
 
 		//コンストラクタ
@@ -78,13 +80,11 @@ public:
 
 	MaterialObj material_;
 
-	//頂点バッファ用変数
-	D3D12_HEAP_PROPERTIES heapprop_{};//ヒープ設定
-	D3D12_RESOURCE_DESC resDesc_{};//リソース設定
+	
 
 private:
 
-	HRESULT result_;
+	HRESULT result_ = S_OK;
 
 };
 

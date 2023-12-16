@@ -178,6 +178,11 @@ private:
 	void VertexBuffMap();
 	void VertexBuffViewGeneration();
 
+	void VertexBuffObjSetting(D3D12_HEAP_TYPE heaptype, D3D12_RESOURCE_DIMENSION dimension, uint32_t sizeVB, uint16_t height, uint16_t DepthOrArraySize, int16_t MipLevels, uint16_t SampleDescCount, D3D12_TEXTURE_LAYOUT layput);
+
+	void IndicesBuffSetting(D3D12_RESOURCE_DIMENSION dimension, uint32_t sizeIB, uint16_t height, uint16_t DepthOrArraySize, int16_t MipLevels, uint16_t SampleDescCount, D3D12_TEXTURE_LAYOUT layput);
+
+
 	//インデックスデータ関連(インデックスビューもここ)
 	
 	void IndicesBuffGeneration(const D3D12_HEAP_PROPERTIES& HeapProp, D3D12_HEAP_FLAGS flag, const D3D12_RESOURCE_DESC Resdesc, D3D12_RESOURCE_STATES state);
@@ -209,6 +214,10 @@ private:
 	//頂点法線スムージング用データ
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 
+
+	//頂点バッファ用変数
+	D3D12_HEAP_PROPERTIES heapprop_{};//ヒープ設定
+	D3D12_RESOURCE_DESC resDesc_{};//リソース設定
 	
 
 public:
@@ -234,7 +243,6 @@ public:
 	//どのテクスチャか判断するための値
 	std::vector <std::string> textureHandle = {};
 
-	//マテリアル(複数に対応するため)
-	std::vector<Material> material_;
+	int32_t materialNum = 0;
 
 };

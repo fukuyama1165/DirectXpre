@@ -48,5 +48,8 @@ private:
 	//シェイク用の一時保存用変数
 	Vector3 shekeSinNum = {};
 
+	//前フレームからカメラの角度変更したか
+	bool checkUseMouse_ = false;
+
 };
 

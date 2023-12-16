@@ -27,9 +27,20 @@ public:
 
 	void SetAnchorPoint(const Vector2& AnchorPoint) { anchorPoint_ = AnchorPoint; changeFlag = true; };
 
-	void SetTextureRect(int32_t srcX, int32_t srcY, int32_t width, int32_t height);
+	void SetTextureRect(float srcX, float srcY, float width, float height);
 
-	Vector2 GetTextureSize() { return textureSize_; };
+	//現在のテクスチャのサイズを返す
+	Vector2 GetNowTextureSize() { return textureSize_; };
+
+	//今使用しているテクスチャのサイズを返す
+	Vector2 GetTextureSize() {
+		Vector2 textureDescSize = {
+	   static_cast<float>(STexture_->GetTexBuff(texIndex)->GetDesc().Width),
+	   static_cast<float>(STexture_->GetTexBuff(texIndex)->GetDesc().Height)
+		};
+		return textureDescSize;
+	 };
+
 
 	void ChangeTexture(std::string textureIndex);
 

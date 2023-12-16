@@ -51,6 +51,22 @@ double Util::Rand(double min, double max)
 	return dest(engine);
 }
 
+float Util::Clamp(float num, float min, float max)
+{
+
+	if (num > max)
+	{
+		return max;
+	}
+	else if (num < min)
+	{
+		return min;
+	}
+
+	return num;
+
+}
+
 std::string Util::WStringToString(const std::wstring& wstr)
 {
 	// wstring → SJIS

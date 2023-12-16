@@ -45,7 +45,11 @@ void Enemy::Update(std::string soundH)
 	if (isAlive_)
 	{
 		
-
+		if (moveEnd_ == false && enemyType_ == EnemyType::Attack)
+		{
+			ori_ = enemyObj_.pos_;
+			moveEnd_ = true;
+		}
 		
 
 		if ((enemyType_ == EnemyType::moveAttack && moveEnd_ == false) || enemyType_ == EnemyType::moveOnly)
@@ -53,11 +57,27 @@ void Enemy::Update(std::string soundH)
 			Move();
 		}
 
+		if (moveEnd_ == true || enemyType_ == EnemyType::Attack)
+		{
+			enemyObj_.pos_.x = ori_.x + sinf(sindou) * sindoubai;
+		}
+
 		enemyObj_.Update();
 
 		if ((enemyType_ == EnemyType::moveAttack && moveEnd_ == true) || enemyType_ == EnemyType::Attack)
 		{
 			Attack();
+
+			if (bulletCT_ <= sindouTime)
+			{
+				sindou+= sindouAdd;
+			}
+
+			if (bulletCT_ <= RedTime)
+			{
+				enemyObj_.SetColor({ 1.0f,0.0f ,0.0f ,1.0f });
+			}
+
 		}
 
 		
@@ -72,9 +92,7 @@ void Enemy::Update(std::string soundH)
 
 		if (enemyType_ == EnemyType::moveOnly && moveEnd_)
 		{
-			isAlive_ = false;
-
-			
+			isAlive_ = false;			
 		}
 		
 	}
@@ -90,9 +108,12 @@ void Enemy::Draw(AnimationModel* model)
 void Enemy::Attack()
 {
 
+
 	if (bulletCT_ <= 0)
 	{
 		bulletCT_ = bulletMaxCT_;
+		sindou = 0;
+		enemyObj_.SetColor({ 1.0f,1.0f ,1.0f ,1.0f });
 	}
 	else
 	{
@@ -120,7 +141,7 @@ void Enemy::Move()
 	Vector3 moveVec = { 0,0,0 };
 	moveVec = nainavec3(movePoint_, moveStartPos_).normalize();
 
-	enemyObj_.Trans_ += moveVec*speed_;
+	enemyObj_.pos_ += moveVec*speed_;
 
 	//位置の情報で移動の為の大きさによってはたどり着けない場合があるので幅を持たせるため
 	if (((enemyObj_.GetPos().x <= movePoint_.x + speed_) &&
@@ -131,6 +152,7 @@ void Enemy::Move()
 		(enemyObj_.GetPos().z >= movePoint_.z - speed_)))
 	{
 		moveEnd_ = true;
+		ori_ = enemyObj_.pos_;
 	}
 
 

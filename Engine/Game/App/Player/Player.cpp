@@ -59,8 +59,10 @@ void Player::Init()
 	//モデルとかの位置
 	playerObj_.SetPos({ 0,5,0 });
 	playerObj_.SetScale({ 0.13f,0.21f,0.17f });
+	playerObj_.useQuaternion = true;
 
 	playerCamera_.pos_ = { 0,0,-200 };
+	playerCamera_.rotate_ = { 0,0,0 };
 	playCamera_.eye_ = { 0,0,-3 };
 
 	reticle3DObj_.SetPos({ 0,0,-100 });
@@ -143,6 +145,8 @@ void Player::Init()
 	//板ポリの設定
 	flashObj_.boarPolygonInit();
 
+	//timer.Initialize();
+
 }
 
 void Player::Update()
@@ -201,39 +205,73 @@ void Player::Update()
 
 	hp3Sprote_.pos_.y = sinf(test.x)*10;*/
 
+	
+
 	//移動(基本的にカメラを基準に)	
 	Vector3 playerPos = { playerCamera_.pos_.x,playerCamera_.pos_.y - 1 ,playerCamera_.pos_.z };
 
-	playerObj_.SetPos(playerPos + (playerCamera_.forward_ * 5));
-	flashObj_.SetPos(playerPos + (playerCamera_.forward_ * 6));
+	Vector3 pos = Vector3::normalize(reticle3DObj_.GetWorldPos() - playerPos);
 
+	playerObj_.SetPos(playerPos + (playerCamera_.GetCameraP()->forward_ * 5));
+	flashObj_.SetPos(playerPos + (playerCamera_.GetCameraP()->forward_ * 6));
+
+
+	Vector3 normalVec = Vector3::normalize(reticle3DObj_.GetWorldPos() - playerObj_.GetPos());
 	//レティクルの方向へ向ける
-	if (1)
+	
+	//馬鹿だったので補足
+	//dirTodirは(無回転の時の向き,回転させたい方向)なので(始点,終点)ではない
+	//
+	//Quaternion rot2 = rot;
+
+	//rot = Quaternion::DirectionToDirection(Vector3::normalize(playerCamera_.forward_), normalVec);
+	///*Vector3 reticlePosX;
+	//Vector3 reticlePosY;
+	//Vector3 reticlePosZ;
+
+	//reticlePosX = Quaternion::RotateVector({ 1,0,0 }, rot);
+	//reticlePosY = Quaternion::RotateVector({ 0,1,0 }, rot);
+	//reticlePosZ = Quaternion::RotateVector({ 0,0,1 }, rot);*/
+
+	////playerObj_.Rotate_ = { reticlePosY.z,reticlePosZ.x ,0 };
+	////playerObj_.Rotate_ = { reticlePosY.z,reticlePosZ.x ,reticlePosX.y };
+
+	//playerObj_.Rotate_ = Quaternion::RotateVector(playerCamera_.forward_, rot);
+	//if (rot2.v.x != rot.v.x|| rot2.v.y != rot.v.y|| rot2.v.z != rot.v.z|| rot2.w != rot.w)
+	//{
+	//	playerObj_.quaternionRot_ *= rot;
+	//}
+
+	Vector3 nowvec = Quaternion::RotateVector({0,0,1}, playerObj_.quaternionRot_).normalize();
+
+	nowvec.normalize();
+
+	rot = Quaternion::DirectionToDirection({ 0,0,1 }, Vector3::normalize(reticle3DObj_.GetPos() - playerObj_.GetPos()));
+
+
+	if (nowvec != Vector3::normalize(reticle3DObj_.GetPos() - playerObj_.GetPos()))
 	{
-		//馬鹿だったので補足
-		//dirTodirは(無回転の時の向き,回転させたい方向)なので(始点,終点)ではない
+		playerObj_.quaternionRot_ = Quaternion::Normalize(rot);
 
-		Quaternion rot = Quaternion::DirectionToDirection({0,0,1}, reticle3DObj_.GetWorldPos()-playerPos);
-		Vector3 reticlePosY;
-		Vector3 reticlePosZ;
 
-		reticlePosY = Quaternion::RotateVector({ 0,1,0 }, rot);
-		reticlePosZ = Quaternion::RotateVector({ 0,0,1 }, rot);
-		
-		playerObj_.Rotate_ = { reticlePosY.z,reticlePosZ.x ,0 };
+	}
 
 #ifdef _DEBUG
-		if (!isTitle_)
-		{
-			ImGui::Begin("player");
+	if (!isTitle_)
+	{
+		ImGui::Begin("player");
 
-			ImGui::Text("rotY:%0.2ff,%0.2ff,%0.2ff", reticlePosY.x, reticlePosY.y, reticlePosY.z);
-			ImGui::Text("rotZ:%0.2ff,%0.2ff,%0.2ff", reticlePosZ.x, reticlePosZ.y, reticlePosZ.z);
+		ImGui::Text("playerObjPos:%0.2ff,%0.2ff,%0.2ff", playerObj_.GetWorldPos().x, playerObj_.GetWorldPos().y, playerObj_.GetWorldPos().z);
+		ImGui::Text("cameraFront:%0.2ff,%0.2ff,%0.2ff", playerCamera_.forward_.x, playerCamera_.forward_.y, playerCamera_.forward_.z);
+		ImGui::Text("quaternionRot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", playerObj_.quaternionRot_.v.x, playerObj_.quaternionRot_.v.y, playerObj_.quaternionRot_.v.z, playerObj_.quaternionRot_.w);
+		ImGui::Text("rot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", rot.v.x, rot.v.y, rot.v.z, rot.w);
+		ImGui::Text("vec:%0.2ff,%0.2ff,%0.2ff", normalVec.x, normalVec.y, normalVec.z);
+		ImGui::Text("vec:%0.2ff,%0.2ff,%0.2ff", pos.x, pos.y, pos.z);
+		
 
-			ImGui::End();
-		}
-#endif
+		ImGui::End();
 	}
+#endif
 
 	if (!isTitle_)
 	{
@@ -257,12 +295,12 @@ void Player::Update()
 
 	if (muzzleFlashTime_ > 0)
 	{
-		playerObj_.SLightGroup_->SetPointLightActive(1, true);	
+		playerObj_.SLightGroup_->SetPointLightActive(0, true);	
 
 	}
 	else
 	{
-		playerObj_.SLightGroup_->SetPointLightActive(1, false);
+		playerObj_.SLightGroup_->SetPointLightActive(0, false);
 	}
 
 	if (muzzleFlashTime_ > 0)
@@ -348,6 +386,8 @@ void Player::Update()
 	}
 #endif
 
+	//timer.Update();
+
 }
 
 void Player::Draw()
@@ -420,6 +460,8 @@ void Player::Draw()
 
 	//reticle3DObj_.FBXDraw(*bulletModel_);
 
+	//timer.Draw();
+
 }
 
 void Player::Attack()
@@ -439,45 +481,7 @@ void Player::Attack()
 
 	if ((input_->GetMouseButtonDown(0) && bulletCT_ <= 0 && isUseKeybord_) || (isTitle_ && isUseKeybord_))
 	{
-		//発射地点の為に自キャラの座標をコピー
-		Vector3 position = playerObj_.GetWorldPos();
-		position.z += 2;
-
-		//移動量を追加
-		Vector3 velocity(0, 0, 0);
-		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
-		velocity = velocity.normalize() * bulletSpeed_;
-
-		Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration({0,0,0}) * matMoveGeneration(playerObj_.GetPos());
-
-		//速度ベクトルを自機の向きの方向に合わせて回転する
-		velocity = VectorMat(velocity, playermat);
-
-		//弾の生成と初期化
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initlize(position, velocity,{0.3f,0.3f,0.3f });
-		
-
-		//弾を登録
-		bullets_.emplace_back(std::move(newBullet));
-
-		bulletCT_ = bulletMaxCT_;
-		muzzleFlashTime_ = muzzleFlashMaxTime_;
-		playerObj_.SLightGroup_->SetPointLightPos(1, position);
-		playerObj_.SLightGroup_->SetPointLightAtten(1, {0.1f,0.1f,0.1f});
-
-		bulletNum_--;
-
-		if (!isTitle_)
-		{
-			EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[(uint32_t)bulletNum_].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f, 1.0f, { -10.0f,10.0f }, { -20.0f,-10.0f }, { 1,1 }, { 1,1 }, "Ammo");
-		}
-		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 50.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.1f,0.1f,0.1f }, { 0.1f,0.1f,0.1f },"Ammo");
-
-		XAudio::PlaySoundData(gunShotSount_, 1.0f);
-
-		//マズルフラッシュ用のタイマーをリセット
-		flashTimer_ = 0;
+		BulletAdd();
 		
 	}
 
@@ -490,44 +494,9 @@ void Player::Attack()
 	}
 
 	//Rトリガーを押していたら
-	if ((Input::GetInstance()->GetGamePadRTrigger() && bulletCT_ <= 0 && !isUseKeybord_) || (isTitle_ && isUseKeybord_))
+	if ((Input::GetInstance()->GetGamePadRTrigger() && bulletCT_ <= 0 && !isUseKeybord_) || (isTitle_ && !isUseKeybord_))
 	{
-		//発射地点の為に自キャラの座標をコピー
-		Vector3 position = playerObj_.GetWorldPos();
-		position.z += 2;
-
-		//移動量を追加		
-		Vector3 velocity(0, 0, 0);
-		velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
-		velocity = velocity.normalize() * bulletSpeed_;
-
-		Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration(playerObj_.GetRotate()) * matMoveGeneration(playerObj_.GetPos());
-
-		//速度ベクトルを自機の向きに合わせて回転する
-		velocity = VectorMat(velocity, playermat);
-
-		//弾の生成と初期化
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initlize(position, velocity,{ 0.3f,0.3f,0.3f });
-
-		//弾を登録
-		bullets_.emplace_back(std::move(newBullet));
-
-		bulletCT_ = bulletMaxCT_;
-		muzzleFlashTime_ = muzzleFlashMaxTime_;
-
-		bulletNum_--;
-
-		if (!isTitle_)
-		{
-			EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[(uint32_t)bulletNum_].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f, 1.0f, { -10.0f,10.0f }, { -20.0f,-10.0f }, { 1,1 }, { 1,1 }, "Ammo");
-		}
-		EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 50.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.2f,0.2f,0.2f }, { 0.2f,0.2f,0.2f });
-
-		//マズルフラッシュ用のタイマーをリセット
-		flashTimer_ = 0;
-
-		XAudio::PlaySoundData(gunShotSount_, 1.0f);
+		BulletAdd();
 	}
 
 
@@ -610,6 +579,7 @@ void Player::EventUpdate()
 			{
 				playerCamera_.pos_ = originalPos_;
 				attackFlag_ = false;
+				time_ = 0;
 			}
 			//開始位置を取得して進む大きさを決定
 			pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMoveStartPoint();
@@ -617,8 +587,12 @@ void Player::EventUpdate()
 			playerCamera_.pos_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMoveStartPoint();
 			moveEventStart_ = true;
 		}
-		
-		playerCamera_.rotate_ = lerp(rotVec_, EventPointManager::GetInstance()->GetPEventPoint()->GetMovePointRot(), rotTimer_ / EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().moveRotTime);
+
+		//角度を動かす時間があるなら動かす
+		if (EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().moveRotTime != 0)
+		{
+			playerCamera_.rotate_ = lerp(rotVec_, EventPointManager::GetInstance()->GetPEventPoint()->GetMovePointRot(), rotTimer_ / EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().moveRotTime);
+		}
 
 		if (rotTimer_ < EventPointManager::GetInstance()->GetPEventPoint()->GetEventSeting().moveRotTime)
 		{
@@ -642,6 +616,7 @@ void Player::EventUpdate()
 				EventPointManager::GetInstance()->GetPEventPoint()->SetIsFinished(true);
 				rotVec_ = EventPointManager::GetInstance()->GetPEventPoint()->GetMovePointRot();
 				moveEventStart_ = false;
+				rotTimer_ = 0;
 			}
 		}
 		else
@@ -776,7 +751,7 @@ void Player::Reticle2DMouse()
 
 	Vector3 A = posNear;
 	A += Vector3(mouseDirection.x * kDistanceTestObject, mouseDirection.y * kDistanceTestObject, mouseDirection.z * kDistanceTestObject);
-	reticle3DObj_.Trans_ = A;
+	reticle3DObj_.pos_ = A;
 	//reticle3DObj_.Scale_ = { 0.05f,0.05f,0.05f };
 
 
@@ -846,4 +821,48 @@ void Player::Reload()
 	reloadTimer = 0;
 
 	bulletNum_ = bulletMaxNum_;
+}
+
+void Player::BulletAdd()
+{
+	//発射地点の為に自キャラの座標をコピー
+	Vector3 position = playerObj_.GetWorldPos();
+	position += Vector3::normalize(playerObj_.forward_) * 2;
+
+	//移動量を追加
+	Vector3 velocity(0, 0, 0);
+	velocity = reticle3DObj_.GetWorldPos() - playerObj_.GetWorldPos();
+	velocity = velocity.normalize() * bulletSpeed_;
+
+	Matrix4x4 playermat = matScaleGeneration({ 1,1,1 }) * QuaternionMatRotateGeneration({ 0,0,0 }) * matMoveGeneration(playerObj_.GetPos());
+
+	//速度ベクトルを自機の向きの方向に合わせて回転する
+	velocity = VectorMat(velocity, playermat);
+
+	//弾の生成と初期化
+	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	newBullet->Initlize(position, velocity, { 0.3f,0.3f,0.3f });
+
+
+	//弾を登録
+	bullets_.emplace_back(std::move(newBullet));
+
+	bulletCT_ = bulletMaxCT_;
+	muzzleFlashTime_ = muzzleFlashMaxTime_;
+	playerObj_.SLightGroup_->SetPointLightPos(0, position);
+	playerObj_.SLightGroup_->SetPointLightAtten(0, { 0.1f,0.1f,0.1f });
+	playerObj_.SLightGroup_->SetPointLightColor(0, { 1.0f,1.0f,1.0f });
+
+	bulletNum_--;
+
+	if (!isTitle_)
+	{
+		EmitterManager::GetInstance()->AddSpriteEmitter(bulletSprite_[(uint32_t)bulletNum_].pos_, "BASIC", "Fall", 50.0f, 50.0f, 1.0f, 1.0f, { -10.0f,10.0f }, { -20.0f,-10.0f }, { 1,1 }, { 1,1 }, "Ammo");
+	}
+	EmitterManager::GetInstance()->AddObjEmitter(playerObj_.GetWorldPos(), "BASIC", "Cartridge", 50.0f, 20.0f, 1.0f, 1.0f, { -0.1f,0.1f }, { 0.1f,0.2f }, { -0.1f,0.1f }, { 0.1f,0.1f,0.1f }, { 0.1f,0.1f,0.1f }, "Ammo");
+
+	XAudio::PlaySoundData(gunShotSount_, 1.0f);
+
+	//マズルフラッシュ用のタイマーをリセット
+	flashTimer_ = 0;
 }

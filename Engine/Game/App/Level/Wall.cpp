@@ -9,12 +9,12 @@ WallObj::~WallObj()
 {
 }
 
-void WallObj::Init()
+void WallObj::Init(std::string tag)
 {
 
 	obj_.FBXInit();
 
-	collision_ = MobCollision("Wall");
+	collision_ = MobCollision(tag);
 
 	collider_.SetObject(&collision_);
 
@@ -29,13 +29,6 @@ void WallObj::Update()
 {
 
 	obj_.Update();
-
-	/*ImGui::Begin("check");
-
-	ImGui::Text("tag:%s", collider_.GetCollisionObj()->tag_.c_str());
-	ImGui::Text("pos:%0.3f,%0.3f,%0.3f", collider_.GetCollisionObj()->collisionObj_.GetWorldPos().x, collider_.GetCollisionObj()->collisionObj_.GetWorldPos().y, collider_.GetCollisionObj()->collisionObj_.GetWorldPos().z);
-
-	ImGui::End();*/
 
 	collider_.Update(obj_.GetWorldPos());
 

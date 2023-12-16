@@ -26,7 +26,7 @@ public:
 	void SetIsEnd(bool flag)override { isEnd_ = flag; };
 
 
-	void SetPos(Vector3 pos)override { obj_.Trans_ = pos; };
+	void SetPos(Vector3 pos)override { obj_.pos_ = pos; };
 
 	bool GetIsActive()override { return isActive_; };
 	bool GetIsEnd()override { return isEnd_; };
