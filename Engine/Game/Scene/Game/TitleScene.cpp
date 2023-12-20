@@ -73,7 +73,7 @@ void TitleScene::Initialize()
 	eventManager_ = EventPointManager::GetInstance();
 
 	//イベントデータの読み込み
-	eventManager_->LoadEventData("titleEvent");
+	eventManager_->LoadeefmEventData("titleEvent");
 
 	eventManager_->isNoTimer = true;
 

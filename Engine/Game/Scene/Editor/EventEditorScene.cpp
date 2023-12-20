@@ -1031,7 +1031,7 @@ void EventEditorScene::TestEvent()
 		EmitterManager::GetInstance()->Update();
 	}
 
-	ImGui::Begin("Test");
+	/*ImGui::Begin("Test");
 
 	ImGui::Text("日本語テスト");
 
@@ -1039,7 +1039,7 @@ void EventEditorScene::TestEvent()
 
 	ImGui::End();
 
-	objobj3_.SetMaterialTiring({ test_[0],test_[1] });
+	objobj3_.SetMaterialTiring({ test_[0],test_[1] });*/
 
 
 }

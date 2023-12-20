@@ -330,3 +330,11 @@ void LightGroup::DefaultLightSetting()
 	SpotLights_[1].SetIsActive(false);
 
 }
+
+void LightGroup::AllPointLightOff()
+{
+	for (int32_t i = 0; i < SPointLightNum_; i++)
+	{
+		pointLights_[i].SetIsActive(false);
+	}
+}

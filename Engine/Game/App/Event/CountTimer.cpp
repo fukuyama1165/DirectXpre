@@ -54,12 +54,6 @@ void CountTimer::Update()
 		timer_ = 6000;
 	}
 
-	ImGui::Begin("debug");
-
-	ImGui::DragInt("drowNum", &testnum, 1, 0, 9999);
-
-	ImGui::End();
-
 	int32_t now_ = 0;
 	int32_t count_ = 0;
 

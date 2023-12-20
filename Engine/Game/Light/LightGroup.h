@@ -60,6 +60,9 @@ public:
 
 	void DefaultLightSetting();
 
+	//このポイントライトを全部消す(非活性状態に)
+	void AllPointLightOff();
+
 private:
 
 	//定数バッファ
