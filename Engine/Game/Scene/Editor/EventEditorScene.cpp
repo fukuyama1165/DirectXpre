@@ -126,8 +126,8 @@ void EventEditorScene::Draw()
 	}
 	else
 	{
-		player_.Draw();
 		enemys_->Draw();
+		player_.Draw();		
 		eventManager_->Draw();
 	}
 
@@ -989,7 +989,7 @@ void EventEditorScene::TestEvent()
 		{
 			player_.Update();
 
-			enemys_->UpDate(player_.playerCamera_.GetCamera().eye_);
+			enemys_->UpDate(player_.playerObj_.GetWorldPos());
 
 			CollisionManager::GetInstance()->CheckAllCollisions();
 

@@ -31,7 +31,8 @@ void CollisionManager::CheckAllCollisions()
 
 			//ここからタイプによっての処理を書く
 
-			if (colA == nullptr || colB == nullptr)
+			//やばいのがあったら飛ばしたかった
+			if (colA == nullptr || colB->GetCollisionObj() == nullptr)
 			{
 				continue;
 			}

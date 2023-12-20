@@ -414,81 +414,84 @@ void EventPointManager::Update()
 		return;
 	}
 
-	
-
-	if (!nextTime_)
+	//タイマーが終わってないなら
+	if (!timer_.isZero_)
 	{
 
-		if (eventPoint_.GetIsFinished() && eventSetings_.size() > eventCount_)
+		if (!nextTime_)
 		{
-			beforeEventPointType_ = eventPoint_.GetEventType();
-			timer_.AddTimer(eventPoint_.GetEventSeting().addTimer);
-			eventPoint_ = EventPoint(eventSetings_[eventCount_]);
-			eventCount_++;
-			if (eventCount_ > 1 && (beforeEventPointType_!=eventPoint_.GetEventType() || (beforeEventPointType_==EventType::moveEvent && eventPoint_.GetEventType()==EventType::moveEvent)))
+
+			if (eventPoint_.GetIsFinished() && eventSetings_.size() > eventCount_)
 			{
-				nextTime_ = true;
-				nextMoveTime_ = 0;
-				nextMoveTime2_ = 0;
+				beforeEventPointType_ = eventPoint_.GetEventType();
+				timer_.AddTimer(eventPoint_.GetEventSeting().addTimer);
+				eventPoint_ = EventPoint(eventSetings_[eventCount_]);
+				eventCount_++;
+				if (eventCount_ > 1 && (beforeEventPointType_ != eventPoint_.GetEventType() || (beforeEventPointType_ == EventType::moveEvent && eventPoint_.GetEventType() == EventType::moveEvent)))
+				{
+					nextTime_ = true;
+					nextMoveTime_ = 0;
+					nextMoveTime2_ = 0;
+				}
 			}
+			else if (eventPoint_.GetIsFinished())
+			{
+				eventAllEnd_ = true;
+			}
+
+			if (!isNoTimer)
+			{
+				timer_.Update();
+			}
+
 		}
-		else if (eventPoint_.GetIsFinished())
+
+		if (!nextTime_ || eventPoint_.GetEventType() == EventType::moveEvent)
 		{
-			eventAllEnd_ = true;
+			eventPoint_.Update();
 		}
 
-		if (!isNoTimer)
+		if (nextTime_)
 		{
-			timer_.Update();
-		}
-	
-	}
+			//nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2}, Vector2{WinApp::SWindowWidth_+ nextSprite_.GetTextureSize().x/2 ,WinApp::SWindowHeight_ / 2}, nextMoveTime_ / nextMoveMaxTime_);
 
-	if (!nextTime_ || eventPoint_.GetEventType() == EventType::moveEvent)
-	{
-		eventPoint_.Update();
-	}
-
-	if(nextTime_)
-	{
-		//nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2}, Vector2{WinApp::SWindowWidth_+ nextSprite_.GetTextureSize().x/2 ,WinApp::SWindowHeight_ / 2}, nextMoveTime_ / nextMoveMaxTime_);
-
-		if (eventPoint_.GetEventType() == EventType::BattleEvent)
-		{
-
-			if (nextMoveTime_ < nextMoveMaxTime_)
+			if (eventPoint_.GetEventType() == EventType::BattleEvent)
 			{
-				nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
-				nextMoveTime_++;
-			}
-			else if (nextMoveTime2_ < nextMoveMaxTime2_)
-			{
-				nextSprite_.pos_ = easeInQuint(Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
-				nextMoveTime2_++;
 
-			}
-			else
-			{
-				nextTime_ = false;
-			}
+				if (nextMoveTime_ < nextMoveMaxTime_)
+				{
+					nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
+					nextMoveTime_++;
+				}
+				else if (nextMoveTime2_ < nextMoveMaxTime2_)
+				{
+					nextSprite_.pos_ = easeInQuint(Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
+					nextMoveTime2_++;
 
-			nextSprite_.Update();
-		}
-		else if(eventPoint_.GetEventType() == EventType::moveEvent)
-		{
-			if (!eventPoint_.GetIsFinished())
-			{
-				//float a = easeOutQuad(0.0f, 20.0f, nextMoveTime_ / nextMoveMaxTime_);
+				}
+				else
+				{
+					nextTime_ = false;
+				}
 
-				waitSprite_.setColor({ 1,1,1,sinf(nextMoveTime_) });
-				nextMoveTime_+=0.1f;
+				nextSprite_.Update();
 			}
-			else
+			else if (eventPoint_.GetEventType() == EventType::moveEvent)
 			{
-				nextTime_ = false;
-			}
+				if (!eventPoint_.GetIsFinished())
+				{
+					//float a = easeOutQuad(0.0f, 20.0f, nextMoveTime_ / nextMoveMaxTime_);
 
-			waitSprite_.Update();
+					waitSprite_.setColor({ 1,1,1,sinf(nextMoveTime_) });
+					nextMoveTime_ += 0.1f;
+				}
+				else
+				{
+					nextTime_ = false;
+				}
+
+				waitSprite_.Update();
+			}
 		}
 	}
 
@@ -497,19 +500,22 @@ void EventPointManager::Update()
 void EventPointManager::Draw()
 {
 	//eventPoint_.Draw(eventModel_);
+	if (!timer_.isZero_)
+	{
 
-	if (nextTime_ && eventPoint_.GetEventType() == EventType::BattleEvent)
-	{
-		nextSprite_.Draw();
-	}
-	else if(nextTime_ && eventPoint_.GetEventType() == EventType::moveEvent)
-	{
-		waitSprite_.Draw();
-	}
+		if (nextTime_ && eventPoint_.GetEventType() == EventType::BattleEvent)
+		{
+			nextSprite_.Draw();
+		}
+		else if (nextTime_ && eventPoint_.GetEventType() == EventType::moveEvent)
+		{
+			waitSprite_.Draw();
+		}
 
-	if (!isNoTimer)
-	{
-		timer_.Draw();
+		if (!isNoTimer)
+		{
+			timer_.Draw();
+		}
 	}
 }
 
