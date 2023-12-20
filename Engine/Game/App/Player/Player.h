@@ -69,7 +69,7 @@ public:
 
 	float bulletMaxCT_ = 10;
 
-	float bulletSpeed_ = 1.0f;
+	float bulletSpeed_ = 5.0f;
 
 	bool isDebugShot_ = false;
 
