@@ -27,6 +27,8 @@ void LevelLoader::LoadLevel(std::string filename)
 	levelObj.clear();
 	wallObj_.clear();
 	lightCount_ = 1;
+	//使うのが0番のライトのまとまりなので
+	LightManager::GetInstance()->lightGroups_[0].AllPointLightOff();
 	std::unique_ptr<LevelData> levelData = JsonLevelLoader::LoadJsonFile(filename);
 
 	for (auto& objData : levelData->objects_)
@@ -48,7 +50,7 @@ void LevelLoader::LoadLevel(std::string filename)
 		{
 			LightManager::GetInstance()->lightGroups_[0].SetPointLightActive(lightCount_, true);
 			LightManager::GetInstance()->lightGroups_[0].SetPointLightPos(lightCount_, Vector3{ objData.pos_.x,objData.pos_.y ,objData.pos_.z });
-			LightManager::GetInstance()->lightGroups_[0].SetPointLightAtten(lightCount_, { 0.005f,0.005f,0.005f });
+			LightManager::GetInstance()->lightGroups_[0].SetPointLightAtten(lightCount_, { 0.1f,0.1f,0.1f });
 			lightCount_++;
 
 			LevelObj newObject;
@@ -125,25 +127,25 @@ void LevelLoader::Update()
 
 #ifdef _DEBUG
 
-	ImGui::Begin("Test");
+	//ImGui::Begin("Test");
 
-	ImGui::Text("日本語テスト");
+	//ImGui::Text("日本語テスト");
 
-	ImGui::DragFloat2("tile2", test_, 0.1f, 1.0f, 1000.0f);
-	ImGui::DragFloat2("tile3", test2_, 0.1f, 1.0f, 10000.0f);
-	ImGui::DragFloat2("tile4", test3_, 0.1f, 1.0f, 10000.0f);
-	
-	ImGui::Text("tile:%0.2ff,%0.2ff", levelObj[0].obj.material_.material_.tile_.x, levelObj[0].obj.material_.material_.tile_.y);
-
-	ImGui::End();
-	
-
-	//levelObj[0].obj.SetMaterialTiring({ test_[0],test_[1] });
-	//levelObj[1].obj.SetMaterialTiring({ test2_[0],test2_[1] });
+	///*ImGui::DragFloat2("tile2", test_, 0.1f, 1.0f, 1000.0f);
+	//ImGui::DragFloat2("tile3", test2_, 0.1f, 1.0f, 10000.0f);
+	//ImGui::DragFloat2("tile4", test3_, 0.1f, 1.0f, 10000.0f);
 	//
+	//ImGui::Text("tile:%0.2ff,%0.2ff", levelObj[0].obj.material_.material_.tile_.x, levelObj[0].obj.material_.material_.tile_.y);*/
 
+	//ImGui::End();
+	
+
+	/*levelObj[0].obj.SetMaterialTiring({ test_[0],test_[1] });
+	levelObj[1].obj.SetMaterialTiring({ test2_[0],test2_[1] });
+	
+
+	testObj_.SetMaterialTiring({ test3_[0],test3_[1] });*/
 	//testObj_.SetMaterialTiring({ test3_[0],test3_[1] });
-	////testObj_.SetMaterialTiring({ test3_[0],test3_[1] });
 
 
 	testObj_.Update();
@@ -193,7 +195,7 @@ void LevelLoader::Draw()
 		wallObj_[b]->obj.Draw(levelWallModel_);
 	}
 
-	testObj_.FBXDraw(*levelLightModel_);
+	testObj_.FBXDraw(*levelGroundModel_);
 }
 
 void LevelLoader::reloadLevel(const BYTE& CheckKey, std::string filename)

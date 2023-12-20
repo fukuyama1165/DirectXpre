@@ -31,6 +31,11 @@ void CollisionManager::CheckAllCollisions()
 
 			//ここからタイプによっての処理を書く
 
+			if (colA == nullptr || colB == nullptr)
+			{
+				continue;
+			}
+
 			//ともに球
 			if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE && colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
 			{
