@@ -75,6 +75,7 @@ void Enemy::Update(std::string soundH)
 
 			if (bulletCT_ <= RedTime)
 			{
+				//赤色に
 				enemyObj_.SetColor({ 1.0f,0.0f ,0.0f ,1.0f });
 			}
 
@@ -108,11 +109,14 @@ void Enemy::Draw(AnimationModel* model)
 void Enemy::Attack()
 {
 
-
+	//攻撃のタイミングになったら
 	if (bulletCT_ <= 0)
 	{
+		//CTを設定し直す
 		bulletCT_ = bulletMaxCT_;
+		//振動をやめる
 		sindou = 0;
+		//もとの色に戻す
 		enemyObj_.SetColor({ 1.0f,1.0f ,1.0f ,1.0f });
 	}
 	else

@@ -1,4 +1,13 @@
 #pragma once
+
+
+/**
+ * @file Util.h
+ * @brief 便利機能や固定の値を置くクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include <cstdint>
 #include <string>
 #include <Windows.h>

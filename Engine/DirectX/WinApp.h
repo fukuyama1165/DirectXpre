@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file WinApp.h
+ * @brief WindouwsAPIを使ってウインドウを生成する所
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include<Windows.h>
 #include <cstdint>
 #include "Vector2.h"

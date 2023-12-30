@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file ImGuiManager.h
+ * @brief ImGuiの初期化と描画命令を行うクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "DirectXInit.h"
 
 class ImGuiManager

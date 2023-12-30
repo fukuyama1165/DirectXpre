@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file LightManager.h
+ * @brief 全てのライトを管理
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "DirectionalLight.h"
 #include "LightGroup.h"
 #include <vector>

@@ -230,10 +230,10 @@
     <ClInclude Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\FallParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.h" />
-    <ClInclude Include="Engine\Game\Particle\Particle\Game\IParticleFactory.h" />
-    <ClInclude Include="Engine\Game\Particle\Particle\Game\ParticleFactory.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\IParticleFactory.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\ParticleFactory.h" />
     <ClInclude Include="Engine\Game\PostEffect\PostEffect.h" />
     <ClInclude Include="Engine\Game\Scene\Base\App.h" />
     <ClInclude Include="Engine\Game\Scene\Base\Framework.h" />

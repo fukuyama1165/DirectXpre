@@ -1,4 +1,13 @@
 #pragma once
+
+/**
+ * @file PostEffect.h
+ * @brief ポストエフェクト(現状はブルームのみ)
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
+
 #include "DirectXInit.h"
 #include "WinApp.h"
 #include "Texture.h"

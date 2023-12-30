@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file Easing.h
+ * @brief イージング関数クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include <math.h>
 #include "Util.h"
 

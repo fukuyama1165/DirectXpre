@@ -17,8 +17,6 @@ Player::~Player()
 
 }
 
-
-
 void Player::Init()
 {
 	input_ = input_->GetInstance();

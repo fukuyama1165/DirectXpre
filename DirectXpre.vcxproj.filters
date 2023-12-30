@@ -668,12 +668,6 @@
     <ClInclude Include="Engine\Game\Particle\Particle\IParticle.h">
       <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\Particle\Game\IParticleFactory.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Game\Particle\Particle\Game\ParticleFactory.h">
-      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.h">
       <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
     </ClInclude>
@@ -685,6 +679,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\App\Level\LevelLoader.h">
       <Filter>ヘッダー ファイル\App\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\IParticleFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\ParticleFactory.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

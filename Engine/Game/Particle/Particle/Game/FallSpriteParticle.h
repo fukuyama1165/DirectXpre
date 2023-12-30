@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file FallSpriteParticle.h
+ * @brief 下に落ちるスプライトパーティクルの処理部分
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IParticle.h"
 #include "Sprite.h"
 

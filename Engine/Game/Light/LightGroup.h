@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file LightGroup.h
+ * @brief ライトまとめ
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 //D3Dコンパイラ
 #include <d3dcompiler.h>
 

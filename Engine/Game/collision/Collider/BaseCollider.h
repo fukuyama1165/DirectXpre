@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file BaseCollider.h
+ * @brief コライダー基底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "CollisionTypes.h"
 #include "CollisionInfo.h"
 #include "ICollisionObj.h"

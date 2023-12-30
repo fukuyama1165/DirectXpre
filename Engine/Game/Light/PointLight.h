@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file PointLight.h
+ * @brief 点光源
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "Vector3.h"
 
 //uint系

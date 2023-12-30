@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file Framework.h
+ * @brief フレームの処理クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include <memory>
 #include "WinApp.h"
 #include "DirectXInit.h"

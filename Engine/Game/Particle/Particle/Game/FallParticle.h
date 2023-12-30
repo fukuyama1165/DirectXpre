@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file FallParticle.h
+ * @brief 下に落ちるオブジェクトパーティクルの処理部分
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IObjParticle.h"
 #include "Object3D.h"
 

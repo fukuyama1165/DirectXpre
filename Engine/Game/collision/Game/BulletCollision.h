@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file BulletCollision.h
+ * @brief コライダー弾丸
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "ICollisionObj.h"
 #include "FBXLoader.h"
 

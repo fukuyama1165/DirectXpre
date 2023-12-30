@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file BasicEmitter.h
+ * @brief 基礎のスプライトのエミッター
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "IEmitter.h"
 #include "ParticleFactory.h"
 

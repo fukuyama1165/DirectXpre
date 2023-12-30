@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file SpotLight.h
+ * @brief スポットライト
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 
 #include "Vector3.h"
 #include "Vector2.h"

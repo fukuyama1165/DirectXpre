@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file CubeCollider.h
+ * @brief コライダー四角
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "BaseCollider.h"
 #include "CollisionPrimirive.h"
 

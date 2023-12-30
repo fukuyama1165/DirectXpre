@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file CollisionManager.h
+ * @brief 当たり判定を管理するクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include <forward_list>
 
 class BaseCollider;

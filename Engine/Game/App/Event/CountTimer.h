@@ -31,7 +31,7 @@ public:
 	float GetTimer() { return timer_; };
 
 	//時間を足す
-	float AddTimer(float addtime) { return timer_+=addtime; };
+	float AddTimer(float addtime) { return addTime_ +=addtime; };
 
 	//初期時間を設定し直す
 	float SetMaxTime(float time) { MaxTime_ = time; };
@@ -60,12 +60,21 @@ public:
 
 private:
 
+	//フレーム単位の時間
 	float timer_ = 0;
 
 	//初期タイム
 	float MaxTime_ = 6600;
 
+	//追加する時間
+	float addTime_ = 0;
+
+	float sizeAddTimer_ = 0;
+	float sizeAddMaxTime_ = 30;
+
 	int32_t testnum = 0;
+
+	Vector2 testSize_;
 
 	//位描画用スプライト
 

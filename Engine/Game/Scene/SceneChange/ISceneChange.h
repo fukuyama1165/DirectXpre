@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file ISceneChange.h
+ * @brief シーンチェンジ基底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 class ISceneChange
 {
 public:

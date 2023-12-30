@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file EmitterManager.h
+ * @brief エミッターを管理するクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IEmitter.h"
 #include "IObjEmitter.h"
 #include "IEmitterFactory.h"

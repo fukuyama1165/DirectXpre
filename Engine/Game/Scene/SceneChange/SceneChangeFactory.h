@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file SceneChangeFactory.h
+ * @brief シーンチェンジ工場クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "ISceneChangeFactory.h"
 
 //継承している理由

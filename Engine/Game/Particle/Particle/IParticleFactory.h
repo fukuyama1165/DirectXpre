@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file IParticleFactory.h
+ * @brief パーティクル工場の基底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IParticle.h"
 #include "IObjParticle.h"
 #include <string>

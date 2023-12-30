@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file Quaternion.h
+ * @brief クオータニオンクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "Vector3.h"
 #include "matrix4x4.h"
 class Quaternion

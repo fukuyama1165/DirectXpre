@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file TitleScene.h
+ * @brief タイトルシーンクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IScene.h"
 #include "Object3D.h"
 #include "cameraObj.h"

@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file EventEditorScene.h
+ * @brief イベント作成シーンクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IScene.h"
 #include "Object3D.h"
 #include "cameraObj.h"
@@ -78,10 +86,16 @@ private:
 	//制作中のイベントの描画用のオブジェクトの更新用の関数
 	void DrawEventDataUpdate();
 
-	//イベントデータを書き出し
+	/// <summary>
+	/// イベントデータを書き出し
+	/// </summary>
+	/// <param name="fileName">書き出し用の名前</param>
 	void SaveEventData(const std::string fileName);
 
-	//フルパスでのファイルの書き込み
+	/// <summary>
+	/// フルパスでのファイルの書き込み
+	/// </summary>
+	/// <param name="fileName">ファイルへのフルパス</param>
 	void SaveEventFullPathData(const std::string fileName);
 
 	//現在制作中のイベントを動かす
@@ -98,10 +112,19 @@ private:
 
 	//開くを使うための関数(イベントマネージャーにもあるがこっちのシーンで編集するためにこちらで読み込みたいので)
 
-	//フルパスで指定された場所にあるイベントのデータが入っているファイルからデータを取得(フォルダ名に日本語が入っていると無理)
+	/// <summary>
+	/// フルパスで指定された場所にあるイベントのデータが入っているファイルからデータを取得(フォルダ名に日本語が入っていると無理)
+	/// </summary>
+	/// <param name="fileName">ファイルへのフルパス</param>
+	/// <returns></returns>
 	bool LoadFullPathEventData(std::string fileName);
 
-	//イベントの中身読み込むよう
+	/// <summary>
+	/// イベントの中身読み込むよう
+	/// </summary>
+	/// <param name="deserialized">読み込んだjson文字列</param>
+	/// <param name="Event">イベントの中身のjson文字列</param>
+	/// <returns></returns>
 	bool EventScanning(nlohmann::json deserialized, nlohmann::json& Event);
 
 private:

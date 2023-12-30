@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file EmitterFactory.h
+ * @brief エミッターを生産する工場
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IEmitterFactory.h"
 #include "IObjEmitter.h"
 #include "IEmitter.h"

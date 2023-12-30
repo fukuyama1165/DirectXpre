@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file BasicObjParticle.h
+ * @brief スプライトのパーティクル
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "IParticle.h"
 
 class BasicParticle :public IParticle

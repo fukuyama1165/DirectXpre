@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file App.h
+ * @brief アプリケーションの処理クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "Framework.h"
 
 

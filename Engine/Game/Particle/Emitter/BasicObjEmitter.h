@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file BasicObjEmitter.h
+ * @brief 基礎のオブジェクトのエミッター
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IObjEmitter.h"
 #include "ParticleFactory.h"
 #include <list>

@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file CollisionInfo.h
+ * @brief 当たり判定で情報を入れる為のクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "Vector3.h"
 
 class ICollisionObj;

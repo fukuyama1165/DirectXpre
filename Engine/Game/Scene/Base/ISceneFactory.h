@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file ISceneFactory.h
+ * @brief シーン工場の基底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IScene.h"
 #include <string>
 #include <memory>
