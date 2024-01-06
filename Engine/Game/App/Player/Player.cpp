@@ -261,6 +261,7 @@ void Player::Update()
 
 		ImGui::Text("playerObjPos:%0.2ff,%0.2ff,%0.2ff", playerObj_.GetWorldPos().x, playerObj_.GetWorldPos().y, playerObj_.GetWorldPos().z);
 		ImGui::Text("cameraFront:%0.2ff,%0.2ff,%0.2ff", playerCamera_.forward_.x, playerCamera_.forward_.y, playerCamera_.forward_.z);
+		ImGui::Text("camerapos:%0.2ff,%0.2ff,%0.2ff", playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z);
 		ImGui::Text("quaternionRot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", playerObj_.quaternionRot_.v.x, playerObj_.quaternionRot_.v.y, playerObj_.quaternionRot_.v.z, playerObj_.quaternionRot_.w);
 		ImGui::Text("rot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", rot.v.x, rot.v.y, rot.v.z, rot.w);
 		ImGui::Text("vec:%0.2ff,%0.2ff,%0.2ff", normalVec.x, normalVec.y, normalVec.z);
@@ -278,7 +279,7 @@ void Player::Update()
 	
 	
 	playerObj_.Update();
-	Collider.Update(playerObj_.GetWorldPos());
+	Collider.Update(playerCamera_.pos_);
 
 
 	//reticle3DObj_.Update();
@@ -523,7 +524,7 @@ void Player::HideRightWall()
 
 	Vector3 camerapos = {};
 
-	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x + hideDistanceX_, originalPos_.y, originalPos_.z }, time_ / maxMoveTime_);
+	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, originalPos_+ (Vector3::normalize(playerCamera_.GetCamera().rightDirection)*hideDistanceX_), time_ / maxMoveTime_);
 
 	playerCamera_.pos_ = camerapos;
 

@@ -30,6 +30,13 @@ void CountTimer::Initialize(float maxTime)
 	{
 		num[i].initialize("numbers");
 	}
+
+	damageSprote_.initialize("white1x1");
+
+	damageSprote_.pos_ = { WinApp::SWindowWidthF_ / 2,WinApp::SWindowHeightF_ / 2 };
+	damageSprote_.scale_ = { WinApp::SWindowWidthF_,WinApp::SWindowHeightF_ };
+	//透明に
+	damageSprote_.setColor({ 1.0f,1.0f, 1.0f, 0.0f });
 }
 
 void CountTimer::Finalize()
@@ -48,6 +55,7 @@ void CountTimer::Update()
 	if (timer_ == 0)
 	{
 		isZero_ = true;
+		timeUpEffectTime_ = 0;
 	}
 
 	//百秒を超えないように(見た目を用意してないから)
@@ -99,10 +107,53 @@ void CountTimer::Update()
 	}
 
 #endif
-
-	for (int32_t i = 0; i < 4; i++)
+	//時間系の演出
+	if (addTime_ > 0 || sizeAddTimer_ > 0)
 	{
-		num[i].scale_ = easeInSine(Vector2{ 1,1 }, Vector2{ 3,3 }, sizeAddTimer_ / sizeAddMaxTime_);
+		//時間が増えた時
+		for (int32_t i = 0; i < 4; i++)
+		{
+			num[i].scale_ = easeInSine(Vector2{ 1,1 }, Vector2{ 3,3 }, sizeAddTimer_ / sizeAddMaxTime_);
+		}
+	}
+	else if(timer_< timeUpEffectStartTime_)
+	{
+		//時間が切れそうな時の演出
+		for (int32_t i = 0; i < 4; i++)
+		{
+			num[i].scale_ = { 1.0f + (sinf(timeUpEffectTime_) / 2), 1.0f + (sinf(timeUpEffectTime_)/2) };
+
+		}
+		timeUpEffectTime_+=0.1f;
+
+		if (timeUpScreenEffectTime_ >= timeUpScreenEffectMaxTime_)
+		{
+			isadd_ = false;
+		}
+		else if (timeUpScreenEffectTime_ <= 0)
+		{
+			isadd_ = true;
+		}
+
+		if (isadd_)
+		{
+			timeUpScreenEffectTime_++;
+		}
+		else
+		{
+			timeUpScreenEffectTime_--;
+		}
+
+		Vector4 color = { 1.0f,0.0f, 0.0f, 0.0f };
+		color.w = lerp(0.0f, 0.03f, timeUpScreenEffectTime_ / timeUpScreenEffectMaxTime_);
+		damageSprote_.setColor(color);
+		damageSprote_.Update();
+
+	}
+	else if (timer_ >= timeUpEffectStartTime_)
+	{
+		timeUpEffectTime_ = 0;
+		damageSprote_.setColor({ 1.0f,1.0f, 1.0f, 0.0f });
 	}
 
 	//数の画像を読み込んでいるので横のサイズは1/10になるので割っている
@@ -117,6 +168,17 @@ void CountTimer::Update()
 
 	//たぶん描画するだけ
 
+#ifdef _DEBUG
+
+	ImGui::Begin("CountTimerTest");
+
+	ImGui::DragFloat("timer", &timer_, 1.0f, 0.0f, 6000.0f);
+
+	ImGui::End();
+
+
+#endif
+
 }
 
 void CountTimer::Draw()
@@ -126,6 +188,8 @@ void CountTimer::Draw()
 	{
 		aa.Draw();
 	}
+
+	damageSprote_.Draw();
 }
 
 //10の累乗

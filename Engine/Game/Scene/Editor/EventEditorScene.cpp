@@ -989,7 +989,7 @@ void EventEditorScene::TestEvent()
 		{
 			player_.Update();
 
-			enemys_->UpDate(player_.playerObj_.GetWorldPos());
+			enemys_->UpDate(player_.playerCamera_.GetCamera().eye_);
 
 			CollisionManager::GetInstance()->CheckAllCollisions();
 

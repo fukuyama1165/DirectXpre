@@ -30,8 +30,8 @@ public:
 	//今の時間を取得
 	float GetTimer() { return timer_; };
 
-	//時間を足す
-	float AddTimer(float addtime) { return addTime_ +=addtime; };
+	//時間を足す(ゼロになったかフラグも切る)
+	float AddTimer(float addtime) { isZero_ = false; return addTime_ += addtime;  };
 
 	//初期時間を設定し直す
 	float SetMaxTime(float time) { MaxTime_ = time; };
@@ -69,12 +69,27 @@ private:
 	//追加する時間
 	float addTime_ = 0;
 
+	//加算された時のサイズを管理するタイマー
 	float sizeAddTimer_ = 0;
 	float sizeAddMaxTime_ = 30;
+
+	//時間切れになりそうな動きを開始する時間
+	float timeUpEffectStartTime_ = 300.0f;
+
+	//時間切れになりそうな動きをする時間
+	float timeUpEffectTime_ = 0.0f;
 
 	int32_t testnum = 0;
 
 	Vector2 testSize_;
+
+	//画面に掛けるときの時間
+	bool isadd_ = true;
+	float timeUpScreenEffectTime_=0.0f;
+	float timeUpScreenEffectMaxTime_=20.0f;
+
+	//時間切れみたいな時の画面点滅用
+	Sprite damageSprote_;
 
 	//位描画用スプライト
 

@@ -535,10 +535,12 @@ void EventPointManager::Draw()
 			waitSprite_.Draw();
 		}
 
-		if (!isNoTimer)
-		{
-			timer_.Draw();
-		}
+		
+	}
+
+	if (!isNoTimer)
+	{
+		timer_.Draw();
 	}
 }
 

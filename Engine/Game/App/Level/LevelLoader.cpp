@@ -117,6 +117,10 @@ void LevelLoader::Update()
 		{
 			levelObj[a].obj.material_.material_.tile_ = { levelObj[a].obj.Scale_.x,levelObj[a].obj.Scale_.z };
 		}
+		else if (levelObj[a].name.find("Box") != std::string::npos)
+		{
+			levelObj[a].obj.material_.material_.tile_ = { 5,5 };
+		}
 	}
 	
 
