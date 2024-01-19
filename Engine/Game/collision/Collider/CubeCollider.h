@@ -11,7 +11,6 @@
 
 #include "Vector3.h"
 
-//必ず最小でサイズで1,1,1の立方体を使うこと
 class CubeCollider :public BaseCollider, public Cube
 {
 

@@ -168,6 +168,12 @@ void CountTimer::Update()
 
 	//たぶん描画するだけ
 
+
+
+}
+
+void CountTimer::ImguiUpdate()
+{
 #ifdef _DEBUG
 
 	ImGui::Begin("CountTimerTest");
@@ -178,7 +184,6 @@ void CountTimer::Update()
 
 
 #endif
-
 }
 
 void CountTimer::Draw()

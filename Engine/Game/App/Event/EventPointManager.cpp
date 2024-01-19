@@ -4,6 +4,7 @@
 #include "Easing.h"
 #include "WinApp.h"
 #include <imgui.h>
+#include "ExplosionObjManager.h"
 
 
 EventPointManager* EventPointManager::GetInstance()
@@ -191,7 +192,7 @@ void EventPointManager::LoadFullPathEventData(std::string fileName)
 
 	eventPoint_ = EventPoint(eventSetings_[0]);
 
-	//最初がバトルの場合倒した後にもう一周してしまうため(移動イベントだとおきない)	
+	//最初がバトルの場合倒した後にもう一周してしまうため(移動イベントだとおきない。???????)	
 	eventPoint_.SetIsFinished(true);
 
 	eventAllEnd_ = false;
@@ -293,6 +294,16 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 			//エネミーの撃つ間隔
 			eventData.enemyBulletCT.push_back((uint32_t)seting["enemyBulletCT"][i]);
 
+		}
+
+		//爆発するオブジェクト読み込み
+		for (uint16_t j = 0; j < (uint16_t)seting["explosionObjNum"]; j++)
+		{
+			ExplosionObjManager::GetInstance()->PopExplosionObj({ (float)seting["explosionObjPos"][j][0],(float)seting["explosionObjPos"][j][1] ,(float)seting["explosionObjPos"][j][2] },
+				(int16_t)eventSetings_.size(),
+				{ (float)seting["explosionObjSize"][j][0], (float)seting["explosionObjSize"][j][1], (float)seting["explosionObjSize"][j][2] },
+				{ (float)seting["explosionObjExplosionSize"][j][0], (float)seting["explosionObjExplosionSize"][j][1], (float)seting["explosionObjExplosionSize"][j][2] },
+				(float)seting["explosionObjExplosionTime"][j]);
 		}
 
 		eventSetings_.push_back(eventData);
@@ -452,9 +463,13 @@ void EventPointManager::Update()
 
 		}
 
+		timer_.ImguiUpdate();
+
 		if (!nextTime_ || eventPoint_.GetEventType() == EventType::moveEvent)
 		{
 			eventPoint_.Update();
+			//eventCountは現在のイベントから1増えた値なので(要素数的に)
+			ExplosionObjManager::GetInstance()->UpDate(eventCount_-1);
 		}
 
 		//イベントが切り替わる演出
@@ -472,7 +487,7 @@ void EventPointManager::Update()
 				}
 				else if (nextMoveTime2_ < nextMoveMaxTime2_)
 				{
-					//右から出てくる
+					//右に帰る
 					nextSprite_.pos_ = easeInQuint(Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
 					nextMoveTime2_++;
 
@@ -504,6 +519,8 @@ void EventPointManager::Update()
 		}
 	}
 
+#ifdef _DEBUG
+
 	ImGui::Begin("timerTest");
 
 	if (ImGui::Button("addtime60"))
@@ -517,6 +534,8 @@ void EventPointManager::Update()
 	}
 
 	ImGui::End();
+
+#endif
 
 }
 
@@ -537,6 +556,8 @@ void EventPointManager::Draw()
 
 		
 	}
+
+	ExplosionObjManager::GetInstance()->Draw();
 
 	if (!isNoTimer)
 	{

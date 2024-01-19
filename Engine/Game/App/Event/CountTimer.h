@@ -24,6 +24,9 @@ public:
 	//更新
 	void Update();
 
+	//imguiの更新
+	void ImguiUpdate();
+
 	//描画
 	void Draw();
 

@@ -7,6 +7,7 @@ EventPoint::EventPoint()
 	EventSeting seting;
 	seting_ = seting;
 	count_ = 0;
+	enemyCount_ = 0;
 }
 
 EventPoint::EventPoint(EventSeting seting)
@@ -14,6 +15,7 @@ EventPoint::EventPoint(EventSeting seting)
 	seting_ = seting;
 	movePoint_ = seting_.movePoint;
 	count_ = 0;
+	enemyCount_ = 0;
 }
 
 
@@ -34,6 +36,7 @@ void EventPoint::Update()
 	{
 	case moveEvent:
 
+		//移動位置セット
 		movePoint_ = seting_.movePoint;
 		movePointRot_ = seting_.movePointRot;
 		moveStartPoint_ = seting_.moveStartPoint;
@@ -42,20 +45,27 @@ void EventPoint::Update()
 
 	case BattleEvent:
 
-		if (timeCount_ == 0 && EnemyManager::GetInstance()->enemyCount_ < seting_.enemyMaxSpawn && count_ < seting_.enemyNum)
+		//インターバルが終わり、沸き数上限と出てきた敵の数が設定数を超えていない場合
+		if (timeCount_ == 0 && EnemyManager::GetInstance()->enemyCount_ < seting_.enemyMaxSpawn && enemyCount_ < seting_.enemyNum)
 		{
-			timeCount_ = seting_.enemySpawnInterval[count_];
+			//インターバルをセット(秒に直す)
+			timeCount_ = seting_.enemySpawnInterval[enemyCount_]*60;
 
-			EnemyManager::GetInstance()->PopEnemy(seting_.enemyTypes[count_], seting_.enemySpawnPos[count_], seting_.enemyMovePos[count_],seting_.enemyMoveSpeed[count_], seting_.enemyBulletCT[count_]);
+			//敵を湧かす
+			EnemyManager::GetInstance()->PopEnemy(seting_.enemyTypes[enemyCount_], seting_.enemySpawnPos[enemyCount_], seting_.enemyMovePos[enemyCount_],seting_.enemyMoveSpeed[enemyCount_], seting_.enemyBulletCT[enemyCount_]);
+			
+			//湧いた数増加
 			count_++;
-
+			
 		}
-		else if (timeCount_ == 0 && count_ >= seting_.enemyNum && EnemyManager::GetInstance()->enemyCount_ <= 0)
+		else if (timeCount_ == 0 && enemyCount_ >= seting_.enemyNum && EnemyManager::GetInstance()->enemyCount_ <= 0)
 		{
+			//終わり
 			IsFinished_ = true;
 		}
 
-		if (timeCount_ > 0)
+		//インターバルが残っていて画面上にいる敵の数が湧き数上限より少なかったら
+		if (timeCount_ > 0 && EnemyManager::GetInstance()->enemyCount_ < seting_.enemyMaxSpawn)
 		{
 			timeCount_--;
 		}
@@ -64,11 +74,11 @@ void EventPoint::Update()
 
 #ifdef _DEBUG
 
-		/*ImGui::Begin("check");
+		ImGui::Begin("check");
 
-		ImGui::Text("count:%d", count_);
+		ImGui::Text("count:%0.0f", timeCount_);
 
-		ImGui::End();*/
+		ImGui::End();
 
 #endif
 

@@ -29,13 +29,13 @@ void CollisionManager::CheckAllCollisions()
 			BaseCollider* colA = *itA;
 			BaseCollider* colB = *itB;
 
-			//ここからタイプによっての処理を書く
-
-			//やばいのがあったら飛ばしたかった
-			if (colA == nullptr || colB->GetCollisionObj() == nullptr)
+			//どちらかが当たり判定処理を行わない場合
+			if (!colA->isActive_ or !colB->isActive_)
 			{
 				continue;
 			}
+
+			//ここからタイプによっての処理を書く
 
 			//ともに球
 			if (colA->GetShapeType() == COLLISIONSHAPE_SPHERE && colB->GetShapeType() == COLLISIONSHAPE_SPHERE)
@@ -115,4 +115,41 @@ void CollisionManager::CheckAllCollisions()
 
 	}
 
+
+	
+	/*for (auto itr = colliders_.begin(); itr != colliders_.end();)
+	{
+		BaseCollider* collider = *itr;
+
+		if (collider->isEnd_)
+		{
+			colliders_.remove(collider);
+			continue;
+		}
+
+		++itr;
+	}*/
+
+	colliders_.remove_if([](BaseCollider* collider)
+	{
+		return collider->isEnd_;
+	});
+	
+
+}
+
+
+void CollisionManager::RemoveCollider(BaseCollider* Collider)
+{
+	for (auto itr = colliders_.begin(); itr != colliders_.end(); ++itr)
+	{
+		BaseCollider* collider = *itr;
+
+		if (collider == Collider)
+		{
+			collider->isEnd_ = true;
+		}
+	}
+	/*Collider->isEnd_ = true;
+	colliders_.remove(Collider);*/
 }

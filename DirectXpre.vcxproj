@@ -112,6 +112,7 @@
     <ClCompile Include="Engine\DirectX\resouse\PipeLine.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Shader.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\Texture.cpp" />
+    <ClCompile Include="Engine\DirectX\resouse\Video.cpp" />
     <ClCompile Include="Engine\DirectX\resouse\XAudio.cpp" />
     <ClCompile Include="Engine\DirectX\WinApp.cpp" />
     <ClCompile Include="Engine\Game\App\Enemy\Enemy.cpp" />
@@ -120,6 +121,8 @@
     <ClCompile Include="Engine\Game\App\Event\CountTimer.cpp" />
     <ClCompile Include="Engine\Game\App\Event\EventPoint.cpp" />
     <ClCompile Include="Engine\Game\App\Event\EventPointManager.cpp" />
+    <ClCompile Include="Engine\Game\App\Level\ExplosionObj.cpp" />
+    <ClCompile Include="Engine\Game\App\Level\ExplosionObjManager.cpp" />
     <ClCompile Include="Engine\Game\App\Level\LevelLoader.cpp" />
     <ClCompile Include="Engine\Game\App\Level\Wall.cpp" />
     <ClCompile Include="Engine\Game\App\Player\Player.cpp" />
@@ -187,6 +190,7 @@
     <ClInclude Include="Engine\DirectX\resouse\PipeLine.h" />
     <ClInclude Include="Engine\DirectX\resouse\Shader.h" />
     <ClInclude Include="Engine\DirectX\resouse\Texture.h" />
+    <ClInclude Include="Engine\DirectX\resouse\Video.h" />
     <ClInclude Include="Engine\DirectX\resouse\XAudio.h" />
     <ClInclude Include="Engine\DirectX\WinApp.h" />
     <ClInclude Include="Engine\Game\App\Enemy\Enemy.h" />
@@ -195,6 +199,8 @@
     <ClInclude Include="Engine\Game\App\Event\CountTimer.h" />
     <ClInclude Include="Engine\Game\App\Event\EventPoint.h" />
     <ClInclude Include="Engine\Game\App\Event\EventPointManager.h" />
+    <ClInclude Include="Engine\Game\App\Level\ExplosionObj.h" />
+    <ClInclude Include="Engine\Game\App\Level\ExplosionObjManager.h" />
     <ClInclude Include="Engine\Game\App\Level\LevelLoader.h" />
     <ClInclude Include="Engine\Game\App\Level\Wall.h" />
     <ClInclude Include="Engine\Game\App\Player\Player.h" />

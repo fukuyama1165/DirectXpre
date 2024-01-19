@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include <vector>
 #include "Object3D.h"
+#include "ExplosionObj.h"
 
 enum EventType
 {
@@ -36,6 +37,12 @@ struct EventSeting
 	Vector3 playerPos = { 0,0,0 };
 
 	float addTimer = 0;
+
+	int32_t explosionObjNum = 0;
+	std::vector<Vector3> explosionObjPos;
+	std::vector<Vector3> explosionObjSize;
+	std::vector<Vector3> explosionObjExplosionSize;
+	std::vector<float> explosionObjExplosionTime;
 
 };
 
@@ -103,8 +110,12 @@ private:
 	//終わったか
 	bool IsFinished_ = false;
 
-	//敵の個数等のカウンター
+	//イベント用のカウンター
 	int32_t count_ = 0;
+
+	//敵の個数等のカウンター
+	int32_t enemyCount_ = 0;
+	
 
 	//イベントの設定
 	EventSeting seting_;

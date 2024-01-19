@@ -170,7 +170,7 @@ void Player::Update()
 	{
 
 		//隠れる動作用のフラグ立てる場所(リロードも)
-		if ((input_->PushKey(DIK_SPACE) || input_->GetGamePadButton(XINPUT_GAMEPAD_A)) && time_ <= 20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+		if (((input_->PushKey(DIK_SPACE) && isUseKeybord_) || (input_->GetGamePadButton(XINPUT_GAMEPAD_A) && !isUseKeybord_)) && time_ <= 20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 		{
 			attackFlag_ = true;
 			Reload();
@@ -184,10 +184,9 @@ void Player::Update()
 			XAudio::PlaySoundData(gunReloadSount_, 1.0f);
 		}
 
-		if (input_->ReleaseKey(DIK_SPACE) || input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A))
+		if ((input_->ReleaseKey(DIK_SPACE) && isUseKeybord_) || (input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A) && !isUseKeybord_))
 		{
 			attackFlag_ = false;
-
 		}
 	}
 	
@@ -254,23 +253,7 @@ void Player::Update()
 
 	}
 
-#ifdef _DEBUG
-	if (!isTitle_)
-	{
-		ImGui::Begin("player");
 
-		ImGui::Text("playerObjPos:%0.2ff,%0.2ff,%0.2ff", playerObj_.GetWorldPos().x, playerObj_.GetWorldPos().y, playerObj_.GetWorldPos().z);
-		ImGui::Text("cameraFront:%0.2ff,%0.2ff,%0.2ff", playerCamera_.forward_.x, playerCamera_.forward_.y, playerCamera_.forward_.z);
-		ImGui::Text("camerapos:%0.2ff,%0.2ff,%0.2ff", playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z);
-		ImGui::Text("quaternionRot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", playerObj_.quaternionRot_.v.x, playerObj_.quaternionRot_.v.y, playerObj_.quaternionRot_.v.z, playerObj_.quaternionRot_.w);
-		ImGui::Text("rot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", rot.v.x, rot.v.y, rot.v.z, rot.w);
-		ImGui::Text("vec:%0.2ff,%0.2ff,%0.2ff", normalVec.x, normalVec.y, normalVec.z);
-		ImGui::Text("vec:%0.2ff,%0.2ff,%0.2ff", pos.x, pos.y, pos.z);
-		
-
-		ImGui::End();
-	}
-#endif
 
 	if (!isTitle_)
 	{
@@ -374,19 +357,29 @@ void Player::Update()
 	shotIconSprite_.Update();
 	stateiconSprite_.Update();
 
+
+
+	//timer.Update();
+
+}
+
+void Player::ImguiUpdate()
+{
 #ifdef _DEBUG
 	if (!isTitle_)
 	{
 		ImGui::Begin("player");
 
+		ImGui::Text("playerObjPos:%0.2ff,%0.2ff,%0.2ff", playerObj_.GetWorldPos().x, playerObj_.GetWorldPos().y, playerObj_.GetWorldPos().z);
+		ImGui::Text("cameraFront:%0.2ff,%0.2ff,%0.2ff", playerCamera_.forward_.x, playerCamera_.forward_.y, playerCamera_.forward_.z);
+		ImGui::Text("camerapos:%0.2ff,%0.2ff,%0.2ff", playerCamera_.pos_.x, playerCamera_.pos_.y, playerCamera_.pos_.z);
+		ImGui::Text("quaternionRot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", playerObj_.quaternionRot_.v.x, playerObj_.quaternionRot_.v.y, playerObj_.quaternionRot_.v.z, playerObj_.quaternionRot_.w);
+		ImGui::Text("rot:%0.2ff,%0.2ff,%0.2ff,%0.2ff", rot.v.x, rot.v.y, rot.v.z, rot.w);
 		ImGui::Text("hppos:%0.2ff", hp3Sprote_.pos_.y);
 
 		ImGui::End();
 	}
 #endif
-
-	//timer.Update();
-
 }
 
 void Player::Draw()
@@ -840,7 +833,7 @@ void Player::BulletAdd()
 
 	//弾の生成と初期化
 	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-	newBullet->Initlize(position, velocity, { 0.3f,0.3f,0.3f });
+	newBullet->Initlize(position, velocity, { 0.5f,0.5f,0.5f });
 
 
 	//弾を登録

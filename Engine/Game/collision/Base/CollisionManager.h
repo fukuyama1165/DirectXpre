@@ -32,10 +32,7 @@ public:
 	/// コライダーの削除
 	/// </summary>
 	/// <param name="Collider">コライダー</param>
-	void RemoveCollider(BaseCollider* Collider)
-	{
-		colliders_.remove(Collider);
-	}
+	void RemoveCollider(BaseCollider* Collider);
 
 	//すべての衝突チェック
 	void CheckAllCollisions();

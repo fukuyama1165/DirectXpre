@@ -438,6 +438,15 @@
     <ClCompile Include="Engine\Game\App\Level\LevelLoader.cpp">
       <Filter>ソース ファイル\Game\App\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\resouse\Video.cpp">
+      <Filter>ソース ファイル\DirectX\resouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\Level\ExplosionObj.cpp">
+      <Filter>ソース ファイル\Game\App\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\App\Level\ExplosionObjManager.cpp">
+      <Filter>ソース ファイル\Game\App\Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
@@ -685,6 +694,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Particle\Particle\ParticleFactory.h">
       <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\resouse\Video.h">
+      <Filter>ヘッダー ファイル\DirectX\resouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Level\ExplosionObj.h">
+      <Filter>ヘッダー ファイル\App\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\App\Level\ExplosionObjManager.h">
+      <Filter>ヘッダー ファイル\App\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

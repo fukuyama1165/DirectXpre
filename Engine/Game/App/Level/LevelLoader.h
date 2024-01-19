@@ -48,6 +48,7 @@ private:
 	AnimationModel* levelBuildingModel_ = nullptr;
 	AnimationModel* levelWallModel_ = nullptr;
 	AnimationModel* levelLightModel_ = nullptr;
+	AnimationModel* levelCylinderModel_ = nullptr;
 
 	float test_[2] = {1,1};
 	float test2_[2] = { 1,1 };
