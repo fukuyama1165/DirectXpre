@@ -44,7 +44,9 @@ void EventEditorScene::Initialize()
 
 	eventManager_->isNoTimer = false;
 
-	
+	testExplosionObj.Init({ 0,20,-250 }, 0, { 1,1,1 }, { 10,10,10 }, 50.0f);
+	testEnemy1.Init("Attack", { 2,20,-250 }, {}, 0, 900000);
+	testEnemy2.Init("Attack", { -2,20,-250 }, {}, 0, 900000);
 
 }
 
@@ -135,6 +137,17 @@ void EventEditorScene::Draw()
 	}
 
 	EmitterManager::GetInstance()->Draw();
+
+	testExplosionObj.Draw(moveEventModel_);
+
+	if (testEnemy1.isAlive_)
+	{
+		testEnemy1.Draw(enemyModel_);
+	}
+	if (testEnemy2.isAlive_)
+	{
+		testEnemy2.Draw(enemyModel_);
+	}
 
 }
 
@@ -1161,6 +1174,16 @@ void EventEditorScene::DebugUpdate()
 		IsUseCameraMouse_ = !IsUseCameraMouse_;
 	}
 
+	testExplosionObj.Update("", 0);
+	testEnemy1.Update("");
+	testEnemy2.Update("");
+	CollisionManager::GetInstance()->CheckAllCollisions();
+
+	if (Input::GetInstance()->TriggerKey(DIK_L) && !testExplosionObj.isExplosion_)
+	{
+		testExplosionObj.OnCollision();
+	}
+
 #pragma region check
 
 	ImGui::Begin("check");
@@ -1218,7 +1241,7 @@ void EventEditorScene::DebugUpdate()
 #endif
 
 	//マップのテスト
-	LevelLoader::GetInstance()->reloadLevel(DIK_L, "MapTest");
+	//LevelLoader::GetInstance()->reloadLevel(DIK_L, "MapTest");
 
 }
 

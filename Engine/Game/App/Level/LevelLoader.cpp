@@ -213,7 +213,9 @@ void LevelLoader::Draw()
 		wallObj_[b]->obj.Draw(levelWallModel_);
 	}
 
+#ifdef _DEBUG
 	testObj_.FBXDraw(*levelGroundModel_);
+#endif
 }
 
 void LevelLoader::reloadLevel(const BYTE& CheckKey, std::string filename)

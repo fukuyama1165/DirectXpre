@@ -18,6 +18,7 @@
 #include "Wall.h"
 #include "EnemyManager.h"
 #include "Video.h"
+#include "ExplosionObjManager.h"
 
 class EventEditorScene : public IScene
 {
@@ -245,4 +246,9 @@ private:
 	Sprite testSpite;
 
 	VideoTexture testvideo;
+
+	ExplosionObj testExplosionObj;
+
+	Enemy testEnemy1;
+	Enemy testEnemy2;
 };
