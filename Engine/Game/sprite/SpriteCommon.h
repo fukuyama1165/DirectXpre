@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file SpriteCommon.h
+ * @brief 2Dスプライトの共通設定クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include<d3dcompiler.h>
 
 #include <fstream>

@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file Sprite.h
+ * @brief 2Dスプライトクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include <fstream>
 #include <sstream>
 

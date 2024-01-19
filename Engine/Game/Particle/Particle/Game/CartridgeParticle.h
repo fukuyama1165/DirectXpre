@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file CartridgeParticle.h
+ * @brief 薬莢用のパーティクルの処理部分
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IObjParticle.h"
 #include "Object3D.h"
 #include "BulletCollision.h"

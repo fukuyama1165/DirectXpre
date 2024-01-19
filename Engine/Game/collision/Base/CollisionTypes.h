@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file CollisionTypes.h
+ * @brief 当たり判定の為の構造体がおいてあるだけ
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 //衝突判定の為の判断用enum
 enum CollisionShapeType
 {

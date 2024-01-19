@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file SceneManager.h
+ * @brief シーン管理クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IScene.h"
 #include "ISceneChange.h"
 #include "ISceneFactory.h"

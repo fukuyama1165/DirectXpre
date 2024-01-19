@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file IObjEmitter.h
+ * @brief オブジェクトエミッターの根底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "FBXLoader.h"
 #include "camera.h"
 #include "IParticle.h"

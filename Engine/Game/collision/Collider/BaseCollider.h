@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file BaseCollider.h
+ * @brief コライダー基底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "CollisionTypes.h"
 #include "CollisionInfo.h"
 #include "ICollisionObj.h"
@@ -33,11 +40,19 @@ public:
 
 	void OnCollision(const CollisionInfo& Info) { collisionObject_->OnCollision(Info); };
 
+	//消すためのフラグ
+	bool isEnd_ = false;
+
+	//当たり判定処理を行わないか
+	bool isActive_ = false;
+
 protected:
 
 	ICollisionObj* collisionObject_ = nullptr;
 
 	CollisionShapeType shapeType_ = SHAPE_UNKNOWN;
+
+	
 
 };
 

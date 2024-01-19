@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file Vector2.h
+ * @brief 二次元ベクトルクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 class Vector2
 {
 public:

@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file IParticle.h
+ * @brief スプライトパーティクルの基底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "Sprite.h"
 
 class IParticle

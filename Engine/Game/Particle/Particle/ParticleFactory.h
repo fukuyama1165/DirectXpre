@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file ParticleFactory.h
+ * @brief パーティクル工場
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IParticleFactory.h"
 
 

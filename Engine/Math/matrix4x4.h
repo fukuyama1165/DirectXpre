@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file Matrix4x4.h
+ * @brief 行列クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "Vector3.h"
 #include "Vector4.h"
 

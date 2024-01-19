@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file Camera.h
+ * @brief ゲームで使えるカメラ透視投影しか使えない
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "matrix4x4.h"
 #include "Vector3.h"
 #include "Vector4.h"

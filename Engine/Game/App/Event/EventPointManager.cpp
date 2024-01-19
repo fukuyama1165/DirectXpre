@@ -3,6 +3,8 @@
 #include "Enemy.h"
 #include "Easing.h"
 #include "WinApp.h"
+#include <imgui.h>
+#include "ExplosionObjManager.h"
 
 
 EventPointManager* EventPointManager::GetInstance()
@@ -190,7 +192,7 @@ void EventPointManager::LoadFullPathEventData(std::string fileName)
 
 	eventPoint_ = EventPoint(eventSetings_[0]);
 
-	//最初がバトルの場合倒した後にもう一周してしまうため(移動イベントだとおきない)	
+	//最初がバトルの場合倒した後にもう一周してしまうため(移動イベントだとおきない。???????)	
 	eventPoint_.SetIsFinished(true);
 
 	eventAllEnd_ = false;
@@ -289,8 +291,19 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 			//エネミーが動く場合の動く位置
 			eventData.enemyMovePos.push_back({ (float)seting["enemyMovePos"][i][0],(float)seting["enemyMovePos"][i][1] ,(float)seting["enemyMovePos"][i][2] });
 
+			//エネミーの撃つ間隔
 			eventData.enemyBulletCT.push_back((uint32_t)seting["enemyBulletCT"][i]);
 
+		}
+
+		//爆発するオブジェクト読み込み
+		for (uint16_t j = 0; j < (uint16_t)seting["explosionObjNum"]; j++)
+		{
+			ExplosionObjManager::GetInstance()->PopExplosionObj({ (float)seting["explosionObjPos"][j][0],(float)seting["explosionObjPos"][j][1] ,(float)seting["explosionObjPos"][j][2] },
+				(int16_t)eventSetings_.size(),
+				{ (float)seting["explosionObjSize"][j][0], (float)seting["explosionObjSize"][j][1], (float)seting["explosionObjSize"][j][2] },
+				{ (float)seting["explosionObjExplosionSize"][j][0], (float)seting["explosionObjExplosionSize"][j][1], (float)seting["explosionObjExplosionSize"][j][2] },
+				(float)seting["explosionObjExplosionTime"][j]);
 		}
 
 		eventSetings_.push_back(eventData);
@@ -399,6 +412,7 @@ void EventPointManager::Initlize()
 	nextSprite_.initialize("NEXT");
 	waitSprite_.initialize("WAIT");
 
+	//大体中央に
 	waitSprite_.pos_ = { (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 };
 
 	//最大の100秒に
@@ -420,13 +434,14 @@ void EventPointManager::Update()
 
 		if (!nextTime_)
 		{
-
+			//終了していて次がある場合
 			if (eventPoint_.GetIsFinished() && eventSetings_.size() > eventCount_)
 			{
 				beforeEventPointType_ = eventPoint_.GetEventType();
 				timer_.AddTimer(eventPoint_.GetEventSeting().addTimer);
 				eventPoint_ = EventPoint(eventSetings_[eventCount_]);
 				eventCount_++;
+				//最初のやつ以外で切り替えの演出をしなければならない場合
 				if (eventCount_ > 1 && (beforeEventPointType_ != eventPoint_.GetEventType() || (beforeEventPointType_ == EventType::moveEvent && eventPoint_.GetEventType() == EventType::moveEvent)))
 				{
 					nextTime_ = true;
@@ -436,9 +451,11 @@ void EventPointManager::Update()
 			}
 			else if (eventPoint_.GetIsFinished())
 			{
+				//全部終わっている場合
 				eventAllEnd_ = true;
 			}
 
+			//使わないやつではない場合
 			if (!isNoTimer)
 			{
 				timer_.Update();
@@ -446,31 +463,38 @@ void EventPointManager::Update()
 
 		}
 
+		timer_.ImguiUpdate();
+
 		if (!nextTime_ || eventPoint_.GetEventType() == EventType::moveEvent)
 		{
 			eventPoint_.Update();
+			//eventCountは現在のイベントから1増えた値なので(要素数的に)
+			ExplosionObjManager::GetInstance()->UpDate(eventCount_-1);
 		}
 
+		//イベントが切り替わる演出
 		if (nextTime_)
 		{
-			//nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,WinApp::SWindowHeight_ / 2}, Vector2{WinApp::SWindowWidth_+ nextSprite_.GetTextureSize().x/2 ,WinApp::SWindowHeight_ / 2}, nextMoveTime_ / nextMoveMaxTime_);
-
+			//バトルイベントの時
 			if (eventPoint_.GetEventType() == EventType::BattleEvent)
 			{
-
+				
 				if (nextMoveTime_ < nextMoveMaxTime_)
 				{
+					//左から出てくる
 					nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
 					nextMoveTime_++;
 				}
 				else if (nextMoveTime2_ < nextMoveMaxTime2_)
 				{
+					//右に帰る
 					nextSprite_.pos_ = easeInQuint(Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
 					nextMoveTime2_++;
 
 				}
 				else
 				{
+					//移動終わり
 					nextTime_ = false;
 				}
 
@@ -478,9 +502,9 @@ void EventPointManager::Update()
 			}
 			else if (eventPoint_.GetEventType() == EventType::moveEvent)
 			{
+				//移動が終わるまで続ける
 				if (!eventPoint_.GetIsFinished())
 				{
-					//float a = easeOutQuad(0.0f, 20.0f, nextMoveTime_ / nextMoveMaxTime_);
 
 					waitSprite_.setColor({ 1,1,1,sinf(nextMoveTime_) });
 					nextMoveTime_ += 0.1f;
@@ -494,6 +518,24 @@ void EventPointManager::Update()
 			}
 		}
 	}
+
+#ifdef _DEBUG
+
+	ImGui::Begin("timerTest");
+
+	if (ImGui::Button("addtime60"))
+	{
+		timer_.AddTimer(60);
+	}
+
+	if (ImGui::Button("addtime600"))
+	{
+		timer_.AddTimer(600);
+	}
+
+	ImGui::End();
+
+#endif
 
 }
 
@@ -512,10 +554,14 @@ void EventPointManager::Draw()
 			waitSprite_.Draw();
 		}
 
-		if (!isNoTimer)
-		{
-			timer_.Draw();
-		}
+		
+	}
+
+	ExplosionObjManager::GetInstance()->Draw();
+
+	if (!isNoTimer)
+	{
+		timer_.Draw();
 	}
 }
 

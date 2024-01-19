@@ -44,6 +44,8 @@ void EventEditorScene::Initialize()
 
 	eventManager_->isNoTimer = false;
 
+	
+
 }
 
 void EventEditorScene::Finalize()
@@ -86,6 +88,7 @@ void EventEditorScene::Update()
 	TestEvent();
 
 	LightManager::GetInstance()->ALLLightUpdate();
+	
 
 }
 
@@ -130,8 +133,6 @@ void EventEditorScene::Draw()
 		player_.Draw();		
 		eventManager_->Draw();
 	}
-
-	
 
 	EmitterManager::GetInstance()->Draw();
 
@@ -270,6 +271,23 @@ void EventEditorScene::AddBattleEvent()
 	}
 
 	AddBattleEventEnemy();
+
+	ImGui::Text("ExplosionObj");
+
+	//前フレームの情報を保存
+	int32_t oldExplosionObjNum_ = explosionObjNum_;
+
+	ImGui::DragInt("explosionObjNum", (int*)&explosionObjNum_, 1, 0, 10);
+
+	if (oldExplosionObjNum_ != explosionObjNum_)
+	{
+		explosionObjPos_.resize(explosionObjNum_);
+		explosionObjSize_.resize(explosionObjNum_);
+		explosionObjExplosionSize_.resize(explosionObjNum_);
+		explosionObjExplosionTime_.resize(explosionObjNum_);
+	}
+
+	AddBattleEventExplosionObj();
 	
 }
 
@@ -290,9 +308,16 @@ void EventEditorScene::AddButtonBattleEvent()
 	addEvent.playerPos = { playerPos_[0],playerPos_[1] ,playerPos_[2] };
 	addEvent.addTimer = addTime_;
 
+	addEvent.explosionObjNum = explosionObjNum_;
+	addEvent.explosionObjPos = explosionObjPos_;
+	addEvent.explosionObjSize = explosionObjSize_;
+	addEvent.explosionObjExplosionSize = explosionObjExplosionSize_;
+	addEvent.explosionObjExplosionTime = explosionObjExplosionTime_;
+
 	seting_.push_back(addEvent);
 
 	AddButtonBattleEventDebugObj();
+	AddBattleEventExplosionObjDebugObj();
 
 	//次の設定用に中身を削除
 	enemyTypeNum_.clear();
@@ -343,6 +368,28 @@ void EventEditorScene::AddButtonBattleEventDebugObj()
 	}
 
 	enemyDatas_.push_back(add);
+}
+
+void EventEditorScene::AddBattleEventExplosionObjDebugObj()
+{
+	EventExplosionObjData add;
+
+	for (int32_t i = 0; i < enemyNum_; i++)
+	{
+		Object3D explosionObj;
+		explosionObj.FBXInit();
+		explosionObj.pos_ = explosionObjPos_[i];
+		explosionObj.Scale_= explosionObjSize_[i];
+
+		add.obj.push_back(explosionObj);
+		add.explosion.push_back(explosionObj);
+
+		add.endSize.push_back(explosionObjExplosionSize_[i]);
+
+
+	}
+
+	explosionObjDatas_.push_back(add);
 }
 
 void EventEditorScene::AddBattleEventEnemy()
@@ -431,6 +478,38 @@ void EventEditorScene::AddBattleEventEnemy()
 		enemyMoveSpeed_[i] = enemyMoveSpeed;
 
 		enemyBulletCT_[i] = enemyBulletCT;
+
+	}
+}
+
+void EventEditorScene::AddBattleEventExplosionObj()
+{
+	//爆発するオブジェクトの数分回す
+	for (int32_t i = 0; i < explosionObjNum_; i++)
+	{
+		ImGui::Text("explosionObjNum:%02d", i);
+
+		std::string num = ("##" + std::to_string(i));
+
+		//現在の値を取得
+		float pos[3] = { explosionObjPos_[i].x,explosionObjPos_[i].y,explosionObjPos_[i].z };
+		float size[3] = { explosionObjSize_[i].x,explosionObjSize_[i].y,explosionObjSize_[i].z };
+		float explosionSize[3] = { explosionObjExplosionSize_[i].x,explosionObjExplosionSize_[i].y,explosionObjExplosionSize_[i].z };
+		float explosionTime = { explosionObjExplosionTime_[i] };
+		
+		ImGui::DragFloat3(std::string("Pos" + num).c_str(), pos, 1.0f, -1000.0f, 1000.0f);
+
+		ImGui::DragFloat3(std::string("Objsize" + num).c_str(), size, 1.0f, -100.0f, 100.0f);
+
+		ImGui::DragFloat3(std::string("explosionSize" + num).c_str(), explosionSize, 1.0f, -100.0f, 100.0f);
+
+		ImGui::DragFloat(std::string("explosionTime" + num).c_str(), &explosionTime, 0.1f, 0.0f, 100.0f);
+
+		explosionObjPos_[i] = { pos[0],pos[1] ,pos[2] };
+		explosionObjSize_[i] = { size[0],size[1] ,size[2] };
+		explosionObjExplosionSize_[i] = { explosionSize[0],explosionSize[1] ,explosionSize[2] };
+		explosionObjExplosionTime_[i] = explosionTime;
+
 
 	}
 }
@@ -989,7 +1068,7 @@ void EventEditorScene::TestEvent()
 		{
 			player_.Update();
 
-			enemys_->UpDate(player_.playerObj_.GetWorldPos());
+			enemys_->UpDate(player_.playerCamera_.GetCamera().eye_);
 
 			CollisionManager::GetInstance()->CheckAllCollisions();
 
@@ -1191,7 +1270,7 @@ void EventEditorScene::SaveEventFullPathData(const std::string fileName)
 		jsonfile["events"] += { data };
 	}
 
-
+	//インデントを入れるらしい
 	std::ofstream ofs(name);
 	if (ofs) {
 		ofs << jsonfile.dump(4);
@@ -1604,6 +1683,7 @@ void EventEditorScene::AddBattleEventDebugObj()
 				Object3D enemyObj;
 				enemyObj.FBXInit();
 				enemyObj.pos_ = eventData->enemySpawnPos[i];
+				enemyObj.Scale_ = { 0.5f,0.5f ,0.5f };
 
 				add.enemys.push_back(enemyObj);
 
@@ -1612,12 +1692,14 @@ void EventEditorScene::AddBattleEventDebugObj()
 				Object3D endPointObj;
 				endPointObj.FBXInit();
 				endPointObj.pos_ = eventData->enemyMovePos[i];
+				endPointObj.Scale_ = { 0.5f,0.5f ,0.5f };
 				endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
 				add.endPoint.push_back(endPointObj);
 
 				Object3D moveObj;
 				moveObj.FBXInit();
 				moveObj.pos_ = eventData->enemySpawnPos[i];
+				moveObj.Scale_ = { 0.5f,0.5f ,0.5f };
 				moveObj.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
 				add.move.push_back(moveObj);
 			}

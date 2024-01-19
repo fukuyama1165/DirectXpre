@@ -1,10 +1,16 @@
 #pragma once
+
+/**
+ * @file CubeCollider.h
+ * @brief コライダー四角
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "BaseCollider.h"
 #include "CollisionPrimirive.h"
 
 #include "Vector3.h"
 
-//必ず最小でサイズで1,1,1の立方体を使うこと
 class CubeCollider :public BaseCollider, public Cube
 {
 

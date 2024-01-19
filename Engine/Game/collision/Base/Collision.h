@@ -1,6 +1,13 @@
 #pragma once
 #include "CollisionPrimirive.h"
 
+/**
+ * @file Collision.h
+ * @brief 当たり判定の処理が入っているクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 //当たり判定実践クラス
 class Collision
 {

@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file MobCollision.h
+ * @brief コライダー生き物
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "ICollisionObj.h"
 #include "FBXLoader.h"
 

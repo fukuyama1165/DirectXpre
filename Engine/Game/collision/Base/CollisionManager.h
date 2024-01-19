@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file CollisionManager.h
+ * @brief 当たり判定を管理するクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include <forward_list>
 
 class BaseCollider;
@@ -25,10 +32,7 @@ public:
 	/// コライダーの削除
 	/// </summary>
 	/// <param name="Collider">コライダー</param>
-	void RemoveCollider(BaseCollider* Collider)
-	{
-		colliders_.remove(Collider);
-	}
+	void RemoveCollider(BaseCollider* Collider);
 
 	//すべての衝突チェック
 	void CheckAllCollisions();

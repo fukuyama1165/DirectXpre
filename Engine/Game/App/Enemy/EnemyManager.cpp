@@ -92,7 +92,8 @@ void EnemyManager::EnemyAttack(Enemy enemy, const Vector3& playerPos)
 {
 	//発射地点の為に自キャラの座標をコピー
 	Vector3 position = enemy.GetObjWorldPos();
-	position.z += 2;
+	//正面にすこし移動(自分のコライダーに引っかかるため)
+	position += Vector3::normalize(enemy.enemyObj_.forward_)*2;
 
 	
 	Vector3 velocity(0, 0, 0);

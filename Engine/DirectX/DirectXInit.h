@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file DirectXInit.h
+ * @brief DirectXの初期化に使用
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 

@@ -79,6 +79,155 @@ std::string Texture::loadTexture(const std::string& filename, std::string handle
 	return handle;
 }
 
+std::string Texture::loadTexture(float new_xres, float new_yres, DXGI_FORMAT new_format, bool is_dynamic, const std::string& filename, std::string handle)
+{
+	//一回読み込んだことがあるファイルはそのまま返す
+	auto itr = std::find_if(textureDetas_.begin(), textureDetas_.end(), [&](const std::pair<std::string, std::shared_ptr<TextureDeta>>& p) {
+		return p.second->fileName == filename;//条件
+		});
+	//見つかったらそれを返す
+	if (itr != textureDetas_.end()) {
+		return itr->first;
+	}
+
+	is_dynamic;
+
+	D3D12_RESOURCE_DESC textureResourceDescBuff{};
+
+#pragma region テクスチャバッファ設定
+
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES textureHeapProp{};
+	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+
+	//リソース設定
+
+	textureResourceDescBuff.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDescBuff.Format = new_format;
+	textureResourceDescBuff.Width = (uint32_t)new_xres;//幅
+	textureResourceDescBuff.Height = (uint32_t)new_yres;//高さ
+	textureResourceDescBuff.DepthOrArraySize = (uint16_t)1;
+	textureResourceDescBuff.MipLevels = (uint16_t)1;
+	textureResourceDescBuff.SampleDesc.Count = 1;
+	textureResourceDescBuff.SampleDesc.Quality = 0;
+
+
+
+#pragma endregion
+
+#pragma region テクスチャバッファの生成
+
+	//テクスチャバッファの生成
+
+	//Microsoft::WRL::ComPtr<ID3D12Resource > newTexBuff;
+
+	result_ = DirectXInit::GetInstance()->Getdev()->CreateCommittedResource(
+		&textureHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&textureResourceDescBuff,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&texBuff2_)
+	);
+
+
+#pragma endregion 
+
+#pragma region シェーダーリソースビューの為のデスクリプタヒープ生成
+
+//デスクリプタハンドル(ヒープ内の操作する場所指定に使う)
+
+#pragma endregion
+
+#pragma region シェーダリソースビュー
+	uint32_t indexNum = UINT32_MAX;
+
+	//ヒープの位置決定
+	//もうすでに使われていないか確認
+	auto itr2 = textureDetas_.find(handle);
+	//最後までいかなかった場合(見つかった場合)
+	if (itr2 != textureDetas_.end())
+	{
+		//その値まんま使おうね
+		indexNum = itr2->second->heapPositionIndex;
+	}
+	//見つからなかった場合
+	else
+	{
+		//デスクリプタヒープのサイズ分回す
+		for (uint32_t i = 0; i < kMaxSRVCount; i++)
+		{
+			//チェック変数(問題がなかったらそのまま)
+			bool checkIndex = true;
+
+			for (std::pair<const std::string, std::shared_ptr<TextureDeta>>& p : textureDetas_)
+			{
+				//もう使われているなら
+				if (p.second->heapPositionIndex == i)
+				{
+					checkIndex = false;
+					//続ける意味がないため
+					break;
+				}
+
+			}
+
+			if (checkIndex)
+			{
+				//問題ないならその値に設定
+				indexNum = i;
+				break;
+			}
+
+		}
+
+	}
+
+	//設定できなかった場合は止める
+	if (indexNum == UINT32_MAX)
+	{
+		assert(0);
+	}
+
+	//設定を保存して登録
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = srvHeap_->GetCPUDescriptorHandleForHeapStart();
+	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = srvHeap_->GetGPUDescriptorHandleForHeapStart();
+	uint32_t incremantSize = DirectXInit::GetInstance()->Getdev()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	cpuHandle.ptr += indexNum * incremantSize;
+	gpuHandle.ptr += indexNum * incremantSize;
+	std::shared_ptr<TextureDeta> newTexture = std::make_shared<TextureDeta>();
+	newTexture->fileName = filename;
+	newTexture->heapPositionIndex = indexNum;
+	newTexture->srvCpuHandle = cpuHandle;
+	newTexture->srvGpuHandle = gpuHandle;
+	newTexture->texBuff = texBuff2_;
+
+
+	//シェーダリソースビュー
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};//設定構造体
+	srvDesc.Format = textureResourceDescBuff.Format;//RGBA float
+	//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dテクスチャ
+	srvDesc.Texture2D.MipLevels = textureResourceDescBuff.MipLevels;
+
+	//ハンドルの指す位置にシェーダリソースビュー作成
+	DirectXInit::GetInstance()->Getdev()->CreateShaderResourceView(texBuff2_.Get(), &srvDesc, cpuHandle);
+
+	//ハンドルの設定がなかった場合
+	if (handle.empty())
+	{
+		handle = "anSetingHandle_" + std::to_string(indexNum);
+	}
+
+	textureDetas_[handle] = newTexture;
+
+#pragma endregion
+
+	return handle;
+}
+
 void Texture::Draw(std::string handle)
 {
 	//見つからなかった場合終わり

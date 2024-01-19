@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file cameraObj.h
+ * @brief カメラの機能を持ったオブジェクトとして扱えるクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "camera.h"
 #include "Object3D.h"
 #include "WinApp.h"

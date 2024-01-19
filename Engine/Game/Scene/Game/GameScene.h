@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file GameScene.h
+ * @brief ゲームシーンクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "IScene.h"
 
 #include<Windows.h>

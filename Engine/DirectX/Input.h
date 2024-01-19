@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file Input.h
+ * @brief directInputとXinputによるコントローラーの操作を受け取って返すことができるクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 

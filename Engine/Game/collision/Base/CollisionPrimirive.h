@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file CollisionPrimirive.h
+ * @brief 当たり判定の為の形がある場所なので処理してない
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "Vector3.h"
 
 //球

@@ -1,6 +1,15 @@
 #pragma once
+
+/**
+ * @file FPS.h
+ * @brief FPSの固定を行っている
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include <chrono>
 #include <thread>
+
 
 class FPS
 {

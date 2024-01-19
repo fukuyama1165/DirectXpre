@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file BasicObjParticle.h
+ * @brief 3Dオブジェクトのパーティクル
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include "IObjParticle.h"
 #include "Object3D.h"
 

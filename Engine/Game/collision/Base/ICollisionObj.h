@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file ICollisionObj.h
+ * @brief 当たり判定の為継承用クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "Object3D.h"
 #include "CollisionInfo.h"
 

@@ -637,7 +637,6 @@ void GameScene::DebugUpdate()
 	ImGui::Text("objrot:%0.2f,%0.2f,%0.2f", play_.playerObj_.Rotate_.x, play_.playerObj_.Rotate_.y, play_.playerObj_.Rotate_.z);
 	ImGui::Text("camerapos:%0.2f,%0.2f,%0.2f", play_.playerCamera_.pos_.x, play_.playerCamera_.pos_.y, play_.playerCamera_.pos_.z);
 	ImGui::Text("hp:%0.0f", play_.hp_);
-	ImGui::Checkbox("chengHide", &play_.cameraCheng_);
 	ImGui::Text("movetimer:%0.0f", play_.time_);
 	ImGui::Checkbox("playerDebugShot", &play_.isDebugShot_);
 	ImGui::InputFloat("playerShotCT", &play_.bulletMaxCT_, 1, 5);

@@ -89,6 +89,7 @@ void LevelLoader::Initialize()
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Wall", "wallstone", "jpg");
 	ModelManager::GetInstance()->Load("light", "gltf", "lightObj", "gray2x2");
+	ModelManager::GetInstance()->Load("cylinder", "gltf", "cylinder", "gray2x2");
 
 	levelModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 	levelBallModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
@@ -96,6 +97,7 @@ void LevelLoader::Initialize()
 	levelBuildingModel_ = ModelManager::GetInstance()->SearchModelData("Building");
 	levelWallModel_ = ModelManager::GetInstance()->SearchModelData("Wall");
 	levelLightModel_ = ModelManager::GetInstance()->SearchModelData("lightObj");
+	levelCylinderModel_ = ModelManager::GetInstance()->SearchModelData("cylinder");
 
 	testObj_.FBXInit();
 
@@ -113,9 +115,17 @@ void LevelLoader::Update()
 	}
 	for (uint16_t a = 0; a < levelObj.size(); a++)
 	{
-		if (levelObj[a].name.find("Ground") != std::string::npos)
+		if (levelObj[a].name.find("BackGround") != std::string::npos)
+		{
+			levelObj[a].obj.material_.material_.tile_ = { 5,5 };
+		}
+		else if (levelObj[a].name.find("Ground") != std::string::npos)
 		{
 			levelObj[a].obj.material_.material_.tile_ = { levelObj[a].obj.Scale_.x,levelObj[a].obj.Scale_.z };
+		}
+		else if (levelObj[a].name.find("Box") != std::string::npos)
+		{
+			levelObj[a].obj.material_.material_.tile_ = { 5,5 };
 		}
 	}
 	
@@ -172,6 +182,10 @@ void LevelLoader::Draw()
 		{
 			a.obj.FBXDraw(*levelBallModel_);
 		}
+		else if (a.name.find("BackGround") != std::string::npos)
+		{
+			a.obj.FBXDraw(*levelWallModel_);
+		}
 		else if (a.name.find("Ground") != std::string::npos)
 		{
 			a.obj.FBXDraw(*levelGroundModel_);
@@ -183,6 +197,10 @@ void LevelLoader::Draw()
 		else if (a.name.find("Light") != std::string::npos)
 		{
 			a.obj.FBXDraw(*levelLightModel_);
+		}
+		else if (a.name.find("cylinder") != std::string::npos)
+		{
+			a.obj.FBXDraw(*levelCylinderModel_);
 		}
 		else
 		{

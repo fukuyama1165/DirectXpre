@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file IEmitterFactory.h
+ * @brief エミッター工場の根底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "IEmitter.h"
 #include <string>
 #include <memory>

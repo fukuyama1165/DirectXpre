@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file Vector3.h
+ * @brief 三次元ベクトルクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 class Vector3
 {
 public:

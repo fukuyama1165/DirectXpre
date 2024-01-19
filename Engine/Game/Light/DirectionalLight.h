@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file DirectionalLight.h
+ * @brief 環境光
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 //D3Dコンパイラ
 #include<d3dcompiler.h>
 

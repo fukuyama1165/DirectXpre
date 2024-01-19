@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file IObjParticle.h
+ * @brief オブジェクトパーティクルの基底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "FBXLoader.h"
 #include "camera.h"
 #include "Object3D.h"

@@ -15,11 +15,25 @@ public:
 	Player();
 	~Player();
 
+	//初期化
 	void Init();
+
+	//更新
 	void Update();
+
+	//imguiの更新
+	void ImguiUpdate();
+
+	//描画
 	void Draw();
+
+	//攻撃処理
 	void Attack();
+
+	//ダメージを受けた時の処理
 	void Damage();
+
+	//弾を補充するときの処理
 	void Reload();
 
 	//マウスの位置を取得してその位置をレティクル用のオブジェクト等に入れる関数
@@ -51,8 +65,10 @@ public:
 		hp_ = 3;
 	}
 
+	//本体
 	Object3D playerObj_;
 
+	//レティクルと合わせるオブジェクト
 	Object3D reticle3DObj_;
 
 	//オブジェクトとしてのカメラ
@@ -61,22 +77,28 @@ public:
 	//かめら本体
 	Camera playCamera_;
 
+	//スプライトのレティクル
 	Sprite reticle_;
 
+	//隠れるときの時間計測用の変数
 	float time_ = 0;
-
-	bool cameraCheng_ = false;
-
+	
+	//弾が再度撃てるようになる時間
 	float bulletMaxCT_ = 10;
 
+	//弾の速度
 	float bulletSpeed_ = 5.0f;
 
+	//リロードとか再発射の時間を無視して撃てるようになるフラグ
 	bool isDebugShot_ = false;
 
+	//マズルフラッシュが描画されている時間
 	float muzzleFlashTime_ = 2.0f;
 
+	//マズルフラッシュが描画されている最大時間
 	float muzzleFlashMaxTime_ = 2.0f;
 
+	//体力
 	float hp_ = 3;
 
 	//タイトル用の処理にするか
@@ -90,8 +112,10 @@ public:
 
 private:
 
+	//右に隠れる処理
 	void HideRightWall();
 
+	//下に隠れる処理
 	void HideDownWall();
 
 	//イベントの更新処理

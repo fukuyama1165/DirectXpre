@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file IEmitter.h
+ * @brief エミッターの根底クラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "Vector2.h"
 #include <string>
 #include "Sprite.h"

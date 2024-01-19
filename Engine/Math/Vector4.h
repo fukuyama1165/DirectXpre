@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file Vector4.h
+ * @brief 四次元ベクトルクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 class Vector4
 {
 public:

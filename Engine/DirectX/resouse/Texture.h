@@ -64,6 +64,18 @@ public:
 
 	std::string loadTexture(const std::string& filename, std::string handle = "");
 
+	/// <summary>
+	/// テクスチャを読み込んで登録する(動画読み込み用)
+	/// </summary>
+	/// <param name="new_xres">横幅</param>
+	/// <param name="new_yres">縦幅</param>
+	/// <param name="new_format">フォーマット</param>
+	/// <param name="is_dynamic">ダイナミックか(フラグを変更する用)</param>
+	/// <param name="filename">確認用のファイル名</param>
+	/// <param name="handle">登録するテクスチャハンドル</param>
+	/// <returns></returns>
+	std::string loadTexture(float new_xres, float new_yres, DXGI_FORMAT new_format, bool is_dynamic, const std::string& filename, std::string handle = "");
+
 	ID3D12Resource* GetTexBuff(std::string index) { return textureDetas_[index]->texBuff.Get(); };
 
 private:

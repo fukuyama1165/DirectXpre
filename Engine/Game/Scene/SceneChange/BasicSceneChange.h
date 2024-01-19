@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file BasicSceneChange.h
+ * @brief 基礎シーンチェンジクラス
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
+
 #include "ISceneChange.h"
 #include "Sprite.h"
 

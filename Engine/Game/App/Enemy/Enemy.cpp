@@ -15,13 +15,15 @@ void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float
 	
 	enemyObj_.FBXInit();
 
+	enemyObj_.Scale_ = { 0.5f,0.5f,0.5f };
+
 	collision = MobCollision("enemy");
 
 	Collider.SetObject(&collision);
 
 	Collider.Initialize();
 
-	Collider.size_ = { 2,2,2 };
+	Collider.size_ = { 1,1,1 };
 
 	CollisionManager::GetInstance()->AddCollider(&Collider);
 
@@ -75,6 +77,7 @@ void Enemy::Update(std::string soundH)
 
 			if (bulletCT_ <= RedTime)
 			{
+				//赤色に
 				enemyObj_.SetColor({ 1.0f,0.0f ,0.0f ,1.0f });
 			}
 
@@ -108,11 +111,14 @@ void Enemy::Draw(AnimationModel* model)
 void Enemy::Attack()
 {
 
-
+	//攻撃のタイミングになったら
 	if (bulletCT_ <= 0)
 	{
+		//CTを設定し直す
 		bulletCT_ = bulletMaxCT_;
+		//振動をやめる
 		sindou = 0;
+		//もとの色に戻す
 		enemyObj_.SetColor({ 1.0f,1.0f ,1.0f ,1.0f });
 	}
 	else
@@ -130,7 +136,7 @@ void Enemy::OnCollision()
 
 	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 
-	EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", "Fall", 10,10, 20);
+	EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", "Fall", 10,10, 20,1.0f,{-1,1}, { -1,1 }, { -1,1 }, { 0.5f,0.5f,0.5f }, { 0.2f,0.2f,0.2f });
 
 }
 

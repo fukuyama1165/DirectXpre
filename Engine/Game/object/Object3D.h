@@ -1,4 +1,11 @@
 #pragma once
+
+/**
+ * @file Object3D.h
+ * @brief 3Dのオブジェクト
+ * @author フクヤマ
+ * @date 2023_12/29
+ */
 #include <fstream>
 #include <sstream>
 
