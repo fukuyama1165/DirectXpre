@@ -80,6 +80,7 @@ private:
 	//Addのボタンが押された時の処理
 	void AddButtonBattleEvent();
 	void AddButtonBattleEventDebugObj();
+	void AddButtonBattleEventExplosionObjDebugObj();
 
 	//デバック用のオブジェクトの登録関数
 	void AddEventDebugObj();

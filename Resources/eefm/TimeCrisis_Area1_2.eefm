@@ -87,7 +87,12 @@
                         0.0,
                         0.0
                     ]
-                ]
+                ],
+                "explosionObjExplosionSize": null,
+                "explosionObjExplosionTime": [],
+                "explosionObjNum": 0,
+                "explosionObjPos": null,
+                "explosionObjSize": null
             },
             "type": "BattleEvent"
         },
@@ -280,7 +285,12 @@
                         2.0,
                         2.0
                     ]
-                ]
+                ],
+                "explosionObjExplosionSize": null,
+                "explosionObjExplosionTime": [],
+                "explosionObjNum": 0,
+                "explosionObjPos": null,
+                "explosionObjSize": null
             },
             "type": "BattleEvent"
         },
@@ -427,8 +437,13 @@
                         2.0,
                         64.0
                     ]
-                ]
-            },
+                ],
+                "explosionObjExplosionSize": null,
+                "explosionObjExplosionTime": [],
+                "explosionObjNum": 0,
+                "explosionObjPos": null,
+                "explosionObjSize": null
+            },        
             "type": "BattleEvent"
         }
     ],

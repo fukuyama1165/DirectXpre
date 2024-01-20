@@ -61,6 +61,10 @@ void MobCollision::OnCollision(const CollisionInfo& info)
 	{
 		isHit = true;
 	}
+	else if ((info.object_->tag_ == "playerBullet") && tag_ == "explosionObj")
+	{
+		isHit = true;
+	}
 	else if ((info.object_->tag_ == "explosion") && tag_ == "enemy")
 	{
 		isHit = true;

@@ -55,7 +55,7 @@ void EventPoint::Update()
 			EnemyManager::GetInstance()->PopEnemy(seting_.enemyTypes[enemyCount_], seting_.enemySpawnPos[enemyCount_], seting_.enemyMovePos[enemyCount_],seting_.enemyMoveSpeed[enemyCount_], seting_.enemyBulletCT[enemyCount_]);
 			
 			//湧いた数増加
-			count_++;
+			enemyCount_++;
 			
 		}
 		else if (timeCount_ == 0 && enemyCount_ >= seting_.enemyNum && EnemyManager::GetInstance()->enemyCount_ <= 0)

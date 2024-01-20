@@ -76,6 +76,7 @@ void ExplosionObj::Update(std::string soundH, int32_t eventNum)
 			CollisionManager::GetInstance()->RemoveCollider(&Collider);
 		}
 
+		obj_.Update();
 		Collider.Update(obj_.GetWorldPos());
 	}
 }
@@ -95,6 +96,9 @@ void ExplosionObj::OnCollision()
 	//CollisionManager::GetInstance()->RemoveCollider(&Collider);
 	//爆発するオブジェクトから爆発の判定に変更
 	collision.tag_ = "explosion";
+
+	//仕様上当たったかフラグは戻ることがない状態なので戻しておく
+	collision.isHit = false;
 
 	isExplosion_ = true;
 
