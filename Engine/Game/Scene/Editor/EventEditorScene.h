@@ -88,6 +88,10 @@ private:
 	void AddBattleEventDebugObj();
 	void AddBattleEventExplosionObjDebugObj();
 
+	//デバックのオブジェクトの中身を編集するのに使う
+	void AddBattleEventDebugObjRandomAccess(uint16_t num);
+	void AddBattleEventExplosionObjDebugObjRandomAccess(uint16_t num);
+
 	//現在入っているイベントを編集したり消すところ
 	void EditEvent();
 
@@ -223,7 +227,7 @@ private:
 	//敵の種類
 	const char* EnemyTypeChar[3] = { "moveOnly","moveAttack","Attack" };
 
-	const char* playerHideTypeChar[2] = { "Down","Right" };
+	const char* playerHideTypeChar[3] = { "Down","Right","Left"};
 
 	//jsonファイル書き出し用のファイル名を入れるところ
 	char str1[128] = "";

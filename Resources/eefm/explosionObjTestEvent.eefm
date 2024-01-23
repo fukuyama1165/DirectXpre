@@ -1,0 +1,70 @@
+{
+    "events": [
+        {
+            "seting": {
+                "addTime": 0.0,
+                "enemyBulletCT": [
+                    1000000
+                ],
+                "enemyMaxSpawn": 1,
+                "enemyMovePos": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                ],
+                "enemyNum": 1,
+                "enemySpeed": [
+                    0.0
+                ],
+                "enemyType": [
+                    "Attack"
+                ],
+                "explosionObjExplosionSize": [
+                    [
+                        10.0,
+                        2.0,
+                        2.0
+                    ]
+                ],
+                "explosionObjExplosionTime": [
+                    1.0
+                ],
+                "explosionObjNum": 1,
+                "explosionObjPos": [
+                    [
+                        2.0,
+                        0.0,
+                        33.0
+                    ]
+                ],
+                "explosionObjSize": [
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ],
+                "playerHideType": 0.0,
+                "playerPos": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "spawnInterval": [
+                    0.0
+                ],
+                "spawnPoint": [
+                    [
+                        -3.0,
+                        0.0,
+                        33.0
+                    ]
+                ]
+            },
+            "type": "BattleEvent"
+        }
+    ],
+    "name": "event"
+}

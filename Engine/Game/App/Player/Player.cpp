@@ -545,6 +545,34 @@ void Player::HideDownWall()
 	playerCamera_.pos_ = camerapos;
 }
 
+void Player::HideLeftWall()
+{
+	if (attackFlag_)
+	{
+		if (time_ < maxMoveTime_)
+		{
+			time_++;
+		}
+
+	}
+	else
+	{
+		if (time_ > 0)
+		{
+			time_--;
+		}
+
+	}
+
+
+	Vector3 camerapos = {};
+
+	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, originalPos_ + (-Vector3::normalize(playerCamera_.GetCamera().rightDirection) * hideDistanceX_), time_ / maxMoveTime_);
+
+	playerCamera_.pos_ = camerapos;
+
+}
+
 void Player::EventUpdate()
 {
 	//移動中ではないなら
@@ -554,9 +582,13 @@ void Player::EventUpdate()
 		{
 			HideRightWall();
 		}
-		else
+		else if(EventPointManager::GetInstance()->GetPEventPoint()->GetPlayerHideVector() == (float)playerHideVectorType::Down)
 		{
 			HideDownWall();
+		}
+		else
+		{
+			HideLeftWall();
 		}
 	}
 

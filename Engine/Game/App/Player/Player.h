@@ -118,6 +118,9 @@ private:
 	//下に隠れる処理
 	void HideDownWall();
 
+	//左に隠れる処理
+	void HideLeftWall();
+
 	//イベントの更新処理
 	void EventUpdate();
 
