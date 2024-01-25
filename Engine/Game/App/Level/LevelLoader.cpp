@@ -89,7 +89,8 @@ void LevelLoader::Initialize()
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Wall", "wallstone", "jpg");
 	ModelManager::GetInstance()->Load("light", "gltf", "lightObj", "gray2x2");
-	ModelManager::GetInstance()->Load("cylinder", "gltf", "cylinder", "gray2x2");
+	ModelManager::GetInstance()->Load("cylinder", "gltf", "cylinder", "dram");
+	ModelManager::GetInstance()->Load("Ship", "gltf", "ship", "ship");
 
 	levelModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 	levelBallModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
@@ -98,10 +99,12 @@ void LevelLoader::Initialize()
 	levelWallModel_ = ModelManager::GetInstance()->SearchModelData("Wall");
 	levelLightModel_ = ModelManager::GetInstance()->SearchModelData("lightObj");
 	levelCylinderModel_ = ModelManager::GetInstance()->SearchModelData("cylinder");
+	levelExplosionObjModel_ = ModelManager::GetInstance()->SearchModelData("cylinder");
+	levelShipModel_ = ModelManager::GetInstance()->SearchModelData("ship");
 
-	testObj_.FBXInit();
+	//testObj_.FBXInit();
 
-	testObj_.pos_={ 0,20,-200 };
+	//testObj_.pos_={ 0,20,-200 };
 }
 
 void LevelLoader::Update()
@@ -115,6 +118,7 @@ void LevelLoader::Update()
 	}
 	for (uint16_t a = 0; a < levelObj.size(); a++)
 	{
+		//タイリングの設定
 		if (levelObj[a].name.find("BackGround") != std::string::npos)
 		{
 			levelObj[a].obj.material_.material_.tile_ = { 5,5 };
@@ -158,7 +162,7 @@ void LevelLoader::Update()
 	//testObj_.SetMaterialTiring({ test3_[0],test3_[1] });
 
 
-	testObj_.Update();
+	//testObj_.Update();
 	//levelObj[0].obj.SetMaterialTiring({test_[0],test_[1]});
 
 #endif
@@ -202,6 +206,10 @@ void LevelLoader::Draw()
 		{
 			a.obj.FBXDraw(*levelCylinderModel_);
 		}
+		else if (a.name.find("ship") != std::string::npos)
+		{
+			a.obj.FBXDraw(*levelShipModel_);
+		}
 		else
 		{
 			a.obj.FBXDraw(*levelModel_);
@@ -213,7 +221,9 @@ void LevelLoader::Draw()
 		wallObj_[b]->obj.Draw(levelWallModel_);
 	}
 
-	testObj_.FBXDraw(*levelGroundModel_);
+#ifdef _DEBUG
+	//testObj_.FBXDraw(*levelGroundModel_);
+#endif
 }
 
 void LevelLoader::reloadLevel(const BYTE& CheckKey, std::string filename)

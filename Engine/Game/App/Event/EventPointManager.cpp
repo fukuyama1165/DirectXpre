@@ -299,11 +299,10 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 		//爆発するオブジェクト読み込み
 		for (uint16_t j = 0; j < (uint16_t)seting["explosionObjNum"]; j++)
 		{
-			ExplosionObjManager::GetInstance()->PopExplosionObj({ (float)seting["explosionObjPos"][j][0],(float)seting["explosionObjPos"][j][1] ,(float)seting["explosionObjPos"][j][2] },
-				(int16_t)eventSetings_.size(),
-				{ (float)seting["explosionObjSize"][j][0], (float)seting["explosionObjSize"][j][1], (float)seting["explosionObjSize"][j][2] },
-				{ (float)seting["explosionObjExplosionSize"][j][0], (float)seting["explosionObjExplosionSize"][j][1], (float)seting["explosionObjExplosionSize"][j][2] },
-				(float)seting["explosionObjExplosionTime"][j]);
+			eventData.explosionObjPos.push_back({ (float)seting["explosionObjPos"][j][0],(float)seting["explosionObjPos"][j][1] ,(float)seting["explosionObjPos"][j][2] });
+			eventData.explosionObjSize.push_back({ (float)seting["explosionObjSize"][j][0], (float)seting["explosionObjSize"][j][1], (float)seting["explosionObjSize"][j][2] });
+			eventData.explosionObjExplosionSize.push_back({ (float)seting["explosionObjExplosionSize"][j][0], (float)seting["explosionObjExplosionSize"][j][1], (float)seting["explosionObjExplosionSize"][j][2] });
+			eventData.explosionObjExplosionTime.push_back((float)seting["explosionObjExplosionTime"][j]);
 		}
 
 		eventSetings_.push_back(eventData);
@@ -426,6 +425,25 @@ void EventPointManager::Update()
 	if (eventSetings_.empty())
 	{
 		return;
+	}
+
+	if (!isSetExplosionObj)
+	{
+
+		if (ExplosionObjManager::GetInstance()->GetExplosionObjNum() != 0)
+		{
+			ExplosionObjManager::GetInstance()->Reset();
+		}
+
+		for (int16_t i = 0; i < eventSetings_.size(); i++)
+		{
+			for (int16_t j = 0; j < eventSetings_[i].explosionObjNum; j++)
+			{
+				ExplosionObjManager::GetInstance()->PopExplosionObj(eventSetings_[i].explosionObjPos[j], i, eventSetings_[i].explosionObjSize[j], eventSetings_[i].explosionObjExplosionSize[j], eventSetings_[i].explosionObjExplosionTime[j]);
+			}
+		}
+
+		isSetExplosionObj = true;
 	}
 
 	//タイマーが終わってないなら

@@ -44,7 +44,7 @@ public:
 	bool isEnd_ = false;
 
 	//当たり判定処理を行わないか
-	bool isActive_ = false;
+	bool isActive_ = true;
 
 protected:
 

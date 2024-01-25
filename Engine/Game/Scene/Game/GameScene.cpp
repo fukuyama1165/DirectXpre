@@ -43,7 +43,7 @@ void GameScene::Initialize()
 	testFBX_.Scale_ = { 1.0f,1.0f,5.0f };
 	testFBX_.useQuaternion = true;
 
-	LevelLoader::GetInstance()->LoadLevel("MapTest6");
+	LevelLoader::GetInstance()->LoadLevel("TimeCrisis_Area1_2");
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
 	
@@ -60,11 +60,7 @@ void GameScene::Initialize()
 
 	
 	//イベントデータの読み込み
-	//eventManager->LoadEventData("Event2");
-	//eventManager->LoadeefmEventData("stage1");
-	eventManager->LoadeefmEventData("stage2");
-	//eventManager->LoadeefmEventData("testEvent");
-	//eventManager->LoadeefmEventData("testtest");
+	eventManager->LoadeefmEventData("TimeCrisis_Area1_2");
 
 	eventManager->isNoTimer = false;
 

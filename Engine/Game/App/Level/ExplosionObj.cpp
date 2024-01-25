@@ -64,11 +64,12 @@ void ExplosionObj::Update(std::string soundH, int32_t eventNum)
 	else if(isAlive_)
 	{
 
+		obj_.Scale_ = easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
 		Collider.size_ = easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
 
-		if (explosionTimeBuff_ > 0)
+		if (explosionTimeBuff_ < explosionTime_)
 		{
-			explosionTimeBuff_--;
+			explosionTimeBuff_++;
 		}
 		else
 		{
@@ -76,7 +77,12 @@ void ExplosionObj::Update(std::string soundH, int32_t eventNum)
 			CollisionManager::GetInstance()->RemoveCollider(&Collider);
 		}
 
+		obj_.Update();
 		Collider.Update(obj_.GetWorldPos());
+	}
+	else
+	{
+		obj_.Update();
 	}
 }
 
@@ -96,9 +102,12 @@ void ExplosionObj::OnCollision()
 	//爆発するオブジェクトから爆発の判定に変更
 	collision.tag_ = "explosion";
 
+	//仕様上当たったかフラグは戻ることがない状態なので戻しておく
+	collision.isHit = false;
+
 	isExplosion_ = true;
 
-	explosionTimeBuff_ = explosionTime_;
+	explosionTimeBuff_ = 0;
 
 	EmitterManager::GetInstance()->AddObjEmitter(obj_.GetWorldPos(), "BASIC", "Fall", 10, 10, 20, 1.0f, { -1,1 }, { -1,1 }, { -1,1 }, { 0.5f,0.5f,0.5f }, { 0.2f,0.2f,0.2f });
 

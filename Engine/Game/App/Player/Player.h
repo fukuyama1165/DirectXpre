@@ -118,6 +118,9 @@ private:
 	//下に隠れる処理
 	void HideDownWall();
 
+	//左に隠れる処理
+	void HideLeftWall();
+
 	//イベントの更新処理
 	void EventUpdate();
 
@@ -157,7 +160,7 @@ private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 	//隠れるときの動く大きさ
-	float hideDistanceX_ = 5;
+	float hideDistanceX_ = 2;
 	float hideDistanceY_ = 2;
 
 	//モデル

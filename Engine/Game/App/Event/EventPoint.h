@@ -14,7 +14,8 @@ enum EventType
 enum playerHideVectorType
 {
 	Down,
-	Right
+	Right,
+	Left
 };
 
 struct EventSeting
@@ -112,10 +113,6 @@ private:
 
 	//イベント用のカウンター
 	int32_t count_ = 0;
-
-	//敵の個数等のカウンター
-	int32_t enemyCount_ = 0;
-	
 
 	//イベントの設定
 	EventSeting seting_;

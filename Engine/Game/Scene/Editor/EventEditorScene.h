@@ -18,6 +18,7 @@
 #include "Wall.h"
 #include "EnemyManager.h"
 #include "Video.h"
+#include "ExplosionObjManager.h"
 
 class EventEditorScene : public IScene
 {
@@ -79,12 +80,17 @@ private:
 	//Addのボタンが押された時の処理
 	void AddButtonBattleEvent();
 	void AddButtonBattleEventDebugObj();
+	void AddButtonBattleEventExplosionObjDebugObj();
 
 	//デバック用のオブジェクトの登録関数
 	void AddEventDebugObj();
 	void AddMoveEventDebugObj();
 	void AddBattleEventDebugObj();
 	void AddBattleEventExplosionObjDebugObj();
+
+	//デバックのオブジェクトの中身を編集するのに使う
+	void AddBattleEventDebugObjRandomAccess(uint16_t num);
+	void AddBattleEventExplosionObjDebugObjRandomAccess(uint16_t num);
 
 	//現在入っているイベントを編集したり消すところ
 	void EditEvent();
@@ -186,6 +192,7 @@ private:
 	//描画用モデル
 	AnimationModel* enemyModel_ = nullptr;
 	AnimationModel* moveEventModel_ = nullptr;
+	AnimationModel* explosionModel_ = nullptr;
 
 	//イベントの中身設定用変数
 	float addTime_ = 0;
@@ -221,7 +228,7 @@ private:
 	//敵の種類
 	const char* EnemyTypeChar[3] = { "moveOnly","moveAttack","Attack" };
 
-	const char* playerHideTypeChar[2] = { "Down","Right" };
+	const char* playerHideTypeChar[3] = { "Down","Right","Left"};
 
 	//jsonファイル書き出し用のファイル名を入れるところ
 	char str1[128] = "";
@@ -245,4 +252,9 @@ private:
 	Sprite testSpite;
 
 	VideoTexture testvideo;
+
+	ExplosionObj testExplosionObj;
+
+	Enemy testEnemy1;
+	Enemy testEnemy2;
 };

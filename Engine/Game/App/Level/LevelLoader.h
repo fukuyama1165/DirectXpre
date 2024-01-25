@@ -49,6 +49,8 @@ private:
 	AnimationModel* levelWallModel_ = nullptr;
 	AnimationModel* levelLightModel_ = nullptr;
 	AnimationModel* levelCylinderModel_ = nullptr;
+	AnimationModel* levelExplosionObjModel_ = nullptr;
+	AnimationModel* levelShipModel_ = nullptr;
 
 	float test_[2] = {1,1};
 	float test2_[2] = { 1,1 };

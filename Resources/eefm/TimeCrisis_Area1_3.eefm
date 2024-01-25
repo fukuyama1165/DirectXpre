@@ -60,6 +60,11 @@
                     "Attack",
                     "Attack"
                 ],
+                "explosionObjExplosionSize": null,
+                "explosionObjExplosionTime": [],
+                "explosionObjNum": 0,
+                "explosionObjPos": null,
+                "explosionObjSize": null,
                 "playerHideType": 0.0,
                 "playerPos": [
                     0.0,
@@ -87,12 +92,7 @@
                         0.0,
                         0.0
                     ]
-                ],
-                "explosionObjExplosionSize": null,
-                "explosionObjExplosionTime": [],
-                "explosionObjNum": 0,
-                "explosionObjPos": null,
-                "explosionObjSize": null
+                ]
             },
             "type": "BattleEvent"
         },
@@ -234,6 +234,63 @@
                     "moveAttack",
                     "moveAttack"
                 ],
+                "explosionObjExplosionSize": [
+                    [
+                        3.0,
+                        1.0,
+                        3.0
+                    ],
+                    [
+                        3.0,
+                        1.0,
+                        3.0
+                    ],
+                    [
+                        3.0,
+                        1.0,
+                        3.0
+                    ]
+                ],
+                "explosionObjExplosionTime": [
+                    10.0,
+                    10.0,
+                    10.0
+                ],
+                "explosionObjNum": 3,
+                "explosionObjPos": [
+                    [
+                        4.0,
+                        2.0,
+                        7.0
+                    ],
+                    [
+                        3.0,
+                        2.0,
+                        9.0
+                    ],
+                    [
+                        3.0,
+                        4.0,
+                        8.0
+                    ]
+                ],
+                "explosionObjSize": [
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ],
                 "playerHideType": 0.0,
                 "playerPos": [
                     -9.0,
@@ -244,7 +301,7 @@
                     5.0,
                     5.0,
                     1.0,
-                    10.0,
+                    5.0,
                     0.0,
                     2.0,
                     0.0
@@ -285,12 +342,7 @@
                         2.0,
                         2.0
                     ]
-                ],
-                "explosionObjExplosionSize": null,
-                "explosionObjExplosionTime": [],
-                "explosionObjNum": 0,
-                "explosionObjPos": null,
-                "explosionObjSize": null
+                ]
             },
             "type": "BattleEvent"
         },
@@ -386,6 +438,11 @@
                     "Attack",
                     "moveAttack"
                 ],
+                "explosionObjExplosionSize": null,
+                "explosionObjExplosionTime": [],
+                "explosionObjNum": 0,
+                "explosionObjPos": null,
+                "explosionObjSize": null,
                 "playerHideType": 0.0,
                 "playerPos": [
                     0.0,
@@ -437,13 +494,350 @@
                         2.0,
                         64.0
                     ]
+                ]
+            },
+            "type": "BattleEvent"
+        },
+        {
+            "seting": {
+                "addTime": 0.0,
+                "movePoint": [
+                    10.0,
+                    4.0,
+                    65.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveRotTime": 1.0,
+                "moveSpeed": 1.0,
+                "moveStartPoint": [
+                    0.0,
+                    4.0,
+                    42.0
+                ]
+            },
+            "type": "moveEvent"
+        },
+        {
+            "seting": {
+                "addTime": 600.0,
+                "enemyBulletCT": [
+                    90,
+                    90,
+                    90,
+                    90,
+                    90,
+                    90,
+                    90,
+                    90
+                ],
+                "enemyMaxSpawn": 8,
+                "enemyMovePos": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        12.0,
+                        2.0,
+                        75.0
+                    ],
+                    [
+                        7.0,
+                        2.0,
+                        80.0
+                    ],
+                    [
+                        14.0,
+                        3.0,
+                        100.0
+                    ],
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        12.0,
+                        2.0,
+                        81.0
+                    ],
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                ],
+                "enemyNum": 8,
+                "enemySpeed": [
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0,
+                    1.0,
+                    0.0
+                ],
+                "enemyType": [
+                    "Attack",
+                    "Attack",
+                    "moveAttack",
+                    "moveAttack",
+                    "moveAttack",
+                    "Attack",
+                    "moveAttack",
+                    "Attack"
                 ],
                 "explosionObjExplosionSize": null,
                 "explosionObjExplosionTime": [],
                 "explosionObjNum": 0,
                 "explosionObjPos": null,
-                "explosionObjSize": null
-            },        
+                "explosionObjSize": null,
+                "playerHideType": 0.0,
+                "playerPos": [
+                    10.0,
+                    4.0,
+                    65.0
+                ],
+                "spawnInterval": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    10.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "spawnPoint": [
+                    [
+                        10.0,
+                        2.0,
+                        75.0
+                    ],
+                    [
+                        14.0,
+                        2.0,
+                        76.0
+                    ],
+                    [
+                        12.0,
+                        2.0,
+                        85.0
+                    ],
+                    [
+                        10.0,
+                        2.0,
+                        81.0
+                    ],
+                    [
+                        18.0,
+                        3.0,
+                        100.0
+                    ],
+                    [
+                        8.0,
+                        3.0,
+                        76.0
+                    ],
+                    [
+                        10.0,
+                        2.0,
+                        81.0
+                    ],
+                    [
+                        16.0,
+                        3.0,
+                        84.0
+                    ]
+                ]
+            },
+            "type": "BattleEvent"
+        },
+        {
+            "seting": {
+                "addTime": 0.0,
+                "movePoint": [
+                    18.0,
+                    4.0,
+                    86.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    -0.20000000298023224,
+                    0.0
+                ],
+                "moveRotTime": 20.0,
+                "moveSpeed": 1.0,
+                "moveStartPoint": [
+                    10.0,
+                    4.0,
+                    65.0
+                ]
+            },
+            "type": "moveEvent"
+        },
+        {
+            "seting": {
+                "addTime": 600.0,
+                "enemyBulletCT": [
+                    90,
+                    90,
+                    90,
+                    10000000,
+                    10000000
+                ],
+                "enemyMaxSpawn": 5,
+                "enemyMovePos": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                ],
+                "enemyNum": 5,
+                "enemySpeed": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "enemyType": [
+                    "Attack",
+                    "Attack",
+                    "Attack",
+                    "Attack",
+                    "Attack"
+                ],
+                "explosionObjExplosionSize": [
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ],
+                "explosionObjExplosionTime": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "explosionObjNum": 3,
+                "explosionObjPos": [
+                    [
+                        10.0,
+                        2.0,
+                        105.0
+                    ],
+                    [
+                        11.5,
+                        2.0,
+                        107.0
+                    ],
+                    [
+                        11.0,
+                        4.0,
+                        106.0
+                    ]
+                ],
+                "explosionObjSize": [
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    [
+                        1.0,
+                        1.0,
+                        1.0
+                    ]
+                ],
+                "playerHideType": 0.0,
+                "playerPos": [
+                    18.0,
+                    4.0,
+                    86.0
+                ],
+                "spawnInterval": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "spawnPoint": [
+                    [
+                        13.0,
+                        2.0,
+                        95.0
+                    ],
+                    [
+                        16.0,
+                        3.0,
+                        99.0
+                    ],
+                    [
+                        12.0,
+                        4.0,
+                        101.0
+                    ],
+                    [
+                        13.0,
+                        2.0,
+                        109.0
+                    ],
+                    [
+                        9.0,
+                        2.0,
+                        100.0
+                    ]
+                ]
+            },
             "type": "BattleEvent"
         }
     ],

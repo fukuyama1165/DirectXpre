@@ -24,17 +24,17 @@ void ExplosionObjManager::PopExplosionObj(Vector3 pos, int32_t explosioneventNum
 	std::unique_ptr<ExplosionObj> newExplosionObj = std::make_unique<ExplosionObj>();
 
 	newExplosionObj->Init(pos, explosioneventNum, size, explosionSize, explosionTime);
-	//敵キャラを登録
+	//爆発するオブジェクトを登録
 	objs_.push_back(std::move(newExplosionObj));
 }
 
 void ExplosionObjManager::Init()
 {
-	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "TNTBox", "TNTBox");
 
-	enemyDownSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
+	explosionSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
 
-	model_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	model_ = ModelManager::GetInstance()->SearchModelData("TNTBox");
 }
 
 void ExplosionObjManager::UpDate(int32_t EventNum)
@@ -47,7 +47,7 @@ void ExplosionObjManager::UpDate(int32_t EventNum)
 
 	for (std::unique_ptr<ExplosionObj>& obj : objs_)
 	{
-		obj->Update(enemyDownSound_,EventNum);
+		obj->Update(explosionSound_,EventNum);
 	}
 }
 

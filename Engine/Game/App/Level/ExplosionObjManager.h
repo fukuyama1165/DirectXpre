@@ -30,6 +30,9 @@ public:
 	//まとめたやつを中身を全部消す
 	void Reset() { objs_.clear();};
 
+	//爆発するオブジェクトが何個あるかを返す
+	size_t GetExplosionObjNum() { return objs_.size(); };
+
 private:
 
 	ExplosionObjManager() = default;
@@ -38,13 +41,13 @@ private:
 	ExplosionObjManager(const ExplosionObjManager&) = delete;
 	ExplosionObjManager& operator=(const ExplosionObjManager&) = delete;
 public:
-	//エネミーのまとめ
+	//爆発するオブジェクトのまとめ
 	std::list<std::unique_ptr<ExplosionObj>> objs_;
 
 	//モデル
 	AnimationModel* model_ = nullptr;
 
 	//爆発音のサウンドのハンドル
-	std::string enemyDownSound_;
+	std::string explosionSound_;
 
 };
