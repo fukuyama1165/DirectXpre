@@ -192,6 +192,7 @@ private:
 	//描画用モデル
 	AnimationModel* enemyModel_ = nullptr;
 	AnimationModel* moveEventModel_ = nullptr;
+	AnimationModel* explosionModel_ = nullptr;
 
 	//イベントの中身設定用変数
 	float addTime_ = 0;

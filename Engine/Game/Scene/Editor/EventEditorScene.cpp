@@ -19,6 +19,7 @@ void EventEditorScene::Initialize()
 {
 	Object3D::SetLight(&LightManager::GetInstance()->lightGroups_[0]);
 	//LightManager::GetInstance()->lightGroups_[0].SetAmbientColor({ 0.05f,0.05f,0.05f });
+	ModelManager::GetInstance()->Load("testFBX", "gltf", "TNTBox", "TNTBox");
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 	objobj3_.SetScale({ 1000,1000,1000 });
@@ -37,6 +38,7 @@ void EventEditorScene::Initialize()
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
 	enemyModel_ = ModelManager::GetInstance()->SearchModelData("Enemy");
 	moveEventModel_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
+	explosionModel_ = ModelManager::GetInstance()->SearchModelData("TNTBox");
 
 	eventManager_ = EventPointManager::GetInstance();
 
@@ -130,7 +132,7 @@ void EventEditorScene::Draw()
 		{
 			for (int32_t i = 0; i < explosionObj.obj.size(); i++)
 			{
-				explosionObj.obj[i].FBXDraw(*moveEventModel_);			
+				explosionObj.obj[i].FBXDraw(*explosionModel_);
 			}
 			for (int32_t i = 0; i < explosionObj.obj.size(); i++)
 			{

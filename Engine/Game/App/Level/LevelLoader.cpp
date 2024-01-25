@@ -89,7 +89,8 @@ void LevelLoader::Initialize()
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Building", "Biru2");
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "Wall", "wallstone", "jpg");
 	ModelManager::GetInstance()->Load("light", "gltf", "lightObj", "gray2x2");
-	ModelManager::GetInstance()->Load("cylinder", "gltf", "cylinder", "gray2x2");
+	ModelManager::GetInstance()->Load("cylinder", "gltf", "cylinder", "dram");
+	ModelManager::GetInstance()->Load("Ship", "gltf", "ship", "ship");
 
 	levelModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
 	levelBallModel_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
@@ -98,6 +99,8 @@ void LevelLoader::Initialize()
 	levelWallModel_ = ModelManager::GetInstance()->SearchModelData("Wall");
 	levelLightModel_ = ModelManager::GetInstance()->SearchModelData("lightObj");
 	levelCylinderModel_ = ModelManager::GetInstance()->SearchModelData("cylinder");
+	levelExplosionObjModel_ = ModelManager::GetInstance()->SearchModelData("cylinder");
+	levelShipModel_ = ModelManager::GetInstance()->SearchModelData("ship");
 
 	//testObj_.FBXInit();
 
@@ -115,6 +118,7 @@ void LevelLoader::Update()
 	}
 	for (uint16_t a = 0; a < levelObj.size(); a++)
 	{
+		//タイリングの設定
 		if (levelObj[a].name.find("BackGround") != std::string::npos)
 		{
 			levelObj[a].obj.material_.material_.tile_ = { 5,5 };
@@ -201,6 +205,10 @@ void LevelLoader::Draw()
 		else if (a.name.find("cylinder") != std::string::npos)
 		{
 			a.obj.FBXDraw(*levelCylinderModel_);
+		}
+		else if (a.name.find("ship") != std::string::npos)
+		{
+			a.obj.FBXDraw(*levelShipModel_);
 		}
 		else
 		{
