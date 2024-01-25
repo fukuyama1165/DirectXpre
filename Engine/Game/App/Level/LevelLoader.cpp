@@ -99,9 +99,9 @@ void LevelLoader::Initialize()
 	levelLightModel_ = ModelManager::GetInstance()->SearchModelData("lightObj");
 	levelCylinderModel_ = ModelManager::GetInstance()->SearchModelData("cylinder");
 
-	testObj_.FBXInit();
+	//testObj_.FBXInit();
 
-	testObj_.pos_={ 0,20,-200 };
+	//testObj_.pos_={ 0,20,-200 };
 }
 
 void LevelLoader::Update()
@@ -158,7 +158,7 @@ void LevelLoader::Update()
 	//testObj_.SetMaterialTiring({ test3_[0],test3_[1] });
 
 
-	testObj_.Update();
+	//testObj_.Update();
 	//levelObj[0].obj.SetMaterialTiring({test_[0],test_[1]});
 
 #endif
@@ -214,7 +214,7 @@ void LevelLoader::Draw()
 	}
 
 #ifdef _DEBUG
-	testObj_.FBXDraw(*levelGroundModel_);
+	//testObj_.FBXDraw(*levelGroundModel_);
 #endif
 }
 

@@ -130,7 +130,10 @@ void EventEditorScene::Draw()
 		{
 			for (int32_t i = 0; i < explosionObj.obj.size(); i++)
 			{
-				explosionObj.obj[i].FBXDraw(*moveEventModel_);
+				explosionObj.obj[i].FBXDraw(*moveEventModel_);			
+			}
+			for (int32_t i = 0; i < explosionObj.obj.size(); i++)
+			{
 				explosionObj.explosion[i].FBXDraw(*moveEventModel_);
 			}
 			
@@ -229,6 +232,10 @@ void EventEditorScene::AddMoveEvent()
 		addMoveEventData.startPoint.pos_ = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
 		addMoveEventData.endPoint.pos_ = { movePoint_[0] ,movePoint_[1] ,movePoint_[2] };
 		addMoveEventData.move.pos_ = { moveStartPoint_[0] ,moveStartPoint_[1] ,moveStartPoint_[2] };
+
+		addMoveEventData.startPoint.Scale_ = { 0.3f,0.3f,0.3f };
+		addMoveEventData.endPoint.Scale_ = { 0.3f,0.3f,0.3f };
+		addMoveEventData.move.Scale_ = { 0.3f,0.3f,0.3f };
 
 		addMoveEventData.startPoint.Update();
 		addMoveEventData.endPoint.Update();
@@ -367,6 +374,7 @@ void EventEditorScene::AddButtonBattleEventDebugObj()
 	Object3D playerObj;
 	playerObj.FBXInit();
 	playerObj.pos_ = { playerPos_[0],playerPos_[1] ,playerPos_[2] };
+	playerObj.Scale_ = { 0.3f,0.3f,0.3f };
 	add.playerPoint = playerObj;
 
 	for (int32_t i = 0; i < enemyNum_; i++)
@@ -374,6 +382,7 @@ void EventEditorScene::AddButtonBattleEventDebugObj()
 		Object3D enemyObj;
 		enemyObj.FBXInit();
 		enemyObj.pos_ = enemySpawnPos_[i];
+		enemyObj.Scale_ = { 0.5f,0.5f ,0.5f };
 
 		add.enemys.push_back(enemyObj);
 
@@ -383,12 +392,14 @@ void EventEditorScene::AddButtonBattleEventDebugObj()
 		endPointObj.FBXInit();
 		endPointObj.pos_ = enemyMovePos_[i];
 		endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,1.0f });
+		endPointObj.Scale_ = { 0.5f,0.5f ,0.5f };
 		add.endPoint.push_back(endPointObj);
 
 		Object3D moveObj;
 		moveObj.FBXInit();
 		moveObj.pos_ = enemySpawnPos_[i];
 		moveObj.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
+		moveObj.Scale_ = { 0.5f,0.5f ,0.5f };
 		add.move.push_back(moveObj);
 
 
@@ -770,6 +781,12 @@ void EventEditorScene::EditEvent()
 				setingI->explosionObjExplosionSize.resize(explosionObjNum);
 				setingI->explosionObjExplosionTime.resize(explosionObjNum);
 				
+				for (int32_t i = 0; i < explosionObjNum; i++)
+				{
+					setingI->explosionObjSize[i] = { 1,1,1 };
+					setingI->explosionObjExplosionSize[i] = { 1,1,1 };
+					setingI->explosionObjExplosionTime[i] = 1;
+				}
 			}
 
 
@@ -823,6 +840,7 @@ void EventEditorScene::EditEvent()
 				seting_.clear();
 				enemyDatas_.clear();
 				movePointDatas_.clear();
+				explosionObjDatas_.clear();
 				break;
 
 			}
@@ -1062,6 +1080,7 @@ void EventEditorScene::DrawEventDataUpdate()
 			}
 			if (setingI->explosionObjPos.size() == 0)
 			{
+				//最後ではないなら
 				if (explosionObjDatas_.end() != explosionObj)
 				{
 					explosionObj++;
@@ -1075,7 +1094,7 @@ void EventEditorScene::DrawEventDataUpdate()
 				explosionObj->obj[i].pos_ = setingI->explosionObjPos[i];
 				explosionObj->obj[i].Scale_ = setingI->explosionObjSize[i];
 				explosionObj->explosion[i].pos_ = setingI->explosionObjPos[i];
-				explosionObj->explosion[i].Scale_ = lerp(setingI->explosionObjSize[i], setingI->explosionObjExplosionSize[i], moveEventMoveTimer / moveEventMoveMaxTime);
+				explosionObj->explosion[i].Scale_ = lerp(setingI->explosionObjSize[i], setingI->explosionObjSize[i]+setingI->explosionObjExplosionSize[i], moveEventMoveTimer / moveEventMoveMaxTime);
 				explosionObj->explosion[i].SetColor({ 1.0f,0.0f,0.0f,0.2f });
 				explosionObj->obj[i].Update();
 				explosionObj->explosion[i].Update();
@@ -1189,8 +1208,18 @@ void EventEditorScene::ChangeMap()
 
 		}
 		std::filesystem::current_path(old);
-		//設定されたマップを読み込みなおす
-		LevelLoader::GetInstance()->LoadLevel(test);
+
+		if (test == "")
+		{
+			//キャンセルされたら
+			LevelLoader::GetInstance()->LoadLevel("GroundTest");
+		}
+		else
+		{
+			//設定されたマップを読み込みなおす
+			LevelLoader::GetInstance()->LoadLevel(test);
+		}
+		
 	}
 
 	ImGui::End();
@@ -1900,6 +1929,10 @@ void EventEditorScene::AddMoveEventDebugObj()
 			addMoveEventData.endPoint.pos_ = { eventData->movePoint };
 			addMoveEventData.move.pos_ = { eventData->moveStartPoint };
 
+			addMoveEventData.startPoint.Scale_ = { 0.3f,0.3f,0.3f };
+			addMoveEventData.endPoint.Scale_ = { 0.3f,0.3f,0.3f };
+			addMoveEventData.move.Scale_ = { 0.3f,0.3f,0.3f };
+
 			addMoveEventData.startPoint.Update();
 			addMoveEventData.endPoint.Update();
 			addMoveEventData.move.Update();
@@ -1927,6 +1960,7 @@ void EventEditorScene::AddBattleEventDebugObj()
 			Object3D playerObj;
 			playerObj.FBXInit();
 			playerObj.pos_ = eventData->playerPos;
+			playerObj.Scale_ = { 0.3f,0.3f,0.3f };
 			add.playerPoint = playerObj;
 
 			for (int32_t i = 0; i < eventData->enemyNum; i++)
@@ -2011,6 +2045,7 @@ void EventEditorScene::AddBattleEventDebugObjRandomAccess(uint16_t num)
 			Object3D playerObj;
 			playerObj.FBXInit();
 			playerObj.pos_ = eventData->playerPos;
+			playerObj.Scale_ = { 0.3f,0.3f,0.3f };
 			add.playerPoint = playerObj;
 
 			for (int32_t i = 0; i < eventData->enemyNum; i++)

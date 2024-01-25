@@ -30,11 +30,11 @@ void ExplosionObjManager::PopExplosionObj(Vector3 pos, int32_t explosioneventNum
 
 void ExplosionObjManager::Init()
 {
-	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
+	//ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
 
 	explosionSound_ = XAudio::GetInstance()->SoundLoadWave("Resources/sound/enemydown.wav");
 
-	model_ = ModelManager::GetInstance()->SearchModelData("whiteBall");
+	model_ = ModelManager::GetInstance()->SearchModelData("whiteBox");
 }
 
 void ExplosionObjManager::UpDate(int32_t EventNum)
