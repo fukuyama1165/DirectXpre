@@ -638,13 +638,14 @@ void EventEditorScene::EditEvent()
 
 			float playerHideType = setingI->playerHideVector;
 			float addTime = setingI->addTimer;
+			int32_t playerHideTypeNum = (int32_t)setingI->playerHideVector;
 
 			//intしか使えん許さん
-			ImGui::Combo("playerHideType", (int*)&playerHideTypeNum_, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
+			ImGui::Combo(std::string("playerHideType" + num).c_str(), (int*)&playerHideTypeNum, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
 			//終了時に増える時間をセット
 			ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f);
 
-			switch (playerHideTypeNum_)
+			switch (playerHideTypeNum)
 			{
 			case playerHideVectorType::Down:
 				playerHideType = playerHideVectorType::Down;

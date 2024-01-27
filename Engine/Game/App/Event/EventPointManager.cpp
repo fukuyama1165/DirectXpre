@@ -142,6 +142,8 @@ void EventPointManager::LoadeefmEventData(const std::string& fileName)
 	eventPoint_.SetIsFinished(true);
 
 	eventAllEnd_ = false;
+
+	isSetExplosionObj = false;
 }
 
 void EventPointManager::LoadFullPathEventData(const std::string& fileName)
@@ -295,6 +297,8 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 			eventData.enemyBulletCT.push_back((uint32_t)seting["enemyBulletCT"][i]);
 
 		}
+
+		eventData.explosionObjNum = seting["explosionObjNum"];
 
 		//爆発するオブジェクト読み込み
 		for (uint16_t j = 0; j < (uint16_t)seting["explosionObjNum"]; j++)
@@ -486,9 +490,10 @@ void EventPointManager::Update()
 		if (!nextTime_ || eventPoint_.GetEventType() == EventType::moveEvent)
 		{
 			eventPoint_.Update();
-			//eventCountは現在のイベントから1増えた値なので(要素数的に)
-			ExplosionObjManager::GetInstance()->UpDate(eventCount_-1);
 		}
+
+		//eventCountは現在のイベントから1増えた値なので(要素数的に)
+		ExplosionObjManager::GetInstance()->UpDate(eventCount_ - 1);
 
 		//イベントが切り替わる演出
 		if (nextTime_)
@@ -560,6 +565,9 @@ void EventPointManager::Update()
 void EventPointManager::Draw()
 {
 	//eventPoint_.Draw(eventModel_);
+
+	ExplosionObjManager::GetInstance()->Draw();
+
 	if (!timer_.isZero_)
 	{
 
@@ -574,8 +582,6 @@ void EventPointManager::Draw()
 
 		
 	}
-
-	ExplosionObjManager::GetInstance()->Draw();
 
 	if (!isNoTimer)
 	{
