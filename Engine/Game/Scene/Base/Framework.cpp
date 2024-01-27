@@ -21,11 +21,8 @@ void Framework::Ran()
 		{
 			break;
 		}
-
 		
 		Draw();
-		
-		
 
 	}
 
@@ -38,7 +35,6 @@ void Framework::Initialize()
 {
 
 	winApp_->initialize();
-
 
 	directXinit_->Init();
 
@@ -142,6 +138,5 @@ void Framework::Draw()
 	ImGuiManager::GetInstance()->Draw();
 
 	DirectXInit::GetInstance()->DrawEnd();
-
 
 }

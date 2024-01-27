@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file EventPoint.h
+ * @brief ゲームの進行をするためのイベントの処理を行うクラス
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include <cstdint>
 #include "Vector3.h"
 #include <vector>
@@ -51,7 +59,7 @@ class EventPoint
 {
 public:
 	EventPoint();
-	EventPoint(EventSeting seting);
+	EventPoint(const EventSeting& seting);
 	~EventPoint();
 
 	void Initlize();

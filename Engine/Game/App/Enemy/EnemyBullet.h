@@ -1,11 +1,19 @@
 #pragma once
+
+/**
+ * @file EnemyBullet.h
+ * @brief 敵キャラの弾
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "Object3D.h"
 #include "BulletCollision.h"
 #include "SphereCollider.h"
 #include "CubeCollider.h"
 
 /// <summary>
-/// 自キャラの弾
+/// 敵キャラの弾
 /// </summary>
 class EnemyBullet
 {

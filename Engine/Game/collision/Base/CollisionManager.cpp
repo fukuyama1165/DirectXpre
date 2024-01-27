@@ -30,7 +30,7 @@ void CollisionManager::CheckAllCollisions()
 			BaseCollider* colB = *itB;
 
 			//どちらかが当たり判定処理を行わない場合
-			if (!colA->isActive_ or !colB->isActive_)
+			if (!colA->isActive_ || !colB->isActive_)
 			{
 				continue;
 			}

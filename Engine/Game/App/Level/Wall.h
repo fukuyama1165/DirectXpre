@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file WallObj.h
+ * @brief ゲーム内のプレイヤーや敵の弾を防ぐ壁の処理をを行うクラス
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "Object3D.h"
 #include "MobCollision.h"
 #include "SphereCollider.h"

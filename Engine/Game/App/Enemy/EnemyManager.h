@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file EnemyManager.h
+ * @brief 敵キャラの管理をするクラス
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "Enemy.h"
 #include <list>
 class EnemyManager
@@ -8,7 +16,7 @@ public:
 
 	static EnemyManager* GetInstance();
 
-	void PopEnemy(std::string enemyType, Vector3 pos, Vector3 movePoint = { 0,0,0 }, float moveSpeed = 1.0f, uint32_t bulletCT = 200);
+	void PopEnemy( const std::string& enemyType,const Vector3& pos,const Vector3& movePoint = { 0,0,0 }, float moveSpeed = 1.0f, uint32_t bulletCT = 200);
 
 	//初期化
 	void Init();

@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file Player.h
+ * @brief ゲームの自機のクラス
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "Object3D.h"
 #include"Input.h"
 #include "cameraObj.h"

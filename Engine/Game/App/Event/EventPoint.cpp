@@ -9,7 +9,7 @@ EventPoint::EventPoint()
 	count_ = 0;
 }
 
-EventPoint::EventPoint(EventSeting seting)
+EventPoint::EventPoint(const EventSeting& seting)
 {
 	seting_ = seting;
 	movePoint_ = seting_.movePoint;

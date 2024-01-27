@@ -18,9 +18,6 @@ public:
 
 	static SceneManager* GetInstance();
 
-	
-	void SetNextScene(std::unique_ptr<IScene> nextScene) { nextScene_ = std::move(nextScene); };
-
 	void Update();
 
 	void Draw();

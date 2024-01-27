@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file LevelLoader.h
+ * @brief ゲーム内のステージの読み込み描画を行うクラス
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "Object3D.h"
 #include "Wall.h"
 #include "JsonLevelLoader.h"

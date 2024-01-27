@@ -1,4 +1,11 @@
 #pragma once
+/**
+ * @file ExplosionObjManager.h
+ * @brief ゲーム内の爆発するオブジェクトの管理を行うクラス
+ * @author フクヤマ
+ * @date 2023_01/10
+ */
+
 #include "ExplosionObj.h"
 #include <list>
 class ExplosionObjManager

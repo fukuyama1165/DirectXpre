@@ -14,8 +14,8 @@ void GameScene::Initialize()
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
 
-	lightManager_->lightGroups_[0].SetAmbientColor({ 0.05f,0.05f,0.05f });
-	lightManager_->lightGroups_[0].SetDirLightColor(0,{ 0.05f,0.05f,0.05f });
+	lightManager_->lightGroups_[0].SetAmbientColor({ 0.08f,0.08f,0.08f });
+	lightManager_->lightGroups_[0].SetDirLightColor(0,{ 0.08f,0.08f,0.08f });
 
 	Object3D::SetLight(&lightManager_->lightGroups_[0]);
 
@@ -43,7 +43,7 @@ void GameScene::Initialize()
 	testFBX_.Scale_ = { 1.0f,1.0f,5.0f };
 	testFBX_.useQuaternion = true;
 
-	LevelLoader::GetInstance()->LoadLevel("TimeCrisis_Area1_2");
+	LevelLoader::GetInstance()->LoadLevel("TimeCrisis_Area1_3");
 
 	testModel_ = ModelManager::GetInstance()->SearchModelData("basketballmanBox");
 	
@@ -60,7 +60,7 @@ void GameScene::Initialize()
 
 	
 	//イベントデータの読み込み
-	eventManager->LoadeefmEventData("TimeCrisis_Area1_2");
+	eventManager->LoadeefmEventData("TimeCrisis_Area1_3");
 
 	eventManager->isNoTimer = false;
 

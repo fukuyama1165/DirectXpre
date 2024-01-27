@@ -22,7 +22,7 @@ EventPointManager::~EventPointManager()
 {
 }
 
-void EventPointManager::LoadEventData(std::string fileName)
+void EventPointManager::LoadEventData(const std::string& fileName)
 {
 
 	eventSetings_.clear();
@@ -87,7 +87,7 @@ void EventPointManager::LoadEventData(std::string fileName)
 	
 }
 
-void EventPointManager::LoadeefmEventData(std::string fileName)
+void EventPointManager::LoadeefmEventData(const std::string& fileName)
 {
 	eventSetings_.clear();
 
@@ -144,7 +144,7 @@ void EventPointManager::LoadeefmEventData(std::string fileName)
 	eventAllEnd_ = false;
 }
 
-void EventPointManager::LoadFullPathEventData(std::string fileName)
+void EventPointManager::LoadFullPathEventData(const std::string& fileName)
 {
 
 	eventSetings_.clear();
@@ -314,7 +314,7 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 }
 
-void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector3 point3, Vector3 point4)
+void EventPointManager::SetDebugMoveEvent(const Vector3& point1, const Vector3& point2, const Vector3& point3, const Vector3& point4)
 {
 	EventSeting debugPoint;
 
@@ -338,7 +338,7 @@ void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector
 
 }
 
-void EventPointManager::SetDebug1MoveEvent(Vector3 point1, float Speed1)
+void EventPointManager::SetDebug1MoveEvent(const Vector3& point1, float Speed1)
 {
 	EventSeting debugPoint;
 
@@ -352,7 +352,7 @@ void EventPointManager::SetDebug1MoveEvent(Vector3 point1, float Speed1)
 
 }
 
-void EventPointManager::SetDebugBattleEvent(Vector3 point1, float Speed1, float interval1, Vector3 point2, float Speed2, float interval2, Vector3 point3, float Speed3, float interval3, Vector3 point4, float Speed4)
+void EventPointManager::SetDebugBattleEvent(const Vector3& point1, float Speed1, float interval1, const Vector3& point2, float Speed2, float interval2, const Vector3& point3, float Speed3, float interval3, const Vector3& point4, float Speed4)
 {
 
 	EventSeting debugPoint;

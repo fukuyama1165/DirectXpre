@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file ExplosionObj.h
+ * @brief ゲーム内の爆発するオブジェクトの処理を行うクラス
+ * @author フクヤマ
+ * @date 2023_01/10
+ */
+
 #include "Object3D.h"
 #include "MobCollision.h"
 #include "CubeCollider.h"
