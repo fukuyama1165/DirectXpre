@@ -22,7 +22,7 @@ EventPointManager::~EventPointManager()
 {
 }
 
-void EventPointManager::LoadEventData(std::string fileName)
+void EventPointManager::LoadEventData(const std::string& fileName)
 {
 
 	eventSetings_.clear();
@@ -87,7 +87,7 @@ void EventPointManager::LoadEventData(std::string fileName)
 	
 }
 
-void EventPointManager::LoadeefmEventData(std::string fileName)
+void EventPointManager::LoadeefmEventData(const std::string& fileName)
 {
 	eventSetings_.clear();
 
@@ -142,9 +142,11 @@ void EventPointManager::LoadeefmEventData(std::string fileName)
 	eventPoint_.SetIsFinished(true);
 
 	eventAllEnd_ = false;
+
+	isSetExplosionObj = false;
 }
 
-void EventPointManager::LoadFullPathEventData(std::string fileName)
+void EventPointManager::LoadFullPathEventData(const std::string& fileName)
 {
 
 	eventSetings_.clear();
@@ -296,6 +298,8 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 		}
 
+		eventData.explosionObjNum = seting["explosionObjNum"];
+
 		//爆発するオブジェクト読み込み
 		for (uint16_t j = 0; j < (uint16_t)seting["explosionObjNum"]; j++)
 		{
@@ -314,7 +318,7 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 }
 
-void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector3 point3, Vector3 point4)
+void EventPointManager::SetDebugMoveEvent(const Vector3& point1, const Vector3& point2, const Vector3& point3, const Vector3& point4)
 {
 	EventSeting debugPoint;
 
@@ -338,7 +342,7 @@ void EventPointManager::SetDebugMoveEvent(Vector3 point1, Vector3 point2, Vector
 
 }
 
-void EventPointManager::SetDebug1MoveEvent(Vector3 point1, float Speed1)
+void EventPointManager::SetDebug1MoveEvent(const Vector3& point1, float Speed1)
 {
 	EventSeting debugPoint;
 
@@ -352,7 +356,7 @@ void EventPointManager::SetDebug1MoveEvent(Vector3 point1, float Speed1)
 
 }
 
-void EventPointManager::SetDebugBattleEvent(Vector3 point1, float Speed1, float interval1, Vector3 point2, float Speed2, float interval2, Vector3 point3, float Speed3, float interval3, Vector3 point4, float Speed4)
+void EventPointManager::SetDebugBattleEvent(const Vector3& point1, float Speed1, float interval1, const Vector3& point2, float Speed2, float interval2, const Vector3& point3, float Speed3, float interval3, const Vector3& point4, float Speed4)
 {
 
 	EventSeting debugPoint;
@@ -473,8 +477,8 @@ void EventPointManager::Update()
 				eventAllEnd_ = true;
 			}
 
-			//使わないやつではない場合
-			if (!isNoTimer)
+			//使わないやつではない場合かクリアしていないなら
+			if (!isNoTimer || !eventAllEnd_)
 			{
 				timer_.Update();
 			}
@@ -486,9 +490,10 @@ void EventPointManager::Update()
 		if (!nextTime_ || eventPoint_.GetEventType() == EventType::moveEvent)
 		{
 			eventPoint_.Update();
-			//eventCountは現在のイベントから1増えた値なので(要素数的に)
-			ExplosionObjManager::GetInstance()->UpDate(eventCount_-1);
 		}
+
+		//eventCountは現在のイベントから1増えた値なので(要素数的に)
+		ExplosionObjManager::GetInstance()->UpDate(eventCount_ - 1);
 
 		//イベントが切り替わる演出
 		if (nextTime_)
@@ -560,6 +565,9 @@ void EventPointManager::Update()
 void EventPointManager::Draw()
 {
 	//eventPoint_.Draw(eventModel_);
+
+	ExplosionObjManager::GetInstance()->Draw();
+
 	if (!timer_.isZero_)
 	{
 
@@ -574,8 +582,6 @@ void EventPointManager::Draw()
 
 		
 	}
-
-	ExplosionObjManager::GetInstance()->Draw();
 
 	if (!isNoTimer)
 	{

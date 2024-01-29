@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file Enemy.h
+ * @brief ゲーム内の敵
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "Object3D.h"
 #include"Input.h"
 #include "EnemyBullet.h"

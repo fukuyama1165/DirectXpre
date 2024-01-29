@@ -638,13 +638,14 @@ void EventEditorScene::EditEvent()
 
 			float playerHideType = setingI->playerHideVector;
 			float addTime = setingI->addTimer;
+			int32_t playerHideTypeNum = (int32_t)setingI->playerHideVector;
 
 			//intしか使えん許さん
-			ImGui::Combo("playerHideType", (int*)&playerHideTypeNum_, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
+			ImGui::Combo(std::string("playerHideType" + num).c_str(), (int*)&playerHideTypeNum, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
 			//終了時に増える時間をセット
 			ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f);
 
-			switch (playerHideTypeNum_)
+			switch (playerHideTypeNum)
 			{
 			case playerHideVectorType::Down:
 				playerHideType = playerHideVectorType::Down;
@@ -1119,7 +1120,7 @@ void EventEditorScene::DrawEventDataUpdate()
 	}
 }
 
-void EventEditorScene::SaveEventData(const std::string fileName)
+void EventEditorScene::SaveEventData(const std::string& fileName)
 {
 	
 	std::string name = fileName;
@@ -1437,7 +1438,7 @@ void EventEditorScene::DebugUpdate()
 
 }
 
-void EventEditorScene::SaveEventFullPathData(const std::string fileName)
+void EventEditorScene::SaveEventFullPathData(const std::string& fileName)
 {
 	std::string name = fileName;
 
@@ -1513,7 +1514,7 @@ void EventEditorScene::SaveEventFullPathData(const std::string fileName)
 	}
 }
 
-bool EventEditorScene::LoadFullPathEventData(std::string fileName)
+bool EventEditorScene::LoadFullPathEventData(const std::string& fileName)
 {
 
 	seting_.clear();
@@ -1556,7 +1557,7 @@ bool EventEditorScene::LoadFullPathEventData(std::string fileName)
 
 		bool result = true;
 
-		result = EventScanning(deserialized, events);
+		result = EventScanning(events);
 
 		if (!result)
 		{
@@ -1575,7 +1576,7 @@ bool EventEditorScene::LoadFullPathEventData(std::string fileName)
 
 }
 
-bool EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json& Event)
+bool EventEditorScene::EventScanning(const nlohmann::json& Event)
 {
 
 
@@ -1601,7 +1602,7 @@ bool EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 		eventData.eventType = EventType::moveEvent;
 
 		//設定のパラメータ読み込み
-		nlohmann::json& seting = Event["seting"];
+		const nlohmann::json& seting = Event["seting"];
 
 		//ちゃんとパラメータがあるかチェック
 		if (!seting.contains("movePoint"))
@@ -1667,7 +1668,7 @@ bool EventEditorScene::EventScanning(nlohmann::json deserialized, nlohmann::json
 		EventSeting eventData;
 
 		//設定のパラメータ読み込み
-		nlohmann::json& seting = Event["seting"];
+		const nlohmann::json& seting = Event["seting"];
 
 		//ちゃんとパラメータがあるかチェック
 		if (!seting.contains("enemyMaxSpawn"))

@@ -108,13 +108,13 @@ private:
 	/// イベントデータを書き出し
 	/// </summary>
 	/// <param name="fileName">書き出し用の名前</param>
-	void SaveEventData(const std::string fileName);
+	void SaveEventData(const std::string& fileName);
 
 	/// <summary>
 	/// フルパスでのファイルの書き込み
 	/// </summary>
 	/// <param name="fileName">ファイルへのフルパス</param>
-	void SaveEventFullPathData(const std::string fileName);
+	void SaveEventFullPathData(const std::string& fileName);
 
 	//現在制作中のイベントを動かす
 	void TestEvent();
@@ -135,15 +135,14 @@ private:
 	/// </summary>
 	/// <param name="fileName">ファイルへのフルパス</param>
 	/// <returns></returns>
-	bool LoadFullPathEventData(std::string fileName);
+	bool LoadFullPathEventData(const std::string& fileName);
 
 	/// <summary>
 	/// イベントの中身読み込むよう
 	/// </summary>
-	/// <param name="deserialized">読み込んだjson文字列</param>
 	/// <param name="Event">イベントの中身のjson文字列</param>
 	/// <returns></returns>
-	bool EventScanning(nlohmann::json deserialized, nlohmann::json& Event);
+	bool EventScanning(const nlohmann::json& Event);
 
 private:
 	//天球

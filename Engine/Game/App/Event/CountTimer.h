@@ -3,7 +3,7 @@
 
 /**
  * @file CountTimer.h
- * @brief 
+ * @brief ゲームの制限時間を数える
  * @author フクヤマ
  * @date 2023_11/10
  */

@@ -1,4 +1,12 @@
 #pragma once
+
+/**
+ * @file PlayerBullet.h
+ * @brief 自キャラの弾のクラス
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "Object3D.h"
 #include "BulletCollision.h"
 #include "SphereCollider.h"

@@ -69,6 +69,7 @@ void PlayerBullet::Draw(AnimationModel* model)
 void PlayerBullet::OnCollision()
 {
 	isDead_ = true;
+	Collider.isActive_ = false;
 	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 }
 

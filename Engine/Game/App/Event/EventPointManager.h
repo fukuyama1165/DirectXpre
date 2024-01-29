@@ -1,5 +1,12 @@
 #pragma once
 
+/**
+ * @file EventPointManager.h
+ * @brief ゲームの進行をするためのイベントの管理を行うクラス
+ * @author フクヤマ
+ * @date 2023_11/10
+ */
+
 #include "EventPoint.h"
 #include <sstream>
 #include "Sprite.h"
@@ -13,12 +20,12 @@ public:
 	static EventPointManager* GetInstance();
 
 	//外にあるイベントのデータを持つファイルからデータを入れたい
-	void LoadEventData(std::string fileName);
+	void LoadEventData(const std::string& fileName);
 
 	//自作のイベントデータを読み込むところ
-	void LoadeefmEventData(std::string fileName);
+	void LoadeefmEventData(const std::string& fileName);
 	//フルパスで指定された場所にあるイベントのデータが入っているファイルからデータを取得(フォルダ名に日本語が入っていると無理)
-	void LoadFullPathEventData(std::string fileName);
+	void LoadFullPathEventData(const std::string& fileName);
 
 	void Initlize();
 
@@ -27,9 +34,9 @@ public:
 	void Draw();
 
 	//デバック用のイベントデータ追加
-	void SetDebugMoveEvent(Vector3 point1 = { 0,0,50 }, Vector3 point2 = { 50,0,50 }, Vector3 point3 = { 50,0,0 }, Vector3 point4 = { 0,0,0 });
-	void SetDebug1MoveEvent(Vector3 point1 = { 0,0,50 }, float Speed1 = 1.0f);
-	void SetDebugBattleEvent(Vector3 point1 = { 0,0,50 }, float Speed1 = 1.0f,float interval1=50, Vector3 point2 = { 50,0,50 }, float Speed2 = 1.0f, float interval2=50, Vector3 point3 = { 50,0,0 }, float Speed3 = 1.0f, float interval3=50, Vector3 point4 = { 0,0,0 }, float Speed4 = 1.0f);
+	void SetDebugMoveEvent(const Vector3& point1 = { 0,0,50 }, const Vector3& point2 = { 50,0,50 }, const Vector3& point3 = { 50,0,0 }, const Vector3& point4 = { 0,0,0 });
+	void SetDebug1MoveEvent(const Vector3& point1 = { 0,0,50 }, float Speed1 = 1.0f);
+	void SetDebugBattleEvent(const Vector3& point1 = { 0,0,50 }, float Speed1 = 1.0f,float interval1=50, const Vector3& point2 = { 50,0,50 }, float Speed2 = 1.0f, float interval2=50, const Vector3& point3 = { 50,0,0 }, float Speed3 = 1.0f, float interval3=50, const Vector3& point4 = { 0,0,0 }, float Speed4 = 1.0f);
 
 
 	//設定済みイベントデータに変更

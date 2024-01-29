@@ -45,6 +45,8 @@ void LevelLoader::LoadLevel(std::string filename)
 			newWall->name = objData.name_;
 
 			wallObj_.emplace_back(std::move(newWall));
+
+			continue;
 		}
 		else if (objData.fileName_.find("Light") != std::string::npos || objData.name_.find("Light") != std::string::npos)
 		{
@@ -52,30 +54,16 @@ void LevelLoader::LoadLevel(std::string filename)
 			LightManager::GetInstance()->lightGroups_[0].SetPointLightPos(lightCount_, Vector3{ objData.pos_.x,objData.pos_.y ,objData.pos_.z });
 			LightManager::GetInstance()->lightGroups_[0].SetPointLightAtten(lightCount_, { 0.1f,0.1f,0.1f });
 			lightCount_++;
-
-			LevelObj newObject;
-			newObject.obj.FBXInit();
-			newObject.obj.pos_ = Vector3{ objData.pos_.x,objData.pos_.y ,objData.pos_.z };
-			newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-			newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-			newObject.obj.matWorldGeneration();
-			newObject.name = objData.name_;
-
-			levelObj.emplace_back(newObject);
 		}
-		else
-		{
-			
-			LevelObj newObject;
-			newObject.obj.FBXInit();
-			newObject.obj.pos_ = Vector3{ objData.pos_.x,objData.pos_.y ,objData.pos_.z };
-			newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
-			newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
-			newObject.obj.matWorldGeneration();
-			newObject.name = objData.name_;
+		LevelObj newObject;
+		newObject.obj.FBXInit();
+		newObject.obj.pos_ = Vector3{ objData.pos_.x,objData.pos_.y ,objData.pos_.z };
+		newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+		newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
+		newObject.obj.matWorldGeneration();
+		newObject.name = objData.name_;
 
-			levelObj.emplace_back(newObject);
-		}
+		levelObj.emplace_back(newObject);
 
 	}
 }
