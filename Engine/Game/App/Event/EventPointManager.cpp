@@ -477,8 +477,8 @@ void EventPointManager::Update()
 				eventAllEnd_ = true;
 			}
 
-			//使わないやつではない場合
-			if (!isNoTimer)
+			//使わないやつではない場合かクリアしていないなら
+			if (!isNoTimer || !eventAllEnd_)
 			{
 				timer_.Update();
 			}

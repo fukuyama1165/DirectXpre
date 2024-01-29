@@ -2,7 +2,6 @@
 #include <cmath>
 
 #include "Vector3.h"
-#include <cmath>
 
 Vector2::Vector2()
 {

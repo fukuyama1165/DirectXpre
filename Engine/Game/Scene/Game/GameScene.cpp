@@ -14,7 +14,8 @@ void GameScene::Initialize()
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
 
-	lightManager_->lightGroups_[0].SetAmbientColor({ 0.08f,0.08f,0.08f });
+	//lightManager_->lightGroups_[0].SetAmbientColor({ 0.08f,0.08f,0.08f });
+	lightManager_->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
 	lightManager_->lightGroups_[0].SetDirLightColor(0,{ 0.08f,0.08f,0.08f });
 
 	Object3D::SetLight(&lightManager_->lightGroups_[0]);

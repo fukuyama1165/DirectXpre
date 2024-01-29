@@ -71,6 +71,8 @@ void EnemyBullet::Draw(AnimationModel* model)
 void EnemyBullet::OnCollision()
 {
 	isDead_ = true;
+	Collider.isActive_ = false;
+	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 }
 
 Vector3 EnemyBullet::GetWorldPosition()
