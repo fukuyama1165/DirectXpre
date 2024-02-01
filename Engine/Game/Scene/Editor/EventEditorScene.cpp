@@ -18,7 +18,8 @@ EventEditorScene::~EventEditorScene()
 void EventEditorScene::Initialize()
 {
 	Object3D::SetLight(&LightManager::GetInstance()->lightGroups_[0]);
-	//LightManager::GetInstance()->lightGroups_[0].SetAmbientColor({ 0.05f,0.05f,0.05f });
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightActive(0,true);
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightDir(0,{0,0,0,0});
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "TNTBox", "TNTBox");
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
@@ -64,12 +65,11 @@ void EventEditorScene::Update()
 {
 
 	
-	if (!pause_)
-	{
-		objobj3_.Update();
+	
+	objobj3_.Update();
 
-		LevelLoader::GetInstance()->Update();
-	}
+	LevelLoader::GetInstance()->Update();
+	
 
 	if (!isTest_)
 	{
@@ -90,6 +90,8 @@ void EventEditorScene::Update()
 	}
 
 	TestEvent();
+
+	TestDebugUpdate();
 
 	LightManager::GetInstance()->ALLLightUpdate();
 	
@@ -1272,7 +1274,7 @@ void EventEditorScene::TestEvent()
 
 		if (!pause_)
 		{
-			player_.Update();
+			
 
 			enemys_->UpDate(player_.playerCamera_.GetCamera().eye_);
 
@@ -1280,7 +1282,7 @@ void EventEditorScene::TestEvent()
 
 			eventManager_->Update();
 		}
-
+		player_.Update();
 		
 
 		ImGui::Begin("player");
@@ -1388,8 +1390,14 @@ void EventEditorScene::DebugUpdate()
 	ImGui::Text("eventNum:%d", eventManager_->GetInstance()->GetEventNum());
 	ImGui::Text("eventcount:%d", eventManager_->GetInstance()->GetEventCount());
 	ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
+	ImGui::DragFloat3("dir",test_,1.0f,-100,100);
+	ImGui::ColorEdit3("light",test2_);
+	ImGui::DragFloat("AngleOfView",&player_.playCamera_.nowCamera->AngleOfView,1.0f,1.0f,200.0f);
 
 	ImGui::End();
+
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightDir(0, { test_[0],test_[1],test_[2],0});
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightColor(0, { test2_[0],test2_[1],test2_[2]});
 
 #pragma endregion
 
@@ -1436,6 +1444,17 @@ void EventEditorScene::DebugUpdate()
 	//マップのテスト
 	//LevelLoader::GetInstance()->reloadLevel(DIK_L, "MapTest");
 
+}
+
+void EventEditorScene::TestDebugUpdate()
+{
+	ImGui::Begin("check");
+
+	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
+
+	ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
+
+	ImGui::End();
 }
 
 void EventEditorScene::SaveEventFullPathData(const std::string& fileName)

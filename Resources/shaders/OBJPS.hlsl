@@ -89,8 +89,12 @@ PSOutput main(VSOutput input)
 			//鏡面反射光
 			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
+            float p = dotlightnormal;
+            p = p * 0.5f + 0.5;
+            p = p * p;
+			
 			//全て加算する
-			shadecolor.rgb += (diffuse + specular) * dirLights[i].lightColor.xyz;
+			shadecolor.rgb += (diffuse + specular) * dirLights[i].lightColor.xyz*p;
 
 		}
 
