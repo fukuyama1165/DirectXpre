@@ -38,15 +38,9 @@ public:
 	//LightGroupを追加する
 	void CreateLightGroup(/*const std::string& name*/);
 
-	//DirectionalLightを追加する
-	void CreateDirectionalLight(/*const std::string& name*/);
-
-	//LightGroup GetLightGroups(const std::string& name);
-
-	//ここに追加するのではなくCreate関数で追加すること
+	
 	std::vector<LightGroup> lightGroups_;
-	//ここに追加するのではなくCreate関数で追加すること
-	std::vector<DirectionalLight> directionalLights_;
+	
 
 private:
 

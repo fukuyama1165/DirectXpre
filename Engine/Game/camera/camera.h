@@ -64,6 +64,8 @@ public:
 
 	static Camera* nowCamera;
 
+	float AngleOfView = 90.0f;
+
 private:
 	//画面サイズ
 	float Win_width_;

@@ -163,6 +163,7 @@ void Object3D::constTransformMatUpdata(const Vector3& eye, const Matrix4x4& matV
 	constMapTransform_->world_ = matWorld_;
 	constMapTransform_->cameraPos_ = {eye.x,eye.y,eye.z};
 	constMapTransform_->color = color_;
+	constMapTransform_->useLight = useLight_;
 
 }
 

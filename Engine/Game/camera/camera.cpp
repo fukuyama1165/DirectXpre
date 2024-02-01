@@ -24,7 +24,7 @@ void Camera::upDate()
 {
 	matView_ = matViewGeneration(eye_, target_, up_);
 
-	matProjection_ = perspectiveProjectionGeneration((45.0f * (PI / 180)), 0.1f, 1000000.0f);
+	matProjection_ = perspectiveProjectionGeneration((AngleOfView * (PI / 180)), 0.1f, 1000000.0f);
 }
 
 void Camera::setDefCamera()

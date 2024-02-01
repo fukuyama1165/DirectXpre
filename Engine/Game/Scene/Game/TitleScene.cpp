@@ -35,11 +35,15 @@ void TitleScene::Initialize()
 
 	lightManager_->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
 	lightManager_->lightGroups_[0].SetDirLightColor(0, { 0.05f,0.05f,0.05f });
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightActive(0, true);
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightDir(0, { 0,-1,0,0 });
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightColor(0, { 30.0f/255.0f,30.0f / 255.0f ,30.0f / 255.0f });
 
 	Object3D::SetLight(&lightManager_->lightGroups_[0]);
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 	objobj3_.SetScale({ 1000,1000,1000 });
+	objobj3_.useLight_ = false;
 
 	cameobj_ = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 

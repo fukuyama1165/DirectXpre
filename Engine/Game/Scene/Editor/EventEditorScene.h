@@ -122,6 +122,9 @@ private:
 	//デバック用の更新とか処理
 	void DebugUpdate();
 
+	//問答無用でテスト中でもデバックを行うためのデバック用の更新とか処理
+	void TestDebugUpdate();
+
 	//windowsの機能を使ってeefmファイルを保存
 	void WindowsSaveEEFMFile();
 
@@ -246,7 +249,8 @@ private:
 
 	uint32_t eventNum_ = 1;
 
-	float test_[2] = {};
+	float test_[3] = {};
+	float test2_[3] = {};
 
 	Sprite testSpite;
 
@@ -256,4 +260,9 @@ private:
 
 	Enemy testEnemy1;
 	Enemy testEnemy2;
+
+
+	bool testflag = true;
+	bool* p_open= &testflag;
+	
 };
