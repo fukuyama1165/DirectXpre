@@ -74,7 +74,7 @@ PSOutput main(VSOutput input)
 	for (uint i = 0; i < DIR_LIGHT_NUM; i++)
 	{
 
-		if (dirLights[i].active.x)
+		if (dirLights[i].active.x && useLight)
 		{
 
 			//ライトに向かうベクトルと法線の内積
@@ -103,7 +103,7 @@ PSOutput main(VSOutput input)
 	for (uint j = 0; j < POINTLIGHT_NUM; j++)
 	{
 
-		if (pointLights[j].active.x)
+        if (pointLights[j].active.x && useLight)
 		{
 
 			//ライトへのベクトル
@@ -140,7 +140,7 @@ PSOutput main(VSOutput input)
 	for (uint n = 0; n < SPOTLIGHT_NUM; n++)
 	{
 
-		if (spotLights[n].active.x)
+        if (spotLights[n].active.x && useLight)
 		{
 
 			//ライトへのベクトル
