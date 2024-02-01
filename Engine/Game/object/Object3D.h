@@ -121,8 +121,6 @@ private:
 
 	void constTransformMatUpdata(const Vector3& eye, const Matrix4x4& matView, const Matrix4x4& matProjection);	
 
-	
-
 	//ただ四角や三角形の為の頂点データ設定関数
 
 	void basicVertexInit();
@@ -146,7 +144,6 @@ private:
 	void vertexShaderGeneration2();//vertexMoveVS読み込み
 	void vertexShaderGeneration3();//OBJVS読み込み
 	void vertexShaderGeneration4();//Phong_toon_rim_VS読み込み
-
 
 	void vertexShaderFBXGeneration();//OBJVS読み込み
 
@@ -180,9 +177,7 @@ private:
 	//インデックスデータ関連(インデックスビューもここ)
 	void indicesBuffGeneration();
 
-
 	void loadMaterial(const std::string& filename, const std::string& directoryPath);
-
 	
 	/// <summary>
 	/// マテリアルのテクスチャ読み込み
@@ -190,11 +185,6 @@ private:
 	/// <returns>成否</returns>
 	bool LoadMaterialTexture(const std::string& filename, std::string handle);
 
-	
-
-
-	
-	//Matrix4x4 QuaternionMatRotateGeneration(const Vector3& rotate, Vector3 forward);
 
 public:
 
@@ -218,6 +208,9 @@ public:
 	Vector2 tiring_ = { 1,1 };
 	
 	Material material_;
+
+	//ライトを使うか
+	float useLight_ = 1;
 private:
 	
 
@@ -229,7 +222,7 @@ private:
 		Matrix4x4 viewProj_;//ビュープロジェクション行列
 		Matrix4x4 world_;//ワールド行列
 		Vector3 cameraPos_;//カメラ座標(ワールド座標)
-		float pad;
+		float useLight;//ライトを使うか
 		Vector4 color;
 	};
 
@@ -245,33 +238,6 @@ private:
 		float pad3_;
 		float pad4_;
 	};
-
-	//struct Material
-	//{
-	//	std::string name_="";//マテリアル名
-	//	DirectX::XMFLOAT3 ambient_;//アンビエント影響度
-	//	DirectX::XMFLOAT3 diffuse_;//ディフューズ影響度
-	//	DirectX::XMFLOAT3 specular_;//スペキュラー影響度
-	//	float alpha_;//アルファ
-
-	//	Vector2 tile_ = {5.0f,5.0f};
-
-	//	std::string textureFilename_;//テクスチャファイル名
-
-	//	//コンストラクタ
-	//	Material()
-	//	{
-	//		ambient_ = { 0.3f, 0.3f, 0.3f };
-	//		diffuse_ = { 0.0f, 0.0f, 0.0f };
-	//		specular_ = { 0.0f, 0.0f, 0.0f };
-	//		alpha_ = 1.0f;
-	//	}
-
-	//};
-
-
-	
-	
 
 	Matrix4x4 matScale_;
 	Matrix4x4 matRotate_;
@@ -339,11 +305,9 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffB1_ = nullptr;
 	Microsoft::WRL::ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
 
-
 	//マッピングするときのポインタ
 	ConstBufferDataTransform* constMapTransform_ = nullptr;
 	ConstBufferDataB1* constMapB1_ = nullptr;
-
 
 	//インデックスデータ
 	std::vector< unsigned short> indices_;
@@ -353,15 +317,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	//インデックスビュー
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
-
 	
 	//頂点法線スムージング用データ
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;	
 
-	
-
 	std::string materialTextureNum_ = "";
-
-	
 
 };

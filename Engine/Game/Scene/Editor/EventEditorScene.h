@@ -260,4 +260,9 @@ private:
 
 	Enemy testEnemy1;
 	Enemy testEnemy2;
+
+
+	bool testflag = true;
+	bool* p_open= &testflag;
+	
 };

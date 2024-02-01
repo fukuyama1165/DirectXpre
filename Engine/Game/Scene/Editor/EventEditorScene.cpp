@@ -24,6 +24,7 @@ void EventEditorScene::Initialize()
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
 	objobj3_.SetScale({ 1000,1000,1000 });
+	objobj3_.useLight_ = false;
 
 	cameobj_ = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
@@ -1439,11 +1440,99 @@ void EventEditorScene::DebugUpdate()
 #ifdef _DEBUG
 
 	ImGui::ShowDemoWindow();
+
+
+	ImGuiWindowFlags window_flags = 0;
+	//ImGuiWindowFlags window_flags2 = 0;
+	window_flags |= ImGuiWindowFlags_MenuBar;
+	//window_flags |= ImGuiWindowFlags_Popup;
+	// Menu Bar
+	ImGui::Begin("Editor", NULL, window_flags);
+
+	
+
+	if (ImGui::BeginMenuBar())
+	{
+
+		if (ImGui::BeginMenu("testMenu\n"))
+		{
+			ImGui::Begin("editcamera");
+
+
+			ImGui::Text("eye:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().eye_.x, cameobj_.GetCamera().eye_.y, cameobj_.GetCamera().eye_.z);
+			ImGui::Text("target:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().target_.x, cameobj_.GetCamera().target_.y, cameobj_.GetCamera().target_.z);
+			ImGui::Text("up:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().up_.x, cameobj_.GetCamera().up_.y, cameobj_.GetCamera().up_.z);
+
+			ImGui::Text("forward:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().forward_.x, cameobj_.GetCamera().forward_.y, cameobj_.GetCamera().forward_.z);
+			ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().rightDirection.x, cameobj_.GetCamera().rightDirection.y, cameobj_.GetCamera().rightDirection.z);
+
+			ImGui::End();
+
+			ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
+
+
+			ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
+			if (!ImGui::Begin("aaaa", p_open))
+			{
+				ImGui::End();
+				return;
+			}
+
+			// As a specific feature guaranteed by the library, after calling Begin() the last Item represent the title bar.
+			// So e.g. IsItemHovered() will return true when hovering the title bar.
+			// Here we create a context menu only available from the title bar.
+			if (ImGui::BeginPopupContextItem())
+			{
+				if (ImGui::MenuItem("Close Console"))
+					*p_open = false;
+				ImGui::EndPopup();
+			}
+
+			
+			const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
+			if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), ImGuiChildFlags_None, ImGuiWindowFlags_HorizontalScrollbar))
+			{
+				
+
+				//ImGui::PopStyleVar();
+			}
+			ImGui::EndChild();
+			ImGui::Separator();
+
+			//// Command-line
+			//bool reclaim_focus = false;
+			////ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_EscapeClearsAll | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
+			///*if (ImGui::InputText("Input", InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &TextEditCallbackStub, (void*)this))
+			//{
+			//	char* s = InputBuf;
+			//	Strtrim(s);
+			//	if (s[0])
+			//		ExecCommand(s);
+			//	strcpy(s, "");
+			//	reclaim_focus = true;
+			//}*/
+
+			//// Auto-focus on window apparition
+			//ImGui::SetItemDefaultFocus();
+			//if (reclaim_focus)
+				ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
+
+			ImGui::End();
+
+			ImGui::EndMenu();
+		}
+		ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
+		ImGui::EndMenuBar();
+	}
+
+	
+
+	ImGui::Checkbox("a", &testflag);
+
+	ImGui::End();
 #endif
 
-	//マップのテスト
-	//LevelLoader::GetInstance()->reloadLevel(DIK_L, "MapTest");
-
+	
 }
 
 void EventEditorScene::TestDebugUpdate()

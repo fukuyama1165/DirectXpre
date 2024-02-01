@@ -18,11 +18,6 @@ void LightManager::ALLLightUpdate()
 		g.Update();
 	}
 
-	for (DirectionalLight d : directionalLights_)
-	{
-		d.Update();
-	}
-
 }
 
 void LightManager::CreateLightGroup()
@@ -36,13 +31,3 @@ void LightManager::CreateLightGroup()
 
 }
 
-void LightManager::CreateDirectionalLight()
-{
-
-	DirectionalLight newLight;
-
-	newLight.Init();
-
-	directionalLights_.emplace_back(newLight);
-
-}

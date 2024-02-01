@@ -17,6 +17,9 @@ void GameScene::Initialize()
 	//lightManager_->lightGroups_[0].SetAmbientColor({ 0.08f,0.08f,0.08f });
 	lightManager_->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
 	lightManager_->lightGroups_[0].SetDirLightColor(0,{ 0.08f,0.08f,0.08f });
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightActive(0, true);
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightDir(0,{0,-1,0,0});
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightColor(0,{0.5f,0.5f ,0.5f });
 
 	Object3D::SetLight(&lightManager_->lightGroups_[0]);
 
@@ -33,6 +36,7 @@ void GameScene::Initialize()
 	play_.Init();
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
+	objobj3_.useLight_=false;
 
 	testObj_.FBXInit();
 
