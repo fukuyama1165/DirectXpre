@@ -46,8 +46,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(solutionDir)External\DirectXTex;$(SolutionDir)External\imgui;$(SolutionDir)External\assimp\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\/</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\/</IntDir>
+    <OutDir>$(SolutionDir)Product\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
