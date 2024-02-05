@@ -50,8 +50,8 @@
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)External\$(ProjectName)\$(Configuration)/</OutDir>
-    <IntDir>$(SolutionDir)External\$(ProjectName)\$(Configuration)/</IntDir>
+    <OutDir>$(SolutionDir)External\Product\$(Configuration)/</OutDir>
+    <IntDir>$(SolutionDir)External\Product\$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
