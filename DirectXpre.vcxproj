@@ -127,9 +127,6 @@
     <ClCompile Include="Engine\Game\App\Level\Wall.cpp" />
     <ClCompile Include="Engine\Game\App\Player\Player.cpp" />
     <ClCompile Include="Engine\Game\App\Player\PlayerBullet.cpp" />
-    <ClCompile Include="Engine\Game\App\Player\state\PlayerBattle.cpp" />
-    <ClCompile Include="Engine\Game\App\Player\state\PlayerMove.cpp" />
-    <ClCompile Include="Engine\Game\App\Player\state\PlayerState.cpp" />
     <ClCompile Include="Engine\Game\camera\camera.cpp" />
     <ClCompile Include="Engine\Game\camera\cameraObj.cpp" />
     <ClCompile Include="Engine\Game\collision\Base\Collision.cpp" />
@@ -208,9 +205,6 @@
     <ClInclude Include="Engine\Game\App\Level\Wall.h" />
     <ClInclude Include="Engine\Game\App\Player\Player.h" />
     <ClInclude Include="Engine\Game\App\Player\PlayerBullet.h" />
-    <ClInclude Include="Engine\Game\App\Player\state\PlayerBattle.h" />
-    <ClInclude Include="Engine\Game\App\Player\state\PlayerMove.h" />
-    <ClInclude Include="Engine\Game\App\Player\state\PlayerState.h" />
     <ClInclude Include="Engine\Game\camera\camera.h" />
     <ClInclude Include="Engine\Game\camera\cameraObj.h" />
     <ClInclude Include="Engine\Game\collision\Base\Collision.h" />
