@@ -43,8 +43,8 @@ void BasicParticle::Update()
 {
 	//移動するところ
 	Sprite_.pos_ += Velocity_;
-	Sprite_.rotate_ = easeInQuint(0.0f, 100.0f, actionTime_ / actionMaxTime_);
-	Sprite_.scale_ = easeInQuint(startScale_, endScale_, actionTime_ / actionMaxTime_);
+	Sprite_.rotate_ = DirectXpre::easeInQuint(0.0f, 100.0f, actionTime_ / actionMaxTime_);
+	Sprite_.scale_ = DirectXpre::easeInQuint(startScale_, endScale_, actionTime_ / actionMaxTime_);
 
 	Sprite_.Update();
 

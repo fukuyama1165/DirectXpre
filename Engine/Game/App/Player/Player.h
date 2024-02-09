@@ -220,9 +220,6 @@ private:
 	std::string gunReloadSount_;
 	std::string damageSound_;
 	
-	//キーボード使っているかい？
-	bool isUseKeybord_ = true;
-
 	//壁に隠れたりする用の基準位置
 	Vector3 originalPos_ = {};
 

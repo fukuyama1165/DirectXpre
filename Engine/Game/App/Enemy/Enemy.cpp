@@ -47,9 +47,9 @@ void Enemy::Update(std::string soundH)
 {
 	if (!isActive_)
 	{
-		enemyObj_.Scale_ = easeOutQuint(Vector3{ 0,0,0 }, Vector3{ 0.5f,0.5f ,0.5f }, startTime_ / startMaxTime_);
+		enemyObj_.Scale_ = DirectXpre::easeOutQuint(Vector3{ 0,0,0 }, Vector3{ 0.5f,0.5f ,0.5f }, startTime_ / startMaxTime_);
 
-		Collider.size_ = easeOutQuint(Vector3{ 0,0,0 }, Vector3{ 1,1 ,1 } , startTime_ / startMaxTime_);
+		Collider.size_ = DirectXpre::easeOutQuint(Vector3{ 0,0,0 }, Vector3{ 1,1 ,1 } , startTime_ / startMaxTime_);
 
 		if (startTime_ < startMaxTime_)
 		{

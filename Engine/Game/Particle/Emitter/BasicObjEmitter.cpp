@@ -85,7 +85,7 @@ void BasicObjEmitter::Update()
 
 	if (CT_ <= 0)
 	{
-		Vector3 velo(Util::Rand(randRangeX_.x, randRangeX_.y), Util::Rand(randRangeY_.x, randRangeY_.y), Util::Rand(randRangeZ_.x, randRangeZ_.y));
+		Vector3 velo(DirectXpre::Util::Rand(randRangeX_.x, randRangeX_.y), DirectXpre::Util::Rand(randRangeY_.x, randRangeY_.y), DirectXpre::Util::Rand(randRangeZ_.x, randRangeZ_.y));
 
 		//velo.normalize();
 

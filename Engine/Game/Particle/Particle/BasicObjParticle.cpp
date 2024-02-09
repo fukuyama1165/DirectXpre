@@ -42,8 +42,8 @@ void BasicObjParticle::Update()
 {
 	//移動するところ
 	obj_.pos_ += Velocity_;
-	obj_.Rotate_ = easeInQuint(Vector3(0,0,0), Vector3(100, 100, 100), actionTime_ / actionMaxTime_);
-	obj_.Scale_ = easeInQuint(startScale_, endScale_, actionTime_ / actionMaxTime_);
+	obj_.Rotate_ = DirectXpre::easeInQuint(Vector3(0,0,0), Vector3(100, 100, 100), actionTime_ / actionMaxTime_);
+	obj_.Scale_ = DirectXpre::easeInQuint(startScale_, endScale_, actionTime_ / actionMaxTime_);
 
 	obj_.Update();
 

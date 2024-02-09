@@ -150,15 +150,6 @@ void Player::Init()
 void Player::Update()
 {
 
-	if (input_->AllKeyCheck() || input_->GetMouseInput())
-	{
-		isUseKeybord_ = true;
-	}
-	else if(input_->GetGamePadInput())
-	{
-		isUseKeybord_ = false;
-	}
-
 	//デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
 	{
@@ -170,7 +161,7 @@ void Player::Update()
 	{
 
 		//隠れる動作用のフラグ立てる場所(リロードも)
-		if (((input_->PushKey(DIK_SPACE) && isUseKeybord_) || (input_->GetGamePadButton(XINPUT_GAMEPAD_A) && !isUseKeybord_)) && time_ <= 20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
+		if (((input_->PushKey(DIK_SPACE) && input_->GetIsUseKeybord()) || (input_->GetGamePadButton(XINPUT_GAMEPAD_A) && !input_->GetIsUseKeybord())) && time_ <= 20 && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 		{
 			attackFlag_ = true;
 			Reload();
@@ -184,7 +175,7 @@ void Player::Update()
 			XAudio::PlaySoundData(gunReloadSount_, 1.0f);
 		}
 
-		if ((input_->ReleaseKey(DIK_SPACE) && isUseKeybord_) || (input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A) && !isUseKeybord_))
+		if ((input_->ReleaseKey(DIK_SPACE) && input_->GetIsUseKeybord()) || (input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A) && !input_->GetIsUseKeybord()))
 		{
 			attackFlag_ = false;
 		}
@@ -431,7 +422,7 @@ void Player::Draw()
 
 	if (!isTitle_)
 	{
-		if (isUseKeybord_)
+		if (input_->GetIsUseKeybord())
 		{
 			mouseSprite_.Draw();
 			rightClickSprite_.Draw();
@@ -471,7 +462,7 @@ void Player::Attack()
 
 	
 
-	if ((input_->GetMouseButtonDown(0) && bulletCT_ <= 0 && isUseKeybord_) || (isTitle_ && isUseKeybord_))
+	if ((input_->GetMouseButtonDown(0) && bulletCT_ <= 0 && input_->GetIsUseKeybord()) || (isTitle_ && input_->GetIsUseKeybord()))
 	{
 		BulletAdd();
 		
@@ -486,7 +477,7 @@ void Player::Attack()
 	}
 
 	//Rトリガーを押していたら
-	if ((Input::GetInstance()->GetGamePadRTrigger() && bulletCT_ <= 0 && !isUseKeybord_) || (isTitle_ && !isUseKeybord_))
+	if ((Input::GetInstance()->GetGamePadRTrigger() && bulletCT_ <= 0 && !input_->GetIsUseKeybord()) || (isTitle_ && !input_->GetIsUseKeybord()))
 	{
 		BulletAdd();
 	}
@@ -517,7 +508,7 @@ void Player::HideRightWall()
 
 	Vector3 camerapos = {};
 
-	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, originalPos_+ (Vector3::normalize(playerCamera_.GetCamera().rightDirection)*hideDistanceX_), time_ / maxMoveTime_);
+	camerapos = DirectXpre::easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, originalPos_+ (Vector3::normalize(playerCamera_.GetCamera().rightDirection)*hideDistanceX_), time_ / maxMoveTime_);
 
 	playerCamera_.pos_ = camerapos;
 
@@ -540,7 +531,7 @@ void Player::HideDownWall()
 
 	Vector3 camerapos = {};
 	
-	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x, originalPos_.y-hideDistanceY_, originalPos_.z }, time_ / maxMoveTime_);
+	camerapos = DirectXpre::easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, Vector3{ originalPos_.x, originalPos_.y-hideDistanceY_, originalPos_.z }, time_ / maxMoveTime_);
 
 	playerCamera_.pos_ = camerapos;
 }
@@ -567,7 +558,7 @@ void Player::HideLeftWall()
 
 	Vector3 camerapos = {};
 
-	camerapos = easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, originalPos_ + (-Vector3::normalize(playerCamera_.GetCamera().rightDirection) * hideDistanceX_), time_ / maxMoveTime_);
+	camerapos = DirectXpre::easeOutQuint(Vector3{ originalPos_.x, originalPos_.y, originalPos_.z }, originalPos_ + (-Vector3::normalize(playerCamera_.GetCamera().rightDirection) * hideDistanceX_), time_ / maxMoveTime_);
 
 	playerCamera_.pos_ = camerapos;
 
@@ -681,7 +672,7 @@ void Player::SpriteUpdate()
 	}
 
 	//操作の描画の位置変更
-	if (isUseKeybord_)
+	if (input_->GetIsUseKeybord())
 	{
 		//キーボードの時
 		reticleMoveSprite_.pos_ = { (mouseSprite_.GetTextureSize().x / 2) + reticleMoveSprite_.GetTextureSize().x / 2, WinApp::SWindowHeightF_ - (mouseSprite_.GetTextureSize().y + rightClickSprite_.GetTextureSize().y + spaceButtonSprite_.GetTextureSize().y) };
@@ -713,7 +704,7 @@ void Player::Reticle2DMouse()
 	POINT mousePosition = {};
 	Vector2 spritePosition = reticle_.pos_;
 
-	if (isUseKeybord_)
+	if (input_->GetIsUseKeybord())
 	{
 		//スクリーン座標を取得
 		GetCursorPos(&mousePosition);
@@ -725,7 +716,7 @@ void Player::Reticle2DMouse()
 		reticle_.pos_=(Vector2((float)mousePosition.x, (float)mousePosition.y));
 		//reticle_.pos_=Input::GetInstance()->GetMousePos();
 	}
-	else if(!isUseKeybord_)
+	else if(!input_->GetIsUseKeybord())
 	{
 		spritePosition.x += (float)Input::GetInstance()->GetGamePadLStick().x*10;
 		spritePosition.y -= (float)Input::GetInstance()->GetGamePadLStick().y * 10;
@@ -807,7 +798,7 @@ void Player::Damage()
 		}
 	}
 
-	float effectT = lerp(0.6f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
+	float effectT = DirectXpre::lerp(0.6f, 0.0f, damageEffectTimer_ / damageEffectMaxTime_);
 
 	if (damageEffectTimer_ < damageEffectMaxTime_)
 	{
@@ -822,12 +813,12 @@ void Player::MuzzleFlash()
 {
 	if (flashTimer_ < flashChengTime_)
 	{
-		flashAlpha_ = easeOutQuad(0.0f, 1.0f, flashTimer_ / flashChengTime_);
+		flashAlpha_ = DirectXpre::easeOutQuad(0.0f, 1.0f, flashTimer_ / flashChengTime_);
 	}
 	else
 	{
 		//光ったので消えるときの動きflashTimerは全体で動いているので統合するために引いている
-		flashAlpha_ = easeInSine(1.0f, 0.0f, (flashTimer_ - flashChengTime_) / flashEndTime_);
+		flashAlpha_ = DirectXpre::easeInSine(1.0f, 0.0f, (flashTimer_ - flashChengTime_) / flashEndTime_);
 	}
 
 	if (flashTimer_ < flashMaxTime_)

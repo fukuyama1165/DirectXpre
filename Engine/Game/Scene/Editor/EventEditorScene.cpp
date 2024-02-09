@@ -1206,9 +1206,9 @@ void EventEditorScene::ChangeMap()
 		auto old = std::filesystem::current_path();
 		if (GetOpenFileName(&a))
 		{
-			test = Util::WStringToString(filePath);
+			test = DirectXpre::Util::WStringToString(filePath);
 
-			test = Util::SeparateFilePath(test);
+			test = DirectXpre::Util::SeparateFilePath(test);
 			
 			
 
@@ -1542,6 +1542,8 @@ void EventEditorScene::TestDebugUpdate()
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
 	ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
+
+	ImGui::Checkbox("enemyShotStop", &enemys_->isDebugShotStop_);
 
 	ImGui::End();
 }
@@ -1960,7 +1962,7 @@ void EventEditorScene::WindowsSaveEEFMFile()
 	auto old = std::filesystem::current_path();
 	if (GetSaveFileName(&a))
 	{
-		std::string test = Util::WStringToString(filePath);
+		std::string test = DirectXpre::Util::WStringToString(filePath);
 		SaveEventFullPathData(test);
 	}
 	std::filesystem::current_path(old);
@@ -1988,7 +1990,7 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 	if (GetOpenFileName(&a))
 	{
 		bool result = true;
-		std::string test = Util::WStringToString(filePath);
+		std::string test = DirectXpre::Util::WStringToString(filePath);
 		//設定のまとめに選択したファイルを読み取り書き込む
 		result = LoadFullPathEventData(test);
 

@@ -64,8 +64,8 @@ void ExplosionObj::Update(std::string soundH, int32_t eventNum)
 	else if(isAlive_)
 	{
 
-		obj_.Scale_ = easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
-		Collider.size_ = easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
+		obj_.Scale_ = DirectXpre::easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
+		Collider.size_ = DirectXpre::easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
 
 		if (explosionTimeBuff_ < explosionTime_)
 		{

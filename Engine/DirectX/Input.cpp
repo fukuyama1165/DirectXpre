@@ -159,6 +159,15 @@ void Input::update()
 	}
 
 
+	if (AllKeyCheck() || GetMouseInput())
+	{
+		isUseKeybord_ = true;
+	}
+	else if (GetGamePadInput())
+	{
+		isUseKeybord_ = false;
+	}
+
 #pragma endregion
 
 }

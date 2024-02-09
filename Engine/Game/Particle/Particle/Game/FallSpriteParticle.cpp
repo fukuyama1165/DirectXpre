@@ -42,7 +42,7 @@ void FallSpriteParticle::Update()
 	//移動するところ
 	Velocity_.y += gravity_;
 	Sprite_.pos_ += Velocity_;
-	Sprite_.rotate_ = lerp(0.0f, 100.0f, actionTime_ / actionMaxTime_);
+	Sprite_.rotate_ = DirectXpre::lerp(0.0f, 100.0f, actionTime_ / actionMaxTime_);
 
 	Sprite_.Update();
 

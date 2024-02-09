@@ -113,7 +113,7 @@ void CountTimer::Update()
 		//時間が増えた時
 		for (int32_t i = 0; i < 4; i++)
 		{
-			num[i].scale_ = easeInSine(Vector2{ 1,1 }, Vector2{ 3,3 }, sizeAddTimer_ / sizeAddMaxTime_);
+			num[i].scale_ = DirectXpre::easeInSine(Vector2{ 1,1 }, Vector2{ 3,3 }, sizeAddTimer_ / sizeAddMaxTime_);
 		}
 	}
 	else if(timer_< timeUpEffectStartTime_)
@@ -145,7 +145,7 @@ void CountTimer::Update()
 		}
 
 		Vector4 color = { 1.0f,0.0f, 0.0f, 0.0f };
-		color.w = lerp(0.0f, 0.03f, timeUpScreenEffectTime_ / timeUpScreenEffectMaxTime_);
+		color.w = DirectXpre::lerp(0.0f, 0.03f, timeUpScreenEffectTime_ / timeUpScreenEffectMaxTime_);
 		damageSprote_.setColor(color);
 		damageSprote_.Update();
 
