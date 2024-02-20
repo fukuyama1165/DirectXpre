@@ -58,13 +58,14 @@ void ExplosionObj::Update(std::string soundH, int32_t eventNum)
 		{
 			OnCollision();
 			XAudio::GetInstance()->PlaySoundData(soundH);
+			
 		}
 
 	}
 	else if(isAlive_)
 	{
 
-		obj_.Scale_ = DirectXpre::easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
+		//obj_.Scale_ = DirectXpre::easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
 		Collider.size_ = DirectXpre::easeOutCirc(size_, size_ + explosionSize_, explosionTimeBuff_ / explosionTime_);
 
 		if (explosionTimeBuff_ < explosionTime_)
@@ -90,7 +91,10 @@ void ExplosionObj::Draw(AnimationModel* model)
 {
 	//ヌルポチェック
 	assert(model);
-	obj_.FBXDraw(*model);
+	if (!isExplosion_)
+	{
+		obj_.FBXDraw(*model);
+	}
 }
 
 void ExplosionObj::OnCollision()
@@ -109,6 +113,6 @@ void ExplosionObj::OnCollision()
 
 	explosionTimeBuff_ = 0;
 
-	EmitterManager::GetInstance()->AddObjEmitter(obj_.GetWorldPos(), "BASIC", "Fall", 10, 10, 20, 1.0f, { -1,1 }, { -1,1 }, { -1,1 }, { 0.5f,0.5f,0.5f }, { 0.2f,0.2f,0.2f });
+	EmitterManager::GetInstance()->AddObjEmitter(obj_.GetWorldPos(), "BASIC", "Explosion", 10, 10, 10, 1.0f, { -1,1 }, { 0,1 }, { -1,1 }, { 0.0f,0.0f,0.0f }, { 1.0f,1.0f,1.0f });
 
 }

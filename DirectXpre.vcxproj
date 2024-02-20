@@ -152,6 +152,7 @@
     <ClCompile Include="Engine\Game\Particle\Particle\BasicObjParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\BasicParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\FallParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\ParticleFactory.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Engine\Game\Particle\Particle\BasicObjParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\BasicParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\FallParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h" />

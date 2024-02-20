@@ -47,7 +47,7 @@ void Player::Init()
 	
 	//モデルの読み込み
 	ModelManager::GetInstance()->Load("testGLTFBall", "gltf", "whiteBall", "white1x1");
-	ModelManager::GetInstance()->Load("Gun", "gltf", "Gun", "gray2x2");
+	ModelManager::GetInstance()->Load("Gun", "gltf", "Gun", "gun");
 	ModelManager::GetInstance()->Load("ammo", "gltf", "Ammo", "ammoTex");
 
 	//モデルのセット

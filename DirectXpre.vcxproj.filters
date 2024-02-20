@@ -447,6 +447,9 @@
     <ClCompile Include="Engine\Game\App\Level\ExplosionObjManager.cpp">
       <Filter>ソース ファイル\Game\App\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
@@ -703,6 +706,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\App\Level\ExplosionObjManager.h">
       <Filter>ヘッダー ファイル\App\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

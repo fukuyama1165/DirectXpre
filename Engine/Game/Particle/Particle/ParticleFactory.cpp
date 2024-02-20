@@ -4,6 +4,7 @@
 #include "CartridgeParticle.h"
 #include "FallParticle.h"
 #include "FallSpriteParticle.h"
+#include "ExplosionParticle.h"
 
 ParticleFactory::ParticleFactory()
 {
@@ -55,6 +56,10 @@ std::unique_ptr<IObjParticle> ParticleFactory::CreateObjParticle(const std::stri
 	else if (objParticleName == "Fall")
 	{
 		newParticle = std::make_unique<FallParticle>();
+	}
+	else if (objParticleName == "Explosion")
+	{
+		newParticle = std::make_unique<ExplosionParticle>();
 	}
 	else if (objParticleName == "")
 	{

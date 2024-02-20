@@ -128,6 +128,9 @@ private:
 	//windowsの機能を使ってeefmファイルを保存
 	void WindowsSaveEEFMFile();
 
+	//すでに持っているファイルパスを使って保存
+	void SaveAsEEFMFile();
+
 	//windowsの機能を使ってeefmファイルを開く
 	bool WindowsOpenEEFMFile();
 
@@ -146,6 +149,8 @@ private:
 	/// <param name="Event">イベントの中身のjson文字列</param>
 	/// <returns></returns>
 	bool EventScanning(const nlohmann::json& Event);
+
+
 
 private:
 	//天球
@@ -254,15 +259,28 @@ private:
 
 	Sprite testSpite;
 
-	VideoTexture testvideo;
+	//VideoTexture testvideo;
 
 	ExplosionObj testExplosionObj;
 
 	Enemy testEnemy1;
 	Enemy testEnemy2;
 
+	//セーブする場所保持
+	std::string saveFileName_ = "";
 
-	bool testflag = true;
+	bool testflag = false;
 	bool* p_open= &testflag;
+
+	bool imguiCheckWindow_ = false;
+	bool imguiCameraWindow_ = false;
+	bool imguiAddEventWindow_ = false;
+
+	bool imguiEventSaveWindow_ = false;
+	bool imguiEventOverwriteSaveWindow_ = false;
+	bool imguiEventLoadWindow_ = false;
+	bool imguiChangeMapWindow_ = false;
+	
+	Object3D testObj_;
 	
 };
