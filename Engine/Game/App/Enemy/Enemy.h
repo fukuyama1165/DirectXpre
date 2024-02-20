@@ -119,5 +119,11 @@ private:
 	//移動速度
 	float speed_ = 1.0f;
 	
+	bool isActive_ = false;
+
+	float startTime_ = 0;
+
+	float startMaxTime_ = 50;
+
 };
 

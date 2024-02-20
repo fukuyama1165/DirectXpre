@@ -6,6 +6,8 @@
 #include "Texture.h"
 #include "EmitterManager.h"
 #include "LevelLoader.h"
+#include <imGuizmo/ImGuizmo.h>
+#include <imGuizmo/GraphEditor.h>
 
 EventEditorScene::EventEditorScene()
 {
@@ -52,6 +54,8 @@ void EventEditorScene::Initialize()
 	testEnemy1.Init("Attack", { 2,20,-250 }, {}, 0, 900000);
 	testEnemy2.Init("Attack", { -2,20,-250 }, {}, 0, 900000);
 
+	testObj_.FBXInit();
+
 }
 
 void EventEditorScene::Finalize()
@@ -85,14 +89,11 @@ void EventEditorScene::Update()
 
 		DrawEventDataUpdate();
 
-		SaveAndLoadEvent();
-
-		ChangeMap();
 	}
 
 	TestEvent();
 
-	TestDebugUpdate();
+	testObj_.Update();
 
 	LightManager::GetInstance()->ALLLightUpdate();
 	
@@ -168,14 +169,22 @@ void EventEditorScene::Draw()
 		testEnemy2.Draw(enemyModel_);
 	}
 
+	testObj_.FBXDraw(*testModel_);
+
 }
 
 void EventEditorScene::AddEvent()
 {
 	//イベント追加部分
-	ImGui::Begin("addEvent");
+	//ImGui::Begin("addEvent");
 
-	
+	if (!imguiAddEventWindow_)return;
+
+	if (!ImGui::Begin("addEvent", &imguiAddEventWindow_))
+	{
+		ImGui::End();
+		return;
+	}
 
 	//intしか使えん許さん
 	ImGui::Combo("emitterType", (int*)&eventTypeNum_, EventTypeChar, IM_ARRAYSIZE(EventTypeChar));
@@ -1181,11 +1190,11 @@ void EventEditorScene::SaveEventData(const std::string& fileName)
 
 void EventEditorScene::ChangeMap()
 {
-	ImGui::Begin("ChangeMap");
+	//ImGui::Begin("ChangeMap");
 
 
-	if (ImGui::Button("selectMap"))/*ImGui::SameLine(); HelpMarker("You can input value using the scientific notation,\n""  e.g. \"1e+8\" becomes \"100000000\".");*/
-	{
+	//if (ImGui::Button("selectMap"))/*ImGui::SameLine(); HelpMarker("You can input value using the scientific notation,\n""  e.g. \"1e+8\" becomes \"100000000\".");*/
+	//{
 		wchar_t filePath[MAX_PATH] = { 0 };
 		OPENFILENAME a = {};
 		//構造体の大きさ基本的にこれ
@@ -1206,9 +1215,9 @@ void EventEditorScene::ChangeMap()
 		auto old = std::filesystem::current_path();
 		if (GetOpenFileName(&a))
 		{
-			test = Util::WStringToString(filePath);
+			test = DirectXpre::Util::WStringToString(filePath);
 
-			test = Util::SeparateFilePath(test);
+			test = DirectXpre::Util::SeparateFilePath(test);
 			
 			
 
@@ -1226,49 +1235,14 @@ void EventEditorScene::ChangeMap()
 			LevelLoader::GetInstance()->LoadLevel(test);
 		}
 		
-	}
+	/*}
 
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void EventEditorScene::TestEvent()
 {
-	ImGui::Begin("test");
-	if (!isTest_ && seting_.size()!=0)
-	{
-		if (ImGui::Button("testStart"))
-		{
-			Camera::nowCamera = player_.playerCamera_.GetCameraP();
-			eventManager_->setEventSeting(seting_);
-			isTest_ = !isTest_;
-		}
-		
-	}
-	else if(isTest_)
-	{
-		if (ImGui::Button("testStop"))
-		{
-			Camera::nowCamera = cameobj_.GetCameraP();
-			eventManager_->reset();
-			eventManager_->SetEventAllEnd(false);
-			enemys_->Reset();
-			player_.Reset();
-			ExplosionObjManager::GetInstance()->Reset();
-			isTest_ = !isTest_;
-		}
-
-		if (ImGui::Button("pause"))
-		{
-			pause_ = !pause_;
-		}
-	}
-
-	if (eventManager_->GetEventAllEnd())
-	{
-		ImGui::Text("EventAllEnd!!!!");
-	}
-
-	ImGui::End();
+	
 
 	if (isTest_)
 	{
@@ -1310,8 +1284,27 @@ void EventEditorScene::TestEvent()
 			player_.Reset();
 		}
 
-		
+		ImGui::Begin("test");
 
+		if (ImGui::Button("testStop"))
+		{
+			Camera::nowCamera = cameobj_.GetCameraP();
+			eventManager_->reset();
+			eventManager_->SetEventAllEnd(false);
+			enemys_->Reset();
+			player_.Reset();
+			ExplosionObjManager::GetInstance()->Reset();
+			isTest_ = !isTest_;
+		}
+
+		if (ImGui::Button("pause"))
+		{
+			pause_ = !pause_;
+		}
+
+		ImGui::End();
+
+		TestDebugUpdate();
 	}
 
 	if (!pause_)
@@ -1370,169 +1363,212 @@ void EventEditorScene::DebugUpdate()
 		IsUseCameraMouse_ = !IsUseCameraMouse_;
 	}
 
-	testExplosionObj.Update("", 0);
-	testEnemy1.Update("");
-	testEnemy2.Update("");
-	CollisionManager::GetInstance()->CheckAllCollisions();
-
-	if (Input::GetInstance()->TriggerKey(DIK_L) && !testExplosionObj.isExplosion_)
-	{
-		testExplosionObj.OnCollision();
-	}
+	
 
 #pragma region check
 
-	ImGui::Begin("check");
+	if (imguiCheckWindow_)
+	{
+		//2つ目の引数にbool型のポインタがあるとウインドウにバツが出てくる
+		if (!ImGui::Begin("check", &imguiCheckWindow_))
+		{
+			ImGui::End();
+			return;
+		}
+		//上のやつのタイトルバーを右クリックしたときのメニュー一覧
+		if (ImGui::BeginPopupContextItem())
+		{
+			//ウインドウ消す
+			if (ImGui::MenuItem("Close Console"))
+				*p_open = false;
+			ImGui::EndPopup();
+		}
 
-	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
+		ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
-	ImGui::Text("eventEnd:%d", eventManager_->GetInstance()->GetPEventPoint()->GetIsFinished());
-	ImGui::Text("eventAllEnd:%d", eventManager_->GetInstance()->GetEventAllEnd());
-	ImGui::Text("eventNum:%d", eventManager_->GetInstance()->GetEventNum());
-	ImGui::Text("eventcount:%d", eventManager_->GetInstance()->GetEventCount());
-	ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
-	ImGui::DragFloat3("dir",test_,1.0f,-100,100);
-	ImGui::ColorEdit3("light",test2_);
-	ImGui::DragFloat("AngleOfView",&player_.playCamera_.nowCamera->AngleOfView,1.0f,1.0f,200.0f);
+		ImGui::Text("eventEnd:%d", eventManager_->GetInstance()->GetPEventPoint()->GetIsFinished());
+		ImGui::Text("eventAllEnd:%d", eventManager_->GetInstance()->GetEventAllEnd());
+		ImGui::Text("eventNum:%d", eventManager_->GetInstance()->GetEventNum());
+		ImGui::Text("eventcount:%d", eventManager_->GetInstance()->GetEventCount());
+		ImGui::Checkbox("useMouseCamera(B)", &IsUseCameraMouse_);
+		ImGui::DragFloat3("dir", test_, 1.0f, -100, 100);
+		ImGui::ColorEdit3("light", test2_);
+		ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
 
-	ImGui::End();
+		ImGui::End();
+	}
 
 	LightManager::GetInstance()->lightGroups_[0].SetDirLightDir(0, { test_[0],test_[1],test_[2],0});
 	LightManager::GetInstance()->lightGroups_[0].SetDirLightColor(0, { test2_[0],test2_[1],test2_[2]});
 
 #pragma endregion
 
-	ImGui::Begin("camera");
-
-
-	ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
-	ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
-	ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
-
-
-	ImGui::Text("reset");
-
-	if (ImGui::Button("posX"))
+	if (imguiCameraWindow_)
 	{
-		cameraPos_.x = 0;
+		//2つ目の引数にbool型のポインタがあるとウインドウにバツが出てくる
+		if (!ImGui::Begin("camera", &imguiCameraWindow_))
+		{
+			ImGui::End();
+			return;
+		}
+		//上のやつのタイトルバーを右クリックしたときのメニュー一覧
+		if (ImGui::BeginPopupContextItem())
+		{
+			//ウインドウ消す
+			if (ImGui::MenuItem("Close Console"))
+				*p_open = false;
+			ImGui::EndPopup();
+		}
+
+		ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
+		ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
+		ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
+
+
+		ImGui::Text("reset");
+
+		if (ImGui::Button("posX"))
+		{
+			cameraPos_.x = 0;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("posY"))
+		{
+			cameraPos_.y = 0;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("posZ"))
+		{
+			cameraPos_.z = -200;
+		}
+
+
+		ImGui::Text("eye:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().eye_.x, cameobj_.GetCamera().eye_.y, cameobj_.GetCamera().eye_.z);
+		ImGui::Text("target:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().target_.x, cameobj_.GetCamera().target_.y, cameobj_.GetCamera().target_.z);
+		ImGui::Text("up:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().up_.x, cameobj_.GetCamera().up_.y, cameobj_.GetCamera().up_.z);
+
+		ImGui::Text("forward:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().forward_.x, cameobj_.GetCamera().forward_.y, cameobj_.GetCamera().forward_.z);
+		ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().rightDirection.x, cameobj_.GetCamera().rightDirection.y, cameobj_.GetCamera().rightDirection.z);
+
+		ImGui::End();
 	}
-	ImGui::SameLine();
-	if (ImGui::Button("posY"))
-	{
-		cameraPos_.y = 0;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("posZ"))
-	{
-		cameraPos_.z = -200;
-	}
-
-
-	ImGui::Text("eye:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().eye_.x, cameobj_.GetCamera().eye_.y, cameobj_.GetCamera().eye_.z);
-	ImGui::Text("target:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().target_.x, cameobj_.GetCamera().target_.y, cameobj_.GetCamera().target_.z);
-	ImGui::Text("up:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().up_.x, cameobj_.GetCamera().up_.y, cameobj_.GetCamera().up_.z);
-
-	ImGui::Text("forward:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().forward_.x, cameobj_.GetCamera().forward_.y, cameobj_.GetCamera().forward_.z);
-	ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().rightDirection.x, cameobj_.GetCamera().rightDirection.y, cameobj_.GetCamera().rightDirection.z);
-
-	ImGui::End();
 
 #ifdef _DEBUG
 
 	ImGui::ShowDemoWindow();
 
-
+	//imguiの機能を追加するためのフラグ
 	ImGuiWindowFlags window_flags = 0;
-	//ImGuiWindowFlags window_flags2 = 0;
+	//メニューバーを使います
 	window_flags |= ImGuiWindowFlags_MenuBar;
-	//window_flags |= ImGuiWindowFlags_Popup;
-	// Menu Bar
+	//beginで渡すことでフラグをこのウインドウで有効にする
 	ImGui::Begin("Editor", NULL, window_flags);
 
 	
-
+	//エディタの機能をまとめたメニュー
 	if (ImGui::BeginMenuBar())
 	{
-
-		if (ImGui::BeginMenu("testMenu\n"))
+		if (ImGui::BeginMenu("File\n"))
 		{
-			ImGui::Begin("editcamera");
-
-
-			ImGui::Text("eye:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().eye_.x, cameobj_.GetCamera().eye_.y, cameobj_.GetCamera().eye_.z);
-			ImGui::Text("target:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().target_.x, cameobj_.GetCamera().target_.y, cameobj_.GetCamera().target_.z);
-			ImGui::Text("up:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().up_.x, cameobj_.GetCamera().up_.y, cameobj_.GetCamera().up_.z);
-
-			ImGui::Text("forward:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().forward_.x, cameobj_.GetCamera().forward_.y, cameobj_.GetCamera().forward_.z);
-			ImGui::Text("rightDirection:%0.2f,%0.2f,%0.2f", cameobj_.GetCamera().rightDirection.x, cameobj_.GetCamera().rightDirection.y, cameobj_.GetCamera().rightDirection.z);
-
-			ImGui::End();
-
-			ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
-
-
-			ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-			if (!ImGui::Begin("aaaa", p_open))
-			{
-				ImGui::End();
-				return;
-			}
-
-			// As a specific feature guaranteed by the library, after calling Begin() the last Item represent the title bar.
-			// So e.g. IsItemHovered() will return true when hovering the title bar.
-			// Here we create a context menu only available from the title bar.
-			if (ImGui::BeginPopupContextItem())
-			{
-				if (ImGui::MenuItem("Close Console"))
-					*p_open = false;
-				ImGui::EndPopup();
-			}
-
-			
-			const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing();
-			if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), ImGuiChildFlags_None, ImGuiWindowFlags_HorizontalScrollbar))
-			{
-				
-
-				//ImGui::PopStyleVar();
-			}
-			ImGui::EndChild();
-			ImGui::Separator();
-
-			//// Command-line
-			//bool reclaim_focus = false;
-			////ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_EscapeClearsAll | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
-			///*if (ImGui::InputText("Input", InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &TextEditCallbackStub, (void*)this))
-			//{
-			//	char* s = InputBuf;
-			//	Strtrim(s);
-			//	if (s[0])
-			//		ExecCommand(s);
-			//	strcpy(s, "");
-			//	reclaim_focus = true;
-			//}*/
-
-			//// Auto-focus on window apparition
-			//ImGui::SetItemDefaultFocus();
-			//if (reclaim_focus)
-				ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
-
-			ImGui::End();
-
+			ImGui::MenuItem("EventSave", NULL, &imguiEventSaveWindow_);
+			ImGui::MenuItem("EventOverwriteSave", NULL, &imguiEventOverwriteSaveWindow_);
+			ImGui::MenuItem("EventLoad", NULL, &imguiEventLoadWindow_);
+			ImGui::MenuItem("ChangeMap", NULL, &imguiChangeMapWindow_);
+			ImGui::EndMenu();			
+		}
+		if (ImGui::BeginMenu("addEvent\n"))
+		{
+			imguiAddEventWindow_ = true;
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("window\n"))
+		{
+			ImGui::MenuItem("check", NULL, &imguiCheckWindow_);
+			ImGui::MenuItem("camera", NULL, &imguiCameraWindow_);
+			ImGui::MenuItem("testWindow", NULL, &testflag);
+			ImGui::EndMenu();
+		}
+		
 		ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 		ImGui::EndMenuBar();
 	}
 
-	
+	if (testflag)
+	{
+		//2つ目の引数にbool型のポインタがあるとウインドウにバツが出てくる
+		if (!ImGui::Begin("testWindow", &testflag))
+		{
+			ImGui::End();
+			return;
+		}
+		//上のやつのタイトルバーを右クリックしたときのメニュー一覧
+		if (ImGui::BeginPopupContextItem())
+		{
+			//ウインドウ消す
+			if (ImGui::MenuItem("Close Console"))
+				*p_open = false;
+			ImGui::EndPopup();
+		}
+		ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
-	ImGui::Checkbox("a", &testflag);
+		ImGui::End();
+	}
+
+	if (imguiEventSaveWindow_)
+	{
+		WindowsSaveEEFMFile();
+		imguiEventSaveWindow_ = false;
+	}
+	if (imguiEventOverwriteSaveWindow_)
+	{
+		SaveAsEEFMFile();
+	}
+	if (imguiEventLoadWindow_)
+	{
+		isLoad_ = WindowsOpenEEFMFile();
+		imguiEventLoadWindow_ = false;
+	}
+	if (imguiChangeMapWindow_)
+	{
+		ChangeMap();
+		imguiChangeMapWindow_ = false;
+	}
+
+	if (!isLoad_)
+	{
+		ImGui::Text("Loading failed");
+		ImGui::Text(std::string("reason " + loadErrorText_).c_str());
+	}
+
+	if (saveFileName_ != "")
+	{
+		ImGui::Text(std::string("fileName:" + DirectXpre::Util::SeparateFilePath(saveFileName_)).c_str());
+	}
+
+	if (!isTest_ && seting_.size() != 0)
+	{
+		if (ImGui::Button("testStart"))
+		{
+			Camera::nowCamera = player_.playerCamera_.GetCameraP();
+			eventManager_->setEventSeting(seting_);
+			isTest_ = !isTest_;
+		}
+
+	}
+
+	if (eventManager_->GetEventAllEnd())
+	{
+		ImGui::Text("EventAllEnd!!!!");
+	}
 
 	ImGui::End();
 #endif
 
-	
+	/*float guizmotestmat[16] = {};
+	guizmotestmat = ChengeMatrix(testObj_.GetWorldMat());
+
+	ImGuizmo::Manipulate(ChengeMatrix(cameobj_.GetCameraP()->nowCamera->matView_), ChengeMatrix(cameobj_.GetCameraP()->nowCamera->matProjection_), ImGuizmo::TRANSLATE, ImGuizmo::WORLD, , NULL, NULL, NULL, NULL);*/
+
 }
 
 void EventEditorScene::TestDebugUpdate()
@@ -1542,6 +1578,10 @@ void EventEditorScene::TestDebugUpdate()
 	ImGui::Text("%0.0fFPS", ImGui::GetIO().Framerate);
 
 	ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
+
+	ImGui::Checkbox("enemyShotStop", &enemys_->isDebugShotStop_);
+
+	//ImGuizmo::m
 
 	ImGui::End();
 }
@@ -1960,10 +2000,46 @@ void EventEditorScene::WindowsSaveEEFMFile()
 	auto old = std::filesystem::current_path();
 	if (GetSaveFileName(&a))
 	{
-		std::string test = Util::WStringToString(filePath);
+		std::string test = DirectXpre::Util::WStringToString(filePath);
+		saveFileName_ = test;
 		SaveEventFullPathData(test);
 	}
 	std::filesystem::current_path(old);
+}
+
+void EventEditorScene::SaveAsEEFMFile()
+{
+	if (saveFileName_ == "")
+	{
+		return;
+	}
+
+	if (imguiEventOverwriteSaveWindow_)
+	{
+		//2つ目の引数にbool型のポインタがあるとウインドウにバツが出てくる
+		if (!ImGui::Begin("check", &imguiEventOverwriteSaveWindow_))
+		{
+			ImGui::End();
+			return;
+		}
+		
+
+		ImGui::Text(std::string("fileName:" + DirectXpre::Util::SeparateFilePath(saveFileName_)+"に上書きしますか?").c_str());
+
+		if (ImGui::Button("yes", { 100,100 }))
+		{
+			SaveEventFullPathData(saveFileName_);
+			imguiEventOverwriteSaveWindow_ = false;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::Button("no", { 100,100 }))
+		{
+			imguiEventOverwriteSaveWindow_ = false;
+		}
+		
+		ImGui::End();
+	}
 }
 
 bool EventEditorScene::WindowsOpenEEFMFile()
@@ -1988,7 +2064,7 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 	if (GetOpenFileName(&a))
 	{
 		bool result = true;
-		std::string test = Util::WStringToString(filePath);
+		std::string test = DirectXpre::Util::WStringToString(filePath);
 		//設定のまとめに選択したファイルを読み取り書き込む
 		result = LoadFullPathEventData(test);
 
@@ -1996,6 +2072,7 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 		{
 			return false;
 		}
+		saveFileName_ = test;
 
 		//読み込んだデータにあるエディタに描画するオブジェクトの登録
 		AddEventDebugObj();

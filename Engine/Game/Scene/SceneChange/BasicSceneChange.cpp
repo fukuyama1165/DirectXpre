@@ -40,7 +40,7 @@ void BasicSceneChange::Update()
 	{
 		if (!isClose_)
 		{
-			scale_ = easeOutQuad(0.01f, 20.0f, scaleTimer_ / scaleMaxTime_);
+			scale_ = DirectXpre::easeOutQuad(0.01f, 20.0f, scaleTimer_ / scaleMaxTime_);
 
 			chengSprite_.scale_ = Vector2(scale_, scale_);
 			chengSprite_.rotate_ = angle_;
@@ -63,7 +63,7 @@ void BasicSceneChange::Update()
 
 		if (isOpenStart_)
 		{
-			alpha_ = easeInQuint(0.0f, 1.0f, afterTimer / afterMaxTime);
+			alpha_ = DirectXpre::easeInQuint(0.0f, 1.0f, afterTimer / afterMaxTime);
 
 			chengSprite_.setColor(Vector4(1, 1, 1, alpha_));
 			chengSprite_.Update();

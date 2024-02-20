@@ -2,18 +2,18 @@
 #include <random>
 
 //ラジアンから角度
-float Util::RadianToAngle(float Radian)
+float DirectXpre::Util::RadianToAngle(float Radian)
 {
 	return Radian * (180 / PI);
 }
 
 //角度からラジアン
-float Util::AngleToRadian(float Angle)
+float DirectXpre::Util::AngleToRadian(float Angle)
 {
 	return Angle * (PI / 180);
 }
 
-uint32_t Util::Rand(uint32_t min, uint32_t max)
+uint32_t DirectXpre::Util::Rand(uint32_t min, uint32_t max)
 {
 	std::random_device seed;
 	std::default_random_engine engine(seed());
@@ -22,7 +22,7 @@ uint32_t Util::Rand(uint32_t min, uint32_t max)
 
 	return dest(engine);
 }
-uint16_t Util::Rand(uint16_t min, uint16_t max)
+uint16_t DirectXpre::Util::Rand(uint16_t min, uint16_t max)
 {
 	std::random_device seed;
 	std::default_random_engine engine(seed());
@@ -32,7 +32,7 @@ uint16_t Util::Rand(uint16_t min, uint16_t max)
 	return dest(engine);
 }
 
-float Util::Rand(float min, float max)
+float DirectXpre::Util::Rand(float min, float max)
 {
 	std::random_device seed;
 	std::default_random_engine engine(seed());
@@ -41,7 +41,7 @@ float Util::Rand(float min, float max)
 
 	return dest(engine);
 }
-double Util::Rand(double min, double max)
+double DirectXpre::Util::Rand(double min, double max)
 {
 	std::random_device seed;
 	std::default_random_engine engine(seed());
@@ -51,7 +51,7 @@ double Util::Rand(double min, double max)
 	return dest(engine);
 }
 
-float Util::Clamp(float num, float min, float max)
+float DirectXpre::Util::Clamp(float num, float min, float max)
 {
 
 	if (num > max)
@@ -67,7 +67,7 @@ float Util::Clamp(float num, float min, float max)
 
 }
 
-std::string Util::WStringToString(const std::wstring& wstr)
+std::string DirectXpre::Util::WStringToString(const std::wstring& wstr)
 {
 	// wstring → SJIS
 	int32_t iBufferSize = WideCharToMultiByte(CP_OEMCP, 0, wstr.c_str()
@@ -91,7 +91,7 @@ std::string Util::WStringToString(const std::wstring& wstr)
 	return oRet;
 }
 
-std::wstring Util::ConvertMultByteStringToWideString(const std::string& mstring)
+std::wstring DirectXpre::Util::ConvertMultByteStringToWideString(const std::string& mstring)
 {
 
 	//文字列のサイズをワイド文字て取得
@@ -108,7 +108,7 @@ std::wstring Util::ConvertMultByteStringToWideString(const std::string& mstring)
 
 }
 
-std::string Util::SeparateFilePath(const std::string& filePath)
+std::string DirectXpre::Util::SeparateFilePath(const std::string& filePath)
 {
 	size_t pos1;
 	std::string exceptExt;

@@ -149,6 +149,12 @@ public:
 	/// <returns></returns>
 	Vector2 GetRStick(const bool& useWASD, const bool& useArrow);
 
+	/// <summary>
+	/// キーボードを使っているかを変えす関数
+	/// </summary>
+	/// <returns>使っているか</returns>
+	bool GetIsUseKeybord() { return isUseKeybord_; };
+
 private:
 	Input() = default;
 	~Input();
@@ -175,7 +181,11 @@ private:
 	XINPUT_STATE gamePadState_;
 	XINPUT_STATE oldGamePadState_;
 
+	//ゲームパットつながってる?
 	bool IsUseGamePad_ = false;
+
+	//キーボード使ってる?
+	bool isUseKeybord_ = true;
 
 	//inputの本体
 	Microsoft::WRL::ComPtr <IDirectInput8> directInput = nullptr;

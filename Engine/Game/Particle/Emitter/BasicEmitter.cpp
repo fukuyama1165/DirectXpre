@@ -74,7 +74,7 @@ void BasicEmitter::Update()
 	//パーティクル生成(isactiveが条件式にあるのはパーティクルのUpdateの前に処理したかったから)
 	if (CT_ <= 0 && isActive_)
 	{
-		Vector2 velo(Util::Rand(randRangeX_.x, randRangeX_.y), Util::Rand(randRangeY_.x, randRangeY_.y));
+		Vector2 velo(DirectXpre::Util::Rand(randRangeX_.x, randRangeX_.y), DirectXpre::Util::Rand(randRangeY_.x, randRangeY_.y));
 
 		//velo.normalize();
 

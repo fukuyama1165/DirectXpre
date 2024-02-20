@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "EmitterManager.h"
 #include "XAudio.h"
+#include "Easing.h"
 
 Enemy::Enemy()
 {
@@ -44,7 +45,27 @@ void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float
 
 void Enemy::Update(std::string soundH)
 {
-	if (isAlive_)
+	if (!isActive_)
+	{
+		enemyObj_.Scale_ = DirectXpre::easeOutQuint(Vector3{ 0,0,0 }, Vector3{ 0.5f,0.5f ,0.5f }, startTime_ / startMaxTime_);
+
+		Collider.size_ = DirectXpre::easeOutQuint(Vector3{ 0,0,0 }, Vector3{ 1,1 ,1 } , startTime_ / startMaxTime_);
+
+		if (startTime_ < startMaxTime_)
+		{
+			startTime_++;
+		}
+		else
+		{
+			isActive_ = true;
+		}
+
+		enemyObj_.Update();
+		Collider.Update(enemyObj_.GetWorldPos());
+	}
+
+
+	if (isAlive_ && isActive_)
 	{
 		
 		if (moveEnd_ == false && enemyType_ == EnemyType::Attack)

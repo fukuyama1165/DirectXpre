@@ -38,7 +38,7 @@ void LevelLoader::LoadLevel(std::string filename)
 			std::unique_ptr<LevelWallObj> newWall = std::make_unique<LevelWallObj>();
 
 			newWall->obj.obj_.pos_ = Vector3{ objData.pos_.x,objData.pos_.y ,objData.pos_.z };
-			newWall->obj.obj_.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+			newWall->obj.obj_.Rotate_ = Vector3{ DirectXpre::Util::AngleToRadian(objData.rot_.x),DirectXpre::Util::AngleToRadian(objData.rot_.y) ,DirectXpre::Util::AngleToRadian(objData.rot_.z) };
 			newWall->obj.obj_.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
 			newWall->obj.obj_.matWorldGeneration();
 			newWall->obj.Init();
@@ -58,7 +58,7 @@ void LevelLoader::LoadLevel(std::string filename)
 		LevelObj newObject;
 		newObject.obj.FBXInit();
 		newObject.obj.pos_ = Vector3{ objData.pos_.x,objData.pos_.y ,objData.pos_.z };
-		newObject.obj.Rotate_ = Vector3{ Util::AngleToRadian(objData.rot_.x),Util::AngleToRadian(objData.rot_.y) ,Util::AngleToRadian(objData.rot_.z) };
+		newObject.obj.Rotate_ = Vector3{ DirectXpre::Util::AngleToRadian(objData.rot_.x),DirectXpre::Util::AngleToRadian(objData.rot_.y) ,DirectXpre::Util::AngleToRadian(objData.rot_.z) };
 		newObject.obj.Scale_ = Vector3{ objData.scale_.x,objData.scale_.y ,objData.scale_.z };
 		newObject.obj.matWorldGeneration();
 		newObject.name = objData.name_;

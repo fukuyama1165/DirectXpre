@@ -2,6 +2,9 @@
 #include <imgui.h>
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx12.h"
+#include <imGuizmo/ImGuizmo.h>
+#include <imGuizmo/GraphEditor.h>
+
 #include <cstdint>
 #include "WinApp.h"
 
@@ -66,6 +69,7 @@ void ImGuiManager::Begin()
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 
 }
 

@@ -609,3 +609,55 @@ Matrix4x4 QuaternionMatRotateGeneration(const Vector3& rotate)
 	return Quaternion::MakeRotateMatrix(Quaternion::Normalize(ans));
 
 }
+
+float* ChengeMatrix(Matrix4x4 mat)
+{
+	float buff[16] = {};
+	buff[0] = mat.m[0][0];
+	buff[1] = mat.m[0][1];
+	buff[2] = mat.m[0][2];
+	buff[3] = mat.m[0][3];
+
+	buff[4] = mat.m[1][0];
+	buff[5] = mat.m[1][1];
+	buff[6] = mat.m[1][2];
+	buff[7] = mat.m[1][3];
+
+	buff[8] = mat.m[2][0];
+	buff[9] = mat.m[2][1];
+	buff[10] = mat.m[2][2];
+	buff[11] = mat.m[2][3];
+
+	buff[12] = mat.m[3][0];
+	buff[13] = mat.m[3][1];
+	buff[14] = mat.m[3][2];
+	buff[15] = mat.m[3][3];
+
+	return buff;
+}
+
+Matrix4x4 ChengeTwoDimensionalMatrix(float mat[16])
+{
+	Matrix4x4 buff = {};
+	buff.m[0][0] = mat[0];
+	buff.m[0][1] = mat[1];
+	buff.m[0][2] = mat[2];
+	buff.m[0][3] = mat[3];
+
+	buff.m[1][0] = mat[4];
+	buff.m[1][1] = mat[5];
+	buff.m[1][2] = mat[6];
+	buff.m[1][3] = mat[7];
+
+	buff.m[2][0] = mat[8];
+	buff.m[2][1] = mat[9];
+	buff.m[2][2] = mat[10];
+	buff.m[2][3] = mat[11];
+
+	buff.m[3][0] = mat[12];
+	buff.m[3][1] = mat[13];
+	buff.m[3][2] = mat[14];
+	buff.m[3][3] = mat[15];
+
+	return buff;
+}

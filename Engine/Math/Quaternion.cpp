@@ -257,7 +257,7 @@ Quaternion Quaternion::DirectionToDirection(const Vector3& u, const Vector3& v)
 	//正規化する
 	Vector3 axis = Vector3::normalize(cross);
 
-	float clamp = Util::Clamp(dot, -1, 1);
+	float clamp = DirectXpre::Util::Clamp(dot, -1, 1);
 
 	float theta = std::acos(clamp);
 

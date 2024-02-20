@@ -39,7 +39,8 @@ External/Product/*/*.lib
 
 External/assimp/contrib/zlib/*/*.lib
 External/assimp/contrib/zlib/Debug/zlibstaticd.lib
-
+External/Product/
+Product
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

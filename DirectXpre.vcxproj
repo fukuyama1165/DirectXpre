@@ -46,8 +46,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(solutionDir)External\DirectXTex;$(SolutionDir)External\imgui;$(SolutionDir)External\assimp\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\/</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\/</IntDir>
+    <OutDir>$(SolutionDir)Product\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -63,7 +63,7 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\Editor;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player\state;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\Editor;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -85,7 +85,7 @@
       <ConformanceMode>false</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\Editor;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Engine\DirectX;$(ProjectDir)Engine\DirectX\resouse;$(ProjectDir)Engine\DirectX\resouse\Loader;$(ProjectDir)Engine\DirectX\resouse\Model;$(ProjectDir)Engine\Game\App\Enemy;$(ProjectDir)Engine\Game\App\Event;$(ProjectDir)Engine\Game\App\Level;$(ProjectDir)Engine\Game\App\Player;$(ProjectDir)Engine\Game\App\Player\state;$(ProjectDir)Engine\Game\camera;$(ProjectDir)Engine\Game\collision\Base;$(ProjectDir)Engine\Game\collision\Collider;$(ProjectDir)Engine\Game\collision\Game;$(ProjectDir)Engine\Game\Light;$(ProjectDir)Engine\Game\object;$(ProjectDir)Engine\Game\Scene;$(ProjectDir)Engine\Game\Scene\Game;$(ProjectDir)Engine\Game\Scene\Editor;$(ProjectDir)Engine\Game\Scene\SceneChange;$(ProjectDir)Engine\Game\Scene\Base;$(ProjectDir)Engine\Game\sprite;$(ProjectDir)Engine\Game\Particle\Emitter;$(ProjectDir)Engine\Game\Particle\Particle;$(ProjectDir)Engine\Game\Particle\Particle\Game;$(ProjectDir)Engine\Game\PostEffect;$(ProjectDir)Engine\Game\App;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -152,6 +152,7 @@
     <ClCompile Include="Engine\Game\Particle\Particle\BasicObjParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\BasicParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\FallParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\ParticleFactory.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="Engine\Game\Particle\Particle\BasicObjParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\BasicParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\CartridgeParticle.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\FallParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h" />

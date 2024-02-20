@@ -16,9 +16,6 @@ TitleScene::~TitleScene()
 
 void TitleScene::Initialize()
 {
-
-	Texture::GetInstance()->loadTexture("Resources/basketballman2.dds", "basketballman2");
-
 	//ライトの生成
 	lightManager_ = LightManager::GetInstance();
 

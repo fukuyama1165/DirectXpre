@@ -151,7 +151,7 @@ void EventPointManager::LoadFullPathEventData(const std::string& fileName)
 
 	eventSetings_.clear();
 
-	NowEventDataFileName_ = Util::SeparateFilePath(fileName);
+	NowEventDataFileName_ = DirectXpre::Util::SeparateFilePath(fileName);
 
 	//ファイルストリーム
 	std::ifstream file(fileName);
@@ -505,13 +505,13 @@ void EventPointManager::Update()
 				if (nextMoveTime_ < nextMoveMaxTime_)
 				{
 					//左から出てくる
-					nextSprite_.pos_ = easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
+					nextSprite_.pos_ = DirectXpre::easeOutQuad(Vector2{ -nextSprite_.GetTextureSize().x,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime_ / nextMoveMaxTime_);
 					nextMoveTime_++;
 				}
 				else if (nextMoveTime2_ < nextMoveMaxTime2_)
 				{
 					//右に帰る
-					nextSprite_.pos_ = easeInQuint(Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
+					nextSprite_.pos_ = DirectXpre::easeInQuint(Vector2{ (float)WinApp::SWindowWidth_ / 2,(float)WinApp::SWindowHeight_ / 2 }, Vector2{ (float)WinApp::SWindowWidth_ + nextSprite_.GetTextureSize().x / 2,(float)WinApp::SWindowHeight_ / 2 }, nextMoveTime2_ / nextMoveMaxTime2_);
 					nextMoveTime2_++;
 
 				}
