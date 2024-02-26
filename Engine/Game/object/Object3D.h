@@ -60,6 +60,8 @@ public:
 	//FBX(gltf)用の初期化
 	void FBXInit();
 
+	void SetMatrix(const Matrix4x4& mat);
+
 	void SetScale(const Vector3&  scale);
 	void SetRotate(const Vector3& rotate);
 	void SetPos(const Vector3& pos);

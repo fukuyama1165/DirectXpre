@@ -246,7 +246,7 @@ Matrix4x4 Camera::perspectiveProjectionGeneration(float FovAngleY,float NearZ,fl
 
 	float SinFov;
 	float CosFov;
-	float AspectRatio = Win_width_ / Win_height_;
+	float AspectRatio = WinApp::GetInstance()->getWindowSizeWidthF() / WinApp::GetInstance()->getWindowSizeHeightF();
 	sinCos(SinFov, CosFov, 0.5f * FovAngleY);
 
 	float fRange = FarZ / (FarZ - NearZ);

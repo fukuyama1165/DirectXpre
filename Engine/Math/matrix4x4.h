@@ -77,6 +77,6 @@ Matrix4x4 matMoveGeneration(const Vector3& translation);
 Matrix4x4 QuaternionMatRotateGeneration(const Vector3& rotate);
 
 //マトリックスの中身を二次元配列から一次元配列に変更(imguizmo用)
-float* ChengeMatrix(Matrix4x4 mat);
+void ChengeMatrix(Matrix4x4 mat,float buff[16]);
 //マトリックスの中身を一次元配列から二次元配列に変更(imguizmo用)
 Matrix4x4 ChengeTwoDimensionalMatrix(float mat[16]);
