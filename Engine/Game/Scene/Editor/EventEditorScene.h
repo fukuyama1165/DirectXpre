@@ -54,6 +54,8 @@ private:
 		Object3D startPoint;
 		Object3D endPoint;
 		Object3D move;
+		bool isMoveStratPoint = false;
+		bool isMoveEndPoint = false;
 		bool isEnd = false;
 	};
 
@@ -282,5 +284,9 @@ private:
 	bool imguiChangeMapWindow_ = false;
 	
 	Object3D testObj_;
+	Object3D testObj2_;
+	bool testimguizmoFlag = false;
+
+	//Matrix4x4 testMat;
 	
 };

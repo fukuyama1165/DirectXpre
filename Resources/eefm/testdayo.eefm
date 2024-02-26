@@ -1,0 +1,28 @@
+{
+    "events": [
+        {
+            "seting": {
+                "addTime": 0.0,
+                "movePoint": [
+                    0.0,
+                    39.0,
+                    20.0
+                ],
+                "movePointRot": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "moveRotTime": 1.0,
+                "moveSpeed": 1.0,
+                "moveStartPoint": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "type": "moveEvent"
+        }
+    ],
+    "name": "event"
+}

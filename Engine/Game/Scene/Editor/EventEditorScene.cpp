@@ -6,8 +6,10 @@
 #include "Texture.h"
 #include "EmitterManager.h"
 #include "LevelLoader.h"
-#include <imGuizmo/ImGuizmo.h>
-#include <imGuizmo/GraphEditor.h>
+#include <ImGuizmo.h>
+#include <GraphEditor.h>
+
+void EditTransform(Object3D* obj);
 
 EventEditorScene::EventEditorScene()
 {
@@ -55,6 +57,7 @@ void EventEditorScene::Initialize()
 	testEnemy2.Init("Attack", { -2,20,-250 }, {}, 0, 900000);
 
 	testObj_.FBXInit();
+	testObj2_.FBXInit();
 
 }
 
@@ -94,6 +97,7 @@ void EventEditorScene::Update()
 	TestEvent();
 
 	testObj_.Update();
+	testObj2_.Update();
 
 	LightManager::GetInstance()->ALLLightUpdate();
 	
@@ -170,6 +174,7 @@ void EventEditorScene::Draw()
 	}
 
 	testObj_.FBXDraw(*testModel_);
+	testObj2_.FBXDraw(*testModel_);
 
 }
 
@@ -1562,13 +1567,22 @@ void EventEditorScene::DebugUpdate()
 	}
 
 	ImGui::End();
+
+	ImGui::Begin("imguizmo");
+	ImGui::Checkbox("useFlag", &testimguizmoFlag);
+	ImGui::End();
+
+	if (testimguizmoFlag)
+	{
+		EditTransform(&testObj_);
+	}
+
+	//EditTransform(&testObj2_);
+
+
 #endif
 
-	/*float guizmotestmat[16] = {};
-	guizmotestmat = ChengeMatrix(testObj_.GetWorldMat());
-
-	ImGuizmo::Manipulate(ChengeMatrix(cameobj_.GetCameraP()->nowCamera->matView_), ChengeMatrix(cameobj_.GetCameraP()->nowCamera->matProjection_), ImGuizmo::TRANSLATE, ImGuizmo::WORLD, , NULL, NULL, NULL, NULL);*/
-
+	
 }
 
 void EventEditorScene::TestDebugUpdate()
@@ -2309,4 +2323,24 @@ void EventEditorScene::AddBattleEventExplosionObjDebugObjRandomAccess(uint16_t n
 			
 		}
 	}
+}
+
+void EditTransform(Object3D* obj)
+{
+	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
+	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
+
+	float matm16[16];
+	ChengeMatrix(obj->GetWorldMat(), matm16);
+	
+	float camePm16[16];
+	float cameVm16[16];
+	Matrix4x4 mat;
+	ChengeMatrix(Camera::nowCamera->matProjection_, camePm16);
+	ChengeMatrix(Camera::nowCamera->matView_, cameVm16);
+	ImGuizmo::SetRect(0, 0, WinApp::GetInstance()->getWindowSizeWidthF(), WinApp::GetInstance()->getWindowSizeHeightF());
+	ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL);
+	mat = ChengeTwoDimensionalMatrix(matm16);
+
+	obj->pos_ = { mat.m[3][0],mat.m[3][1],mat.m[3][2]};
 }

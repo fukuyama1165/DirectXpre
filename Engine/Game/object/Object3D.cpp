@@ -167,6 +167,11 @@ void Object3D::constTransformMatUpdata(const Vector3& eye, const Matrix4x4& matV
 
 }
 
+void Object3D::SetMatrix(const Matrix4x4& mat)
+{
+	matWorld_ = mat;
+}
+
 void Object3D::SetScale(const Vector3& scale)
 {
 	Scale_ = scale;
