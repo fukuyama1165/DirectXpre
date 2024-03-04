@@ -9,7 +9,7 @@
 #include <ImGuizmo.h>
 #include <GraphEditor.h>
 
-void EditTransform(Object3D* obj);
+void EditTransform(Vector3& pos);
 
 EventEditorScene::EventEditorScene()
 {
@@ -22,8 +22,12 @@ EventEditorScene::~EventEditorScene()
 void EventEditorScene::Initialize()
 {
 	Object3D::SetLight(&LightManager::GetInstance()->lightGroups_[0]);
-	LightManager::GetInstance()->lightGroups_[0].SetDirLightActive(0,true);
-	LightManager::GetInstance()->lightGroups_[0].SetDirLightDir(0,{0,0,0,0});
+	LightManager::GetInstance()->lightGroups_[0].SetAmbientColor({ 0.25f,0.25f,0.25f });
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightColor(0, { 0.05f,0.05f,0.05f });
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightActive(0, true);
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightDir(0, { 0,-1,0,0 });
+	LightManager::GetInstance()->lightGroups_[0].SetDirLightColor(0, { 30.0f / 255.0f,30.0f / 255.0f ,30.0f / 255.0f });
+
 	ModelManager::GetInstance()->Load("testFBX", "gltf", "TNTBox", "TNTBox");
 
 	objobj3_.objDrawInit("Resources/obj/skydome/", "skydome.obj");
@@ -173,8 +177,8 @@ void EventEditorScene::Draw()
 		testEnemy2.Draw(enemyModel_);
 	}
 
-	testObj_.FBXDraw(*testModel_);
-	testObj2_.FBXDraw(*testModel_);
+	//testObj_.FBXDraw(*testModel_);
+	//testObj2_.FBXDraw(*testModel_);
 
 }
 
@@ -192,7 +196,7 @@ void EventEditorScene::AddEvent()
 	}
 
 	//intしか使えん許さん
-	ImGui::Combo("emitterType", (int*)&eventTypeNum_, EventTypeChar, IM_ARRAYSIZE(EventTypeChar));
+	testImguiFlag_ = ImGui::Combo("emitterType", (int*)&eventTypeNum_, EventTypeChar, IM_ARRAYSIZE(EventTypeChar));
 
 	
 
@@ -239,6 +243,12 @@ void EventEditorScene::AddMoveEvent()
 		addEvent.moveRotTime = moveRotTime_;
 		addEvent.addTimer = addTime_;
 
+		//保存
+		saveSeting_ = seting_;
+		saveEnemyDatas_ = enemyDatas_;
+		saveMovePointDatas_ = movePointDatas_;
+		saveExplosionObjDatas_ = explosionObjDatas_;
+
 		seting_.push_back(addEvent);
 
 		//描画用のやつにコピー
@@ -267,6 +277,12 @@ void EventEditorScene::AddMoveEvent()
 		addMoveEventData.move.SetColor({ 0.5f,0.0f ,0.5f ,1.0f });
 
 		movePointDatas_.push_back(addMoveEventData);
+
+		EventFlagBuff addflag;
+		addflag.eventType = EventType::moveEvent;
+
+		eventFlags_.push_back(addflag);
+		
 	}
 }
 
@@ -367,10 +383,38 @@ void EventEditorScene::AddButtonBattleEvent()
 	addEvent.explosionObjExplosionSize = explosionObjExplosionSize_;
 	addEvent.explosionObjExplosionTime = explosionObjExplosionTime_;
 
+	//操作したので保存
+	saveSeting_ = seting_;
+	saveEnemyDatas_ = enemyDatas_;
+	saveMovePointDatas_ = movePointDatas_;
+	saveExplosionObjDatas_ = explosionObjDatas_;
+
 	seting_.push_back(addEvent);
 
 	AddButtonBattleEventDebugObj();
 	AddButtonBattleEventExplosionObjDebugObj();
+
+	//フラグ群を追加
+	EventFlagBuff addflag;
+	addflag.eventType = EventType::BattleEvent;
+
+	addflag.isEnemySpawnPoss.resize(enemyNum_);
+	addflag.isEnemyMoveEndPoint.resize(enemyNum_);
+
+	addflag.isBattleEventEnemySpawnPos.resize(enemyNum_);
+	addflag.isBattleEventEnemyMovePos.resize(enemyNum_);
+	addflag.isBattleEventEnemySpawnInterval.resize(enemyNum_);
+	addflag.isBattleEventEnemyMoveSpeed.resize(enemyNum_);
+	addflag.isBattleEventEnemyBulletCT.resize(enemyNum_);
+
+	addflag.isExplosionObjPoints.resize(explosionObjNum_);
+
+	addflag.isExplosionObjPos.resize(explosionObjNum_);
+	addflag.isExplosionObjSize.resize(explosionObjNum_);
+	addflag.isExplosionObjExplosionSize.resize(explosionObjNum_);
+	addflag.isExplosionObjExplosionTime.resize(explosionObjNum_);
+
+	eventFlags_.push_back(addflag);
 
 	//次の設定用に中身を削除
 	enemyTypeNum_.clear();
@@ -612,6 +656,26 @@ void EventEditorScene::EditEvent()
 			//終了時に増える時間をセット
 			ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f);
 
+			if (ImGui::Button(std::string("moveStartPointGui" + num).c_str()))EventImguizmoMoveStartPointFlag(eventCount);
+			if (ImGui::Button(std::string("movePointGui" + num).c_str()))EventImguizmoMovePointFlag(eventCount);
+
+			if (eventFlags_[eventCount].isMoveStratPoint)
+			{
+				Vector3 buff = { moveStartPoint[0] ,moveStartPoint[1] ,moveStartPoint[2] };
+				EditTransform(buff);
+				moveStartPoint[0] = buff.x;
+				moveStartPoint[1] = buff.y;
+				moveStartPoint[2] = buff.z;
+			}
+			if (eventFlags_[eventCount].isMoveEndPoint)
+			{
+				Vector3 buff = { movePoint[0] ,movePoint[1] ,movePoint[2] };
+				EditTransform(buff);
+				movePoint[0] = buff.x;
+				movePoint[1] = buff.y;
+				movePoint[2] = buff.z;
+			}
+
 			setingI->movePoint = { movePoint[0] ,movePoint[1] ,movePoint[2] };
 			setingI->movePointRot = { movePointRot[0] ,movePointRot[1] ,movePointRot[2] };
 			setingI->moveStartPoint = { moveStartPoint[0] ,moveStartPoint[1] ,moveStartPoint[2] };
@@ -647,10 +711,32 @@ void EventEditorScene::EditEvent()
 				setingI->enemySpawnInterval.resize(enemyNum);
 				setingI->enemyBulletCT.resize(enemyNum);
 				setingI->enemyTypes.resize(enemyNum);
+
+				//フラグもサイズを変更しておく
+				eventFlags_[eventCount].isEnemySpawnPoss.resize(enemyNum);
+				eventFlags_[eventCount].isEnemyMoveEndPoint.resize(enemyNum);
+
+				eventFlags_[eventCount].isBattleEventEnemySpawnPos.resize(enemyNum);
+				eventFlags_[eventCount].isBattleEventEnemyMovePos.resize(enemyNum);
+				eventFlags_[eventCount].isBattleEventEnemySpawnInterval.resize(enemyNum);
+				eventFlags_[eventCount].isBattleEventEnemyMoveSpeed.resize(enemyNum);
+				eventFlags_[eventCount].isBattleEventEnemyBulletCT.resize(enemyNum);
 			}
 
 			float playerPos[3] = { setingI->playerPos.x,setingI->playerPos.y,setingI->playerPos.z };
 			ImGui::DragFloat3(std::string("PlayerPos" + num).c_str(), playerPos, 1, -1000.0f, 1000.0f);
+
+			if (ImGui::Button(std::string("movePlayerPosGui" + num).c_str()))EventImguizmoBattleEventPlayerPoint(eventCount);
+			
+			if (eventFlags_[eventCount].isBattlePlayerPoint)
+			{
+				Vector3 buff = { playerPos[0] ,playerPos[1] ,playerPos[2] };
+				EditTransform(buff);
+				playerPos[0] = buff.x;
+				playerPos[1] = buff.y;
+				playerPos[2] = buff.z;
+			}
+			
 
 
 			float playerHideType = setingI->playerHideVector;
@@ -731,6 +817,28 @@ void EventEditorScene::EditEvent()
 
 					enemyBulletCT = 0;
 
+					if (ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount,i);
+
+					if (eventFlags_[eventCount].isEnemySpawnPoss[i])
+					{
+						Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
+						EditTransform(buff);
+						spawnPos[0] = buff.x;
+						spawnPos[1] = buff.y;
+						spawnPos[2] = buff.z;
+					}
+
+					if (ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount,i);
+
+					if (eventFlags_[eventCount].isEnemyMoveEndPoint[i])
+					{
+						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
+						EditTransform(buff);
+						movePos[0] = buff.x;
+						movePos[1] = buff.y;
+						movePos[2] = buff.z;
+					}
+
 					break;
 				case 1:
 
@@ -746,6 +854,28 @@ void EventEditorScene::EditEvent()
 					ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
 
 					ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500);
+
+					if (ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount, i);
+
+					if (eventFlags_[eventCount].isEnemySpawnPoss[i])
+					{
+						Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
+						EditTransform(buff);
+						spawnPos[0] = buff.x;
+						spawnPos[1] = buff.y;
+						spawnPos[2] = buff.z;
+					}
+
+					if (ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount, i);
+
+					if (eventFlags_[eventCount].isEnemyMoveEndPoint[i])
+					{
+						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
+						EditTransform(buff);
+						movePos[0] = buff.x;
+						movePos[1] = buff.y;
+						movePos[2] = buff.z;
+					}
 
 					break;
 				case 2:
@@ -764,6 +894,17 @@ void EventEditorScene::EditEvent()
 					ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500);
 
 					enemyMoveSpeed = 0;
+
+					if (ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount, i);
+
+					if (eventFlags_[eventCount].isEnemySpawnPoss[i])
+					{
+						Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
+						EditTransform(buff);
+						spawnPos[0] = buff.x;
+						spawnPos[1] = buff.y;
+						spawnPos[2] = buff.z;
+					}
 
 					break;
 				default:
@@ -800,8 +941,15 @@ void EventEditorScene::EditEvent()
 				setingI->explosionObjSize.resize(explosionObjNum);
 				setingI->explosionObjExplosionSize.resize(explosionObjNum);
 				setingI->explosionObjExplosionTime.resize(explosionObjNum);
+
+				eventFlags_[eventCount].isExplosionObjPoints.resize(explosionObjNum);
+
+				eventFlags_[eventCount].isExplosionObjPos.resize(explosionObjNum);
+				eventFlags_[eventCount].isExplosionObjSize.resize(explosionObjNum);
+				eventFlags_[eventCount].isExplosionObjExplosionSize.resize(explosionObjNum);
+				eventFlags_[eventCount].isExplosionObjExplosionTime.resize(explosionObjNum);
 				
-				for (int32_t i = 0; i < explosionObjNum; i++)
+				for (int32_t i = oldExplosionObjNum; i < explosionObjNum; i++)
 				{
 					setingI->explosionObjSize[i] = { 1,1,1 };
 					setingI->explosionObjExplosionSize[i] = { 1,1,1 };
@@ -832,6 +980,17 @@ void EventEditorScene::EditEvent()
 
 				ImGui::DragFloat(std::string("explosionTime" + explosionNum).c_str(), &explosionTime, 0.1f, 1.0f, 100.0f);
 
+				if (ImGui::Button(std::string("explosionObjPosGui" + explosionNum).c_str()))EventImguizmoExplosionObjPosFlag(eventCount, i);
+
+				if (eventFlags_[eventCount].isExplosionObjPoints[i])
+				{
+					Vector3 buff = { pos[0] ,pos[1] ,pos[2] };
+					EditTransform(buff);
+					pos[0] = buff.x;
+					pos[1] = buff.y;
+					pos[2] = buff.z;
+				}
+
 				setingI->explosionObjPos[i] = { pos[0],pos[1] ,pos[2] };
 				setingI->explosionObjSize[i] = { size[0],size[1] ,size[2] };
 				setingI->explosionObjExplosionSize[i] = { explosionSize[0],explosionSize[1] ,explosionSize[2] };
@@ -861,6 +1020,7 @@ void EventEditorScene::EditEvent()
 				enemyDatas_.clear();
 				movePointDatas_.clear();
 				explosionObjDatas_.clear();
+				eventFlags_.clear();
 				break;
 
 			}
@@ -868,6 +1028,7 @@ void EventEditorScene::EditEvent()
 			{
 				uint16_t battleNum = 0;
 				uint16_t moveNum = 0;
+				auto eventFlag = eventFlags_.begin();
 
 				for (auto setingJ = seting_.begin(); setingJ != seting_.end(); setingJ++)
 				{
@@ -897,9 +1058,10 @@ void EventEditorScene::EditEvent()
 
 					}
 					
+					eventFlag++;
 
 				}
-
+				eventFlags_.erase(eventFlag);
 				setingI = seting_.erase(setingI);
 				continue;
 			}
@@ -1399,6 +1561,10 @@ void EventEditorScene::DebugUpdate()
 		ImGui::DragFloat3("dir", test_, 1.0f, -100, 100);
 		ImGui::ColorEdit3("light", test2_);
 		ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
+		if (testImguiFlag_)
+		{
+			ImGui::Text("useMove");
+		}
 
 		ImGui::End();
 	}
@@ -1574,11 +1740,27 @@ void EventEditorScene::DebugUpdate()
 
 	if (testimguizmoFlag)
 	{
-		EditTransform(&testObj_);
+		//EditTransform(&testObj_);
 	}
 
 	//EditTransform(&testObj2_);
 
+
+	if (Input::GetInstance()->PushKey(DIK_LCONTROL) && Input::GetInstance()->TriggerKey(DIK_C))
+	{
+		saveSeting_ = seting_;
+		saveEnemyDatas_ = enemyDatas_;
+		saveMovePointDatas_ = movePointDatas_;
+		saveExplosionObjDatas_ = explosionObjDatas_;
+	}
+
+	if (Input::GetInstance()->PushKey(DIK_LCONTROL) && Input::GetInstance()->TriggerKey(DIK_Z))
+	{
+		seting_ = saveSeting_;
+		enemyDatas_ = saveEnemyDatas_;
+		movePointDatas_ = saveMovePointDatas_;
+		explosionObjDatas_ = saveExplosionObjDatas_;
+	}
 
 #endif
 
@@ -1594,8 +1776,6 @@ void EventEditorScene::TestDebugUpdate()
 	ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
 
 	ImGui::Checkbox("enemyShotStop", &enemys_->isDebugShotStop_);
-
-	//ImGuizmo::m
 
 	ImGui::End();
 }
@@ -1822,6 +2002,11 @@ bool EventEditorScene::EventScanning(const nlohmann::json& Event)
 
 		seting_.push_back(eventData);
 
+		EventFlagBuff addflag;
+		addflag.eventType = EventType::moveEvent;
+
+		eventFlags_.push_back(addflag);
+
 
 	}
 	else if (type.compare("BattleEvent") == 0)
@@ -1976,7 +2161,30 @@ bool EventEditorScene::EventScanning(const nlohmann::json& Event)
 			eventData.explosionObjExplosionTime.push_back((float)seting["explosionObjExplosionTime"][j]);
 		}
 
+		EventFlagBuff addflag;
+		addflag.eventType = EventType::BattleEvent;
+
+		addflag.isEnemySpawnPoss.resize(eventData.enemyNum);
+		addflag.isEnemyMoveEndPoint.resize(eventData.enemyNum);
+
+		addflag.isBattleEventEnemySpawnPos.resize(eventData.enemyNum);
+		addflag.isBattleEventEnemyMovePos.resize(eventData.enemyNum);
+		addflag.isBattleEventEnemySpawnInterval.resize(eventData.enemyNum);
+		addflag.isBattleEventEnemyMoveSpeed.resize(eventData.enemyNum);
+		addflag.isBattleEventEnemyBulletCT.resize(eventData.enemyNum);
+
+		addflag.isExplosionObjPoints.resize(eventData.explosionObjNum);
+
+		addflag.isExplosionObjPos.resize(eventData.explosionObjNum);
+		addflag.isExplosionObjSize.resize(eventData.explosionObjNum);
+		addflag.isExplosionObjExplosionSize.resize(eventData.explosionObjNum);
+		addflag.isExplosionObjExplosionTime.resize(eventData.explosionObjNum);
+
+		eventFlags_.push_back(addflag);
+
 		seting_.push_back(eventData);
+
+		
 
 	}
 	else
@@ -2325,13 +2533,154 @@ void EventEditorScene::AddBattleEventExplosionObjDebugObjRandomAccess(uint16_t n
 	}
 }
 
-void EditTransform(Object3D* obj)
+void EventEditorScene::EventImguizmoMoveStartPointFlag(const uint32_t& count)
 {
+	//指定したやつを使うように
+	eventFlags_[count].isMoveEndPoint = true;
+	for (uint16_t i = 0; i < eventFlags_.size(); i++)
+	{
+		//同じイベント種類の干渉するフラグを消す
+		eventFlags_[i].isMoveStratPoint = false;
+		if (i == count)continue;
+		//編集中以外は使わないようにする
+		eventFlags_[i].isMoveEndPoint = false;
+	}
+}
+
+void EventEditorScene::EventImguizmoMovePointFlag(const uint32_t& count)
+{
+	//指定したやつを使うように
+	eventFlags_[count].isMoveStratPoint = true;
+	for (uint16_t i = 0; i < eventFlags_.size(); i++)
+	{
+		//同じイベント種類の干渉するフラグを消す
+		eventFlags_[i].isMoveEndPoint = false;
+		if (i == count)continue;
+		//編集中以外は使わないようにする
+		eventFlags_[i].isMoveStratPoint = false;
+	}
+}
+
+void EventEditorScene::EventImguizmoBattleEventPlayerPoint(const uint32_t& count)
+{
+	//指定したやつを使うように
+	eventFlags_[count].isBattlePlayerPoint = true;
+	for (uint16_t i = 0; i < eventFlags_.size(); i++)
+	{
+		//同じイベント種類の干渉するフラグを消す
+		for (uint32_t n = 0; n < eventFlags_[i].isEnemyMoveEndPoint.size(); n++)
+		{
+			eventFlags_[i].isEnemyMoveEndPoint[n] = false;
+			eventFlags_[i].isEnemySpawnPoss[n] = false;
+		}
+
+		for (uint16_t m = 0; m < eventFlags_[i].isExplosionObjPoints.size(); m++)
+		{
+			//編集中以外は使わないようにする
+			eventFlags_[i].isExplosionObjPoints[m] = false;
+		}
+		if (i == count)continue;
+		//編集中以外は使わないようにする
+		eventFlags_[i].isBattlePlayerPoint = false;
+	}
+}
+
+void EventEditorScene::EventImguizmoExplosionObjPosFlag(const uint32_t& count, const uint32_t& ExplosionObjCount)
+{
+	//指定したやつを使うように
+	eventFlags_[count].isExplosionObjPoints[ExplosionObjCount] = true;
+	for (uint16_t i = 0; i < eventFlags_.size(); i++)
+	{
+		//同じイベント種類の干渉するフラグを消す
+		for (uint32_t n = 0; n < eventFlags_[i].isEnemyMoveEndPoint.size(); n++)
+		{
+			eventFlags_[i].isEnemyMoveEndPoint[n] = false;
+			eventFlags_[i].isEnemySpawnPoss[n] = false;
+		}
+
+		for (uint16_t j = 0; j < eventFlags_[i].isExplosionObjPoints.size(); j++)
+		{
+			if (i == count && j == ExplosionObjCount)continue;
+			//編集中以外は使わないようにする
+			eventFlags_[i].isExplosionObjPoints[j] = false;
+		}
+
+		eventFlags_[i].isBattlePlayerPoint = false;
+	}
+}
+
+void EventEditorScene::EventImguizmoEnemySpawnPosFlag(const uint32_t& count, const uint32_t& enemyCount)
+{
+	//指定したやつを使うように
+	eventFlags_[count].isEnemySpawnPoss[enemyCount] = true;
+	for (uint16_t i = 0; i < eventFlags_.size(); i++)
+	{
+		//同じイベント種類の干渉するフラグを消す
+		for (uint32_t n = 0; n < eventFlags_[i].isEnemyMoveEndPoint.size(); n++)
+		{
+			eventFlags_[i].isEnemyMoveEndPoint[n] = false;
+		}
+
+		for (uint16_t m = 0; m < eventFlags_[i].isExplosionObjPoints.size(); m++)
+		{
+			//編集中以外は使わないようにする
+			eventFlags_[i].isExplosionObjPoints[m] = false;
+		}
+
+		for (uint16_t j = 0; j < eventFlags_[i].isEnemySpawnPoss.size(); j++)
+		{
+			if (i == count && j == enemyCount)continue;
+			//編集中以外は使わないようにする
+			eventFlags_[i].isEnemySpawnPoss[j] = false;
+		}
+
+		eventFlags_[i].isBattlePlayerPoint = false;
+	}
+}
+
+void EventEditorScene::EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count, const uint32_t& enemyCount)
+{
+	//指定したやつを使うように
+	eventFlags_[count].isEnemyMoveEndPoint[enemyCount] = true;
+	for (uint16_t i = 0; i < eventFlags_.size(); i++)
+	{
+		//同じイベント種類の干渉するフラグを消す
+		for (uint32_t n = 0; n < eventFlags_[i].isEnemySpawnPoss.size(); n++)
+		{
+			eventFlags_[i].isEnemySpawnPoss[n] = false;
+		}
+
+		for (uint16_t m = 0; m < eventFlags_[i].isExplosionObjPoints.size(); m++)
+		{
+			//編集中以外は使わないようにする
+			eventFlags_[i].isExplosionObjPoints[m] = false;
+		}
+
+		for (uint16_t j = 0; j < eventFlags_[i].isEnemyMoveEndPoint.size(); j++)
+		{
+			if (i == count && j == enemyCount)continue;
+			//編集中以外は使わないようにする
+			eventFlags_[i].isEnemyMoveEndPoint[j] = false;
+		}
+
+		eventFlags_[i].isBattlePlayerPoint = false;
+	}
+}
+
+void EditTransform(Vector3& pos)
+{
+	//操作用の行列を用意
+	Matrix4x4 nowPosMat;
+	nowPosMat.IdentityMatrix();
+	nowPosMat.m[3][0] = pos.x;
+	nowPosMat.m[3][1] = pos.y;
+	nowPosMat.m[3][2] = pos.z;
+
 	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
 
 	float matm16[16];
-	ChengeMatrix(obj->GetWorldMat(), matm16);
+	ChengeMatrix(nowPosMat, matm16);
 	
 	float camePm16[16];
 	float cameVm16[16];
@@ -2342,5 +2691,5 @@ void EditTransform(Object3D* obj)
 	ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL);
 	mat = ChengeTwoDimensionalMatrix(matm16);
 
-	obj->pos_ = { mat.m[3][0],mat.m[3][1],mat.m[3][2]};
+	pos = { mat.m[3][0],mat.m[3][1],mat.m[3][2]};
 }
