@@ -196,7 +196,7 @@ void EventEditorScene::AddEvent()
 	}
 
 	//intしか使えん許さん
-	testImguiFlag_ = ImGui::Combo("emitterType", (int*)&eventTypeNum_, EventTypeChar, IM_ARRAYSIZE(EventTypeChar));
+	ImGui::Combo("emitterType", (int*)&eventTypeNum_, EventTypeChar, IM_ARRAYSIZE(EventTypeChar));
 
 	
 
