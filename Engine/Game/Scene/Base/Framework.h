@@ -65,10 +65,7 @@ private:
 
 	XAudio* xAudio_ = XAudio::GetInstance();
 
-	//シーンチェンジ用変数
-	uint32_t sceneTypeNum_ = 0;
-
-	std::string sceneType_ = "";
+	
 
 
 };
