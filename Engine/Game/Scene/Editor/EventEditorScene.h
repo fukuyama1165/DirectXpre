@@ -19,6 +19,7 @@
 #include "EnemyManager.h"
 #include "Video.h"
 #include "ExplosionObjManager.h"
+#include <list>
 
 class EventEditorScene : public IScene
 {
@@ -189,6 +190,9 @@ private:
 	/// <param name="enemyCount">敵の配列の位置</param>
 	void EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count, const uint32_t&enemyCount);
 
+	//undoをするためのチェック
+	void undoCheck();
+
 private:
 	//天球
 	Object3D objobj3_;
@@ -228,10 +232,15 @@ private:
 	std::vector<EventExplosionObjData> explosionObjDatas_;
 
 	//undoとか用の保持用
-	std::vector<EventSeting> saveSeting_;
-	std::vector<EventEnemyData> saveEnemyDatas_;
-	std::vector<EventMovePointData> saveMovePointDatas_;
-	std::vector<EventExplosionObjData> saveExplosionObjDatas_;
+	std::list<std::vector<EventSeting>> saveSeting_;
+	std::list<std::vector<EventEnemyData>> saveEnemyDatas_;
+	std::list<std::vector<EventMovePointData>> saveMovePointDatas_;
+	std::list<std::vector<EventExplosionObjData>> saveExplosionObjDatas_;
+
+	std::list<std::vector<EventSeting>> reSaveSeting_;
+	std::list<std::vector<EventEnemyData>> reSaveEnemyDatas_;
+	std::list<std::vector<EventMovePointData>> reSaveMovePointDatas_;
+	std::list<std::vector<EventExplosionObjData>> reSaveExplosionObjDatas_;
 
 	//移動イベントのどういう風に動くかのためのタイマー
 	float moveEventMoveTimer = 0;
@@ -308,6 +317,11 @@ private:
 	//セーブする場所保持
 	std::string saveFileName_ = "";
 
+	//undo用セーブ名保持
+	std::list<std::string> unSaveFileName_;
+	//redo用セーブ名保持
+	std::list<std::string> reSaveFileName_;
+
 	//エディタのメニュー用のフラグ
 	bool testflag = false;
 	bool* p_open= &testflag;
@@ -328,8 +342,10 @@ private:
 
 	bool testImguiFlag_ = false;
 
+	bool undoFlag_ = false;
+
 	//イベント用のフラグのまとめ
-	//imguizmo操作用のフラグとundo用のフラグを持っている
+	//imguizmo操作用のフラグ
 	struct EventFlagBuff
 	{
 		uint16_t eventType = EventType::moveEvent;
@@ -341,39 +357,6 @@ private:
 		std::vector<bool> isExplosionObjPoints;
 		std::vector<bool> isEnemySpawnPoss;
 		std::vector<bool> isEnemyMoveEndPoint;
-
-		//moveEventの変更したかどうかを取るフラグ
-		bool isMoveEventMovePoint = false;
-		bool isMoveEventMovePointRot = false;
-		bool isMoveEventMoveStartPoint = false;
-		bool isMoveEventMoveSpeed = false;
-		bool isMoveEventMoveRotTime = false;
-
-		//BattleEventの変更したかどうかを取るフラグ
-		bool isBattleEventEnemyNum = false;
-		bool isBattleEventEnemyMaxSpawn = false;
-		bool isBattleEventPlayerPos = false;
-		bool isBattleEventPlayerHideVector = false;
-		
-		//敵のひとつひとつの変更したかどうかを取るフラグ
-		std::vector<bool> isBattleEventEnemySpawnPos;
-		std::vector<bool> isBattleEventEnemyMovePos;
-		std::vector<bool> isBattleEventEnemySpawnInterval;
-		std::vector<bool> isBattleEventEnemyMoveSpeed;
-		std::vector<bool> isBattleEventEnemyBulletCT;
-
-
-		//爆発するオブジェクトの変更したかどうかを取るフラグ
-		bool isExplosionObjNum = false;
-
-		//爆発するオブジェクトのひとつひとつの変更したかどうかを取るフラグ
-		std::vector<bool> isExplosionObjPos;
-		std::vector<bool> isExplosionObjSize;
-		std::vector<bool> isExplosionObjExplosionSize;
-		std::vector<bool> isExplosionObjExplosionTime;
-
-		//addTimeはイベントの両方で使えるので
-		bool isEventAddTime;
 
 	};
 
