@@ -191,7 +191,7 @@ private:
 	void EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count, const uint32_t&enemyCount);
 
 	//undoをするためのチェック
-	void UndoCheck();
+	void UndoCheck(const uint32_t& count);
 
 	//undo用
 	void Undo();
@@ -242,6 +242,15 @@ private:
 	std::vector<EventEnemyData> enemyDatas_;
 	std::vector<EventMovePointData> movePointDatas_;
 	std::vector<EventExplosionObjData> explosionObjDatas_;
+
+	//操作しているときのやつ
+	EventEnemyData useEnemyData_;
+	EventMovePointData useMovePointData_;
+	EventExplosionObjData useExplosionObjData_;
+
+	uint16_t useEventType = EventType::none;
+
+	uint32_t useEventCount_ = 0;
 
 	//undoとか用の保持用
 	std::list<std::vector<EventSeting>> saveSeting_;

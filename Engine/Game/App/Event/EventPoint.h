@@ -16,7 +16,8 @@
 enum EventType
 {
 	moveEvent,
-	BattleEvent
+	BattleEvent,
+	none
 };
 
 enum playerHideVectorType
