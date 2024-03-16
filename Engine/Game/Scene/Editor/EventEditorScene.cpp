@@ -637,13 +637,13 @@ void EventEditorScene::EditEvent()
 			float moveRotTime = setingI->moveRotTime;
 			float addTime = setingI->addTimer;
 
-			if(ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f))undoCheck();
-			if(ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f))undoCheck();
-			if(ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f))undoCheck();
-			if(ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f))undoCheck();
-			if(ImGui::DragFloat(std::string("moveRotTime" + num).c_str(), &moveRotTime, 1.0f, 0.0f, 1000.0f))undoCheck();
+			if(ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f))UndoCheck();
+			if(ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f))UndoCheck();
+			if(ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f))UndoCheck();
+			if(ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f))UndoCheck();
+			if(ImGui::DragFloat(std::string("moveRotTime" + num).c_str(), &moveRotTime, 1.0f, 0.0f, 1000.0f))UndoCheck();
 			//終了時に増える時間をセット
-			if(ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f))undoCheck();
+			if(ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f))UndoCheck();
 
 			if (ImGui::Button(std::string("moveStartPointGui" + num).c_str()))EventImguizmoMoveStartPointFlag(eventCount);
 			if (ImGui::Button(std::string("movePointGui" + num).c_str()))EventImguizmoMovePointFlag(eventCount);
@@ -682,12 +682,12 @@ void EventEditorScene::EditEvent()
 			int32_t enemyMaxSpawn = setingI->enemyMaxSpawn;
 
 			//intしかないのでintに変換
-			if(ImGui::DragInt("enemyNum", (int*)&enemyNum, 1, 0, 10))undoCheck();
+			if(ImGui::DragInt("enemyNum", (int*)&enemyNum, 1, 0, 10))UndoCheck();
 
 			setingI->enemyNum = enemyNum;
 
 			//画面の最大湧き数を設定
-			if(ImGui::DragInt("maxSpawn", (int*)&enemyMaxSpawn, 1, 1, 10))undoCheck();
+			if(ImGui::DragInt("maxSpawn", (int*)&enemyMaxSpawn, 1, 1, 10))UndoCheck();
 
 			setingI->enemyMaxSpawn = enemyMaxSpawn;
 
@@ -709,7 +709,7 @@ void EventEditorScene::EditEvent()
 			}
 
 			float playerPos[3] = { setingI->playerPos.x,setingI->playerPos.y,setingI->playerPos.z };
-			if(ImGui::DragFloat3(std::string("PlayerPos" + num).c_str(), playerPos, 1, -1000.0f, 1000.0f))undoCheck();
+			if(ImGui::DragFloat3(std::string("PlayerPos" + num).c_str(), playerPos, 1, -1000.0f, 1000.0f))UndoCheck();
 
 			if (ImGui::Button(std::string("movePlayerPosGui" + num).c_str()))EventImguizmoBattleEventPlayerPoint(eventCount);
 			
@@ -729,9 +729,9 @@ void EventEditorScene::EditEvent()
 			int32_t playerHideTypeNum = (int32_t)setingI->playerHideVector;
 
 			//intしか使えん許さん
-			if(ImGui::Combo(std::string("playerHideType" + num).c_str(), (int*)&playerHideTypeNum, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar)))undoCheck();
+			if(ImGui::Combo(std::string("playerHideType" + num).c_str(), (int*)&playerHideTypeNum, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar)))UndoCheck();
 			//終了時に増える時間をセット
-			if(ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f))undoCheck();
+			if(ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f))UndoCheck();
 
 			switch (playerHideTypeNum)
 			{
@@ -773,7 +773,7 @@ void EventEditorScene::EditEvent()
 				
 
 				//intしか使えん許さん
-				if(ImGui::Combo(std::string("EnemyType" + enemyNumString).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar)))undoCheck();
+				if(ImGui::Combo(std::string("EnemyType" + enemyNumString).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar)))UndoCheck();
 
 				//現在の値を取得
 				float spawnPos[3] = { setingI->enemySpawnPos[i].x,setingI->enemySpawnPos[i].y,setingI->enemySpawnPos[i].z };
@@ -792,13 +792,13 @@ void EventEditorScene::EditEvent()
 					ImGui::Text("enemytype:moveOnly");
 					setingI->enemyTypes[i] = "moveOnly";
 
-					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))undoCheck();
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck();
 
-					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))undoCheck();
+					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoCheck();
 
-					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))undoCheck();
+					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck();
 
-					if(ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f))undoCheck();
+					if(ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f))UndoCheck();
 
 					enemyBulletCT = 0;
 
@@ -830,15 +830,15 @@ void EventEditorScene::EditEvent()
 					ImGui::Text("enemytype:moveAttack");
 					setingI->enemyTypes[i] = "moveAttack";
 
-					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))undoCheck();
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck();
 
-					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))undoCheck();
+					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoCheck();
 
-					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))undoCheck();
+					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck();
 
-					if(ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f))undoCheck();
+					if(ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f))UndoCheck();
 
-					if(ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500))undoCheck();
+					if(ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500))UndoCheck();
 
 					if(ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount, i);
 
@@ -868,15 +868,15 @@ void EventEditorScene::EditEvent()
 					ImGui::Text("enemytype:Attack");
 					setingI->enemyTypes[i] = "Attack";
 
-					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))undoCheck();
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck();
 
 					movePos[0] = { 0 };
 					movePos[1] = { 0 };
 					movePos[2] = { 0 };
 
-					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))undoCheck();
+					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck();
 
-					if(ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500))undoCheck();
+					if(ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500))UndoCheck();
 
 					enemyMoveSpeed = 0;
 
@@ -916,7 +916,7 @@ void EventEditorScene::EditEvent()
 
 			ImGui::Text("explosionObj");
 
-			if(ImGui::DragInt("explosionObjNum", (int*)&explosionObjNum, 1, 0, 10))undoCheck();
+			if(ImGui::DragInt("explosionObjNum", (int*)&explosionObjNum, 1, 0, 10))UndoCheck();
 
 			setingI->explosionObjNum = explosionObjNum;
 
@@ -951,13 +951,13 @@ void EventEditorScene::EditEvent()
 				float explosionSize[3] = { setingI->explosionObjExplosionSize[i].x,setingI->explosionObjExplosionSize[i].y,setingI->explosionObjExplosionSize[i].z };
 				float explosionTime = { setingI->explosionObjExplosionTime[i] };
 
-				if(ImGui::DragFloat3(std::string("Pos" + explosionNum).c_str(), pos, 1.0f, -1000.0f, 1000.0f))undoCheck();
+				if(ImGui::DragFloat3(std::string("Pos" + explosionNum).c_str(), pos, 1.0f, -1000.0f, 1000.0f))UndoCheck();
 
-				if(ImGui::DragFloat3(std::string("Objsize" + explosionNum).c_str(), size, 1.0f, 1.0f, 100.0f))undoCheck();
+				if(ImGui::DragFloat3(std::string("Objsize" + explosionNum).c_str(), size, 1.0f, 1.0f, 100.0f))UndoCheck();
 
-				if(ImGui::DragFloat3(std::string("explosionSize" + explosionNum).c_str(), explosionSize, 1.0f, 1.0f, 100.0f))undoCheck();
+				if(ImGui::DragFloat3(std::string("explosionSize" + explosionNum).c_str(), explosionSize, 1.0f, 1.0f, 100.0f))UndoCheck();
 
-				if(ImGui::DragFloat(std::string("explosionTime" + explosionNum).c_str(), &explosionTime, 0.1f, 1.0f, 100.0f))undoCheck();
+				if(ImGui::DragFloat(std::string("explosionTime" + explosionNum).c_str(), &explosionTime, 0.1f, 1.0f, 100.0f))UndoCheck();
 
 				if (ImGui::Button(std::string("explosionObjPosGui" + explosionNum).c_str()))EventImguizmoExplosionObjPosFlag(eventCount, i);
 
@@ -1737,88 +1737,11 @@ void EventEditorScene::DebugUpdate()
 		saveExplosionObjDatas_.push_back(explosionObjDatas_);
 	}
 
-	if (Input::GetInstance()->PushKey(DIK_LCONTROL, true) && Input::GetInstance()->TriggerKey(DIK_Z, true))
-	{
 
-		if (!saveSeting_.empty())
-		{
+	Undo();
 
-			reSaveSeting_.push_back(seting_);
-			reSaveEnemyDatas_.push_back(enemyDatas_);
-			reSaveMovePointDatas_.push_back(movePointDatas_);
-			reSaveExplosionObjDatas_.push_back(explosionObjDatas_);
-
-			seting_ = saveSeting_.back();
-			enemyDatas_ = saveEnemyDatas_.back();
-			movePointDatas_ = saveMovePointDatas_.back();
-			explosionObjDatas_ = saveExplosionObjDatas_.back();
-
-			saveSeting_.pop_back();
-			saveEnemyDatas_.pop_back();
-			saveMovePointDatas_.pop_back();
-			saveExplosionObjDatas_.pop_back();
-
-			reSaveFileName_.push_back(saveFileName_);
-			saveFileName_ = unSaveFileName_.back();
-
-			unSaveFileName_.pop_back();
-		}
-	}
-
-	if (Input::GetInstance()->PushKey(DIK_LCONTROL, true) && Input::GetInstance()->TriggerKey(DIK_Y, true))
-	{
-		if (!reSaveSeting_.empty())
-		{
-			saveSeting_.push_back(seting_);
-			saveEnemyDatas_.push_back(enemyDatas_);
-			saveMovePointDatas_.push_back(movePointDatas_);
-			saveExplosionObjDatas_.push_back(explosionObjDatas_);
-
-			seting_ = reSaveSeting_.back();
-			enemyDatas_ = reSaveEnemyDatas_.back();
-			movePointDatas_ = reSaveMovePointDatas_.back();
-			explosionObjDatas_ = reSaveExplosionObjDatas_.back();
-
-			reSaveSeting_.pop_back();
-			reSaveEnemyDatas_.pop_back();
-			reSaveMovePointDatas_.pop_back();
-			reSaveExplosionObjDatas_.pop_back();
-
-			unSaveFileName_.push_back(saveFileName_);
-			saveFileName_ = reSaveFileName_.back();
-
-			reSaveFileName_.pop_back();
-		}
-	}
-
-	if (undoFlag_ and !Input::GetInstance()->GetMouseButton(0,true))
-	{
-		//保持しすぎると重いのでいい感じの量以上なら一番古いのを消す
-		if (saveSeting_.size() >= 10)
-		{
-			saveSeting_.pop_front();
-			saveEnemyDatas_.pop_front();
-			saveMovePointDatas_.pop_front();
-			saveExplosionObjDatas_.pop_front();
-			unSaveFileName_.pop_front();
-		}
-
-		if (!reSaveSeting_.empty())
-		{
-			reSaveSeting_.clear();
-			reSaveEnemyDatas_.clear();
-			reSaveMovePointDatas_.clear();
-			reSaveExplosionObjDatas_.clear();
-			reSaveFileName_.clear();
-		}
-
-		saveSeting_.push_back(seting_);
-		saveEnemyDatas_.push_back(enemyDatas_);
-		saveMovePointDatas_.push_back(movePointDatas_);
-		saveExplosionObjDatas_.push_back(explosionObjDatas_);
-		unSaveFileName_.push_back(saveFileName_);
-		undoFlag_ = false;
-	}
+	Redo();
+	
 
 #endif
 
@@ -2333,10 +2256,10 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 	if (GetOpenFileName(&a))
 	{
 		//前の状態を登録
-		saveSeting_.push_back(seting_);
-		saveEnemyDatas_.push_back(enemyDatas_);
-		saveMovePointDatas_.push_back(movePointDatas_);
-		saveExplosionObjDatas_.push_back(explosionObjDatas_);
+		saveSeting_.push_back(saveStackSeting_);
+		saveEnemyDatas_.push_back(saveStackEnemyDatas_);
+		saveMovePointDatas_.push_back(saveStackMovePointDatas_);
+		saveExplosionObjDatas_.push_back(saveStackExplosionObjDatas_);
 
 		unSaveFileName_.push_back(saveFileName_);
 
@@ -2352,10 +2275,20 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 			saveEnemyDatas_.pop_back();
 			saveMovePointDatas_.pop_back();
 			saveExplosionObjDatas_.pop_back();
+			if (!saveSeting_.empty())
+			{
+				saveStackSeting_ = saveSeting_.back();
+				saveStackEnemyDatas_ = saveEnemyDatas_.back();
+				saveStackMovePointDatas_ = saveMovePointDatas_.back();
+				saveStackExplosionObjDatas_ = saveExplosionObjDatas_.back();
+			}
 			return false;
 		}
+		saveStackSeting_ = seting_;
+		saveStackEnemyDatas_ = enemyDatas_;
+		saveStackMovePointDatas_ = movePointDatas_;
+		saveStackExplosionObjDatas_ = explosionObjDatas_;
 		saveFileName_ = test;
-		undoFlag_ = true;
 
 		//読み込んだデータにあるエディタに描画するオブジェクトの登録
 		AddEventDebugObj();
@@ -2755,7 +2688,7 @@ void EditTransform(Vector3& pos)
 	pos = { mat.m[3][0],mat.m[3][1],mat.m[3][2]};
 }
 
-void EventEditorScene::undoCheck()
+void EventEditorScene::UndoCheck()
 {
 
 	if (Input::GetInstance()->GetMouseButton(0,true))
@@ -2763,4 +2696,123 @@ void EventEditorScene::undoCheck()
 		undoFlag_ = true;
 	}
 
+}
+
+void EventEditorScene::Undo()
+{
+	if (Input::GetInstance()->PushKey(DIK_LCONTROL, true) && Input::GetInstance()->TriggerKey(DIK_Z, true))
+	{
+		//ないなら行わない
+		if (!saveSeting_.empty())
+		{
+
+			AddRedo();
+
+			seting_ = saveSeting_.back();
+			enemyDatas_ = saveEnemyDatas_.back();
+			movePointDatas_ = saveMovePointDatas_.back();
+			explosionObjDatas_ = saveExplosionObjDatas_.back();
+
+			saveSeting_.pop_back();
+			saveEnemyDatas_.pop_back();
+			saveMovePointDatas_.pop_back();
+			saveExplosionObjDatas_.pop_back();
+			
+			saveStackSeting_ = seting_;
+			saveStackEnemyDatas_ = enemyDatas_;
+			saveStackMovePointDatas_ = movePointDatas_;
+			saveStackExplosionObjDatas_ = explosionObjDatas_;
+			
+
+			reSaveFileName_.push_back(saveFileName_);
+			saveFileName_ = unSaveFileName_.back();
+
+			unSaveFileName_.pop_back();
+		}
+	}
+
+	
+	
+
+	if (undoFlag_ and !Input::GetInstance()->GetMouseButton(0, true))
+	{
+		//保持しすぎると重いのでいい感じの量以上なら一番古いのを消す
+		if (saveSeting_.size() >= 10)
+		{
+			saveSeting_.pop_front();
+			saveEnemyDatas_.pop_front();
+			saveMovePointDatas_.pop_front();
+			saveExplosionObjDatas_.pop_front();
+			unSaveFileName_.pop_front();
+		}
+
+		if (!reSaveSeting_.empty())
+		{
+			reSaveSeting_.clear();
+			reSaveEnemyDatas_.clear();
+			reSaveMovePointDatas_.clear();
+			reSaveExplosionObjDatas_.clear();
+			reSaveFileName_.clear();
+		}
+
+		AddUndo();
+		unSaveFileName_.push_back(saveFileName_);
+		undoFlag_ = false;
+	}
+}
+
+void EventEditorScene::Redo()
+{
+	if (Input::GetInstance()->PushKey(DIK_LCONTROL, true) && Input::GetInstance()->TriggerKey(DIK_Y, true))
+	{
+		if (!reSaveSeting_.empty())
+		{
+			
+			saveSeting_.push_back(seting_);
+			saveEnemyDatas_.push_back(enemyDatas_);
+			saveMovePointDatas_.push_back(movePointDatas_);
+			saveExplosionObjDatas_.push_back(explosionObjDatas_);
+
+			saveStackSeting_ = seting_;
+			saveStackEnemyDatas_ = enemyDatas_;
+			saveStackMovePointDatas_ = movePointDatas_;
+			saveStackExplosionObjDatas_ = explosionObjDatas_;
+
+			seting_ = reSaveSeting_.back();
+			enemyDatas_ = reSaveEnemyDatas_.back();
+			movePointDatas_ = reSaveMovePointDatas_.back();
+			explosionObjDatas_ = reSaveExplosionObjDatas_.back();
+
+			reSaveSeting_.pop_back();
+			reSaveEnemyDatas_.pop_back();
+			reSaveMovePointDatas_.pop_back();
+			reSaveExplosionObjDatas_.pop_back();
+
+			unSaveFileName_.push_back(saveFileName_);
+			saveFileName_ = reSaveFileName_.back();
+
+			reSaveFileName_.pop_back();
+		}
+	}
+}
+
+void EventEditorScene::AddUndo()
+{
+	saveSeting_.push_back(saveStackSeting_);
+	saveEnemyDatas_.push_back(saveStackEnemyDatas_);
+	saveMovePointDatas_.push_back(saveStackMovePointDatas_);
+	saveExplosionObjDatas_.push_back(saveStackExplosionObjDatas_);
+
+	saveStackSeting_ = seting_;
+	saveStackEnemyDatas_ = enemyDatas_;
+	saveStackMovePointDatas_ = movePointDatas_;
+	saveStackExplosionObjDatas_ = explosionObjDatas_;
+}
+
+void EventEditorScene::AddRedo()
+{
+	reSaveSeting_.push_back(seting_);
+	reSaveEnemyDatas_.push_back(enemyDatas_);
+	reSaveMovePointDatas_.push_back(movePointDatas_);
+	reSaveExplosionObjDatas_.push_back(explosionObjDatas_);
 }

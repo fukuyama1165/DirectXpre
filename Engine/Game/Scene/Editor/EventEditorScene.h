@@ -191,7 +191,19 @@ private:
 	void EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count, const uint32_t&enemyCount);
 
 	//undoをするためのチェック
-	void undoCheck();
+	void UndoCheck();
+
+	//undo用
+	void Undo();
+
+	//redo用
+	void Redo();
+
+	//undo用追加用
+	void AddUndo();
+
+	//redo用追加用
+	void AddRedo();
 
 private:
 	//天球
@@ -241,6 +253,12 @@ private:
 	std::list<std::vector<EventEnemyData>> reSaveEnemyDatas_;
 	std::list<std::vector<EventMovePointData>> reSaveMovePointDatas_;
 	std::list<std::vector<EventExplosionObjData>> reSaveExplosionObjDatas_;
+
+	//undoの登録用のひとつ前のデータ保持用
+	std::vector<EventSeting> saveStackSeting_;
+	std::vector<EventEnemyData> saveStackEnemyDatas_;
+	std::vector<EventMovePointData> saveStackMovePointDatas_;
+	std::vector<EventExplosionObjData> saveStackExplosionObjDatas_;
 
 	//移動イベントのどういう風に動くかのためのタイマー
 	float moveEventMoveTimer = 0;
