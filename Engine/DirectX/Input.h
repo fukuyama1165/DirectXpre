@@ -42,14 +42,29 @@ public:
 
 	void update();
 
-	//キーボードのキーを押したら反応する関数(長押しも反応)
-	bool PushKey(const BYTE& CheckKey);
+	/// <summary>
+	/// キーボードのキーを押したら反応する関数(長押しも反応)
+	/// </summary>
+	/// <param name="CheckKey">チェックするキー(DIK_○○)</param>
+	/// <param name="useImgui">imgui上で使用するか</param>
+	/// <returns></returns>
+	bool PushKey(const BYTE& CheckKey, bool useImgui = false);
 
-	//キーボードのキーを押した瞬間に反応する関数(長押し反応しない)
-	bool TriggerKey(const BYTE& CheckKey);
+	/// <summary>
+	/// キーボードのキーを押した瞬間に反応する関数(長押し反応しない)
+	/// </summary>
+	/// <param name="CheckKey">チェックするキー(DIK_○○)</param>
+	/// <param name="useImgui">imgui上で使用するか</param>
+	/// <returns></returns>
+	bool TriggerKey(const BYTE& CheckKey, bool useImgui = false);
 
-	//キーボードのキーを離した瞬間に反応する関数(長押し反応しない)
-	bool ReleaseKey(const BYTE& CheckKey);
+	/// <summary>
+	/// キーボードのキーを離した瞬間に反応する関数(長押し反応しない)
+	/// </summary>
+	/// <param name="CheckKey">チェックするキー(DIK_○○)</param>
+	/// <param name="useImgui">imgui上で使用するか</param>
+	/// <returns></returns>
+	bool ReleaseKey(const BYTE& CheckKey, bool useImgui = false);
 
 	//キーボードのキーのどれかが押されたらtrueを返す関数
 	bool AllKeyCheck();
@@ -58,22 +73,25 @@ public:
 	/// クリックしているかどうかを取得
 	/// </summary>
 	/// <param name="button">0なら左1なら右の入力をチェック</param>
+	/// <param name="useImgui">imgui上で使用するか</param>
 	/// <returns></returns>
-	bool GetMouseButton(uint32_t button);
+	bool GetMouseButton(uint32_t button, bool useImgui = false);
 
 	/// <summary>
 	/// クリックした瞬間を取得
 	/// </summary>
 	/// <param name="button">0なら左1なら右の入力をチェック</param>
+	/// <param name="useImgui">imgui上で使用するか</param>
 	/// <returns></returns>
-	bool GetMouseButtonDown(uint32_t button);
+	bool GetMouseButtonDown(uint32_t button, bool useImgui = false);
 
 	/// <summary>
 	/// クリックを離した瞬間を取得
 	/// </summary>
 	/// <param name="button">0なら左1なら右の入力をチェック</param>
+	/// <param name="useImgui">imgui上で使用するか</param>
 	/// <returns></returns>
-	bool GetMouseButtonUp(uint32_t button);
+	bool GetMouseButtonUp(uint32_t button, bool useImgui = false);
 
 	//マウスの位置取得
 	Vector2 GetMousePos();

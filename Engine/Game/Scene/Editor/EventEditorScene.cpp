@@ -63,6 +63,9 @@ void EventEditorScene::Initialize()
 	testObj_.FBXInit();
 	testObj2_.FBXInit();
 
+	useMovePointData_.startPoint.FBXInit();
+	useMovePointData_.endPoint.FBXInit();
+
 }
 
 void EventEditorScene::Finalize()
@@ -133,11 +136,31 @@ void EventEditorScene::Draw()
 			enemyobj.playerPoint.FBXDraw(*moveEventModel_);
 		}
 
+		if (useEventType == EventType::BattleEvent)
+		{
+			for (uint32_t i = 0; i < useEnemyData_.enemys.size(); i++)
+			{
+				useEnemyData_.enemys[i].FBXDraw(*enemyModel_);
+				if (useEnemyData_.enemyTypes[i] != EnemyType::Attack)
+				{
+					useEnemyData_.endPoint[i].FBXDraw(*enemyModel_);
+					useEnemyData_.move[i].FBXDraw(*enemyModel_);
+				}
+			}
+			useEnemyData_.playerPoint.FBXDraw(*moveEventModel_);
+		}
+
 		for (auto movePointobj : movePointDatas_)
 		{
 			movePointobj.startPoint.FBXDraw(*moveEventModel_);
 			movePointobj.endPoint.FBXDraw(*moveEventModel_);
 			movePointobj.move.FBXDraw(*moveEventModel_);
+		}
+
+		if (useEventType == EventType::moveEvent)
+		{
+			useMovePointData_.startPoint.FBXDraw(*moveEventModel_);
+			useMovePointData_.endPoint.FBXDraw(*moveEventModel_);
 		}
 
 		for (auto explosionObj : explosionObjDatas_)
@@ -146,11 +169,22 @@ void EventEditorScene::Draw()
 			{
 				explosionObj.obj[i].FBXDraw(*explosionModel_);
 			}
+			
+			
+		}
+
+		for (int32_t i = 0; i < useExplosionObjData_.obj.size(); i++)
+		{
+			useExplosionObjData_.obj[i].FBXDraw(*explosionModel_);
+		}
+
+		//描画順的に分けるしかなかった
+		for (auto explosionObj : explosionObjDatas_)
+		{
 			for (int32_t i = 0; i < explosionObj.obj.size(); i++)
 			{
 				explosionObj.explosion[i].FBXDraw(*moveEventModel_);
 			}
-			
 		}
 
 	}
@@ -244,10 +278,10 @@ void EventEditorScene::AddMoveEvent()
 		addEvent.addTimer = addTime_;
 
 		//保存
-		saveSeting_ = seting_;
-		saveEnemyDatas_ = enemyDatas_;
-		saveMovePointDatas_ = movePointDatas_;
-		saveExplosionObjDatas_ = explosionObjDatas_;
+		saveSeting_.push_back(seting_);
+		saveEnemyDatas_.push_back(enemyDatas_);
+		saveMovePointDatas_.push_back(movePointDatas_);
+		saveExplosionObjDatas_.push_back(explosionObjDatas_);
 
 		seting_.push_back(addEvent);
 
@@ -384,10 +418,10 @@ void EventEditorScene::AddButtonBattleEvent()
 	addEvent.explosionObjExplosionTime = explosionObjExplosionTime_;
 
 	//操作したので保存
-	saveSeting_ = seting_;
-	saveEnemyDatas_ = enemyDatas_;
-	saveMovePointDatas_ = movePointDatas_;
-	saveExplosionObjDatas_ = explosionObjDatas_;
+	saveSeting_.push_back(seting_);
+	saveEnemyDatas_.push_back(enemyDatas_);
+	saveMovePointDatas_.push_back(movePointDatas_);
+	saveExplosionObjDatas_.push_back(explosionObjDatas_);
 
 	seting_.push_back(addEvent);
 
@@ -401,18 +435,7 @@ void EventEditorScene::AddButtonBattleEvent()
 	addflag.isEnemySpawnPoss.resize(enemyNum_);
 	addflag.isEnemyMoveEndPoint.resize(enemyNum_);
 
-	addflag.isBattleEventEnemySpawnPos.resize(enemyNum_);
-	addflag.isBattleEventEnemyMovePos.resize(enemyNum_);
-	addflag.isBattleEventEnemySpawnInterval.resize(enemyNum_);
-	addflag.isBattleEventEnemyMoveSpeed.resize(enemyNum_);
-	addflag.isBattleEventEnemyBulletCT.resize(enemyNum_);
-
 	addflag.isExplosionObjPoints.resize(explosionObjNum_);
-
-	addflag.isExplosionObjPos.resize(explosionObjNum_);
-	addflag.isExplosionObjSize.resize(explosionObjNum_);
-	addflag.isExplosionObjExplosionSize.resize(explosionObjNum_);
-	addflag.isExplosionObjExplosionTime.resize(explosionObjNum_);
 
 	eventFlags_.push_back(addflag);
 
@@ -648,13 +671,13 @@ void EventEditorScene::EditEvent()
 			float moveRotTime = setingI->moveRotTime;
 			float addTime = setingI->addTimer;
 
-			ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f);
-			ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f);
-			ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f);
-			ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f);
-			ImGui::DragFloat(std::string("moveRotTime" + num).c_str(), &moveRotTime, 1.0f, 0.0f, 1000.0f);
+			if(ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
+			if(ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
+			if(ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
+			if(ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f))UndoCheck(eventCount);
+			if(ImGui::DragFloat(std::string("moveRotTime" + num).c_str(), &moveRotTime, 1.0f, 0.0f, 1000.0f))UndoCheck(eventCount);
 			//終了時に増える時間をセット
-			ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f);
+			if(ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f))UndoCheck(eventCount);
 
 			if (ImGui::Button(std::string("moveStartPointGui" + num).c_str()))EventImguizmoMoveStartPointFlag(eventCount);
 			if (ImGui::Button(std::string("movePointGui" + num).c_str()))EventImguizmoMovePointFlag(eventCount);
@@ -693,12 +716,12 @@ void EventEditorScene::EditEvent()
 			int32_t enemyMaxSpawn = setingI->enemyMaxSpawn;
 
 			//intしかないのでintに変換
-			ImGui::DragInt("enemyNum", (int*)&enemyNum, 1, 0, 10);
+			if(ImGui::DragInt("enemyNum", (int*)&enemyNum, 1, 0, 10))UndoCheck(eventCount);
 
 			setingI->enemyNum = enemyNum;
 
 			//画面の最大湧き数を設定
-			ImGui::DragInt("maxSpawn", (int*)&enemyMaxSpawn, 1, 1, 10);
+			if(ImGui::DragInt("maxSpawn", (int*)&enemyMaxSpawn, 1, 1, 10))UndoCheck(eventCount);
 
 			setingI->enemyMaxSpawn = enemyMaxSpawn;
 
@@ -716,15 +739,11 @@ void EventEditorScene::EditEvent()
 				eventFlags_[eventCount].isEnemySpawnPoss.resize(enemyNum);
 				eventFlags_[eventCount].isEnemyMoveEndPoint.resize(enemyNum);
 
-				eventFlags_[eventCount].isBattleEventEnemySpawnPos.resize(enemyNum);
-				eventFlags_[eventCount].isBattleEventEnemyMovePos.resize(enemyNum);
-				eventFlags_[eventCount].isBattleEventEnemySpawnInterval.resize(enemyNum);
-				eventFlags_[eventCount].isBattleEventEnemyMoveSpeed.resize(enemyNum);
-				eventFlags_[eventCount].isBattleEventEnemyBulletCT.resize(enemyNum);
+				
 			}
 
 			float playerPos[3] = { setingI->playerPos.x,setingI->playerPos.y,setingI->playerPos.z };
-			ImGui::DragFloat3(std::string("PlayerPos" + num).c_str(), playerPos, 1, -1000.0f, 1000.0f);
+			if(ImGui::DragFloat3(std::string("PlayerPos" + num).c_str(), playerPos, 1, -1000.0f, 1000.0f))UndoCheck(eventCount);
 
 			if (ImGui::Button(std::string("movePlayerPosGui" + num).c_str()))EventImguizmoBattleEventPlayerPoint(eventCount);
 			
@@ -744,9 +763,9 @@ void EventEditorScene::EditEvent()
 			int32_t playerHideTypeNum = (int32_t)setingI->playerHideVector;
 
 			//intしか使えん許さん
-			ImGui::Combo(std::string("playerHideType" + num).c_str(), (int*)&playerHideTypeNum, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar));
+			if(ImGui::Combo(std::string("playerHideType" + num).c_str(), (int*)&playerHideTypeNum, playerHideTypeChar, IM_ARRAYSIZE(playerHideTypeChar)))UndoCheck(eventCount);
 			//終了時に増える時間をセット
-			ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f);
+			if(ImGui::DragFloat(std::string("AddTime" + num).c_str(), &addTime, 1.0f, 0.0f, 6000.0f))UndoCheck(eventCount);
 
 			switch (playerHideTypeNum)
 			{
@@ -788,7 +807,7 @@ void EventEditorScene::EditEvent()
 				
 
 				//intしか使えん許さん
-				ImGui::Combo(std::string("EnemyType" + enemyNumString).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar));
+				if(ImGui::Combo(std::string("EnemyType" + enemyNumString).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar)))UndoCheck(eventCount);
 
 				//現在の値を取得
 				float spawnPos[3] = { setingI->enemySpawnPos[i].x,setingI->enemySpawnPos[i].y,setingI->enemySpawnPos[i].z };
@@ -807,19 +826,19 @@ void EventEditorScene::EditEvent()
 					ImGui::Text("enemytype:moveOnly");
 					setingI->enemyTypes[i] = "moveOnly";
 
-					ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
 
-					ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f);
+					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
 
-					ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck(eventCount);
 
-					ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
+					if(ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f))UndoCheck(eventCount);
 
 					enemyBulletCT = 0;
 
-					if (ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount,i);
+					if(ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount,i);
 
-					if (eventFlags_[eventCount].isEnemySpawnPoss[i])
+					if(eventFlags_[eventCount].isEnemySpawnPoss[i])
 					{
 						Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
 						EditTransform(buff);
@@ -828,9 +847,9 @@ void EventEditorScene::EditEvent()
 						spawnPos[2] = buff.z;
 					}
 
-					if (ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount,i);
+					if(ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount,i);
 
-					if (eventFlags_[eventCount].isEnemyMoveEndPoint[i])
+					if(eventFlags_[eventCount].isEnemyMoveEndPoint[i])
 					{
 						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
 						EditTransform(buff);
@@ -845,19 +864,19 @@ void EventEditorScene::EditEvent()
 					ImGui::Text("enemytype:moveAttack");
 					setingI->enemyTypes[i] = "moveAttack";
 
-					ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
 
-					ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f);
+					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
 
-					ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck(eventCount);
 
-					ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f);
+					if(ImGui::DragFloat(std::string("moveSpeed" + enemyNumString).c_str(), &enemyMoveSpeed, 0.1f, 0.0f, 10.0f))UndoCheck(eventCount);
 
-					ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500);
+					if(ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500))UndoCheck(eventCount);
 
-					if (ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount, i);
+					if(ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount, i);
 
-					if (eventFlags_[eventCount].isEnemySpawnPoss[i])
+					if(eventFlags_[eventCount].isEnemySpawnPoss[i])
 					{
 						Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
 						EditTransform(buff);
@@ -866,9 +885,9 @@ void EventEditorScene::EditEvent()
 						spawnPos[2] = buff.z;
 					}
 
-					if (ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount, i);
+					if(ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount, i);
 
-					if (eventFlags_[eventCount].isEnemyMoveEndPoint[i])
+					if(eventFlags_[eventCount].isEnemyMoveEndPoint[i])
 					{
 						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
 						EditTransform(buff);
@@ -883,15 +902,15 @@ void EventEditorScene::EditEvent()
 					ImGui::Text("enemytype:Attack");
 					setingI->enemyTypes[i] = "Attack";
 
-					ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f);
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
 
 					movePos[0] = { 0 };
 					movePos[1] = { 0 };
 					movePos[2] = { 0 };
 
-					ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f);
+					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck(eventCount);
 
-					ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500);
+					if(ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500))UndoCheck(eventCount);
 
 					enemyMoveSpeed = 0;
 
@@ -931,7 +950,7 @@ void EventEditorScene::EditEvent()
 
 			ImGui::Text("explosionObj");
 
-			ImGui::DragInt("explosionObjNum", (int*)&explosionObjNum, 1, 0, 10);
+			if(ImGui::DragInt("explosionObjNum", (int*)&explosionObjNum, 1, 0, 10))UndoCheck(eventCount);
 
 			setingI->explosionObjNum = explosionObjNum;
 
@@ -942,12 +961,6 @@ void EventEditorScene::EditEvent()
 				setingI->explosionObjExplosionSize.resize(explosionObjNum);
 				setingI->explosionObjExplosionTime.resize(explosionObjNum);
 
-				eventFlags_[eventCount].isExplosionObjPoints.resize(explosionObjNum);
-
-				eventFlags_[eventCount].isExplosionObjPos.resize(explosionObjNum);
-				eventFlags_[eventCount].isExplosionObjSize.resize(explosionObjNum);
-				eventFlags_[eventCount].isExplosionObjExplosionSize.resize(explosionObjNum);
-				eventFlags_[eventCount].isExplosionObjExplosionTime.resize(explosionObjNum);
 				
 				for (int32_t i = oldExplosionObjNum; i < explosionObjNum; i++)
 				{
@@ -972,13 +985,13 @@ void EventEditorScene::EditEvent()
 				float explosionSize[3] = { setingI->explosionObjExplosionSize[i].x,setingI->explosionObjExplosionSize[i].y,setingI->explosionObjExplosionSize[i].z };
 				float explosionTime = { setingI->explosionObjExplosionTime[i] };
 
-				ImGui::DragFloat3(std::string("Pos" + explosionNum).c_str(), pos, 1.0f, -1000.0f, 1000.0f);
+				if(ImGui::DragFloat3(std::string("Pos" + explosionNum).c_str(), pos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
 
-				ImGui::DragFloat3(std::string("Objsize" + explosionNum).c_str(), size, 1.0f, 1.0f, 100.0f);
+				if(ImGui::DragFloat3(std::string("Objsize" + explosionNum).c_str(), size, 1.0f, 1.0f, 100.0f))UndoCheck(eventCount);
 
-				ImGui::DragFloat3(std::string("explosionSize" + explosionNum).c_str(), explosionSize, 1.0f, 1.0f, 100.0f);
+				if(ImGui::DragFloat3(std::string("explosionSize" + explosionNum).c_str(), explosionSize, 1.0f, 1.0f, 100.0f))UndoCheck(eventCount);
 
-				ImGui::DragFloat(std::string("explosionTime" + explosionNum).c_str(), &explosionTime, 0.1f, 1.0f, 100.0f);
+				if(ImGui::DragFloat(std::string("explosionTime" + explosionNum).c_str(), &explosionTime, 0.1f, 1.0f, 100.0f))UndoCheck(eventCount);
 
 				if (ImGui::Button(std::string("explosionObjPosGui" + explosionNum).c_str()))EventImguizmoExplosionObjPosFlag(eventCount, i);
 
@@ -1163,6 +1176,14 @@ void EventEditorScene::DrawEventDataUpdate()
 		}
 	}
 
+	if (useEventType == EventType::moveEvent)
+	{
+		useMovePointData_.startPoint.pos_ = seting_[useEventCount_].moveStartPoint;
+		useMovePointData_.startPoint.Update();
+		useMovePointData_.endPoint.pos_ = seting_[useEventCount_].movePoint;
+		useMovePointData_.endPoint.Update();
+	}
+
 	auto enemyobj = enemyDatas_.begin();
 
 	if (enemyDatas_.size() != 0 && enemyobj->enemys.size() != 0)
@@ -1192,8 +1213,20 @@ void EventEditorScene::DrawEventDataUpdate()
 			enemyobj++;
 		}
 
-
-
+		
+		if (useEventType == EventType::BattleEvent)
+		{
+			for (uint32_t i = 0; i < useEnemyData_.enemys.size(); i++)
+			{
+				useEnemyData_.enemys[i].pos_ = seting_[useEventCount_].enemySpawnPos[i];
+				useEnemyData_.endPoint[i].pos_ = seting_[useEventCount_].enemyMovePos[i];
+				useEnemyData_.enemyTypes[i] = seting_[useEventCount_].enemyTypes[i];
+				useEnemyData_.enemys[i].Update();
+				useEnemyData_.endPoint[i].Update();
+			}
+			useEnemyData_.playerPoint.pos_ = seting_[useEventCount_].playerPos;
+			useEnemyData_.playerPoint.Update();
+		}
 
 
 		for (auto enemyPointobj : enemyDatas_)
@@ -1213,7 +1246,6 @@ void EventEditorScene::DrawEventDataUpdate()
 						continue;
 					}
 					enemyPointobj.move[i].pos_ = lerp(enemyPointobj.enemys[i].GetWorldPos(), enemyPointobj.endPoint[i].GetWorldPos(), moveEventMoveTimer / moveEventMoveMaxTime);
-					enemyPointobj.endPoint[i].Update();
 					enemyPointobj.move[i].Update();
 				}
 
@@ -1237,8 +1269,6 @@ void EventEditorScene::DrawEventDataUpdate()
 			}
 
 			movePointobj.move.pos_ = lerp(movePointobj.startPoint.GetWorldPos(), movePointobj.endPoint.GetWorldPos(), moveEventMoveTimer / moveEventMoveMaxTime);
-			movePointobj.startPoint.Update();
-			movePointobj.endPoint.Update();
 			movePointobj.move.Update();
 
 			setingI++;
@@ -1281,12 +1311,18 @@ void EventEditorScene::DrawEventDataUpdate()
 				explosionObj->obj[i].Update();
 				explosionObj->explosion[i].Update();
 			}
-
 			
 			setingI++;
 			explosionObj++;
 		}
 
+	}
+
+	for (int32_t i = 0; i < useExplosionObjData_.obj.size(); i++)
+	{
+		useExplosionObjData_.obj[i].pos_ = seting_[useEventCount_].explosionObjPos[i];
+		useExplosionObjData_.obj[i].Scale_ = seting_[useEventCount_].explosionObjSize[i] * 1.2f;
+		useExplosionObjData_.obj[i].Update();
 	}
 
 	if (moveEventMoveTimer < moveEventMoveMaxTime)
@@ -1561,10 +1597,14 @@ void EventEditorScene::DebugUpdate()
 		ImGui::DragFloat3("dir", test_, 1.0f, -100, 100);
 		ImGui::ColorEdit3("light", test2_);
 		ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
-		if (testImguiFlag_)
+		/*if (testImguiFlag_)
 		{
 			ImGui::Text("useMove");
 		}
+		else
+		{
+			ImGui::Text("off");
+		}*/
 
 		ImGui::End();
 	}
@@ -1746,21 +1786,19 @@ void EventEditorScene::DebugUpdate()
 	//EditTransform(&testObj2_);
 
 
-	if (Input::GetInstance()->PushKey(DIK_LCONTROL) && Input::GetInstance()->TriggerKey(DIK_C))
+	if (Input::GetInstance()->PushKey(DIK_LCONTROL,true) && Input::GetInstance()->TriggerKey(DIK_C))
 	{
-		saveSeting_ = seting_;
-		saveEnemyDatas_ = enemyDatas_;
-		saveMovePointDatas_ = movePointDatas_;
-		saveExplosionObjDatas_ = explosionObjDatas_;
+		saveSeting_.push_back(seting_);
+		saveEnemyDatas_.push_back(enemyDatas_);
+		saveMovePointDatas_.push_back(movePointDatas_);
+		saveExplosionObjDatas_.push_back(explosionObjDatas_);
 	}
 
-	if (Input::GetInstance()->PushKey(DIK_LCONTROL) && Input::GetInstance()->TriggerKey(DIK_Z))
-	{
-		seting_ = saveSeting_;
-		enemyDatas_ = saveEnemyDatas_;
-		movePointDatas_ = saveMovePointDatas_;
-		explosionObjDatas_ = saveExplosionObjDatas_;
-	}
+
+	Undo();
+
+	Redo();
+	
 
 #endif
 
@@ -2167,18 +2205,7 @@ bool EventEditorScene::EventScanning(const nlohmann::json& Event)
 		addflag.isEnemySpawnPoss.resize(eventData.enemyNum);
 		addflag.isEnemyMoveEndPoint.resize(eventData.enemyNum);
 
-		addflag.isBattleEventEnemySpawnPos.resize(eventData.enemyNum);
-		addflag.isBattleEventEnemyMovePos.resize(eventData.enemyNum);
-		addflag.isBattleEventEnemySpawnInterval.resize(eventData.enemyNum);
-		addflag.isBattleEventEnemyMoveSpeed.resize(eventData.enemyNum);
-		addflag.isBattleEventEnemyBulletCT.resize(eventData.enemyNum);
-
 		addflag.isExplosionObjPoints.resize(eventData.explosionObjNum);
-
-		addflag.isExplosionObjPos.resize(eventData.explosionObjNum);
-		addflag.isExplosionObjSize.resize(eventData.explosionObjNum);
-		addflag.isExplosionObjExplosionSize.resize(eventData.explosionObjNum);
-		addflag.isExplosionObjExplosionTime.resize(eventData.explosionObjNum);
 
 		eventFlags_.push_back(addflag);
 
@@ -2285,6 +2312,14 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 	auto old = std::filesystem::current_path();
 	if (GetOpenFileName(&a))
 	{
+		//前の状態を登録
+		saveSeting_.push_back(saveStackSeting_);
+		saveEnemyDatas_.push_back(saveStackEnemyDatas_);
+		saveMovePointDatas_.push_back(saveStackMovePointDatas_);
+		saveExplosionObjDatas_.push_back(saveStackExplosionObjDatas_);
+
+		unSaveFileName_.push_back(saveFileName_);
+
 		bool result = true;
 		std::string test = DirectXpre::Util::WStringToString(filePath);
 		//設定のまとめに選択したファイルを読み取り書き込む
@@ -2292,8 +2327,24 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 
 		if (!result)
 		{
+			//失敗しちゃったので登録してたやつを消すよ
+			saveSeting_.pop_back();
+			saveEnemyDatas_.pop_back();
+			saveMovePointDatas_.pop_back();
+			saveExplosionObjDatas_.pop_back();
+			if (!saveSeting_.empty())
+			{
+				saveStackSeting_ = saveSeting_.back();
+				saveStackEnemyDatas_ = saveEnemyDatas_.back();
+				saveStackMovePointDatas_ = saveMovePointDatas_.back();
+				saveStackExplosionObjDatas_ = saveExplosionObjDatas_.back();
+			}
 			return false;
 		}
+		saveStackSeting_ = seting_;
+		saveStackEnemyDatas_ = enemyDatas_;
+		saveStackMovePointDatas_ = movePointDatas_;
+		saveStackExplosionObjDatas_ = explosionObjDatas_;
 		saveFileName_ = test;
 
 		//読み込んだデータにあるエディタに描画するオブジェクトの登録
@@ -2676,20 +2727,235 @@ void EditTransform(Vector3& pos)
 	nowPosMat.m[3][1] = pos.y;
 	nowPosMat.m[3][2] = pos.z;
 
+	//imguizmoの機能を使って操作
 	static ImGuizmo::OPERATION mCurrentGizmoOperation(ImGuizmo::TRANSLATE);
 	static ImGuizmo::MODE mCurrentGizmoMode(ImGuizmo::WORLD);
 
+	//行列のクラスから配列型に変更(それしか使えないので)
 	float matm16[16];
 	ChengeMatrix(nowPosMat, matm16);
 	
+	//カメラの行列も変更
 	float camePm16[16];
 	float cameVm16[16];
 	Matrix4x4 mat;
 	ChengeMatrix(Camera::nowCamera->matProjection_, camePm16);
 	ChengeMatrix(Camera::nowCamera->matView_, cameVm16);
+	//実際操作
 	ImGuizmo::SetRect(0, 0, WinApp::GetInstance()->getWindowSizeWidthF(), WinApp::GetInstance()->getWindowSizeHeightF());
 	ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL);
+	//行列戻すンゴねえ
 	mat = ChengeTwoDimensionalMatrix(matm16);
 
 	pos = { mat.m[3][0],mat.m[3][1],mat.m[3][2]};
+}
+
+void EventEditorScene::UndoCheck(const uint32_t& count)
+{
+
+	if (Input::GetInstance()->GetMouseButton(0, true))
+	{
+		undoFlag_ = true;
+	}
+	if (undoFlag_)
+	{
+
+		if (seting_[count].eventType == EventType::moveEvent)
+		{
+			useMovePointData_.startPoint.pos_ = { seting_[count].moveStartPoint };
+			useMovePointData_.endPoint.pos_ = { seting_[count].movePoint };
+
+			useMovePointData_.startPoint.Scale_ = { 0.5f,0.5f,0.5f };
+			useMovePointData_.endPoint.Scale_ = { 0.5f,0.5f,0.5f };
+
+			useMovePointData_.startPoint.Update();
+			useMovePointData_.endPoint.Update();
+
+			//各ポイントの色を変更
+			useMovePointData_.startPoint.SetColor({ 0.0f,0.0f ,0.5f ,0.5f });
+			useMovePointData_.endPoint.SetColor({ 0.5f,0.0f ,0.0f ,0.5f });
+
+			useEventType = EventType::moveEvent;
+			useEventCount_ = count;
+		}
+		else if (seting_[count].eventType == EventType::BattleEvent)
+		{
+			useEnemyData_.enemys.clear();
+			useEnemyData_.enemyTypes.clear();
+			useEnemyData_.endPoint.clear();
+			useEnemyData_.move.clear();
+			Object3D playerObj;
+			playerObj.FBXInit();
+			playerObj.pos_ = seting_[count].playerPos;
+			playerObj.Scale_ = { 0.5f,0.5f,0.5f };
+			playerObj.SetColor({ 1.0f,1.0f ,1.0f ,0.5f });
+			useEnemyData_.playerPoint = playerObj;
+
+			for (int32_t i = 0; i < seting_[count].enemyNum; i++)
+			{
+				Object3D enemyObj;
+				enemyObj.FBXInit();
+				enemyObj.pos_ = seting_[count].enemySpawnPos[i];
+				enemyObj.Scale_ = { 0.65f,0.65f ,0.65f };
+				enemyObj.SetColor({ 1.0f,1.0f ,1.0f ,0.5f });
+
+				useEnemyData_.enemys.push_back(enemyObj);
+
+				useEnemyData_.enemyTypes.push_back(seting_[count].enemyTypes[i]);
+
+				Object3D endPointObj;
+				endPointObj.FBXInit();
+				endPointObj.pos_ = seting_[count].enemyMovePos[i];
+				endPointObj.Scale_ = { 0.65f,0.65f ,0.65f };
+				endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,0.5f });
+				useEnemyData_.endPoint.push_back(endPointObj);
+
+				Object3D moveObj;
+				moveObj.FBXInit();
+				moveObj.pos_ = seting_[count].enemySpawnPos[i];
+				moveObj.Scale_ = { 0.65f,0.65f ,0.65f };
+				moveObj.SetColor({ 0.5f,0.0f ,0.5f ,0.5f });
+				useEnemyData_.move.push_back(moveObj);
+			}
+
+			useExplosionObjData_.obj.clear();
+			for (int32_t i = 0; i < seting_[count].explosionObjNum; i++)
+			{
+				Object3D explosionObj;
+				explosionObj.FBXInit();
+				explosionObj.pos_ = seting_[count].explosionObjPos[i];
+				explosionObj.Scale_ = seting_[count].explosionObjSize[i] * 1.2f;
+				explosionObj.SetColor({ 1.0f,1.0f ,1.0f ,0.5f });
+
+				useExplosionObjData_.obj.push_back(explosionObj);
+
+			}
+
+			useEventType = EventType::BattleEvent;
+			useEventCount_ = count;
+
+		}
+	}
+
+	
+
+}
+
+void EventEditorScene::Undo()
+{
+	if (Input::GetInstance()->PushKey(DIK_LCONTROL, true) && Input::GetInstance()->TriggerKey(DIK_Z, true))
+	{
+		//ないなら行わない
+		if (!saveSeting_.empty())
+		{
+
+			AddRedo();
+
+			seting_ = saveSeting_.back();
+			enemyDatas_ = saveEnemyDatas_.back();
+			movePointDatas_ = saveMovePointDatas_.back();
+			explosionObjDatas_ = saveExplosionObjDatas_.back();
+
+			saveSeting_.pop_back();
+			saveEnemyDatas_.pop_back();
+			saveMovePointDatas_.pop_back();
+			saveExplosionObjDatas_.pop_back();
+			
+			saveStackSeting_ = seting_;
+			saveStackEnemyDatas_ = enemyDatas_;
+			saveStackMovePointDatas_ = movePointDatas_;
+			saveStackExplosionObjDatas_ = explosionObjDatas_;
+			
+
+			reSaveFileName_.push_back(saveFileName_);
+			saveFileName_ = unSaveFileName_.back();
+
+			unSaveFileName_.pop_back();
+		}
+	}
+
+	
+	
+
+	if (undoFlag_ and !Input::GetInstance()->GetMouseButton(0, true))
+	{
+		//保持しすぎると重いのでいい感じの量以上なら一番古いのを消す
+		if (saveSeting_.size() >= 10)
+		{
+			saveSeting_.pop_front();
+			saveEnemyDatas_.pop_front();
+			saveMovePointDatas_.pop_front();
+			saveExplosionObjDatas_.pop_front();
+			unSaveFileName_.pop_front();
+		}
+
+		if (!reSaveSeting_.empty())
+		{
+			reSaveSeting_.clear();
+			reSaveEnemyDatas_.clear();
+			reSaveMovePointDatas_.clear();
+			reSaveExplosionObjDatas_.clear();
+			reSaveFileName_.clear();
+		}
+
+		AddUndo();
+		unSaveFileName_.push_back(saveFileName_);
+		undoFlag_ = false;
+	}
+}
+
+void EventEditorScene::Redo()
+{
+	if (Input::GetInstance()->PushKey(DIK_LCONTROL, true) && Input::GetInstance()->TriggerKey(DIK_Y, true))
+	{
+		if (!reSaveSeting_.empty())
+		{
+			
+			saveSeting_.push_back(seting_);
+			saveEnemyDatas_.push_back(enemyDatas_);
+			saveMovePointDatas_.push_back(movePointDatas_);
+			saveExplosionObjDatas_.push_back(explosionObjDatas_);
+
+			saveStackSeting_ = seting_;
+			saveStackEnemyDatas_ = enemyDatas_;
+			saveStackMovePointDatas_ = movePointDatas_;
+			saveStackExplosionObjDatas_ = explosionObjDatas_;
+
+			seting_ = reSaveSeting_.back();
+			enemyDatas_ = reSaveEnemyDatas_.back();
+			movePointDatas_ = reSaveMovePointDatas_.back();
+			explosionObjDatas_ = reSaveExplosionObjDatas_.back();
+
+			reSaveSeting_.pop_back();
+			reSaveEnemyDatas_.pop_back();
+			reSaveMovePointDatas_.pop_back();
+			reSaveExplosionObjDatas_.pop_back();
+
+			unSaveFileName_.push_back(saveFileName_);
+			saveFileName_ = reSaveFileName_.back();
+
+			reSaveFileName_.pop_back();
+		}
+	}
+}
+
+void EventEditorScene::AddUndo()
+{
+	saveSeting_.push_back(saveStackSeting_);
+	saveEnemyDatas_.push_back(saveStackEnemyDatas_);
+	saveMovePointDatas_.push_back(saveStackMovePointDatas_);
+	saveExplosionObjDatas_.push_back(saveStackExplosionObjDatas_);
+
+	saveStackSeting_ = seting_;
+	saveStackEnemyDatas_ = enemyDatas_;
+	saveStackMovePointDatas_ = movePointDatas_;
+	saveStackExplosionObjDatas_ = explosionObjDatas_;
+}
+
+void EventEditorScene::AddRedo()
+{
+	reSaveSeting_.push_back(seting_);
+	reSaveEnemyDatas_.push_back(enemyDatas_);
+	reSaveMovePointDatas_.push_back(movePointDatas_);
+	reSaveExplosionObjDatas_.push_back(explosionObjDatas_);
 }

@@ -172,21 +172,21 @@ void Input::update()
 
 }
 
-bool Input::PushKey(const BYTE& CheckKey)
+bool Input::PushKey(const BYTE& CheckKey, bool useImgui)
 {
-	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && CheckKey != DIK_ESCAPE)return false;
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && CheckKey != DIK_ESCAPE && !useImgui)return false;
 	return key_[CheckKey];
 }
 
-bool Input::TriggerKey(const BYTE& CheckKey)
+bool Input::TriggerKey(const BYTE& CheckKey, bool useImgui)
 {
-	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && CheckKey != DIK_ESCAPE)return false;
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && CheckKey != DIK_ESCAPE && !useImgui)return false;
 	return key_[CheckKey] && oldKey_[CheckKey] == 0;
 }
 
-bool Input::ReleaseKey(const BYTE& CheckKey)
+bool Input::ReleaseKey(const BYTE& CheckKey, bool useImgui)
 {
-	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow))return false;
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && !useImgui)return false;
 	return key_[CheckKey] == 0 && oldKey_[CheckKey];
 }
 
@@ -204,21 +204,21 @@ bool Input::AllKeyCheck()
 	return false;
 }
 
-bool Input::GetMouseButton(uint32_t button)
+bool Input::GetMouseButton(uint32_t button, bool useImgui)
 {
-	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow))return false;
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && !useImgui)return false;
 	return(mouseState_.rgbButtons[button] & (0x80)) != 0;
 }
 
-bool Input::GetMouseButtonDown(uint32_t button)
+bool Input::GetMouseButtonDown(uint32_t button, bool useImgui)
 {
-	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow))return false;
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && !useImgui)return false;
 	return((mouseState_.rgbButtons[button] & (0x80)) != 0) && ((oldMouseState_.rgbButtons[button] & (0x80)) == 0);
 }
 
-bool Input::GetMouseButtonUp(uint32_t button)
+bool Input::GetMouseButtonUp(uint32_t button, bool useImgui)
 {
-	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow))return false;
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_AnyWindow) && !useImgui)return false;
 	return((mouseState_.rgbButtons[button] & (0x80)) == 0) && ((oldMouseState_.rgbButtons[button] & (0x80)) != 0);
 }
 
