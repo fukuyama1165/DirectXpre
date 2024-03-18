@@ -1023,6 +1023,8 @@ void EventEditorScene::EditEvent()
 			setingI->addTimer = addTime;
 		}
 
+		UseEventViewAdd(eventCount);
+
 		if (ImGui::Button(std::string("erase" + num).c_str()))
 		{
 			//一つしかないなら
@@ -2320,6 +2322,9 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 
 		unSaveFileName_.push_back(saveFileName_);
 
+		//用意していたフラグ群もいったん消し
+		eventFlags_.clear();
+
 		bool result = true;
 		std::string test = DirectXpre::Util::WStringToString(filePath);
 		//設定のまとめに選択したファイルを読み取り書き込む
@@ -2346,6 +2351,10 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 		saveStackMovePointDatas_ = movePointDatas_;
 		saveStackExplosionObjDatas_ = explosionObjDatas_;
 		saveFileName_ = test;
+
+		useEventType = EventType::none;
+
+		useEventCount_ = 0;
 
 		//読み込んだデータにあるエディタに描画するオブジェクトの登録
 		AddEventDebugObj();
@@ -2756,88 +2765,8 @@ void EventEditorScene::UndoCheck(const uint32_t& count)
 	if (Input::GetInstance()->GetMouseButton(0, true))
 	{
 		undoFlag_ = true;
+		operationEventCount_ = count;
 	}
-	if (undoFlag_)
-	{
-
-		if (seting_[count].eventType == EventType::moveEvent)
-		{
-			useMovePointData_.startPoint.pos_ = { seting_[count].moveStartPoint };
-			useMovePointData_.endPoint.pos_ = { seting_[count].movePoint };
-
-			useMovePointData_.startPoint.Scale_ = { 0.5f,0.5f,0.5f };
-			useMovePointData_.endPoint.Scale_ = { 0.5f,0.5f,0.5f };
-
-			useMovePointData_.startPoint.Update();
-			useMovePointData_.endPoint.Update();
-
-			//各ポイントの色を変更
-			useMovePointData_.startPoint.SetColor({ 0.0f,0.0f ,0.5f ,0.5f });
-			useMovePointData_.endPoint.SetColor({ 0.5f,0.0f ,0.0f ,0.5f });
-
-			useEventType = EventType::moveEvent;
-			useEventCount_ = count;
-		}
-		else if (seting_[count].eventType == EventType::BattleEvent)
-		{
-			useEnemyData_.enemys.clear();
-			useEnemyData_.enemyTypes.clear();
-			useEnemyData_.endPoint.clear();
-			useEnemyData_.move.clear();
-			Object3D playerObj;
-			playerObj.FBXInit();
-			playerObj.pos_ = seting_[count].playerPos;
-			playerObj.Scale_ = { 0.5f,0.5f,0.5f };
-			playerObj.SetColor({ 1.0f,1.0f ,1.0f ,0.5f });
-			useEnemyData_.playerPoint = playerObj;
-
-			for (int32_t i = 0; i < seting_[count].enemyNum; i++)
-			{
-				Object3D enemyObj;
-				enemyObj.FBXInit();
-				enemyObj.pos_ = seting_[count].enemySpawnPos[i];
-				enemyObj.Scale_ = { 0.65f,0.65f ,0.65f };
-				enemyObj.SetColor({ 1.0f,1.0f ,1.0f ,0.5f });
-
-				useEnemyData_.enemys.push_back(enemyObj);
-
-				useEnemyData_.enemyTypes.push_back(seting_[count].enemyTypes[i]);
-
-				Object3D endPointObj;
-				endPointObj.FBXInit();
-				endPointObj.pos_ = seting_[count].enemyMovePos[i];
-				endPointObj.Scale_ = { 0.65f,0.65f ,0.65f };
-				endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,0.5f });
-				useEnemyData_.endPoint.push_back(endPointObj);
-
-				Object3D moveObj;
-				moveObj.FBXInit();
-				moveObj.pos_ = seting_[count].enemySpawnPos[i];
-				moveObj.Scale_ = { 0.65f,0.65f ,0.65f };
-				moveObj.SetColor({ 0.5f,0.0f ,0.5f ,0.5f });
-				useEnemyData_.move.push_back(moveObj);
-			}
-
-			useExplosionObjData_.obj.clear();
-			for (int32_t i = 0; i < seting_[count].explosionObjNum; i++)
-			{
-				Object3D explosionObj;
-				explosionObj.FBXInit();
-				explosionObj.pos_ = seting_[count].explosionObjPos[i];
-				explosionObj.Scale_ = seting_[count].explosionObjSize[i] * 1.2f;
-				explosionObj.SetColor({ 1.0f,1.0f ,1.0f ,0.5f });
-
-				useExplosionObjData_.obj.push_back(explosionObj);
-
-			}
-
-			useEventType = EventType::BattleEvent;
-			useEventCount_ = count;
-
-		}
-	}
-
-	
 
 }
 
@@ -2958,4 +2887,87 @@ void EventEditorScene::AddRedo()
 	reSaveEnemyDatas_.push_back(enemyDatas_);
 	reSaveMovePointDatas_.push_back(movePointDatas_);
 	reSaveExplosionObjDatas_.push_back(explosionObjDatas_);
+}
+
+void EventEditorScene::UseEventViewAdd(const uint32_t& count)
+{
+	if (undoFlag_ && operationEventCount_ == count)
+	{
+
+		if (seting_[count].eventType == EventType::moveEvent)
+		{
+			useMovePointData_.startPoint.pos_ = { seting_[count].moveStartPoint };
+			useMovePointData_.endPoint.pos_ = { seting_[count].movePoint };
+
+			useMovePointData_.startPoint.Scale_ = { 0.5f,0.5f,0.5f };
+			useMovePointData_.endPoint.Scale_ = { 0.5f,0.5f,0.5f };
+
+			useMovePointData_.startPoint.Update();
+			useMovePointData_.endPoint.Update();
+
+			//各ポイントの色を変更
+			useMovePointData_.startPoint.SetColor({ 0.0f,0.0f ,0.5f ,0.8f });
+			useMovePointData_.endPoint.SetColor({ 0.5f,0.0f ,0.0f ,0.8f });
+
+			useEventType = EventType::moveEvent;
+			useEventCount_ = count;
+		}
+		else if (seting_[count].eventType == EventType::BattleEvent)
+		{
+			useEnemyData_.enemys.clear();
+			useEnemyData_.enemyTypes.clear();
+			useEnemyData_.endPoint.clear();
+			useEnemyData_.move.clear();
+			Object3D playerObj;
+			playerObj.FBXInit();
+			playerObj.pos_ = seting_[count].playerPos;
+			playerObj.Scale_ = { 0.5f,0.5f,0.5f };
+			playerObj.SetColor({ 1.0f,1.0f ,1.0f ,0.5f });
+			useEnemyData_.playerPoint = playerObj;
+
+			for (int32_t i = 0; i < seting_[count].enemyNum; i++)
+			{
+				Object3D enemyObj;
+				enemyObj.FBXInit();
+				enemyObj.pos_ = seting_[count].enemySpawnPos[i];
+				enemyObj.Scale_ = { 0.65f,0.65f ,0.65f };
+				enemyObj.SetColor({ 1.0f,1.0f ,1.0f ,0.8f });
+
+				useEnemyData_.enemys.push_back(enemyObj);
+
+				useEnemyData_.enemyTypes.push_back(seting_[count].enemyTypes[i]);
+
+				Object3D endPointObj;
+				endPointObj.FBXInit();
+				endPointObj.pos_ = seting_[count].enemyMovePos[i];
+				endPointObj.Scale_ = { 0.65f,0.65f ,0.65f };
+				endPointObj.SetColor({ 0.5f,0.0f ,0.0f ,0.8f });
+				useEnemyData_.endPoint.push_back(endPointObj);
+
+				Object3D moveObj;
+				moveObj.FBXInit();
+				moveObj.pos_ = seting_[count].enemySpawnPos[i];
+				moveObj.Scale_ = { 0.65f,0.65f ,0.65f };
+				moveObj.SetColor({ 0.5f,0.0f ,0.5f ,0.8f });
+				useEnemyData_.move.push_back(moveObj);
+			}
+
+			useExplosionObjData_.obj.clear();
+			for (int32_t i = 0; i < seting_[count].explosionObjNum; i++)
+			{
+				Object3D explosionObj;
+				explosionObj.FBXInit();
+				explosionObj.pos_ = seting_[count].explosionObjPos[i];
+				explosionObj.Scale_ = seting_[count].explosionObjSize[i] * 1.2f;
+				explosionObj.SetColor({ 1.0f,1.0f ,1.0f ,0.8f });
+
+				useExplosionObjData_.obj.push_back(explosionObj);
+
+			}
+
+			useEventType = EventType::BattleEvent;
+			useEventCount_ = count;
+
+		}
+	}
 }

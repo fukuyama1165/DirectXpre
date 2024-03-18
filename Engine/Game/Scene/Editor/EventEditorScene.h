@@ -193,6 +193,9 @@ private:
 	//undoをするためのチェック
 	void UndoCheck(const uint32_t& count);
 
+	//操作しているイベントの描画を追加するためのやつ
+	void UseEventViewAdd(const uint32_t& count);
+
 	//undo用
 	void Undo();
 
@@ -243,14 +246,18 @@ private:
 	std::vector<EventMovePointData> movePointDatas_;
 	std::vector<EventExplosionObjData> explosionObjDatas_;
 
-	//操作しているときのやつ
+	//変更しているときのやつ
 	EventEnemyData useEnemyData_;
 	EventMovePointData useMovePointData_;
 	EventExplosionObjData useExplosionObjData_;
 
 	uint16_t useEventType = EventType::none;
 
+	//操作しているイベントの描画用のイベント位置
 	uint32_t useEventCount_ = 0;
+
+	//現在操作しているイベント位置
+	uint32_t operationEventCount_ = 0;
 
 	//undoとか用の保持用
 	std::list<std::vector<EventSeting>> saveSeting_;
