@@ -193,6 +193,14 @@ private:
 	//undoをするためのチェック
 	void UndoCheck(const uint32_t& count);
 
+	/// <summary>
+	/// undoをするためのチェックとimguizmoの操作のフラグの切り替え
+	/// </summary>
+	/// <param name="count">イベントを保持している配列の変更したい位置</param>
+	/// <param name="enemyCount">敵の配列の位置</param>
+	/// <param name="enemyType">操作したいやつ(0で生成位置,1で移動位置)</param>
+	void UndoAndImguizmoMoveCheck(const uint32_t& count, const uint32_t& enemyCount,int32_t enemyType);
+
 	//操作しているイベントの描画を追加するためのやつ
 	void UseEventViewAdd(const uint32_t& count);
 

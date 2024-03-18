@@ -826,9 +826,9 @@ void EventEditorScene::EditEvent()
 					ImGui::Text("enemytype:moveOnly");
 					setingI->enemyTypes[i] = "moveOnly";
 
-					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoAndImguizmoMoveCheck(eventCount,i,0);
 
-					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
+					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoAndImguizmoMoveCheck(eventCount,i,1);
 
 					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck(eventCount);
 
@@ -836,37 +836,15 @@ void EventEditorScene::EditEvent()
 
 					enemyBulletCT = 0;
 
-					if(ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount,i);
-
-					if(eventFlags_[eventCount].isEnemySpawnPoss[i])
-					{
-						Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
-						EditTransform(buff);
-						spawnPos[0] = buff.x;
-						spawnPos[1] = buff.y;
-						spawnPos[2] = buff.z;
-					}
-
-					if(ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount,i);
-
-					if(eventFlags_[eventCount].isEnemyMoveEndPoint[i])
-					{
-						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
-						EditTransform(buff);
-						movePos[0] = buff.x;
-						movePos[1] = buff.y;
-						movePos[2] = buff.z;
-					}
-
 					break;
 				case 1:
 
 					ImGui::Text("enemytype:moveAttack");
 					setingI->enemyTypes[i] = "moveAttack";
 
-					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoAndImguizmoMoveCheck(eventCount,i,0);
 
-					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
+					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoAndImguizmoMoveCheck(eventCount,i,1);
 
 					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck(eventCount);
 
@@ -874,35 +852,13 @@ void EventEditorScene::EditEvent()
 
 					if(ImGui::DragInt(std::string("enemyBulletCT" + enemyNumString).c_str(), (int*)&enemyBulletCT, 1, 0, 500))UndoCheck(eventCount);
 
-					if(ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount, i);
-
-					if(eventFlags_[eventCount].isEnemySpawnPoss[i])
-					{
-						Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
-						EditTransform(buff);
-						spawnPos[0] = buff.x;
-						spawnPos[1] = buff.y;
-						spawnPos[2] = buff.z;
-					}
-
-					if(ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount, i);
-
-					if(eventFlags_[eventCount].isEnemyMoveEndPoint[i])
-					{
-						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
-						EditTransform(buff);
-						movePos[0] = buff.x;
-						movePos[1] = buff.y;
-						movePos[2] = buff.z;
-					}
-
 					break;
 				case 2:
 
 					ImGui::Text("enemytype:Attack");
 					setingI->enemyTypes[i] = "Attack";
 
-					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoAndImguizmoMoveCheck(eventCount,i,0);
 
 					movePos[0] = { 0 };
 					movePos[1] = { 0 };
@@ -914,21 +870,35 @@ void EventEditorScene::EditEvent()
 
 					enemyMoveSpeed = 0;
 
-					if (ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount, i);
-
-					if (eventFlags_[eventCount].isEnemySpawnPoss[i])
-					{
-						Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
-						EditTransform(buff);
-						spawnPos[0] = buff.x;
-						spawnPos[1] = buff.y;
-						spawnPos[2] = buff.z;
-					}
-
 					break;
 				default:
 
 					break;
+				}
+
+				if (ImGui::Button(std::string("enemySpawnPosGui" + enemyNumString).c_str()))EventImguizmoEnemySpawnPosFlag(eventCount, i);
+
+				if (eventFlags_[eventCount].isEnemySpawnPoss[i])
+				{
+					Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
+					EditTransform(buff);
+					spawnPos[0] = buff.x;
+					spawnPos[1] = buff.y;
+					spawnPos[2] = buff.z;
+				}
+
+				if (enemyTypeNum != 2)
+				{
+					if (ImGui::Button(std::string("enemyMovePosGui" + enemyNumString).c_str()))EventImguizmoEnemyMoveEndPointFlag(eventCount, i);
+
+					if (eventFlags_[eventCount].isEnemyMoveEndPoint[i])
+					{
+						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
+						EditTransform(buff);
+						movePos[0] = buff.x;
+						movePos[1] = buff.y;
+						movePos[2] = buff.z;
+					}
 				}
 
 				setingI->enemySpawnPos[i] = { spawnPos[0],spawnPos[1] ,spawnPos[2] };
@@ -2969,5 +2939,20 @@ void EventEditorScene::UseEventViewAdd(const uint32_t& count)
 			useEventCount_ = count;
 
 		}
+	}
+}
+
+void EventEditorScene::UndoAndImguizmoMoveCheck(const uint32_t& count, const uint32_t& enemyCount, int32_t enemyType)
+{
+	UndoCheck(count);
+
+	//imguizmoのフラグを起動
+	if (enemyType == 0)
+	{
+		EventImguizmoEnemySpawnPosFlag(count, enemyCount);
+	}
+	else if (enemyType == 1)
+	{
+		EventImguizmoEnemyMoveEndPointFlag(count, enemyCount);
 	}
 }
