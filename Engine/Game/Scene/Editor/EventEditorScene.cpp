@@ -1502,30 +1502,30 @@ void EventEditorScene::TestEvent()
 
 void EventEditorScene::DebugUpdate()
 {
-	if (Input::GetInstance()->PushKey(DIK_UP))
+	if (Input::GetInstance()->PushKey(DIK_UP,true))
 	{
 		cameraPos_.x += Vector3::normalize(Camera::nowCamera->forward_).x;
 		cameraPos_.z += Vector3::normalize(Camera::nowCamera->forward_).z;
 	}
-	if (Input::GetInstance()->PushKey(DIK_DOWN))
+	if (Input::GetInstance()->PushKey(DIK_DOWN, true))
 	{
 		cameraPos_.x += -Vector3::normalize(Camera::nowCamera->forward_).x;
 		cameraPos_.z += -Vector3::normalize(Camera::nowCamera->forward_).z;
 	}
-	if (Input::GetInstance()->PushKey(DIK_RIGHT))
+	if (Input::GetInstance()->PushKey(DIK_RIGHT, true))
 	{
 		cameraPos_ += Camera::nowCamera->rightDirection;
 	}
-	if (Input::GetInstance()->PushKey(DIK_LEFT))
+	if (Input::GetInstance()->PushKey(DIK_LEFT, true))
 	{
 		cameraPos_ += -Camera::nowCamera->rightDirection;
 	}
 
-	if (Input::GetInstance()->PushKey(DIK_I))
+	if (Input::GetInstance()->PushKey(DIK_I, true))
 	{
 		cameraPos_ += {0, 1, 0};
 	}
-	if (Input::GetInstance()->PushKey(DIK_K))
+	if (Input::GetInstance()->PushKey(DIK_K, true))
 	{
 		cameraPos_ += {0, -1, 0};
 	}
