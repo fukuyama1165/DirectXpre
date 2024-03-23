@@ -67,6 +67,7 @@ void CountTimer::Update()
 	//加算
 	if (addTime_ > 0)
 	{
+		//カウントは素早くするために数が大きければたくさん入れるように
 		if (addTime_ > 100)
 		{
 			timer_+=100;
@@ -100,7 +101,7 @@ void CountTimer::Update()
 
 #ifdef _DEBUG
 
-
+	//タイマーのテスト用
 	if (Input::GetInstance()->TriggerKey(DIK_6))
 	{
 		AddTimer(600);
