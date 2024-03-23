@@ -671,9 +671,9 @@ void EventEditorScene::EditEvent()
 			float moveRotTime = setingI->moveRotTime;
 			float addTime = setingI->addTimer;
 
-			if(ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f))UndoAndMoveImguizmoMoveCheck(eventCount,1);
+			if(ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f))UndoAndMoveImguizmoMoveCheck(eventCount,0);
 			if(ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
-			if(ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f))UndoAndMoveImguizmoMoveCheck(eventCount,0);
+			if(ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f))UndoAndMoveImguizmoMoveCheck(eventCount,1);
 			if(ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f))UndoCheck(eventCount);
 			if(ImGui::DragFloat(std::string("moveRotTime" + num).c_str(), &moveRotTime, 1.0f, 0.0f, 1000.0f))UndoCheck(eventCount);
 			//終了時に増える時間をセット

@@ -197,7 +197,7 @@ private:
 	/// undoをするためのチェックと移動イベントのimguizmoの操作のフラグの切り替え
 	/// </summary>
 	/// <param name="count">イベントを保持している配列の変更したい位置</param>
-	/// <param name="enemyType">操作したいやつ(0でスタート位置,1で移動位置)</param>
+	/// <param name="enemyType">操作したいやつ(0で移動位置,1でスタート位置)</param>
 	void UndoAndMoveImguizmoMoveCheck(const uint32_t& count,int32_t enemyType);
 
 	/// <summary>
