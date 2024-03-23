@@ -27,7 +27,7 @@ void WinApp::initialize()
 
 	w_.cbSize = sizeof(WNDCLASSEX);
 	w_.lpfnWndProc = static_cast<WNDPROC>(windowProc);//ウィンドウプロシージャ
-	w_.lpszClassName = L"ハイドシューター";//ウィンドウクラス名
+	w_.lpszClassName = L"ハイドシュート";//ウィンドウクラス名
 	w_.hInstance = GetModuleHandle(nullptr);//ウィンドウハンドル
 	w_.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
 
