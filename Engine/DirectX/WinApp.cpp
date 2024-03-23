@@ -40,7 +40,7 @@ void WinApp::initialize()
 
 	//ウィンドウの構成要素？
 	hwnd_ = CreateWindow(w_.lpszClassName,//クラス名
-		L"ハイドシューター",//タイトルバーの名前
+		L"ハイドシュート",//タイトルバーの名前
 		WS_OVERLAPPEDWINDOW,//標準的なウインドウスタイル
 		CW_USEDEFAULT,//x座標(OSに任せる)
 		CW_USEDEFAULT,//y座標(OSに任せる)
