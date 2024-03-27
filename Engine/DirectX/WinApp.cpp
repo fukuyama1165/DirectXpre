@@ -27,7 +27,7 @@ void WinApp::initialize()
 
 	w_.cbSize = sizeof(WNDCLASSEX);
 	w_.lpfnWndProc = static_cast<WNDPROC>(windowProc);//ウィンドウプロシージャ
-	w_.lpszClassName = L"ハイドシュート";//ウィンドウクラス名
+	w_.lpszClassName = L"ハイドシューター";//ウィンドウクラス名
 	w_.hInstance = GetModuleHandle(nullptr);//ウィンドウハンドル
 	w_.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
 
@@ -40,7 +40,7 @@ void WinApp::initialize()
 
 	//ウィンドウの構成要素？
 	hwnd_ = CreateWindow(w_.lpszClassName,//クラス名
-		L"ハイドシュート",//タイトルバーの名前
+		L"ハイドシューター",//タイトルバーの名前
 		WS_OVERLAPPEDWINDOW,//標準的なウインドウスタイル
 		CW_USEDEFAULT,//x座標(OSに任せる)
 		CW_USEDEFAULT,//y座標(OSに任せる)
