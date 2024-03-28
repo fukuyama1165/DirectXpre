@@ -762,7 +762,7 @@ void Player::Reticle2DMouse()
 	mouseDirection = mouseDirection.normalize();
 
 	//カメラから照準オブジェクトの距離
-	const float kDistanceTestObject = 100;
+	const float kDistanceTestObject = 80;
 
 	Vector3 A = posNear;
 	A += Vector3(mouseDirection.x * kDistanceTestObject, mouseDirection.y * kDistanceTestObject, mouseDirection.z * kDistanceTestObject);

@@ -67,6 +67,18 @@ private:
 		bool isEnd = false;
 	};
 
+	enum MoveEventImguizmoType
+	{
+		movePoint,
+		start
+	};
+
+	enum BattleEventImguizmoType
+	{
+		Spawn,
+		Enemymove
+	};
+
 private:
 
 	//設定してイベントを追加するところ
@@ -193,6 +205,24 @@ private:
 	//undoをするためのチェック
 	void UndoCheck(const uint32_t& count);
 
+	/// <summary>
+	/// undoをするためのチェックと移動イベントのimguizmoの操作のフラグの切り替え
+	/// </summary>
+	/// <param name="count">イベントを保持している配列の変更したい位置</param>
+	/// <param name="enemyType">操作したいやつ</param>
+	void UndoAndMoveImguizmoMoveCheck(const uint32_t& count,int32_t enemyType);
+
+	/// <summary>
+	/// undoをするためのチェックと敵のimguizmoの操作のフラグの切り替え
+	/// </summary>
+	/// <param name="count">イベントを保持している配列の変更したい位置</param>
+	/// <param name="enemyCount">敵の配列の位置</param>
+	/// <param name="enemyType">操作したいやつ</param>
+	void UndoAndEnemyImguizmoMoveCheck(const uint32_t& count, const uint32_t& enemyCount, int32_t enemyType);
+
+	//操作しているイベントの描画を追加するためのやつ
+	void UseEventViewAdd(const uint32_t& count);
+
 	//undo用
 	void Undo();
 
@@ -204,6 +234,9 @@ private:
 
 	//redo用追加用
 	void AddRedo();
+
+	//imguizmoの移動を操作するための関数
+	void EditTransform(Vector3& pos);
 
 private:
 	//天球
@@ -243,14 +276,18 @@ private:
 	std::vector<EventMovePointData> movePointDatas_;
 	std::vector<EventExplosionObjData> explosionObjDatas_;
 
-	//操作しているときのやつ
+	//変更しているときのやつ
 	EventEnemyData useEnemyData_;
 	EventMovePointData useMovePointData_;
 	EventExplosionObjData useExplosionObjData_;
 
 	uint16_t useEventType = EventType::none;
 
+	//操作しているイベントの描画用のイベント位置
 	uint32_t useEventCount_ = 0;
+
+	//現在操作しているイベント位置
+	uint32_t operationEventCount_ = 0;
 
 	//undoとか用の保持用
 	std::list<std::vector<EventSeting>> saveSeting_;
@@ -365,6 +402,7 @@ private:
 	//imguizmoのテスト用フラグ
 	Object3D testObj_;
 	Object3D testObj2_;
+	Matrix4x4 testMat_;
 	bool testimguizmoFlag = false;
 
 	bool testImguiFlag_ = false;
