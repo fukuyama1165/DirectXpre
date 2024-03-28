@@ -173,11 +173,13 @@ void Player::Update()
 		if ((input_->TriggerKey(DIK_SPACE) || input_->GetGamePadButtonDown(XINPUT_GAMEPAD_A)) && EventPointManager::GetInstance()->GetPEventPoint()->GetEventType() != moveEvent)
 		{
 			XAudio::PlaySoundData(gunReloadSount_, 1.0f);
+			Collider.isActive_ = false;
 		}
 
 		if ((input_->ReleaseKey(DIK_SPACE) && input_->GetIsUseKeybord()) || (input_->GetGamePadButtonUp(XINPUT_GAMEPAD_A) && !input_->GetIsUseKeybord()))
 		{
 			attackFlag_ = false;
+			Collider.isActive_ = true;
 		}
 	}
 	
