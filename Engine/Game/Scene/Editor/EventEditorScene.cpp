@@ -9,7 +9,7 @@
 #include <ImGuizmo.h>
 #include <GraphEditor.h>
 
-void EditTransform(Vector3& pos);
+
 
 EventEditorScene::EventEditorScene()
 {
@@ -62,6 +62,8 @@ void EventEditorScene::Initialize()
 
 	testObj_.FBXInit();
 	testObj2_.FBXInit();
+
+	testMat_.IdentityMatrix();
 
 	useMovePointData_.startPoint.FBXInit();
 	useMovePointData_.endPoint.FBXInit();
@@ -211,7 +213,7 @@ void EventEditorScene::Draw()
 		testEnemy2.Draw(enemyModel_);
 	}
 
-	//testObj_.FBXDraw(*testModel_);
+	testObj_.FBXDraw(*testModel_);
 	//testObj2_.FBXDraw(*testModel_);
 
 }
@@ -671,9 +673,9 @@ void EventEditorScene::EditEvent()
 			float moveRotTime = setingI->moveRotTime;
 			float addTime = setingI->addTimer;
 
-			if(ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f))UndoAndMoveImguizmoMoveCheck(eventCount,0);
+			if(ImGui::DragFloat3(std::string("movePoint" + num).c_str(), movePoint, 1.0f, -1000.0f, 1000.0f))UndoAndMoveImguizmoMoveCheck(eventCount,MoveEventImguizmoType::movePoint);
 			if(ImGui::DragFloat3(std::string("movePointRot" + num).c_str(), movePointRot, 1.0f, -1000.0f, 1000.0f))UndoCheck(eventCount);
-			if(ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f))UndoAndMoveImguizmoMoveCheck(eventCount,1);
+			if(ImGui::DragFloat3(std::string("moveStartPoint" + num).c_str(), moveStartPoint, 1.0f, -1000.0f, 1000.0f))UndoAndMoveImguizmoMoveCheck(eventCount, MoveEventImguizmoType::start);
 			if(ImGui::DragFloat(std::string("moveSpeed" + num).c_str(), &moveSpeed, 1.0f, 0.0f, 1000.0f))UndoCheck(eventCount);
 			if(ImGui::DragFloat(std::string("moveRotTime" + num).c_str(), &moveRotTime, 1.0f, 0.0f, 1000.0f))UndoCheck(eventCount);
 			//終了時に増える時間をセット
@@ -826,9 +828,9 @@ void EventEditorScene::EditEvent()
 					ImGui::Text("enemytype:moveOnly");
 					setingI->enemyTypes[i] = "moveOnly";
 
-					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoAndEnemyImguizmoMoveCheck(eventCount,i,0);
+					if(ImGui::DragFloat3(std::string("spawnPos" + enemyNumString).c_str(), spawnPos, 1.0f, -1000.0f, 1000.0f))UndoAndEnemyImguizmoMoveCheck(eventCount,i,BattleEventImguizmoType::Spawn);
 
-					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoAndEnemyImguizmoMoveCheck(eventCount,i,1);
+					if(ImGui::DragFloat3(std::string("movePos" + enemyNumString).c_str(), movePos, 1.0f, -1000.0f, 1000.0f))UndoAndEnemyImguizmoMoveCheck(eventCount,i, BattleEventImguizmoType::Enemymove);
 
 					if(ImGui::DragFloat(std::string("spawnInterval" + enemyNumString).c_str(), &enemySpawnInterval, 1.0f, 0.0f, 50.0f))UndoCheck(eventCount);
 
@@ -1538,8 +1540,6 @@ void EventEditorScene::DebugUpdate()
 		IsUseCameraMouse_ = !IsUseCameraMouse_;
 	}
 
-	
-
 #pragma region check
 
 	if (imguiCheckWindow_)
@@ -1577,6 +1577,11 @@ void EventEditorScene::DebugUpdate()
 		{
 			ImGui::Text("off");
 		}*/
+		ImGui::Text("mat");
+		for (int16_t i = 0; i < 4; i++)
+		{
+			ImGui::Text("%0.3f %0.3f %0.3f %0.3f", testMat_.m[i][0], testMat_.m[i][1], testMat_.m[i][2], testMat_.m[i][3]);
+		}
 
 		ImGui::End();
 	}
@@ -2591,6 +2596,8 @@ void EventEditorScene::EventImguizmoMovePointFlag(const uint32_t& count)
 	}
 }
 
+
+
 void EventEditorScene::EventImguizmoBattleEventPlayerPoint(const uint32_t& count)
 {
 	//指定したやつを使うように
@@ -2697,7 +2704,7 @@ void EventEditorScene::EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count,
 	}
 }
 
-void EditTransform(Vector3& pos)
+void EventEditorScene::EditTransform(Vector3& pos)
 {
 	//操作用の行列を用意
 	Matrix4x4 nowPosMat;
@@ -2723,7 +2730,7 @@ void EditTransform(Vector3& pos)
 	//実際操作
 	ImGuizmo::SetRect(0, 0, WinApp::GetInstance()->getWindowSizeWidthF(), WinApp::GetInstance()->getWindowSizeHeightF());
 	ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL);
-	//行列戻すンゴねえ
+	//行列戻すねえ
 	mat = ChengeTwoDimensionalMatrix(matm16);
 
 	pos = { mat.m[3][0],mat.m[3][1],mat.m[3][2]};
@@ -2776,7 +2783,7 @@ void EventEditorScene::Undo()
 	
 	
 
-	if (undoFlag_ and !Input::GetInstance()->GetMouseButton(0, true))
+	if (undoFlag_ && !Input::GetInstance()->GetMouseButton(0, true))
 	{
 		//保持しすぎると重いのでいい感じの量以上なら一番古いのを消す
 		if (saveSeting_.size() >= 10)
@@ -2947,11 +2954,11 @@ void EventEditorScene::UndoAndMoveImguizmoMoveCheck(const uint32_t& count, int32
 	UndoCheck(count);
 
 	//imguizmoのフラグを起動
-	if (enemyType == 0)
+	if (enemyType == MoveEventImguizmoType::movePoint)
 	{
 		EventImguizmoMoveStartPointFlag(count);
 	}
-	else if (enemyType == 1)
+	else if (enemyType == MoveEventImguizmoType::start)
 	{
 		EventImguizmoMovePointFlag(count);
 	}
@@ -2962,11 +2969,11 @@ void EventEditorScene::UndoAndEnemyImguizmoMoveCheck(const uint32_t& count, cons
 	UndoCheck(count);
 
 	//imguizmoのフラグを起動
-	if (enemyType == 0)
+	if (enemyType == BattleEventImguizmoType::Spawn)
 	{
 		EventImguizmoEnemySpawnPosFlag(count, enemyCount);
 	}
-	else if (enemyType == 1)
+	else if (enemyType == BattleEventImguizmoType::Enemymove)
 	{
 		EventImguizmoEnemyMoveEndPointFlag(count, enemyCount);
 	}
