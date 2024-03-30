@@ -269,6 +269,7 @@ private:
 	//種類設定用変数
 	uint32_t eventTypeNum_ = 0;
 	std::vector<uint32_t> enemyTypeNum_;
+	std::vector<uint32_t> enemyDeathParticleNum_;
 	uint32_t playerHideTypeNum_ = 0;
 
 	//作成中のイベントの中身保持用
@@ -335,6 +336,7 @@ private:
 	std::vector<float> enemySpawnInterval_;
 	std::vector<uint32_t> enemyBulletCT_;
 	std::vector<std::string> enemyTypes_;
+	std::vector<std::string> enemyDeathParticleName_;
 	float playerHideType_ = playerHideVectorType::Down;
 	float playerPos_[3] = { 0,0,0 };
 
@@ -349,7 +351,11 @@ private:
 	//敵の種類
 	const char* EnemyTypeChar[3] = { "moveOnly","moveAttack","Attack" };
 
+	//隠れる方向
 	const char* playerHideTypeChar[3] = { "Down","Right","Left"};
+
+	//敵の種類
+	const char* EnemyDeathParticleChar[4] = { "BASIC","Cartridge","Fall","Explosion" };
 
 	//jsonファイル書き出し用のファイル名を入れるところ
 	char str1[128] = "";

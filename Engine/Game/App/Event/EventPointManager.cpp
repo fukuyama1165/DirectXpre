@@ -273,6 +273,7 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 			if ((float)seting["spawnPoint"].size() <= i ||
 				(float)seting["spawnInterval"].size() <= i ||
 				(float)seting["enemyType"].size() <= i ||
+				(float)seting["enemyDeathParticleName"].size() <= i ||
 				(float)seting["enemySpeed"].size() <= i ||
 				(float)seting["enemyMovePos"].size() <= i ||
 				(float)seting["enemyBulletCT"].size() <= i) continue;
@@ -286,6 +287,9 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 
 			//エネミーの種類をセット
 			eventData.enemyTypes.push_back(seting["enemyType"][i].get<std::string>());
+
+			//エネミーの死んだときのパーティクルの種類をセット
+			eventData.enemyDeathParticleName.push_back(seting["enemyDeathParticleName"][i].get<std::string>());
 
 			//エネミーが動く場合動くときの速度をセット
 			eventData.enemyMoveSpeed.push_back((float)seting["enemySpeed"][i]);

@@ -36,7 +36,8 @@ public:
 	/// <param name="movePointPos">移動先</param>
 	/// <param name="moveSpeed">移動速度</param>
 	/// <param name="bulletCT">発射間隔</param>
-	void Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed, uint32_t bulletCT = 200);
+	/// <param name="DeathParticleName">死んだとき出すパーティクルの名前</param>
+	void Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed, uint32_t bulletCT = 200,std::string DeathParticleName="BASIC");
 
 	/// <summary>
 	/// 更新
@@ -124,6 +125,9 @@ private:
 	float startTime_ = 0;
 
 	float startMaxTime_ = 50;
+
+	//使うパーティクルの種類
+	std::string particleName_ = "BASIC";
 
 };
 
