@@ -11,7 +11,7 @@ Enemy::~Enemy()
 	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 }
 
-void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed, uint32_t bulletCT)
+void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float moveSpeed, uint32_t bulletCT, std::string DeathParticleName)
 {
 	
 	enemyObj_.FBXInit();
@@ -40,6 +40,8 @@ void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float
 
 	bulletMaxCT_ = bulletCT;
 	bulletCT_ = bulletCT;
+
+	particleName_ = DeathParticleName;
 
 }
 
@@ -157,7 +159,7 @@ void Enemy::OnCollision()
 
 	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 
-	EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", "Fall", 10,10, 20,1.0f,{-1,1}, { -1,1 }, { -1,1 }, { 0.5f,0.5f,0.5f }, { 0.2f,0.2f,0.2f });
+	EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", particleName_, 10,10, 20,1.0f,{-1,1}, { -1,1 }, { -1,1 }, { 0.5f,0.5f,0.5f }, { 0.2f,0.2f,0.2f });
 
 }
 

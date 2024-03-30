@@ -343,12 +343,14 @@ void EventEditorScene::AddBattleEvent()
 	if (oldEnemyNum_ != enemyNum_)
 	{
 		enemyTypeNum_.resize(enemyNum_);
+		enemyDeathParticleNum_.resize(enemyNum_);
 		enemySpawnPos_.resize(enemyNum_);
 		enemyMovePos_.resize(enemyNum_);
 		enemyMoveSpeed_.resize(enemyNum_);
 		enemySpawnInterval_.resize(enemyNum_);
 		enemyBulletCT_.resize(enemyNum_);
 		enemyTypes_.resize(enemyNum_);
+		enemyDeathParticleName_.resize(enemyNum_);
 	}
 
 	//intしか使えん許さん
@@ -409,6 +411,7 @@ void EventEditorScene::AddButtonBattleEvent()
 	addEvent.enemySpawnInterval = enemySpawnInterval_;
 	addEvent.enemyMoveSpeed = enemyMoveSpeed_;
 	addEvent.enemyBulletCT = enemyBulletCT_;
+	addEvent.enemyDeathParticleName = enemyDeathParticleName_;
 	addEvent.playerHideVector = playerHideType_;
 	addEvent.playerPos = { playerPos_[0],playerPos_[1] ,playerPos_[2] };
 	addEvent.addTimer = addTime_;
@@ -529,6 +532,10 @@ void EventEditorScene::AddBattleEventEnemy()
 
 		//intしか使えん許さん
 		ImGui::Combo(std::string("EnemyType" + num).c_str(), (int*)&enemyTypeNum_[i], EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar));
+
+		ImGui::Combo(std::string("EnemyDeathParticle" + num).c_str(), (int*)&enemyDeathParticleNum_[i], EnemyDeathParticleChar, IM_ARRAYSIZE(EnemyDeathParticleChar));
+
+		enemyDeathParticleName_[i] = EnemyDeathParticleChar[enemyDeathParticleNum_[i]];
 
 		//現在の値を取得
 		float spawnPos[3] = { enemySpawnPos_[i].x,enemySpawnPos_[i].y,enemySpawnPos_[i].z };
@@ -736,6 +743,7 @@ void EventEditorScene::EditEvent()
 				setingI->enemySpawnInterval.resize(enemyNum);
 				setingI->enemyBulletCT.resize(enemyNum);
 				setingI->enemyTypes.resize(enemyNum);
+				setingI->enemyDeathParticleName.resize(enemyNum);
 
 				//フラグもサイズを変更しておく
 				eventFlags_[eventCount].isEnemySpawnPoss.resize(enemyNum);
@@ -806,10 +814,34 @@ void EventEditorScene::EditEvent()
 					enemyTypeNum = 2;
 				}
 
+				uint32_t enemyDeathParticleNameNum = 0;
+
+				if (setingI->enemyDeathParticleName[i] == "BASIC")
+				{
+					enemyDeathParticleNameNum = 0;
+				}
+				else if (setingI->enemyDeathParticleName[i] == "Cartridge")
+				{
+					enemyDeathParticleNameNum = 1;
+				}
+				else if (setingI->enemyDeathParticleName[i] == "Fall")
+				{
+					enemyDeathParticleNameNum = 2;
+				}
+				else if (setingI->enemyDeathParticleName[i] == "Explosion")
+				{
+					enemyDeathParticleNameNum = 3;
+				}
+
 				
 
 				//intしか使えん許さん
 				if(ImGui::Combo(std::string("EnemyType" + enemyNumString).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar)))UndoCheck(eventCount);
+
+				if(ImGui::Combo(std::string("EnemyDeathParticle" + enemyNumString).c_str(), (int*)&enemyDeathParticleNameNum, EnemyDeathParticleChar, IM_ARRAYSIZE(EnemyDeathParticleChar)))UndoCheck(eventCount);
+
+				//死んだときのパーティクルの設定を変更
+				setingI->enemyDeathParticleName[i] = EnemyDeathParticleChar[enemyDeathParticleNameNum];
 
 				//現在の値を取得
 				float spawnPos[3] = { setingI->enemySpawnPos[i].x,setingI->enemySpawnPos[i].y,setingI->enemySpawnPos[i].z };
@@ -1830,6 +1862,8 @@ void EventEditorScene::SaveEventFullPathData(const std::string& fileName)
 				data["seting"]["spawnPoint"] += { eventSeting.enemySpawnPos[i].x, eventSeting.enemySpawnPos[i].y, eventSeting.enemySpawnPos[i].z};
 
 				data["seting"]["enemyMovePos"] += { eventSeting.enemyMovePos[i].x, eventSeting.enemyMovePos[i].y, eventSeting.enemyMovePos[i].z };
+
+				
 			}
 			if (eventSeting.enemyNum == 0)
 			{
@@ -1841,6 +1875,7 @@ void EventEditorScene::SaveEventFullPathData(const std::string& fileName)
 			data["seting"]["enemyType"] = eventSeting.enemyTypes;
 			data["seting"]["enemySpeed"] = eventSeting.enemyMoveSpeed;
 			data["seting"]["enemyBulletCT"] = eventSeting.enemyBulletCT;
+			data["seting"]["enemyDeathParticleName"] = eventSeting.enemyDeathParticleName;
 			data["type"] = "BattleEvent";
 			data["seting"]["playerHideType"] = eventSeting.playerHideVector;
 			data["seting"]["playerPos"] = { eventSeting.playerPos.x,eventSeting.playerPos.y,eventSeting.playerPos.z };
@@ -2142,6 +2177,7 @@ bool EventEditorScene::EventScanning(const nlohmann::json& Event)
 			if ((float)seting["spawnPoint"].size() <= i ||
 				(float)seting["spawnInterval"].size() <= i ||
 				(float)seting["enemyType"].size() <= i ||
+				(float)seting["enemyDeathParticleName"].size() <= i ||
 				(float)seting["enemySpeed"].size() <= i ||
 				(float)seting["enemyMovePos"].size() <= i) continue;
 
@@ -2154,6 +2190,9 @@ bool EventEditorScene::EventScanning(const nlohmann::json& Event)
 
 			//エネミーの種類をセット
 			eventData.enemyTypes.push_back(seting["enemyType"][i].get<std::string>());
+
+			//エネミーの死んだときのパーティクルの種類をセット
+			eventData.enemyDeathParticleName.push_back(seting["enemyDeathParticleName"][i].get<std::string>());
 
 			//エネミーが動く場合動くときの速度をセット
 			eventData.enemyMoveSpeed.push_back((float)seting["enemySpeed"][i]);

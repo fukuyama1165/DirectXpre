@@ -50,7 +50,7 @@ void EventPoint::Update()
 			timeCount_ = seting_.enemySpawnInterval[count_]*60;
 
 			//敵を湧かす
-			EnemyManager::GetInstance()->PopEnemy(seting_.enemyTypes[count_], seting_.enemySpawnPos[count_], seting_.enemyMovePos[count_],seting_.enemyMoveSpeed[count_], seting_.enemyBulletCT[count_]);
+			EnemyManager::GetInstance()->PopEnemy(seting_.enemyTypes[count_], seting_.enemySpawnPos[count_], seting_.enemyMovePos[count_],seting_.enemyMoveSpeed[count_], seting_.enemyBulletCT[count_],seting_.enemyDeathParticleName[count_]);
 			
 			//湧いた数増加
 			count_++;

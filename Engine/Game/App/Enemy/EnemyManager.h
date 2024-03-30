@@ -16,7 +16,7 @@ public:
 
 	static EnemyManager* GetInstance();
 
-	void PopEnemy( const std::string& enemyType,const Vector3& pos,const Vector3& movePoint = { 0,0,0 }, float moveSpeed = 1.0f, uint32_t bulletCT = 200);
+	void PopEnemy( const std::string& enemyType,const Vector3& pos,const Vector3& movePoint = { 0,0,0 }, float moveSpeed = 1.0f, uint32_t bulletCT = 200,std::string DeathParticleName = "BASIC");
 
 	//初期化
 	void Init();

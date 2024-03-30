@@ -21,11 +21,11 @@ EnemyManager::~EnemyManager()
 
 }
 
-void EnemyManager::PopEnemy(const std::string& enemyType,const Vector3& pos,const Vector3& movePoint, float moveSpeed, uint32_t bulletCT)
+void EnemyManager::PopEnemy(const std::string& enemyType,const Vector3& pos,const Vector3& movePoint, float moveSpeed, uint32_t bulletCT, std::string DeathParticleName)
 {
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 
-	newEnemy->Init(enemyType, pos, movePoint,moveSpeed,bulletCT);
+	newEnemy->Init(enemyType, pos, movePoint, moveSpeed, bulletCT, DeathParticleName);
 	//敵キャラを登録
 	enemys_.push_back(std::move(newEnemy));
 }

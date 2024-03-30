@@ -1,0 +1,68 @@
+{
+    "events": [
+        {
+            "seting": {
+                "addTime": 0.0,
+                "enemyBulletCT": [
+                    500,
+                    10000000
+                ],
+                "enemyDeathParticleName": [
+                    "BASIC",
+                    "Cartridge"
+                ],
+                "enemyMaxSpawn": 2,
+                "enemyMovePos": [
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                ],
+                "enemyNum": 2,
+                "enemySpeed": [
+                    0.0,
+                    0.0
+                ],
+                "enemyType": [
+                    "Attack",
+                    "Attack"
+                ],
+                "explosionObjExplosionSize": null,
+                "explosionObjExplosionTime": [],
+                "explosionObjNum": 0,
+                "explosionObjPos": null,
+                "explosionObjSize": null,
+                "playerHideType": 0.0,
+                "playerPos": [
+                    0.0,
+                    0.0,
+                    -20.0
+                ],
+                "spawnInterval": [
+                    0.0,
+                    0.0
+                ],
+                "spawnPoint": [
+                    [
+                        5.0,
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        -5.0,
+                        0.0,
+                        0.0
+                    ]
+                ]
+            },
+            "type": "BattleEvent"
+        }
+    ],
+    "name": "event"
+}

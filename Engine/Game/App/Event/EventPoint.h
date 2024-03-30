@@ -40,6 +40,7 @@ struct EventSeting
 	std::vector<Vector3> enemySpawnPos;
 	std::vector<Vector3> enemyMovePos;
 	std::vector<float> enemyMoveSpeed;
+	std::vector<std::string> enemyDeathParticleName;
 	std::vector<float> enemySpawnInterval;
 	std::vector<uint32_t> enemyBulletCT;
 	std::vector<std::string> enemyTypes;

@@ -31,6 +31,11 @@
                     70,
                     70
                 ],
+                "enemyDeathParticleName": [    
+                    "Fall",
+                    "Fall",
+                    "Fall"
+                ],
                 "enemyMaxSpawn": 3,
                 "enemyMovePos": [
                     [
@@ -176,6 +181,15 @@
                     90,
                     90,
                     90
+                ],
+                "enemyDeathParticleName": [
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall"        
                 ],
                 "enemyMaxSpawn": 3,
                 "enemyMovePos": [
@@ -381,6 +395,15 @@
                     90,
                     90
                 ],
+                "enemyDeathParticleName": [
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall"
+                ],
                 "enemyMaxSpawn": 3,
                 "enemyMovePos": [
                     [
@@ -533,6 +556,16 @@
                     90,
                     90,
                     90
+                ],
+                "enemyDeathParticleName": [
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall"
                 ],
                 "enemyMaxSpawn": 8,
                 "enemyMovePos": [
@@ -696,6 +729,13 @@
                     90,
                     10000000,
                     10000000
+                ],
+                "enemyDeathParticleName": [
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall",
+                    "Fall"
                 ],
                 "enemyMaxSpawn": 5,
                 "enemyMovePos": [
