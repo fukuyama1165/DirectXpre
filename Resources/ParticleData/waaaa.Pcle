@@ -1,0 +1,32 @@
+{
+    "ParticleParameters": {
+        "ActiveTime": -1.0,
+        "Name": "",
+        "actionTime": 10.0,
+        "ct": 1.0,
+        "endScale": [
+            4.0,
+            1.0,
+            1.0
+        ],
+        "liveTime": 21.0,
+        "randRengeX": [
+            -1.0,
+            1.0
+        ],
+        "randRengeY": [
+            -1.0,
+            1.0
+        ],
+        "randRengeZ": [
+            -1.0,
+            1.0
+        ],
+        "startScale": [
+            4.0,
+            1.0,
+            1.0
+        ]
+    },
+    "name": "Particle"
+}

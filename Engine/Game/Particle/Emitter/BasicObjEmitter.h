@@ -57,6 +57,9 @@ public:
 
 	void SetParticleactionTime(float time)override { particleactionTime_ = time; };
 
+	void SetStartScale(Vector3 Scale){ startScale_ = Scale; };
+	void SetEndScale(Vector3 Scale){ endScale_ = Scale; };
+
 private:
 
 	bool isActive_ = true;

@@ -20,6 +20,7 @@
 #include "Video.h"
 #include "ExplosionObjManager.h"
 #include <list>
+#include "ParticleEditor.h"
 
 class EventEditorScene : public IScene
 {
@@ -58,7 +59,7 @@ private:
 		bool isEnd = false;
 	};
 
-	//作成中の移動イベントの描画用構造体
+	//作成中のバトルイベントの爆発するオブジェクトの描画用構造体
 	struct EventExplosionObjData
 	{
 		std::vector<Object3D> obj;
@@ -432,5 +433,7 @@ private:
 	};
 
 	std::vector<EventFlagBuff> eventFlags_;
+
+	ParticleEditor particleEditor;
 
 };

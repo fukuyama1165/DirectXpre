@@ -155,6 +155,7 @@
     <ClCompile Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\FallParticle.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\Game\FallSpriteParticle.cpp" />
+    <ClCompile Include="Engine\Game\Particle\Particle\ParticleEditor.cpp" />
     <ClCompile Include="Engine\Game\Particle\Particle\ParticleFactory.cpp" />
     <ClCompile Include="Engine\Game\PostEffect\PostEffect.cpp" />
     <ClCompile Include="Engine\Game\Scene\Base\App.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="Engine\Game\Particle\Particle\IObjParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IParticle.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\IParticleFactory.h" />
+    <ClInclude Include="Engine\Game\Particle\Particle\ParticleEditor.h" />
     <ClInclude Include="Engine\Game\Particle\Particle\ParticleFactory.h" />
     <ClInclude Include="Engine\Game\PostEffect\PostEffect.h" />
     <ClInclude Include="Engine\Game\Scene\Base\App.h" />

@@ -68,6 +68,8 @@ void EventEditorScene::Initialize()
 	useMovePointData_.startPoint.FBXInit();
 	useMovePointData_.endPoint.FBXInit();
 
+	particleEditor.Init();
+
 }
 
 void EventEditorScene::Finalize()
@@ -189,6 +191,8 @@ void EventEditorScene::Draw()
 			}
 		}
 
+		particleEditor.Draw();
+
 	}
 	else
 	{
@@ -213,7 +217,7 @@ void EventEditorScene::Draw()
 		testEnemy2.Draw(enemyModel_);
 	}
 
-	testObj_.FBXDraw(*testModel_);
+	//testObj_.FBXDraw(*testModel_);
 	//testObj2_.FBXDraw(*testModel_);
 
 }
@@ -1807,6 +1811,8 @@ void EventEditorScene::DebugUpdate()
 	Undo();
 
 	Redo();
+
+	particleEditor.Update();
 	
 
 #endif
@@ -2816,6 +2822,20 @@ void EventEditorScene::Undo()
 			saveFileName_ = unSaveFileName_.back();
 
 			unSaveFileName_.pop_back();
+
+			useEnemyData_.playerPoint.SetColor({1,1,1,0});
+			useMovePointData_.move.SetColor({ 1,1,1,0 });
+			useMovePointData_.startPoint.SetColor({ 1,1,1,0 });
+			useMovePointData_.endPoint.SetColor({ 1,1,1,0 });
+			
+
+			useEnemyData_.enemys.clear();
+			useEnemyData_.enemyTypes.clear();
+			useEnemyData_.endPoint.clear();
+			useEnemyData_.move.clear();
+			useExplosionObjData_.obj.clear();
+			useExplosionObjData_.endSize.clear();
+			useExplosionObjData_.explosion.clear();
 		}
 	}
 
