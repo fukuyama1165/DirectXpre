@@ -450,6 +450,12 @@
     <ClCompile Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.cpp">
       <Filter>ソース ファイル\Game\Particle\Particle\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\ParticleEditor.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Game\Particle\Particle\ParticleManager.cpp">
+      <Filter>ソース ファイル\Game\Particle\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\resouse\Loader\FBXLoader.h">
@@ -709,6 +715,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Game\Particle\Particle\Game\ExplosionParticle.h">
       <Filter>ヘッダー ファイル\Game\Particle\Particle\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\ParticleEditor.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\ParticleManager.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Game\Particle\Particle\ParticleData.h">
+      <Filter>ヘッダー ファイル\Game\Particle\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
