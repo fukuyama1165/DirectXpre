@@ -56,9 +56,9 @@ void EventEditorScene::Initialize()
 
 	eventManager_->isNoTimer = false;
 
-	testExplosionObj.Init({ 0,20,-250 }, 0, { 1,1,1 }, { 10,10,10 }, 50.0f);
-	testEnemy1.Init("Attack", { 2,20,-250 }, {}, 0, 900000);
-	testEnemy2.Init("Attack", { -2,20,-250 }, {}, 0, 900000);
+	//testExplosionObj.Init({ 0,20,-250 }, 0, { 1,1,1 }, { 10,10,10 }, 50.0f);
+	//testEnemy1.Init("Attack", { 2,20,-250 }, {}, 0, 900000);
+	//testEnemy2.Init("Attack", { -2,20,-250 }, {}, 0, 900000);
 
 	testObj_.FBXInit();
 	testObj2_.FBXInit();
@@ -69,6 +69,8 @@ void EventEditorScene::Initialize()
 	useMovePointData_.endPoint.FBXInit();
 
 	particleEditor.Init();
+
+	testManager.LoadParicle();
 
 }
 
@@ -107,8 +109,8 @@ void EventEditorScene::Update()
 
 	TestEvent();
 
-	testObj_.Update();
-	testObj2_.Update();
+	//testObj_.Update();
+	//testObj2_.Update();
 
 	LightManager::GetInstance()->ALLLightUpdate();
 	
@@ -205,16 +207,16 @@ void EventEditorScene::Draw()
 
 	//if (!testExplosionObj.isExplosion_)
 	{
-		testExplosionObj.Draw(moveEventModel_);
+		//testExplosionObj.Draw(moveEventModel_);
 	}
 
 	if (testEnemy1.isAlive_)
 	{
-		testEnemy1.Draw(enemyModel_);
+		//testEnemy1.Draw(enemyModel_);
 	}
 	if (testEnemy2.isAlive_)
 	{
-		testEnemy2.Draw(enemyModel_);
+		//testEnemy2.Draw(enemyModel_);
 	}
 
 	//testObj_.FBXDraw(*testModel_);
@@ -2615,138 +2617,65 @@ void EventEditorScene::AddBattleEventExplosionObjDebugObjRandomAccess(uint16_t n
 
 void EventEditorScene::EventImguizmoMoveStartPointFlag(const uint32_t& count)
 {
+	//干渉して残ったので消す
+	MoveEventImguizmoAllOffFlag();
+	//全部消す
+	BattleEventImguizmoAllOffFlag();
 	//指定したやつを使うように
 	eventFlags_[count].isMoveEndPoint = true;
-	for (uint16_t i = 0; i < eventFlags_.size(); i++)
-	{
-		//同じイベント種類の干渉するフラグを消す
-		eventFlags_[i].isMoveStratPoint = false;
-		if (i == count)continue;
-		//編集中以外は使わないようにする
-		eventFlags_[i].isMoveEndPoint = false;
-	}
 }
 
 void EventEditorScene::EventImguizmoMovePointFlag(const uint32_t& count)
 {
+	//干渉して残ったので消す
+	MoveEventImguizmoAllOffFlag();
+	//全部消す
+	BattleEventImguizmoAllOffFlag();
 	//指定したやつを使うように
 	eventFlags_[count].isMoveStratPoint = true;
-	for (uint16_t i = 0; i < eventFlags_.size(); i++)
-	{
-		//同じイベント種類の干渉するフラグを消す
-		eventFlags_[i].isMoveEndPoint = false;
-		if (i == count)continue;
-		//編集中以外は使わないようにする
-		eventFlags_[i].isMoveStratPoint = false;
-	}
 }
 
 
 
 void EventEditorScene::EventImguizmoBattleEventPlayerPoint(const uint32_t& count)
 {
+	//干渉して残ったので消す
+	MoveEventImguizmoAllOffFlag();
+	//全部消す
+	BattleEventImguizmoAllOffFlag();
 	//指定したやつを使うように
 	eventFlags_[count].isBattlePlayerPoint = true;
-	for (uint16_t i = 0; i < eventFlags_.size(); i++)
-	{
-		//同じイベント種類の干渉するフラグを消す
-		for (uint32_t n = 0; n < eventFlags_[i].isEnemyMoveEndPoint.size(); n++)
-		{
-			eventFlags_[i].isEnemyMoveEndPoint[n] = false;
-			eventFlags_[i].isEnemySpawnPoss[n] = false;
-		}
-
-		for (uint16_t m = 0; m < eventFlags_[i].isExplosionObjPoints.size(); m++)
-		{
-			//編集中以外は使わないようにする
-			eventFlags_[i].isExplosionObjPoints[m] = false;
-		}
-		if (i == count)continue;
-		//編集中以外は使わないようにする
-		eventFlags_[i].isBattlePlayerPoint = false;
-	}
 }
 
 void EventEditorScene::EventImguizmoExplosionObjPosFlag(const uint32_t& count, const uint32_t& ExplosionObjCount)
 {
+	//干渉して残ったので消す
+	MoveEventImguizmoAllOffFlag();
+	//全部消す
+	BattleEventImguizmoAllOffFlag();
 	//指定したやつを使うように
 	eventFlags_[count].isExplosionObjPoints[ExplosionObjCount] = true;
-	for (uint16_t i = 0; i < eventFlags_.size(); i++)
-	{
-		//同じイベント種類の干渉するフラグを消す
-		for (uint32_t n = 0; n < eventFlags_[i].isEnemyMoveEndPoint.size(); n++)
-		{
-			eventFlags_[i].isEnemyMoveEndPoint[n] = false;
-			eventFlags_[i].isEnemySpawnPoss[n] = false;
-		}
-
-		for (uint16_t j = 0; j < eventFlags_[i].isExplosionObjPoints.size(); j++)
-		{
-			if (i == count && j == ExplosionObjCount)continue;
-			//編集中以外は使わないようにする
-			eventFlags_[i].isExplosionObjPoints[j] = false;
-		}
-
-		eventFlags_[i].isBattlePlayerPoint = false;
-	}
 }
 
 void EventEditorScene::EventImguizmoEnemySpawnPosFlag(const uint32_t& count, const uint32_t& enemyCount)
 {
+	//干渉して残ったので消す
+	MoveEventImguizmoAllOffFlag();
+	//全部消す
+	BattleEventImguizmoAllOffFlag();
 	//指定したやつを使うように
 	eventFlags_[count].isEnemySpawnPoss[enemyCount] = true;
-	for (uint16_t i = 0; i < eventFlags_.size(); i++)
-	{
-		//同じイベント種類の干渉するフラグを消す
-		for (uint32_t n = 0; n < eventFlags_[i].isEnemyMoveEndPoint.size(); n++)
-		{
-			eventFlags_[i].isEnemyMoveEndPoint[n] = false;
-		}
-
-		for (uint16_t m = 0; m < eventFlags_[i].isExplosionObjPoints.size(); m++)
-		{
-			//編集中以外は使わないようにする
-			eventFlags_[i].isExplosionObjPoints[m] = false;
-		}
-
-		for (uint16_t j = 0; j < eventFlags_[i].isEnemySpawnPoss.size(); j++)
-		{
-			if (i == count && j == enemyCount)continue;
-			//編集中以外は使わないようにする
-			eventFlags_[i].isEnemySpawnPoss[j] = false;
-		}
-
-		eventFlags_[i].isBattlePlayerPoint = false;
-	}
 }
 
 void EventEditorScene::EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count, const uint32_t& enemyCount)
 {
+	//干渉して残ったので消す
+	MoveEventImguizmoAllOffFlag();
+	//全部消す
+	BattleEventImguizmoAllOffFlag();
 	//指定したやつを使うように
 	eventFlags_[count].isEnemyMoveEndPoint[enemyCount] = true;
-	for (uint16_t i = 0; i < eventFlags_.size(); i++)
-	{
-		//同じイベント種類の干渉するフラグを消す
-		for (uint32_t n = 0; n < eventFlags_[i].isEnemySpawnPoss.size(); n++)
-		{
-			eventFlags_[i].isEnemySpawnPoss[n] = false;
-		}
-
-		for (uint16_t m = 0; m < eventFlags_[i].isExplosionObjPoints.size(); m++)
-		{
-			//編集中以外は使わないようにする
-			eventFlags_[i].isExplosionObjPoints[m] = false;
-		}
-
-		for (uint16_t j = 0; j < eventFlags_[i].isEnemyMoveEndPoint.size(); j++)
-		{
-			if (i == count && j == enemyCount)continue;
-			//編集中以外は使わないようにする
-			eventFlags_[i].isEnemyMoveEndPoint[j] = false;
-		}
-
-		eventFlags_[i].isBattlePlayerPoint = false;
-	}
+	
 }
 
 void EventEditorScene::EditTransform(Vector3& pos)
@@ -3035,5 +2964,41 @@ void EventEditorScene::UndoAndEnemyImguizmoMoveCheck(const uint32_t& count, cons
 	else if (enemyType == BattleEventImguizmoType::Enemymove)
 	{
 		EventImguizmoEnemyMoveEndPointFlag(count, enemyCount);
+	}
+}
+
+void EventEditorScene::MoveEventImguizmoAllOffFlag()
+{
+	//全部消す
+	for (uint16_t i = 0; i < eventFlags_.size(); i++)
+	{
+		
+		eventFlags_[i].isMoveEndPoint = false;
+		
+		eventFlags_[i].isMoveStratPoint = false;
+	}
+}
+
+void EventEditorScene::BattleEventImguizmoAllOffFlag()
+{
+	//全部off
+	for (uint16_t i = 0; i < eventFlags_.size(); i++)
+	{
+		for (uint32_t n = 0; n < eventFlags_[i].isEnemyMoveEndPoint.size(); n++)
+		{
+			eventFlags_[i].isEnemyMoveEndPoint[n] = false;
+		}
+
+		for (uint16_t m = 0; m < eventFlags_[i].isExplosionObjPoints.size(); m++)
+		{
+			eventFlags_[i].isExplosionObjPoints[m] = false;
+		}
+
+		for (uint16_t j = 0; j < eventFlags_[i].isEnemySpawnPoss.size(); j++)
+		{
+			eventFlags_[i].isEnemySpawnPoss[j] = false;
+		}
+
+		eventFlags_[i].isBattlePlayerPoint = false;
 	}
 }

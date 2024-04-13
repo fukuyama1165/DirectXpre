@@ -12,6 +12,7 @@
 #include <Windows.h>
 const float PI = 3.141592653589f;
 #include <string>
+#include <vector>
 
 namespace DirectXpre
 {
@@ -33,6 +34,15 @@ namespace DirectXpre
 		static double Rand(double min, double max);
 
 		static float Clamp(float num, float min, float max);
+
+		/// <summary>
+		/// 指定したフォルダの中にある指定した拡張子のファイルの名前を取ってくる関数
+		/// </summary>
+		/// <param name="dir">フォルダへのパス</param>
+		/// <param name="extension">探す拡張子</param>
+		/// <param name="isExtension">返す文字から拡張子をつけるか</param>
+		/// <returns>見つかったファイル名</returns>
+		static std::vector<std::string> FindFileNames(const std::string& dir, const std::string& extension, bool isExtension);
 
 		//wstringをstringに変換
 		static std::string WStringToString(const std::wstring& wstr);

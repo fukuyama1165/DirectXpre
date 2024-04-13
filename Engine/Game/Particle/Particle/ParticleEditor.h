@@ -1,4 +1,10 @@
 #pragma once
+/**
+ * @file ParticleEditor.h
+ * @brief パーティクル作成機能クラス
+ * @author フクヤマ
+ * @date 2024_04/13
+ */
 #include "WinApp.h"
 #include <filesystem>
 #include <fstream>

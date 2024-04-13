@@ -85,8 +85,6 @@ std::string DirectXpre::Util::WStringToString(const std::wstring& wstr)
 	// stringの生成
 	std::string oRet(&buff[0], &buff.back());
 
-	
-
 	// 変換結果を返す
 	return oRet;
 }
@@ -170,4 +168,55 @@ std::string DirectXpre::Util::SeparateFilePath(const std::string& filePath)
 
 	//ファイル名を返すよ
 	return fileName;
+}
+
+std::vector<std::string> DirectXpre::Util::FindFileNames(const std::string& dir, const std::string& extension, bool isExtension)
+{
+	//人のコードを参考にしました
+	//結果を入れる
+	std::vector<std::string> result;
+
+	//状態を保持
+	HANDLE hFind;
+	//結果のデータを入れるところ
+	WIN32_FIND_DATA win32fd;
+
+	//探すファイル名指定　ワイルドカードを使用
+	std::string search_name = dir + "*" + extension;
+	//ワイド文字にする
+	std::wstring wsearch_name = ConvertMultByteStringToWideString(search_name);
+	//ファイル検索
+	hFind = FindFirstFile(wsearch_name.c_str(), &win32fd);
+
+	//見つからなかった場合
+	if (hFind == INVALID_HANDLE_VALUE)
+	{
+		return result;
+	}
+
+	//次のファイルがある限り読み込み続ける
+	do
+	{
+		//ディレクトリなら無視
+		if (win32fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {}
+		else
+		{
+			//ファイル名をパス付で取得
+			std::wstring wfileName = win32fd.cFileName;
+			std::string fileName = WStringToString(wfileName);		
+			result.push_back(fileName);
+		}
+	} while (FindNextFile(hFind, &win32fd));
+	//閉じる
+	FindClose(hFind);
+
+	//拡張子を消す
+	if (isExtension == false) {
+		for (auto& fileName : result) {
+			size_t num = fileName.find(".");
+			fileName = fileName.substr(0, num);
+		}
+	}
+
+	return result;
 }

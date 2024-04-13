@@ -72,10 +72,6 @@ std::string Texture::loadTexture(const std::string& filename, std::string handle
 
 	SRVGeneraion(textureResourceDescBuff, texBuff2_,filename,handle);
 
-	
-
-	
-
 	return handle;
 }
 

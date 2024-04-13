@@ -21,6 +21,7 @@
 #include "ExplosionObjManager.h"
 #include <list>
 #include "ParticleEditor.h"
+#include "ParticleManager.h"
 
 class EventEditorScene : public IScene
 {
@@ -177,6 +178,11 @@ private:
 	void EventImguizmoMovePointFlag(const uint32_t& count);
 
 	/// <summary>
+	/// 移動イベントのimguizmoのフラグを全てoffにする関数
+	/// </summary>
+	void MoveEventImguizmoAllOffFlag();
+
+	/// <summary>
 	/// イベントのimguizmoの操作位置を変更するやつ(バトルイベントのプレイヤー位置)
 	/// </summary>
 	/// <param name="count">イベントを保持している配列の変更したい位置</param>
@@ -202,6 +208,11 @@ private:
 	/// <param name="count">イベントを保持している配列の変更したい位置</param>
 	/// <param name="enemyCount">敵の配列の位置</param>
 	void EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count, const uint32_t&enemyCount);
+
+	/// <summary>
+	/// バトルイベントのimguizmoのフラグを全てoffにする関数
+	/// </summary>
+	void BattleEventImguizmoAllOffFlag();
 
 	//undoをするためのチェック
 	void UndoCheck(const uint32_t& count);
@@ -435,5 +446,7 @@ private:
 	std::vector<EventFlagBuff> eventFlags_;
 
 	ParticleEditor particleEditor;
+
+	ParicleManager testManager;
 
 };
