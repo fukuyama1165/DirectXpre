@@ -8,10 +8,10 @@ struct ParticleData
     std::string Name = "";
     float actionTime;
     float ct;
-    Vector3 endScale;
     float liveTime;
     Vector2 randRengeX;
-    Vector3 randRengeY;
-    Vector3 randRengeZ;
+    Vector2 randRengeY;
+    Vector2 randRengeZ;
     Vector3 startScale;
+    Vector3 endScale;
 };

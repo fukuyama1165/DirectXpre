@@ -66,6 +66,9 @@ public:
 	//指定したイベントの番号に移動(なかったりオーバーしてたら何もしない)
 	void MoveEventNum(uint32_t eventCount);
 
+	//タイマーを最大にする
+	void ResetTimer() { timer_.ResetTimer(); };
+
 	//タイマーを使わないイベントなら
 	bool isNoTimer = false;
 

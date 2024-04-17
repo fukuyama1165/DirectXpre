@@ -248,7 +248,7 @@ private:
 	void AddRedo();
 
 	//imguizmoの移動を操作するための関数
-	void EditTransform(Vector3& pos);
+	void EditTransform(Vector3& pos, const uint32_t& count);
 
 private:
 	//天球
@@ -447,6 +447,6 @@ private:
 
 	ParticleEditor particleEditor;
 
-	ParicleManager testManager;
+	//ParicleManager testManager;
 
 };

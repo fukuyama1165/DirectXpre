@@ -3,20 +3,36 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <json.hpp>
 
 class ParicleManager
 {
 public:
-	ParicleManager();
-	~ParicleManager();
+
+	static ParicleManager* GetInstance();
 
 	bool LoadParicle();
 
 private:
 
-	std::map<std::string, ParticleData> particleDatas;
+	//シングルトン用
+	ParicleManager() = default;
+	~ParicleManager();
 
-	std::vector<std::string> fileNameBuff;
+	ParicleManager(const ParicleManager&) = delete;
+	ParicleManager& operator=(const ParicleManager&) = delete;
+
+	//パーティクルデータの中身読み込むよう
+	void ParicleDataScanning(nlohmann::json& paricle);
+
+	//パーティクルのデータを保持用
+	std::map<std::string, ParticleData> particleDatas_;
+
+	//パーティクルの名前保持
+	std::vector<std::string> particleNames_;
+
+	//パーティクルのフォルダ内のパスを保持するためのバッファ
+	std::vector<std::string> fileNameBuff_;
 
 };
 

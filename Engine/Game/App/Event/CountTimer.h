@@ -39,6 +39,9 @@ public:
 	//初期時間を設定し直す
 	float SetMaxTime(float time) { MaxTime_ = time; };
 
+	//時間を最大に設定
+	void ResetTimer() { timer_ = MaxTime_; };
+
 private:
 
 	/// <summary>

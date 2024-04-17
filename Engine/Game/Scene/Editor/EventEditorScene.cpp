@@ -70,7 +70,7 @@ void EventEditorScene::Initialize()
 
 	particleEditor.Init();
 
-	testManager.LoadParicle();
+	//testManager.LoadParicle();
 
 }
 
@@ -700,7 +700,7 @@ void EventEditorScene::EditEvent()
 			if (eventFlags_[eventCount].isMoveStratPoint)
 			{
 				Vector3 buff = { moveStartPoint[0] ,moveStartPoint[1] ,moveStartPoint[2] };
-				EditTransform(buff);
+				EditTransform(buff, eventCount);
 				moveStartPoint[0] = buff.x;
 				moveStartPoint[1] = buff.y;
 				moveStartPoint[2] = buff.z;
@@ -708,7 +708,7 @@ void EventEditorScene::EditEvent()
 			if (eventFlags_[eventCount].isMoveEndPoint)
 			{
 				Vector3 buff = { movePoint[0] ,movePoint[1] ,movePoint[2] };
-				EditTransform(buff);
+				EditTransform(buff, eventCount);
 				movePoint[0] = buff.x;
 				movePoint[1] = buff.y;
 				movePoint[2] = buff.z;
@@ -766,7 +766,7 @@ void EventEditorScene::EditEvent()
 			if (eventFlags_[eventCount].isBattlePlayerPoint)
 			{
 				Vector3 buff = { playerPos[0] ,playerPos[1] ,playerPos[2] };
-				EditTransform(buff);
+				EditTransform(buff, eventCount);
 				playerPos[0] = buff.x;
 				playerPos[1] = buff.y;
 				playerPos[2] = buff.z;
@@ -921,7 +921,7 @@ void EventEditorScene::EditEvent()
 				if (eventFlags_[eventCount].isEnemySpawnPoss[i])
 				{
 					Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
-					EditTransform(buff);
+					EditTransform(buff, eventCount);
 					spawnPos[0] = buff.x;
 					spawnPos[1] = buff.y;
 					spawnPos[2] = buff.z;
@@ -934,7 +934,7 @@ void EventEditorScene::EditEvent()
 					if (eventFlags_[eventCount].isEnemyMoveEndPoint[i])
 					{
 						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
-						EditTransform(buff);
+						EditTransform(buff, eventCount);
 						movePos[0] = buff.x;
 						movePos[1] = buff.y;
 						movePos[2] = buff.z;
@@ -1008,7 +1008,7 @@ void EventEditorScene::EditEvent()
 				if (eventFlags_[eventCount].isExplosionObjPoints[i])
 				{
 					Vector3 buff = { pos[0] ,pos[1] ,pos[2] };
-					EditTransform(buff);
+					EditTransform(buff, eventCount);
 					pos[0] = buff.x;
 					pos[1] = buff.y;
 					pos[2] = buff.z;
@@ -1509,7 +1509,9 @@ void EventEditorScene::TestEvent()
 			enemys_->Reset();
 			player_.Reset();
 			ExplosionObjManager::GetInstance()->Reset();
+			eventManager_->ResetTimer();
 			isTest_ = !isTest_;
+			pause_ = false;
 		}
 
 		if (ImGui::Button("pause"))
@@ -1526,16 +1528,6 @@ void EventEditorScene::TestEvent()
 	{
 		EmitterManager::GetInstance()->Update();
 	}
-
-	/*ImGui::Begin("Test");
-
-	ImGui::Text("日本語テスト");
-
-	ImGui::DragFloat2("tile", test_, 0.1f, 0.0f, 10.0f);
-
-	ImGui::End();
-
-	objobj3_.SetMaterialTiring({ test_[0],test_[1] });*/
 
 
 }
@@ -1607,14 +1599,7 @@ void EventEditorScene::DebugUpdate()
 		ImGui::DragFloat3("dir", test_, 1.0f, -100, 100);
 		ImGui::ColorEdit3("light", test2_);
 		ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
-		/*if (testImguiFlag_)
-		{
-			ImGui::Text("useMove");
-		}
-		else
-		{
-			ImGui::Text("off");
-		}*/
+		
 		ImGui::Text("mat");
 		for (int16_t i = 0; i < 4; i++)
 		{
@@ -2678,7 +2663,7 @@ void EventEditorScene::EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count,
 	
 }
 
-void EventEditorScene::EditTransform(Vector3& pos)
+void EventEditorScene::EditTransform(Vector3& pos,const uint32_t& count)
 {
 	//操作用の行列を用意
 	Matrix4x4 nowPosMat;
@@ -2703,7 +2688,7 @@ void EventEditorScene::EditTransform(Vector3& pos)
 	ChengeMatrix(Camera::nowCamera->matView_, cameVm16);
 	//実際操作
 	ImGuizmo::SetRect(0, 0, WinApp::GetInstance()->getWindowSizeWidthF(), WinApp::GetInstance()->getWindowSizeHeightF());
-	ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL);
+	if (ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL))UndoCheck(count);
 	//行列戻すねえ
 	mat = ChengeTwoDimensionalMatrix(matm16);
 
