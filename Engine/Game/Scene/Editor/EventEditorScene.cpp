@@ -72,6 +72,8 @@ void EventEditorScene::Initialize()
 
 	ParticleManager::GetInstance()->LoadParicle();
 
+	oldParticleDataSize = ParticleManager::GetInstance()->GetSavePatileDataName().size();
+
 }
 
 void EventEditorScene::Finalize()
@@ -1835,6 +1837,12 @@ void EventEditorScene::DebugUpdate()
 
 	particleEditor.Update();
 	
+	if (ParticleManager::GetInstance()->GetFileDataNum() != oldParticleDataSize)
+	{
+		ParticleManager::GetInstance()->LoadParicle();
+	}
+
+	oldParticleDataSize = ParticleManager::GetInstance()->GetSavePatileDataName().size();
 
 #endif
 

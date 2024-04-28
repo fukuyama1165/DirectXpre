@@ -18,6 +18,8 @@ bool ParticleManager::LoadParicle()
 	//読み込んでるやつを全部消して特定フォルダの中身を入れる
 	particleDatas_.clear();
 
+	particleNames_.clear();
+
 	fileNameBuff_ = DirectXpre::Util::FindFileNames(directoryPath, exceptExt, false);
 
 	//ファイルストリーム

@@ -452,4 +452,6 @@ private:
 	bool testCombobool = false;
 	bool testCombobool2 = false;
 
+	size_t oldParticleDataSize = 0;
+
 };

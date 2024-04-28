@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <json.hpp>
+#include "Util.h"
 
 class ParticleManager
 {
@@ -24,6 +25,8 @@ public:
 	int32_t ParticleNumSearch(std::string handle);
 
 	std::string GetParticleName(int32_t index);
+
+	size_t GetFileDataNum() { return DirectXpre::Util::FindFileNames(directoryPath, exceptExt, false).size(); };
 
 private:
 
