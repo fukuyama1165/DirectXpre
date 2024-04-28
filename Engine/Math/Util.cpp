@@ -1,5 +1,6 @@
 #include "Util.h"
 #include <random>
+#include <imgui.h>
 
 //ラジアンから角度
 float DirectXpre::Util::RadianToAngle(float Radian)
@@ -218,5 +219,43 @@ std::vector<std::string> DirectXpre::Util::FindFileNames(const std::string& dir,
 		}
 	}
 
+	return result;
+}
+
+
+bool DirectXpre::Util::Combo(const char* label, int32_t& current_item, const std::vector<std::string>& items)
+{
+	
+	//demoから直引っ張ってきた
+	//操作したかを取る
+	bool result = false;
+
+	//選ばれているやつの描画ように選択されているのを保持
+	const char* combo_preview_value = items[current_item].c_str();
+
+	//カスタム性の高いcombo
+	if (ImGui::BeginCombo(label, combo_preview_value))
+	{
+		//個数分回す
+		for (int n = 0; n < items.size(); n++)
+		{
+			//選択されているか取得
+			const bool is_selected = (current_item == n);
+			//選ばれたら数値を変更
+			if (ImGui::Selectable(items[n].c_str(), is_selected))
+			{
+				current_item = n;
+				result = true;
+			}
+
+			//初期設定?(選択肢を開くときの?)
+			// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+			if (is_selected)
+				ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+
+	//ここまでエラー出てないなら正常に終わったはず
 	return result;
 }

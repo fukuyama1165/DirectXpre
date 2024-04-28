@@ -747,10 +747,6 @@ void Player::Reticle2DMouse()
 	//合成行列の逆行列を計算する
 	Matrix4x4 matInverseVPV =matVPV.InverseMatrix();
 
-	Matrix4x4 testmat;
-
-	testmat = matInverseVPV * matVPV;
-
 	//スクリーン座標
 	Vector3 posNear = Vector3(reticle_.pos_.x, reticle_.pos_.y, 0);
 	Vector3 posFar = Vector3(reticle_.pos_.x, reticle_.pos_.y, 1);

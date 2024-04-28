@@ -60,5 +60,15 @@ namespace DirectXpre
 		/// <param name="filePath">ファイルパス</param>
 		/// <returns>ファイル名</returns>
 		static std::string SeparateFilePath(const std::string& filePath);
+
+		/// <summary>
+		/// imguiのcomboのラッピング関数
+		/// </summary>
+		/// <param name="label">つける名前</param>
+		/// <param name="current_item">選択した場所</param>
+		/// <param name="items">表示するための文字列</param>
+		/// <returns></returns>
+		static bool Combo(const char* label, int32_t& current_item, const std::vector<std::string>& items);
+
 	};
 }

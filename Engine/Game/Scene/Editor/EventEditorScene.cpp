@@ -8,7 +8,7 @@
 #include "LevelLoader.h"
 #include <ImGuizmo.h>
 #include <GraphEditor.h>
-
+#include "ImGuiManager.h"
 
 
 EventEditorScene::EventEditorScene()
@@ -70,7 +70,9 @@ void EventEditorScene::Initialize()
 
 	particleEditor.Init();
 
-	testManager.LoadParicle();
+	ParticleManager::GetInstance()->LoadParicle();
+
+	oldParticleDataSize = ParticleManager::GetInstance()->GetSavePatileDataName().size();
 
 }
 
@@ -660,6 +662,13 @@ void EventEditorScene::EditEvent()
 	uint16_t eventCount = 0;
 	uint16_t eventBattleCount = 0;
 
+	std::vector<std::string> testcombostring = { "BASIC","Cartridge","Fall","Explosion" };
+
+	for (int32_t i = 0; i < ParticleManager::GetInstance()->GetSavePatileDataName().size(); i++)
+	{
+		testcombostring.push_back(ParticleManager::GetInstance()->GetParticleName(i));
+	}
+
 	//登録されているイベントデータ編集したい
 	for (auto setingI = seting_.begin(); setingI != seting_.end();)
 	{
@@ -700,7 +709,7 @@ void EventEditorScene::EditEvent()
 			if (eventFlags_[eventCount].isMoveStratPoint)
 			{
 				Vector3 buff = { moveStartPoint[0] ,moveStartPoint[1] ,moveStartPoint[2] };
-				EditTransform(buff);
+				EditTransform(buff, eventCount);
 				moveStartPoint[0] = buff.x;
 				moveStartPoint[1] = buff.y;
 				moveStartPoint[2] = buff.z;
@@ -708,7 +717,7 @@ void EventEditorScene::EditEvent()
 			if (eventFlags_[eventCount].isMoveEndPoint)
 			{
 				Vector3 buff = { movePoint[0] ,movePoint[1] ,movePoint[2] };
-				EditTransform(buff);
+				EditTransform(buff, eventCount);
 				movePoint[0] = buff.x;
 				movePoint[1] = buff.y;
 				movePoint[2] = buff.z;
@@ -766,7 +775,7 @@ void EventEditorScene::EditEvent()
 			if (eventFlags_[eventCount].isBattlePlayerPoint)
 			{
 				Vector3 buff = { playerPos[0] ,playerPos[1] ,playerPos[2] };
-				EditTransform(buff);
+				EditTransform(buff, eventCount);
 				playerPos[0] = buff.x;
 				playerPos[1] = buff.y;
 				playerPos[2] = buff.z;
@@ -820,7 +829,7 @@ void EventEditorScene::EditEvent()
 					enemyTypeNum = 2;
 				}
 
-				uint32_t enemyDeathParticleNameNum = 0;
+				int32_t enemyDeathParticleNameNum = 0;
 
 				if (setingI->enemyDeathParticleName[i] == "BASIC")
 				{
@@ -838,13 +847,28 @@ void EventEditorScene::EditEvent()
 				{
 					enemyDeathParticleNameNum = 3;
 				}
+				else
+				{
+					enemyDeathParticleNameNum = ParticleManager::GetInstance()->ParticleNumSearch(setingI->enemyDeathParticleName[i]);
+					
+					if (enemyDeathParticleNameNum == -1)
+					{
+						enemyDeathParticleNameNum = 0;
+					}
+					else
+					{
+						enemyDeathParticleNameNum += 4;
+					}
+				}
 
+				
 				
 
 				//intしか使えん許さん
 				if(ImGui::Combo(std::string("EnemyType" + enemyNumString).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar)))UndoCheck(eventCount);
 
-				if(ImGui::Combo(std::string("EnemyDeathParticle" + enemyNumString).c_str(), (int*)&enemyDeathParticleNameNum, EnemyDeathParticleChar, IM_ARRAYSIZE(EnemyDeathParticleChar)))UndoCheck(eventCount);
+				
+				if(DirectXpre::Util::Combo(std::string("EnemyDeathParticle" + enemyNumString).c_str(), testcomboint, testcombostring))UndoCheck(eventCount);
 
 				//死んだときのパーティクルの設定を変更
 				setingI->enemyDeathParticleName[i] = EnemyDeathParticleChar[enemyDeathParticleNameNum];
@@ -921,7 +945,7 @@ void EventEditorScene::EditEvent()
 				if (eventFlags_[eventCount].isEnemySpawnPoss[i])
 				{
 					Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
-					EditTransform(buff);
+					EditTransform(buff, eventCount);
 					spawnPos[0] = buff.x;
 					spawnPos[1] = buff.y;
 					spawnPos[2] = buff.z;
@@ -934,7 +958,7 @@ void EventEditorScene::EditEvent()
 					if (eventFlags_[eventCount].isEnemyMoveEndPoint[i])
 					{
 						Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
-						EditTransform(buff);
+						EditTransform(buff, eventCount);
 						movePos[0] = buff.x;
 						movePos[1] = buff.y;
 						movePos[2] = buff.z;
@@ -1008,7 +1032,7 @@ void EventEditorScene::EditEvent()
 				if (eventFlags_[eventCount].isExplosionObjPoints[i])
 				{
 					Vector3 buff = { pos[0] ,pos[1] ,pos[2] };
-					EditTransform(buff);
+					EditTransform(buff, eventCount);
 					pos[0] = buff.x;
 					pos[1] = buff.y;
 					pos[2] = buff.z;
@@ -1509,7 +1533,9 @@ void EventEditorScene::TestEvent()
 			enemys_->Reset();
 			player_.Reset();
 			ExplosionObjManager::GetInstance()->Reset();
+			eventManager_->ResetTimer();
 			isTest_ = !isTest_;
+			pause_ = false;
 		}
 
 		if (ImGui::Button("pause"))
@@ -1526,16 +1552,6 @@ void EventEditorScene::TestEvent()
 	{
 		EmitterManager::GetInstance()->Update();
 	}
-
-	/*ImGui::Begin("Test");
-
-	ImGui::Text("日本語テスト");
-
-	ImGui::DragFloat2("tile", test_, 0.1f, 0.0f, 10.0f);
-
-	ImGui::End();
-
-	objobj3_.SetMaterialTiring({ test_[0],test_[1] });*/
 
 
 }
@@ -1607,14 +1623,19 @@ void EventEditorScene::DebugUpdate()
 		ImGui::DragFloat3("dir", test_, 1.0f, -100, 100);
 		ImGui::ColorEdit3("light", test2_);
 		ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
-		/*if (testImguiFlag_)
+
+		std::vector<std::string> testcombostring = { "test", "baka", "tekozuraseyagatte", "aaaaa" };
+
+		for (int32_t i = 0; i < ParticleManager::GetInstance()->GetSavePatileDataName().size(); i++)
 		{
-			ImGui::Text("useMove");
+			testcombostring.push_back(ParticleManager::GetInstance()->GetParticleName(i));
 		}
-		else
-		{
-			ImGui::Text("off");
-		}*/
+		int32_t testnum = 0;
+
+		testCombobool = DirectXpre::Util::Combo("testcombo", testcomboint, testcombostring);
+		testCombobool2 = ImGui::Combo("testcombo2", (int*)&testnum, EnemyDeathParticleChar, IM_ARRAYSIZE(EnemyDeathParticleChar));
+		ImGui::Text("serectCombo:%d,bool: %d,%d", testcomboint, testCombobool, testCombobool2);
+		
 		ImGui::Text("mat");
 		for (int16_t i = 0; i < 4; i++)
 		{
@@ -1816,6 +1837,12 @@ void EventEditorScene::DebugUpdate()
 
 	particleEditor.Update();
 	
+	if (ParticleManager::GetInstance()->GetFileDataNum() != oldParticleDataSize)
+	{
+		ParticleManager::GetInstance()->LoadParicle();
+	}
+
+	oldParticleDataSize = ParticleManager::GetInstance()->GetSavePatileDataName().size();
 
 #endif
 
@@ -2369,6 +2396,8 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 			return false;
 		}
 		saveStackSeting_ = seting_;
+		//読み込んだデータにあるエディタに描画するオブジェクトの登録
+		AddEventDebugObj();
 		saveStackEnemyDatas_ = enemyDatas_;
 		saveStackMovePointDatas_ = movePointDatas_;
 		saveStackExplosionObjDatas_ = explosionObjDatas_;
@@ -2378,8 +2407,7 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 
 		useEventCount_ = 0;
 
-		//読み込んだデータにあるエディタに描画するオブジェクトの登録
-		AddEventDebugObj();
+		
 
 	}
 	std::filesystem::current_path(old);
@@ -2678,7 +2706,7 @@ void EventEditorScene::EventImguizmoEnemyMoveEndPointFlag(const uint32_t& count,
 	
 }
 
-void EventEditorScene::EditTransform(Vector3& pos)
+void EventEditorScene::EditTransform(Vector3& pos,const uint32_t& count)
 {
 	//操作用の行列を用意
 	Matrix4x4 nowPosMat;
@@ -2703,7 +2731,7 @@ void EventEditorScene::EditTransform(Vector3& pos)
 	ChengeMatrix(Camera::nowCamera->matView_, cameVm16);
 	//実際操作
 	ImGuizmo::SetRect(0, 0, WinApp::GetInstance()->getWindowSizeWidthF(), WinApp::GetInstance()->getWindowSizeHeightF());
-	ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL);
+	if (ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL))UndoCheck(count);
 	//行列戻すねえ
 	mat = ChengeTwoDimensionalMatrix(matm16);
 

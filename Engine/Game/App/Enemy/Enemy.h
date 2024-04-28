@@ -13,6 +13,7 @@
 #include <list>
 #include "MobCollision.h"
 #include "CubeCollider.h"
+#include "ParticleManager.h"
 
 class EnemyType
 {
@@ -128,6 +129,11 @@ private:
 
 	//使うパーティクルの種類
 	std::string particleName_ = "BASIC";
+
+	//基本以外のパーティクルを使用しているか
+	bool isCustomizedparticle = false;
+
+	ParticleData particleData;
 
 };
 

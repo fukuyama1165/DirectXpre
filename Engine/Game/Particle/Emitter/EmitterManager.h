@@ -9,6 +9,7 @@
 #include "IEmitter.h"
 #include "IObjEmitter.h"
 #include "IEmitterFactory.h"
+#include "ParticleData.h"
 
 
 class EmitterManager
@@ -17,6 +18,7 @@ public:
 	static EmitterManager* GetInstance();
 
 	void AddObjEmitter(const Vector3& pos, std::string emitterType, std::string particleType, const float& liveTime, const float& actionTime = 10, const float& ActiveTime = -1, float ct = 1, const Vector2& randRengeX = { -1,1 }, const Vector2& randRengeY = { -1,1 }, const Vector2& randRengeZ = { -1,1 }, Vector3 startScale = { 1,1,1 }, Vector3 endScale = { 1,1,1 }, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox");
+	void AddObjEmitter(const Vector3& pos, std::string emitterType, ParticleData particleData, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox");
 	void AddSpriteEmitter(const Vector2& pos, std::string emitterType, std::string particleType, const float& liveTime = 10, const float& actionTime = 10, const float& ActiveTime = -1, float ct = 1, const Vector2& randRengeX = { -1.0f,1.0f }, const Vector2& randRengeY = { -1.0f,1.0f }, Vector2 startScale = { 1,1 }, Vector2 endScale = { 1,1 }, std::string particleTexture = "basketballMan", std::string emitterTexture = "white1x1");
 
 	//中身全部消す

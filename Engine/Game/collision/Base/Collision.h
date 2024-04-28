@@ -28,7 +28,7 @@ public:
 	/// </summary>
 	/// <param name="sphere">球</param>
 	/// <param name="plane">平面</param>
-	/// <param name="inter"交点(平面上の最近接点)></param>
+	/// <param name="inter">交点(平面上の最近接点)></param>
 	/// <returns>交差しているか否か</returns>
 	static bool CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vector3* inter = nullptr);
 
