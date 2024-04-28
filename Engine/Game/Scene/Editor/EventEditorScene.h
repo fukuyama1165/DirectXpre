@@ -447,6 +447,9 @@ private:
 
 	ParticleEditor particleEditor;
 
-	//ParicleManager testManager;
+	int32_t testcomboint = 0;
+
+	bool testCombobool = false;
+	bool testCombobool2 = false;
 
 };

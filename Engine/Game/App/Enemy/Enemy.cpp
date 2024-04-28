@@ -3,6 +3,7 @@
 #include "XAudio.h"
 #include "Easing.h"
 
+
 Enemy::Enemy()
 {
 }
@@ -42,6 +43,12 @@ void Enemy::Init(std::string enemyType, Vector3 pos, Vector3 movePointPos, float
 	bulletCT_ = bulletCT;
 
 	particleName_ = DeathParticleName;
+
+	if (ParticleManager::GetInstance()->ParticleSearch(DeathParticleName))
+	{
+		isCustomizedparticle = true;
+		particleData = ParticleManager::GetInstance()->GetParticleData(DeathParticleName);
+	}
 
 }
 
@@ -159,7 +166,14 @@ void Enemy::OnCollision()
 
 	CollisionManager::GetInstance()->RemoveCollider(&Collider);
 
-	EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", particleName_, 10,10, 20,1.0f,{-1,1}, { -1,1 }, { -1,1 }, { 0.5f,0.5f,0.5f }, { 0.2f,0.2f,0.2f });
+	if (!isCustomizedparticle)
+	{
+		EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", particleName_, 10, 10, 20, 1.0f, { -1,1 }, { -1,1 }, { -1,1 }, { 0.5f,0.5f,0.5f }, { 0.2f,0.2f,0.2f });
+	}
+	else
+	{
+		EmitterManager::GetInstance()->AddObjEmitter(enemyObj_.GetWorldPos(), "BASIC", particleData);
+	}
 
 }
 

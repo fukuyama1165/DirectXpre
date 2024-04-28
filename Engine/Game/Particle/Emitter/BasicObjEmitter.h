@@ -20,6 +20,8 @@ public:
 	//初期化
 	void Initialize()override;
 	void Initialize(const Vector3& pos, std::string particleType, const float& liveTime = 10, const float& actionMaxTime = 10, const float& ActiveTime = -1, float ct = 1, const Vector2& randRengeX = { -1,1 }, const Vector2& randRengeY = { -1,1 }, const Vector2& randRengeZ = { -1,1 }, Vector3 startScale = { 1,1,1 }, Vector3 endScale = { 1,1,1 }, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox")override;
+	void Initialize(const Vector3& pos, const ParticleData& particleData, std::string particleModel = "whiteBox", std::string emitterModel = "whiteBox")override;
+
 
 	//終了処理
 	void Finalize()override;

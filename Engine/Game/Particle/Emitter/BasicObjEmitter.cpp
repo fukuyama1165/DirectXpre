@@ -60,6 +60,38 @@ void BasicObjEmitter::Initialize(const Vector3& pos, std::string particleType,co
 
 }
 
+void BasicObjEmitter::Initialize(const Vector3& pos, const ParticleData& particleData, std::string particleModel, std::string emitterModel)
+{
+	particleModel_ = ModelManager::GetInstance()->SearchModelData(particleModel);
+
+	emitterModel_ = ModelManager::GetInstance()->SearchModelData(emitterModel);
+
+	obj_.FBXInit();
+
+	obj_.SetPos(pos);
+
+	activeTime_ = particleData.ActiveTime;
+
+	particleFactory_ = std::make_unique<ParticleFactory>();
+
+	particleType_ = particleData.Name;
+
+	particleLiveTime_ = particleData.liveTime;
+
+	randRangeX_ = particleData.randRengeX;
+	randRangeY_ = particleData.randRengeY;
+	randRangeZ_ = particleData.randRengeZ;
+
+	particleactionTime_ = particleData.actionTime;
+
+	startScale_ = particleData.startScale;
+	endScale_ = particleData.endScale;
+
+	CT_ = particleData.ct;
+	maxCT_ = particleData.ct;
+}
+
+
 void BasicObjEmitter::Finalize()
 {
 

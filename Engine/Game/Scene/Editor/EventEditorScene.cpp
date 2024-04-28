@@ -8,7 +8,7 @@
 #include "LevelLoader.h"
 #include <ImGuizmo.h>
 #include <GraphEditor.h>
-
+#include "ImGuiManager.h"
 
 
 EventEditorScene::EventEditorScene()
@@ -70,7 +70,7 @@ void EventEditorScene::Initialize()
 
 	particleEditor.Init();
 
-	//testManager.LoadParicle();
+	ParticleManager::GetInstance()->LoadParicle();
 
 }
 
@@ -660,6 +660,13 @@ void EventEditorScene::EditEvent()
 	uint16_t eventCount = 0;
 	uint16_t eventBattleCount = 0;
 
+	std::vector<std::string> testcombostring = { "BASIC","Cartridge","Fall","Explosion" };
+
+	for (int32_t i = 0; i < ParticleManager::GetInstance()->GetSavePatileDataName().size(); i++)
+	{
+		testcombostring.push_back(ParticleManager::GetInstance()->GetParticleName(i));
+	}
+
 	//登録されているイベントデータ編集したい
 	for (auto setingI = seting_.begin(); setingI != seting_.end();)
 	{
@@ -820,7 +827,7 @@ void EventEditorScene::EditEvent()
 					enemyTypeNum = 2;
 				}
 
-				uint32_t enemyDeathParticleNameNum = 0;
+				int32_t enemyDeathParticleNameNum = 0;
 
 				if (setingI->enemyDeathParticleName[i] == "BASIC")
 				{
@@ -838,13 +845,28 @@ void EventEditorScene::EditEvent()
 				{
 					enemyDeathParticleNameNum = 3;
 				}
+				else
+				{
+					enemyDeathParticleNameNum = ParticleManager::GetInstance()->ParticleNumSearch(setingI->enemyDeathParticleName[i]);
+					
+					if (enemyDeathParticleNameNum == -1)
+					{
+						enemyDeathParticleNameNum = 0;
+					}
+					else
+					{
+						enemyDeathParticleNameNum += 4;
+					}
+				}
 
+				
 				
 
 				//intしか使えん許さん
 				if(ImGui::Combo(std::string("EnemyType" + enemyNumString).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar)))UndoCheck(eventCount);
 
-				if(ImGui::Combo(std::string("EnemyDeathParticle" + enemyNumString).c_str(), (int*)&enemyDeathParticleNameNum, EnemyDeathParticleChar, IM_ARRAYSIZE(EnemyDeathParticleChar)))UndoCheck(eventCount);
+				
+				if(DirectXpre::Util::Combo(std::string("EnemyDeathParticle" + enemyNumString).c_str(), testcomboint, testcombostring))UndoCheck(eventCount);
 
 				//死んだときのパーティクルの設定を変更
 				setingI->enemyDeathParticleName[i] = EnemyDeathParticleChar[enemyDeathParticleNameNum];
@@ -1599,6 +1621,18 @@ void EventEditorScene::DebugUpdate()
 		ImGui::DragFloat3("dir", test_, 1.0f, -100, 100);
 		ImGui::ColorEdit3("light", test2_);
 		ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
+
+		std::vector<std::string> testcombostring = { "test", "baka", "tekozuraseyagatte", "aaaaa" };
+
+		for (int32_t i = 0; i < ParticleManager::GetInstance()->GetSavePatileDataName().size(); i++)
+		{
+			testcombostring.push_back(ParticleManager::GetInstance()->GetParticleName(i));
+		}
+		int32_t testnum = 0;
+
+		testCombobool = DirectXpre::Util::Combo("testcombo", testcomboint, testcombostring);
+		testCombobool2 = ImGui::Combo("testcombo2", (int*)&testnum, EnemyDeathParticleChar, IM_ARRAYSIZE(EnemyDeathParticleChar));
+		ImGui::Text("serectCombo:%d,bool: %d,%d", testcomboint, testCombobool, testCombobool2);
 		
 		ImGui::Text("mat");
 		for (int16_t i = 0; i < 4; i++)
@@ -2354,6 +2388,8 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 			return false;
 		}
 		saveStackSeting_ = seting_;
+		//読み込んだデータにあるエディタに描画するオブジェクトの登録
+		AddEventDebugObj();
 		saveStackEnemyDatas_ = enemyDatas_;
 		saveStackMovePointDatas_ = movePointDatas_;
 		saveStackExplosionObjDatas_ = explosionObjDatas_;
@@ -2363,8 +2399,7 @@ bool EventEditorScene::WindowsOpenEEFMFile()
 
 		useEventCount_ = 0;
 
-		//読み込んだデータにあるエディタに描画するオブジェクトの登録
-		AddEventDebugObj();
+		
 
 	}
 	std::filesystem::current_path(old);

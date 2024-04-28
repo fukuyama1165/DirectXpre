@@ -5,25 +5,37 @@
 #include <map>
 #include <json.hpp>
 
-class ParicleManager
+class ParticleManager
 {
 public:
 
-	static ParicleManager* GetInstance();
+	static ParticleManager* GetInstance();
 
 	bool LoadParicle();
+
+	std::vector<std::string> GetSavePatileDataName() { return particleNames_; };
+
+	ParticleData GetParticleData(std::string handle);
+
+	float GetParticleDataNum() { return (float)particleDatas_.size(); };
+
+	bool ParticleSearch(std::string handle);
+
+	int32_t ParticleNumSearch(std::string handle);
+
+	std::string GetParticleName(int32_t index);
 
 private:
 
 	//シングルトン用
-	ParicleManager() = default;
-	~ParicleManager();
+	ParticleManager() = default;
+	~ParticleManager();
 
-	ParicleManager(const ParicleManager&) = delete;
-	ParicleManager& operator=(const ParicleManager&) = delete;
+	ParticleManager(const ParticleManager&) = delete;
+	ParticleManager& operator=(const ParticleManager&) = delete;
 
 	//パーティクルデータの中身読み込むよう
-	void ParicleDataScanning(nlohmann::json& paricle);
+	void ParicleDataScanning(nlohmann::json& paricle,int32_t count);
 
 	//パーティクルのデータを保持用
 	std::map<std::string, ParticleData> particleDatas_;
@@ -33,6 +45,12 @@ private:
 
 	//パーティクルのフォルダ内のパスを保持するためのバッファ
 	std::vector<std::string> fileNameBuff_;
+
+	//パスの位置
+	std::string directoryPath = "Resources\\ParticleData\\";
+
+	//拡張子
+	std::string exceptExt = ".Pcle";
 
 };
 

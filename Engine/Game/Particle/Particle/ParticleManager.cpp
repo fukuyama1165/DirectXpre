@@ -2,28 +2,29 @@
 #include "Util.h"
 #include <fstream>
 
-ParicleManager::~ParicleManager()
+ParticleManager::~ParticleManager()
 {
 }
 
-ParicleManager* ParicleManager::GetInstance()
+ParticleManager* ParticleManager::GetInstance()
 {
-	static ParicleManager instance;
+	static ParticleManager instance;
 
 	return &instance;
 }
 
-bool ParicleManager::LoadParicle()
+bool ParticleManager::LoadParicle()
 {
 	//読み込んでるやつを全部消して特定フォルダの中身を入れる
 	particleDatas_.clear();
 
-	fileNameBuff_ = DirectXpre::Util::FindFileNames("Resources\\ParticleData\\", ".Pcle", false);
+	fileNameBuff_ = DirectXpre::Util::FindFileNames(directoryPath, exceptExt, false);
 
 	//ファイルストリーム
 	for (int32_t i = 0; i < fileNameBuff_.size(); i++)
 	{
-		std::ifstream file(fileNameBuff_[i]);
+		std::string fileName = directoryPath + fileNameBuff_[i] + exceptExt;
+		std::ifstream file(fileName);
 
 		if (!file)
 		{
@@ -51,18 +52,17 @@ bool ParicleManager::LoadParicle()
 			return false;
 		}
 
-		//"events"の全オブジェクトを走査
-
-		ParicleDataScanning(deserialized["ParticleParameters"]);
+		//"Particle"を走査
+		ParicleDataScanning(deserialized["ParticleParameters"],i);
 	}
 
 	return true;
 }
 
-void ParicleManager::ParicleDataScanning(nlohmann::json& paricle)
+void ParticleManager::ParicleDataScanning(nlohmann::json& paricle, int32_t count)
 {
 	//ParticleParametersがなければ止める
-	assert(paricle.contains("ParticleParameters"));
+	//assert(paricle.contains("ParticleParameters"));
 	
 	ParticleData particleData;
 
@@ -106,10 +106,59 @@ void ParicleManager::ParicleDataScanning(nlohmann::json& paricle)
 
 	if (handle == "")
 	{
-		handle = "particleData" + particleDatas_.size();
+		handle = "particleData_" + std::to_string(count);
 	}
 
 	//名前で登録
 	particleDatas_[handle] = particleData;
+	particleNames_.push_back(handle);
 
+}
+
+ParticleData ParticleManager::GetParticleData(std::string handle)
+{
+	if (particleDatas_.find(handle) == particleDatas_.end()) {
+		return ParticleData();
+	} return particleDatas_[handle];
+};
+
+bool ParticleManager::ParticleSearch(std::string handle)
+{
+	if (particleDatas_.find(handle) == particleDatas_.end()) {
+		return false;
+	}
+	return true;
+}
+
+std::string ParticleManager::GetParticleName(int32_t index)
+{
+	if (particleNames_.empty())
+	{
+		return "BASIC";
+	}
+
+	if (particleNames_.size() - 1 < index)
+	{
+		
+		return particleNames_[particleNames_.size() - 1];
+	}
+	else if (0 > index)
+	{
+		return particleNames_[0];
+	}
+
+	return particleNames_[index];
+}
+
+int32_t ParticleManager::ParticleNumSearch(std::string handle)
+{
+	for (int32_t i = 0; i < particleNames_.size(); i++)
+	{
+		if (particleNames_[i] == handle)
+		{
+			return i;
+		}
+	}
+
+	return -1;
 }

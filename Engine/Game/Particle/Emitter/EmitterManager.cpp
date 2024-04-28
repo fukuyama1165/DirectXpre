@@ -62,6 +62,49 @@ void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, 
 
 }
 
+void EmitterManager::AddObjEmitter(const Vector3& pos, std::string emitterType, ParticleData particleData, std::string particleModel, std::string emitterModel)
+{
+	std::unique_ptr<IObjEmitter> newEmitter = std::move(emitterFactory_->CreateObjEmitter(emitterType));
+	newEmitter->Initialize(pos, particleData, particleModel, emitterModel);
+
+	objEmitters_.push_back(std::move(newEmitter));
+
+#ifdef _DEBUG
+	//デバック用のデータを追加するところ
+	pos_.push_back(pos);
+
+	particleLiveTime_.push_back(particleData.liveTime);
+	activeTime_.push_back(particleData.ActiveTime);
+	maxCT_.push_back(particleData.ct);
+
+	particleActionTime_.push_back(particleData.actionTime);
+
+	particleType_.push_back(particleData.Name);
+
+	randRangeX_.push_back(particleData.randRengeX);
+	randRangeY_.push_back(particleData.randRengeY);
+	randRangeZ_.push_back(particleData.randRengeZ);
+
+	if (particleData.Name == "BASIC")
+	{
+		particleTypeNum_.push_back(0);
+	}
+	else if (particleData.Name == "Cartridge")
+	{
+		particleTypeNum_.push_back(1);
+	}
+	else if (particleData.Name == "Fall")
+	{
+		particleTypeNum_.push_back(2);
+	}
+	else
+	{
+		particleTypeNum_.push_back(0);
+	}
+
+#endif
+}
+
 void EmitterManager::AddSpriteEmitter(const Vector2& pos, std::string emitterType, std::string particleType, const float& liveTime, const float& actionTime, const float& ActiveTime, float ct, const Vector2& randRengeX, const Vector2& randRengeY, Vector2 startScale, Vector2 endScale, std::string particleTexture, std::string emitterTexture)
 {
 	std::unique_ptr<IEmitter> newEmitter = std::move(emitterFactory_->CreateEmitter(emitterType));

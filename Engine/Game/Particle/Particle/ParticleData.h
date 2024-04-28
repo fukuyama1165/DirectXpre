@@ -4,14 +4,14 @@
 #include <sstream>
 struct ParticleData
 {
-    float ActiveTime;
+    float ActiveTime=-1;
     std::string Name = "";
-    float actionTime;
-    float ct;
-    float liveTime;
-    Vector2 randRengeX;
-    Vector2 randRengeY;
-    Vector2 randRengeZ;
-    Vector3 startScale;
-    Vector3 endScale;
+    float actionTime=10;
+    float ct=10;
+    float liveTime=10;
+    Vector2 randRengeX = {-1,1};
+    Vector2 randRengeY = { -1,1 };
+    Vector2 randRengeZ = { -1,1 };
+    Vector3 startScale = { 1,1,1};
+    Vector3 endScale = { 1,1,1 };
 };
