@@ -74,7 +74,7 @@ void BasicObjEmitter::Initialize(const Vector3& pos, const ParticleData& particl
 
 	particleFactory_ = std::make_unique<ParticleFactory>();
 
-	particleType_ = particleData.Name;
+	particleType_ = "Custom";
 
 	particleLiveTime_ = particleData.liveTime;
 

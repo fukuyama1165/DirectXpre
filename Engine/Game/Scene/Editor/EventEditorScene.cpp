@@ -868,10 +868,17 @@ void EventEditorScene::EditEvent()
 				if(ImGui::Combo(std::string("EnemyType" + enemyNumString).c_str(), (int*)&enemyTypeNum, EnemyTypeChar, IM_ARRAYSIZE(EnemyTypeChar)))UndoCheck(eventCount);
 
 				
-				if(DirectXpre::Util::Combo(std::string("EnemyDeathParticle" + enemyNumString).c_str(), testcomboint, testcombostring))UndoCheck(eventCount);
-
-				//死んだときのパーティクルの設定を変更
-				setingI->enemyDeathParticleName[i] = EnemyDeathParticleChar[enemyDeathParticleNameNum];
+				if(DirectXpre::Util::Combo(std::string("EnemyDeathParticle" + enemyNumString).c_str(), enemyDeathParticleNameNum, testcombostring))UndoCheck(eventCount);
+	
+				if (enemyDeathParticleNameNum < 4)
+				{
+					//死んだときのパーティクルの設定を変更
+					setingI->enemyDeathParticleName[i] = EnemyDeathParticleChar[enemyDeathParticleNameNum];
+				}
+				else
+				{
+					setingI->enemyDeathParticleName[i] = ParticleManager::GetInstance()->GetSavePatileDataName()[enemyDeathParticleNameNum - 4];
+				}
 
 				//現在の値を取得
 				float spawnPos[3] = { setingI->enemySpawnPos[i].x,setingI->enemySpawnPos[i].y,setingI->enemySpawnPos[i].z };
