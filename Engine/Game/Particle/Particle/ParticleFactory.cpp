@@ -61,6 +61,10 @@ std::unique_ptr<IObjParticle> ParticleFactory::CreateObjParticle(const std::stri
 	{
 		newParticle = std::make_unique<ExplosionParticle>();
 	}
+	else if (objParticleName == "Custom")
+	{
+		newParticle = std::make_unique<BasicObjParticle>();
+	}
 	else if (objParticleName == "")
 	{
 		assert(0);
