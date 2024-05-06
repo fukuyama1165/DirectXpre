@@ -15,6 +15,7 @@ DirectX12を用いた2D3D描画エンジン
   debug時のデバックウインドウ描画、実行中の変数の変更
 
 ## 推奨環境
-Windows10  
+Windows10
+windows11
 windowsSDK1バージョン 10.0.22000.0  
 
