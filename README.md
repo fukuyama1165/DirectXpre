@@ -13,6 +13,8 @@ DirectX12を用いた2D3D描画エンジン
   テクスチャ読み込みと描画に使用
 - [imgui](https://github.com/ocornut/imgui)  
   debug時のデバックウインドウ描画、実行中の変数の変更
+- [imguizmo](https://github.com/CedricGuillemet/ImGuizmo)  
+  debug時のオブジェクトの移動ができる矢印のGUI
 
 ## 推奨環境
 Windows10  
