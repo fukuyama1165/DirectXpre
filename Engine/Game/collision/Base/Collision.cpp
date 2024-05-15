@@ -441,3 +441,42 @@ bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* dis
 	return true;
 
 }
+
+bool Collision::CheckRay2CubeAABB(const Ray& ray, const Cube& cube, float* distance, Vector3* inter) 
+{
+	//gptに頼りました
+	// 立方体の最小座標と最大座標を計算
+	Vector3 halfSize = cube.size_ / 2.0f;
+	Vector3 min = cube.center_ - halfSize;
+	Vector3 max = cube.center_ + halfSize;
+
+	//逆方向を取る
+	Vector3 invDirection = { 1.0f / ray.dir_.x,1.0f / ray.dir_.y,1.0f / ray.dir_.z };
+
+	Vector3 tMin = { (min.x - ray.start_.x) * invDirection.x,(min.y - ray.start_.y) * invDirection.y,(min.z - ray.start_.z) * invDirection.z };
+	Vector3 tMax = { (max.x - ray.start_.x) * invDirection.x,(max.y - ray.start_.y) * invDirection.y,(max.z - ray.start_.z) * invDirection.z };
+	
+	Vector3 t1 = { std::min(tMin.x, tMax.x),std::min(tMin.y, tMax.y),std::min(tMin.z, tMax.z) };
+	Vector3 t2 = { std::max(tMin.x, tMax.x),std::max(tMin.y, tMax.y),std::max(tMin.z, tMax.z) };
+
+	float tNear = std::max(std::max(t1.x, t1.y), t1.z);
+	float tFar = std::min(std::min(t2.x, t2.y), t2.z);
+
+	//レイが当たっているかを判定
+	if (tNear > tFar || tFar < 0) {
+		return false;
+	}
+
+	if (distance != nullptr)
+	{
+		*distance = tNear;
+	}
+
+	if (inter != nullptr)
+	{
+		*inter = ray.start_ + ray.dir_ * tNear;
+	}
+	
+	
+	return true;
+}

@@ -4,6 +4,9 @@
 #include "SceneChangeFactory.h"
 //assert!!!!!!!
 #include <cassert>
+#include "EventPointManager.h"
+#include <imgui.h>
+#include "Input.h"
 
 
 
@@ -32,6 +35,7 @@ SceneManager::~SceneManager()
 void SceneManager::Update()
 {
 	SceneChange_->Update();
+	DebugImguiChangeScene();
 
 	if (nextScene_)
 	{
@@ -100,8 +104,60 @@ void SceneManager::ChangeScene(const std::string& sceneName, const std::string& 
 
 	//次のシーンを作る
 	nextScene_ = sceneFactory_->CreateScene(sceneName);
+	isDebugMode_ = false;
+
+	//次に移動するのがイベントエディタだった場合(この作品限定の動きなので汎用的ではない)
+	if (sceneName == "EventEditor")
+	{
+		EventPointManager::GetInstance()->EditorMoveSave();
+		isDebugMode_ = true;
+	}
 
 	SceneChange_ = sceneChangeFactory_->CreateSceneChange(sceneChangeName);
 	SceneChange_->SetIsStart(true);
 
+}
+
+void SceneManager::DebugImguiChangeScene()
+{
+#ifdef _DEBUG
+
+	if (Input::GetInstance()->TriggerKey(DIK_F5, true))
+	{
+		isDebugMode_ = !isDebugMode_;
+	}
+
+	if (isDebugMode_)
+	{
+		ImGui::Begin("SceneCheng");
+
+		const char* SceneChar[] = { "TITLE","GAMEPLAY","EventEditor" };
+
+		//intしか使えん許さん
+		ImGui::Combo("SceneType", (int*)&sceneTypeNum_, SceneChar, IM_ARRAYSIZE(SceneChar));
+
+		switch (sceneTypeNum_)
+		{
+		case 0:
+			sceneType_ = "TITLE";
+			break;
+		case 1:
+			sceneType_ = "GAMEPLAY";
+			break;
+		case 2:
+			sceneType_ = "EventEditor";
+			break;
+		default:
+			sceneType_ = "TITLE";
+			break;
+		}
+
+		if (ImGui::Button("SceneCheng"))
+		{
+			SceneManager::GetInstance()->ChangeScene(sceneType_);
+		}
+
+		ImGui::End();
+	}
+#endif
 }

@@ -141,11 +141,6 @@ void TitleScene::Update()
 
 	title_.Update();
 
-	if (Input::GetInstance()->TriggerKey(DIK_F3))
-	{
-		debugMenu_ = !debugMenu_;
-	}
-
 	play_.Update();
 
 	for (LevelObj a : levelObj)
@@ -194,7 +189,7 @@ void TitleScene::ImguiUpdate()
 #ifdef _DEBUG
 
 
-	if (debugMenu_)
+	if (SceneManager::GetInstance()->isDebugMode_)
 	{
 
 #pragma region check
@@ -208,62 +203,65 @@ void TitleScene::ImguiUpdate()
 		ImGui::Text("eventNum:%d", eventManager_->GetInstance()->GetEventNum());
 		ImGui::Text("eventcount:%d", eventManager_->GetInstance()->GetEventCount());
 
+		ImGui::End();
 
 #pragma endregion
 
-		ImGui::End();
-	}
 
 #pragma region camera
 
-	ImGui::Begin("camera");
+		ImGui::Begin("camera");
 
-	ImGui::Checkbox("chengCamera", &chengCamera_);
+		ImGui::Checkbox("chengCamera", &chengCamera_);
 
-	ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
-	ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
-	ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
+		ImGui::DragFloat("cameraX", &cameraPos_.x, 1.0f, -1000.0f, 1000.0f);
+		ImGui::DragFloat("cameraY", &cameraPos_.y, 1.0f, -1000.0f, 1000.0f);
+		ImGui::DragFloat("cameraZ", &cameraPos_.z, 1.0f, -1000.0f, 1000.0f);
 
 
-	ImGui::Text("reset");
+		ImGui::Text("reset");
 
-	if (ImGui::Button("posX"))
-	{
-		cameraPos_.x = 0;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("posY"))
-	{
-		cameraPos_.y = 0;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("posZ"))
-	{
-		cameraPos_.z = -200;
-	}
+		if (ImGui::Button("posX"))
+		{
+			cameraPos_.x = 0;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("posY"))
+		{
+			cameraPos_.y = 0;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("posZ"))
+		{
+			cameraPos_.z = -200;
+		}
 
-	if (Input::GetInstance()->PushKey(DIK_UP))
-	{
-		cameraPos_.x += Vector3::normalize(Camera::nowCamera->forward_).x;
-		cameraPos_.z += Vector3::normalize(Camera::nowCamera->forward_).z;
-	}
-	if (Input::GetInstance()->PushKey(DIK_DOWN))
-	{
-		cameraPos_.x += -Vector3::normalize(Camera::nowCamera->forward_).x;
-		cameraPos_.z += -Vector3::normalize(Camera::nowCamera->forward_).z;
-	}
-	if (Input::GetInstance()->PushKey(DIK_RIGHT))
-	{
-		cameraPos_ += Camera::nowCamera->rightDirection;
-	}
-	if (Input::GetInstance()->PushKey(DIK_LEFT))
-	{
-		cameraPos_ += -Camera::nowCamera->rightDirection;
-	}
+		if (Input::GetInstance()->PushKey(DIK_UP))
+		{
+			cameraPos_.x += Vector3::normalize(Camera::nowCamera->forward_).x;
+			cameraPos_.z += Vector3::normalize(Camera::nowCamera->forward_).z;
+		}
+		if (Input::GetInstance()->PushKey(DIK_DOWN))
+		{
+			cameraPos_.x += -Vector3::normalize(Camera::nowCamera->forward_).x;
+			cameraPos_.z += -Vector3::normalize(Camera::nowCamera->forward_).z;
+		}
+		if (Input::GetInstance()->PushKey(DIK_RIGHT))
+		{
+			cameraPos_ += Camera::nowCamera->rightDirection;
+		}
+		if (Input::GetInstance()->PushKey(DIK_LEFT))
+		{
+			cameraPos_ += -Camera::nowCamera->rightDirection;
+		}
 
-	ImGui::End();
+		ImGui::End();
 
 #pragma endregion
+
+	}
+
+
 
 #endif
 }

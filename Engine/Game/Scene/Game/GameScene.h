@@ -163,6 +163,7 @@ private:
 
 	Sprite clearTextSprite_;
 
+	//いったん処理を止める
 	bool pause_ = false;
 
 	float ang_ = 0;
@@ -170,6 +171,9 @@ private:
 	float h_ = 20;
 
 	Quaternion rot;
+
+	//デバックモードを起動しているか
+	bool isDebugMode_ = false;
 
 };
 

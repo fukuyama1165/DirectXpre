@@ -1,6 +1,7 @@
 #include "EventPoint.h"
 #include "EnemyManager.h"
 #include <imgui.h>
+#include "SceneManager.h"
 
 EventPoint::EventPoint()
 {	
@@ -72,11 +73,14 @@ void EventPoint::Update()
 
 #ifdef _DEBUG
 
-		ImGui::Begin("check");
+		if (SceneManager::GetInstance()->isDebugMode_)
+		{
+			ImGui::Begin("check");
 
-		ImGui::Text("count:%0.0f", timeCount_);
+			ImGui::Text("count:%0.0f", timeCount_);
 
-		ImGui::End();
+			ImGui::End();
+		}
 
 #endif
 

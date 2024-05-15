@@ -5,6 +5,7 @@
 #include "WinApp.h"
 #include <imgui.h>
 #include "ExplosionObjManager.h"
+#include "SceneManager.h"
 
 
 EventPointManager* EventPointManager::GetInstance()
@@ -547,20 +548,22 @@ void EventPointManager::Update()
 	}
 
 #ifdef _DEBUG
-
-	ImGui::Begin("timerTest");
-
-	if (ImGui::Button("addtime60"))
+	if (SceneManager::GetInstance()->isDebugMode_)
 	{
-		timer_.AddTimer(60);
-	}
+		ImGui::Begin("timerTest");
 
-	if (ImGui::Button("addtime600"))
-	{
-		timer_.AddTimer(600);
-	}
+		if (ImGui::Button("addtime60"))
+		{
+			timer_.AddTimer(60);
+		}
 
-	ImGui::End();
+		if (ImGui::Button("addtime600"))
+		{
+			timer_.AddTimer(600);
+		}
+
+		ImGui::End();
+	}
 
 #endif
 
@@ -610,4 +613,15 @@ void EventPointManager::MoveEventNum(uint32_t eventCount)
 	}
 	
 
+}
+
+void EventPointManager::EditorMoveSave()
+{
+	//カウントは数で取っているのでこいつは要素指定したいので-1する
+	oldEventCount_ = eventCount_-1;
+
+	//フルパスで生成
+	oldEventDataFileName_ = SDefaultEventPath2_ + NowEventDataFileName_ + SDefaultEventExtension2_;
+
+	isEditorMove_ = true;
 }

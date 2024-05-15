@@ -25,38 +25,6 @@ void App::Update()
 {
 	
 	Framework::Update();
-#ifdef _DEBUG
-
-	ImGui::Begin("SceneCheng");
-
-	const char* SceneChar[] = { "TITLE","GAMEPLAY","EventEditor" };
-
-	//intしか使えん許さん
-	ImGui::Combo("SceneType", (int*)&sceneTypeNum_, SceneChar, IM_ARRAYSIZE(SceneChar));
-
-	switch (sceneTypeNum_)
-	{
-	case 0:
-		sceneType_ = "TITLE";
-		break;
-	case 1:
-		sceneType_ = "GAMEPLAY";
-		break;
-	case 2:
-		sceneType_ = "EventEditor";
-		break;
-	default:
-		sceneType_ = "TITLE";
-		break;
-	}
-
-	if (ImGui::Button("SceneCheng"))
-	{
-		SceneManager::GetInstance()->ChangeScene(sceneType_);
-	}
-
-	ImGui::End();
-#endif
 	
 }
 

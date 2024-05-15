@@ -9,6 +9,7 @@
 #include <ImGuizmo.h>
 #include <GraphEditor.h>
 #include "ImGuiManager.h"
+#include "Collision.h"
 
 
 EventEditorScene::EventEditorScene()
@@ -55,6 +56,11 @@ void EventEditorScene::Initialize()
 	player_.Init();
 
 	eventManager_->isNoTimer = false;
+
+	if (eventManager_->isEditorMove_)
+	{
+		SceneMoveDataLoad();
+	}
 
 	//testExplosionObj.Init({ 0,20,-250 }, 0, { 1,1,1 }, { 10,10,10 }, 50.0f);
 	//testEnemy1.Init("Attack", { 2,20,-250 }, {}, 0, 900000);
@@ -104,6 +110,8 @@ void EventEditorScene::Update()
 		AddEvent();
 
 		EditEvent();
+
+		
 
 		DrawEventDataUpdate();
 
@@ -657,6 +665,8 @@ void EventEditorScene::AddBattleEventExplosionObj()
 
 void EventEditorScene::EditEvent()
 {
+	MouseObjChack();
+
 	ImGui::Begin("Eventseting");
 
 	uint16_t eventCount = 0;
@@ -677,8 +687,15 @@ void EventEditorScene::EditEvent()
 		{
 			eventBattleCount++;
 		}
+		if (eventManager_->isEditorMove_ && eventManager_->oldEventCount_ == eventCount)
+		{
+			ImGui::SetNextItemOpen(true);
+			eventManager_->isEditorMove_ = false;
+		}
+
 		if (!ImGui::CollapsingHeader(std::string("eventNum"+ std::to_string(eventCount) + num).c_str()))
 		{
+			EventEditImguizmoUpdate(eventCount);
 			eventCount++;
 			setingI++;
 			continue;
@@ -3036,4 +3053,338 @@ void EventEditorScene::BattleEventImguizmoAllOffFlag()
 
 		eventFlags_[i].isBattlePlayerPoint = false;
 	}
+}
+
+Ray EventEditorScene::GetRayMouse()
+{
+
+	POINT mousePosition = {};
+	
+	//スクリーン座標を取得
+	GetCursorPos(&mousePosition);
+
+	//クライアントエリア座標に変換する
+	HWND hwnd = WinApp::GetInstance()->getHwnd();
+	ScreenToClient(hwnd, &mousePosition);
+
+	Vector2 mouseScreenPos = (Vector2((float)mousePosition.x, (float)mousePosition.y));
+	
+	//ビューポート行列
+	Matrix4x4 matViewport = {
+			WinApp::SWindowWidthF_ / 2,0,0,0,
+			0,-WinApp::SWindowHeightF_ / 2,0,0,
+			0,0,1,0,
+			WinApp::SWindowWidthF_ / 2 + 0,WinApp::SWindowHeightF_ / 2 + 0,0,1
+	};
+
+	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
+	Matrix4x4 matVPV;
+	matVPV = Camera::nowCamera->matView_;
+	matVPV *= Camera::nowCamera->matProjection_;
+	matVPV *= matViewport;
+	//合成行列の逆行列を計算する
+	Matrix4x4 matInverseVPV = matVPV.InverseMatrix();
+
+	//スクリーン座標
+	Vector3 posNear = Vector3(mouseScreenPos.x, mouseScreenPos.y, 0);
+	Vector3 posFar = Vector3(mouseScreenPos.x, mouseScreenPos.y, 1);
+
+	//スクリーン座標系からワールド座標系へ
+	posNear = Matrix4x4::VectorMatDivW(matInverseVPV, posNear);
+	posFar = Matrix4x4::VectorMatDivW(matInverseVPV, posFar);
+
+	//マウスレイの方向
+	Vector3 mouseDirection = nainavec3(posFar, posNear);
+	mouseDirection = mouseDirection.normalize();
+	
+	//レイを飛ばす
+	Ray ans;
+
+	ans.start_ = posNear;
+	ans.dir_ = mouseDirection;
+
+	return ans;
+
+}
+
+void EventEditorScene::MouseObjChack()
+{
+	//一番近い位置を取りたいので適当な値を
+	float oldDis = 10000000;
+	float dis = 0;
+	bool isHit = false;
+
+	Ray mouseRay = GetRayMouse();
+
+	for (int32_t i = 0; i < seting_.size(); i++)
+	{
+		if (seting_[i].eventType == EventType::moveEvent)
+		{
+			Cube start;
+			start.center_ = seting_[i].moveStartPoint;
+			start.size_ = { 0.3f,0.3f ,0.3f };
+			
+			if (Collision::CheckRay2CubeAABB(mouseRay, start, &dis) && dis < oldDis)
+			{
+				mouseFlag.eventType = EventType::moveEvent;
+				mouseFlag.reset();
+				mouseFlag.eventNum = i;		
+				mouseFlag.moveStartPoint = true;
+				oldDis = dis;
+				isHit = true;
+			}
+
+			Cube end;
+			end.center_ = seting_[i].movePoint;
+			end.size_ = { 0.3f,0.3f ,0.3f };
+			
+			if (Collision::CheckRay2CubeAABB(mouseRay, end, &dis) && dis < oldDis)
+			{
+				mouseFlag.eventType = EventType::moveEvent;
+				mouseFlag.reset();
+				mouseFlag.eventNum = i;			
+				mouseFlag.moveEndPoint = true;
+				oldDis = dis;
+				isHit = true;
+			}
+		}
+		else if(seting_[i].eventType == EventType::BattleEvent)
+		{
+			Cube playerPos;
+			playerPos.center_ = seting_[i].playerPos;
+			playerPos.size_ = { 0.3f,0.3f ,0.3f };
+
+			if (Collision::CheckRay2CubeAABB(mouseRay, playerPos, &dis) && dis < oldDis)
+			{
+				mouseFlag.eventType = EventType::BattleEvent;
+				mouseFlag.reset();
+				mouseFlag.eventNum = i;
+				mouseFlag.battlePlayerPoint = true;
+				oldDis = dis;
+				isHit = true;
+			}
+
+			for (int32_t j = 0; j < seting_[i].enemyNum; j++)
+			{
+				Cube enemypos;
+				enemypos.center_ = seting_[i].enemySpawnPos[j];
+				enemypos.size_ = { 0.5f,0.5f ,0.5f };
+
+				if (Collision::CheckRay2CubeAABB(mouseRay, enemypos, &dis) && dis < oldDis)
+				{
+					mouseFlag.eventType = EventType::BattleEvent;
+					mouseFlag.reset();
+					mouseFlag.eventNum = i;
+					mouseFlag.enemy = true;
+					mouseFlag.enemyNum = j;
+					oldDis = dis;
+					isHit = true;
+				}
+				if (seting_[i].enemyTypes[j] != EnemyType::Attack)
+				{
+					Cube enemyMovepos;
+					enemyMovepos.center_ = seting_[i].enemyMovePos[j];
+					enemyMovepos.size_ = { 0.5f,0.5f ,0.5f };
+
+					if (Collision::CheckRay2CubeAABB(mouseRay, enemyMovepos, &dis) && dis < oldDis)
+					{
+						mouseFlag.eventType = EventType::BattleEvent;
+						mouseFlag.reset();
+						mouseFlag.eventNum = i;
+						mouseFlag.enemyEndPoint = true;
+						mouseFlag.enemyNum = j;
+						oldDis = dis;
+						isHit = true;
+					}
+				}
+			}
+
+			for (int32_t j = 0; j < seting_[i].explosionObjNum; j++)
+			{
+				Cube explosionObjpos;
+				explosionObjpos.center_ = seting_[i].explosionObjPos[j];
+				explosionObjpos.size_ = seting_[i].explosionObjSize[j];
+
+				if (Collision::CheckRay2CubeAABB(mouseRay, explosionObjpos, &dis) && dis < oldDis)
+				{
+					mouseFlag.eventType = EventType::BattleEvent;
+					mouseFlag.reset();
+					mouseFlag.eventNum = i;
+					mouseFlag.explosionObj = true;
+					mouseFlag.explosionObjNum = j;
+					oldDis = dis;
+					isHit = true;
+				}
+				
+			}
+
+
+		}
+	}
+
+	if (mouseFlag.chack() && Input::GetInstance()->GetMouseButton(0))
+	{		
+		MoveEventImguizmoAllOffFlag();
+		BattleEventImguizmoAllOffFlag();
+		if (mouseFlag.moveStartPoint)
+		{
+			eventFlags_[mouseFlag.eventNum].isMoveStratPoint = true;
+		}
+		if (mouseFlag.moveEndPoint)
+		{
+			eventFlags_[mouseFlag.eventNum].isMoveEndPoint = true;
+		}
+
+		if (mouseFlag.battlePlayerPoint)
+		{
+			eventFlags_[mouseFlag.eventNum].isBattlePlayerPoint = true;
+		}
+		if (mouseFlag.enemy)
+		{
+			eventFlags_[mouseFlag.eventNum].isEnemySpawnPoss[mouseFlag.enemyNum] = true;
+		}
+		if (mouseFlag.enemyEndPoint)
+		{
+			eventFlags_[mouseFlag.eventNum].isEnemyMoveEndPoint[mouseFlag.enemyNum] = true;
+		}
+
+		if (mouseFlag.explosionObj)
+		{
+			eventFlags_[mouseFlag.eventNum].isExplosionObjPoints[mouseFlag.explosionObjNum] = true;
+		}
+	}
+
+	if (isHit == false && Input::GetInstance()->GetMouseButton(0))
+	{
+		MoveEventImguizmoAllOffFlag();
+		BattleEventImguizmoAllOffFlag();
+	}
+
+	mouseFlag.reset();
+
+}
+
+void EventEditorScene::EventEditImguizmoUpdate(const uint16_t& count)
+{
+	if (seting_[count].eventType == EventType::moveEvent)
+	{
+		if (eventFlags_[count].isMoveStratPoint)
+		{
+			float moveStartPoint[3] = { seting_[count].moveStartPoint.x,seting_[count].moveStartPoint.y,seting_[count].moveStartPoint.z };
+			Vector3 buff = { moveStartPoint[0] ,moveStartPoint[1] ,moveStartPoint[2] };
+			EditTransform(buff, count);
+			moveStartPoint[0] = buff.x;
+			moveStartPoint[1] = buff.y;
+			moveStartPoint[2] = buff.z;
+			seting_[count].moveStartPoint = { moveStartPoint[0] ,moveStartPoint[1] ,moveStartPoint[2] };
+		}
+		if (eventFlags_[count].isMoveEndPoint)
+		{
+			float movePoint[3] = { seting_[count].movePoint.x,seting_[count].movePoint.y,seting_[count].movePoint.z };
+			Vector3 buff = { movePoint[0] ,movePoint[1] ,movePoint[2] };
+			EditTransform(buff, count);
+			movePoint[0] = buff.x;
+			movePoint[1] = buff.y;
+			movePoint[2] = buff.z;
+
+			seting_[count].movePoint = { movePoint[0] ,movePoint[1] ,movePoint[2] };
+		}
+	}
+	else if (seting_[count].eventType == EventType::BattleEvent)
+	{
+
+		for (int16_t i = 0; i < seting_[count].enemyNum; i++)
+		{
+			if (eventFlags_[count].isEnemySpawnPoss[i])
+			{
+				float spawnPos[3] = { seting_[count].enemySpawnPos[i].x,seting_[count].enemySpawnPos[i].y,seting_[count].enemySpawnPos[i].z };
+
+				Vector3 buff = { spawnPos[0] ,spawnPos[1] ,spawnPos[2] };
+				EditTransform(buff, count);
+				spawnPos[0] = buff.x;
+				spawnPos[1] = buff.y;
+				spawnPos[2] = buff.z;
+				seting_[count].enemySpawnPos[i] = { spawnPos[0],spawnPos[1] ,spawnPos[2] };
+				
+			}
+
+			if (seting_[count].enemyTypes[i] == EnemyType::Attack)continue;
+			if (eventFlags_[count].isEnemyMoveEndPoint[i])
+			{
+				float movePos[3] = { seting_[count].enemyMovePos[i].x,seting_[count].enemyMovePos[i].y,seting_[count].enemyMovePos[i].z };
+				Vector3 buff = { movePos[0] ,movePos[1] ,movePos[2] };
+				EditTransform(buff, count);
+				movePos[0] = buff.x;
+				movePos[1] = buff.y;
+				movePos[2] = buff.z;
+				seting_[count].enemyMovePos[i] = { movePos[0],movePos[1] ,movePos[2] };
+			}
+		}
+
+		for (int32_t i = 0; i < seting_[count].explosionObjNum; i++)
+		{
+			
+			float pos[3] = { seting_[count].explosionObjPos[i].x,seting_[count].explosionObjPos[i].y,seting_[count].explosionObjPos[i].z };
+
+			if (eventFlags_[count].isExplosionObjPoints[i])
+			{
+				Vector3 buff = { pos[0] ,pos[1] ,pos[2] };
+				EditTransform(buff, count);
+				pos[0] = buff.x;
+				pos[1] = buff.y;
+				pos[2] = buff.z;
+			}
+
+			seting_[count].explosionObjPos[i] = { pos[0],pos[1] ,pos[2] };
+
+		}
+
+	}
+	
+}
+
+void EventEditorScene::SceneMoveDataLoad()
+{
+	//前の状態を登録
+	saveSeting_.push_back(saveStackSeting_);
+	saveEnemyDatas_.push_back(saveStackEnemyDatas_);
+	saveMovePointDatas_.push_back(saveStackMovePointDatas_);
+	saveExplosionObjDatas_.push_back(saveStackExplosionObjDatas_);
+
+	unSaveFileName_.push_back(saveFileName_);
+
+	//用意していたフラグ群もいったん消し
+	eventFlags_.clear();
+
+	bool result = true;
+	//設定のまとめに選択したファイルを読み取り書き込む
+	result = LoadFullPathEventData(eventManager_->oldEventDataFileName_);
+	
+	if (!result)
+	{
+		//失敗しちゃったので登録してたやつを消すよ
+		saveSeting_.pop_back();
+		saveEnemyDatas_.pop_back();
+		saveMovePointDatas_.pop_back();
+		saveExplosionObjDatas_.pop_back();
+		if (!saveSeting_.empty())
+		{
+			saveStackSeting_ = saveSeting_.back();
+			saveStackEnemyDatas_ = saveEnemyDatas_.back();
+			saveStackMovePointDatas_ = saveMovePointDatas_.back();
+			saveStackExplosionObjDatas_ = saveExplosionObjDatas_.back();
+		}
+		return;
+	}
+	saveStackSeting_ = seting_;
+	//読み込んだデータにあるエディタに描画するオブジェクトの登録
+	AddEventDebugObj();
+	saveStackEnemyDatas_ = enemyDatas_;
+	saveStackMovePointDatas_ = movePointDatas_;
+	saveStackExplosionObjDatas_ = explosionObjDatas_;
+	saveFileName_ = eventManager_->oldEventDataFileName_;
+
+	useEventType = EventType::none;
+
+	useEventCount_ = 0;
 }

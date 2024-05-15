@@ -6,6 +6,8 @@
 
 #include <imgui.h>
 
+#include "SceneManager.h"
+
 Texture* PostEffect::STexture_ = nullptr;
 
 const float PostEffect::clearColor[4] = { 0.25f,0.5f,0.1f,0.0f };
@@ -101,7 +103,7 @@ void PostEffect::Initialize()
 void PostEffect::Update()
 {
 #ifdef _DEBUG
-	if (ps.name_ == "BloomPS")
+	if (ps.name_ == "BloomPS" && SceneManager::GetInstance()->isDebugMode_)
 	{
 		ImGui::Begin("Bloom");
 

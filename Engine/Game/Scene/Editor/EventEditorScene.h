@@ -22,6 +22,7 @@
 #include <list>
 #include "ParticleEditor.h"
 #include "ParticleManager.h"
+#include "CollisionPrimirive.h"
 
 class EventEditorScene : public IScene
 {
@@ -250,6 +251,21 @@ private:
 	//imguizmoの移動を操作するための関数
 	void EditTransform(Vector3& pos, const uint32_t& count);
 
+	//マウスの位置からレイを作る関数
+	Ray GetRayMouse();
+
+	//イベントのimguizmoの使えるやつをマウスでクリックしたら反応するようにする関数
+	void MouseObjChack();
+
+	/// <summary>
+	/// イベントのタブが閉じていてもimguizmoを動かすための関数
+	/// </summary>
+	/// <param name="count">現在のイベント位置</param>
+	void EventEditImguizmoUpdate(const uint16_t& count);
+
+	//他のシーンから移動してきたときのイベントの読み込み
+	void SceneMoveDataLoad();
+
 private:
 	//天球
 	Object3D objobj3_;
@@ -453,5 +469,43 @@ private:
 	bool testCombobool2 = false;
 
 	size_t oldParticleDataSize = 0;
+
+	struct MouseEventFlag
+	{
+		uint16_t eventType = EventType::moveEvent;
+		uint32_t eventNum = 0;
+		bool enemy = false;
+		bool enemyEndPoint = false;
+		uint32_t enemyNum = 0;
+		bool battlePlayerPoint = false;
+
+		bool moveStartPoint = false;
+		bool moveEndPoint = false;
+
+		bool explosionObj = false;
+		bool explosionObjNum = 0;
+
+		void reset()
+		{
+			eventNum = 0;
+			enemy = false;
+			enemyEndPoint = false;
+			enemyNum = 0;
+			battlePlayerPoint = false;
+
+			moveStartPoint = false;
+			moveEndPoint = false;
+
+			explosionObj = false;
+			explosionObjNum = 0;
+		}
+
+		bool chack()
+		{		
+			return enemy || enemyEndPoint || battlePlayerPoint || moveStartPoint || moveEndPoint || explosionObj;	
+		}
+	};
+
+	MouseEventFlag mouseFlag;
 
 };

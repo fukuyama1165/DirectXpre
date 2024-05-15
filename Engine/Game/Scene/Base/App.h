@@ -26,14 +26,10 @@ public:
 
 private:
 
-	//シーンチェンジ用変数
-	uint32_t sceneTypeNum_ = 0;
-
-	std::string sceneType_ = "";
+	
 
 private:
 
-	
 
 	
 };

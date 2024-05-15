@@ -54,8 +54,6 @@ private:
 
 	Sprite title_;
 
-	bool debugMenu_ = false;
-
 	Player play_;
 
 	EnemyManager* enemys_ = nullptr;
