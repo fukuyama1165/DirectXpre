@@ -111,6 +111,16 @@ public:
 	/// <returns>交差しているか否か</returns>
 	static bool CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance = nullptr, Vector3* inter = nullptr);
 
+	/// <summary>
+	/// レイと立方体の当たり判定
+	/// </summary>
+	/// <param name="ray">レイ</param>
+	/// <param name="cube">立方体</param>
+	/// <param name="distance">距離(出力用)</param>
+	/// <param name="inter">交点(出力用)</param>
+	/// <returns>交差しているか否か</returns>
+	static bool CheckRay2CubeAABB(const Ray& ray, const Cube& cube, float* distance = nullptr, Vector3* inter = nullptr);
+
 private:
 
 	

@@ -28,7 +28,17 @@ public:
 	//シーンファクトリーセット
 	void SetSceneFactory(std::unique_ptr<ISceneFactory> sceneFactory) { sceneFactory_ = std::move(sceneFactory); };
 
+	/// <summary>
+	/// シーンチェンジ
+	/// </summary>
+	/// <param name="sceneName">チェンジ先のシーン名</param>
+	/// <param name="sceneChangeName">シーンチェンジの演出名</param>
 	void ChangeScene(const std::string& sceneName, const std::string& sceneChangeName = "BASIC");
+
+	void DebugImguiChangeScene();
+
+	//デバックモードを起動しているか
+	bool isDebugMode_ = false;
 
 private:
 
@@ -49,5 +59,12 @@ private:
 	std::unique_ptr<ISceneFactory> sceneFactory_ = nullptr;
 
 	std::unique_ptr<ISceneChangeFactory> sceneChangeFactory_ = nullptr;
+
+	//シーンチェンジ用変数
+	uint32_t sceneTypeNum_ = 0;
+
+	std::string sceneType_ = "";
+
+	
 
 };

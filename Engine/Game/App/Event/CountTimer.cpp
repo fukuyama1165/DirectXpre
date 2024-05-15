@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include "Input.h"
 #include "Easing.h"
+#include "SceneManager.h"
 
 CountTimer::CountTimer()
 {
@@ -177,11 +178,14 @@ void CountTimer::ImguiUpdate()
 {
 #ifdef _DEBUG
 
-	ImGui::Begin("CountTimerTest");
+	if (SceneManager::GetInstance()->isDebugMode_)
+	{
+		ImGui::Begin("CountTimerTest");
 
-	ImGui::DragFloat("timer", &timer_, 1.0f, 0.0f, 6000.0f);
+		ImGui::DragFloat("timer", &timer_, 1.0f, 0.0f, 6000.0f);
 
-	ImGui::End();
+		ImGui::End();
+	}
 
 
 #endif

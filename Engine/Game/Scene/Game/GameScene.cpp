@@ -29,6 +29,9 @@ void GameScene::Initialize()
 
 	cameobj_ = cameraObj((float)WinApp::GetInstance()->getWindowSizeWidth(), (float)WinApp::GetInstance()->getWindowSizeHeight());
 
+	cameobj_ = play_.playerCamera_;
+	Camera::nowCamera = play_.playerCamera_.GetCameraP();
+
 	//初期値店の移動を記録
 	playerCameobj_.pos_.z = -200;
 
@@ -112,7 +115,28 @@ void GameScene::Update()
 
 #pragma region 更新処理
 
-	DebugUpdate();
+	if (isDebugMode_)
+	{
+		DebugUpdate();
+	}
+
+#ifdef _DEBUG
+	//デバックモードに切り替え
+	if (Input::GetInstance()->TriggerKey(DIK_F5,true))
+	{
+		isDebugMode_ = !isDebugMode_;
+
+		//データとかいじりたいだろうし止める
+		if (isDebugMode_)
+		{
+			pause_ = true;
+		}
+		else if (!isDebugMode_ && pause_)
+		{
+			pause_ = false;
+		}
+	}
+#endif
 
 	if (!pause_)
 	{
@@ -201,14 +225,11 @@ void GameScene::Update()
 
 
 		//ゲームオーバー処理
-		if (play_.hp_ <= 0)
+		if (play_.hp_ <= 0 && !isDebugMode_)
 		{
-#ifdef _DEBUG
 
-#else
 			SceneManager::GetInstance()->ChangeScene("TITLE");
 
-#endif
 		}
 
 		//ゲームクリア処理
@@ -455,23 +476,6 @@ void GameScene::DebugUpdate()
 
 #pragma endregion
 
-#pragma region Collision
-
-	ImGui::Begin("Collision");
-
-	//ImGui::SetWindowSize(ImVec2(300, 300));
-
-	ImGui::Text("move:WASDZX");
-
-	ImGui::SliderFloat("movecollx", &movecoll_.x, -200.0f, 200.0f, "%.3f");
-	ImGui::SliderFloat("movecolly", &movecoll_.y, -200.0f, 200.0f, "%.3f");
-	ImGui::SliderFloat("movecollz", &movecoll_.z, -200.0f, 200.0f, "%.3f");
-
-	
-	ImGui::End();
-
-#pragma endregion
-
 #pragma region camera
 
 	ImGui::Begin("camera");
@@ -670,7 +674,7 @@ void GameScene::DebugUpdate()
 #endif
 
 
-	LevelLoader::GetInstance()->reloadLevel(DIK_K, "MapTest");
+	//LevelLoader::GetInstance()->reloadLevel(DIK_K, "MapTest");
 #endif	
 
 	if (chengCamera_)

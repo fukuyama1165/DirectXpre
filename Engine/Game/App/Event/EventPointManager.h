@@ -72,6 +72,9 @@ public:
 	//タイマーを使わないイベントなら
 	bool isNoTimer = false;
 
+	//シーン移動したときの現在読み込んでいるイベントの保存
+	void EditorMoveSave();
+
 public:
 
 	//読み込む際のファイルパス(ファイル名だけで指定するため)
@@ -87,6 +90,17 @@ public:
 
 	//現在読み込んでいるファイルの名前
 	std::string NowEventDataFileName_;
+
+	//ゲームシーンからイベントエディタにシーンチェンジしたときの為の保持用変数&Flag
+
+	//シーン移動前のイベント位置
+	uint32_t oldEventCount_ = 0;
+
+	//シーン移動前の読み込んでいたイベントデータ名
+	std::string oldEventDataFileName_;
+
+	//エディタに移動してきたか
+	bool isEditorMove_ = false;
 
 private:
 
@@ -139,8 +153,8 @@ private:
 	//タイマーの本体
 	CountTimer timer_;
 
+	//爆発するオブジェクトをセットしたか
 	bool isSetExplosionObj = false;
-	
 
 };
 
