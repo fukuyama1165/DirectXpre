@@ -1459,24 +1459,24 @@ void EventEditorScene::ChangeMap()
 	//if (ImGui::Button("selectMap"))/*ImGui::SameLine(); HelpMarker("You can input value using the scientific notation,\n""  e.g. \"1e+8\" becomes \"100000000\".");*/
 	//{
 		wchar_t filePath[MAX_PATH] = { 0 };
-		OPENFILENAME a = {};
+		OPENFILENAME FileObj = {};
 		//構造体の大きさ基本的にこれ
-		a.lStructSize = sizeof(OPENFILENAME);
+		FileObj.lStructSize = sizeof(OPENFILENAME);
 		//使いたい(占有)ウインドウハンドル
-		a.hwndOwner = WinApp::GetInstance()->getHwnd();
+		FileObj.hwndOwner = WinApp::GetInstance()->getHwnd();
 		//フィルターを設定?
-		a.lpstrFilter = L"マップデータ\0 * .json*\0"
+		FileObj.lpstrFilter = L"マップデータ\0 * .json*\0"
 			L"すべてのファイル (*.*)\0*.*\0";
 		//何個目のフィルターを使うん?みたいな感じ?
-		a.nFilterIndex = 0;
+		FileObj.nFilterIndex = 0;
 		//保存の時ファイル名を入れるやつ?
-		a.lpstrFile = filePath;
+		FileObj.lpstrFile = filePath;
 		//ファイルのバッファの大きさ？
-		a.nMaxFile = MAX_PATH;
+		FileObj.nMaxFile = MAX_PATH;
 
 		std::string test;
 		auto old = std::filesystem::current_path();
-		if (GetOpenFileName(&a))
+		if (GetOpenFileName(&FileObj))
 		{
 			test = DirectXpre::Util::WStringToString(filePath);
 
@@ -2303,26 +2303,26 @@ bool EventEditorScene::EventScanning(const nlohmann::json& Event)
 void EventEditorScene::WindowsSaveEEFMFile()
 {
 	wchar_t filePath[MAX_PATH] = { 0 };
-	OPENFILENAME a = {};
+	OPENFILENAME FileObj = {};
 	//構造体の大きさ基本的にこれ
-	a.lStructSize = sizeof(OPENFILENAME);
+	FileObj.lStructSize = sizeof(OPENFILENAME);
 	//使いたい(占有)ウインドウハンドル
-	a.hwndOwner = WinApp::GetInstance()->getHwnd();
+	FileObj.hwndOwner = WinApp::GetInstance()->getHwnd();
 	//フィルターを設定?
-	a.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0\0";
+	FileObj.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0\0";
 	//拡張子決定
-	a.lpstrDefExt = L"eefm";
+	FileObj.lpstrDefExt = L"eefm";
 	//何個目のフィルターを使うん?みたいな感じ?
-	a.nFilterIndex = 0;
+	FileObj.nFilterIndex = 0;
 	//保存の時ファイル名を入れるやつ?
-	a.lpstrFile = filePath;
+	FileObj.lpstrFile = filePath;
 	//ファイルのバッファの大きさ？
-	a.nMaxFile = MAX_PATH;
+	FileObj.nMaxFile = MAX_PATH;
 	//ファイルを保存するときにどういう動きをするか
-	a.Flags = OFN_OVERWRITEPROMPT;
+	FileObj.Flags = OFN_OVERWRITEPROMPT;
 
 	auto old = std::filesystem::current_path();
-	if (GetSaveFileName(&a))
+	if (GetSaveFileName(&FileObj))
 	{
 		std::string test = DirectXpre::Util::WStringToString(filePath);
 		saveFileName_ = test;
@@ -2369,23 +2369,23 @@ void EventEditorScene::SaveAsEEFMFile()
 bool EventEditorScene::WindowsOpenEEFMFile()
 {
 	wchar_t filePath[MAX_PATH] = { 0 };
-	OPENFILENAME a = {};
+	OPENFILENAME FileObj = {};
 	//構造体の大きさ基本的にこれ
-	a.lStructSize = sizeof(OPENFILENAME);
+	FileObj.lStructSize = sizeof(OPENFILENAME);
 	//使いたい(占有)ウインドウハンドル
-	a.hwndOwner = WinApp::GetInstance()->getHwnd();
+	FileObj.hwndOwner = WinApp::GetInstance()->getHwnd();
 	//フィルターを設定?
-	a.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0"
+	FileObj.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0"
 		L"すべてのファイル (*.*)\0*.*\0";
 	//何個目のフィルターを使うん?みたいな感じ?
-	a.nFilterIndex = 0;
+	FileObj.nFilterIndex = 0;
 	//保存の時ファイル名を入れるやつ?
-	a.lpstrFile = filePath;
+	FileObj.lpstrFile = filePath;
 	//ファイルのバッファの大きさ？
-	a.nMaxFile = MAX_PATH;
+	FileObj.nMaxFile = MAX_PATH;
 
 	auto old = std::filesystem::current_path();
-	if (GetOpenFileName(&a))
+	if (GetOpenFileName(&FileObj))
 	{
 		//前の状態を登録
 		saveSeting_.push_back(saveStackSeting_);
