@@ -508,4 +508,6 @@ private:
 
 	MouseEventFlag mouseFlag;
 
+	bool useImguizmo = false;
+
 };
