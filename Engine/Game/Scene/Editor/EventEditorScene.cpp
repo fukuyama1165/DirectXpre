@@ -1459,24 +1459,24 @@ void EventEditorScene::ChangeMap()
 	//if (ImGui::Button("selectMap"))/*ImGui::SameLine(); HelpMarker("You can input value using the scientific notation,\n""  e.g. \"1e+8\" becomes \"100000000\".");*/
 	//{
 		wchar_t filePath[MAX_PATH] = { 0 };
-		OPENFILENAME a = {};
+		OPENFILENAME FileObj = {};
 		//構造体の大きさ基本的にこれ
-		a.lStructSize = sizeof(OPENFILENAME);
+		FileObj.lStructSize = sizeof(OPENFILENAME);
 		//使いたい(占有)ウインドウハンドル
-		a.hwndOwner = WinApp::GetInstance()->getHwnd();
+		FileObj.hwndOwner = WinApp::GetInstance()->getHwnd();
 		//フィルターを設定?
-		a.lpstrFilter = L"マップデータ\0 * .json*\0"
+		FileObj.lpstrFilter = L"マップデータ\0 * .json*\0"
 			L"すべてのファイル (*.*)\0*.*\0";
 		//何個目のフィルターを使うん?みたいな感じ?
-		a.nFilterIndex = 0;
+		FileObj.nFilterIndex = 0;
 		//保存の時ファイル名を入れるやつ?
-		a.lpstrFile = filePath;
+		FileObj.lpstrFile = filePath;
 		//ファイルのバッファの大きさ？
-		a.nMaxFile = MAX_PATH;
+		FileObj.nMaxFile = MAX_PATH;
 
 		std::string test;
 		auto old = std::filesystem::current_path();
-		if (GetOpenFileName(&a))
+		if (GetOpenFileName(&FileObj))
 		{
 			test = DirectXpre::Util::WStringToString(filePath);
 
@@ -1647,6 +1647,7 @@ void EventEditorScene::DebugUpdate()
 		ImGui::DragFloat3("dir", test_, 1.0f, -100, 100);
 		ImGui::ColorEdit3("light", test2_);
 		ImGui::DragFloat("AngleOfView", &player_.playCamera_.nowCamera->AngleOfView, 1.0f, 1.0f, 200.0f);
+		ImGui::Text("useImguizmo:%d", useImguizmo);
 
 		std::vector<std::string> testcombostring = { "test", "baka", "tekozuraseyagatte", "aaaaa" };
 
@@ -2303,26 +2304,26 @@ bool EventEditorScene::EventScanning(const nlohmann::json& Event)
 void EventEditorScene::WindowsSaveEEFMFile()
 {
 	wchar_t filePath[MAX_PATH] = { 0 };
-	OPENFILENAME a = {};
+	OPENFILENAME FileObj = {};
 	//構造体の大きさ基本的にこれ
-	a.lStructSize = sizeof(OPENFILENAME);
+	FileObj.lStructSize = sizeof(OPENFILENAME);
 	//使いたい(占有)ウインドウハンドル
-	a.hwndOwner = WinApp::GetInstance()->getHwnd();
+	FileObj.hwndOwner = WinApp::GetInstance()->getHwnd();
 	//フィルターを設定?
-	a.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0\0";
+	FileObj.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0\0";
 	//拡張子決定
-	a.lpstrDefExt = L"eefm";
+	FileObj.lpstrDefExt = L"eefm";
 	//何個目のフィルターを使うん?みたいな感じ?
-	a.nFilterIndex = 0;
+	FileObj.nFilterIndex = 0;
 	//保存の時ファイル名を入れるやつ?
-	a.lpstrFile = filePath;
+	FileObj.lpstrFile = filePath;
 	//ファイルのバッファの大きさ？
-	a.nMaxFile = MAX_PATH;
+	FileObj.nMaxFile = MAX_PATH;
 	//ファイルを保存するときにどういう動きをするか
-	a.Flags = OFN_OVERWRITEPROMPT;
+	FileObj.Flags = OFN_OVERWRITEPROMPT;
 
 	auto old = std::filesystem::current_path();
-	if (GetSaveFileName(&a))
+	if (GetSaveFileName(&FileObj))
 	{
 		std::string test = DirectXpre::Util::WStringToString(filePath);
 		saveFileName_ = test;
@@ -2369,23 +2370,23 @@ void EventEditorScene::SaveAsEEFMFile()
 bool EventEditorScene::WindowsOpenEEFMFile()
 {
 	wchar_t filePath[MAX_PATH] = { 0 };
-	OPENFILENAME a = {};
+	OPENFILENAME FileObj = {};
 	//構造体の大きさ基本的にこれ
-	a.lStructSize = sizeof(OPENFILENAME);
+	FileObj.lStructSize = sizeof(OPENFILENAME);
 	//使いたい(占有)ウインドウハンドル
-	a.hwndOwner = WinApp::GetInstance()->getHwnd();
+	FileObj.hwndOwner = WinApp::GetInstance()->getHwnd();
 	//フィルターを設定?
-	a.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0"
+	FileObj.lpstrFilter = L"イベントエディタ作成ファイル(eefm)\0 * .eefm*\0"
 		L"すべてのファイル (*.*)\0*.*\0";
 	//何個目のフィルターを使うん?みたいな感じ?
-	a.nFilterIndex = 0;
+	FileObj.nFilterIndex = 0;
 	//保存の時ファイル名を入れるやつ?
-	a.lpstrFile = filePath;
+	FileObj.lpstrFile = filePath;
 	//ファイルのバッファの大きさ？
-	a.nMaxFile = MAX_PATH;
+	FileObj.nMaxFile = MAX_PATH;
 
 	auto old = std::filesystem::current_path();
-	if (GetOpenFileName(&a))
+	if (GetOpenFileName(&FileObj))
 	{
 		//前の状態を登録
 		saveSeting_.push_back(saveStackSeting_);
@@ -2755,7 +2756,9 @@ void EventEditorScene::EditTransform(Vector3& pos,const uint32_t& count)
 	ChengeMatrix(Camera::nowCamera->matView_, cameVm16);
 	//実際操作
 	ImGuizmo::SetRect(0, 0, WinApp::GetInstance()->getWindowSizeWidthF(), WinApp::GetInstance()->getWindowSizeHeightF());
-	if (ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL))UndoCheck(count);
+	useImguizmo = ImGuizmo::Manipulate(cameVm16, camePm16, mCurrentGizmoOperation, mCurrentGizmoMode, matm16, NULL);
+	//現在使っているならundoように保存
+	if (useImguizmo)UndoCheck(count);
 	//行列戻すねえ
 	mat = ChengeTwoDimensionalMatrix(matm16);
 
@@ -3109,6 +3112,10 @@ Ray EventEditorScene::GetRayMouse()
 
 void EventEditorScene::MouseObjChack()
 {
+	if (useImguizmo)
+	{
+		return;
+	}
 	//一番近い位置を取りたいので適当な値を
 	float oldDis = 10000000;
 	float dis = 0;
@@ -3122,7 +3129,7 @@ void EventEditorScene::MouseObjChack()
 		{
 			Cube start;
 			start.center_ = seting_[i].moveStartPoint;
-			start.size_ = { 0.3f,0.3f ,0.3f };
+			start.size_ = { 1.0f,1.0f ,1.0f };
 			
 			if (Collision::CheckRay2CubeAABB(mouseRay, start, &dis) && dis < oldDis)
 			{
@@ -3136,7 +3143,7 @@ void EventEditorScene::MouseObjChack()
 
 			Cube end;
 			end.center_ = seting_[i].movePoint;
-			end.size_ = { 0.3f,0.3f ,0.3f };
+			end.size_ = { 1.0f,1.0f ,1.0f };
 			
 			if (Collision::CheckRay2CubeAABB(mouseRay, end, &dis) && dis < oldDis)
 			{
@@ -3152,7 +3159,7 @@ void EventEditorScene::MouseObjChack()
 		{
 			Cube playerPos;
 			playerPos.center_ = seting_[i].playerPos;
-			playerPos.size_ = { 0.3f,0.3f ,0.3f };
+			playerPos.size_ = { 1.0f,1.0f ,1.0f };
 
 			if (Collision::CheckRay2CubeAABB(mouseRay, playerPos, &dis) && dis < oldDis)
 			{
@@ -3168,7 +3175,7 @@ void EventEditorScene::MouseObjChack()
 			{
 				Cube enemypos;
 				enemypos.center_ = seting_[i].enemySpawnPos[j];
-				enemypos.size_ = { 0.5f,0.5f ,0.5f };
+				enemypos.size_ = { 1.5f,1.5f ,1.5f };
 
 				if (Collision::CheckRay2CubeAABB(mouseRay, enemypos, &dis) && dis < oldDis)
 				{
@@ -3184,7 +3191,7 @@ void EventEditorScene::MouseObjChack()
 				{
 					Cube enemyMovepos;
 					enemyMovepos.center_ = seting_[i].enemyMovePos[j];
-					enemyMovepos.size_ = { 0.5f,0.5f ,0.5f };
+					enemyMovepos.size_ = { 1.5f,1.5f ,1.5f };
 
 					if (Collision::CheckRay2CubeAABB(mouseRay, enemyMovepos, &dis) && dis < oldDis)
 					{
@@ -3222,7 +3229,7 @@ void EventEditorScene::MouseObjChack()
 		}
 	}
 
-	if (mouseFlag.chack() && Input::GetInstance()->GetMouseButton(0))
+	if (mouseFlag.chack() && Input::GetInstance()->GetMouseButtonDown(0))
 	{		
 		MoveEventImguizmoAllOffFlag();
 		BattleEventImguizmoAllOffFlag();
@@ -3254,7 +3261,7 @@ void EventEditorScene::MouseObjChack()
 		}
 	}
 
-	if (isHit == false && Input::GetInstance()->GetMouseButton(0))
+	if (isHit == false && Input::GetInstance()->GetMouseButtonDown(0))
 	{
 		MoveEventImguizmoAllOffFlag();
 		BattleEventImguizmoAllOffFlag();

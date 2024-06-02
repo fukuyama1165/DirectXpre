@@ -156,26 +156,26 @@ void ParticleEditor::SaveParticleFullPathData(const std::string& fileName)
 void ParticleEditor::WindowsSavePcleFile()
 {
 	wchar_t filePath[MAX_PATH] = { 0 };
-	OPENFILENAME a = {};
+	OPENFILENAME fileObj = {};
 	//構造体の大きさ基本的にこれ
-	a.lStructSize = sizeof(OPENFILENAME);
+	fileObj.lStructSize = sizeof(OPENFILENAME);
 	//使いたい(占有)ウインドウハンドル
-	a.hwndOwner = WinApp::GetInstance()->getHwnd();
+	fileObj.hwndOwner = WinApp::GetInstance()->getHwnd();
 	//フィルターを設定?
-	a.lpstrFilter = L"パーティクルの設定(Pcle)\0 * .Pcle*\0\0";
+	fileObj.lpstrFilter = L"パーティクルの設定(Pcle)\0 * .Pcle*\0\0";
 	//拡張子決定
-	a.lpstrDefExt = L"Pcle";
+	fileObj.lpstrDefExt = L"Pcle";
 	//何個目のフィルターを使うん?みたいな感じ?
-	a.nFilterIndex = 0;
+	fileObj.nFilterIndex = 0;
 	//保存の時ファイル名を入れるやつ?
-	a.lpstrFile = filePath;
+	fileObj.lpstrFile = filePath;
 	//ファイルのバッファの大きさ？
-	a.nMaxFile = MAX_PATH;
+	fileObj.nMaxFile = MAX_PATH;
 	//ファイルを保存するときにどういう動きをするか
-	a.Flags = OFN_OVERWRITEPROMPT;
+	fileObj.Flags = OFN_OVERWRITEPROMPT;
 
 	auto old = std::filesystem::current_path();
-	if (GetSaveFileName(&a))
+	if (GetSaveFileName(&fileObj))
 	{
 		std::string test = DirectXpre::Util::WStringToString(filePath);
 		SaveParticleFullPathData(test);

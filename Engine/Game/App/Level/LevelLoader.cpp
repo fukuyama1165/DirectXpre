@@ -98,26 +98,26 @@ void LevelLoader::Initialize()
 void LevelLoader::Update()
 {
 	
-	for (LevelObj a : levelObj)
+	for (LevelObj obj : levelObj)
 	{
-		a.obj.Update();
+		obj.obj.Update();
 
 		
 	}
-	for (uint16_t a = 0; a < levelObj.size(); a++)
+	for (uint16_t obj = 0; obj < levelObj.size(); obj++)
 	{
 		//タイリングの設定
-		if (levelObj[a].name.find("BackGround") != std::string::npos)
+		if (levelObj[obj].name.find("BackGround") != std::string::npos)
 		{
-			levelObj[a].obj.material_.material_.tile_ = { 5,5 };
+			levelObj[obj].obj.material_.material_.tile_ = { 5,5 };
 		}
-		else if (levelObj[a].name.find("Ground") != std::string::npos)
+		else if (levelObj[obj].name.find("Ground") != std::string::npos)
 		{
-			levelObj[a].obj.material_.material_.tile_ = { levelObj[a].obj.Scale_.x,levelObj[a].obj.Scale_.z };
+			levelObj[obj].obj.material_.material_.tile_ = { levelObj[obj].obj.Scale_.x,levelObj[obj].obj.Scale_.z };
 		}
-		else if (levelObj[a].name.find("Box") != std::string::npos)
+		else if (levelObj[obj].name.find("Box") != std::string::npos)
 		{
-			levelObj[a].obj.material_.material_.tile_ = { 5,5 };
+			levelObj[obj].obj.material_.material_.tile_ = { 5,5 };
 		}
 	}
 	
@@ -160,47 +160,47 @@ void LevelLoader::Update()
 
 void LevelLoader::Draw()
 {
-	for (LevelObj a : levelObj)
+	for (LevelObj obj : levelObj)
 	{
-		if (a.name.find("test") != std::string::npos)
+		if (obj.name.find("test") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelModel_);
+			obj.obj.FBXDraw(*levelModel_);
 		}
-		else if (a.name.find("Box") != std::string::npos)
+		else if (obj.name.find("Box") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelWallModel_);
+			obj.obj.FBXDraw(*levelWallModel_);
 		}
-		else if (a.name.find("ball") != std::string::npos)
+		else if (obj.name.find("ball") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelBallModel_);
+			obj.obj.FBXDraw(*levelBallModel_);
 		}
-		else if (a.name.find("BackGround") != std::string::npos)
+		else if (obj.name.find("BackGround") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelWallModel_);
+			obj.obj.FBXDraw(*levelWallModel_);
 		}
-		else if (a.name.find("Ground") != std::string::npos)
+		else if (obj.name.find("Ground") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelGroundModel_);
+			obj.obj.FBXDraw(*levelGroundModel_);
 		}
-		else if (a.name.find("building") != std::string::npos)
+		else if (obj.name.find("building") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelBuildingModel_);
+			obj.obj.FBXDraw(*levelBuildingModel_);
 		}
-		else if (a.name.find("Light") != std::string::npos)
+		else if (obj.name.find("Light") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelLightModel_);
+			obj.obj.FBXDraw(*levelLightModel_);
 		}
-		else if (a.name.find("cylinder") != std::string::npos)
+		else if (obj.name.find("cylinder") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelCylinderModel_);
+			obj.obj.FBXDraw(*levelCylinderModel_);
 		}
-		else if (a.name.find("ship") != std::string::npos)
+		else if (obj.name.find("ship") != std::string::npos)
 		{
-			a.obj.FBXDraw(*levelShipModel_);
+			obj.obj.FBXDraw(*levelShipModel_);
 		}
 		else
 		{
-			a.obj.FBXDraw(*levelModel_);
+			obj.obj.FBXDraw(*levelModel_);
 		}
 	}
 

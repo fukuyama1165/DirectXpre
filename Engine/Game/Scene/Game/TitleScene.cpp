@@ -143,9 +143,9 @@ void TitleScene::Update()
 
 	play_.Update();
 
-	for (LevelObj a : levelObj)
+	for (LevelObj obj : levelObj)
 	{
-		a.obj.Update();
+		obj.obj.Update();
 	}
 
 	for (uint16_t b = 0; b < wallObj_.size(); b++)
