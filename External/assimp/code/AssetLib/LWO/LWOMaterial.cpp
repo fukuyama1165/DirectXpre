@@ -3,9 +3,7 @@
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
-
-
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -345,7 +343,7 @@ void LWOImporter::ConvertMaterial(const LWO::Surface &surf, aiMaterial *pcMat) {
 
     // (the diffuse value is just a scaling factor)
     // If a diffuse texture is set, we set this value to 1.0
-    clr = (b && false ? aiColor3D(1.0, 1.0, 1.0) : surf.mColor);
+    clr = (b ? aiColor3D(1.0, 1.0, 1.0) : surf.mColor);
     clr.r *= surf.mDiffuseValue;
     clr.g *= surf.mDiffuseValue;
     clr.b *= surf.mDiffuseValue;
@@ -1150,4 +1148,4 @@ void LWOImporter::LoadLWO3Surface(unsigned int size) {
     }
 }
 
-#endif // !! ASSIMP_BUILD_NO_X_IMPORTER
+#endif // ASSIMP_BUILD_NO_LWO_IMPORTER

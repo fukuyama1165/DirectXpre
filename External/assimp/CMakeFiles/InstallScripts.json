@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/Engine/External/assimp/cmake_install.cmake",
+		"D:/Engine/External/assimp/contrib/zlib/cmake_install.cmake",
+		"D:/Engine/External/assimp/code/cmake_install.cmake",
+		"D:/Engine/External/assimp/test/cmake_install.cmake",
+		"D:/Engine/External/assimp/test/headercheck/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

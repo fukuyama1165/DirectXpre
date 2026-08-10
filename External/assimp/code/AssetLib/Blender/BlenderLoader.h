@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -105,7 +105,7 @@ class BlenderModifier;
  *  call it is outsourced to BlenderDNA.cpp/BlenderDNA.h. This class only performs the
  *  conversion from intermediate format to aiScene. */
 // -------------------------------------------------------------------------------------------
-class BlenderImporter : public BaseImporter, public LogFunctions<BlenderImporter> {
+class BlenderImporter final : public BaseImporter, public LogFunctions<BlenderImporter> {
 public:
     BlenderImporter();
     ~BlenderImporter() override;
@@ -179,6 +179,19 @@ private:
             const Blender::Material *mat,
             const Blender::MTex *tex,
             Blender::ConversionData &conv_data);
+
+    // TODO: Move to a std::variant, once c++17 is supported.
+    struct StreamOrError {
+        std::shared_ptr<IOStream> stream;
+        std::shared_ptr<std::vector<char>> input;
+        std::string error;
+    };
+
+    // Returns either a stream (and optional input data for the stream) or
+    // an error if it can't parse the magic token.
+    StreamOrError ParseMagicToken(
+            const std::string &pFile,
+            IOSystem *pIOHandler) const;
 
 private: // static stuff, mostly logging and error reporting.
     // --------------------

@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
-
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -59,24 +58,26 @@ namespace Assimp {
  *  it will check if a file with the same name exists at the root folder
  *  of the imported model. And if so, it uses that.
  */
-class ASSIMP_API EmbedTexturesProcess : public BaseProcess {
+class ASSIMP_API EmbedTexturesProcess final : public BaseProcess {
 public:
     /// The default class constructor.
-    EmbedTexturesProcess();
+    EmbedTexturesProcess() = default;
 
     /// The class destructor.
-    virtual ~EmbedTexturesProcess();
+    ~EmbedTexturesProcess() override = default;
 
     /// Overwritten, @see BaseProcess
-    virtual bool IsActive(unsigned int pFlags) const;
+    bool IsActive(unsigned int pFlags) const override;
 
     /// Overwritten, @see BaseProcess
-    virtual void SetupProperties(const Importer* pImp);
+    void SetupProperties(const Importer* pImp) override;
 
     /// Overwritten, @see BaseProcess
-    virtual void Execute(aiScene* pScene);
+    void Execute(aiScene* pScene) override;
 
 private:
+    // Try several ways to attempt to resolve the image path
+    std::string tryToFindValidPath(const std::string &imagePath) const;
     // Resolve the path and add the file content to the scene as a texture.
     bool addTexture(aiScene *pScene, const std::string &path) const;
 

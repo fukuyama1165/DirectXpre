@@ -3,7 +3,7 @@
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -63,6 +63,11 @@ TEST_F(utXImporterExporter, importXFromFileTest) {
 TEST_F(utXImporterExporter, heap_overflow_in_tokenizer) {
     Assimp::Importer importer;
     EXPECT_NO_THROW(importer.ReadFile(ASSIMP_TEST_MODELS_DIR "/X/OV_GetNextToken", 0));
+}
+
+TEST_F(utXImporterExporter, skinweights_vertex_index_out_of_range) {
+    Assimp::Importer importer;
+    EXPECT_NO_THROW(importer.ReadFile(ASSIMP_TEST_MODELS_DIR "/X/malformed_skinweights_oob.x", 0));
 }
 
 TEST(utXImporter, importAnimTest) {

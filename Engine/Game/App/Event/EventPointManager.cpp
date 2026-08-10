@@ -211,7 +211,7 @@ void EventPointManager::EventScanning(nlohmann::json deserialized, nlohmann::jso
 	//タイプを取得
 	std::string type = Event["type"].get<std::string>();
 
-
+	if (deserialized == deserialized)true;
 
 	//moveEventなら
 	if (type.compare("moveEvent") == 0)

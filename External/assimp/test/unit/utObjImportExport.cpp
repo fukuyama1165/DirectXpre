@@ -3,7 +3,7 @@
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -49,7 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using namespace Assimp;
 
-static const float VertComponents[24 * 3] = {
+static constexpr float VertComponents[24 * 3] = {
     -0.500000, 0.500000, 0.500000,
     -0.500000, 0.500000, -0.500000,
     -0.500000, -0.500000, -0.500000,
@@ -76,7 +76,7 @@ static const float VertComponents[24 * 3] = {
     0.500000, -0.500000, 0.500000f
 };
 
-static const char *ObjModel =
+static constexpr char ObjModel[] =
         "o 1\n"
         "\n"
         "# Vertex list\n"
@@ -103,7 +103,7 @@ static const char *ObjModel =
         "\n"
         "# End of file\n";
 
-static const char *ObjModel_Issue1111 =
+static constexpr char ObjModel_Issue1111[] =
         "o 1\n"
         "\n"
         "# Vertex list\n"
@@ -286,6 +286,54 @@ TEST_F(utObjImportExport, issue1923_vertex_color_Test) {
     delete scene;
 }
 
+TEST_F(utObjImportExport, only_a_part_of_vertex_colors_Test) {
+    ::Assimp::Importer importer;
+    const aiScene *const scene = importer.ReadFile(ASSIMP_TEST_MODELS_DIR "/OBJ/only_a_part_of_vertexcolors.obj", aiProcess_ValidateDataStructure);
+    EXPECT_NE(nullptr, scene);
+
+    EXPECT_EQ(scene->mNumMeshes, 1U);
+    const aiMesh *const mesh = scene->mMeshes[0];
+    EXPECT_EQ(mesh->mNumVertices, 9U);
+    EXPECT_EQ(mesh->mNumFaces, 3U);
+    EXPECT_TRUE(mesh->HasVertexColors(0));
+
+    const aiVector3D *const vertices = mesh->mVertices;
+    const aiColor4D *const colors = mesh->mColors[0];
+    EXPECT_EQ(aiVector3D(0.0f, 0.0f, 0.0f), vertices[0]);
+    EXPECT_EQ(aiColor4D(0.0f, 0.0f, 0.0f, 1.0f), colors[0]);
+    EXPECT_EQ(aiVector3D(0.0f, 0.0f, 1.0f), vertices[1]);
+    EXPECT_EQ(aiColor4D(0.0f, 0.0f, 1.0f, 1.0f), colors[1]);
+    EXPECT_EQ(aiVector3D(0.0f, 1.0f, 0.0f), vertices[2]);
+    EXPECT_EQ(aiColor4D(0.0f, 0.0f, 0.0f, 1.0f), colors[2]);
+    EXPECT_EQ(aiVector3D(0.0f, 0.0f, 0.0f), vertices[3]);
+    EXPECT_EQ(aiColor4D(0.0f, 0.0f, 0.0f, 1.0f), colors[3]);
+    EXPECT_EQ(aiVector3D(1.0f, 0.0f, 0.0f), vertices[4]);
+    EXPECT_EQ(aiColor4D(1.0f, 0.6f, 0.3f, 1.0f), colors[4]);
+    EXPECT_EQ(aiVector3D(0.0f, 1.0f, 0.0f), vertices[5]);
+    EXPECT_EQ(aiColor4D(0.0f, 0.0f, 0.0f, 1.0f), colors[5]);
+    EXPECT_EQ(aiVector3D(0.0f, 0.0f, 1.0f), vertices[6]);
+    EXPECT_EQ(aiColor4D(0.0f, 0.0f, 1.0f, 1.0f), colors[6]);
+    EXPECT_EQ(aiVector3D(1.0f, 1.0f, 0.0f), vertices[7]);
+    EXPECT_EQ(aiColor4D(0.0f, 0.0f, 0.0f, 1.0f), colors[7]);
+    EXPECT_EQ(aiVector3D(1.0f, 0.0f, 0.0f), vertices[8]);
+    EXPECT_EQ(aiColor4D(1.0f, 0.6f, 0.3f, 1.0f), colors[8]);
+
+#ifndef ASSIMP_BUILD_NO_EXPORT
+    ::Assimp::Exporter exporter;
+    EXPECT_EQ(aiReturn_SUCCESS, exporter.Export(scene, "obj", ASSIMP_TEST_MODELS_DIR "/OBJ/test_out.obj"));
+#endif // ASSIMP_BUILD_NO_EXPORT
+}
+
+TEST_F(utObjImportExport, no_vertex_colors_Test) {
+    ::Assimp::Importer importer;
+    const aiScene *const scene = importer.ReadFile(ASSIMP_TEST_MODELS_DIR "/OBJ/box.obj", aiProcess_ValidateDataStructure);
+    EXPECT_NE(nullptr, scene);
+
+    EXPECT_EQ(scene->mNumMeshes, 1U);
+    const aiMesh *const mesh = scene->mMeshes[0];
+    EXPECT_FALSE(mesh->HasVertexColors(0));
+}
+
 TEST_F(utObjImportExport, issue1453_segfault) {
     static const char *curObjModel =
             "v  0.0  0.0  0.0\n"
@@ -360,7 +408,7 @@ TEST_F(utObjImportExport, homogeneous_coordinates_divide_by_zero_Test) {
     EXPECT_EQ(nullptr, scene);
 }
 
-TEST_F(utObjImportExport, 0based_array_Test) {
+TEST_F(utObjImportExport, zero_based_array_Test) {
     static const char *curObjModel =
             "v -0.500000 0.000000 0.400000\n"
             "v -0.500000 0.000000 -0.800000\n"
@@ -476,4 +524,18 @@ TEST_F(utObjImportExport, import_with_line_continuations) {
     EXPECT_NEAR(vertices[2].x, -0.5f, threshold);
     EXPECT_NEAR(vertices[2].y, 0.5f, threshold);
     EXPECT_NEAR(vertices[2].z, -0.5f, threshold);
+}
+
+TEST_F(utObjImportExport, issue2355_mtl_texture_prefix) {
+    ::Assimp::Importer importer;
+    const aiScene *const scene = importer.ReadFile(ASSIMP_TEST_MODELS_DIR "/OBJ/mtl_different_folder.obj", aiProcess_ValidateDataStructure);
+    EXPECT_NE(nullptr, scene);
+
+    EXPECT_EQ(scene->mNumMaterials, 2U);
+    const aiMaterial *const material = scene->mMaterials[1];
+
+    aiString texturePath;
+    material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath);
+    // The MTL file is in `folder`, the image path should have been prefixed with the folder
+    EXPECT_STREQ("folder/image.jpg", texturePath.C_Str());
 }

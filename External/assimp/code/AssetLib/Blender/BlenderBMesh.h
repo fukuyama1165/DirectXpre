@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 All rights reserved.
 
 Redistribution and use of this software in source and binary forms,
@@ -63,14 +63,12 @@ namespace Assimp
         struct MLoop;
     }
 
-    class BlenderBMeshConverter: public LogFunctions< BlenderBMeshConverter >
+    class BlenderBMeshConverter final : public LogFunctions< BlenderBMeshConverter >
     {
     public:
-        BlenderBMeshConverter( const Blender::Mesh* mesh );
-        ~BlenderBMeshConverter( );
-
-        bool ContainsBMesh( ) const;
-
+        explicit BlenderBMeshConverter( const Blender::Mesh* mesh );
+        ~BlenderBMeshConverter();
+        bool ContainsBMesh() const;
         const Blender::Mesh* TriangulateBMesh( );
 
     private:
@@ -80,7 +78,7 @@ namespace Assimp
         void DestroyTriMesh( );
         void ConvertPolyToFaces( const Blender::MPoly& poly );
         void AddFace( int v1, int v2, int v3, int v4 = 0 );
-        void AddTFace( const float* uv1, const float* uv2, const float *uv3, const float* uv4 = 0 );
+        void AddTFace(const float *uv1, const float *uv2, const float *uv3, const float *uv4 = nullptr);
 
         const Blender::Mesh* BMesh;
         Blender::Mesh* triMesh;

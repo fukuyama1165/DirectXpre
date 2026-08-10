@@ -3,9 +3,7 @@
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
-
-
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -45,6 +43,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <assimp/postprocess.h>
 #include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/SpatialSort.h>
 
 using namespace Assimp;
 
@@ -156,6 +156,27 @@ TEST(utBlenderImporter, importSuzanneSubdiv_252) {
     Assimp::Importer importer;
     const aiScene *scene = importer.ReadFile(ASSIMP_TEST_MODELS_DIR "/BLEND/SuzanneSubdiv_252.blend", aiProcess_ValidateDataStructure);
     ASSERT_NE(nullptr, scene);
+
+    // check approximate shape by averaging together all vertices
+    ASSERT_EQ(scene->mNumMeshes, 1u);
+    aiVector3D vertexAvg(0.0, 0.0, 0.0);
+    for (unsigned int i = 0; i < scene->mNumMeshes; i++) {
+        const aiMesh *mesh = scene->mMeshes[i];
+        ASSERT_NE(mesh, nullptr);
+
+        ai_real invVertexCount = 1.0 / mesh->mNumVertices;
+        for (unsigned int j = 0; j < mesh->mNumVertices; j++) {
+            vertexAvg += mesh->mVertices[j] * invVertexCount;
+        }
+    }
+
+    // must not be inf or nan
+    ASSERT_TRUE(std::isfinite(vertexAvg.x));
+    ASSERT_TRUE(std::isfinite(vertexAvg.y));
+    ASSERT_TRUE(std::isfinite(vertexAvg.z));
+    EXPECT_NEAR(vertexAvg.x, 6.4022515289252624e-08, 0.0001);
+    EXPECT_NEAR(vertexAvg.y, 0.060569953173398972, 0.0001);
+    EXPECT_NEAR(vertexAvg.z, 0.31429031491279602, 0.0001);
 }
 
 TEST(utBlenderImporter, importTexturedCube_ImageGlob_248) {
@@ -198,4 +219,26 @@ TEST(utBlenderImporter, importFleurOptonl) {
     Assimp::Importer importer;
     const aiScene *scene = importer.ReadFile(ASSIMP_TEST_MODELS_NONBSD_DIR "/BLEND/fleurOptonl.blend", aiProcess_ValidateDataStructure);
     ASSERT_NE(nullptr, scene);
+}
+
+/// This test contains a default cube with subdivision surface modifier and a default cube with subdivision surface applied.
+/// Vertices should be identical.
+TEST_F(utBlenderImporterExporter, importBlendWithSubdivisionSurface) {
+    Assimp::Importer importer;
+    const aiScene *scene = importer.ReadFile(ASSIMP_TEST_MODELS_DIR "/BLEND/subdivision_test_277.blend", aiProcess_ValidateDataStructure);
+    EXPECT_NE(nullptr, scene);
+    EXPECT_EQ(scene->mNumMeshes, 2u);
+    EXPECT_EQ(scene->mMeshes[0]->mNumVertices, scene->mMeshes[1]->mNumVertices);
+
+    SpatialSort spatialSortVertices0;
+    spatialSortVertices0.Fill(scene->mMeshes[0]->mVertices, scene->mMeshes[0]->mNumVertices, sizeof(aiVector3D), true);
+
+    for (unsigned int i = 0; i < scene->mMeshes[1]->mNumVertices; ++i)
+    {
+        auto positionMesh1 = scene->mMeshes[1]->mVertices[i];
+        std::vector<unsigned int> spatialSortResult;
+        spatialSortVertices0.FindPositions(positionMesh1, 1.0e-6f, spatialSortResult);
+
+        EXPECT_TRUE(scene->mMeshes[0]->mVertices[spatialSortResult[0]].Equal(positionMesh1));
+    }
 }

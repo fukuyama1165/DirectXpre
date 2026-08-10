@@ -1,420 +1,444 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\CCompilerTest.c">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\CCompilerTest.c">
       <Filter>UnitTests\Compiler</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Main.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\code\Common\Version.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\code\Common\Version.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\code\Common\Base64.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\code\Common\Base64.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utSimd.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utSimd.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utIOSystem.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utIOSystem.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utIOStreamBuffer.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utIOStreamBuffer.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utIssues.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utIssues.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utAnim.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utAnim.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\AssimpAPITest.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\AssimpAPITest.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\AssimpAPITest_aiMatrix3x3.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\AssimpAPITest_aiMatrix3x3.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\AssimpAPITest_aiMatrix4x4.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\AssimpAPITest_aiMatrix4x4.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\AssimpAPITest_aiQuaternion.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\AssimpAPITest_aiQuaternion.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\AssimpAPITest_aiVector2D.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\AssimpAPITest_aiVector2D.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\AssimpAPITest_aiVector3D.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\AssimpAPITest_aiVector3D.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\MathTest.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\MathTest.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utBatchLoader.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utBatchLoader.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utDefaultIOStream.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utDefaultIOStream.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utFastAtof.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utFastAtof.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utMetadata.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utMetadata.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\SceneDiffer.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\SceneDiffer.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\AbstractImportExportBase.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\AbstractImportExportBase.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utTypes.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utTypes.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utVersion.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utVersion.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utProfiler.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utParsingUtils.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utSharedPPData.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utProfiler.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utStringUtils.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utSharedPPData.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utMaybe.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utStringUtils.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utMesh.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utMaybe.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utStandardShapes.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utMesh.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\uiScene.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utStandardShapes.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utLineSplitter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\uiScene.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utSpatialSort.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utLineSplitter.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utAssertHandler.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utSpatialSort.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utXmlParser.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utAssertHandler.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utBase64.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utXmlParser.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utHash.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utBase64.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\Common\utBaseProcess.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utHash.cpp">
       <Filter>UnitTests\Common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\Assxml\utAssxmlImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utBaseProcess.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Common\utLogger.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\Geometry\utGeometryUtils.cpp">
+      <Filter>UnitTests\GeometryTools</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\Assxml\utAssxmlImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utLWSImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utLWSImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utLWOImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utLWOImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utSMDImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utSMDImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utglTFImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utglTFImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utglTF2ImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utglTF2ImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utHMPImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utHMPImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utIFCImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utIFCImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utFBXImporterExporter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utFBXImporterExporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utImporter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utImporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utExporter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utExporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ut3DImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ut3DImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ut3DSImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ut3DSImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utACImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utACImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utAMFImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utAMFImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utASEImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utASEImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utD3MFImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utD3MFImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utQ3DImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utQ3DImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utSTLImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utSTLImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utXImporterExporter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utXImporterExporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utX3DImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utX3DImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utDXFImporterExporter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utDXFImporterExporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utPMXImporter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utPMXImporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utPLYImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utPLYImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utObjImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utObjImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utObjTools.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utObjTools.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utOpenGEXImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utOpenGEXImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utSIBImporter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utSIBImporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utBlenderIntermediate.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utBlenderIntermediate.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utBlendImportAreaLight.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utBlendImportAreaLight.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utBlenderImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utBlenderImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utBlendImportMaterials.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utBlendImportMaterials.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utBlenderWork.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utBlenderWork.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utBVHImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utBVHImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utColladaExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utCSMImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utColladaImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utB3DImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utCSMImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utNDOImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utB3DImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utMDCImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utMDCImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utAssbinImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utAssbinImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utAssjsonImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utAssjsonImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utCOBImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utCOBImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utOgreImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utOgreImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utQ3BSPFileImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utQ3BSPFileImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utOFFImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utOFFImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utOFFSecurity.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utNFFImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utNFFImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utXGLImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utXGLImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utMD2Importer.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utMD2Importer.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utMD5Importer.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utMD5Importer.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\utMDLImporter.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utIQMImporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_ImportSettings.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\utMDLImporter.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_Materials.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_ImportSettings.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_Nodes.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_Materials.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\RAW\utRAWImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\MDL\utMDLImporter_HL1_Nodes.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\Terragen\utTerragenImportExport.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\RAW\utRAWImportExport.cpp">
       <Filter>UnitTests\ImportExport</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utMaterialSystem.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\Terragen\utTerragenImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\ImportExport\Pbrt\utPbrtImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utMaterialSystem.cpp">
       <Filter>UnitTests\Material</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utMatrix3x3.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utMatrix3x3.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utMatrix4x4.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utMatrix4x4.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utVector3.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utVector3.cpp">
       <Filter>UnitTests\Math</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utImproveCacheLocality.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utImproveCacheLocality.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utFixInfacingNormals.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utFixInfacingNormals.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utGenNormals.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utGenNormals.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utTriangulate.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utTriangulate.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utTextureTransform.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utTextureTransform.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utRemoveRedundantMaterials.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utRemoveRedundantMaterials.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utRemoveVCProcess.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utRemoveVCProcess.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utScaleProcess.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utScaleProcess.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utArmaturePopulate.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utArmaturePopulate.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utJoinVertices.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utJoinVertices.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utRemoveComments.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utRemoveComments.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utRemoveComponent.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utRemoveComponent.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utVertexTriangleAdjacency.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utVertexTriangleAdjacency.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utSplitLargeMeshes.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utSplitLargeMeshes.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utFindDegenerates.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utFindDegenerates.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utFindInvalidData.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utFindInvalidData.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utLimitBoneWeights.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utLimitBoneWeights.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utPretransformVertices.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utPretransformVertices.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utScenePreprocessor.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utScenePreprocessor.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utTargetAnimation.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utTargetAnimation.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utSortByPType.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utSortByPType.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utSceneCombiner.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utSceneCombiner.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\utGenBoundingBoxesProcess.cpp">
+    <ClCompile Include="D:\Engine\External\assimp\test\unit\utGenBoundingBoxesProcess.cpp">
       <Filter>UnitTests\PostProcess</Filter>
     </ClCompile>
-    <ClCompile Include="C:\k021g1165\DirectX\DirectXpre\assimp\contrib\gtest\src\gtest-all.cc">
+    <ClCompile Include="D:\Engine\External\assimp\contrib\googletest\googletest\src\gtest-all.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\MathTest.h">
+    <ClInclude Include="D:\Engine\External\assimp\test\unit\MathTest.h">
       <Filter>UnitTests\Common</Filter>
     </ClInclude>
-    <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\RandomNumberGeneration.h">
+    <ClInclude Include="D:\Engine\External\assimp\test\unit\RandomNumberGeneration.h">
       <Filter>UnitTests\Common</Filter>
     </ClInclude>
-    <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\SceneDiffer.h">
+    <ClInclude Include="D:\Engine\External\assimp\test\unit\SceneDiffer.h">
       <Filter>UnitTests\Common</Filter>
     </ClInclude>
-    <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\UTLogStream.h">
+    <ClInclude Include="D:\Engine\External\assimp\test\unit\UTLogStream.h">
       <Filter>UnitTests\Common</Filter>
     </ClInclude>
-    <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\TestIOSystem.h">
+    <ClInclude Include="D:\Engine\External\assimp\test\unit\TestIOSystem.h">
       <Filter>UnitTests\Common</Filter>
     </ClInclude>
-    <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\TestModelFactory.h">
+    <ClInclude Include="D:\Engine\External\assimp\test\unit\TestModelFactory.h">
       <Filter>UnitTests\Common</Filter>
     </ClInclude>
-    <ClInclude Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\unit\ImportExport\MDL\MDLHL1TestFiles.h">
+    <ClInclude Include="D:\Engine\External\assimp\test\unit\ImportExport\MDL\MDLHL1TestFiles.h">
       <Filter>UnitTests\ImportExport</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Engine\External\assimp\test\unit\Tools\TestTools.h">
+      <Filter>UnitTests\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\k021g1165\DirectX\DirectXpre\assimp\test\CMakeLists.txt" />
+    <CustomBuild Include="D:\Engine\External\assimp\test\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{AF21B784-8597-3A56-937F-F8341324D78A}</UniqueIdentifier>
+      <UniqueIdentifier>{2A33164A-EB01-39D9-A6C3-769FB0CFA056}</UniqueIdentifier>
     </Filter>
     <Filter Include="UnitTests">
-      <UniqueIdentifier>{3EC8ADA2-CA7E-3B9E-BA02-CA2C63A15E24}</UniqueIdentifier>
+      <UniqueIdentifier>{1D2DC545-0CE9-3B61-A026-F0F840FCCE1B}</UniqueIdentifier>
     </Filter>
     <Filter Include="UnitTests\Common">
-      <UniqueIdentifier>{2CA72A56-882E-36BB-A2C7-F9222EB18027}</UniqueIdentifier>
+      <UniqueIdentifier>{EE2C957D-A1AD-3D79-BDF0-0DD6E60E1EB2}</UniqueIdentifier>
     </Filter>
     <Filter Include="UnitTests\Compiler">
-      <UniqueIdentifier>{B66B573C-3B50-3293-8945-DBA6B0DC1438}</UniqueIdentifier>
+      <UniqueIdentifier>{3AA7B8FB-6EBD-3DB4-B52B-783A8635E4F9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\GeometryTools">
+      <UniqueIdentifier>{39C76FCF-996F-3F88-B756-BD25E60E0324}</UniqueIdentifier>
     </Filter>
     <Filter Include="UnitTests\ImportExport">
-      <UniqueIdentifier>{D2ABB0A9-23A9-344B-8F54-FFE58E2A0F49}</UniqueIdentifier>
+      <UniqueIdentifier>{A35EE036-2889-3C02-A2B1-5109CA630777}</UniqueIdentifier>
     </Filter>
     <Filter Include="UnitTests\Material">
-      <UniqueIdentifier>{4C5C382E-78AB-3AF8-8725-AFBE759F618C}</UniqueIdentifier>
+      <UniqueIdentifier>{2F5B33BE-7EAE-3F8D-9251-87BA9205B644}</UniqueIdentifier>
     </Filter>
     <Filter Include="UnitTests\Math">
-      <UniqueIdentifier>{0CAF5B38-149E-30AD-9E6A-1A4074404697}</UniqueIdentifier>
+      <UniqueIdentifier>{1CAC0BC2-56BE-3550-B42F-2B0CC19B2C5B}</UniqueIdentifier>
     </Filter>
     <Filter Include="UnitTests\PostProcess">
-      <UniqueIdentifier>{7387C4FF-A132-332E-A75C-DC69AA61C5BF}</UniqueIdentifier>
+      <UniqueIdentifier>{69B2272F-B1E5-3586-9663-EE981152354E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Tools">
+      <UniqueIdentifier>{E0962BC5-4EAE-345D-840F-CFC2FD3555AC}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

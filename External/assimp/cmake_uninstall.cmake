@@ -1,8 +1,8 @@
-IF(NOT EXISTS "C:/k021g1165/DirectX/DirectXpre/assimp/install_manifest.txt")
-  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"C:/k021g1165/DirectX/DirectXpre/assimp/install_manifest.txt\"")
-ENDIF(NOT EXISTS "C:/k021g1165/DirectX/DirectXpre/assimp/install_manifest.txt")
+IF(NOT EXISTS "D:/Engine/External/assimp/install_manifest.txt")
+  MESSAGE(FATAL_ERROR "Cannot find install manifest: \"D:/Engine/External/assimp/install_manifest.txt\"")
+ENDIF(NOT EXISTS "D:/Engine/External/assimp/install_manifest.txt")
 
-FILE(READ "C:/k021g1165/DirectX/DirectXpre/assimp/install_manifest.txt" files)
+FILE(READ "D:/Engine/External/assimp/install_manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
   MESSAGE(STATUS "Uninstalling \"$ENV{DESTDIR}${file}\"")

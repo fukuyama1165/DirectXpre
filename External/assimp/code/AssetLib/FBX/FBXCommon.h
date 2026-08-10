@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -47,14 +47,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef ASSIMP_BUILD_NO_FBX_EXPORTER
 
-namespace Assimp {
-namespace FBX {
+namespace Assimp::FBX {
 
 static constexpr size_t NumNullRecords = 25;
-const char NULL_RECORD[NumNullRecords] = { // 25 null bytes in 64-bit and 13 null bytes in 32-bit
+
+constexpr char NULL_RECORD[NumNullRecords] = { // 25 null bytes in 64-bit and 13 null bytes in 32-bit
     '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0',
     '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'
 }; // who knows why, it looks like two integers 32/64 bit (compressed and uncompressed sizes?) + 1 byte (might be compression type?)
+static std::string NULL_RECORD_STRING(NumNullRecords, '\0');
 const std::string SEPARATOR = { '\x00', '\x01' }; // for use inside strings
 const std::string MAGIC_NODE_TAG = "_$AssimpFbx$"; // from import
 const int64_t SECOND = 46186158000; // FBX's kTime unit
@@ -82,8 +83,7 @@ enum TransformInheritance {
     TransformInheritance_MAX // end-of-enum sentinel
 };
 
-} // namespace FBX
-} // namespace Assimp
+} // namespace Assimp::FBX
 
 #endif // ASSIMP_BUILD_NO_FBX_EXPORTER
 

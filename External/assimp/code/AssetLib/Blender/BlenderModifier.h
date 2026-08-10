@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
-
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -62,9 +61,7 @@ public:
     /**
      *  The class destructor, virtual.
      */
-    virtual ~BlenderModifier() {
-        // empty
-    }
+    virtual ~BlenderModifier() = default;
 
     // --------------------
     /**
@@ -117,7 +114,7 @@ private:
  *  Mirror modifier. Status: implemented.
  */
 // -------------------------------------------------------------------------------------------
-class BlenderModifier_Mirror : public BlenderModifier {
+class BlenderModifier_Mirror final : public BlenderModifier {
 public:
     // --------------------
     virtual bool IsActive( const ModifierData& modin);
@@ -134,7 +131,7 @@ public:
 // -------------------------------------------------------------------------------------------
 /** Subdivision modifier. Status: dummy. */
 // -------------------------------------------------------------------------------------------
-class BlenderModifier_Subdivision : public BlenderModifier {
+class BlenderModifier_Subdivision final : public BlenderModifier {
 public:
 
     // --------------------

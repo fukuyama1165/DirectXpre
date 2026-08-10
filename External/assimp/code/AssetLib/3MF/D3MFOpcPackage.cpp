@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -65,10 +65,9 @@ namespace D3MF {
 
 using OpcPackageRelationshipPtr = std::shared_ptr<OpcPackageRelationship>;
 
-class OpcPackageRelationshipReader {
+class OpcPackageRelationshipReader final {
 public:
-    OpcPackageRelationshipReader(XmlParser &parser) :
-            m_relationShips() {
+    explicit OpcPackageRelationshipReader(XmlParser &parser) : mRelations() {
         XmlNode root = parser.getRootNode();
         ParseRootNode(root);
     }
@@ -108,20 +107,20 @@ public:
                 relPtr->type = currentNode.attribute(XmlTag::RELS_ATTRIB_TYPE).as_string();
                 relPtr->target = currentNode.attribute(XmlTag::RELS_ATTRIB_TARGET).as_string();
                 if (validateRels(relPtr)) {
-                    m_relationShips.push_back(relPtr);
+                    mRelations.push_back(relPtr);
                 }
             }
         }
     }
 
-    std::vector<OpcPackageRelationshipPtr> m_relationShips;
+    std::vector<OpcPackageRelationshipPtr> mRelations;
 };
 
 static bool IsEmbeddedTexture( const std::string &filename ) {
     const std::string extension = BaseImporter::GetExtension(filename);
-    if (extension == "jpg" || extension == "png") {
+    if (extension == "jpg" || extension == "png" || extension == "jpeg") {
         std::string::size_type pos = filename.find("thumbnail");
-        if (pos == std::string::npos) {
+        if (pos != std::string::npos) {
             return false;
         }
         return true;
@@ -132,6 +131,7 @@ static bool IsEmbeddedTexture( const std::string &filename ) {
 // ------------------------------------------------------------------------------------------------
 D3MFOpcPackage::D3MFOpcPackage(IOSystem *pIOHandler, const std::string &rFile) :
         mRootStream(nullptr),
+        mRootPath(),
         mZipArchive() {
     mZipArchive = new ZipArchiveIOSystem(pIOHandler, rFile);
     if (!mZipArchive->isOpen()) {
@@ -153,19 +153,13 @@ D3MFOpcPackage::D3MFOpcPackage(IOSystem *pIOHandler, const std::string &rFile) :
                 continue;
             }
 
-            std::string rootFile = ReadPackageRootRelationship(fileStream);
-            if (!rootFile.empty() && rootFile[0] == '/') {
-                rootFile = rootFile.substr(1);
-                if (rootFile[0] == '/') {
-                    // deal with zip-bug
-                    rootFile = rootFile.substr(1);
-                }
-            } 
+            std::string rootFile = NormalizePath(ReadPackageRootRelationship(fileStream));
 
             ASSIMP_LOG_VERBOSE_DEBUG(rootFile);
 
             mZipArchive->Close(fileStream);
 
+            mRootPath = rootFile;
             mRootStream = mZipArchive->Open(rootFile.c_str());
             ai_assert(mRootStream != nullptr);
             if (nullptr == mRootStream) {
@@ -177,6 +171,12 @@ D3MFOpcPackage::D3MFOpcPackage(IOSystem *pIOHandler, const std::string &rFile) :
             IOStream *fileStream = mZipArchive->Open(file.c_str());
             LoadEmbeddedTextures(fileStream, file);
             mZipArchive->Close(fileStream);
+        } else if (BaseImporter::GetExtension(file) == "model") {
+            // Production-extension model parts are opened on demand via OpenPart().
+            ASSIMP_LOG_VERBOSE_DEBUG("Referenced model part: ", file);
+        } else if (BaseImporter::GetExtension(file) == "rels") {
+            // Relationship parts of referenced model files; resolved via path attributes.
+            ASSIMP_LOG_VERBOSE_DEBUG("Relationship part: ", file);
         } else {
             ASSIMP_LOG_WARN("Ignored file of unknown type: ", file);
         }
@@ -186,13 +186,37 @@ D3MFOpcPackage::D3MFOpcPackage(IOSystem *pIOHandler, const std::string &rFile) :
 D3MFOpcPackage::~D3MFOpcPackage() {
     mZipArchive->Close(mRootStream);
     delete mZipArchive;
-    for (auto tex : mEmbeddedTextures) {
-        delete tex;
-    }
 }
 
 IOStream *D3MFOpcPackage::RootStream() const {
     return mRootStream;
+}
+
+const std::string &D3MFOpcPackage::RootPath() const {
+    return mRootPath;
+}
+
+std::string D3MFOpcPackage::NormalizePath(const std::string &path) {
+    size_t pos = 0;
+    while (pos < path.size() && path[pos] == '/') {
+        ++pos;
+    }
+    return path.substr(pos);
+}
+
+IOStream *D3MFOpcPackage::OpenPart(const std::string &path) {
+    const std::string normalized = NormalizePath(path);
+    if (normalized.empty() || !mZipArchive->Exists(normalized.c_str())) {
+        return nullptr;
+    }
+
+    return mZipArchive->Open(normalized.c_str());
+}
+
+void D3MFOpcPackage::CloseStream(IOStream *stream) {
+    if (nullptr != stream) {
+        mZipArchive->Close(stream);
+    }
 }
 
 const std::vector<aiTexture *> &D3MFOpcPackage::GetEmbeddedTextures() const {
@@ -217,11 +241,11 @@ std::string D3MFOpcPackage::ReadPackageRootRelationship(IOStream *stream) {
 
     OpcPackageRelationshipReader reader(xmlParser);
 
-    auto itr = std::find_if(reader.m_relationShips.begin(), reader.m_relationShips.end(), [](const OpcPackageRelationshipPtr &rel) {
+    auto itr = std::find_if(reader.mRelations.begin(), reader.mRelations.end(), [](const OpcPackageRelationshipPtr &rel) {
         return rel->type == XmlTag::PACKAGE_START_PART_RELATIONSHIP_TYPE;
     });
 
-    if (itr == reader.m_relationShips.end()) {
+    if (itr == reader.mRelations.end()) {
         throw DeadlyImportError("Cannot find ", XmlTag::PACKAGE_START_PART_RELATIONSHIP_TYPE);
     }
 

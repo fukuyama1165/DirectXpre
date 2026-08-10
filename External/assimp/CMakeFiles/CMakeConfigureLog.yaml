@@ -2,19 +2,152 @@
 ---
 events:
   -
-    kind: "message-v1"
+    kind: "find-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake:204 (message)"
-      - "CMakeLists.txt:59 (PROJECT)"
-    message: |
-      The system is: Windows - 10.0.19044 - AMD64
+      - "CMakeLists.txt:94 (find_program)"
+    mode: "program"
+    variable: "CCACHE_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ccache"
+    candidate_directories:
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/"
+    searched_directories:
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/ccache.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/ccache.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/ccache"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/ccache.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/ccache.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/ccache"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/ccache.com"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/ccache.exe"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/ccache"
+      - "C:/Windows/System32/ccache.com"
+      - "C:/Windows/System32/ccache.exe"
+      - "C:/Windows/System32/ccache"
+      - "C:/Windows/ccache.com"
+      - "C:/Windows/ccache.exe"
+      - "C:/Windows/ccache"
+      - "C:/Windows/System32/wbem/ccache.com"
+      - "C:/Windows/System32/wbem/ccache.exe"
+      - "C:/Windows/System32/wbem/ccache"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache"
+      - "C:/Windows/System32/OpenSSH/ccache.com"
+      - "C:/Windows/System32/OpenSSH/ccache.exe"
+      - "C:/Windows/System32/OpenSSH/ccache"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/ccache.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/ccache.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/ccache"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/ccache.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/ccache.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/ccache"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/ccache"
+      - "C:/Program Files/CMake/bin/ccache.com"
+      - "C:/Program Files/CMake/bin/ccache.exe"
+      - "C:/Program Files/CMake/bin/ccache"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/ccache.com"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/ccache.exe"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/ccache"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/ccache.com"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/ccache.exe"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/ccache"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
   -
     kind: "message-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
-      - "CMakeLists.txt:59 (PROJECT)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineSystem.cmake:218 (message)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    message: |
+      The system is: Windows - 10.0.26200 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:501 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:538 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:113 (PROJECT)"
     message: |
       Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
       Compiler:  
@@ -23,36 +156,37 @@ events:
       
       The output was:
       0
-      MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-      2023/04/20 11:23:38 にビルドを開始しました。
-      Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+      MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+      2026/08/10 18:59:26 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
       
-      ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\3.26.3\\CompilerIdC\\CompilerIdC.vcxproj" (既定のターゲット)。
+      繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\4.4.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
       PrepareForBuild:
-        ディレクトリ "Debug\\" を作成しています。
-        ディレクトリ "Debug\\CompilerIdC.tlog\\" を作成しています。
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\CompilerIdC.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
       InitializeBuildStatus:
-        "AlwaysCreate" が指定されたため "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" を作成しています。
+        "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
       ClCompile:
-        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc145.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
         CMakeCCompilerId.c
       Link:
-        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
-        CompilerIdC.vcxproj -> C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\3.26.3\\CompilerIdC\\CompilerIdC.exe
+        C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> D:\\Engine\\External\\assimp\\CMakeFiles\\4.4.2\\CompilerIdC\\CompilerIdC.exe
       PostBuildEvent:
         for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
         :VCEnd
-        CMAKE_C_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe
+        CMAKE_C_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostx64\\x64\\cl.exe
       FinalizeBuildStatus:
-        ファイル "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" を削除しています。
-        "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate" のタッチ タスクを実行しています。
-      プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\3.26.3\\CompilerIdC\\CompilerIdC.vcxproj" (既定のターゲット) のビルドが完了しました。
+        繝輔ぃ繧､繝ｫ "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\4.4.2\\CompilerIdC\\CompilerIdC.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
       
-      ビルドに成功しました。
-          0 個の警告
-          0 エラー
+      繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+          0 蛟九・隴ｦ蜻・
+          0 繧ｨ繝ｩ繝ｼ
       
-      経過時間 00:00:00.71
+      邨碁℃譎る俣 00:00:00.46
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -60,15 +194,418 @@ events:
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
       
       The C compiler identification is MSVC, found in:
-        C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/3.26.3/CompilerIdC/CompilerIdC.exe
+        D:/Engine/External/assimp/CMakeFiles/4.4.2/CompilerIdC/CompilerIdC.exe
       
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:64 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:102 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:64 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/lld-link.com"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/lld-link.exe"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_MT"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mt"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/mt.com"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/mt.exe"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/mt"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/mt.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/mt.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/mt"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/mt"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/mt.com"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/mt.exe"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/mt"
+      - "C:/Windows/System32/mt.com"
+      - "C:/Windows/System32/mt.exe"
+      - "C:/Windows/System32/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/System32/wbem/mt.com"
+      - "C:/Windows/System32/wbem/mt.exe"
+      - "C:/Windows/System32/wbem/mt"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/System32/OpenSSH/mt.com"
+      - "C:/Windows/System32/OpenSSH/mt.exe"
+      - "C:/Windows/System32/OpenSSH/mt"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/mt.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/mt.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/mt"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt"
+      - "C:/Program Files/CMake/bin/mt.com"
+      - "C:/Program Files/CMake/bin/mt.exe"
+      - "C:/Program Files/CMake/bin/mt"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/mt"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/mt.com"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/mt.exe"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/mt"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:247 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lib"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lib.com"
+    found: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lib.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:501 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:538 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
   -
     kind: "message-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
-      - "CMakeLists.txt:59 (PROJECT)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:113 (PROJECT)"
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
       Compiler:  
@@ -77,36 +614,37 @@ events:
       
       The output was:
       0
-      MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-      2023/04/20 11:23:39 にビルドを開始しました。
-      Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+      MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+      2026/08/10 18:59:26 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
       
-      ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\3.26.3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (既定のターゲット)。
+      繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\4.4.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
       PrepareForBuild:
-        ディレクトリ "Debug\\" を作成しています。
-        ディレクトリ "Debug\\CompilerIdCXX.tlog\\" を作成しています。
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+        繝・ぅ繝ｬ繧ｯ繝医Μ "Debug\\CompilerIdCXX.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
       InitializeBuildStatus:
-        "AlwaysCreate" が指定されたため "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" を作成しています。
+        "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
       ClCompile:
-        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc145.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
         CMakeCXXCompilerId.cpp
       Link:
-        C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
-        CompilerIdCXX.vcxproj -> C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\3.26.3\\CompilerIdCXX\\CompilerIdCXX.exe
+        C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> D:\\Engine\\External\\assimp\\CMakeFiles\\4.4.2\\CompilerIdCXX\\CompilerIdCXX.exe
       PostBuildEvent:
         for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
         :VCEnd
-        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\Hostx64\\x64\\cl.exe
+        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostx64\\x64\\cl.exe
       FinalizeBuildStatus:
-        ファイル "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" を削除しています。
-        "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate" のタッチ タスクを実行しています。
-      プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\3.26.3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (既定のターゲット) のビルドが完了しました。
+        繝輔ぃ繧､繝ｫ "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+        "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+      繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\4.4.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
       
-      ビルドに成功しました。
-          0 個の警告
-          0 エラー
+      繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+          0 蛟九・隴ｦ蜻・
+          0 繧ｨ繝ｩ繝ｼ
       
-      経過時間 00:00:00.47
+      邨碁℃譎る俣 00:00:00.45
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -114,443 +652,769 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
       
       The CXX compiler identification is MSVC, found in:
-        C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/3.26.3/CompilerIdCXX/CompilerIdCXX.exe
+        D:/Engine/External/assimp/CMakeFiles/4.4.2/CompilerIdCXX/CompilerIdCXX.exe
       
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:64 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/lld-link"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/lld-link"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/lld-link.com"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/lld-link.exe"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/lld-link"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineRCCompiler.cmake:40 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/Platform/Windows-MSVC.cmake:592 (enable_language)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/Platform/Windows-MSVC.cmake:565 (__windows_compiler_msvc_enable_rc)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/Platform/Windows-MSVC-C.cmake:5 (__windows_compiler_msvc)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeCInformation.cmake:48 (include)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    mode: "program"
+    variable: "CMAKE_RC_COMPILER"
+    description: "RC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "rc"
+    candidate_directories:
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/CMake/sbin/"
+      - "C:/Program Files/CMake/"
+      - "C:/Program Files (x86)/Assimp/bin/"
+      - "C:/Program Files (x86)/Assimp/sbin/"
+      - "C:/Program Files (x86)/Assimp/"
+    searched_directories:
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/rc.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/rc.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/java8path/rc"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc.com"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc.exe"
+      - "C:/Program Files (x86)/Common Files/Oracle/Java/javapath/rc"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/rc.com"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/rc.exe"
+      - "C:/Program Files/Meta Horizon/Support/oculus-runtime/rc"
+      - "C:/Windows/System32/rc.com"
+      - "C:/Windows/System32/rc.exe"
+      - "C:/Windows/System32/rc"
+      - "C:/Windows/rc.com"
+      - "C:/Windows/rc.exe"
+      - "C:/Windows/rc"
+      - "C:/Windows/System32/wbem/rc.com"
+      - "C:/Windows/System32/wbem/rc.exe"
+      - "C:/Windows/System32/wbem/rc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc"
+      - "C:/Windows/System32/OpenSSH/rc.com"
+      - "C:/Windows/System32/OpenSSH/rc.exe"
+      - "C:/Windows/System32/OpenSSH/rc"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/rc.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/rc.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR/rc"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Users/dosuk/AppData/Local/Microsoft/WindowsApps/rc"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/rc.com"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/rc.exe"
+      - "C:/Users/dosuk/AppData/Local/Programs/Microsoft VS Code/bin/rc"
+      - "C:/Program Files/bin/rc.com"
+      - "C:/Program Files/bin/rc.exe"
+      - "C:/Program Files/bin/rc"
+      - "C:/Program Files/sbin/rc.com"
+      - "C:/Program Files/sbin/rc.exe"
+      - "C:/Program Files/sbin/rc"
+      - "C:/Program Files/rc.com"
+      - "C:/Program Files/rc.exe"
+      - "C:/Program Files/rc"
+      - "C:/Program Files (x86)/bin/rc.com"
+      - "C:/Program Files (x86)/bin/rc.exe"
+      - "C:/Program Files (x86)/bin/rc"
+      - "C:/Program Files (x86)/sbin/rc.com"
+      - "C:/Program Files (x86)/sbin/rc.exe"
+      - "C:/Program Files (x86)/sbin/rc"
+      - "C:/Program Files (x86)/rc.com"
+      - "C:/Program Files (x86)/rc.exe"
+      - "C:/Program Files (x86)/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Program Files/CMake/sbin/rc.com"
+      - "C:/Program Files/CMake/sbin/rc.exe"
+      - "C:/Program Files/CMake/sbin/rc"
+      - "C:/Program Files/CMake/rc.com"
+      - "C:/Program Files/CMake/rc.exe"
+      - "C:/Program Files/CMake/rc"
+      - "C:/Program Files (x86)/Assimp/bin/rc.com"
+      - "C:/Program Files (x86)/Assimp/bin/rc.exe"
+      - "C:/Program Files (x86)/Assimp/bin/rc"
+      - "C:/Program Files (x86)/Assimp/sbin/rc.com"
+      - "C:/Program Files (x86)/Assimp/sbin/rc.exe"
+      - "C:/Program Files (x86)/Assimp/sbin/rc"
+      - "C:/Program Files (x86)/Assimp/rc.com"
+      - "C:/Program Files (x86)/Assimp/rc.exe"
+      - "C:/Program Files (x86)/Assimp/rc"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path"
+        - "C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath"
+        - "C:\\Program Files\\Meta Horizon\\Support\\oculus-runtime"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\dosuk\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/Assimp"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files (x86)/Assimp"
   -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:59 (PROJECT)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerABI.cmake:123 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:113 (PROJECT)"
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-ao1cyh"
-      binary: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-ao1cyh"
+      source: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k8uzn4"
+      binary: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k8uzn4"
     cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
     buildResult:
       variable: "CMAKE_C_ABI_COMPILED"
-      cached: true
+      cached: false
       stdout: |
-        Change Dir: C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-ao1cyh
+        Change Dir: 'D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k8uzn4'
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_a1838.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-        2023/04/20 11:23:40 にビルドを開始しました。
-        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_759ff.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+        2026/08/10 18:59:27 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
         
-        ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-ao1cyh\\cmTC_a1838.vcxproj" (既定のターゲット)。
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k8uzn4\\cmTC_759ff.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
         PrepareForBuild:
-          ディレクトリ "cmTC_a1838.dir\\Debug\\" を作成しています。
-          ディレクトリ "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-ao1cyh\\Debug\\" を作成しています。
-          ディレクトリ "cmTC_a1838.dir\\Debug\\cmTC_a1838.tlog\\" を作成しています。
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k8uzn4\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_759ff.dir\\Debug\\cmTC_759ff.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
         InitializeBuildStatus:
-          "AlwaysCreate" が指定されたため "cmTC_a1838.dir\\Debug\\cmTC_a1838.tlog\\unsuccessfulbuild" を作成しています。
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_759ff.dir\\Debug\\cmTC_759ff.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_759ff.dir\\Debug\\cmTC_759ff.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_a1838.dir\\Debug\\\\" /Fd"cmTC_a1838.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
-          Microsoft(R) C/C++ Optimizing Compiler Version 19.35.32217.1 for x64
-          CMakeCCompilerABI.c
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_759ff.dir\\Debug\\\\" /Fd"cmTC_759ff.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.4\\Modules\\CMakeCCompilerABI.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36252 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_a1838.dir\\Debug\\\\" /Fd"cmTC_a1838.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_759ff.dir\\Debug\\\\" /Fd"cmTC_759ff.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.4\\Modules\\CMakeCCompilerABI.c"
+          CMakeCCompilerABI.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-ao1cyh\\Debug\\cmTC_a1838.exe" /INCREMENTAL /ILK:"cmTC_a1838.dir\\Debug\\cmTC_a1838.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-ao1cyh/Debug/cmTC_a1838.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-ao1cyh/Debug/cmTC_a1838.lib" /MACHINE:X64  /machine:x64 cmTC_a1838.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_a1838.vcxproj -> C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-ao1cyh\\Debug\\cmTC_a1838.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k8uzn4\\Debug\\cmTC_759ff.exe" /INCREMENTAL /ILK:"cmTC_759ff.dir\\Debug\\cmTC_759ff.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k8uzn4/Debug/cmTC_759ff.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k8uzn4/Debug/cmTC_759ff.lib" /MACHINE:X64  /machine:x64 cmTC_759ff.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_759ff.vcxproj -> D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k8uzn4\\Debug\\cmTC_759ff.exe
         FinalizeBuildStatus:
-          ファイル "cmTC_a1838.dir\\Debug\\cmTC_a1838.tlog\\unsuccessfulbuild" を削除しています。
-          "cmTC_a1838.dir\\Debug\\cmTC_a1838.tlog\\cmTC_a1838.lastbuildstate" のタッチ タスクを実行しています。
-        プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-ao1cyh\\cmTC_a1838.vcxproj" (既定のターゲット) のビルドが完了しました。
+          繝輔ぃ繧､繝ｫ "cmTC_759ff.dir\\Debug\\cmTC_759ff.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_759ff.dir\\Debug\\cmTC_759ff.tlog\\cmTC_759ff.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k8uzn4\\cmTC_759ff.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
         
-        ビルドに成功しました。
-            0 個の警告
-            0 エラー
+        繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+            0 蛟九・隴ｦ蜻・
+            0 繧ｨ繝ｩ繝ｼ
         
-        経過時間 00:00:00.46
+        邨碁℃譎る俣 00:00:00.42
         
       exitCode: 0
   -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerABI.cmake:291 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        link line: [  C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k8uzn4\\Debug\\cmTC_759ff.exe" /INCREMENTAL /ILK:"cmTC_759ff.dir\\Debug\\cmTC_759ff.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k8uzn4/Debug/cmTC_759ff.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k8uzn4/Debug/cmTC_759ff.lib" /MACHINE:X64  /machine:x64 cmTC_759ff.dir\\Debug\\CMakeCCompilerABI.obj] ==> linker [C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe]
+        linker tool for 'C': C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/HostX64/x64/link.exe 
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/Internal/CMakeDetermineLinkerId.cmake:41 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerABI.cmake:337 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    message: |
+      Running the C compiler's linker: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.51.36252.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
-      - "CMakeLists.txt:59 (PROJECT)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerABI.cmake:123 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:113 (PROJECT)"
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-1vvco9"
-      binary: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-1vvco9"
+      source: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-yrtsyo"
+      binary: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-yrtsyo"
     cmakeVariables:
-      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
-      CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
     buildResult:
       variable: "CMAKE_CXX_ABI_COMPILED"
-      cached: true
+      cached: false
       stdout: |
-        Change Dir: C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-1vvco9
+        Change Dir: 'D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-yrtsyo'
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_036e1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-        2023/04/20 11:23:41 にビルドを開始しました。
-        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_8f23f.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+        2026/08/10 18:59:28 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
         
-        ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-1vvco9\\cmTC_036e1.vcxproj" (既定のターゲット)。
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-yrtsyo\\cmTC_8f23f.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
         PrepareForBuild:
-          ディレクトリ "cmTC_036e1.dir\\Debug\\" を作成しています。
-          ディレクトリ "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-1vvco9\\Debug\\" を作成しています。
-          ディレクトリ "cmTC_036e1.dir\\Debug\\cmTC_036e1.tlog\\" を作成しています。
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-yrtsyo\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_8f23f.dir\\Debug\\cmTC_8f23f.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
         InitializeBuildStatus:
-          "AlwaysCreate" が指定されたため "cmTC_036e1.dir\\Debug\\cmTC_036e1.tlog\\unsuccessfulbuild" を作成しています。
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_8f23f.dir\\Debug\\cmTC_8f23f.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_8f23f.dir\\Debug\\cmTC_8f23f.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_036e1.dir\\Debug\\\\" /Fd"cmTC_036e1.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
-          Microsoft(R) C/C++ Optimizing Compiler Version 19.35.32217.1 for x64
-          CMakeCXXCompilerABI.cpp
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_8f23f.dir\\Debug\\\\" /Fd"cmTC_8f23f.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.4\\Modules\\CMakeCXXCompilerABI.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36252 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_036e1.dir\\Debug\\\\" /Fd"cmTC_036e1.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_8f23f.dir\\Debug\\\\" /Fd"cmTC_8f23f.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.4\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-1vvco9\\Debug\\cmTC_036e1.exe" /INCREMENTAL /ILK:"cmTC_036e1.dir\\Debug\\cmTC_036e1.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-1vvco9/Debug/cmTC_036e1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-1vvco9/Debug/cmTC_036e1.lib" /MACHINE:X64  /machine:x64 cmTC_036e1.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_036e1.vcxproj -> C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-1vvco9\\Debug\\cmTC_036e1.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-yrtsyo\\Debug\\cmTC_8f23f.exe" /INCREMENTAL /ILK:"cmTC_8f23f.dir\\Debug\\cmTC_8f23f.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-yrtsyo/Debug/cmTC_8f23f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-yrtsyo/Debug/cmTC_8f23f.lib" /MACHINE:X64  /machine:x64 cmTC_8f23f.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_8f23f.vcxproj -> D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-yrtsyo\\Debug\\cmTC_8f23f.exe
         FinalizeBuildStatus:
-          ファイル "cmTC_036e1.dir\\Debug\\cmTC_036e1.tlog\\unsuccessfulbuild" を削除しています。
-          "cmTC_036e1.dir\\Debug\\cmTC_036e1.tlog\\cmTC_036e1.lastbuildstate" のタッチ タスクを実行しています。
-        プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-1vvco9\\cmTC_036e1.vcxproj" (既定のターゲット) のビルドが完了しました。
+          繝輔ぃ繧､繝ｫ "cmTC_8f23f.dir\\Debug\\cmTC_8f23f.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_8f23f.dir\\Debug\\cmTC_8f23f.tlog\\cmTC_8f23f.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-yrtsyo\\cmTC_8f23f.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
         
-        ビルドに成功しました。
-            0 個の警告
-            0 エラー
+        繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+            0 蛟九・隴ｦ蜻・
+            0 繧ｨ繝ｩ繝ｼ
         
-        経過時間 00:00:00.46
+        邨碁℃譎る俣 00:00:00.42
         
       exitCode: 0
   -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerABI.cmake:291 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        link line: [  C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-yrtsyo\\Debug\\cmTC_8f23f.exe" /INCREMENTAL /ILK:"cmTC_8f23f.dir\\Debug\\cmTC_8f23f.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-yrtsyo/Debug/cmTC_8f23f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-yrtsyo/Debug/cmTC_8f23f.lib" /MACHINE:X64  /machine:x64 cmTC_8f23f.dir\\Debug\\CMakeCXXCompilerABI.obj] ==> linker [C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe]
+        linker tool for 'CXX': C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/HostX64/x64/link.exe 
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/Internal/CMakeDetermineLinkerId.cmake:41 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineCompilerABI.cmake:337 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:113 (PROJECT)"
+    message: |
+      Running the CXX compiler's linker: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.51.36252.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CheckIncludeFile.cmake:95 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CheckIncludeFile.cmake:157 (try_compile)"
       - "contrib/zlib/CMakeLists.txt:35 (check_include_file)"
     checks:
       - "Looking for sys/types.h"
     directories:
-      source: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-drb56r"
-      binary: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-drb56r"
+      source: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-943h1s"
+      binary: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-943h1s"
     cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
-      CMAKE_MODULE_PATH: "C:/k021g1165/DirectX/DirectXpre/assimp/cmake-modules"
+      CMAKE_MODULE_PATH: "D:/Engine/External/assimp/cmake-modules"
     buildResult:
       variable: "HAVE_SYS_TYPES_H"
       cached: true
       stdout: |
-        Change Dir: C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-drb56r
+        Change Dir: 'D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-943h1s'
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_5476b.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-        2023/04/20 11:23:42 にビルドを開始しました。
-        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_2203a.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+        2026/08/10 18:59:28 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
         
-        ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-drb56r\\cmTC_5476b.vcxproj" (既定のターゲット)。
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-943h1s\\cmTC_2203a.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
         PrepareForBuild:
-          ディレクトリ "cmTC_5476b.dir\\Debug\\" を作成しています。
-          ディレクトリ "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-drb56r\\Debug\\" を作成しています。
-          ディレクトリ "cmTC_5476b.dir\\Debug\\cmTC_5476b.tlog\\" を作成しています。
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-943h1s\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_2203a.dir\\Debug\\cmTC_2203a.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
         InitializeBuildStatus:
-          "AlwaysCreate" が指定されたため "cmTC_5476b.dir\\Debug\\cmTC_5476b.tlog\\unsuccessfulbuild" を作成しています。
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_2203a.dir\\Debug\\cmTC_2203a.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_2203a.dir\\Debug\\cmTC_2203a.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_5476b.dir\\Debug\\\\" /Fd"cmTC_5476b.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-drb56r\\CheckIncludeFile.c"
-          Microsoft(R) C/C++ Optimizing Compiler Version 19.35.32217.1 for x64
-          CheckIncludeFile.c
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_2203a.dir\\Debug\\\\" /Fd"cmTC_2203a.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-943h1s\\CheckIncludeFile.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36252 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_5476b.dir\\Debug\\\\" /Fd"cmTC_5476b.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-drb56r\\CheckIncludeFile.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_2203a.dir\\Debug\\\\" /Fd"cmTC_2203a.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-943h1s\\CheckIncludeFile.c"
+          CheckIncludeFile.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-drb56r\\Debug\\cmTC_5476b.exe" /INCREMENTAL /ILK:"cmTC_5476b.dir\\Debug\\cmTC_5476b.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-drb56r/Debug/cmTC_5476b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-drb56r/Debug/cmTC_5476b.lib" /MACHINE:X64  /machine:x64 cmTC_5476b.dir\\Debug\\CheckIncludeFile.obj
-          cmTC_5476b.vcxproj -> C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-drb56r\\Debug\\cmTC_5476b.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-943h1s\\Debug\\cmTC_2203a.exe" /INCREMENTAL /ILK:"cmTC_2203a.dir\\Debug\\cmTC_2203a.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-943h1s/Debug/cmTC_2203a.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-943h1s/Debug/cmTC_2203a.lib" /MACHINE:X64  /machine:x64 cmTC_2203a.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_2203a.vcxproj -> D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-943h1s\\Debug\\cmTC_2203a.exe
         FinalizeBuildStatus:
-          ファイル "cmTC_5476b.dir\\Debug\\cmTC_5476b.tlog\\unsuccessfulbuild" を削除しています。
-          "cmTC_5476b.dir\\Debug\\cmTC_5476b.tlog\\cmTC_5476b.lastbuildstate" のタッチ タスクを実行しています。
-        プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-drb56r\\cmTC_5476b.vcxproj" (既定のターゲット) のビルドが完了しました。
+          繝輔ぃ繧､繝ｫ "cmTC_2203a.dir\\Debug\\cmTC_2203a.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_2203a.dir\\Debug\\cmTC_2203a.tlog\\cmTC_2203a.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-943h1s\\cmTC_2203a.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
         
-        ビルドに成功しました。
-            0 個の警告
-            0 エラー
+        繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+            0 蛟九・隴ｦ蜻・
+            0 繧ｨ繝ｩ繝ｼ
         
-        経過時間 00:00:00.46
+        邨碁℃譎る俣 00:00:00.43
         
       exitCode: 0
   -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CheckIncludeFile.cmake:95 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CheckIncludeFile.cmake:157 (try_compile)"
       - "contrib/zlib/CMakeLists.txt:36 (check_include_file)"
     checks:
       - "Looking for stdint.h"
     directories:
-      source: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-abs4pf"
-      binary: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-abs4pf"
+      source: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-a0n7b0"
+      binary: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-a0n7b0"
     cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
-      CMAKE_MODULE_PATH: "C:/k021g1165/DirectX/DirectXpre/assimp/cmake-modules"
+      CMAKE_MODULE_PATH: "D:/Engine/External/assimp/cmake-modules"
     buildResult:
       variable: "HAVE_STDINT_H"
       cached: true
       stdout: |
-        Change Dir: C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-abs4pf
+        Change Dir: 'D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-a0n7b0'
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_af5cf.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-        2023/04/20 11:23:42 にビルドを開始しました。
-        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f4158.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+        2026/08/10 18:59:29 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
         
-        ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-abs4pf\\cmTC_af5cf.vcxproj" (既定のターゲット)。
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-a0n7b0\\cmTC_f4158.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
         PrepareForBuild:
-          ディレクトリ "cmTC_af5cf.dir\\Debug\\" を作成しています。
-          ディレクトリ "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-abs4pf\\Debug\\" を作成しています。
-          ディレクトリ "cmTC_af5cf.dir\\Debug\\cmTC_af5cf.tlog\\" を作成しています。
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-a0n7b0\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_f4158.dir\\Debug\\cmTC_f4158.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
         InitializeBuildStatus:
-          "AlwaysCreate" が指定されたため "cmTC_af5cf.dir\\Debug\\cmTC_af5cf.tlog\\unsuccessfulbuild" を作成しています。
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_f4158.dir\\Debug\\cmTC_f4158.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_f4158.dir\\Debug\\cmTC_f4158.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_af5cf.dir\\Debug\\\\" /Fd"cmTC_af5cf.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-abs4pf\\CheckIncludeFile.c"
-          Microsoft(R) C/C++ Optimizing Compiler Version 19.35.32217.1 for x64
-          CheckIncludeFile.c
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_f4158.dir\\Debug\\\\" /Fd"cmTC_f4158.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-a0n7b0\\CheckIncludeFile.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36252 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_af5cf.dir\\Debug\\\\" /Fd"cmTC_af5cf.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-abs4pf\\CheckIncludeFile.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_f4158.dir\\Debug\\\\" /Fd"cmTC_f4158.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-a0n7b0\\CheckIncludeFile.c"
+          CheckIncludeFile.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-abs4pf\\Debug\\cmTC_af5cf.exe" /INCREMENTAL /ILK:"cmTC_af5cf.dir\\Debug\\cmTC_af5cf.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-abs4pf/Debug/cmTC_af5cf.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-abs4pf/Debug/cmTC_af5cf.lib" /MACHINE:X64  /machine:x64 cmTC_af5cf.dir\\Debug\\CheckIncludeFile.obj
-          cmTC_af5cf.vcxproj -> C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-abs4pf\\Debug\\cmTC_af5cf.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-a0n7b0\\Debug\\cmTC_f4158.exe" /INCREMENTAL /ILK:"cmTC_f4158.dir\\Debug\\cmTC_f4158.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-a0n7b0/Debug/cmTC_f4158.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-a0n7b0/Debug/cmTC_f4158.lib" /MACHINE:X64  /machine:x64 cmTC_f4158.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_f4158.vcxproj -> D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-a0n7b0\\Debug\\cmTC_f4158.exe
         FinalizeBuildStatus:
-          ファイル "cmTC_af5cf.dir\\Debug\\cmTC_af5cf.tlog\\unsuccessfulbuild" を削除しています。
-          "cmTC_af5cf.dir\\Debug\\cmTC_af5cf.tlog\\cmTC_af5cf.lastbuildstate" のタッチ タスクを実行しています。
-        プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-abs4pf\\cmTC_af5cf.vcxproj" (既定のターゲット) のビルドが完了しました。
+          繝輔ぃ繧､繝ｫ "cmTC_f4158.dir\\Debug\\cmTC_f4158.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_f4158.dir\\Debug\\cmTC_f4158.tlog\\cmTC_f4158.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-a0n7b0\\cmTC_f4158.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
         
-        ビルドに成功しました。
-            0 個の警告
-            0 エラー
+        繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+            0 蛟九・隴ｦ蜻・
+            0 繧ｨ繝ｩ繝ｼ
         
-        経過時間 00:00:00.45
+        邨碁℃譎る俣 00:00:00.44
         
       exitCode: 0
   -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CheckIncludeFile.cmake:95 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CheckIncludeFile.cmake:157 (try_compile)"
       - "contrib/zlib/CMakeLists.txt:37 (check_include_file)"
     checks:
       - "Looking for stddef.h"
     directories:
-      source: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-l4ac96"
-      binary: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-l4ac96"
+      source: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-3vuz8z"
+      binary: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-3vuz8z"
     cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
-      CMAKE_MODULE_PATH: "C:/k021g1165/DirectX/DirectXpre/assimp/cmake-modules"
+      CMAKE_MODULE_PATH: "D:/Engine/External/assimp/cmake-modules"
     buildResult:
       variable: "HAVE_STDDEF_H"
       cached: true
       stdout: |
-        Change Dir: C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-l4ac96
+        Change Dir: 'D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-3vuz8z'
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_77e9b.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-        2023/04/20 11:23:43 にビルドを開始しました。
-        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f338d.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+        2026/08/10 18:59:30 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
         
-        ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-l4ac96\\cmTC_77e9b.vcxproj" (既定のターゲット)。
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-3vuz8z\\cmTC_f338d.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
         PrepareForBuild:
-          ディレクトリ "cmTC_77e9b.dir\\Debug\\" を作成しています。
-          ディレクトリ "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-l4ac96\\Debug\\" を作成しています。
-          ディレクトリ "cmTC_77e9b.dir\\Debug\\cmTC_77e9b.tlog\\" を作成しています。
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-3vuz8z\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_f338d.dir\\Debug\\cmTC_f338d.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
         InitializeBuildStatus:
-          "AlwaysCreate" が指定されたため "cmTC_77e9b.dir\\Debug\\cmTC_77e9b.tlog\\unsuccessfulbuild" を作成しています。
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_f338d.dir\\Debug\\cmTC_f338d.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_f338d.dir\\Debug\\cmTC_f338d.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_77e9b.dir\\Debug\\\\" /Fd"cmTC_77e9b.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-l4ac96\\CheckIncludeFile.c"
-          Microsoft(R) C/C++ Optimizing Compiler Version 19.35.32217.1 for x64
-          CheckIncludeFile.c
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_f338d.dir\\Debug\\\\" /Fd"cmTC_f338d.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-3vuz8z\\CheckIncludeFile.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36252 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_77e9b.dir\\Debug\\\\" /Fd"cmTC_77e9b.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-l4ac96\\CheckIncludeFile.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_f338d.dir\\Debug\\\\" /Fd"cmTC_f338d.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-3vuz8z\\CheckIncludeFile.c"
+          CheckIncludeFile.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-l4ac96\\Debug\\cmTC_77e9b.exe" /INCREMENTAL /ILK:"cmTC_77e9b.dir\\Debug\\cmTC_77e9b.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-l4ac96/Debug/cmTC_77e9b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-l4ac96/Debug/cmTC_77e9b.lib" /MACHINE:X64  /machine:x64 cmTC_77e9b.dir\\Debug\\CheckIncludeFile.obj
-          cmTC_77e9b.vcxproj -> C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-l4ac96\\Debug\\cmTC_77e9b.exe
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-3vuz8z\\Debug\\cmTC_f338d.exe" /INCREMENTAL /ILK:"cmTC_f338d.dir\\Debug\\cmTC_f338d.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-3vuz8z/Debug/cmTC_f338d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-3vuz8z/Debug/cmTC_f338d.lib" /MACHINE:X64  /machine:x64 cmTC_f338d.dir\\Debug\\CheckIncludeFile.obj
+          cmTC_f338d.vcxproj -> D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-3vuz8z\\Debug\\cmTC_f338d.exe
         FinalizeBuildStatus:
-          ファイル "cmTC_77e9b.dir\\Debug\\cmTC_77e9b.tlog\\unsuccessfulbuild" を削除しています。
-          "cmTC_77e9b.dir\\Debug\\cmTC_77e9b.tlog\\cmTC_77e9b.lastbuildstate" のタッチ タスクを実行しています。
-        プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-l4ac96\\cmTC_77e9b.vcxproj" (既定のターゲット) のビルドが完了しました。
+          繝輔ぃ繧､繝ｫ "cmTC_f338d.dir\\Debug\\cmTC_f338d.tlog\\unsuccessfulbuild" 繧貞炎髯､縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_f338d.dir\\Debug\\cmTC_f338d.tlog\\cmTC_f338d.lastbuildstate" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-3vuz8z\\cmTC_f338d.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′螳御ｺ・＠縺ｾ縺励◆縲・
         
-        ビルドに成功しました。
-            0 個の警告
-            0 エラー
+        繝薙Ν繝峨↓謌仙粥縺励∪縺励◆縲・
+            0 蛟九・隴ｦ蜻・
+            0 繧ｨ繝ｩ繝ｼ
         
-        経過時間 00:00:00.45
+        邨碁℃譎る俣 00:00:00.43
         
       exitCode: 0
   -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CheckTypeSize.cmake:148 (try_compile)"
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CheckTypeSize.cmake:273 (__check_type_size_impl)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CheckTypeSize.cmake:344 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CheckTypeSize.cmake:476 (__check_type_size_impl)"
       - "contrib/zlib/CMakeLists.txt:55 (check_type_size)"
     checks:
       - "Check size of off64_t"
     directories:
-      source: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-livbld"
-      binary: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-livbld"
+      source: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-7u64zc"
+      binary: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-7u64zc"
     cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
-      CMAKE_MODULE_PATH: "C:/k021g1165/DirectX/DirectXpre/assimp/cmake-modules"
+      CMAKE_MODULE_PATH: "D:/Engine/External/assimp/cmake-modules"
     buildResult:
       variable: "HAVE_OFF64_T"
       cached: true
       stdout: |
-        Change Dir: C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-livbld
+        Change Dir: 'D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-7u64zc'
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_383a0.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-        2023/04/20 11:23:43 にビルドを開始しました。
-        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_65847.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+        2026/08/10 18:59:30 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
         
-        ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj" (既定のターゲット)。
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
         PrepareForBuild:
-          ディレクトリ "cmTC_383a0.dir\\Debug\\" を作成しています。
-          ディレクトリ "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\Debug\\" を作成しています。
-          ディレクトリ "cmTC_383a0.dir\\Debug\\cmTC_383a0.tlog\\" を作成しています。
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_65847.dir\\Debug\\cmTC_65847.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
         InitializeBuildStatus:
-          "AlwaysCreate" が指定されたため "cmTC_383a0.dir\\Debug\\cmTC_383a0.tlog\\unsuccessfulbuild" を作成しています。
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_65847.dir\\Debug\\cmTC_65847.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_65847.dir\\Debug\\cmTC_65847.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _LARGEFILE64_SOURCE=1 /D HAVE_SYS_TYPES_H /D HAVE_STDINT_H /D HAVE_STDDEF_H /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_383a0.dir\\Debug\\\\" /Fd"cmTC_383a0.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c"
-          Microsoft(R) C/C++ Optimizing Compiler Version 19.35.32217.1 for x64
-          OFF64_T.c
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _LARGEFILE64_SOURCE=1 /D HAVE_SYS_TYPES_H /D HAVE_STDINT_H /D HAVE_STDDEF_H /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_65847.dir\\Debug\\\\" /Fd"cmTC_65847.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36252 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _LARGEFILE64_SOURCE=1 /D HAVE_SYS_TYPES_H /D HAVE_STDINT_H /D HAVE_STDDEF_H /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_383a0.dir\\Debug\\\\" /Fd"cmTC_383a0.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c"
-        C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(29,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-        C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(30,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-        C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(31,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-        C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(32,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-        C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(33,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-        プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj" (既定のターゲット) のビルドが終了しました -- 失敗。
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _LARGEFILE64_SOURCE=1 /D HAVE_SYS_TYPES_H /D HAVE_STDINT_H /D HAVE_STDDEF_H /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_65847.dir\\Debug\\\\" /Fd"cmTC_65847.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c"
+          OFF64_T.c
+        D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(29,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+        D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(30,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+        D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(31,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+        D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(32,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+        D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(33,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′邨ゆｺ・＠縺ｾ縺励◆ -- 螟ｱ謨励\xc2\x80・
         
-        ビルドに失敗しました。
+        繝薙Ν繝峨↓螟ｱ謨励＠縺ｾ縺励◆縲・
         
-        "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj" (既定のターゲット) (1) ->
-        (ClCompile ターゲット) -> 
-          C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(29,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-          C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(30,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-          C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(31,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-          C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(32,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
-          C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\OFF64_T.c(33,12): error C2065: 'off64_t': 定義されていない識別子です。 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-livbld\\cmTC_383a0.vcxproj]
+        "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+        (ClCompile 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+          D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(29,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+          D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(30,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+          D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(31,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+          D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(32,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
+          D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\OFF64_T.c(33,12): error C2065: 'off64_t': 螳夂ｾｩ縺輔ｌ縺ｦ縺・↑縺・ｭ伜挨蟄舌〒縺吶\xc2\x80・[D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-7u64zc\\cmTC_65847.vcxproj]
         
-            0 個の警告
-            5 エラー
+            0 蛟九・隴ｦ蜻・
+            5 繧ｨ繝ｩ繝ｼ
         
-        経過時間 00:00:00.30
+        邨碁℃譎る俣 00:00:00.26
         
       exitCode: 1
   -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CheckFunctionExists.cmake:91 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CheckFunctionExists.cmake:144 (try_compile)"
       - "contrib/zlib/CMakeLists.txt:64 (check_function_exists)"
     checks:
       - "Looking for fseeko"
     directories:
-      source: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-9wvng1"
-      binary: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-9wvng1"
+      source: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k67o6b"
+      binary: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k67o6b"
     cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
-      CMAKE_MODULE_PATH: "C:/k021g1165/DirectX/DirectXpre/assimp/cmake-modules"
+      CMAKE_MODULE_PATH: "D:/Engine/External/assimp/cmake-modules"
     buildResult:
       variable: "HAVE_FSEEKO"
       cached: true
       stdout: |
-        Change Dir: C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-9wvng1
+        Change Dir: 'D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k67o6b'
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_6f4d0.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-        2023/04/20 11:23:44 にビルドを開始しました。
-        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_beae7.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+        2026/08/10 18:59:31 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
         
-        ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\cmTC_6f4d0.vcxproj" (既定のターゲット)。
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\cmTC_beae7.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
         PrepareForBuild:
-          ディレクトリ "cmTC_6f4d0.dir\\Debug\\" を作成しています。
-          ディレクトリ "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\Debug\\" を作成しています。
-          ディレクトリ "cmTC_6f4d0.dir\\Debug\\cmTC_6f4d0.tlog\\" を作成しています。
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_beae7.dir\\Debug\\cmTC_beae7.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
         InitializeBuildStatus:
-          "AlwaysCreate" が指定されたため "cmTC_6f4d0.dir\\Debug\\cmTC_6f4d0.tlog\\unsuccessfulbuild" を作成しています。
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_beae7.dir\\Debug\\cmTC_beae7.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_beae7.dir\\Debug\\cmTC_beae7.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fseeko /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_6f4d0.dir\\Debug\\\\" /Fd"cmTC_6f4d0.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\CheckFunctionExists.c"
-          Microsoft(R) C/C++ Optimizing Compiler Version 19.35.32217.1 for x64
-          CheckFunctionExists.c
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fseeko /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_beae7.dir\\Debug\\\\" /Fd"cmTC_beae7.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\CheckFunctionExists.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36252 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fseeko /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_6f4d0.dir\\Debug\\\\" /Fd"cmTC_6f4d0.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\CheckFunctionExists.c"
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=fseeko /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_beae7.dir\\Debug\\\\" /Fd"cmTC_beae7.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\CheckFunctionExists.c"
+          CheckFunctionExists.c
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\Debug\\cmTC_6f4d0.exe" /INCREMENTAL /ILK:"cmTC_6f4d0.dir\\Debug\\cmTC_6f4d0.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-9wvng1/Debug/cmTC_6f4d0.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-9wvng1/Debug/cmTC_6f4d0.lib" /MACHINE:X64  /machine:x64 cmTC_6f4d0.dir\\Debug\\CheckFunctionExists.obj
-        CheckFunctionExists.obj : error LNK2019: 未解決の外部シンボル fseeko が関数 main で参照されました [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\cmTC_6f4d0.vcxproj]
-        C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\Debug\\cmTC_6f4d0.exe : fatal error LNK1120: 1 件の未解決の外部参照 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\cmTC_6f4d0.vcxproj]
-        プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\cmTC_6f4d0.vcxproj" (既定のターゲット) のビルドが終了しました -- 失敗。
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\Debug\\cmTC_beae7.exe" /INCREMENTAL /ILK:"cmTC_beae7.dir\\Debug\\cmTC_beae7.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k67o6b/Debug/cmTC_beae7.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-k67o6b/Debug/cmTC_beae7.lib" /MACHINE:X64  /machine:x64 cmTC_beae7.dir\\Debug\\CheckFunctionExists.obj
+        CheckFunctionExists.obj : error LNK2019: 譛ｪ隗｣豎ｺ縺ｮ螟夜Κ繧ｷ繝ｳ繝懊Ν fseeko 縺碁未謨ｰ main 縺ｧ蜿ら・縺輔ｌ縺ｾ縺励◆ [D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\cmTC_beae7.vcxproj]
+        D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\Debug\\cmTC_beae7.exe : fatal error LNK1120: 1 莉ｶ縺ｮ譛ｪ隗｣豎ｺ縺ｮ螟夜Κ蜿ら・ [D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\cmTC_beae7.vcxproj]
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\cmTC_beae7.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′邨ゆｺ・＠縺ｾ縺励◆ -- 螟ｱ謨励\xc2\x80・
         
-        ビルドに失敗しました。
+        繝薙Ν繝峨↓螟ｱ謨励＠縺ｾ縺励◆縲・
         
-        "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\cmTC_6f4d0.vcxproj" (既定のターゲット) (1) ->
-        (Link ターゲット) -> 
-          CheckFunctionExists.obj : error LNK2019: 未解決の外部シンボル fseeko が関数 main で参照されました [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\cmTC_6f4d0.vcxproj]
-          C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\Debug\\cmTC_6f4d0.exe : fatal error LNK1120: 1 件の未解決の外部参照 [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-9wvng1\\cmTC_6f4d0.vcxproj]
+        "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\cmTC_beae7.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+        (Link 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+          CheckFunctionExists.obj : error LNK2019: 譛ｪ隗｣豎ｺ縺ｮ螟夜Κ繧ｷ繝ｳ繝懊Ν fseeko 縺碁未謨ｰ main 縺ｧ蜿ら・縺輔ｌ縺ｾ縺励◆ [D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\cmTC_beae7.vcxproj]
+          D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\Debug\\cmTC_beae7.exe : fatal error LNK1120: 1 莉ｶ縺ｮ譛ｪ隗｣豎ｺ縺ｮ螟夜Κ蜿ら・ [D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-k67o6b\\cmTC_beae7.vcxproj]
         
-            0 個の警告
-            2 エラー
+            0 蛟九・隴ｦ蜻・
+            2 繧ｨ繝ｩ繝ｼ
         
-        経過時間 00:00:00.41
+        邨碁℃譎る俣 00:00:00.40
         
       exitCode: 1
   -
     kind: "try_compile-v1"
     backtrace:
-      - "C:/Program Files/CMake/share/cmake-3.26/Modules/CheckIncludeFile.cmake:95 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.4/Modules/CheckIncludeFile.cmake:157 (try_compile)"
       - "contrib/zlib/CMakeLists.txt:72 (check_include_file)"
     checks:
       - "Looking for unistd.h"
     directories:
-      source: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-76pwba"
-      binary: "C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-76pwba"
+      source: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-m5o9sd"
+      binary: "D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-m5o9sd"
     cmakeVariables:
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
-      CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
       CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
-      CMAKE_MODULE_PATH: "C:/k021g1165/DirectX/DirectXpre/assimp/cmake-modules"
+      CMAKE_MODULE_PATH: "D:/Engine/External/assimp/cmake-modules"
     buildResult:
       variable: "Z_HAVE_UNISTD_H"
       cached: true
       stdout: |
-        Change Dir: C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/CMakeScratch/TryCompile-76pwba
+        Change Dir: 'D:/Engine/External/assimp/CMakeFiles/CMakeScratch/TryCompile-m5o9sd'
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_07e24.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.1+f6fdcf537 for .NET Framework
-        2023/04/20 11:23:44 にビルドを開始しました。
-        Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f8ba1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        MSBuild 縺ｮ繝舌・繧ｸ繝ｧ繝ｳ 18.8.2+ce25c0108 (.NET Framework)
+        2026/08/10 18:59:31 縺ｫ繝薙Ν繝峨ｒ髢句ｧ九＠縺ｾ縺励◆縲・
         
-        ノード 1 上のプロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\cmTC_07e24.vcxproj" (既定のターゲット)。
+        繝弱・繝・1 荳翫・繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\cmTC_f8ba1.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ)縲・
         PrepareForBuild:
-          ディレクトリ "cmTC_07e24.dir\\Debug\\" を作成しています。
-          ディレクトリ "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\Debug\\" を作成しています。
-          ディレクトリ "cmTC_07e24.dir\\Debug\\cmTC_07e24.tlog\\" を作成しています。
+          讒矩\xc2\x80蛹門・蜉帙′譛牙柑縺ｫ縺ｪ縺｣縺ｦ縺・∪縺吶\xc2\x80ゅさ繝ｳ繝代う繝ｩ險ｺ譁ｭ縺ｮ譖ｸ蠑剰ｨｭ螳壹↓縺ｯ繧ｨ繝ｩ繝ｼ髫主ｱ､縺悟渚譏縺輔ｌ縺ｾ縺吶\xc2\x80りｩｳ邏ｰ縺ｫ縺､縺・※縺ｯ縲”ttps://aka.ms/cpp/structured-output 繧貞盾辣ｧ縺励※縺上□縺輔＞縲・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\Debug\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          繝・ぅ繝ｬ繧ｯ繝医Μ "cmTC_f8ba1.dir\\Debug\\cmTC_f8ba1.tlog\\" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
         InitializeBuildStatus:
-          "AlwaysCreate" が指定されたため "cmTC_07e24.dir\\Debug\\cmTC_07e24.tlog\\unsuccessfulbuild" を作成しています。
+          "AlwaysCreate" 縺梧欠螳壹＆繧後◆縺溘ａ "cmTC_f8ba1.dir\\Debug\\cmTC_f8ba1.tlog\\unsuccessfulbuild" 繧剃ｽ懈・縺励※縺・∪縺吶\xc2\x80・
+          "cmTC_f8ba1.dir\\Debug\\cmTC_f8ba1.tlog\\unsuccessfulbuild" 縺ｮ繧ｿ繝・メ 繧ｿ繧ｹ繧ｯ繧貞ｮ溯｡後＠縺ｦ縺・∪縺吶\xc2\x80・
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_07e24.dir\\Debug\\\\" /Fd"cmTC_07e24.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\CheckIncludeFile.c"
-          Microsoft(R) C/C++ Optimizing Compiler Version 19.35.32217.1 for x64
-          CheckIncludeFile.c
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_f8ba1.dir\\Debug\\\\" /Fd"cmTC_f8ba1.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\CheckIncludeFile.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36252 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_07e24.dir\\Debug\\\\" /Fd"cmTC_07e24.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\CheckIncludeFile.c"
-        C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\CheckIncludeFile.c(1,10): fatal  error C1083: include ファイルを開けません。'unistd.h':No such file or directory [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\cmTC_07e24.vcxproj]
-        プロジェクト "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\cmTC_07e24.vcxproj" (既定のターゲット) のビルドが終了しました -- 失敗。
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_f8ba1.dir\\Debug\\\\" /Fd"cmTC_f8ba1.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\CheckIncludeFile.c"
+          CheckIncludeFile.c
+        D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\CheckIncludeFile.c(1,10): error C1083: include 繝輔ぃ繧､繝ｫ繧帝幕縺代∪縺帙ｓ縲・unistd.h':No such file or directory [D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\cmTC_f8ba1.vcxproj]
+        繝励Ο繧ｸ繧ｧ繧ｯ繝・"D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\cmTC_f8ba1.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) 縺ｮ繝薙Ν繝峨′邨ゆｺ・＠縺ｾ縺励◆ -- 螟ｱ謨励\xc2\x80・
         
-        ビルドに失敗しました。
+        繝薙Ν繝峨↓螟ｱ謨励＠縺ｾ縺励◆縲・
         
-        "C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\cmTC_07e24.vcxproj" (既定のターゲット) (1) ->
-        (ClCompile ターゲット) -> 
-          C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\CheckIncludeFile.c(1,10): fatal  error C1083: include ファイルを開けません。'unistd.h':No such file or directory [C:\\k021g1165\\DirectX\\DirectXpre\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-76pwba\\cmTC_07e24.vcxproj]
+        "D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\cmTC_f8ba1.vcxproj" (譌｢螳壹・繧ｿ繝ｼ繧ｲ繝・ヨ) (1) ->
+        (ClCompile 繧ｿ繝ｼ繧ｲ繝・ヨ) -> 
+          D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\CheckIncludeFile.c(1,10): error C1083: include 繝輔ぃ繧､繝ｫ繧帝幕縺代∪縺帙ｓ縲・unistd.h':No such file or directory [D:\\Engine\\External\\assimp\\CMakeFiles\\CMakeScratch\\TryCompile-m5o9sd\\cmTC_f8ba1.vcxproj]
         
-            0 個の警告
-            1 エラー
+            0 蛟九・隴ｦ蜻・
+            1 繧ｨ繝ｩ繝ｼ
         
-        経過時間 00:00:00.31
+        邨碁℃譎る俣 00:00:00.26
         
       exitCode: 1
 ...

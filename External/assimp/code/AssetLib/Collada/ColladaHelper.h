@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -341,7 +341,7 @@ struct SubMesh {
 
 /// Contains data for a single mesh
 struct Mesh {
-    Mesh(const std::string &id) :
+    explicit Mesh(const std::string &id) :
             mId(id) {
         for (unsigned int i = 0; i < AI_MAX_NUMBER_OF_TEXTURECOORDS; ++i) {
             mNumUVComponents[i] = 2;
@@ -666,7 +666,7 @@ struct ChannelEntry {
     const Collada::Accessor *mTimeAccessor; ///> Collada accessor to the time values
     const Collada::Data *mTimeData; ///> Source data array for the time values
     const Collada::Accessor *mValueAccessor; ///> Collada accessor to the key value values
-    const Collada::Data *mValueData; ///> Source datat array for the key value values
+    const Collada::Data *mValueData; ///> Source data array for the key value values
 
     ChannelEntry() :
             mChannel(),

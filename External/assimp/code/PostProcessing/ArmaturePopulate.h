@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
-
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -66,28 +65,25 @@ namespace Assimp {
  * You can contact RevoluPowered <gordon@gordonite.tech>
  * For more info about this
 */
-class ASSIMP_API ArmaturePopulate : public BaseProcess {
+class ASSIMP_API ArmaturePopulate final : public BaseProcess {
 public:
     /// The default class constructor.
-    ArmaturePopulate();
+    ArmaturePopulate() = default;
 
     /// The class destructor.
-    virtual ~ArmaturePopulate();
+    ~ArmaturePopulate() override = default;
 
     /// Overwritten, @see BaseProcess
-    virtual bool IsActive( unsigned int pFlags ) const;
+    bool IsActive( unsigned int pFlags ) const override;
 
     /// Overwritten, @see BaseProcess
-    virtual void SetupProperties( const Importer* pImp );
+    void SetupProperties( const Importer* pImp ) override;
 
     /// Overwritten, @see BaseProcess
-    virtual void Execute( aiScene* pScene );
+    void Execute( aiScene* pScene ) override;
 
     static aiNode *GetArmatureRoot(aiNode *bone_node,
                                       std::vector<aiBone *> &bone_list);
-
-    static bool IsBoneNode(const aiString &bone_name,
-                              std::vector<aiBone *> &bones);
 
     static aiNode *GetNodeFromStack(const aiString &node_name,
                                        std::vector<aiNode *> &nodes);
@@ -99,7 +95,7 @@ public:
                                  const aiScene *scene,
                                  std::vector<aiBone *> &bones);
 
-    static void BuildBoneStack(aiNode *current_node, const aiNode *root_node,
+    static void BuildBoneStack(const aiNode *root_node,
                                   const aiScene *scene,
                                   const std::vector<aiBone *> &bones,
                                   std::map<aiBone *, aiNode *> &bone_stack,
@@ -107,6 +103,5 @@ public:
 };
 
 } // Namespace Assimp
-
 
 #endif // SCALE_PROCESS_H_

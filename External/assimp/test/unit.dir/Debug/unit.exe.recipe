@@ -2,10 +2,13 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\k021g1165\DirectX\DirectXpre\assimp\x64\Debug\ZERO_CHECK</FullPath>
+      <FullPath>D:\Engine\External\assimp\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>C:\k021g1165\DirectX\DirectXpre\assimp\bin\Debug\unit.exe</FullPath>
+      <FullPath>D:\Engine\External\assimp\bin\Debug\assimp-vc145-mtd.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Engine\External\assimp\bin\Debug\unit.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

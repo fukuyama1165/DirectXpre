@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -45,10 +45,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef AI_GLTF2EXPORTER_H_INC
 #define AI_GLTF2EXPORTER_H_INC
 
-#if !defined(ASSIMP_BUILD_NO_GLTF_IMPORTER) && !defined(ASSIMP_BUILD_NO_GLTF2_IMPORTER)
-
 #include <assimp/material.h>
 #include <assimp/types.h>
+#include <assimp/defs.h>
 
 #include <map>
 #include <memory>
@@ -76,11 +75,14 @@ struct OcclusionTextureInfo;
 struct Node;
 struct Texture;
 struct PbrSpecularGlossiness;
+struct MaterialSpecular;
 struct MaterialSheen;
 struct MaterialClearcoat;
 struct MaterialTransmission;
 struct MaterialVolume;
 struct MaterialIOR;
+struct MaterialEmissiveStrength;
+struct MaterialAnisotropy;
 
 // Vec/matrix types, as raw float arrays
 typedef float(vec2)[2];
@@ -108,7 +110,6 @@ protected:
     void WriteBinaryData(IOStream *outfile, std::size_t sceneLength);
     void GetTexSampler(const aiMaterial &mat, glTFCommon::Ref<glTF2::Texture> texture, aiTextureType tt, unsigned int slot);
     void GetMatTexProp(const aiMaterial &mat, unsigned int &prop, const char *propName, aiTextureType tt, unsigned int idx);
-    void GetMatTexProp(const aiMaterial &mat, float &prop, const char *propName, aiTextureType tt, unsigned int idx);
     void GetMatTex(const aiMaterial &mat, glTFCommon::Ref<glTF2::Texture> &texture, unsigned int &texCoord, aiTextureType tt, unsigned int slot);
     void GetMatTex(const aiMaterial &mat, glTF2::TextureInfo &prop, aiTextureType tt, unsigned int slot);
     void GetMatTex(const aiMaterial &mat, glTF2::NormalTextureInfo &prop, aiTextureType tt, unsigned int slot);
@@ -116,11 +117,14 @@ protected:
     aiReturn GetMatColor(const aiMaterial &mat, glTF2::vec4 &prop, const char *propName, int type, int idx) const;
     aiReturn GetMatColor(const aiMaterial &mat, glTF2::vec3 &prop, const char *propName, int type, int idx) const;
     bool GetMatSpecGloss(const aiMaterial &mat, glTF2::PbrSpecularGlossiness &pbrSG);
+    bool GetMatSpecular(const aiMaterial &mat, glTF2::MaterialSpecular &specular);
     bool GetMatSheen(const aiMaterial &mat, glTF2::MaterialSheen &sheen);
     bool GetMatClearcoat(const aiMaterial &mat, glTF2::MaterialClearcoat &clearcoat);
     bool GetMatTransmission(const aiMaterial &mat, glTF2::MaterialTransmission &transmission);
     bool GetMatVolume(const aiMaterial &mat, glTF2::MaterialVolume &volume);
     bool GetMatIOR(const aiMaterial &mat, glTF2::MaterialIOR &ior);
+    bool GetMatEmissiveStrength(const aiMaterial &mat, glTF2::MaterialEmissiveStrength &emissiveStrength);
+    bool GetMatAnisotropy(const aiMaterial &mat, glTF2::MaterialAnisotropy &anisotropy);
     void ExportMetadata();
     void ExportMaterials();
     void ExportMeshes();
@@ -138,10 +142,9 @@ private:
     std::map<std::string, unsigned int> mTexturesByPath;
     std::shared_ptr<glTF2::Asset> mAsset;
     std::vector<unsigned char> mBodyData;
+    ai_real configEpsilon;
 };
 
 } // namespace Assimp
-
-#endif // ASSIMP_BUILD_NO_GLTF_IMPORTER
 
 #endif // AI_GLTF2EXPORTER_H_INC

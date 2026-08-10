@@ -1,9 +1,6 @@
 # Open Asset Import Library (assimp)
 # ----------------------------------------------------------------------
-#
-# Copyright (c) 2006-2022, assimp team
-
-
+# Copyright (c) 2006-2026, assimp team
 # All rights reserved.
 #
 # Redistribution and use of this software in source and binary forms,
@@ -35,7 +32,6 @@
 # THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
 #----------------------------------------------------------------------
 cmake_minimum_required( VERSION 3.10 )
 
@@ -48,28 +44,7 @@ INCLUDE_DIRECTORIES (
 # Make sure the linker can find the Assimp library once it is built.
 LINK_DIRECTORIES (${Assimp_BINARY_DIR} ${AssetImporter_BINARY_DIR}/lib)
 
-ADD_EXECUTABLE(  assimp_viewer WIN32
-  AnimEvaluator.cpp
-  Background.cpp
-  Display.cpp
-  HelpDialog.cpp
-  Input.cpp
-  LogDisplay.cpp
-  LogWindow.cpp
-  Material.cpp
-  MeshRenderer.cpp
-  MessageProc.cpp
-  Normals.cpp
-  SceneAnimator.cpp
-  Shaders.cpp
-  assimp_view.h
-  AnimEvaluator.h
-  SceneAnimator.h
-  MaterialManager.h
-  AssetHelper.h
-  assimp_view.cpp
-  stdafx.cpp
-  assimp_view.rc
+set (images_src
   banner.bmp
   banner_pure.bmp
   base_anim.bmp
@@ -84,6 +59,34 @@ ADD_EXECUTABLE(  assimp_viewer WIN32
   txi.bmp
 )
 
+ADD_EXECUTABLE(  assimp_viewer WIN32
+  code/AnimEvaluator.cpp
+  code/Background.cpp
+  code/Display.cpp
+  code/HelpDialog.cpp
+  code/Input.cpp
+  code/LogDisplay.cpp
+  code/LogWindow.cpp
+  code/Material.cpp
+  code/MeshRenderer.cpp
+  code/MessageProc.cpp
+  code/Normals.cpp
+  code/Tangents.h
+  code/Tangents.cpp
+  code/SceneAnimator.cpp
+  code/Shaders.cpp
+  code/assimp_view.h
+  code/AnimEvaluator.h
+  code/SceneAnimator.h
+  code/MaterialManager.h
+  code/AssetHelper.h
+  code/RenderOptions.h
+  code/assimp_view.cpp
+  code/stdafx.cpp
+  code/assimp_view.rc
+  ${images_src}
+)
+
 TARGET_USE_COMMON_OUTPUT_DIRECTORY(assimp_viewer)
 
 SET_PROPERTY(TARGET assimp_viewer PROPERTY DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
@@ -94,6 +97,14 @@ IF ( MSVC )
   # assimp_viewer is ANSI (MBCS) throughout
   REMOVE_DEFINITIONS( -DUNICODE -D_UNICODE )
 ENDIF ()
+
+IF (ASSIMP_WARNINGS_AS_ERRORS)
+  IF (MSVC)
+    TARGET_COMPILE_OPTIONS(assimp_viewer PRIVATE /W4 /WX)
+  ELSE()
+    TARGET_COMPILE_OPTIONS(assimp_viewer PRIVATE -Wall -Werror)
+  ENDIF()
+ENDIF()
 
 # Link the executable to the assimp + dx libs.
 TARGET_LINK_LIBRARIES ( assimp_viewer assimp ${DirectX_LIBRARY} ${DirectX_D3DX9_LIBRARY} comctl32 winmm )

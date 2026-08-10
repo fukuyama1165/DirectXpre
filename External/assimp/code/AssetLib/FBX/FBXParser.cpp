@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -45,12 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef ASSIMP_BUILD_NO_FBX_IMPORTER
 
-//#ifdef ASSIMP_BUILD_NO_OWN_ZLIB
 #include "Common/Compression.h"
-//#   include <zlib.h>
-//#else
-//#   include "../contrib/zlib/zlib.h"
-//#endif
 
 #include "FBXTokenizer.h"
 #include "FBXParser.h"
@@ -88,6 +83,7 @@ namespace {
 
 
     // ------------------------------------------------------------------------------------------------
+    AI_WONT_RETURN void ParseError(const std::string& message, TokenPtr token) AI_WONT_RETURN_SUFFIX;
     void ParseError(const std::string& message, TokenPtr token)
     {
         if(token) {
@@ -115,8 +111,11 @@ namespace Assimp {
 namespace FBX {
 
 // ------------------------------------------------------------------------------------------------
-Element::Element(const Token& key_token, Parser& parser) : key_token(key_token) {
+Element::Element(const Token& key_token, Parser& parser) :
+    key_token(key_token), compound(nullptr)
+{
     TokenPtr n = nullptr;
+    StackAllocator &allocator = parser.GetAllocator();
     do {
         n = parser.AdvanceToNextToken();
         if(!n) {
@@ -145,7 +144,7 @@ Element::Element(const Token& key_token, Parser& parser) : key_token(key_token) 
         }
 
         if (n->Type() == TokenType_OPEN_BRACKET) {
-            compound.reset(new Scope(parser));
+            compound = new_Scope(parser);
 
             // current token should be a TOK_CLOSE_BRACKET
             n = parser.CurrentToken();
@@ -163,6 +162,15 @@ Element::Element(const Token& key_token, Parser& parser) : key_token(key_token) 
 }
 
 // ------------------------------------------------------------------------------------------------
+Element::~Element()
+{
+    if (compound) {
+        delete_Scope(compound);
+    }
+
+     // no need to delete tokens, they are owned by the parser
+}
+
 Scope::Scope(Parser& parser,bool topLevel)
 {
     if(!topLevel) {
@@ -172,6 +180,7 @@ Scope::Scope(Parser& parser,bool topLevel)
         }
     }
 
+    StackAllocator &allocator = parser.GetAllocator();
     TokenPtr n = parser.AdvanceToNextToken();
     if (n == nullptr) {
         ParseError("unexpected end of file");
@@ -187,37 +196,46 @@ Scope::Scope(Parser& parser,bool topLevel)
         if (str.empty()) {
             ParseError("unexpected content: empty string.");
         }
-        
-        elements.insert(ElementMap::value_type(str,new_Element(*n,parser)));
+
+        auto *element = new_Element(*n, parser);
 
         // Element() should stop at the next Key token (or right after a Close token)
         n = parser.CurrentToken();
         if (n == nullptr) {
             if (topLevel) {
+                elements.insert(ElementMap::value_type(str, element));
                 return;
             }
+            delete_Element(element);
             ParseError("unexpected end of file",parser.LastToken());
+        } else {
+            elements.insert(ElementMap::value_type(str, element));
         }
     }
 }
 
 // ------------------------------------------------------------------------------------------------
-Scope::~Scope() {
-    for(ElementMap::value_type& v : elements) {
-        delete v.second;
+Scope::~Scope()
+{
+	// This collection does not own the memory for the elements, but we need to call their d'tor:
+
+    for (ElementMap::value_type &v : elements) {
+        delete_Element(v.second);
     }
 }
 
 // ------------------------------------------------------------------------------------------------
-Parser::Parser (const TokenList& tokens, bool is_binary)
-: tokens(tokens)
-, last()
-, current()
-, cursor(tokens.begin())
-, is_binary(is_binary)
+Parser::Parser(const TokenList &tokens, StackAllocator &allocator, bool is_binary) :
+        tokens(tokens), allocator(allocator), last(), current(), cursor(tokens.begin()), is_binary(is_binary)
 {
     ASSIMP_LOG_DEBUG("Parsing FBX tokens");
-    root.reset(new Scope(*this,true));
+    root = new_Scope(*this, true);
+}
+
+// ------------------------------------------------------------------------------------------------
+Parser::~Parser()
+{
+    delete_Scope(root);
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -347,10 +365,14 @@ float ParseTokenAsFloat(const Token& t, const char*& err_out)
         }
 
         if (data[0] == 'F') {
-            return SafeParse<float>(data+1, t.end());
+            BE_NCONST float id = SafeParse<float>(data+1, t.end());
+            AI_SWAP4(id);
+            return id;
         }
         else {
-            return static_cast<float>( SafeParse<double>(data+1, t.end()) );
+            BE_NCONST double id = SafeParse<double>(data+1, t.end());
+            AI_SWAP8(id);
+            return static_cast<float>(id);
         }
     }
 
@@ -512,7 +534,7 @@ void ReadBinaryDataArrayHead(const char*& data, const char* end, char& type, uin
 // ------------------------------------------------------------------------------------------------
 // read binary data array, assume cursor points to the 'compression mode' field (i.e. behind the header)
 void ReadBinaryDataArray(char type, uint32_t count, const char*& data, const char* end,
-        std::vector<char>& buff, const Element& /*el*/) {
+        std::vector<char>& buff, const Element& el) {
     BE_NCONST uint32_t encmode = SafeParse<uint32_t>(data, end);
     AI_SWAP4(encmode);
     data += 4;
@@ -542,7 +564,16 @@ void ReadBinaryDataArray(char type, uint32_t count, const char*& data, const cha
             ai_assert(false);
     };
 
-    const uint32_t full_length = stride * count;
+    // Validate that count does not cause excessive allocation
+    const uint64_t full_length64 = static_cast<uint64_t>(stride) * count;
+    if (full_length64 > SIZE_MAX || full_length64 > AI_MAX_ALLOC(char)) {
+        ParseError("binary data array too large", &el);
+    }
+    if (encmode == 0 && full_length64 != static_cast<uint64_t>(comp_len)) {
+        ParseError("binary data array length mismatch", &el);
+    }
+
+    const auto full_length = static_cast<uint32_t>(full_length64);
     buff.resize(full_length);
 
     if(encmode == 0) {
@@ -619,9 +650,15 @@ void ParseVectorDataArray(std::vector<aiVector3D>& out, const Element& el)
         if (type == 'd') {
             const double* d = reinterpret_cast<const double*>(&buff[0]);
             for (unsigned int i = 0; i < count3; ++i, d += 3) {
-                out.emplace_back(static_cast<ai_real>(d[0]),
-                    static_cast<ai_real>(d[1]),
-                    static_cast<ai_real>(d[2]));
+                BE_NCONST double val1 = d[0];
+                BE_NCONST double val2 = d[1];
+                BE_NCONST double val3 = d[2];
+                AI_SWAP8(val1);
+                AI_SWAP8(val2);
+                AI_SWAP8(val3);
+                out.emplace_back(static_cast<ai_real>(val1),
+                    static_cast<ai_real>(val2),
+                    static_cast<ai_real>(val3));
             }
             // for debugging
             /*for ( size_t i = 0; i < out.size(); i++ ) {
@@ -634,7 +671,13 @@ void ParseVectorDataArray(std::vector<aiVector3D>& out, const Element& el)
         else if (type == 'f') {
             const float* f = reinterpret_cast<const float*>(&buff[0]);
             for (unsigned int i = 0; i < count3; ++i, f += 3) {
-                out.emplace_back(f[0],f[1],f[2]);
+                BE_NCONST float val1 = f[0];
+                BE_NCONST float val2 = f[1];
+                BE_NCONST float val3 = f[2];
+                AI_SWAP4(val1);
+                AI_SWAP4(val2);
+                AI_SWAP4(val3);
+                out.emplace_back(val1,val2,val3);
             }
         }
 
@@ -708,16 +751,32 @@ void ParseVectorDataArray(std::vector<aiColor4D>& out, const Element& el)
         if (type == 'd') {
             const double* d = reinterpret_cast<const double*>(&buff[0]);
             for (unsigned int i = 0; i < count4; ++i, d += 4) {
-                out.emplace_back(static_cast<float>(d[0]),
-                    static_cast<float>(d[1]),
-                    static_cast<float>(d[2]),
-                    static_cast<float>(d[3]));
+                BE_NCONST double val1 = d[0];
+                BE_NCONST double val2 = d[1];
+                BE_NCONST double val3 = d[2];
+                BE_NCONST double val4 = d[3];
+                AI_SWAP8(val1);
+                AI_SWAP8(val2);
+                AI_SWAP8(val3);
+                AI_SWAP8(val4);
+                out.emplace_back(static_cast<float>(val1),
+                    static_cast<float>(val2),
+                    static_cast<float>(val3),
+                    static_cast<float>(val4));
             }
         }
         else if (type == 'f') {
             const float* f = reinterpret_cast<const float*>(&buff[0]);
             for (unsigned int i = 0; i < count4; ++i, f += 4) {
-                out.emplace_back(f[0],f[1],f[2],f[3]);
+                BE_NCONST float val1 = f[0];
+                BE_NCONST float val2 = f[1];
+                BE_NCONST float val3 = f[2];
+                BE_NCONST float val4 = f[3];
+                AI_SWAP4(val1);
+                AI_SWAP4(val2);
+                AI_SWAP4(val3);
+                AI_SWAP4(val4);
+                out.emplace_back(val1,val2,val3,val4);
             }
         }
         return;
@@ -789,13 +848,21 @@ void ParseVectorDataArray(std::vector<aiVector2D>& out, const Element& el) {
         if (type == 'd') {
             const double* d = reinterpret_cast<const double*>(&buff[0]);
             for (unsigned int i = 0; i < count2; ++i, d += 2) {
-                out.emplace_back(static_cast<float>(d[0]),
-                    static_cast<float>(d[1]));
+                BE_NCONST double val1 = d[0];
+                BE_NCONST double val2 = d[1];
+                AI_SWAP8(val1);
+                AI_SWAP8(val2);
+                out.emplace_back(static_cast<float>(val1),
+                    static_cast<float>(val2));
             }
         } else if (type == 'f') {
             const float* f = reinterpret_cast<const float*>(&buff[0]);
             for (unsigned int i = 0; i < count2; ++i, f += 2) {
-                out.emplace_back(f[0],f[1]);
+                BE_NCONST float val1 = f[0];
+                BE_NCONST float val2 = f[1];
+                AI_SWAP4(val1);
+                AI_SWAP4(val2);
+                out.emplace_back(val1,val2);
             }
         }
 
@@ -920,13 +987,17 @@ void ParseVectorDataArray(std::vector<float>& out, const Element& el)
         if (type == 'd') {
             const double* d = reinterpret_cast<const double*>(&buff[0]);
             for (unsigned int i = 0; i < count; ++i, ++d) {
-                out.push_back(static_cast<float>(*d));
+                BE_NCONST double val = *d;
+                AI_SWAP8(val);
+                out.push_back(static_cast<float>(val));
             }
         }
         else if (type == 'f') {
             const float* f = reinterpret_cast<const float*>(&buff[0]);
             for (unsigned int i = 0; i < count; ++i, ++f) {
-                out.push_back(*f);
+                BE_NCONST float val = *f;
+                AI_SWAP4(val);
+                out.push_back(val);
             }
         }
 

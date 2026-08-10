@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
@@ -22,9 +22,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{25B7294C-A121-3638-9A23-783D0D27C127}</ProjectGuid>
+    <ProjectGuid>{2FB07CEE-A857-3DEC-AE8E-388487B28314}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
     <ProjectName>uninstall</ProjectName>
     <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
@@ -33,22 +33,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -66,7 +66,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\k021g1165\DirectX\DirectXpre\assimp\include;C:\k021g1165\DirectX\DirectXpre\assimp;C:\k021g1165\DirectX\DirectXpre\assimp\code;C:\k021g1165\DirectX\DirectXpre\assimp\.;C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Engine\External\assimp\include;D:\Engine\External\assimp;D:\Engine\External\assimp\code;D:\Engine\External\assimp\.;D:\Engine\External\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -76,7 +76,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\k021g1165\DirectX\DirectXpre\assimp\include;C:\k021g1165\DirectX\DirectXpre\assimp;C:\k021g1165\DirectX\DirectXpre\assimp\code;C:\k021g1165\DirectX\DirectXpre\assimp\.;C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Engine\External\assimp\include;D:\Engine\External\assimp;D:\Engine\External\assimp\code;D:\Engine\External\assimp\.;D:\Engine\External\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -86,7 +86,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\k021g1165\DirectX\DirectXpre\assimp\include;C:\k021g1165\DirectX\DirectXpre\assimp;C:\k021g1165\DirectX\DirectXpre\assimp\code;C:\k021g1165\DirectX\DirectXpre\assimp\.;C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Engine\External\assimp\include;D:\Engine\External\assimp;D:\Engine\External\assimp\code;D:\Engine\External\assimp\.;D:\Engine\External\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -96,7 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\k021g1165\DirectX\DirectXpre\assimp\include;C:\k021g1165\DirectX\DirectXpre\assimp;C:\k021g1165\DirectX\DirectXpre\assimp\code;C:\k021g1165\DirectX\DirectXpre\assimp\.;C:\k021g1165\DirectX\DirectXpre\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Engine\External\assimp\include;D:\Engine\External\assimp;D:\Engine\External\assimp\code;D:\Engine\External\assimp\.;D:\Engine\External\assimp\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -105,10 +105,10 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\5a550d3339e9be3eb3b06b4fc90c6f77\uninstall.rule">
+    <CustomBuild Include="D:\Engine\External\assimp\CMakeFiles\e26583a855b5634db6f0a670a918dc27\uninstall.rule">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -P C:/k021g1165/DirectX/DirectXpre/assimp/cmake_uninstall.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Engine/External/assimp/cmake_uninstall.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -117,12 +117,12 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\uninstall</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Engine\External\assimp\CMakeFiles\uninstall</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'"></Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -P C:/k021g1165/DirectX/DirectXpre/assimp/cmake_uninstall.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Engine/External/assimp/cmake_uninstall.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -131,12 +131,12 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\uninstall</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Engine\External\assimp\CMakeFiles\uninstall</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</VerifyInputsAndOutputsExist>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'"></Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -P C:/k021g1165/DirectX/DirectXpre/assimp/cmake_uninstall.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Engine/External/assimp/cmake_uninstall.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -145,12 +145,12 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\uninstall</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Engine\External\assimp\CMakeFiles\uninstall</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</VerifyInputsAndOutputsExist>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'"></Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -P C:/k021g1165/DirectX/DirectXpre/assimp/cmake_uninstall.cmake
+"C:\Program Files\CMake\bin\cmake.exe" -P D:/Engine/External/assimp/cmake_uninstall.cmake
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -159,17 +159,17 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\uninstall</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Engine\External\assimp\CMakeFiles\uninstall</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
       <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</VerifyInputsAndOutputsExist>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\k021g1165\DirectX\DirectXpre\assimp\CMakeLists.txt">
+    <CustomBuild Include="D:\Engine\External\assimp\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/k021g1165/DirectX/DirectXpre/assimp/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Engine/External/assimp/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/k021g1165/DirectX/DirectXpre/assimp -BC:/k021g1165/DirectX/DirectXpre/assimp --check-stamp-file C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Engine/External/assimp -BD:/Engine/External/assimp --check-stamp-file D:/Engine/External/assimp/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -177,12 +177,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\WriteBasicConfigVersionFile.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeSystem.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\assimp.pc.in;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\FindPkgMacros.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\FindZLIB.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\PrecompiledHeader.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\assimp-plain-config.cmake.in;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\cmake_uninstall.cmake.in;C:\k021g1165\DirectX\DirectXpre\assimp\include\assimp\config.h.in;C:\k021g1165\DirectX\DirectXpre\assimp\revision.h.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-4.4\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CheckCommon.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\WriteBasicConfigVersionFile.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeCCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeCXXCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeRCCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeSystem.cmake;D:\Engine\External\assimp\assimp.pc.in;D:\Engine\External\assimp\cmake-modules\FindPkgMacros.cmake;D:\Engine\External\assimp\cmake-modules\PrecompiledHeader.cmake;D:\Engine\External\assimp\cmake-modules\assimp-plain-config.cmake.in;D:\Engine\External\assimp\cmake-modules\cmake_uninstall.cmake.in;D:\Engine\External\assimp\include\assimp\config.h.in;D:\Engine\External\assimp\include\assimp\revision.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Engine\External\assimp\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/k021g1165/DirectX/DirectXpre/assimp/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Engine/External/assimp/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/k021g1165/DirectX/DirectXpre/assimp -BC:/k021g1165/DirectX/DirectXpre/assimp --check-stamp-file C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Engine/External/assimp -BD:/Engine/External/assimp --check-stamp-file D:/Engine/External/assimp/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -190,12 +190,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\WriteBasicConfigVersionFile.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeSystem.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\assimp.pc.in;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\FindPkgMacros.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\FindZLIB.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\PrecompiledHeader.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\assimp-plain-config.cmake.in;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\cmake_uninstall.cmake.in;C:\k021g1165\DirectX\DirectXpre\assimp\include\assimp\config.h.in;C:\k021g1165\DirectX\DirectXpre\assimp\revision.h.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-4.4\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CheckCommon.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\WriteBasicConfigVersionFile.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeCCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeCXXCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeRCCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeSystem.cmake;D:\Engine\External\assimp\assimp.pc.in;D:\Engine\External\assimp\cmake-modules\FindPkgMacros.cmake;D:\Engine\External\assimp\cmake-modules\PrecompiledHeader.cmake;D:\Engine\External\assimp\cmake-modules\assimp-plain-config.cmake.in;D:\Engine\External\assimp\cmake-modules\cmake_uninstall.cmake.in;D:\Engine\External\assimp\include\assimp\config.h.in;D:\Engine\External\assimp\include\assimp\revision.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Engine\External\assimp\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/k021g1165/DirectX/DirectXpre/assimp/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Engine/External/assimp/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/k021g1165/DirectX/DirectXpre/assimp -BC:/k021g1165/DirectX/DirectXpre/assimp --check-stamp-file C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Engine/External/assimp -BD:/Engine/External/assimp --check-stamp-file D:/Engine/External/assimp/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -203,12 +203,12 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\WriteBasicConfigVersionFile.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeSystem.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\assimp.pc.in;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\FindPkgMacros.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\FindZLIB.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\PrecompiledHeader.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\assimp-plain-config.cmake.in;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\cmake_uninstall.cmake.in;C:\k021g1165\DirectX\DirectXpre\assimp\include\assimp\config.h.in;C:\k021g1165\DirectX\DirectXpre\assimp\revision.h.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-4.4\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CheckCommon.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\WriteBasicConfigVersionFile.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeCCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeCXXCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeRCCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeSystem.cmake;D:\Engine\External\assimp\assimp.pc.in;D:\Engine\External\assimp\cmake-modules\FindPkgMacros.cmake;D:\Engine\External\assimp\cmake-modules\PrecompiledHeader.cmake;D:\Engine\External\assimp\cmake-modules\assimp-plain-config.cmake.in;D:\Engine\External\assimp\cmake-modules\cmake_uninstall.cmake.in;D:\Engine\External\assimp\include\assimp\config.h.in;D:\Engine\External\assimp\include\assimp\revision.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Engine\External\assimp\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/k021g1165/DirectX/DirectXpre/assimp/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Engine/External/assimp/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/k021g1165/DirectX/DirectXpre/assimp -BC:/k021g1165/DirectX/DirectXpre/assimp --check-stamp-file C:/k021g1165/DirectX/DirectXpre/assimp/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Engine/External/assimp -BD:/Engine/External/assimp --check-stamp-file D:/Engine/External/assimp/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -216,18 +216,19 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.26\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.26\Modules\WriteBasicConfigVersionFile.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\3.26.3\CMakeSystem.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\assimp.pc.in;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\FindPkgMacros.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\FindZLIB.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\PrecompiledHeader.cmake;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\assimp-plain-config.cmake.in;C:\k021g1165\DirectX\DirectXpre\assimp\cmake-modules\cmake_uninstall.cmake.in;C:\k021g1165\DirectX\DirectXpre\assimp\include\assimp\config.h.in;C:\k021g1165\DirectX\DirectXpre\assimp\revision.h.in;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\generate.stamp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-4.4\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Internal\CheckCommon.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-4.4\Modules\WriteBasicConfigVersionFile.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeCCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeCXXCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeRCCompiler.cmake;D:\Engine\External\assimp\CMakeFiles\4.4.2\CMakeSystem.cmake;D:\Engine\External\assimp\assimp.pc.in;D:\Engine\External\assimp\cmake-modules\FindPkgMacros.cmake;D:\Engine\External\assimp\cmake-modules\PrecompiledHeader.cmake;D:\Engine\External\assimp\cmake-modules\assimp-plain-config.cmake.in;D:\Engine\External\assimp\cmake-modules\cmake_uninstall.cmake.in;D:\Engine\External\assimp\include\assimp\config.h.in;D:\Engine\External\assimp\include\assimp\revision.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Engine\External\assimp\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="C:\k021g1165\DirectX\DirectXpre\assimp\CMakeFiles\uninstall">
+    <None Include="D:\Engine\External\assimp\CMakeFiles\uninstall">
     </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="C:\k021g1165\DirectX\DirectXpre\assimp\ZERO_CHECK.vcxproj">
-      <Project>{83363FD2-2C88-3083-8A2A-8EC362EBC93C}</Project>
+    <ProjectReference Include="D:\Engine\External\assimp\ZERO_CHECK.vcxproj">
+      <Project>{5A6C449A-2461-3F06-8535-69D23A43610F}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

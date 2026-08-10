@@ -3,7 +3,7 @@
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 
 
@@ -88,7 +88,10 @@ TEST_F(AssimpAPITest_aiQuaternion, aiQuaternionFromNormalizedQuaternionTest) {
     const auto qvec3 = random_unit_vec3();
     result_cpp = aiQuaternion(qvec3);
     aiQuaternionFromNormalizedQuaternion(&result_c, &qvec3);
-    EXPECT_EQ(result_cpp, result_c);
+    // Use a larger tolerance because FMA contraction differences in
+    // 1.0 - x*x - y*y - z*z can flip the sign of a near-zero residual,
+    // causing w = 0 vs w = sqrt(tiny) ≈ 1e-4.
+    EXPECT_TRUE(result_cpp.Equal(result_c, 1e-4f));
 }
 
 TEST_F(AssimpAPITest_aiQuaternion, aiQuaternionAreEqualTest) {
@@ -120,7 +123,11 @@ TEST_F(AssimpAPITest_aiQuaternion, aiQuaternionMultiplyTest) {
     result_c = result_cpp = random_quat();
     result_cpp = result_cpp * temp;
     aiQuaternionMultiply(&result_c, &temp);
-    EXPECT_EQ(result_cpp, result_c);
+
+    EXPECT_FLOAT_EQ(result_cpp.x, result_c.x);
+    EXPECT_FLOAT_EQ(result_cpp.y, result_c.y);
+    EXPECT_FLOAT_EQ(result_cpp.z, result_c.z);
+    EXPECT_FLOAT_EQ(result_cpp.w, result_c.w);
 }
 
 TEST_F(AssimpAPITest_aiQuaternion, aiQuaternionInterpolateTest) {
@@ -131,5 +138,9 @@ TEST_F(AssimpAPITest_aiQuaternion, aiQuaternionInterpolateTest) {
     const auto q2 = aiQuaternion(aiVector3D(1,2,1).Normalize(), Math::aiPi<float>() / 2.0f);
     aiQuaternion::Interpolate(result_cpp, q1, q2, INTERPOLATION);
     aiQuaternionInterpolate(&result_c, &q1, &q2, INTERPOLATION);
-    EXPECT_EQ(result_cpp, result_c);
+
+    EXPECT_FLOAT_EQ(result_cpp.x, result_c.x);
+    EXPECT_FLOAT_EQ(result_cpp.y, result_c.y);
+    EXPECT_FLOAT_EQ(result_cpp.z, result_c.z);
+    EXPECT_FLOAT_EQ(result_cpp.w, result_c.w);
 }

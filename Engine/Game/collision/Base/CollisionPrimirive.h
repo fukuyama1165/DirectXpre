@@ -8,6 +8,7 @@
  */
 
 #include "Vector3.h"
+#include <algorithm>
 
 //球
 struct Sphere

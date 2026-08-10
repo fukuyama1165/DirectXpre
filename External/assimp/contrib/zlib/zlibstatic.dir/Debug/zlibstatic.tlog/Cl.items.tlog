@@ -1,0 +1,15 @@
+D:\Engine\External\assimp\contrib\zlib\adler32.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\adler32.obj
+D:\Engine\External\assimp\contrib\zlib\compress.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\compress.obj
+D:\Engine\External\assimp\contrib\zlib\crc32.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\crc32.obj
+D:\Engine\External\assimp\contrib\zlib\deflate.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\deflate.obj
+D:\Engine\External\assimp\contrib\zlib\gzclose.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\gzclose.obj
+D:\Engine\External\assimp\contrib\zlib\gzlib.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\gzlib.obj
+D:\Engine\External\assimp\contrib\zlib\gzread.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\gzread.obj
+D:\Engine\External\assimp\contrib\zlib\gzwrite.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\gzwrite.obj
+D:\Engine\External\assimp\contrib\zlib\inflate.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\inflate.obj
+D:\Engine\External\assimp\contrib\zlib\infback.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\infback.obj
+D:\Engine\External\assimp\contrib\zlib\inftrees.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\inftrees.obj
+D:\Engine\External\assimp\contrib\zlib\inffast.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\inffast.obj
+D:\Engine\External\assimp\contrib\zlib\trees.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\trees.obj
+D:\Engine\External\assimp\contrib\zlib\uncompr.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\uncompr.obj
+D:\Engine\External\assimp\contrib\zlib\zutil.c;D:\Engine\External\assimp\contrib\zlib\zlibstatic.dir\Debug\zutil.obj

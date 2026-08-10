@@ -3,7 +3,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 Copyright (c) 2019 bzt
 
 All rights reserved.
@@ -47,8 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef AI_M3DWRAPPER_H_INC
 #define AI_M3DWRAPPER_H_INC
 
-#ifndef ASSIMP_BUILD_NO_M3D_IMPORTER
-#if !(ASSIMP_BUILD_NO_EXPORT || ASSIMP_BUILD_NO_M3D_EXPORTER)  
+#if !defined ASSIMP_BUILD_NO_M3D_IMPORTER || !(defined ASSIMP_BUILD_NO_EXPORT || defined ASSIMP_BUILD_NO_M3D_EXPORTER)
 
 #include <memory>
 #include <vector>
@@ -73,7 +72,7 @@ public:
 
 	/// Construct an M3D model from provided buffer
 	/// @note The m3d.h SDK function does not mark the data as const. Have assumed it does not write.
-	/// BUG: SECURITY: The m3d.h SDK cannot be informed of the buffer size. BUFFER OVERFLOW IS CERTAIN
+	/// SECURITY: Buffer size validation and guard pages added to mitigate potential overflows
 	explicit M3DWrapper(IOSystem *pIOHandler, const std::vector<unsigned char> &buffer);
 
 	/// Theclasss destructor.
@@ -126,7 +125,6 @@ inline m3d_t *M3DWrapper::M3D() const {
 
 } // namespace Assimp
 
-#endif
 #endif // ASSIMP_BUILD_NO_M3D_IMPORTER
 
 #endif // AI_M3DWRAPPER_H_INC

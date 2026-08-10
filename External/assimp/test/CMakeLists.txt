@@ -1,6 +1,6 @@
 # Open Asset Import Library (assimp)
 # ----------------------------------------------------------------------
-# Copyright (c) 2006-2022, assimp team
+# Copyright (c) 2006-2026, assimp team
 #
 # All rights reserved.
 #
@@ -45,8 +45,8 @@ INCLUDE_DIRECTORIES(
 
 if(NOT ASSIMP_HUNTER_ENABLED)
   INCLUDE_DIRECTORIES(
-    ${Assimp_SOURCE_DIR}/contrib/gtest/include
-    ${Assimp_SOURCE_DIR}/contrib/gtest/
+    ${Assimp_SOURCE_DIR}/contrib/googletest/googletest/include
+    ${Assimp_SOURCE_DIR}/contrib/googletest/googletest/
     ${Assimp_SOURCE_DIR}/contrib/pugixml/src
   )
 endif()
@@ -58,6 +58,10 @@ endif()
 # Add the temporary output directories to the library path to make sure the
 # Assimp library can be found, even if it is not installed system-wide yet.
 LINK_DIRECTORIES( ${Assimp_BINARY_DIR} ${AssetImporter_BINARY_DIR}/lib )
+
+SET(TOOLS
+    unit/Tools/TestTools.h
+)
 
 SET( COMMON
   unit/utSimd.cpp
@@ -86,6 +90,7 @@ SET( COMMON
   unit/TestModelFactory.h
   unit/utTypes.cpp
   unit/utVersion.cpp
+  unit/Common/utParsingUtils.cpp
   unit/utProfiler.cpp
   unit/utSharedPPData.cpp
   unit/utStringUtils.cpp
@@ -100,6 +105,11 @@ SET( COMMON
   unit/Common/utBase64.cpp
   unit/Common/utHash.cpp
   unit/Common/utBaseProcess.cpp
+  unit/Common/utLogger.cpp
+)
+
+SET(Geometry 
+    unit/Geometry/utGeometryUtils.cpp
 )
 
 SET( IMPORTERS
@@ -137,10 +147,9 @@ SET( IMPORTERS
   unit/utBlendImportMaterials.cpp
   unit/utBlenderWork.cpp
   unit/utBVHImportExport.cpp
-  unit/utColladaExport.cpp
-  unit/utColladaImportExport.cpp
   unit/utCSMImportExport.cpp
   unit/utB3DImportExport.cpp
+  unit/utNDOImportExport.cpp
   #unit/utM3DImportExport.cpp
   unit/utMDCImportExport.cpp
   unit/utAssbinImportExport.cpp
@@ -149,11 +158,13 @@ SET( IMPORTERS
   unit/ImportExport/utOgreImportExport.cpp
   unit/ImportExport/utQ3BSPFileImportExport.cpp
   unit/ImportExport/utOFFImportExport.cpp
+  unit/utOFFSecurity.cpp
   unit/ImportExport/utNFFImportExport.cpp
   unit/ImportExport/utXGLImportExport.cpp
   unit/ImportExport/utMD2Importer.cpp
   #unit/ImportExport/utMD3Importer.cpp
   unit/ImportExport/utMD5Importer.cpp
+  unit/ImportExport/utIQMImporter.cpp
   unit/ImportExport/utMDLImporter.cpp
   unit/ImportExport/MDL/MDLHL1TestFiles.h
   unit/ImportExport/MDL/utMDLImporter_HL1_ImportSettings.cpp
@@ -161,7 +172,26 @@ SET( IMPORTERS
   unit/ImportExport/MDL/utMDLImporter_HL1_Nodes.cpp
   unit/ImportExport/RAW/utRAWImportExport.cpp
   unit/ImportExport/Terragen/utTerragenImportExport.cpp
+  unit/ImportExport/Pbrt/utPbrtImportExport.cpp
 )
+
+if(ASSIMP_BUILD_USD_IMPORTER)
+  list( APPEND IMPORTERS
+    unit/utUSDImport.cpp
+  )
+endif()
+
+if(ASSIMP_BUILD_COLLADA_EXPORTER)
+  list( APPEND IMPORTERS
+    unit/utColladaExport.cpp
+  )
+endif()
+
+if(ASSIMP_BUILD_COLLADA_IMPORTER)
+  list( APPEND IMPORTERS
+    unit/utColladaImportExport.cpp
+  )
+endif()
 
 SET( MATERIAL
   unit/utMaterialSystem.cpp
@@ -200,12 +230,14 @@ SET( POST_PROCESSES
   unit/utGenBoundingBoxesProcess.cpp
 )
 
-SOURCE_GROUP( UnitTests\\Compiler     FILES  unit/CCompilerTest.c )
-SOURCE_GROUP( UnitTests\\Common       FILES  ${COMMON} )
-SOURCE_GROUP( UnitTests\\ImportExport FILES  ${IMPORTERS} )
-SOURCE_GROUP( UnitTests\\Material     FILES  ${MATERIAL} )
-SOURCE_GROUP( UnitTests\\Math         FILES  ${MATH} )
-SOURCE_GROUP( UnitTests\\PostProcess  FILES  ${POST_PROCESSES})
+SOURCE_GROUP( UnitTests\\Compiler      FILES unit/CCompilerTest.c )
+SOURCE_GROUP( UnitTests\\Common        FILES ${COMMON} )
+SOURCE_GROUP( UnitTests\\GeometryTools FILES ${Geometry} )
+SOURCE_GROUP( UnitTests\\ImportExport  FILES ${IMPORTERS} )
+SOURCE_GROUP( UnitTests\\Material      FILES ${MATERIAL} )
+SOURCE_GROUP( UnitTests\\Math          FILES ${MATH} )
+SOURCE_GROUP( UnitTests\\Tools         FILES ${TOOLS} )
+SOURCE_GROUP( UnitTests\\PostProcess   FILES ${POST_PROCESSES})
 
 add_executable( unit
     unit/CCompilerTest.c
@@ -213,10 +245,12 @@ add_executable( unit
     ../code/Common/Version.cpp
 	../code/Common/Base64.cpp
 	${COMMON}
+    ${Geometry}
 	${IMPORTERS}
 	${MATERIAL}
 	${MATH}
-  ${POST_PROCESSES}
+    ${POST_PROCESSES}
+    ${TOOLS}
 )
 
 if(ASSIMP_HUNTER_ENABLED)
@@ -224,7 +258,7 @@ if(ASSIMP_HUNTER_ENABLED)
     find_package(GTest CONFIG REQUIRED)
     target_link_libraries(unit GTest::gtest_main GTest::gmock)
 else()
-    target_sources(unit PUBLIC ${Assimp_SOURCE_DIR}/contrib/gtest/src/gtest-all.cc)
+    target_sources(unit PUBLIC ${Assimp_SOURCE_DIR}/contrib/googletest/googletest/src/gtest-all.cc)
 endif()
 
 # RapidJSON
@@ -261,6 +295,14 @@ ENDIF()
 
 IF(MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+ENDIF()
+
+IF (ASSIMP_WARNINGS_AS_ERRORS)
+  IF (MSVC)
+    TARGET_COMPILE_OPTIONS(unit PRIVATE /W4 /WX)
+  ELSE()
+    TARGET_COMPILE_OPTIONS(unit PRIVATE -Wall -Werror)
+  ENDIF()
 ENDIF()
 
 target_link_libraries( unit assimp ${platform_libs} )

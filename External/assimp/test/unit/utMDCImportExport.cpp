@@ -3,7 +3,7 @@
 Open Asset Import Library (assimp)
 ---------------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -59,4 +59,10 @@ public:
 
 TEST_F(utMDCImportExport, importMDCFromFileTest) {
     EXPECT_TRUE(importerTest());
+}
+
+TEST_F(utMDCImportExport, importInvalidFrameBaseOffset) {
+    Assimp::Importer importer;
+    const aiScene *scene = importer.ReadFile(ASSIMP_TEST_MODELS_DIR "/MDC/invalid/InvalidFrameBaseOffset.mdc", 0);
+    EXPECT_EQ(nullptr, scene);
 }

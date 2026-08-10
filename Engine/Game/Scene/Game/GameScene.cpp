@@ -68,7 +68,7 @@ void GameScene::Initialize()
 
 	
 	//イベントデータの読み込み
-	eventManager->LoadeefmEventData("testkouhyoukai");
+	eventManager->LoadeefmEventData("TimeCrisis_Area1_3");
 
 	eventManager->isNoTimer = false;
 

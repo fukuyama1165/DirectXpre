@@ -1,6 +1,6 @@
-^C:\K021G1165\DIRECTX\DIRECTXPRE\ASSIMP\TEST\CMAKELISTS.TXT
+^D:\ENGINE\EXTERNAL\ASSIMP\TEST\CMAKELISTS.TXT
 setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/k021g1165/DirectX/DirectXpre/assimp -BC:/k021g1165/DirectX/DirectXpre/assimp --check-stamp-file C:/k021g1165/DirectX/DirectXpre/assimp/test/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Engine/External/assimp -BD:/Engine/External/assimp --check-stamp-file D:/Engine/External/assimp/test/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

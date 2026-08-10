@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -291,18 +291,13 @@ public:
 // ---------------------------------------------------------------------------------
 /** \brief Instance of a property in a PLY file
  */
-class PropertyInstance
-{
+class PropertyInstance {
 public:
-
     //! Default constructor
-    PropertyInstance() AI_NO_EXCEPT {
-        // empty
-    }
+    PropertyInstance() AI_NO_EXCEPT = default;
 
     union ValueUnion
     {
-
         //! uInt32 representation of the property. All
         // uint types are automatically converted to uint32
         uint32_t iUInt;
@@ -326,7 +321,7 @@ public:
 
     // -------------------------------------------------------------------
     //! Parse a property instance
-    static bool ParseInstance(const char* &pCur,
+    static bool ParseInstance(const char* &pCur, const char *end,
         const Property* prop, PropertyInstance* p_pcOut);
 
     // -------------------------------------------------------------------
@@ -353,23 +348,22 @@ public:
     static TYPE ConvertTo(ValueUnion v, EDataType eType);
 };
 
+using PropertyInstVec = std::vector<PropertyInstance::ValueUnion>;
+
 // ---------------------------------------------------------------------------------
-/** \brief Class for an element instance in a PLY file
- */
+/// @brief Class for an element instance in a PLY file
+// ---------------------------------------------------------------------------------
 class ElementInstance {
 public:
     //! Default constructor
-    ElementInstance()  AI_NO_EXCEPT
-    : alProperties() {
-        // empty
-    }
+    ElementInstance() AI_NO_EXCEPT = default;
 
     //! List of all parsed properties
     std::vector< PropertyInstance > alProperties;
 
     // -------------------------------------------------------------------
     //! Parse an element instance
-    static bool ParseInstance(const char* &pCur,
+    static bool ParseInstance(const char *&pCur, const char *end,
         const Element* pcElement, ElementInstance* p_pcOut);
 
     // -------------------------------------------------------------------
@@ -379,23 +373,18 @@ public:
 };
 
 // ---------------------------------------------------------------------------------
-/** \brief Class for an element instance list in a PLY file
- */
-class ElementInstanceList
-{
+/// @brief Class for an element instance list in a PLY file
+// ---------------------------------------------------------------------------------
+class ElementInstanceList {
 public:
+    /// Default constructor
+    ElementInstanceList() AI_NO_EXCEPT = default;
 
-    //! Default constructor
-    ElementInstanceList() AI_NO_EXCEPT
-    : alInstances() {
-        // empty
-    }
-
-    //! List of all element instances
+    /// List of all element instances
     std::vector< ElementInstance > alInstances;
 
     // -------------------------------------------------------------------
-    //! Parse an element instance list
+    /// Parse an element instance list
     static bool ParseInstanceList(IOStreamBuffer<char> &streamBuffer, std::vector<char> &buffer,
         const Element* pcElement, ElementInstanceList* p_pcOut, PLYImporter* loader);
 
@@ -408,21 +397,15 @@ public:
 /** \brief Class to represent the document object model of an ASCII or binary
  * (both little and big-endian) PLY file
  */
-class DOM
-{
+class DOM {
 public:
-
-    //! Default constructor
-    DOM() AI_NO_EXCEPT
-    : alElements()
-    , alElementData() {
-
-    }
+    /// Default constructor
+    DOM() AI_NO_EXCEPT = default;
 
 
-    //! Contains all elements of the file format
+    /// Contains all elements of the file format
     std::vector<Element> alElements;
-    //! Contains the real data of each element's instance list
+    /// Contains the real data of each element's instance list
     std::vector<ElementInstanceList> alElementData;
 
     //! Parse the DOM for a PLY file. The input string is assumed
@@ -431,7 +414,7 @@ public:
     static bool ParseInstanceBinary(IOStreamBuffer<char> &streamBuffer, DOM* p_pcOut, PLYImporter* loader, bool p_bBE);
 
     //! Skip all comment lines after this
-    static bool SkipComments(std::vector<char> &buffer);
+    static bool SkipComments(std::vector<char> buffer);
 
     static bool SkipSpaces(std::vector<char> &buffer);
 
@@ -458,11 +441,8 @@ private:
 
 // ---------------------------------------------------------------------------------
 template <typename TYPE>
-inline TYPE PLY::PropertyInstance::ConvertTo(
-    PLY::PropertyInstance::ValueUnion v, PLY::EDataType eType)
-{
-    switch (eType)
-    {
+inline TYPE PLY::PropertyInstance::ConvertTo(PLY::PropertyInstance::ValueUnion v, PLY::EDataType eType) {
+    switch (eType) {
     case EDT_Float:
         return (TYPE)v.fFloat;
     case EDT_Double:

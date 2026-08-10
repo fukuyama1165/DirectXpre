@@ -2,8 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2022, assimp team
-
+Copyright (c) 2006-2026, assimp team
 
 All rights reserved.
 
@@ -50,12 +49,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "FBXTokenizer.h"
 #include <stdint.h>
 
-namespace Assimp {
-namespace FBX {
-
-
-namespace Util {
-
+namespace Assimp::FBX::Util {
 
 /** helper for std::for_each to delete all heap-allocated items in a container */
 template<typename T>
@@ -66,10 +60,18 @@ struct delete_fun
     }
 };
 
+/** helper for std::for_each to call the destructor on all items in a container without freeing their heap*/
+template <typename T>
+struct destructor_fun {
+    void operator()(const volatile T* del) {
+        if (del) {
+            del->~T();
+        }
+    }
+};
+
 /** Get a string representation for a #TokenType. */
 const char* TokenTypeString(TokenType t);
-
-
 
 /** Format log/error messages using a given offset in the source binary file
  *
@@ -77,14 +79,12 @@ const char* TokenTypeString(TokenType t);
  *  @return A string of the following format: " (offset 0x{offset}) "*/
 std::string GetOffsetText(size_t offset);
 
-
 /** Format log/error messages using a given line location in the source file.
  *
  *  @param line Line index, 1-based
  *  @param column Column index, 1-based
  *  @return A string of the following format: " (line {line}, col {column}) "*/
 std::string GetLineAndColumnText(unsigned int line, unsigned int column);
-
 
 /** Format log/error messages using a given cursor token.
  *
@@ -123,8 +123,6 @@ char EncodeBase64(char byte);
 *  @return base64-encoded string*/
 std::string EncodeBase64(const char* data, size_t length);
 
-}
-}
 }
 
 #endif // ! INCLUDED_AI_FBX_UTIL_H
